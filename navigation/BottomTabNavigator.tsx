@@ -5,9 +5,13 @@ import * as React from 'react';
 
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
-import TabOneScreen from '../screens/TabOneScreen';
-import TabTwoScreen from '../screens/TabTwoScreen';
-import { BottomTabParamList, TabOneParamList, TabTwoParamList } from '../types';
+import TabMesBiensScreen from '../screens/TabMesBiensScreen';
+import TabMesChargesScreen from '../screens/TabMesChargeScreen';
+import TabTableauDeBordScreen from '../screens/TabTableauDeBordScreen';
+import TabMonAssistantScreen from '../screens/TabMonAssistantScreen';
+import TabNotificationsScreen from '../screens/TabNotificationsScreen';
+
+import { BottomTabParamList, TabMesBiensParamList, TabMesChargesParamList, TabTableauDeBordParamList, TabNotificationsParamList, TabMonAssistantParamList } from '../types';
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -16,22 +20,44 @@ export default function BottomTabNavigator() {
 
   return (
     <BottomTab.Navigator
-      initialRouteName="TabOne"
+      initialRouteName="Mes Biens"
       tabBarOptions={{ activeTintColor: Colors[colorScheme].tint }}>
       <BottomTab.Screen
-        name="TabOne"
-        component={TabOneNavigator}
+        name="Mes Biens"
+        component={TabMesBiensNavigator}
         options={{
           tabBarIcon: ({ color }) => <TabBarIcon name="ios-code" color={color} />,
         }}
       />
       <BottomTab.Screen
-        name="TabTwo"
-        component={TabTwoNavigator}
+        name="Mes Charges"
+        component={TabMesChargesNavigator}
         options={{
           tabBarIcon: ({ color }) => <TabBarIcon name="ios-code" color={color} />,
         }}
       />
+        <BottomTab.Screen
+            name="Tableau de Bord"
+            component={TabTableauDeBordNavigator}
+            options={{
+                tabBarIcon: ({ color }) => <TabBarIcon name="ios-code" color={color} />,
+            }}
+        />
+        <BottomTab.Screen
+            name="Mon Assistant"
+            component={TabMonAssistantNavigator}
+            options={{
+                tabBarIcon: ({ color }) => <TabBarIcon name="ios-code" color={color} />,
+            }}
+        />
+        <BottomTab.Screen
+            name="Notifications"
+            component={TabNotificationsNavigator}
+            options={{
+                tabBarIcon: ({ color }) => <TabBarIcon name="ios-code" color={color} />,
+            }}
+        />
+
     </BottomTab.Navigator>
   );
 }
@@ -44,30 +70,73 @@ function TabBarIcon(props: { name: React.ComponentProps<typeof Ionicons>['name']
 
 // Each tab has its own navigation stack, you can read more about this pattern here:
 // https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab
-const TabOneStack = createStackNavigator<TabOneParamList>();
+const TabMesBiensStack = createStackNavigator<TabMesBiensParamList>();
 
-function TabOneNavigator() {
+function TabMesBiensNavigator() {
   return (
-    <TabOneStack.Navigator>
-      <TabOneStack.Screen
-        name="TabOneScreen"
-        component={TabOneScreen}
-        options={{ headerTitle: 'Tab One Title' }}
+    <TabMesBiensStack.Navigator>
+      <TabMesBiensStack.Screen
+        name="TabMesBiensScreen"
+        component={TabMesBiensScreen}
+        options={{ headerTitle: 'Tab Mes Biens' }}
       />
-    </TabOneStack.Navigator>
+    </TabMesBiensStack.Navigator>
   );
 }
 
-const TabTwoStack = createStackNavigator<TabTwoParamList>();
+const TabMesChargesStack = createStackNavigator<TabMesChargesParamList>();
 
-function TabTwoNavigator() {
+function TabMesChargesNavigator() {
   return (
-    <TabTwoStack.Navigator>
-      <TabTwoStack.Screen
-        name="TabTwoScreen"
-        component={TabTwoScreen}
-        options={{ headerTitle: 'Tab Two Title' }}
+    <TabMesChargesStack.Navigator>
+      <TabMesChargesStack.Screen
+        name="TabMesChargesScreen"
+        component={TabMesChargesScreen}
+        options={{ headerTitle: 'Tab Mes Charges' }}
       />
-    </TabTwoStack.Navigator>
+    </TabMesChargesStack.Navigator>
   );
 }
+
+const TabTableauDeBordStack = createStackNavigator<TabTableauDeBordParamList>();
+
+function TabTableauDeBordNavigator() {
+    return (
+        <TabTableauDeBordStack.Navigator>
+            <TabTableauDeBordStack.Screen
+                name="TabTableauDeBordScreen"
+                component={TabTableauDeBordScreen}
+                options={{ headerTitle: 'Tableau De Bord' }}
+            />
+        </TabTableauDeBordStack.Navigator>
+    );
+}
+
+const TabMonAssistantStack = createStackNavigator<TabMonAssistantParamList>();
+
+function TabMonAssistantNavigator() {
+    return (
+        <TabMonAssistantStack.Navigator>
+            <TabMonAssistantStack.Screen
+                name="TabMonAssistantScreen"
+                component={TabMonAssistantScreen}
+                options={{ headerTitle: 'Mon Assistant' }}
+            />
+        </TabMonAssistantStack.Navigator>
+    );
+}
+
+const TabNotificationsStack = createStackNavigator<TabNotificationsParamList>();
+
+function TabNotificationsNavigator() {
+    return (
+        <TabNotificationsStack.Navigator>
+            <TabNotificationsStack.Screen
+                name="TabNotificationsScreen"
+                component={TabNotificationsScreen}
+                options={{ headerTitle: 'Notifications' }}
+            />
+        </TabNotificationsStack.Navigator>
+    );
+}
+

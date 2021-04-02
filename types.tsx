@@ -4,14 +4,29 @@ export type RootStackParamList = {
 };
 
 export type BottomTabParamList = {
-  TabOne: undefined;
-  TabTwo: undefined;
+  "Mes Biens": undefined;
+  "Mes Charges": undefined;
+  "Tableau de Bord": undefined;
+  "Mon Assistant": undefined;
+  "Notifications": undefined;
 };
 
-export type TabOneParamList = {
-  TabOneScreen: undefined;
+export type TabMesBiensParamList = {
+  TabMesBiensScreen: undefined;
 };
 
-export type TabTwoParamList = {
-  TabTwoScreen: undefined;
+export type TabMesChargesParamList = {
+  TabMesChargesScreen: undefined;
+};
+
+export type TabTableauDeBordParamList = {
+  TabTableauDeBordScreen: undefined;
+};
+
+export type TabMonAssistantParamList = {
+  TabMonAssistantScreen: undefined;
+};
+
+export type TabNotificationsParamList = {
+  TabNotificationsScreen: undefined;
 };

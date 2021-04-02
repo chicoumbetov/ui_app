@@ -1,4 +1,3 @@
-import { Ionicons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import * as React from 'react';
@@ -20,42 +19,30 @@ export default function BottomTabNavigator() {
 
   return (
     <BottomTab.Navigator
-      initialRouteName="Mes Biens"
+      initialRouteName="Tableau de Bord"
       tabBarOptions={{ activeTintColor: Colors[colorScheme].tint }}>
       <BottomTab.Screen
         name="Mes Biens"
         component={TabMesBiensNavigator}
-        options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="ios-code" color={color} />,
-        }}
+
       />
       <BottomTab.Screen
         name="Mes Charges"
         component={TabMesChargesNavigator}
-        options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="ios-code" color={color} />,
-        }}
+
       />
         <BottomTab.Screen
             name="Tableau de Bord"
             component={TabTableauDeBordNavigator}
-            options={{
-                tabBarIcon: ({ color }) => <TabBarIcon name="ios-code" color={color} />,
-            }}
         />
         <BottomTab.Screen
             name="Mon Assistant"
             component={TabMonAssistantNavigator}
-            options={{
-                tabBarIcon: ({ color }) => <TabBarIcon name="ios-code" color={color} />,
-            }}
+
         />
         <BottomTab.Screen
             name="Notifications"
             component={TabNotificationsNavigator}
-            options={{
-                tabBarIcon: ({ color }) => <TabBarIcon name="ios-code" color={color} />,
-            }}
         />
 
     </BottomTab.Navigator>
@@ -64,9 +51,11 @@ export default function BottomTabNavigator() {
 
 // You can explore the built-in icon families and icons on the web at:
 // https://icons.expo.fyi/
+/*
 function TabBarIcon(props: { name: React.ComponentProps<typeof Ionicons>['name']; color: string }) {
   return <Ionicons size={30} style={{ marginBottom: -3 }} {...props} />;
 }
+*/
 
 // Each tab has its own navigation stack, you can read more about this pattern here:
 // https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab
@@ -92,7 +81,9 @@ function TabMesChargesNavigator() {
       <TabMesChargesStack.Screen
         name="TabMesChargesScreen"
         component={TabMesChargesScreen}
-        options={{ headerTitle: 'Tab Mes Charges' }}
+        options={{
+            headerTitle: 'Tab Mes Charges',
+        }}
       />
     </TabMesChargesStack.Navigator>
   );
@@ -106,7 +97,9 @@ function TabTableauDeBordNavigator() {
             <TabTableauDeBordStack.Screen
                 name="TabTableauDeBordScreen"
                 component={TabTableauDeBordScreen}
-                options={{ headerTitle: 'Tableau De Bord' }}
+                options={{
+                    headerTitle: 'Tableau De Bord'
+                }}
             />
         </TabTableauDeBordStack.Navigator>
     );

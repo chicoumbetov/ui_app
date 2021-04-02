@@ -3,10 +3,10 @@ import { StyleSheet } from 'react-native';
 
 import { Text, View } from '../components/Themed';
 
-export default function TabMonAssistantScreen() {
+export default function TabFaqScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Tab Mon Assistant</Text>
+      <Text style={styles.title}>Tab FAQ</Text>
 
     </View>
   );

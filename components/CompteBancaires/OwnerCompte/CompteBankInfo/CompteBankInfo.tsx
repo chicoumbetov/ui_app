@@ -1,13 +1,14 @@
-import React from 'react'
-import {StyleSheet, View, SectionList, Text} from "react-native";
-
-import CompteHeader from "../../CompteHeader";
-import CompteFooter from "../../CompteFooter";
-import CompteBankInfo from "./CompteBankInfo/CompteBankInfo";
+import React from 'react';
+import {Text, View} from "react-native";
 import {AntDesign} from "@expo/vector-icons";
+import {CompteType} from "../../../../types";
 
+export type CompteProps = {
+    compte: CompteType,
+}
 
-const OwnerCompte = ({compte}) => {
+const CompteBankInfo = ({compte}: CompteProps) => {
+
     const onPress = () => {
         console.warn('Button pressed')
     }
@@ -57,20 +58,4 @@ const OwnerCompte = ({compte}) => {
     )
 }
 
-
-const styles = StyleSheet.create({
-    button: {flexDirection: 'row', marginTop: 20, justifyContent: 'space-between'},
-    buttonTextLeft: {
-        color: '#0076c8',
-        fontSize: 13,
-        fontWeight: '600',
-    },
-    buttonTextRight: {
-        fontSize: 13,
-        fontWeight: '600',
-    },
-    separator: {borderBottomWidth: 1, borderBottomColor: '#b5b5b5'},
-
-})
-
-export default OwnerCompte;
+export default CompteBankInfo;

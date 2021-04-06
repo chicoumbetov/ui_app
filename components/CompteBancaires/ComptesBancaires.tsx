@@ -1,15 +1,17 @@
 import React from "react"
-import {FlatList, StyleSheet, Text, View} from "react-native";
+import {SectionList, Text, View, StyleSheet, SafeAreaView, Image, FlatList} from "react-native";
 
 import comptes from '../../mockData/comptes';
 import OwnerCompte from './OwnerCompte/OwnerCompte';
+import CompteFooter from "../CompteFooter";
+import CompteHeader from "../CompteHeader";
 
 const ComptesBancaires = () => {
     //query
     //const comptes = query
 
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
             <Text style={styles.compteHeader}>
                 Comptes Bancaires
             </Text>
@@ -21,7 +23,23 @@ const ComptesBancaires = () => {
                 keyExtractor={(item) => item.id}
             />
 
-        </View>
+            <SectionList
+                /*sections data must be array*/
+                sections={comptes}
+                renderSectionHeader={({ section }) => (
+                    <View style={{marginTop: 10, marginRight: 20, flexDirection: 'row', alignItems: 'center'}}>
+                        <Image source={require('../../assets/images/img.png')} style={{height: 40, width: 40, marginRight: 12}}/>
+                        <Text style={{fontSize: 20, fontWeight: '600'}}> La maison de {section.prenom}</Text>
+                    </View>
+                )}
+                renderItem={({item}) => <OwnerCompte compte={item}/>}
+                renderSectionFooter ={() => (
+                    <CompteFooter/>
+                )}
+                keyExtractor={(item) => item.id}
+            />
+
+        </SafeAreaView>
 
     )
 }

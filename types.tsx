@@ -38,11 +38,5 @@ export type CompteType = {
   typeBien: string,
   IBAN: string,
   bank: string,
-  email: string,
-  motDePasse: string,
-  numeroTel: number,
-  optIn?: boolean,
-  avatarUri?: string,
-  dataNaissance?: string,
 }
 

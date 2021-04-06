@@ -1,0 +1,13 @@
+node_modules
+dist
+.expo
+.expo-shared
+web-build
+patches
+babel.config.js
+components/Icon/typegenerator.js
+amplify
+webpack.config.js
+/models
+
+src/models

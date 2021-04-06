@@ -19,6 +19,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontWeight: 'bold',
+    fontFamily:'HouschkaRoundedDemiBold'
   },
   separator: {
     marginVertical: 30,

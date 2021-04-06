@@ -1,5 +1,6 @@
 import {StyleSheet} from 'react-native';
-import {Colors, NumberMap, Spacing,} from './stylesTypes';
+import {Colors, NumberMap, Spacing, Typographies,} from './stylesTypes';
+import {useFonts} from "expo-font";
 
 export const colors: Colors = {
     bleuFonc: "#083859",
@@ -43,12 +44,13 @@ export const fontSize: NumberMap = {
     medium: 32,
     xLarge: 60,
 };
-/*
+
+
 export const typographies: Typographies = {
+
     body: {
-        fontSize: 14,
-        fontFamily: 'Overpass_400Regular',
-        color: colors.darkGray,
+        fontSize: 24,
+        fontFamily: 'Houschka_Rounded_Alt_Light_Regular',
     },
     callout: {
         fontSize: 15,
@@ -64,7 +66,6 @@ export const typographies: Typographies = {
         fontSize: 12,
         lineHeight: 18,
         fontFamily: 'Overpass_400Regular',
-        color: colors.darkGray,
     },
     headline: {
         fontSize: 20,
@@ -108,20 +109,17 @@ export const typographies: Typographies = {
     label: {
         fontSize: 16,
         fontFamily: 'Overpass_700Bold',
-        color: colors.text,
     },
     input: {
         fontSize: 20,
         fontFamily: 'Overpass_400Regular',
-        color: colors.text,
     },
     error: {
-        color: colors.error,
         fontFamily: 'Overpass_400Regular',
         fontSize: 14,
     },
 };
-*/
+
 export default StyleSheet.create({
     container: {
         flex: 1,

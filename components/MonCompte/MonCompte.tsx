@@ -1,11 +1,16 @@
 import React from 'react'
 import {View} from "react-native";
 import CompteHeader from "../CompteHeader";
+import {CompteType} from "../../types";
 
-const MonCompte = () => {
+export type CompteProps = {
+    compte: CompteType,
+}
+
+const MonCompte = ({compte}: CompteProps) => {
     return (
         <View>
-            <CompteHeader/>
+            <CompteHeader compte={compte}/>
         </View>
     )
 }

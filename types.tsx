@@ -30,3 +30,24 @@ export type TabMonAssistantParamList = {
 export type TabNotificationsParamList = {
   TabNotificationsScreen: undefined;
 };
+
+export type CompteType = {
+  id: string,
+  nom: string,
+  prenom: string,
+  typeBien: string,
+  IBAN: string,
+  bank: string,
+  mouvement?: string,
+  depense?: number,
+  email: string,
+  motDePasse: string,
+  numeroTel: number,
+  optIn?: boolean,
+  avatarUri?: string,
+  dataNaissance?: string,
+}
+
+export type ClientType = {
+
+}

@@ -3,7 +3,13 @@ import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import CompteHeader from "../../CompteHeader";
 import {AntDesign} from "@expo/vector-icons";
 
-const OwnerCompte = () => {
+import {CompteType} from "../../../types";
+
+export type CompteProps = {
+    compte: CompteType,
+}
+
+const OwnerCompte = ({compte}: CompteProps) => {
 
     const onPress = () => {
         console.warn('Button pressed')
@@ -13,7 +19,7 @@ const OwnerCompte = () => {
         <View>
             <View style={{marginTop: 20, padding: 20, borderRadius: 10,}}>
 
-                <CompteHeader/>
+                <CompteHeader compte={compte}/>
 
                 <View style={{
                     backgroundColor: '#fff',
@@ -31,10 +37,10 @@ const OwnerCompte = () => {
                     }}>
 
                         <View>
-                            <Text style={{color: '#222b45', fontSize: 16, fontWeight: '600'}}>Monsieur DUPONT
-                                Mathieu</Text>
-                            <Text style={{color: '#b5b5b5'}}>FR76***************583</Text>
-                            <Text style={{color: '#b5b5b5'}}>Societe generale</Text>
+                            <Text style={{color: '#222b45', fontSize: 16, fontWeight: '600'}}>Monsieur {compte.nom}
+                                {compte.prenom}</Text>
+                            <Text style={{color: '#b5b5b5'}}>FR{compte.IBAN}</Text>
+                            <Text style={{color: '#b5b5b5'}}>{compte.bank}</Text>
                         </View>
 
                         <View style={{flexDirection: 'row', alignItems: 'center'}}>
@@ -56,7 +62,7 @@ const OwnerCompte = () => {
 
                     </View>
                 </View>
-                <View style={{flexDirection: 'row', marginTop: 20, justifyContent: 'space-between'}}>
+                <View style={styles.button}>
                     <TouchableOpacity onPress={onPress}>
                         <View style={styles.button}>
                             <Text style={styles.buttonTextLeft}>Ajouter un compte</Text>
@@ -72,14 +78,14 @@ const OwnerCompte = () => {
 
             </View>
 
-            <View style={{borderBottomWidth: 1, borderBottomColor: '#b5b5b5'}}/>
+            <View style={styles.separator}/>
         </View>
     )
 }
 
 
 const styles = StyleSheet.create({
-    button: {},
+    button: {flexDirection: 'row', marginTop: 20, justifyContent: 'space-between'},
     buttonTextLeft: {
         color: '#0076c8',
         fontSize: 13,
@@ -88,7 +94,9 @@ const styles = StyleSheet.create({
     buttonTextRight: {
         fontSize: 13,
         fontWeight: '600',
-    }
+    },
+    separator: {borderBottomWidth: 1, borderBottomColor: '#b5b5b5'},
+
 })
 
 export default OwnerCompte;

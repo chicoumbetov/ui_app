@@ -1,9 +1,10 @@
 import React from 'react'
-import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {StyleSheet, Text, View} from "react-native";
 import CompteHeader from "../../CompteHeader";
 import {AntDesign} from "@expo/vector-icons";
 
 import {CompteType} from "../../../types";
+import CompteFooter from "../../CompteFooter";
 
 export type CompteProps = {
     compte: CompteType,
@@ -20,7 +21,7 @@ const OwnerCompte = ({compte}: CompteProps) => {
             <View style={{marginTop: 20, padding: 20, borderRadius: 10,}}>
 
                 <CompteHeader compte={compte}/>
-
+                {/* SectionList*/}
                 <View style={{
                     backgroundColor: '#fff',
                     marginTop: 15,
@@ -62,18 +63,8 @@ const OwnerCompte = ({compte}: CompteProps) => {
 
                     </View>
                 </View>
-                <View style={styles.button}>
-                    <TouchableOpacity onPress={onPress}>
-                        <View style={styles.button}>
-                            <Text style={styles.buttonTextLeft}>Ajouter un compte</Text>
-                        </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={onPress}>
-                        <View>
-                            <Text style={styles.buttonTextRight}>Supprimer un compte</Text>
-                        </View>
-                    </TouchableOpacity>
-                </View>
+                {/* CompteFooter */}
+                <CompteFooter/>
 
 
             </View>

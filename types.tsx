@@ -38,8 +38,6 @@ export type CompteType = {
   typeBien: string,
   IBAN: string,
   bank: string,
-  mouvement?: string,
-  depense?: number,
   email: string,
   motDePasse: string,
   numeroTel: number,
@@ -48,6 +46,3 @@ export type CompteType = {
   dataNaissance?: string,
 }
 
-export type ClientType = {
-
-}

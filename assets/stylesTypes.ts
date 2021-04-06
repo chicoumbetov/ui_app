@@ -31,6 +31,7 @@ export type Typographies = {
     input: Typography;
 };
 
+
 export type Spacing = {
     tiny: number;
     small: number;
@@ -41,35 +42,18 @@ export type Spacing = {
 };
 
 export type Colors = {
-    primary: string;
-    secondary: string;
-    secondaryText: string;
-    lightGray: string;
-    gray: string;
-    darkGray: string;
-    text: string;
-    error: string;
-    white: 'white';
-    backgroundColor: string;
-    drawerBackground: string;
-    green: string;
-    orange: string;
-    red: string;
-    transparent: 'transparent';
-    lighterGray: string;
-    black: string;
-    mediumDarkGray: string;
-};
-
-export type Grays = {
-    gray1: string;
-    gray2: string;
-    gray3: string;
-    gray4: string;
-};
-
-export type Greens = {
-    green1: string;
-    green2: string;
-    green3: string;
+    bleuFonc: string,
+    noir: string,
+    bleu: string,
+    vert: string,
+    vert2: string,
+    blanc: string,
+    rouge: string,
+    vert4: string,
+    orange4: string,
+    jaune: string,
+    bleu2: string,
+    bleu3: string,
+    gris: string,
+    background: string
 };

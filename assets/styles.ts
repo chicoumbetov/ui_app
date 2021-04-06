@@ -1,38 +1,21 @@
 import {StyleSheet} from 'react-native';
-import {Colors, Grays, Greens, NumberMap, Spacing, Typographies,} from './stylesTypes';
+import {Colors, NumberMap, Spacing,} from './stylesTypes';
 
 export const colors: Colors = {
-    primary: '#37403B',
-    secondary: '#E6F4EC',
-    secondaryText: '#81A595',
-    lightGray: '#dee0e0',
-    gray: '#BABABA',
-    darkGray: '#484848',
-    text: '#484848',
-    error: 'red',
-    white: 'white',
-    backgroundColor: '#F7F9F8',
-    drawerBackground: '#FFFFFF',
-    green: '#65C78F',
-    orange: '#FFAB79',
-    red: '#FF6666',
-    transparent: 'transparent',
-    lighterGray: '#F2F4F3',
-    black: 'black',
-    mediumDarkGray: '#484848',
-};
-
-export const gray: Grays = {
-    gray1: '#F2F4F3',
-    gray2: '#DEE0E0',
-    gray3: '#BABABA',
-    gray4: '#484848',
-};
-
-export const green: Greens = {
-    green1: '#E6F4EC',
-    green2: '#65C78F',
-    green3: '#81A595',
+    bleuFonc: "#083859",
+    noir: "#04161b",
+    bleu: "#0076c8",
+    vert: "#00c29a",
+    vert2: "#36daa9",
+    blanc: "#ffffff",
+    rouge: "#ff5640",
+    vert4: "#c9fcde",
+    orange4: "#fef7cb",
+    jaune: "#ffbe00",
+    bleu2: "#37a3de",
+    bleu3: "#5fc4ee",
+    gris: "#b5b5b5",
+    background: "rgba(246, 246, 246, 0)"
 };
 
 export const spacing: Spacing = {
@@ -60,7 +43,7 @@ export const fontSize: NumberMap = {
     medium: 32,
     xLarge: 60,
 };
-
+/*
 export const typographies: Typographies = {
     body: {
         fontSize: 14,
@@ -138,7 +121,7 @@ export const typographies: Typographies = {
         fontSize: 14,
     },
 };
-
+*/
 export default StyleSheet.create({
     container: {
         flex: 1,

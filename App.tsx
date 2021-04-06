@@ -11,7 +11,7 @@ import {useFonts} from "expo-font";
 export default function App() {
 
   const [loaded] = useFonts({
-    'Houschka_Rounded_Alt_Light_Regular': require('../../assets/fonts/Houschka_Rounded_Alt_Light_Regular.ttf'),
+    'Houschka_Rounded_Alt_Light_Regular': require('./assets/fonts/Houschka_Rounded_Alt_Light_Regular.ttf'),
   });
 
   if (!loaded) {

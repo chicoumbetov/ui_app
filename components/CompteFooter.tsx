@@ -27,11 +27,11 @@ const styles = StyleSheet.create({
     button: {flexDirection: 'row', marginTop: 20, justifyContent: 'space-between'},
     buttonTextLeft: {
         color: '#0076c8',
-        fontSize: 13,
+        fontSize: 16,
         fontWeight: '600',
     },
     buttonTextRight: {
-        fontSize: 13,
+        fontSize: 16,
         fontWeight: '600',
     },
     separator: {borderBottomWidth: 1, borderBottomColor: '#b5b5b5'},

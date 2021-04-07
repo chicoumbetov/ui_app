@@ -1,9 +1,6 @@
 import React from 'react'
-import {StyleSheet, View, SectionList, Text} from "react-native";
+import {StyleSheet, View, Text} from "react-native";
 
-import CompteHeader from "../../CompteHeader";
-import CompteFooter from "../../CompteFooter";
-import CompteBankInfo from "./CompteBankInfo/CompteBankInfo";
 import {AntDesign} from "@expo/vector-icons";
 
 
@@ -29,8 +26,11 @@ const OwnerCompte = ({compte}) => {
             }}>
 
                 <View>
-                    <Text style={{color: '#222b45', fontSize: 16, fontWeight: '600'}}>Monsieur {compte.nom}
-                        {compte.prenom}</Text>
+                    <Text style={{
+                        color: '#222b45',
+                        fontSize: 16,
+                        fontWeight: '600'
+                    }}>Monsieur {compte.nom} {compte.prenom}</Text>
                     <Text style={{color: '#b5b5b5'}}>FR{compte.IBAN}</Text>
                     <Text style={{color: '#b5b5b5'}}>{compte.bank}</Text>
                 </View>
@@ -56,7 +56,6 @@ const OwnerCompte = ({compte}) => {
         </View>
     )
 }
-
 
 const styles = StyleSheet.create({
     button: {flexDirection: 'row', marginTop: 20, justifyContent: 'space-between'},

@@ -34,7 +34,7 @@ export default function useAssetLoader(config: AssetLoaderConfig = {}): AssetLoa
 
   useEffect((): void => {
     console.log(SplashScreen);
-    SplashScreen.preventAutoHide();
+    SplashScreen.preventAutoHideAsync();
   }, []);
 
   const loadResourcesRequest = async (): Promise<void> => {

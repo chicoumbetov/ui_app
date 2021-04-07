@@ -1,24 +1,21 @@
 import React from 'react';
-import {Image} from 'react-native';
+import { Image, View, StyleSheet } from 'react-native';
 
+const LogoPicture = () => (
+  <View>
+    <Image
+      style={styles.tinyLogo}
+      source={require('../../assets/Icones_omedom/logo_menu_principal.png')}
+    />
+  </View>
+);
 
-export type LogoPictureProps = {
-    image: string,
-    size?: number,
-}
+const styles = StyleSheet.create({
 
-const LogoPicture = ({image, size = 50}: LogoPictureProps) => {
-    return(
-        <Image
-            source={{ uri: image }}
-            style={{
-                width: size,
-                height: size,
-                borderRadius: size,
-            }}
-        />
-    )
-
-}
+  tinyLogo: {
+    width: 50,
+    height: 50,
+  },
+});
 
 export default LogoPicture;

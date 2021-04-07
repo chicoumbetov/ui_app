@@ -1,4 +1,4 @@
-import { Feather, Ionicons, SimpleLineIcons } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import * as React from 'react';
@@ -20,6 +20,8 @@ import {
   TabTableauDeBordParamList,
 } from '../types';
 import LogoPicture from '../components/LogoPicture/LogoPicture';
+import Icon from '../components/Icon';
+import {TouchableOpacity} from "react-native";
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -35,35 +37,35 @@ export default function BottomTabNavigator() {
         name="Mes Biens"
         component={TabMesBiensNavigator}
         options={{
-          tabBarIcon: ({ color }) => <Feather name="home" size={30} color={color} />,
+          tabBarIcon: ({ color }) => <Icon name="home-outline" {...{ color }} size={30} />,
         }}
       />
       <BottomTab.Screen
         name="Mes Charges"
         component={TabMesChargesNavigator}
         options={{
-          tabBarIcon: ({ color }) => <Feather name="trending-up" size={30} color={color} />,
+          tabBarIcon: ({ color }) => <Icon name="trending-up-outline" {...{ color }} size={30} />,
         }}
       />
       <BottomTab.Screen
         name="Tableau de Bord"
         component={TabTableauDeBordNavigator}
         options={{
-          tabBarIcon: ({ color }) => <Feather name="grid" size={30} color={color} />,
+          tabBarIcon: ({ color }) => <Icon name="grid-outline" {...{ color }} size={30} />,
         }}
       />
       <BottomTab.Screen
         name="Mon Assistant"
         component={TabMonAssistantNavigator}
         options={{
-          tabBarIcon: ({ color }) => <Feather name="file-text" size={30} color={color} />,
+          tabBarIcon: ({ color }) => <Icon name="file-text-outline" {...{ color }} size={30} />,
         }}
       />
       <BottomTab.Screen
         name="Notifications"
         component={TabNotificationsNavigator}
         options={{
-          tabBarIcon: ({ color }) => <SimpleLineIcons name="bell" size={30} color={color} />,
+          tabBarIcon: ({ color }) => <Icon name="bell-outline" {...{ color }} size={30} />,
         }}
       />
 
@@ -83,7 +85,7 @@ function TabBarIcon(props: { name: React.ComponentProps<typeof Ionicons>['name']
 // https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab
 const TabMesBiensStack = createStackNavigator<TabMesBiensParamList>();
 
-function TabMesBiensNavigator() {
+function TabMesBiensNavigator({navigation}) {
   return (
     <TabMesBiensStack.Navigator>
       <TabMesBiensStack.Screen
@@ -97,14 +99,15 @@ function TabMesBiensNavigator() {
           headerRightContainerStyle: {
             marginRight: 10,
           },
-          headerRight: () => (
-            <LogoPicture
-              size={40}
-              image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQixSVRB9a2CIGcPZS9tgtePi8Mtdqn0r_e_w&usqp=CAU"
-            />
-          ),
           headerLeft: () => (
-            <Ionicons name="arrow-back" size={30} />
+              <TouchableOpacity onPress={() => { navigation.goBack() }}>
+                  <LogoPicture />
+              </TouchableOpacity>
+          ),
+          headerRight: () => (
+              <TouchableOpacity onPress={() => { navigation.openDrawer() }}>
+                  <Ionicons name="menu" size={30} />
+              </TouchableOpacity>
           ),
         }}
       />
@@ -114,7 +117,7 @@ function TabMesBiensNavigator() {
 
 const TabMesChargesStack = createStackNavigator<TabMesChargesParamList>();
 
-function TabMesChargesNavigator() {
+function TabMesChargesNavigator({navigation}) {
   return (
     <TabMesChargesStack.Navigator>
       <TabMesChargesStack.Screen
@@ -126,16 +129,17 @@ function TabMesChargesNavigator() {
             marginRight: 10,
           },
           headerRight: () => (
-            <Ionicons name="menu" size={30} />
+              <TouchableOpacity onPress={() => { navigation.openDrawer() }}>
+                  <Ionicons name="menu" size={30} />
+              </TouchableOpacity>
           ),
           headerLeftContainerStyle: {
             marginLeft: 10,
           },
           headerLeft: () => (
-            <LogoPicture
-              size={40}
-              image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQixSVRB9a2CIGcPZS9tgtePi8Mtdqn0r_e_w&usqp=CAU"
-            />
+              <TouchableOpacity onPress={() => { navigation.goBack() }}>
+                  <LogoPicture />
+              </TouchableOpacity>
           ),
         }}
       />
@@ -145,7 +149,7 @@ function TabMesChargesNavigator() {
 
 const TabTableauDeBordStack = createStackNavigator<TabTableauDeBordParamList>();
 
-function TabTableauDeBordNavigator() {
+function TabTableauDeBordNavigator({navigation}) {
   return (
     <TabTableauDeBordStack.Navigator>
       <TabTableauDeBordStack.Screen
@@ -157,16 +161,17 @@ function TabTableauDeBordNavigator() {
             marginRight: 10,
           },
           headerRight: () => (
-            <Ionicons name="menu" size={30} />
+              <TouchableOpacity onPress={() => { navigation.openDrawer() }}>
+                  <Ionicons name="menu" size={30} />
+              </TouchableOpacity>
           ),
           headerLeftContainerStyle: {
             marginLeft: 10,
           },
           headerLeft: () => (
-            <LogoPicture
-              size={40}
-              image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQixSVRB9a2CIGcPZS9tgtePi8Mtdqn0r_e_w&usqp=CAU"
-            />
+              <TouchableOpacity onPress={() => { navigation.openDrawer() }}>
+                  <LogoPicture />
+              </TouchableOpacity>
           ),
         }}
       />
@@ -176,7 +181,7 @@ function TabTableauDeBordNavigator() {
 
 const TabMonAssistantStack = createStackNavigator<TabMonAssistantParamList>();
 
-function TabMonAssistantNavigator() {
+function TabMonAssistantNavigator({navigation}) {
   return (
     <TabMonAssistantStack.Navigator>
       <TabMonAssistantStack.Screen
@@ -188,16 +193,17 @@ function TabMonAssistantNavigator() {
             marginRight: 10,
           },
           headerRight: () => (
-            <Ionicons name="menu" size={30} />
+              <TouchableOpacity onPress={() => { navigation.openDrawer() }}>
+                  <Ionicons name="menu" size={30} />
+              </TouchableOpacity>
           ),
           headerLeftContainerStyle: {
             marginLeft: 10,
           },
           headerLeft: () => (
-            <LogoPicture
-              size={40}
-              image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQixSVRB9a2CIGcPZS9tgtePi8Mtdqn0r_e_w&usqp=CAU"
-            />
+              <TouchableOpacity onPress={() => { navigation.goBack() }}>
+                  <LogoPicture />
+              </TouchableOpacity>
           ),
         }}
       />
@@ -207,7 +213,7 @@ function TabMonAssistantNavigator() {
 
 const TabNotificationsStack = createStackNavigator<TabNotificationsParamList>();
 
-function TabNotificationsNavigator() {
+function TabNotificationsNavigator({navigation}) {
   return (
     <TabNotificationsStack.Navigator>
       <TabNotificationsStack.Screen
@@ -219,16 +225,17 @@ function TabNotificationsNavigator() {
             marginRight: 10,
           },
           headerRight: () => (
-            <Ionicons name="menu" size={30} />
+              <TouchableOpacity onPress={() => { navigation.openDrawer() }}>
+                  <Ionicons name="menu" size={30} />
+              </TouchableOpacity>
           ),
           headerLeftContainerStyle: {
             marginLeft: 10,
           },
           headerLeft: () => (
-            <LogoPicture
-              size={40}
-              image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQixSVRB9a2CIGcPZS9tgtePi8Mtdqn0r_e_w&usqp=CAU"
-            />
+              <TouchableOpacity onPress={() => { navigation.goBack() }}>
+                  <LogoPicture />
+              </TouchableOpacity>
           ),
         }}
       />

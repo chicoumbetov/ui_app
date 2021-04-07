@@ -6,7 +6,7 @@ import { Text, View } from '../components/Themed';
 export default function TabTableauDeBordScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>TabMesCharge</Text>
+      <Text style={styles.title}>Tableau De Bord</Text>
 
     </View>
   );

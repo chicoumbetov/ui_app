@@ -135,36 +135,6 @@ const DrawerNavigator = ({navigation}) => {
                     }}
                 />
                 <Drawer.Screen
-                    name="Mon Assistant"
-                    component={TabMonAssistantScreen}
-                    options={{
-                        headerShown: true,
-                        headerLeftContainerStyle: {
-                            marginLeft: 10,
-                        },
-                        headerRightContainerStyle: {
-                            marginRight: 10,
-                        },
-                        headerLeft: () => (
-                            <TouchableOpacity onPress={() => {
-                                navigation.goBack()
-                            }}>
-                                <LogoPicture/>
-                            </TouchableOpacity>
-                        ),
-                        headerRight: () => (
-                            <TouchableOpacity onPress={() => {
-                                navigation.openDrawer()
-                            }}>
-                                <Ionicons name="menu" size={30}/>
-                            </TouchableOpacity>
-                        ),
-                        drawerIcon: function getIcon({color}: { color: string }) {
-                            return <Icon name="file-text-outline" {...{color}} size={30}/>;
-                        },
-                    }}
-                />
-                <Drawer.Screen
                     name="Notifications"
                     component={TabNotificationsScreen}
                     options={{

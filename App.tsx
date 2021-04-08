@@ -54,9 +54,10 @@ export default function App() {
 
   return (
     <ApplicationProvider
-      {...eva}
+      mapping={mapping}
       theme={lightTheme}
     >
+
       <NavigationContainer
         linking={LinkingConfiguration}
         theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}

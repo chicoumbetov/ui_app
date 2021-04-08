@@ -48,11 +48,32 @@ export default function BottomTabNavigator() {
   const colorScheme = useColorScheme();
 
   return (
-    <BottomTab.Navigator>
+    <BottomTab.Navigator
+      tabBar={(props) => {
+        <BottomTabBar {...props} />;
+      }}
+    >
 
       <BottomTab.Screen
         name="Mes Biens"
         component={TabMesBiensScreen}
+
+      />
+      <BottomTab.Screen
+        name="Mes Charges"
+        component={TabMesChargesScreen}
+      />
+      <BottomTab.Screen
+        name="Tableau de bord"
+        component={TabTableauDeBordScreen}
+      />
+      <BottomTab.Screen
+        name="Mon Assistant"
+        component={TabMonAssistantScreen}
+      />
+      <BottomTab.Screen
+        name="Notifications"
+        component={TabNotificationsScreen}
       />
 
     </BottomTab.Navigator>

@@ -19,7 +19,6 @@ const MonAssistant = () => (
 const styles = StyleSheet.create({
   container: {
     margin: 20,
-    backgroundColor: 'rgba(246, 246, 246, 0.5)',
   },
   title: {
     fontSize: 24,

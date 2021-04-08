@@ -1,30 +1,20 @@
 import * as React from 'react';
 import { StyleSheet } from 'react-native';
 
-import { Text, View } from '../components/Themed';
+import { Layout, Text } from '@ui-kitten/components';
 
 export default function TabTableauDeBordScreen() {
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Tableau De Bord</Text>
+    <Layout style={styles.container}>
+      <Text>Tableau De Bord</Text>
 
-    </View>
+    </Layout>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
+    backgroundColor: 'rgba(246, 246, 246, 0.5)',
   },
 });

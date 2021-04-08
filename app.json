@@ -29,7 +29,7 @@
       }
     },
     "web": {
-      "favicon": "./assets/Icones_omedom/logements/logo_menu_principal.png"
+      "favicon": "./assets/Icones_omedom/logo_menu_principal.png"
     }
   }
 }

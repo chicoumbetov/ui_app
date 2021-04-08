@@ -7,7 +7,6 @@ import AppLoading from 'expo-app-loading';
 import { light as lightTheme, mapping } from '@eva-design/eva';
 import { ApplicationProvider } from '@ui-kitten/components';
 // import { default as mapping } from './mapping.json';
-
 import useColorScheme from './hooks/useColorScheme';
 import Navigation from './navigation';
 import useAssetLoader from './hooks/useAssetLoader';
@@ -55,7 +54,6 @@ export default function App() {
       mapping={mapping}
       theme={lightTheme}
     >
-
       <SafeAreaProvider>
         <Navigation colorScheme={colorScheme} />
         <StatusBar />

@@ -1,12 +1,12 @@
 import * as React from 'react';
 
-import { View } from 'react-native';
+import { Layout } from '@ui-kitten/components';
 import MaTresorerie from '../components/Tresorerie/Tresorerie';
 
 export default function TabMaTresorerieScreen() {
   return (
-    <View style={{ flex: 1 }}>
+    <Layout style={{ flex: 1, backgroundColor: 'rgba(246, 246, 246, 0.5)' }}>
       <MaTresorerie />
-    </View>
+    </Layout>
   );
 }

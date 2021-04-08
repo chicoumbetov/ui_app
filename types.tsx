@@ -4,10 +4,10 @@ export type RootStackParamList = {
 };
 
 export type BottomTabParamList = {
-  'Mes Biens': undefined;
-  'Mes Charges': undefined;
-  'Tableau de bord': undefined;
-  'Mon Assistant': undefined;
+  'MesBiens': undefined;
+  'MesCharges': undefined;
+  'TableauDeBord': undefined;
+  'MonAssistant': undefined;
   'Notifications': undefined;
 };
 

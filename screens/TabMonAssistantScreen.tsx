@@ -1,24 +1,20 @@
 import * as React from 'react';
 import { StyleSheet } from 'react-native';
 
-import { View } from '../components/Themed';
+import { Layout } from '@ui-kitten/components';
 import MonAssistant from '../components/MonAssistant/MonAssistant';
 
 export default function TabMonAssistantScreen() {
   return (
-    <View style={styles.container}>
+    <Layout style={styles.container}>
       <MonAssistant />
-    </View>
+    </Layout>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
+    backgroundColor: 'rgba(246, 246, 246, 0.5)',
   },
 });

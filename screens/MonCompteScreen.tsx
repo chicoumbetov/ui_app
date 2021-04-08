@@ -1,12 +1,12 @@
 import * as React from 'react';
 
-import {View} from '../components/Themed';
-import MonCompte from "../components/MonCompte/MonCompte";
+import { Layout } from '@ui-kitten/components';
+import MonCompte from '../components/MonCompte/MonCompte';
 
 export default function MonCompteScreen() {
   return (
-      <View style={{ marginTop: 40, padding: 7 }}>
-        <MonCompte/>
-      </View>
+    <Layout style={{ flex: 1, backgroundColor: 'rgba(246, 246, 246, 0.5)' }}>
+      <MonCompte />
+    </Layout>
   );
 }

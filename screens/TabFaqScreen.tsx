@@ -1,13 +1,13 @@
 import * as React from 'react';
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 
 import { View } from '../components/Themed';
-import Faq from "../components/Faq/Faq";
+import Faq from '../components/Faq/Faq';
 
 export default function TabFaqScreen() {
   return (
     <View style={styles.container}>
-      <Faq/>
+      <Faq />
     </View>
   );
 }
@@ -15,11 +15,6 @@ export default function TabFaqScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 20,
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
+    backgroundColor: 'rgba(246, 246, 246, 0.5)',
   },
 });

@@ -1,5 +1,7 @@
 import React from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet } from 'react-native';
+
+import { Layout, Text } from '@ui-kitten/components';
 
 import { AntDesign } from '@expo/vector-icons';
 
@@ -9,8 +11,8 @@ const OwnerCompte = ({ compte }) => {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={{
+    <Layout style={styles.container}>
+      <Layout style={{
         flexDirection: 'row',
         alignItems: 'center',
         padding: 12,
@@ -18,7 +20,7 @@ const OwnerCompte = ({ compte }) => {
       }}
       >
 
-        <View>
+        <Layout>
           <Text style={{
             color: '#222b45',
             fontSize: 16,
@@ -36,10 +38,10 @@ const OwnerCompte = ({ compte }) => {
             {compte.IBAN}
           </Text>
           <Text style={{ color: '#b5b5b5' }}>{compte.bank}</Text>
-        </View>
+        </Layout>
 
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <View style={{
+        <Layout style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <Layout style={{
             backgroundColor: '#ffbe00',
             marginHorizontal: 5,
             height: 30,
@@ -51,13 +53,13 @@ const OwnerCompte = ({ compte }) => {
           }}
           >
             <Text>3</Text>
-          </View>
+          </Layout>
 
           <AntDesign name="right" size={24} color="#b5b5b5" onPress={onPress} />
-        </View>
+        </Layout>
 
-      </View>
-    </View>
+      </Layout>
+    </Layout>
   );
 };
 

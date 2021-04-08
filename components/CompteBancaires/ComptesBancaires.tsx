@@ -1,7 +1,6 @@
 import React from 'react';
-import {
-  SectionList, Text, View, StyleSheet, Image,
-} from 'react-native';
+import { Image, SectionList, StyleSheet } from 'react-native';
+import { Layout, Text } from '@ui-kitten/components';
 
 import OwnerCompte from './OwnerCompte/OwnerCompte';
 import CompteFooter from '../CompteFooter';
@@ -13,19 +12,19 @@ const ComptesBancaires = () =>
 
 // eslint-disable-next-line implicit-arrow-linebreak
   (
-    <View style={styles.container}>
+    <Layout style={styles.container}>
 
       {/* use SectionList to render several accounts with its types and details */}
-      <View style={styles.compteSection}>
+      <Layout style={styles.compteSection}>
+        <Text style={styles.compteHeader}>
+          Comptes Bancaires
+        </Text>
         <SectionList
                     /* sections data must be array */
           sections={comptesData}
           renderSectionHeader={({ section: { title } }) => (
-            <View>
-              <Text style={styles.compteHeader}>
-                Comptes Bancaires
-              </Text>
-              <View style={{
+            <Layout>
+              <Layout style={{
                 marginTop: 10, marginRight: 20, flexDirection: 'row', alignItems: 'center',
               }}
               >
@@ -39,21 +38,21 @@ const ComptesBancaires = () =>
                   {' '}
                   {title}
                 </Text>
-              </View>
-            </View>
+              </Layout>
+            </Layout>
           )}
           renderItem={({ item }) => <OwnerCompte compte={item} />}
           renderSectionFooter={() => (
-            <View style={styles.footer}>
+            <Layout style={styles.footer}>
               <CompteFooter />
-            </View>
+            </Layout>
 
           )}
           keyExtractor={(item) => item.id}
         />
-      </View>
+      </Layout>
 
-    </View>
+    </Layout>
 
   );
 

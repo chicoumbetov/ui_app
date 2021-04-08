@@ -5,7 +5,7 @@ import { Platform } from 'react-native';
 import AppLoading from 'expo-app-loading';
 import * as eva from '@eva-design/eva';
 import { light as lightTheme, mapping } from '@eva-design/eva';
-import { ApplicationProvider } from 'react-native-ui-kitten';
+import { ApplicationProvider } from '@ui-kitten/components';
 
 import { DarkTheme, DefaultTheme, NavigationContainer } from '@react-navigation/native';
 import useColorScheme from './hooks/useColorScheme';

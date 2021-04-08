@@ -49,9 +49,7 @@ export default function BottomTabNavigator() {
 
   return (
     <BottomTab.Navigator
-      tabBar={(props) => {
-        <BottomTabBar {...props} />;
-      }}
+      tabBar={(props) => <BottomTabBar {...props} />}
     >
 
       <BottomTab.Screen

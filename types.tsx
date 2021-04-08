@@ -4,11 +4,11 @@ export type RootStackParamList = {
 };
 
 export type BottomTabParamList = {
-  "Mes Biens": undefined;
-  "Mes Charges": undefined;
-  "Tableau de Bord": undefined;
-  "Mon Assistant": undefined;
-  "Notifications": undefined;
+  'Mes Biens': undefined;
+  'Mes Charges': undefined;
+  'Tableau de bord': undefined;
+  'Mon Assistant': undefined;
+  'Notifications': undefined;
 };
 
 export type TabMesBiensParamList = {
@@ -38,5 +38,4 @@ export type CompteType = {
   typeBien: string,
   IBAN: string,
   bank: string,
-}
-
+};

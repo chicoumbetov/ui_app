@@ -3,11 +3,11 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import * as React from 'react';
 
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, StyleSheet } from 'react-native';
 import {
   BottomNavigation, BottomNavigationTab,
 } from '@ui-kitten/components';
-import Colors from '../constants/Colors';
+// import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import TabMesBiensScreen from '../screens/TabMesBiensScreen';
 import TabMesChargesScreen from '../screens/TabMesChargeScreen';
@@ -26,44 +26,65 @@ import {
 import LogoPicture from '../components/LogoPicture/LogoPicture';
 import Icon from '../components/Icon';
 
+const HomeIcon = () => (
+  <Icon name="home-outline" size={30} />
+);
+
+const TrendingUpIcon = () => (
+  <Icon name="trending-up-outline" size={30} />
+);
+
+const GridIcon = () => (
+  <Icon name="grid-outline" size={30} />
+);
+
+const FileIcon = () => (
+  <Icon name="file-text-outline" size={30} />
+);
+
+const BellIcon = () => (
+  <Icon name="bell-outline" size={30} />
+);
+
 // create type Props for props. Do Not leave any props
 
 const BottomTabBar = ({ navigation, state }: any) => (
+
   <BottomNavigation
+    style={styles.bottomNavigation}
     selectedIndex={state.index}
     onSelect={(index) => navigation.navigate(state.routeNames[index])}
   >
     {/* eslint-disable-next-line @typescript-eslint/no-shadow */}
-    <BottomNavigationTab title="Tab Mes Biens" />
-    <BottomNavigationTab title="Tab Mes Charges" />
-    <BottomNavigationTab title="Tableau de Bord" />
-    <BottomNavigationTab title="MonAssistant" />
-    <BottomNavigationTab title="Tab Notifications" />
+    <BottomNavigationTab title="Mes Biens" icon={HomeIcon} />
+    <BottomNavigationTab title="Mes Charges" icon={TrendingUpIcon} />
+    <BottomNavigationTab title="Tableau de Bord" icon={GridIcon} />
+    <BottomNavigationTab title="Mon Assistant" icon={FileIcon} />
+    <BottomNavigationTab title="Notifications" icon={BellIcon} />
   </BottomNavigation>
 );
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
 export default function BottomTabNavigator() {
-  const colorScheme = useColorScheme();
+  // const colorScheme = useColorScheme();
 
   return (
     <BottomTab.Navigator
       tabBar={(props) => <BottomTabBar {...props} />}
     >
-
       <BottomTab.Screen
         name="Mes Biens"
-        component={TabMesBiensScreen}
+        component={TabMesBiensNavigator}
 
       />
       <BottomTab.Screen
         name="Mes Charges"
-        component={TabMesChargesScreen}
+        component={TabMesChargesNavigator}
       />
       <BottomTab.Screen
         name="Tableau de bord"
-        component={TabTableauDeBordScreen}
+        component={TabTableauDeBordNavigator}
       />
       <BottomTab.Screen
         name="Mon Assistant"
@@ -71,7 +92,7 @@ export default function BottomTabNavigator() {
       />
       <BottomTab.Screen
         name="Notifications"
-        component={TabNotificationsScreen}
+        component={TabNotificationsNavigator}
       />
 
     </BottomTab.Navigator>
@@ -96,7 +117,6 @@ function TabMesBiensNavigator({ navigation }) {
       <TabMesBiensStack.Screen
         name="TabMesBiensScreen"
         component={TabMesBiensScreen}
-
         options={{
           headerTitle: 'Tab Mes Biens',
           headerLeftContainerStyle: {
@@ -248,3 +268,10 @@ function TabNotificationsNavigator({ navigation }) {
     </TabNotificationsStack.Navigator>
   );
 }
+
+const styles = StyleSheet.create({
+  bottomNavigation: {
+    marginVertical: 5,
+    // backgroundColor: 'green',
+  },
+});

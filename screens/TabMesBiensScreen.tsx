@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
 export default function TabMesBiensScreen() {
   return (
@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontWeight: 'bold',
-    fontFamily:'HouschkaRoundedDemiBold'
+    fontFamily: 'HouschkaRoundedDemiBold',
   },
   separator: {
     marginVertical: 30,

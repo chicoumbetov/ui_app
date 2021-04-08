@@ -3,18 +3,16 @@ import React from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Platform } from 'react-native';
 import AppLoading from 'expo-app-loading';
-import * as eva from '@eva-design/eva';
+
 import { light as lightTheme, mapping } from '@eva-design/eva';
 import { ApplicationProvider } from '@ui-kitten/components';
+// import { default as mapping } from './mapping.json';
 
-import { DarkTheme, DefaultTheme, NavigationContainer } from '@react-navigation/native';
 import useColorScheme from './hooks/useColorScheme';
 import Navigation from './navigation';
 import useAssetLoader from './hooks/useAssetLoader';
 import ActivityIndicator from './components/ActivityIndicator';
 import { View } from './components/Themed';
-import BottomTabNavigator from './navigation/BottomTabNavigator';
-import LinkingConfiguration from './navigation/LinkingConfiguration';
 
 const fonts = {
   Icons: require('./components/Icon/icomoon.ttf'),
@@ -58,18 +56,10 @@ export default function App() {
       theme={lightTheme}
     >
 
-      <NavigationContainer
-        linking={LinkingConfiguration}
-        theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
-      >
-        <BottomTabNavigator />
-      </NavigationContainer>
+      <SafeAreaProvider>
+        <Navigation colorScheme={colorScheme} />
+        <StatusBar />
+      </SafeAreaProvider>
     </ApplicationProvider>
   );
 }
-
-/**
- <SafeAreaProvider>
- <Navigation colorScheme={colorScheme} />
- <StatusBar />
- </SafeAreaProvider> */

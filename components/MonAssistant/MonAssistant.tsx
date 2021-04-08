@@ -1,17 +1,18 @@
 import React from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
+import { Layout, Text } from '@ui-kitten/components';
 
 const MonAssistant = () => (
-  <View style={styles.container}>
+  <Layout style={styles.container}>
     <Text style={styles.title}>Mon Assistant LOL</Text>
     <Text style={styles.subtitle}>Générer les documents</Text>
-    <View style={styles.docs}>
+    <Layout style={styles.docs}>
       <Text style={styles.aideText}>Aide à la déclaration d'impôts</Text>
-    </View>
-    <View style={styles.docs}>
+    </Layout>
+    <Layout style={styles.docs}>
       <Text style={styles.quittanceText}>Quittance de loyer</Text>
-    </View>
-  </View>
+    </Layout>
+  </Layout>
 
 );
 

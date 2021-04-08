@@ -6,7 +6,7 @@ import { Text, View } from '../components/Themed';
 export default function TabMesChargeScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>TabMesCharge</Text>
+      <Text style={styles.title}>Tab Mes Charges</Text>
 
     </View>
   );

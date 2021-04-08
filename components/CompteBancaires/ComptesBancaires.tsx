@@ -64,7 +64,6 @@ const styles = StyleSheet.create({
   },
   compteSection: {
     paddingTop: 10,
-    paddingHorizontal: 26,
   },
   compteHeader: {
     fontSize: 24,

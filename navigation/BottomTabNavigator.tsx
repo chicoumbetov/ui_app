@@ -3,6 +3,10 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import * as React from 'react';
 
+import { TouchableOpacity } from 'react-native';
+import {
+  BottomNavigation, BottomNavigationTab,
+} from '@ui-kitten/components';
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import TabMesBiensScreen from '../screens/TabMesBiensScreen';
@@ -21,7 +25,22 @@ import {
 } from '../types';
 import LogoPicture from '../components/LogoPicture/LogoPicture';
 import Icon from '../components/Icon';
-import {TouchableOpacity} from "react-native";
+
+// create type Props for props. Do Not leave any props
+
+const BottomTabBar = ({ navigation, state }: any) => (
+  <BottomNavigation
+    selectedIndex={state.index}
+    onSelect={(index) => navigation.navigate(state.routeNames[index])}
+  >
+    {/* eslint-disable-next-line @typescript-eslint/no-shadow */}
+    <BottomNavigationTab title="Tab Mes Biens" />
+    <BottomNavigationTab title="Tab Mes Charges" />
+    <BottomNavigationTab title="Tableau de Bord" />
+    <BottomNavigationTab title="MonAssistant" />
+    <BottomNavigationTab title="Tab Notifications" />
+  </BottomNavigation>
+);
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -29,44 +48,11 @@ export default function BottomTabNavigator() {
   const colorScheme = useColorScheme();
 
   return (
-    <BottomTab.Navigator
-      initialRouteName="Tableau de Bord"
-      tabBarOptions={{ activeTintColor: Colors[colorScheme].tint }}
-    >
+    <BottomTab.Navigator>
+
       <BottomTab.Screen
         name="Mes Biens"
-        component={TabMesBiensNavigator}
-        options={{
-          tabBarIcon: ({ color }) => <Icon name="home-outline" {...{ color }} size={30} />,
-        }}
-      />
-      <BottomTab.Screen
-        name="Mes Charges"
-        component={TabMesChargesNavigator}
-        options={{
-          tabBarIcon: ({ color }) => <Icon name="trending-up-outline" {...{ color }} size={30} />,
-        }}
-      />
-      <BottomTab.Screen
-        name="Tableau de Bord"
-        component={TabTableauDeBordNavigator}
-        options={{
-          tabBarIcon: ({ color }) => <Icon name="grid-outline" {...{ color }} size={30} />,
-        }}
-      />
-      <BottomTab.Screen
-        name="Mon Assistant"
-        component={TabMonAssistantNavigator}
-        options={{
-          tabBarIcon: ({ color }) => <Icon name="file-text-outline" {...{ color }} size={30} />,
-        }}
-      />
-      <BottomTab.Screen
-        name="Notifications"
-        component={TabNotificationsNavigator}
-        options={{
-          tabBarIcon: ({ color }) => <Icon name="bell-outline" {...{ color }} size={30} />,
-        }}
+        component={TabMesBiensScreen}
       />
 
     </BottomTab.Navigator>
@@ -85,12 +71,13 @@ function TabBarIcon(props: { name: React.ComponentProps<typeof Ionicons>['name']
 // https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab
 const TabMesBiensStack = createStackNavigator<TabMesBiensParamList>();
 
-function TabMesBiensNavigator({navigation}) {
+function TabMesBiensNavigator({ navigation }) {
   return (
     <TabMesBiensStack.Navigator>
       <TabMesBiensStack.Screen
         name="TabMesBiensScreen"
         component={TabMesBiensScreen}
+
         options={{
           headerTitle: 'Tab Mes Biens',
           headerLeftContainerStyle: {
@@ -100,14 +87,14 @@ function TabMesBiensNavigator({navigation}) {
             marginRight: 10,
           },
           headerLeft: () => (
-              <TouchableOpacity onPress={() => { navigation.goBack() }}>
-                  <LogoPicture />
-              </TouchableOpacity>
+            <TouchableOpacity onPress={() => { navigation.goBack(); }}>
+              <LogoPicture />
+            </TouchableOpacity>
           ),
           headerRight: () => (
-              <TouchableOpacity onPress={() => { navigation.openDrawer() }}>
-                  <Ionicons name="menu" size={30} />
-              </TouchableOpacity>
+            <TouchableOpacity onPress={() => { navigation.openDrawer(); }}>
+              <Ionicons name="menu" size={30} />
+            </TouchableOpacity>
           ),
         }}
       />
@@ -117,7 +104,7 @@ function TabMesBiensNavigator({navigation}) {
 
 const TabMesChargesStack = createStackNavigator<TabMesChargesParamList>();
 
-function TabMesChargesNavigator({navigation}) {
+function TabMesChargesNavigator({ navigation }) {
   return (
     <TabMesChargesStack.Navigator>
       <TabMesChargesStack.Screen
@@ -129,17 +116,17 @@ function TabMesChargesNavigator({navigation}) {
             marginRight: 10,
           },
           headerRight: () => (
-              <TouchableOpacity onPress={() => { navigation.openDrawer() }}>
-                  <Ionicons name="menu" size={30} />
-              </TouchableOpacity>
+            <TouchableOpacity onPress={() => { navigation.openDrawer(); }}>
+              <Ionicons name="menu" size={30} />
+            </TouchableOpacity>
           ),
           headerLeftContainerStyle: {
             marginLeft: 10,
           },
           headerLeft: () => (
-              <TouchableOpacity onPress={() => { navigation.goBack() }}>
-                  <LogoPicture />
-              </TouchableOpacity>
+            <TouchableOpacity onPress={() => { navigation.goBack(); }}>
+              <LogoPicture />
+            </TouchableOpacity>
           ),
         }}
       />
@@ -149,7 +136,7 @@ function TabMesChargesNavigator({navigation}) {
 
 const TabTableauDeBordStack = createStackNavigator<TabTableauDeBordParamList>();
 
-function TabTableauDeBordNavigator({navigation}) {
+function TabTableauDeBordNavigator({ navigation }) {
   return (
     <TabTableauDeBordStack.Navigator>
       <TabTableauDeBordStack.Screen
@@ -161,17 +148,17 @@ function TabTableauDeBordNavigator({navigation}) {
             marginRight: 10,
           },
           headerRight: () => (
-              <TouchableOpacity onPress={() => { navigation.openDrawer() }}>
-                  <Ionicons name="menu" size={30} />
-              </TouchableOpacity>
+            <TouchableOpacity onPress={() => { navigation.openDrawer(); }}>
+              <Ionicons name="menu" size={30} />
+            </TouchableOpacity>
           ),
           headerLeftContainerStyle: {
             marginLeft: 10,
           },
           headerLeft: () => (
-              <TouchableOpacity onPress={() => { navigation.openDrawer() }}>
-                  <LogoPicture />
-              </TouchableOpacity>
+            <TouchableOpacity onPress={() => { navigation.openDrawer(); }}>
+              <LogoPicture />
+            </TouchableOpacity>
           ),
         }}
       />
@@ -181,7 +168,7 @@ function TabTableauDeBordNavigator({navigation}) {
 
 const TabMonAssistantStack = createStackNavigator<TabMonAssistantParamList>();
 
-function TabMonAssistantNavigator({navigation}) {
+function TabMonAssistantNavigator({ navigation }) {
   return (
     <TabMonAssistantStack.Navigator>
       <TabMonAssistantStack.Screen
@@ -193,17 +180,17 @@ function TabMonAssistantNavigator({navigation}) {
             marginRight: 10,
           },
           headerRight: () => (
-              <TouchableOpacity onPress={() => { navigation.openDrawer() }}>
-                  <Ionicons name="menu" size={30} />
-              </TouchableOpacity>
+            <TouchableOpacity onPress={() => { navigation.openDrawer(); }}>
+              <Ionicons name="menu" size={30} />
+            </TouchableOpacity>
           ),
           headerLeftContainerStyle: {
             marginLeft: 10,
           },
           headerLeft: () => (
-              <TouchableOpacity onPress={() => { navigation.goBack() }}>
-                  <LogoPicture />
-              </TouchableOpacity>
+            <TouchableOpacity onPress={() => { navigation.goBack(); }}>
+              <LogoPicture />
+            </TouchableOpacity>
           ),
         }}
       />
@@ -213,7 +200,7 @@ function TabMonAssistantNavigator({navigation}) {
 
 const TabNotificationsStack = createStackNavigator<TabNotificationsParamList>();
 
-function TabNotificationsNavigator({navigation}) {
+function TabNotificationsNavigator({ navigation }) {
   return (
     <TabNotificationsStack.Navigator>
       <TabNotificationsStack.Screen
@@ -225,17 +212,17 @@ function TabNotificationsNavigator({navigation}) {
             marginRight: 10,
           },
           headerRight: () => (
-              <TouchableOpacity onPress={() => { navigation.openDrawer() }}>
-                  <Ionicons name="menu" size={30} />
-              </TouchableOpacity>
+            <TouchableOpacity onPress={() => { navigation.openDrawer(); }}>
+              <Ionicons name="menu" size={30} />
+            </TouchableOpacity>
           ),
           headerLeftContainerStyle: {
             marginLeft: 10,
           },
           headerLeft: () => (
-              <TouchableOpacity onPress={() => { navigation.goBack() }}>
-                  <LogoPicture />
-              </TouchableOpacity>
+            <TouchableOpacity onPress={() => { navigation.goBack(); }}>
+              <LogoPicture />
+            </TouchableOpacity>
           ),
         }}
       />

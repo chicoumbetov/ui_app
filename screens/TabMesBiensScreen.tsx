@@ -5,7 +5,6 @@ export default function TabMesBiensScreen() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Tab Mes Biens</Text>
-
     </View>
   );
 }

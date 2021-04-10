@@ -1,7 +1,6 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import * as React from 'react';
 
-import { StyleSheet } from 'react-native';
 import { BottomNavigation, BottomNavigationTab } from '@ui-kitten/components';
 
 import {
@@ -41,7 +40,7 @@ const BellIcon = () => (
 const BottomTabBar = ({ navigation, state }: any) => (
 
   <BottomNavigation
-    style={styles.bottomNavigation}
+    style={{ marginHorizontal: 2 }}
     selectedIndex={state.index}
     onSelect={(index) => navigation.navigate(state.routeNames[index])}
   >
@@ -57,12 +56,12 @@ const BottomTabBar = ({ navigation, state }: any) => (
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
 export default function BottomTabNavigator() {
-  // const colorScheme = useColorScheme();
-
   return (
     <BottomTab.Navigator
       initialRouteName="TableauDeBord"
-      tabBar={(props) => <BottomTabBar {...props} />}
+      tabBar={
+        (props) => <BottomTabBar {...props} style={{ margin: 100 }} />
+      }
     >
       <BottomTab.Screen
         name="MesBiens"
@@ -89,9 +88,3 @@ export default function BottomTabNavigator() {
     </BottomTab.Navigator>
   );
 }
-
-const styles = StyleSheet.create({
-  bottomNavigation: {
-    marginVertical: 5,
-  },
-});

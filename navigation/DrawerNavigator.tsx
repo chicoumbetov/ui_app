@@ -14,36 +14,23 @@ import Icon from '../components/Icon/Icon';
 import HeaderRightOpenDrawerNavigation from './HeaderRightOpenDrawerNavigation';
 import HeaderLeftOpenDrawerNavigation from './HeaderLeftOpenDrawerNavigation';
 
-import DrawerContent from './CustomDrawer';
+import CustomDrawer from './CustomDrawer';
+import TabNotificationsScreen from '../screens/TabNotificationsScreen';
+import TabMonAssistantScreen from '../screens/TabMonAssistantScreen';
 
 const DrawerNav = createDrawerNavigator();
-
-// You can explore the built-in icon families and icons on the web at:
-// https://icons.expo.fyi/
-/*
-write once here and use it downwards several times
-
-function TabBarIcon(props: { name: React.ComponentProps<typeof Icon>['name']; color: string }) {
-    return <Icon name="grid-outline" {...{ color }} size={30} />;
-}
-*/
 
 const DrawerNavigator = ({ navigation }) => (
   <>
     <DrawerNav.Navigator
-      drawerContent={(props) => <DrawerContent {...props} />}
+      drawerContent={(props) => <CustomDrawer {...props} />}
+      initialRouteName="Tableau de bord"
     >
       <DrawerNav.Screen
         name="Tableau de bord"
         component={BottomTabNavigator}
         options={{
           headerShown: false,
-          headerLeftContainerStyle: {
-            marginLeft: 20,
-          },
-          headerRightContainerStyle: {
-            marginRight: 20,
-          },
           headerLeft: () => (
             <HeaderLeftOpenDrawerNavigation navigation={navigation} />
           ),
@@ -51,7 +38,7 @@ const DrawerNavigator = ({ navigation }) => (
             <HeaderRightOpenDrawerNavigation navigation={navigation} />
           ),
           drawerIcon: function getIcon({ color }: { color: string }) {
-            return <Icon name="grid-outline" {...{ color }} size={30} />;
+            return <Icon name="grid-outline" {...{ color }} />;
           },
 
         }}
@@ -61,12 +48,6 @@ const DrawerNavigator = ({ navigation }) => (
         component={MonCompteScreen}
         options={{
           headerShown: true,
-          headerLeftContainerStyle: {
-            marginLeft: 20,
-          },
-          headerRightContainerStyle: {
-            marginRight: 20,
-          },
           headerLeft: () => (
             <HeaderLeftOpenDrawerNavigation navigation={navigation} />
           ),
@@ -83,12 +64,6 @@ const DrawerNavigator = ({ navigation }) => (
         component={TabMesBiensScreen}
         options={{
           headerShown: true,
-          headerLeftContainerStyle: {
-            marginLeft: 20,
-          },
-          headerRightContainerStyle: {
-            marginRight: 20,
-          },
           headerLeft: () => (
             <HeaderLeftOpenDrawerNavigation navigation={navigation} />
           ),
@@ -105,12 +80,6 @@ const DrawerNavigator = ({ navigation }) => (
         component={TabMaTresorerieScreen}
         options={{
           headerShown: true,
-          headerLeftContainerStyle: {
-            marginLeft: 20,
-          },
-          headerRightContainerStyle: {
-            marginRight: 20,
-          },
           headerLeft: () => (
             <HeaderLeftOpenDrawerNavigation navigation={navigation} />
           ),
@@ -127,12 +96,6 @@ const DrawerNavigator = ({ navigation }) => (
         component={TabFaqScreen}
         options={{
           headerShown: true,
-          headerLeftContainerStyle: {
-            marginLeft: 20,
-          },
-          headerRightContainerStyle: {
-            marginRight: 20,
-          },
           headerLeft: () => (
             <HeaderLeftOpenDrawerNavigation navigation={navigation} />
           ),
@@ -145,16 +108,42 @@ const DrawerNavigator = ({ navigation }) => (
         }}
       />
       <DrawerNav.Screen
+        name="Notifications"
+        component={TabNotificationsScreen}
+        options={{
+          headerShown: true,
+          headerLeft: () => (
+            <HeaderLeftOpenDrawerNavigation navigation={navigation} />
+          ),
+          headerRight: () => (
+            <HeaderRightOpenDrawerNavigation navigation={navigation} />
+          ),
+          drawerIcon: function getIcon({ color }: { color: string }) {
+            return <Icon name="email-outline" {...{ color }} size={30} />;
+          },
+        }}
+      />
+      <DrawerNav.Screen
+        name="MonAssistant"
+        component={TabMonAssistantScreen}
+        options={{
+          headerShown: true,
+          headerLeft: () => (
+            <HeaderLeftOpenDrawerNavigation navigation={navigation} />
+          ),
+          headerRight: () => (
+            <HeaderRightOpenDrawerNavigation navigation={navigation} />
+          ),
+          drawerIcon: function getIcon({ color }: { color: string }) {
+            return <Icon name="email-outline" {...{ color }} size={30} />;
+          },
+        }}
+      />
+      <DrawerNav.Screen
         name="Contact"
         component={TabContactScreen}
         options={{
           headerShown: true,
-          headerLeftContainerStyle: {
-            marginLeft: 20,
-          },
-          headerRightContainerStyle: {
-            marginRight: 20,
-          },
           headerLeft: () => (
             <HeaderLeftOpenDrawerNavigation navigation={navigation} />
           ),

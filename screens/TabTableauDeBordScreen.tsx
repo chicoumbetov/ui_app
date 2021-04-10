@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { StyleSheet } from 'react-native';
 
-import { Layout, Text } from '@ui-kitten/components';
+import { Layout } from '@ui-kitten/components';
+import TableauDeBord from '../components/TableauDeBord/TableauDeBord';
 
 export default function TabTableauDeBordScreen() {
   return (
     <Layout style={styles.container}>
-      <Text>Tableau De Bord</Text>
-
+      <TableauDeBord />
     </Layout>
   );
 }

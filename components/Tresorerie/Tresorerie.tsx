@@ -4,7 +4,7 @@ import { Layout, Text } from '@ui-kitten/components';
 import ComptesBancaires from '../CompteBancaires/ComptesBancaires';
 
 const MaTresorerie = () => (
-  <Layout style={{ backgroundColor: '#efefef', padding: 26 }}>
+  <Layout style={{ backgroundColor: 'transparent', margin: 20 }}>
     <Text style={{ fontSize: 34, fontWeight: '600' }}>
       Ma Trésorerie
     </Text>
@@ -24,9 +24,21 @@ const MaTresorerie = () => (
         <Text style={{ marginTop: 10, fontWeight: '600', color: '#00c29a' }}> + 500 €</Text>
       </Layout>
 
-      <Layout style={{ flex: 1, alignItems: 'center' }}>
-        <Text style={{ justifyContent: 'center', color: '#b5b5b5' }}>Dernier débit</Text>
+      <Layout style={{
+        flex: 1,
+        alignItems: 'center',
+        borderRightWidth: 1,
+        borderRightColor: '#b5b5b5',
+        justifyContent: 'space-between',
+      }}
+      >
+        <Text style={{ justifyContent: 'center', color: '#b5b5b5', margin: 1 }}>Dernier débit</Text>
         <Text style={{ marginTop: 10, fontWeight: '600', color: '#ff5640' }}> - 80 €</Text>
+      </Layout>
+
+      <Layout style={{ flex: 1, alignItems: 'center' }}>
+        <Text style={{ justifyContent: 'center', color: '#b5b5b5' }}>Prochain mouvement</Text>
+        <Text style={{ marginTop: 10, fontWeight: '600', color: '#ff5640' }}> - 160 €</Text>
       </Layout>
 
     </Layout>

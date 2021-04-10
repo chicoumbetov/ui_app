@@ -4,9 +4,21 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Platform } from 'react-native';
 import AppLoading from 'expo-app-loading';
 
-import { light as lightTheme, mapping } from '@eva-design/eva';
-import { ApplicationProvider } from '@ui-kitten/components';
-// import { default as mapping } from './mapping.json';
+import * as eva from '@eva-design/eva';
+import { ApplicationProvider, IconRegistry } from '@ui-kitten/components';
+import { EvaIconsPack } from '@ui-kitten/eva-icons';
+// eslint-disable-next-line import/no-named-as-default
+// import FeatherIconsPack from './assets/feather-icons';
+// import AssetIconsPack from './assets/asset-icons';
+
+// eslint-disable-next-line import/no-named-default
+// created styles according on eva design styles:
+import { default as theme } from './custom-theme.json';
+import { default as mapping } from './mapping.json';
+// eva design styles:
+// import { light as lightTheme } from '@eva-design/eva';
+// import { mapping } from '@eva-design/eva';
+
 import useColorScheme from './hooks/useColorScheme';
 import Navigation from './navigation';
 import useAssetLoader from './hooks/useAssetLoader';
@@ -50,14 +62,18 @@ export default function App() {
   }
 
   return (
-    <ApplicationProvider
-      mapping={mapping}
-      theme={lightTheme}
-    >
-      <SafeAreaProvider>
-        <Navigation colorScheme={colorScheme} />
-        <StatusBar />
-      </SafeAreaProvider>
-    </ApplicationProvider>
+    <>
+      <IconRegistry icons={[EvaIconsPack]} />
+      <ApplicationProvider
+        {...eva}
+        customMapping={mapping}
+        theme={{ ...eva.dark, ...theme }}
+      >
+        <SafeAreaProvider>
+          <Navigation colorScheme={colorScheme} />
+          <StatusBar />
+        </SafeAreaProvider>
+      </ApplicationProvider>
+    </>
   );
 }

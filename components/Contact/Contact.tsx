@@ -1,30 +1,28 @@
 import React from 'react';
-import {
-  SafeAreaView, SectionList, StyleSheet, Text, View,
-} from 'react-native';
+import { SafeAreaView, SectionList, StyleSheet } from 'react-native';
+import { Layout, Text } from '@ui-kitten/components';
 
 import { AntDesign } from '@expo/vector-icons';
 import faqQandA from '../../mockData/faqQandA';
 
-const Faq = () => (
+const Contact = () => (
   <SafeAreaView style={styles.container}>
-    <View>
-      <Text style={styles.faq}>FAQ</Text>
-    </View>
+    <Layout style={styles.contact}>
+      <Text style={styles.contactText}>Contact</Text>
+    </Layout>
     <SectionList
       sections={faqQandA}
       keyExtractor={(item, index) => item + index}
       renderItem={({ item }) => (
-        <View style={styles.item}>
+        <Layout style={styles.item}>
           <Text style={styles.title}>{item}</Text>
-        </View>
+        </Layout>
       )}
-
       renderSectionHeader={({ section: { title } }) => (
-        <View style={styles.header}>
+        <Layout style={styles.header}>
           <Text style={styles.headerText}>{title}</Text>
           <AntDesign name="down" color="white" size={20} />
-        </View>
+        </Layout>
 
       )}
     />
@@ -36,8 +34,11 @@ const styles = StyleSheet.create({
     flex: 1,
     margin: 20,
   },
-  faq: {
+  contact: {
     marginBottom: 20,
+    backgroundColor: 'rgba(246, 246, 246, 0.5)',
+  },
+  contactText: {
     fontSize: 24,
     fontWeight: '600',
     fontStyle: 'normal',
@@ -73,4 +74,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Faq;
+export default Contact;

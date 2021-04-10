@@ -1,26 +1,36 @@
-import React from 'react'
-import {Text, View} from "react-native";
+import React from 'react';
+import { Layout, Text } from '@ui-kitten/components';
+import { Image } from 'react-native';
+import Informations from './Informations';
 
-import {useFonts} from "expo-font";
+const MonCompte = () => (
+  <Layout style={{ flex: 1 }}>
+    <Layout style={{ flex: 1, backgroundColor: '#efefef', padding: 26 }}>
+      <Text style={{ fontSize: 25, fontWeight: '600' }}>
+        Mon Compte
+      </Text>
+      <Layout style={{ alignItems: 'center', backgroundColor: '#efefef', margin: 20 }}>
+        <Image
+          source={require('../../assets/Icones_omedom/avatars/avatar_1.png')}
+          style={{ height: 100, width: 100, marginRight: 12 }}
+        />
 
-const MonCompte = () => {
+        <Text style={{ fontSize: 20, fontWeight: '500' }}>
+          Mathieu
+        </Text>
+      </Layout>
+    </Layout>
+    <Layout style={{
+      flex: 1, backgroundColor: '#efefef', padding: 26, marginTop: 20,
+    }}
+    >
+      <Text style={{ fontSize: 25, fontWeight: '600', marginBottom: 20 }}>
+        Informations
+      </Text>
+      <Informations />
+    </Layout>
 
-    const [loaded] = useFonts({
-        'Houschka_Rounded_Alt_Light_Regular': require('../../assets/fonts/Houschka_Rounded_Alt_Light_Regular.ttf'),
-    });
-
-    if (!loaded) {
-        return null;
-    }
-
-    return (
-        <View>
-            <Text style={{ fontFamily: 'Houschka_Rounded_Alt_Light_Regular'}}>Mon Compte</Text>
-            <Text style={{ fontFamily: 'Houschka_Rounded_Alt_Light_Regular'}}>Mathieu</Text>
-            {/*avatar image*/}
-
-        </View>
-    )
-}
+  </Layout>
+);
 
 export default MonCompte;

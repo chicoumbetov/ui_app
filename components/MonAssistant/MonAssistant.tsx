@@ -4,7 +4,7 @@ import { Layout, Text } from '@ui-kitten/components';
 
 const MonAssistant = () => (
   <Layout style={styles.container}>
-    <Text style={styles.title}>Mon Assistant LOL</Text>
+    <Text style={styles.title}>Mon Assistant</Text>
     <Text style={styles.subtitle}>Générer les documents</Text>
     <Layout style={styles.docs}>
       <Text style={styles.aideText}>Aide à la déclaration d'impôts</Text>
@@ -19,6 +19,7 @@ const MonAssistant = () => (
 const styles = StyleSheet.create({
   container: {
     margin: 20,
+    backgroundColor: 'rgba(246, 246, 246, 0.5)',
   },
   title: {
     fontSize: 24,

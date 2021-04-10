@@ -21,7 +21,7 @@ const TabMesBiensStack = createStackNavigator<TabMesBiensParamList>();
 
 export function TabMesBiensNavigator({ navigation }) {
   return (
-    <TabMesBiensStack.Navigator>
+    <TabMesBiensStack.Navigator headerMode="screen">
       <TabMesBiensStack.Screen
         name="TabMesBiensScreen"
         component={TabMesBiensScreen}

@@ -2,7 +2,7 @@
   "$schema": "./node_modules/@eva-design/dss/schema/schema.json",
   "version": 1.0,
   "strict": {
-    "text-font-family": "System",
+    "text-font-family": "Houschka_Rounded_Alt_Bold_Regular",
     "text-heading-1-font-size": 36,
     "text-heading-1-font-weight": "800",
     "text-heading-1-font-family": "$text-font-family",
@@ -36,9 +36,9 @@
     "text-caption-1-font-size": 12,
     "text-caption-1-font-weight": "400",
     "text-caption-1-font-family": "$text-font-family",
-    "text-caption-2-font-size": 10,
-    "text-caption-2-font-weight": "600",
-    "text-caption-2-font-family": "$text-font-family",
+    "text-caption-2-font-size": 11,
+    "text-caption-2-font-weight": "800",
+    "text-caption-2-font-family": "Houschka_Rounded_Alt_Light_Regular",
     "text-label-font-size": 12,
     "text-label-font-weight": "800",
     "text-label-font-family": "$text-font-family",
@@ -144,7 +144,61 @@
         }
       }
     },
-    "BottomNavigation": {},
+    "BottomNavigation": {
+      "meta": {
+        "scope": "mobile",
+        "parameters": {
+          "minHeight": {
+            "type": "number"
+          },
+          "paddingVertical": {
+            "type": "number"
+          },
+          "backgroundColor": {
+            "type": "string"
+          },
+          "borderTopColor": {
+            "type": "string"
+          },
+          "borderTopWidth": {
+            "type": "number"
+          },
+          "indicatorHeight": {
+            "type": "number"
+          },
+          "indicatorBackgroundColor": {
+            "type": "string"
+          }
+        },
+        "appearances": {
+          "default": {
+            "default": true
+          },
+          "noIndicator": {
+            "default": false
+          }
+        },
+        "variantGroups": {},
+        "states": {}
+      },
+      "appearances": {
+        "default": {
+          "mapping": {
+            "minHeight": 56,
+            "paddingVertical": 4,
+            "backgroundColor": "background-basic-color-1",
+            "indicatorHeight": 4,
+            "indicatorBackgroundColor": "color-primary-default"
+          }
+        },
+        "noIndicator": {
+          "mapping": {
+            "indicatorHeight": 0,
+            "indicatorBackgroundColor": "transparent"
+          }
+        }
+      }
+    },
     "Text": {
       "meta": {
         "scope": "all",

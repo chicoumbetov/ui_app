@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { StyleSheet } from 'react-native';
 
-import { Layout, Text } from '@ui-kitten/components';
+import { Layout } from '@ui-kitten/components';
+import Notifications from '../components/Notifications/Notifications';
 
 export default function TabNotificationsScreen() {
   return (
     <Layout style={styles.container}>
-      <Text>Tab Notifications</Text>
-
+      <Notifications />
     </Layout>
   );
 }

@@ -1,10 +1,11 @@
 import React from 'react';
-import { Image, SectionList, StyleSheet } from 'react-native';
+import { SectionList, StyleSheet } from 'react-native';
 import { Layout, Text } from '@ui-kitten/components';
 
 import OwnerCompte from './OwnerCompte/OwnerCompte';
 import CompteFooter from '../CompteFooter';
 import comptesData from '../../mockData/comptesData';
+import CompteHeader from '../CompteHeader/CompteHeader';
 
 const ComptesBancaires = () =>
 // query
@@ -23,23 +24,7 @@ const ComptesBancaires = () =>
                     /* sections data must be array */
           sections={comptesData}
           renderSectionHeader={({ section: { title } }) => (
-            <Layout>
-              <Layout style={{
-                marginTop: 10, marginRight: 20, flexDirection: 'row', alignItems: 'center',
-              }}
-              >
-                <Image
-                  source={require('../../assets/images/img.png')}
-                  style={{ height: 40, width: 40, marginRight: 12 }}
-                />
-                <Text style={{ fontSize: 20, fontWeight: '500' }}>
-                  {' '}
-                  La maison de
-                  {' '}
-                  {title}
-                </Text>
-              </Layout>
-            </Layout>
+            <CompteHeader title={title} />
           )}
           renderItem={({ item }) => <OwnerCompte compte={item} />}
           renderSectionFooter={() => (
@@ -58,11 +43,13 @@ const ComptesBancaires = () =>
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 10,
-    backgroundColor: 'rgba(246, 246, 246, 0.5)',
+    marginTop: 20,
+    borderRadius: 10,
   },
   compteSection: {
     paddingTop: 10,
+    padding: 20,
+    borderRadius: 10,
   },
   compteHeader: {
     fontSize: 24,

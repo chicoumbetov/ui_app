@@ -1,0 +1,15 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-omedom-dev-175444-authRole",
+      "UnauthRoleArn": "arn:aws:iam::459088793760:role/amplify-omedom-dev-175444-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::459088793760:role/amplify-omedom-dev-175444-authRole",
+      "Region": "eu-west-2",
+      "DeploymentBucketName": "amplify-omedom-dev-175444-deployment",
+      "UnauthRoleName": "amplify-omedom-dev-175444-unauthRole",
+      "StackName": "amplify-omedom-dev-175444",
+      "StackId": "arn:aws:cloudformation:eu-west-2:459088793760:stack/amplify-omedom-dev-175444/683f6180-9ba7-11eb-ace1-0a2c9ae353be",
+      "AmplifyAppId": "d30hdg2j9ii9ct"
+    }
+  }
+}

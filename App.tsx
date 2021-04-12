@@ -13,6 +13,7 @@ import { EvaIconsPack } from '@ui-kitten/eva-icons';
 
 // eslint-disable-next-line import/no-named-default
 // created styles according on eva design styles:
+import Amplify from 'aws-amplify';
 import { default as theme } from './custom-theme.json';
 import { default as mapping } from './mapping.json';
 // eva design styles:
@@ -24,6 +25,10 @@ import Navigation from './navigation';
 import useAssetLoader from './hooks/useAssetLoader';
 import ActivityIndicator from './components/ActivityIndicator';
 import { View } from './components/Themed';
+
+import awsExports from './src/aws-exports';
+
+Amplify.configure(awsExports);
 
 const fonts = {
   Icons: require('./components/Icon/icomoon.ttf'),

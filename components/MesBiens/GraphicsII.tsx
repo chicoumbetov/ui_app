@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import { Layout, Text } from '@ui-kitten/components';
-import { VictoryLine } from 'victory-native';
+import { VictoryLine, VictoryPie } from 'victory-native';
 
 const GraphicsII = () => (
   <Layout style={styles.container}>
@@ -14,6 +14,9 @@ const GraphicsII = () => (
           data: { stroke: '#c43a31' },
           parent: { border: '1px solid #ccc' },
         }}
+        interpolation="natural"
+        height={283}
+        width={330}
         data={[
           { x: 1, y: 2 },
           { x: 2, y: 3 },

@@ -24,6 +24,8 @@
     ]
   },
   "dependencies": {
+    "@aws-amplify/auth": "^3.4.29",
+    "@aws-amplify/core": "^3.8.21",
     "@aws-amplify/ui-react": "^1.0.6",
     "@eva-design/eva": "^2.0.0",
     "@expo/vector-icons": "^12.0.0",
@@ -39,13 +41,14 @@
     "@ui-kitten/components": "^5.0.0",
     "@ui-kitten/eva-icons": "^5.0.0",
     "aws-amplify": "^3.3.26",
+    "aws-amplify-react-native": "^4.3.2",
     "dooboo-ui": "^0.0.51",
     "expo": "~40.0.0",
     "expo-app-loading": "^1.0.1",
     "expo-asset": "~8.2.1",
     "expo-constants": "~9.3.3",
     "expo-font": "~8.4.0",
-    "expo-linking": "~2.0.1",
+    "expo-linking": "^2.2.2",
     "expo-splash-screen": "~0.8.1",
     "expo-status-bar": "~1.0.3",
     "expo-web-browser": "~8.6.0",
@@ -59,7 +62,7 @@
     "react-native-screens": "~2.15.2",
     "react-native-svg": "12.1.0",
     "react-native-vector-icons": "^8.1.0",
-    "react-native-web": "~0.13.12",
+    "react-native-web": "^0.15.6",
     "victory": "^35.5.0",
     "victory-native": "^35.3.2"
   },

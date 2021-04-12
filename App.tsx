@@ -3,9 +3,10 @@ import React from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Platform } from 'react-native';
 import AppLoading from 'expo-app-loading';
+import { Layout, ApplicationProvider, IconRegistry } from '@ui-kitten/components';
 
 import * as eva from '@eva-design/eva';
-import { ApplicationProvider, IconRegistry } from '@ui-kitten/components';
+
 import { EvaIconsPack } from '@ui-kitten/eva-icons';
 // eslint-disable-next-line import/no-named-as-default
 // import FeatherIconsPack from './assets/feather-icons';
@@ -13,7 +14,9 @@ import { EvaIconsPack } from '@ui-kitten/eva-icons';
 
 // eslint-disable-next-line import/no-named-default
 // created styles according on eva design styles:
-import Amplify from 'aws-amplify';
+import Amplify from '@aws-amplify/core';
+import { Auth } from '@aws-amplify/auth';
+import { withAuthenticator } from 'aws-amplify-react-native';
 import { default as theme } from './custom-theme.json';
 import { default as mapping } from './mapping.json';
 // eva design styles:
@@ -24,11 +27,11 @@ import useColorScheme from './hooks/useColorScheme';
 import Navigation from './navigation';
 import useAssetLoader from './hooks/useAssetLoader';
 import ActivityIndicator from './components/ActivityIndicator';
-import { View } from './components/Themed';
 
 import awsExports from './src/aws-exports';
 
 Amplify.configure(awsExports);
+Auth.configure(awsExports);
 
 const fonts = {
   Icons: require('./components/Icon/icomoon.ttf'),
@@ -60,9 +63,9 @@ function App() {
       }
     })();
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Layout style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <ActivityIndicator />
-      </View>
+      </Layout>
     );
   }
 
@@ -80,7 +83,9 @@ function App() {
         </SafeAreaProvider>
       </ApplicationProvider>
     </>
+
   );
 }
 
-export default App;
+// export default App;
+export default withAuthenticator(App);

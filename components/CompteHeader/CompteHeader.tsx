@@ -1,7 +1,6 @@
 import React from 'react';
 import { Layout, Text } from '@ui-kitten/components';
 import { Image } from 'react-native';
-import comptesData from '../../mockData/comptesData';
 
 const CompteHeader = ({ title }) => (
 

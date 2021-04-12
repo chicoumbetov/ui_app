@@ -16,10 +16,9 @@ const Graphics = () => (
     <Layout style={styles.compteSection}>
 
       <Text>Graphics</Text>
-      <Layout style={{ backgroundColor: 'red' }}>
+      <Layout>
         <VictoryPie
           padAngle={1}
-          radius={({ datum }) => 20 + datum.y * 20}
           cornerRadius={20}
           height={283}
           width={283}
@@ -32,10 +31,24 @@ const Graphics = () => (
       <Layout style={{ borderBottomWidth: 1, borderBottomColor: '#b5b5b5' }} />
       <Layout style={{ flexDirection: 'row', marginTop: 10, alignItems: 'center' }}>
         <Layout style={{
-          backgroundColor: 'green', height: 30, width: 30, borderRadius: 30, marginRight: 10,
+          backgroundColor: 'gold', height: 30, width: 30, borderRadius: 30, marginRight: 10,
         }}
         />
         <Text>Eau</Text>
+      </Layout>
+      <Layout style={{ flexDirection: 'row', marginTop: 10, alignItems: 'center' }}>
+        <Layout style={{
+          backgroundColor: 'orange', height: 30, width: 30, borderRadius: 30, marginRight: 10,
+        }}
+        />
+        <Text>Electiricité</Text>
+      </Layout>
+      <Layout style={{ flexDirection: 'row', marginTop: 10, alignItems: 'center' }}>
+        <Layout style={{
+          backgroundColor: 'tomato', height: 30, width: 30, borderRadius: 30, marginRight: 10,
+        }}
+        />
+        <Text>Assurances</Text>
       </Layout>
 
     </Layout>

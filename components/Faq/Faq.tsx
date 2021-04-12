@@ -4,22 +4,20 @@ import {
 } from 'react-native';
 
 import { AntDesign } from '@expo/vector-icons';
-import faqQandA from '../../mockData/faqQandA';
 
-const Faq = () => (
+const Faq = ({ faqQandAs }) => (
   <SafeAreaView style={styles.container}>
     <View>
       <Text style={styles.faq}>FAQ</Text>
     </View>
     <SectionList
-      sections={faqQandA}
+      sections={faqQandAs}
       keyExtractor={(item, index) => item + index}
       renderItem={({ item }) => (
         <View style={styles.item}>
           <Text style={styles.title}>{item}</Text>
         </View>
       )}
-
       renderSectionHeader={({ section: { title } }) => (
         <View style={styles.header}>
           <Text style={styles.headerText}>{title}</Text>

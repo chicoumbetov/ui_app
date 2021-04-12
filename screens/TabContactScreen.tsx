@@ -3,15 +3,13 @@ import { StyleSheet } from 'react-native';
 
 import { Layout } from '@ui-kitten/components';
 import Contact from '../components/Contact/Contact';
+import faqQandA from '../mockData/faqQandA';
 
-export default function TabContactScreen() {
-  return (
-    <Layout style={styles.container}>
-      <Contact />
-
-    </Layout>
-  );
-}
+const TabContactScreen = () => (
+  <Layout style={styles.container}>
+    <Contact faqQandAs={faqQandA} />
+  </Layout>
+);
 
 const styles = StyleSheet.create({
   container: {
@@ -19,3 +17,5 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(246, 246, 246, 0.5)',
   },
 });
+
+export default TabContactScreen;

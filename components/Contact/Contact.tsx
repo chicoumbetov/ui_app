@@ -3,15 +3,14 @@ import { SafeAreaView, SectionList, StyleSheet } from 'react-native';
 import { Layout, Text } from '@ui-kitten/components';
 
 import { AntDesign } from '@expo/vector-icons';
-import faqQandA from '../../mockData/faqQandA';
 
-const Contact = () => (
+const Contact = ({ faqQandAs }) => (
   <SafeAreaView style={styles.container}>
     <Layout style={styles.contact}>
       <Text style={styles.contactText}>Contact</Text>
     </Layout>
     <SectionList
-      sections={faqQandA}
+      sections={faqQandAs}
       keyExtractor={(item, index) => item + index}
       renderItem={({ item }) => (
         <Layout style={styles.item}>

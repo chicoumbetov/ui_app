@@ -33,7 +33,7 @@ const fonts = {
   Houschka_Rounded_Alt_Bold_Regular: require('./assets/fonts/Houschka_Rounded_Alt_Bold_Regular.ttf'),
 };
 
-export default function App() {
+function App() {
   const colorScheme = useColorScheme();
 
   const assetLoader = useAssetLoader({ fonts });
@@ -77,3 +77,5 @@ export default function App() {
     </>
   );
 }
+
+export default App;

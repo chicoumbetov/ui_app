@@ -1,16 +1,15 @@
 import * as React from 'react';
 import { StyleSheet } from 'react-native';
 
-import { View } from '../components/Themed';
+import { Layout } from '@ui-kitten/components';
 import Faq from '../components/Faq/Faq';
+import faqQandA from '../mockData/faqQandA';
 
-export default function TabFaqScreen() {
-  return (
-    <View style={styles.container}>
-      <Faq />
-    </View>
-  );
-}
+const TabFaqScreen = () => (
+  <Layout style={styles.container}>
+    <Faq faqQandAs={faqQandA} />
+  </Layout>
+);
 
 const styles = StyleSheet.create({
   container: {
@@ -18,3 +17,5 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(246, 246, 246, 0.5)',
   },
 });
+
+export default TabFaqScreen;

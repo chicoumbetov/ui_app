@@ -2,6 +2,8 @@ import React from 'react';
 
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
+import { StyleSheet } from 'react-native';
+import { Layout } from '@ui-kitten/components';
 import MonCompteScreen from '../screens/MonCompteScreen';
 import TabMesBiensScreen from '../screens/TabMesBiensScreen';
 import TabMaTresorerieScreen from '../screens/TabMaTresorerieScreen';
@@ -22,7 +24,16 @@ const DrawerNav = createDrawerNavigator();
 
 const DrawerNavigator = ({ navigation }) => (
   <>
+    <Layout />
     <DrawerNav.Navigator
+      drawerType="slide"
+      drawerStyle={styles.drawerStyles}
+      sceneContainerStyle={{ backgroundColor: 'transparent' }}
+      drawerContentOptions={{
+        activeBackgroundColor: 'transparent',
+        activeTintColor: 'white',
+        inactiveTintColor: 'white',
+      }}
       drawerContent={(props) => <CustomDrawer {...props} />}
       initialRouteName="Tableau de bord"
     >
@@ -92,8 +103,8 @@ const DrawerNavigator = ({ navigation }) => (
         }}
       />
       <DrawerNav.Screen
-        name="FAQ"
-        component={TabFaqScreen}
+        name="MonAssistant"
+        component={TabMonAssistantScreen}
         options={{
           headerShown: true,
           headerLeft: () => (
@@ -103,10 +114,11 @@ const DrawerNavigator = ({ navigation }) => (
             <HeaderRightOpenDrawerNavigation navigation={navigation} />
           ),
           drawerIcon: function getIcon({ color }: { color: string }) {
-            return <Icon name="question" {...{ color }} size={30} />;
+            return <Icon name="email-outline" {...{ color }} size={30} />;
           },
         }}
       />
+
       <DrawerNav.Screen
         name="Notifications"
         component={TabNotificationsScreen}
@@ -124,8 +136,8 @@ const DrawerNavigator = ({ navigation }) => (
         }}
       />
       <DrawerNav.Screen
-        name="MonAssistant"
-        component={TabMonAssistantScreen}
+        name="FAQ"
+        component={TabFaqScreen}
         options={{
           headerShown: true,
           headerLeft: () => (
@@ -135,7 +147,7 @@ const DrawerNavigator = ({ navigation }) => (
             <HeaderRightOpenDrawerNavigation navigation={navigation} />
           ),
           drawerIcon: function getIcon({ color }: { color: string }) {
-            return <Icon name="email-outline" {...{ color }} size={30} />;
+            return <Icon name="question" {...{ color }} size={30} />;
           },
         }}
       />
@@ -160,3 +172,24 @@ const DrawerNavigator = ({ navigation }) => (
 );
 
 export default DrawerNavigator;
+
+const styles = StyleSheet.create({
+  stack: {
+    flex: 1,
+    shadowColor: '#FFF',
+    shadowOffset: {
+      width: 0,
+      height: 8,
+    },
+    shadowOpacity: 0.44,
+    shadowRadius: 10.32,
+    elevation: 5,
+    // overflow: 'scroll',
+    // borderWidth: 1,
+  },
+  drawerStyles: {
+    flex: 1, width: '70%', marginTop: 20, backgroundColor: 'transparent',
+  },
+  drawerItem: { alignItems: 'flex-start', marginVertical: 0 },
+  drawerLabel: { color: 'white', marginLeft: -16 },
+});

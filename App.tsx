@@ -30,7 +30,12 @@ import ActivityIndicator from './components/ActivityIndicator';
 
 import awsExports from './src/aws-exports';
 
-Amplify.configure(awsExports);
+Amplify.configure({
+  ...awsExports,
+  Analytics: {
+    disabled: true,
+  },
+});
 Auth.configure(awsExports);
 
 const fonts = {
@@ -81,6 +86,7 @@ function App() {
           <Navigation colorScheme={colorScheme} />
           <StatusBar />
         </SafeAreaProvider>
+
       </ApplicationProvider>
     </>
 

@@ -1,7 +1,23 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Layout, Text } from '@ui-kitten/components';
 
+// import { API, graphqlOperation } from 'aws-amplify';
 import ComptesBancaires from '../CompteBancaires/ComptesBancaires';
+// import { listComptes } from '../../src/graphql/queries';
+/*
+  useEffect(() => {
+    const fetchCompte = async () => {
+      // fetchCompte
+      try {
+        const response = await API.graphql(graphqlOperation(listComptes));
+        console.log(response);
+      } catch (e) {
+        console.error(e);
+      }
+      fetchCompte();
+    };
+  }, []);
+*/
 
 const MaTresorerie = () => (
   <Layout style={{ backgroundColor: 'transparent', margin: 20 }}>

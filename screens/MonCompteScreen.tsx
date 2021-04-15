@@ -1,3 +1,9 @@
+/**
+ * Mon Compte to visualise compte info or modify.
+ *
+ * @author: Shynggys UMBETOV
+ */
+
 import * as React from 'react';
 
 import { Layout } from '@ui-kitten/components';

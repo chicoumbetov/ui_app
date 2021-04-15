@@ -12,10 +12,13 @@ import {
 import TabMesBiensScreen from '../screens/TabMesBiensScreen';
 import HeaderLeftOpenDrawerNavigation from './HeaderLeftOpenDrawerNavigation';
 import HeaderRightOpenDrawerNavigation from './HeaderRightOpenDrawerNavigation';
-import TabMesChargesScreen from '../screens/TabMesChargeScreen';
+
 import TabTableauDeBordScreen from '../screens/TabTableauDeBordScreen';
 import TabMonAssistantScreen from '../screens/TabMonAssistantScreen';
 import TabNotificationsScreen from '../screens/TabNotificationsScreen';
+
+import LoginScreen from '../screens/LoginScreen';
+// import TabMesChargesScreen from '../screens/TabMesChargeScreen';
 
 const TabMesBiensStack = createStackNavigator<TabMesBiensParamList>();
 
@@ -52,7 +55,7 @@ export function TabMesChargesNavigator({ navigation }) {
     <TabMesChargesStack.Navigator>
       <TabMesChargesStack.Screen
         name="TabMesChargesScreen"
-        component={TabMesChargesScreen}
+        component={LoginScreen}
         options={{
           headerTitle: 'Tab Mes Charges',
           headerRightContainerStyle: {

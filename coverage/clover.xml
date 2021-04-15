@@ -486,7 +486,7 @@
     </package>
     <package name="omedom.screens">
       <metrics statements="22" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="12" coveredmethods="0"/>
-      <file name="ConnexionScreen.tsx" path="/Users/shynggysumbetov/Documents/Projets/Omedom/omedom/screens/ConnexionScreen.tsx">
+      <file name="LoginScreen.tsx" path="/Users/shynggysumbetov/Documents/Projets/Omedom/omedom/screens/LoginScreen.tsx">
         <metrics statements="2" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
         <line num="7" count="0" type="stmt"/>
         <line num="15" count="0" type="stmt"/>

@@ -1,3 +1,9 @@
+/**
+ * Contact Screen to access in Contact Page and visualize
+ *
+ * @author: Shynggys UMBETOV
+ */
+
 import * as React from 'react';
 import { StyleSheet } from 'react-native';
 

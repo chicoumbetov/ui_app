@@ -12,23 +12,24 @@ import { EvaIconsPack } from '@ui-kitten/eva-icons';
 // import FeatherIconsPack from './assets/feather-icons';
 // import AssetIconsPack from './assets/asset-icons';
 
-// eslint-disable-next-line import/no-named-default
-// created styles according on eva design styles:
 import Amplify from '@aws-amplify/core';
-import { Auth } from '@aws-amplify/auth';
-import { withAuthenticator } from 'aws-amplify-react-native';
+// import { Auth } from '@aws-amplify/auth';
+import {
+  withAuthenticator, ConfirmSignIn, ConfirmSignUp,
+  ForgotPassword, RequireNewPassword,
+  SignIn, SignUp, VerifyContact,
+} from 'aws-amplify-react-native';
 import { default as theme } from './custom-theme.json';
 import { default as mapping } from './mapping.json';
-// eva design styles:
-// import { light as lightTheme } from '@eva-design/eva';
-// import { mapping } from '@eva-design/eva';
 
 import useColorScheme from './hooks/useColorScheme';
 import Navigation from './navigation';
 import useAssetLoader from './hooks/useAssetLoader';
 import ActivityIndicator from './components/ActivityIndicator';
 
+// import '~antd/dist/antd.css';
 import awsExports from './src/aws-exports';
+import { UserProvider } from './utils/user';
 
 Amplify.configure({
   ...awsExports,
@@ -36,7 +37,7 @@ Amplify.configure({
     disabled: true,
   },
 });
-Auth.configure(awsExports);
+// Auth.configure(awsExports);
 
 const fonts = {
   Icons: require('./components/Icon/icomoon.ttf'),
@@ -83,8 +84,9 @@ function App() {
         theme={{ ...eva.dark, ...theme }}
       >
         <SafeAreaProvider>
-          <Navigation colorScheme={colorScheme} />
-          <StatusBar />
+          <UserProvider>
+            <Navigation colorScheme={colorScheme} />
+          </UserProvider>
         </SafeAreaProvider>
 
       </ApplicationProvider>
@@ -93,5 +95,5 @@ function App() {
   );
 }
 
-// export default App;
-export default withAuthenticator(App);
+export default App;
+// export default withAuthenticator(App);

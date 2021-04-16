@@ -2,8 +2,8 @@ import * as React from 'react';
 import { StyleSheet } from 'react-native';
 
 import { Layout } from '@ui-kitten/components';
-import Faq from '../components/Faq/Faq';
-import faqQandA from '../mockData/faqQandA';
+import faqQandA from '../../mockData/faqQandA';
+import Faq from './Components/Faq';
 
 const TabFaqScreen = () => (
   <Layout style={styles.container}>

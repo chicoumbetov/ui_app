@@ -2,7 +2,7 @@ import * as React from 'react';
 import { StyleSheet } from 'react-native';
 
 import { Layout } from '@ui-kitten/components';
-import MonAssistant from '../components/MonAssistant/MonAssistant';
+import MonAssistant from '../../components/MonAssistant/MonAssistant';
 
 export default function TabMonAssistantScreen() {
   return (

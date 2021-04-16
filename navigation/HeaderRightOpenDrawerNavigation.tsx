@@ -3,9 +3,9 @@ import { DrawerActions } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native';
 
-const HeaderRightOpenDrawerNavigation = ({ navigation }) => (
+const HeaderRightOpenDrawerNavigation = ({ navigation, onPress }) => (
 
-  <TouchableOpacity onPress={() => {
+  <TouchableOpacity onPress={onPress !== undefined ? onPress : () => {
     navigation.dispatch(DrawerActions.toggleDrawer());
   }}
   >

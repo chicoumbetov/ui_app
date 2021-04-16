@@ -14,10 +14,10 @@ import HeaderLeftOpenDrawerNavigation from './HeaderLeftOpenDrawerNavigation';
 import HeaderRightOpenDrawerNavigation from './HeaderRightOpenDrawerNavigation';
 
 import TabTableauDeBordScreen from '../screens/TabTableauDeBordScreen';
-import TabMonAssistantScreen from '../screens/TabMonAssistantScreen';
+import TabMonAssistantScreen from '../screens/MonAssistantScreen/TabMonAssistantScreen';
 import TabNotificationsScreen from '../screens/TabNotificationsScreen';
 
-import LoginScreen from '../screens/LoginScreen';
+import LoginScreen from '../screens/LoginScreen/LoginScreen';
 // import TabMesChargesScreen from '../screens/TabMesChargeScreen';
 
 const TabMesBiensStack = createStackNavigator<TabMesBiensParamList>();

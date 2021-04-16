@@ -7,7 +7,7 @@ import { Layout } from '@ui-kitten/components';
 import MonCompteScreen from '../screens/MonCompteScreen';
 import TabMesBiensScreen from '../screens/TabMesBiensScreen';
 import TabMaTresorerieScreen from '../screens/TabMaTresorerieScreen';
-import TabFaqScreen from '../screens/TabFaqScreen';
+import TabFaqScreen from '../screens/FaqScreen/TabFaqScreen';
 import TabContactScreen from '../screens/TabContactScreen';
 
 import BottomTabNavigator from './BottomTabNavigator';
@@ -18,7 +18,7 @@ import HeaderLeftOpenDrawerNavigation from './HeaderLeftOpenDrawerNavigation';
 
 import CustomDrawer from './CustomDrawer';
 import TabNotificationsScreen from '../screens/TabNotificationsScreen';
-import TabMonAssistantScreen from '../screens/TabMonAssistantScreen';
+import TabMonAssistantScreen from '../screens/MonAssistantScreen/TabMonAssistantScreen';
 
 const DrawerNav = createDrawerNavigator();
 

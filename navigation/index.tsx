@@ -9,13 +9,13 @@ import { DarkTheme, DefaultTheme, NavigationContainer } from '@react-navigation/
 import * as React from 'react';
 import { ColorSchemeName } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
-import { Layout, Text } from '@ui-kitten/components';
+import { Layout } from '@ui-kitten/components';
 
 import LinkingConfiguration from './LinkingConfiguration';
 import ActivityIndicator from '../components/ActivityIndicator';
 import { Permissions, useUser } from '../utils/user';
 import InitialNavigator from './InitialNavigator';
-import LoginScreen from '../screens/LoginScreen';
+import LoginScreen from '../screens/LoginScreen/LoginScreen';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   const { user, loadingUser, userCan } = useUser();

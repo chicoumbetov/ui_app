@@ -11,6 +11,7 @@ import * as React from 'react';
 import { RootStackParamList } from '../types';
 import DrawerNavigator from './DrawerNavigator';
 import NotFoundScreen from '../screens/NotFoundScreen';
+// import { StatusBarHeight } from '../components/StatusBarHeight';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -25,6 +26,7 @@ function InitialNavigator() {
         <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
       </Stack.Navigator>
     </Animated.View>
+
   );
 }
 
@@ -33,6 +35,7 @@ export default InitialNavigator;
 const styles = StyleSheet.create({
   stack: {
     flex: 1,
+    // marginTop: StatusBarHeight,
     shadowColor: '#FFF',
     shadowOffset: {
       width: 0,

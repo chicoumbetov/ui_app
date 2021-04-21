@@ -1,33 +1,36 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   SafeAreaView, SectionList, StyleSheet, Text, View,
 } from 'react-native';
 
 import { AntDesign } from '@expo/vector-icons';
 
-const Faq = ({ faqQandAs }) => (
-  <SafeAreaView style={styles.container}>
-    <View>
-      <Text style={styles.faq}>FAQ</Text>
-    </View>
-    <SectionList
-      sections={faqQandAs}
-      keyExtractor={(item, index) => item + index}
-      renderItem={({ item }) => (
-        <View style={styles.item}>
-          <Text style={styles.title}>{item}</Text>
-        </View>
-      )}
-      renderSectionHeader={({ section: { title } }) => (
-        <View style={styles.header}>
-          <Text style={styles.headerText}>{title}</Text>
-          <AntDesign name="down" color="white" size={20} />
-        </View>
+const Faq = ({ faqQandAs }) => {
+  const [accordionOpen, setAccordionOpen] = useState(false);
+  return (
+    <SafeAreaView style={styles.container}>
+      <View>
+        <Text style={styles.faq}>FAQ</Text>
+      </View>
+      <SectionList
+        sections={faqQandAs}
+        keyExtractor={(item, index) => item + index}
+        renderItem={({ item }) => (
+          <View style={styles.item}>
+            <Text style={styles.title}>{item}</Text>
+          </View>
+        )}
+        renderSectionHeader={({ section: { title } }) => (
+          <View style={styles.header}>
+            <Text style={styles.headerText}>{title}</Text>
+            <AntDesign name="down" color="white" size={20} />
+          </View>
 
-      )}
-    />
-  </SafeAreaView>
-);
+        )}
+      />
+    </SafeAreaView>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {

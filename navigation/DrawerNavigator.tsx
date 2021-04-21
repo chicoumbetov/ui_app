@@ -3,7 +3,6 @@ import React from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
 import { StyleSheet } from 'react-native';
-import { Layout } from '@ui-kitten/components';
 import MonCompteScreen from '../screens/MonCompteScreen/MonCompteScreen';
 import TabMesBiensScreen from '../screens/TabMesBiensScreen/TabMesBiensScreen';
 import TabMaTresorerieScreen from '../screens/TabMaTresorerieScreen/TabMaTresorerieScreen';
@@ -19,12 +18,12 @@ import HeaderLeftOpenDrawerNavigation from './HeaderLeftOpenDrawerNavigation';
 import CustomDrawer from './CustomDrawer';
 import TabNotificationsScreen from '../screens/TabNotificationsScreen/TabNotificationsScreen';
 import TabMonAssistantScreen from '../screens/MonAssistantScreen/TabMonAssistantScreen';
+import { StatusBarHeight } from '../components/StatusBarHeight';
 
 const DrawerNav = createDrawerNavigator();
 
 const DrawerNavigator = ({ navigation }) => (
   <>
-    <Layout />
     <DrawerNav.Navigator
       drawerType="slide"
       drawerStyle={styles.drawerStyles}
@@ -188,7 +187,7 @@ const styles = StyleSheet.create({
     // borderWidth: 1,
   },
   drawerStyles: {
-    flex: 1, width: '70%', marginTop: 20, backgroundColor: 'transparent',
+    flex: 1, width: '70%', marginTop: StatusBarHeight, backgroundColor: 'transparent',
   },
   drawerItem: { alignItems: 'flex-start', marginVertical: 0 },
   drawerLabel: { color: 'white', marginLeft: -16 },

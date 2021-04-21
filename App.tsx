@@ -14,9 +14,7 @@ import { EvaIconsPack } from '@ui-kitten/eva-icons';
 
 import Amplify from 'aws-amplify';
 
-import {
-  Authenticator,
-} from 'aws-amplify-react-native';
+// import { Authenticator } from 'aws-amplify-react-native';
 // import { SignIn } from './components/Auth/SignIn';
 
 import { default as theme } from './custom-theme.json';
@@ -28,7 +26,6 @@ import useAssetLoader from './hooks/useAssetLoader';
 import ActivityIndicator from './components/ActivityIndicator';
 
 import awsExports from './src/aws-exports';
-import SignIn from './components/Auth/SignIn';
 
 Amplify.configure(awsExports);
 
@@ -78,14 +75,8 @@ function App() {
         theme={{ ...eva.dark, ...theme }}
       >
         <SafeAreaProvider>
-          {authState === 'signedIn' ? (<Navigation colorScheme={colorScheme} />) : (
-            <Authenticator
-              onStateChange={setAuthState}
-              hideDefault
-            >
-              <SignIn />
-            </Authenticator>
-          )}
+
+          <Navigation colorScheme={colorScheme} />
 
         </SafeAreaProvider>
 

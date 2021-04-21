@@ -1,6 +1,6 @@
 /**
- * Navigateur principal redirige l'utilisateur à une interface approprié en fonction de divers paramètres.
- *
+ * Navigateur principal redirige l'utilisateur
+ * à une interface approprié en fonction de divers paramètres.
  * @author:
  */
 
@@ -27,7 +27,8 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
         </Layout>
       )}
     >
-      <StatusBar hidden />
+
+      <StatusBar />
       <InitialNavigator />
 
     </NavigationContainer>

@@ -2,12 +2,12 @@ import * as React from 'react';
 import { StyleSheet } from 'react-native';
 
 import { Layout } from '@ui-kitten/components';
-import faqQandA from '../../mockData/faqQandA';
+import faqDATA from '../../mockData/faqDATA';
 import Faq from './Components/Faq';
 
 const TabFaqScreen = () => (
   <Layout style={styles.container}>
-    <Faq faqQandAs={faqQandA} />
+    <Faq faqDATA={faqDATA} />
   </Layout>
 );
 

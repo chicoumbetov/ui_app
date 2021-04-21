@@ -9,11 +9,11 @@ import { StyleSheet } from 'react-native';
 
 import { Layout } from '@ui-kitten/components';
 import Contact from './Components/Contact';
-import faqQandA from '../../mockData/faqQandA';
+import faqDATA from '../../mockData/faqDATA';
 
 const TabContactScreen = () => (
   <Layout style={styles.container}>
-    <Contact faqQandAs={faqQandA} />
+    <Contact faqQandAs={faqDATA} />
   </Layout>
 );
 

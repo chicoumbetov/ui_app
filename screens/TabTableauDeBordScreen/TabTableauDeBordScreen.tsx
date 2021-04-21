@@ -2,12 +2,12 @@ import * as React from 'react';
 import { StyleSheet } from 'react-native';
 
 import { Layout } from '@ui-kitten/components';
-import MonAssistant from './Components/MonAssistant';
+import TableauDeBord from './Components/TableauDeBord';
 
-export default function TabMonAssistantScreen() {
+export default function TabTableauDeBordScreen() {
   return (
     <Layout style={styles.container}>
-      <MonAssistant />
+      <TableauDeBord />
     </Layout>
   );
 }

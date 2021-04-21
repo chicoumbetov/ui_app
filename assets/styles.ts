@@ -7,7 +7,7 @@ export const colors: Colors = {
   bleuFonc: '#083859',
   noir: '#04161b',
   bleu: '#0076c8',
-  vert: '#00c29a',
+  green: '#00c29a',
   vert2: '#36daa9',
   blanc: '#ffffff',
   rouge: '#ff5640',
@@ -17,6 +17,8 @@ export const colors: Colors = {
   bleu2: '#37a3de',
   bleu3: '#5fc4ee',
   gris: '#b5b5b5',
+  text: '#04161b',
+  error: '#ff5640',
   background: 'rgba(246, 246, 246, 0)',
 };
 

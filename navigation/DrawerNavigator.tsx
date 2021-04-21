@@ -4,11 +4,11 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 
 import { StyleSheet } from 'react-native';
 import { Layout } from '@ui-kitten/components';
-import MonCompteScreen from '../screens/MonCompteScreen';
-import TabMesBiensScreen from '../screens/TabMesBiensScreen';
-import TabMaTresorerieScreen from '../screens/TabMaTresorerieScreen';
+import MonCompteScreen from '../screens/MonCompteScreen/MonCompteScreen';
+import TabMesBiensScreen from '../screens/TabMesBiensScreen/TabMesBiensScreen';
+import TabMaTresorerieScreen from '../screens/TabMaTresorerieScreen/TabMaTresorerieScreen';
 import TabFaqScreen from '../screens/FaqScreen/TabFaqScreen';
-import TabContactScreen from '../screens/TabContactScreen';
+import TabContactScreen from '../screens/TabContactScreen/TabContactScreen';
 
 import BottomTabNavigator from './BottomTabNavigator';
 
@@ -17,7 +17,7 @@ import HeaderRightOpenDrawerNavigation from './HeaderRightOpenDrawerNavigation';
 import HeaderLeftOpenDrawerNavigation from './HeaderLeftOpenDrawerNavigation';
 
 import CustomDrawer from './CustomDrawer';
-import TabNotificationsScreen from '../screens/TabNotificationsScreen';
+import TabNotificationsScreen from '../screens/TabNotificationsScreen/TabNotificationsScreen';
 import TabMonAssistantScreen from '../screens/MonAssistantScreen/TabMonAssistantScreen';
 
 const DrawerNav = createDrawerNavigator();

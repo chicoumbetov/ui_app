@@ -95,7 +95,7 @@ const DrawerContent = ({ navigation, state }) => (
       paddingHorizontal: 26, paddingBottom: 18,
     }}
     >
-      <TouchableOpacity>
+      <TouchableOpacity onPress={() => {}}>
         <Text style={{ letterSpacing: 0 }}>Déconnexion</Text>
       </TouchableOpacity>
     </Layout>

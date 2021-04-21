@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
+import React, { useState } from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Platform } from 'react-native';
 import AppLoading from 'expo-app-loading';
@@ -12,13 +12,13 @@ import { EvaIconsPack } from '@ui-kitten/eva-icons';
 // import FeatherIconsPack from './assets/feather-icons';
 // import AssetIconsPack from './assets/asset-icons';
 
-import Amplify from '@aws-amplify/core';
-// import { Auth } from '@aws-amplify/auth';
+import Amplify from 'aws-amplify';
+
 import {
-  withAuthenticator, ConfirmSignIn, ConfirmSignUp,
-  ForgotPassword, RequireNewPassword,
-  SignIn, SignUp, VerifyContact,
+  Authenticator,
 } from 'aws-amplify-react-native';
+// import { SignIn } from './components/Auth/SignIn';
+
 import { default as theme } from './custom-theme.json';
 import { default as mapping } from './mapping.json';
 
@@ -27,17 +27,10 @@ import Navigation from './navigation';
 import useAssetLoader from './hooks/useAssetLoader';
 import ActivityIndicator from './components/ActivityIndicator';
 
-// import '~antd/dist/antd.css';
 import awsExports from './src/aws-exports';
-import { UserProvider } from './utils/user';
+import SignIn from './components/Auth/SignIn';
 
-Amplify.configure({
-  ...awsExports,
-  Analytics: {
-    disabled: true,
-  },
-});
-// Auth.configure(awsExports);
+Amplify.configure(awsExports);
 
 const fonts = {
   Icons: require('./components/Icon/icomoon.ttf'),
@@ -49,6 +42,7 @@ const fonts = {
 
 function App() {
   const colorScheme = useColorScheme();
+  const [authState, setAuthState] = useState<string>();
 
   const assetLoader = useAssetLoader({ fonts });
 
@@ -84,9 +78,15 @@ function App() {
         theme={{ ...eva.dark, ...theme }}
       >
         <SafeAreaProvider>
-          <UserProvider>
-            <Navigation colorScheme={colorScheme} />
-          </UserProvider>
+          {authState === 'signedIn' ? (<Navigation colorScheme={colorScheme} />) : (
+            <Authenticator
+              onStateChange={setAuthState}
+              hideDefault
+            >
+              <SignIn />
+            </Authenticator>
+          )}
+
         </SafeAreaProvider>
 
       </ApplicationProvider>

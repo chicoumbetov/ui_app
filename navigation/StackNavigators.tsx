@@ -9,16 +9,15 @@ import {
   TabNotificationsParamList,
   TabTableauDeBordParamList,
 } from '../types';
-import TabMesBiensScreen from '../screens/TabMesBiensScreen';
+
 import HeaderLeftOpenDrawerNavigation from './HeaderLeftOpenDrawerNavigation';
 import HeaderRightOpenDrawerNavigation from './HeaderRightOpenDrawerNavigation';
 
-import TabTableauDeBordScreen from '../screens/TabTableauDeBordScreen';
+import TabTableauDeBordScreen from '../screens/TabTableauDeBordScreen/TabTableauDeBordScreen';
+import TabMesBiensScreen from '../screens/TabMesBiensScreen/TabMesBiensScreen';
 import TabMonAssistantScreen from '../screens/MonAssistantScreen/TabMonAssistantScreen';
-import TabNotificationsScreen from '../screens/TabNotificationsScreen';
-
-import LoginScreen from '../screens/LoginScreen/LoginScreen';
-// import TabMesChargesScreen from '../screens/TabMesChargeScreen';
+import TabNotificationsScreen from '../screens/TabNotificationsScreen/TabNotificationsScreen';
+import TabMesChargeScreen from '../screens/TabMesChargesScreen/TabMesChargeScreen';
 
 const TabMesBiensStack = createStackNavigator<TabMesBiensParamList>();
 
@@ -55,7 +54,7 @@ export function TabMesChargesNavigator({ navigation }) {
     <TabMesChargesStack.Navigator>
       <TabMesChargesStack.Screen
         name="TabMesChargesScreen"
-        component={LoginScreen}
+        component={TabMesChargeScreen}
         options={{
           headerTitle: 'Tab Mes Charges',
           headerRightContainerStyle: {

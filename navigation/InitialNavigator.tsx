@@ -16,7 +16,7 @@ const Stack = createStackNavigator<RootStackParamList>();
 
 function InitialNavigator() {
   return (
-    <Animated.View style={StyleSheet.flatten([styles.stack, style])}>
+    <Animated.View style={StyleSheet.flatten([styles.stack])}>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen
           name="Root"

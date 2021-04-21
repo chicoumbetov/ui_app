@@ -13,13 +13,9 @@ import { Layout } from '@ui-kitten/components';
 
 import LinkingConfiguration from './LinkingConfiguration';
 import ActivityIndicator from '../components/ActivityIndicator';
-import { Permissions, useUser } from '../utils/user';
 import InitialNavigator from './InitialNavigator';
-import LoginScreen from '../screens/LoginScreen/LoginScreen';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
-  const { user, loadingUser, userCan } = useUser();
-
   return (
 
     <NavigationContainer
@@ -32,24 +28,7 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
       )}
     >
       <StatusBar hidden />
-      {loadingUser ? (
-        <Layout style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-          <ActivityIndicator />
-        </Layout>
-      ) : (
-        <Layout style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-          {user !== null && user.challengeName !== 'NEW_PASSWORD_REQUIRED'
-            ? (
-              <>
-                {userCan(Permissions.Client) && (
-                <InitialNavigator />
-                )}
-              </>
-            ) : (
-              <LoginScreen />
-            )}
-        </Layout>
-      )}
+      <InitialNavigator />
 
     </NavigationContainer>
 

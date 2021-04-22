@@ -52,9 +52,10 @@ type AdresseProps = {
 
 const Informations = (props: DataProps) => {
   const { clientData } = props;
+  const navigation = useNavigation();
   // console.log('info props', clientData.Client.fields[0]);
   // console.log('AdresseType props', clientData.AdresseType);
-  const navigation = useNavigation();
+
   const onPress = () => {
     navigation.navigate('ModifierInfo1');
   };
@@ -62,57 +63,67 @@ const Informations = (props: DataProps) => {
   return (
 
     <Layout style={{
-      flex: 1, backgroundColor: 'rgba(246, 246, 246, 0.5)', paddingTop: 32, paddingHorizontal: 22, marginTop: 11,
+      flex: 1, backgroundColor: 'rgba(246, 246, 246, 0.5)', paddingTop: 32, paddingHorizontal: 28, marginVertical: 13,
     }}
     >
       <Text style={{
-        fontSize: 21, fontWeight: '200', marginBottom: 36,
+        fontSize: 21, fontWeight: '200', marginBottom: 20,
       }}
       >
-        Informations
+        Abonnement
       </Text>
-      <Layout style={styles.compteSection}>
-        {/* use SectionList to render several accounts with its types and details */}
-        <Text style={{ fontSize: 17 }}>Date de naissance</Text>
-        <Text style={{ color: '#b5b5b5', fontSize: 17, marginTop: 6 }}>{clientData.Client.fields[0].dateDeNaissance}</Text>
-        <Layout style={{ borderBottomWidth: 0.5, borderBottomColor: 'black', marginVertical: 15 }} />
 
-        <Text style={{ fontSize: 17, marginTop: 7 }}>Adresse mail : </Text>
-        <Text style={{
-          color: '#b5b5b5', fontSize: 17, marginTop: 5,
+      {/* use SectionList to render several accounts with its types and details */}
+      <Layout style={styles.compteSection}>
+
+        <Layout style={{
+          flex: 1, backgroundColor: 'transparent', borderRightWidth: 0.5, borderRightColor: '#b5b5b5',
         }}
         >
-          {clientData.Client.fields[0].email}
-        </Text>
-        <Layout style={{ borderBottomWidth: 0.5, borderBottomColor: 'black', marginVertical: 15 }} />
+          <Text style={{ fontSize: 17 }}>Formule 3 a 5 biens</Text>
+          <Text style={{
+            color: '#b5b5b5', fontSize: 14.5, marginTop: 3,
+          }}
+          >
+            Mensuelle
+          </Text>
+        </Layout>
 
-        <Text style={{ fontSize: 17, marginTop: 8 }}>Ville</Text>
-        <Text style={{ color: '#b5b5b5', fontSize: 17, marginTop: 5 }}>{clientData.AdresseType.fields[0].ville}</Text>
-        <Layout style={{ borderBottomWidth: 0.5, borderBottomColor: 'black', marginVertical: 15 }} />
+        <Layout style={{
+          flex: 1, backgroundColor: 'transparent', alignItems: 'center', justifyContent: 'center',
+        }}
+        >
+          <Text style={{ fontSize: 16, backgroundColor: 'green' }}>4.90 €TTC/Mois</Text>
+        </Layout>
 
-        <Text style={{ fontSize: 17, marginTop: 10 }}>Numéro de téléphone</Text>
-        <Text style={{ color: '#b5b5b5', fontSize: 17, marginTop: 5 }}>{clientData.Client.fields[0].numeroTel}</Text>
       </Layout>
+
       <TouchableOpacity onPress={onPress}>
-        <Text style={styles.buttonTextLeft}>Modifier les informations</Text>
+        <Text style={styles.buttonTextLeft}>Changer de mode de paimenent</Text>
       </TouchableOpacity>
+
     </Layout>
 
   );
 };
 
 const styles = StyleSheet.create({
+
   compteSection: {
-    paddingVertical: 24,
-    paddingHorizontal: 26.5,
+    paddingVertical: 22,
+    paddingHorizontal: 20,
     borderRadius: 10,
+    backgroundColor: 'yellow',
+    flexDirection: 'row',
   },
   buttonTextLeft: {
     color: '#0076c8',
-    fontSize: 18,
-    marginVertical: 18,
-    marginLeft: 1,
+    fontSize: 16.5,
+    letterSpacing: 0.15,
+    marginVertical: 19.5,
+    marginLeft: 0,
     fontWeight: '600',
+    backgroundColor: 'transparent',
     paddingBottom: 18,
   },
 });

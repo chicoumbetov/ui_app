@@ -1,3 +1,9 @@
+/**
+ * Page 1 Mes Biens pour visualiser les biens
+ *
+ * @author: Shynggys UMBETOV
+ */
+
 import React from 'react';
 import { Layout, Text } from '@ui-kitten/components';
 

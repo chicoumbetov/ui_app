@@ -78,6 +78,7 @@
   "color-danger-transparent-600": "rgba(255, 86, 64, 0.48)",
 
   "color-basic-100": "#FFFFFF",
+  "color-basic-700": "black",
   "background-basic-color-1": "$color-basic-100",
   "text-basic-color": "$color-basic-700"
 }

@@ -93,7 +93,7 @@ const Informations = (props: DataProps) => {
           flex: 1, backgroundColor: 'transparent', alignItems: 'center', justifyContent: 'center',
         }}
         >
-          <Text style={{ fontSize: 16, backgroundColor: 'green' }}>4.90 €TTC/Mois</Text>
+          <Text style={{ fontSize: 17.6, marginLeft: 31 }}>4.90 €TTC/Mois</Text>
         </Layout>
 
       </Layout>

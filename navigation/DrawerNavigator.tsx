@@ -57,13 +57,6 @@ const DrawerNavigator = ({ navigation }) => (
         name="Mon Compte"
         component={MonCompteScreen}
         options={{
-          headerShown: true,
-          headerLeft: () => (
-            <HeaderLeftOpenDrawerNavigation navigation={navigation} />
-          ),
-          headerRight: () => (
-            <HeaderRightOpenDrawerNavigation navigation={navigation} />
-          ),
           drawerIcon: function getIcon({ color }: { color: string }) {
             return <Icon name="person-outline" {...{ color }} size={30} />;
           },

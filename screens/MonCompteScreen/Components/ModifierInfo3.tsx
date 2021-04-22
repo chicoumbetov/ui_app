@@ -4,6 +4,8 @@ import {
 } from 'react-native';
 import { Button, Layout, Text } from '@ui-kitten/components';
 import { useNavigation } from '@react-navigation/native';
+import * as ImagePicker from 'expo-image-picker';
+import CameraDom from './Camera';
 
 const Informations = ({ route }) => {
   const [value, setValue] = React.useState('');
@@ -12,6 +14,16 @@ const Informations = ({ route }) => {
   const onPress = () => {
     navigation.navigate('MonCompte');
   };
+
+  const onTakePicture = () => (navigation.navigate('CameraDom'));
+
+  const pickImage = async () => {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+    });
+    console.log('result: ', result);
+  };
+
   return (
     <Layout style={styles.container}>
       <View>
@@ -45,11 +57,11 @@ const Informations = ({ route }) => {
 
       </Layout>
 
-      <TouchableOpacity onPress={() => {}} style={{ marginVertical: 20 }}>
+      <TouchableOpacity onPress={() => { onTakePicture(); }} style={{ marginVertical: 20 }}>
         <Text style={styles.button}>Prendre une photo</Text>
       </TouchableOpacity>
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: 20 }}>
-        <TouchableOpacity onPress={() => {}}>
+        <TouchableOpacity onPress={() => { pickImage(); }}>
           <Text style={styles.button}>Ajouter une photo</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => {}}>
@@ -58,11 +70,11 @@ const Informations = ({ route }) => {
       </View>
 
       <View style={{
-        flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginVertical: 20, backgroundColor: 'orange',
+        flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginVertical: 20,
       }}
       >
         <TouchableOpacity onPress={() => {}}>
-          <Text style={{ fontSize: 17, backgroundColor: 'yellow', color: '#000' }}>Ignorer</Text>
+          <Text style={{ fontSize: 17, color: '#000' }}>Ignorer</Text>
         </TouchableOpacity>
         <Button onPress={onPress} style={{ width: 150 }}>
           Valider

@@ -54,10 +54,9 @@ export const typographies: Typographies = {
     fontSize: 24,
     fontFamily: 'Houschka_Rounded_Alt_Light_Regular',
   },
-  callout: {
-    fontSize: 15,
-    lineHeight: 20,
-    fontFamily: 'Overpass_600SemiBold',
+  regularText: {
+    fontSize: 16,
+    fontFamily: 'HouschkaRounded-DemiBold',
   },
   caption: {
     fontSize: 11,

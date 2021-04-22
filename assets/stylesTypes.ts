@@ -15,7 +15,7 @@ export type Typography = {
 
 export type Typographies = {
   body: Typography;
-  callout: Typography;
+  regularText: Typography;
   caption: Typography;
   footnote: Typography;
   headline: Typography;

@@ -30,7 +30,7 @@ const Notifications = () =>
               style={{ height: 40, width: 40, marginRight: 12 }}
             />
 
-            <Text style={{ fontSize: 20, fontWeight: '500' }}>
+            <Text style={{ fontSize: 15, width: 240, fontWeight: '500' }}>
               Un possible loyer a été détécté !
             </Text>
           </Layout>
@@ -46,7 +46,7 @@ const Notifications = () =>
               style={{ height: 40, width: 40, marginRight: 12 }}
             />
 
-            <Text style={{ fontSize: 20, fontWeight: '500' }}>
+            <Text style={{ fontSize: 15, width: 240, fontWeight: '500' }}>
               Votre loyer pour La Maison de JP n'a pas été payé !
             </Text>
           </Layout>
@@ -62,7 +62,7 @@ const Notifications = () =>
               style={{ height: 40, width: 40, marginRight: 12 }}
             />
 
-            <Text style={{ fontSize: 20, fontWeight: '500' }}>
+            <Text style={{ fontSize: 15, width: 240, fontWeight: '500' }}>
               Un mouvement négatif a été détécté !
             </Text>
           </Layout>
@@ -78,7 +78,7 @@ const Notifications = () =>
               style={{ height: 40, width: 40, marginRight: 12 }}
             />
 
-            <Text style={{ fontSize: 20, fontWeight: '500' }}>
+            <Text style={{ fontSize: 15, fontWeight: '500' }}>
               Un possible loyer a été détécté !
             </Text>
           </Layout>
@@ -94,7 +94,7 @@ const Notifications = () =>
               style={{ height: 40, width: 40, marginRight: 12 }}
             />
 
-            <Text style={{ fontSize: 20, fontWeight: '500' }}>
+            <Text style={{ fontSize: 15, fontWeight: '500' }}>
               Un possible loyer a été détécté !
             </Text>
           </Layout>
@@ -109,7 +109,7 @@ const Notifications = () =>
               style={{ height: 40, width: 40, marginRight: 12 }}
             />
 
-            <Text style={{ fontSize: 20, fontWeight: '500' }}>
+            <Text style={{ fontSize: 15, fontWeight: '500' }}>
               Un possible loyer a été détécté !
             </Text>
           </Layout>

@@ -1,12 +1,17 @@
 import React from 'react';
 import { Layout, Text } from '@ui-kitten/components';
 import { Image, ScrollView, StyleSheet } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import { useNavigation } from '@react-navigation/native';
 import { colors, typographies } from '../../../assets/styles';
 import CompteHeader from '../../../components/CompteHeader/CompteHeader';
 
-function TableauDeBord({ navigation }) {
+function TableauDeBord() {
+  const navigation = useNavigation();
+
+  const allerTresorie = () => {
+    navigation.navigate('Ma Trésorerie');
+  };
+
   return (
     <ScrollView style={{ backgroundColor: '#efefef', marginTop: 12 }}>
       <Layout style={styles.container}>
@@ -74,7 +79,7 @@ function TableauDeBord({ navigation }) {
               />
             </Layout>
           </Layout>
-          <Text style={{ color: colors.bleu }} onPress={() => navigation.navigate('Ma Trésorerie')}>Accéder à la trésorerie</Text>
+          <Text style={{ color: colors.bleu }} onPress={allerTresorie}>Accéder à la trésorerie</Text>
 
         </Layout>
       </Layout>

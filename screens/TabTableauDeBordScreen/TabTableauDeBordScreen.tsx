@@ -21,6 +21,6 @@ export default function TabTableauDeBordScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'rgba(246, 246, 246, 0.5)',
+    backgroundColor: '#efefef',
   },
 });

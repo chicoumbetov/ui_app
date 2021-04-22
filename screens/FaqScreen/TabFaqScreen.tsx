@@ -1,3 +1,9 @@
+/**
+ * FAQ page with mock data
+ *
+ * @author: Shynggys UMBETOV
+ */
+
 import * as React from 'react';
 import { StyleSheet } from 'react-native';
 

@@ -1,3 +1,9 @@
+/**
+ * Mon Compte to visualise compte info or modify.
+ *
+ * @author: Shynggys UMBETOV, Amaury
+ */
+
 import * as React from 'react';
 import { StyleSheet } from 'react-native';
 

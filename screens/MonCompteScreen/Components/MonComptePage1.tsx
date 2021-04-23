@@ -64,13 +64,15 @@ export default function MonComptePage1() {
 
   return (
     <Layout style={{ flex: 1, backgroundColor: '#efefef', backgroundColor: '#efefef' }}>
-      <ScrollView>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+      >
 
         <Layout style={{
           flex: 1, backgroundColor: 'rgba(246, 246, 246, 0.5)', paddingHorizontal: 22, paddingTop: 37,
         }}
         >
-          <Text style={{ fontSize: 26, fontWeight: '700' }}>
+          <Text style={{ fontSize: 26, fontFamily: 'HouschkaRoundedDemiBold' }}>
             Mon Compte
           </Text>
           <Layout style={{

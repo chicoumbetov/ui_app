@@ -5,7 +5,7 @@ import LogoPicture from '../components/LogoPicture/LogoPicture';
 
 const HeaderLeftOpenDrawerNavigation = ({ navigation }) => (
 
-  <TouchableOpacity onPress={() => { navigation.dispatch(DrawerActions.toggleDrawer()); }}>
+  <TouchableOpacity style={{ marginRight: 18 }} onPress={() => { navigation.dispatch(DrawerActions.toggleDrawer()); }}>
     <LogoPicture />
   </TouchableOpacity>
 

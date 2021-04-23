@@ -1,45 +1,39 @@
 import React from 'react';
-import { StyleSheet, TouchableOpacity } from 'react-native';
 import { Layout, Text } from '@ui-kitten/components';
-import { AntDesign } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import { StyleSheet, TouchableOpacity } from 'react-native';
+import { AntDesign } from '@expo/vector-icons';
+import CompteHeader from '../../../components/CompteHeader/CompteHeader';
 
-const MonAssistant = () => {
+const DeclarationImpots = () => {
   const navigation = useNavigation();
-
-  const onDeclarationImpots = () => {
-    navigation.navigate('DeclarationImpots');
-  };
-
-  const onQuittanceLoyer = () => {
-    navigation.navigate('QuittanceLoyer');
-  };
 
   return (
     <Layout style={styles.containerOut}>
-      <Layout style={styles.container}>
-        <Text style={styles.title}>Mon Assistant</Text>
-        <Text style={styles.subtitle}>Générer les documents</Text>
 
+      <Layout style={styles.container}>
+        <Text style={styles.title}>Paramétrer mon aide à la déclaration d'impôts</Text>
+        <Layout>
+          <CompteHeader />
+        </Layout>
+      </Layout>
+
+      <Layout style={styles.container}>
+        <Text style={styles.subtitle}>Générer les documents</Text>
         <Layout style={styles.docs}>
           <Text style={styles.aideText}>Aide à la déclaration d impôts</Text>
-          <TouchableOpacity onPress={onDeclarationImpots}>
-            <AntDesign name="right" size={13} style={{ color: '#b5b5b5', fontWeight: '700' }} />
+          <TouchableOpacity onPress={() => {}}>
+            <AntDesign name="right" size={11} style={{ color: '#b5b5b5' }} />
           </TouchableOpacity>
         </Layout>
-
-        <Layout style={styles.docs}>
-          <Text style={styles.quittanceText}>Quittance de loyer</Text>
-          <TouchableOpacity onPress={onQuittanceLoyer}>
-            <AntDesign name="right" size={13} style={{ color: '#b5b5b5', fontWeight: '700' }} />
-          </TouchableOpacity>
-        </Layout>
-
       </Layout>
+
     </Layout>
 
   );
 };
+
+export default DeclarationImpots;
 
 const styles = StyleSheet.create({
   containerOut: {
@@ -48,7 +42,7 @@ const styles = StyleSheet.create({
   },
   container: {
     padding: 24,
-    marginVertical: 13,
+    marginBottom: 13,
     backgroundColor: 'rgba(246, 246, 246, 0.5)',
   },
   title: {
@@ -87,7 +81,7 @@ const styles = StyleSheet.create({
   aideText: {
     fontSize: 16,
     letterSpacing: 0.4,
-    fontFamily: 'HouschkaRoundedDemiBold',
+    fontFamily: 'HouschkaRoundedMedium',
   },
   quittanceText: {
     fontSize: 16,
@@ -95,5 +89,3 @@ const styles = StyleSheet.create({
     fontFamily: 'HouschkaRoundedDemiBold',
   },
 });
-
-export default MonAssistant;

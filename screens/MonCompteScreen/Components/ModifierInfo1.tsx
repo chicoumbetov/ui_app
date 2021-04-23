@@ -9,7 +9,11 @@ import { useNavigation } from '@react-navigation/native';
 
 const Informations = ({ route }) => {
   const navigation = useNavigation();
-  const [value, setValue] = React.useState('');
+  const [prenom, setPrenom] = React.useState('');
+  const [nom, setNom] = React.useState('');
+  const [email, setEmail] = React.useState('');
+  const [motDePasee, setMotDePasse] = React.useState('');
+  const [numeroTel, setNumeroTel] = React.useState('');
 
   const onPress = () => {
     navigation.navigate('ModifierInfo2');
@@ -21,39 +25,41 @@ const Informations = ({ route }) => {
       </View>
 
       <Input
-        style={{ backgroundColor: 'transparent', fontWeight: 'normal', marginBottom: 10 }}
+        style={styles.inputStyle}
         placeholder="Changer prènom"
-        value={value}
-        onChangeText={(nextValue) => setValue(nextValue)}
+        value={prenom}
+        onChangeText={(nextValue) => setPrenom(nextValue)}
       />
       <Input
-        style={{ backgroundColor: 'transparent', fontWeight: 'normal', marginBottom: 10 }}
+        style={styles.inputStyle}
         placeholder="Changer nom"
-        value={value}
-        onChangeText={(nextValue) => setValue(nextValue)}
+        value={nom}
+        onChangeText={(nextValue) => setNom(nextValue)}
       />
       <Input
-        style={{ backgroundColor: 'transparent', fontWeight: 'normal', marginBottom: 10 }}
+        style={styles.inputStyle}
         placeholder="Changer email"
-        value={value}
-        onChangeText={(nextValue) => setValue(nextValue)}
+        value={email}
+        onChangeText={(nextValue) => setEmail(nextValue)}
       />
       <Input
-        style={{ backgroundColor: 'transparent', fontWeight: 'normal', marginBottom: 10 }}
+        style={styles.inputStyle}
         placeholder="Changer mot de Passe"
-        value={value}
-        onChangeText={(nextValue) => setValue(nextValue)}
+        value={motDePasee}
+        onChangeText={(nextValue) => setMotDePasse(nextValue)}
       />
       <Input
-        style={{ backgroundColor: 'transparent', fontWeight: 'normal', marginBottom: 10 }}
+        style={styles.inputStyle}
         placeholder="Changer numéro télephone"
-        value={value}
-        onChangeText={(nextValue) => setValue(nextValue)}
+        value={numeroTel}
+        onChangeText={(nextValue) => setNumeroTel(nextValue)}
       />
 
-      <Button onPress={onPress} style={{ margin: 20 }}>
-        Valider
-      </Button>
+      <View style={styles.buttonRight}>
+        <Button onPress={onPress} style={{ width: 150 }}>
+          Valider
+        </Button>
+      </View>
 
     </Layout>
 
@@ -63,13 +69,28 @@ const Informations = ({ route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    margin: 10,
+    margin: 21,
     backgroundColor: 'rgba(246, 246, 246, 0.5)',
   },
+  inputStyle: {
+    borderRadius: 7,
+    backgroundColor: '#fff',
+    fontWeight: 'normal',
+    borderColor: 'transparent',
+    marginBottom: 32,
+    shadowColor: '#dedede',
+    shadowOffset: {
+      width: 0,
+      height: 0.5,
+    },
+    shadowRadius: 4,
+    shadowOpacity: 1,
+  },
+  buttonRight: { alignItems: 'flex-end' },
   title: {
     marginTop: 12,
-    marginBottom: 49,
-    fontSize: 21,
+    marginBottom: 39,
+    fontSize: 25,
     fontWeight: '300', // not working fix it
     fontStyle: 'normal',
     letterSpacing: 0,

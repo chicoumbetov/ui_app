@@ -32,12 +32,19 @@ export default function MonCompteScreen({ navigation }) {
           name="MonCompte"
           options={{
             headerTitle: false,
+            headerLeftContainerStyle: {
+              paddingBottom: 5,
+            },
+            headerRightContainerStyle: {
+              marginBottom: 5,
+            },
             headerLeft: () => (
-              <TouchableOpacity onPress={() => {
-                navigation.dispatch(DrawerActions.toggleDrawer());
-              }}
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.dispatch(DrawerActions.toggleDrawer());
+                }}
               >
-                <AntDesign name="arrowleft" size={30} style={{ color: '#b5b5b5', marginLeft: 10 }} />
+                <AntDesign name="arrowleft" size={31} style={{ color: '#b5b5b5', marginLeft: 20 }} />
               </TouchableOpacity>
 
             ),
@@ -51,9 +58,15 @@ export default function MonCompteScreen({ navigation }) {
           name="ModifierInfo1"
           options={{
             headerTitle: false,
+            headerLeftContainerStyle: {
+              paddingBottom: 5,
+            },
+            headerRightContainerStyle: {
+              marginBottom: 5,
+            },
             headerLeft: () => (
               <TouchableOpacity onPress={() => { navigation.navigate('MonCompte'); }}>
-                <AntDesign name="arrowleft" size={30} style={{ color: '#b5b5b5', marginLeft: 10 }} />
+                <AntDesign name="arrowleft" size={30} style={{ color: '#b5b5b5', marginLeft: 20 }} />
               </TouchableOpacity>
 
             ),
@@ -67,9 +80,15 @@ export default function MonCompteScreen({ navigation }) {
           name="ModifierInfo2"
           options={{
             headerTitle: false,
+            headerLeftContainerStyle: {
+              paddingBottom: 5,
+            },
+            headerRightContainerStyle: {
+              marginBottom: 5,
+            },
             headerLeft: () => (
               <TouchableOpacity onPress={() => { navigation.navigate('ModifierInfo1'); }}>
-                <AntDesign name="arrowleft" size={30} style={{ color: '#b5b5b5', marginLeft: 10 }} />
+                <AntDesign name="arrowleft" size={30} style={{ color: '#b5b5b5', marginLeft: 20 }} />
               </TouchableOpacity>
 
             ),
@@ -83,9 +102,15 @@ export default function MonCompteScreen({ navigation }) {
           name="ModifierInfo3"
           options={{
             headerTitle: false,
+            headerLeftContainerStyle: {
+              paddingBottom: 5,
+            },
+            headerRightContainerStyle: {
+              marginBottom: 5,
+            },
             headerLeft: () => (
               <TouchableOpacity onPress={() => { navigation.navigate('ModifierInfo2'); }}>
-                <AntDesign name="arrowleft" size={30} style={{ color: '#b5b5b5', marginLeft: 10 }} />
+                <AntDesign name="arrowleft" size={30} style={{ color: '#b5b5b5', marginLeft: 20 }} />
               </TouchableOpacity>
 
             ),
@@ -98,9 +123,10 @@ export default function MonCompteScreen({ navigation }) {
         <Stack.Screen
           name="CameraDom"
           options={{
+            headerTitle: false,
             headerLeft: () => (
               <TouchableOpacity onPress={() => { navigation.navigate('ModifierInfo3'); }}>
-                <AntDesign name="arrowleft" size={30} style={{ color: '#b5b5b5', marginLeft: 10 }} />
+                <AntDesign name="arrowleft" size={30} style={{ color: '#b5b5b5', marginLeft: 20 }} />
               </TouchableOpacity>
 
             ),

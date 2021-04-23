@@ -113,7 +113,6 @@ const styles = StyleSheet.create({
     paddingVertical: 22,
     paddingHorizontal: 20,
     borderRadius: 10,
-    backgroundColor: 'yellow',
     flexDirection: 'row',
   },
   buttonTextLeft: {

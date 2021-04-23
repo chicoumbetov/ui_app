@@ -30,20 +30,23 @@ const Informations = ({ route }) => {
         <Text style={styles.title}>Modifier vos informations</Text>
       </View>
       <Text style={{ fontSize: 20 }}>Changer votre photo de profil</Text>
-      <Layout style={{ alignItems: 'center', backgroundColor: 'transparent', margin: 20 }}>
+      <Layout style={{
+        alignItems: 'center', backgroundColor: 'transparent', marginVertical: 45,
+      }}
+      >
         <Image
           source={require('../../../assets/Icones_omedom/avatars/avatar_1.png')}
-          style={{ height: 140, width: 140 }}
+          style={{ marginTop: 8, height: 140, width: 140 }}
         />
 
       </Layout>
 
-      <TouchableOpacity onPress={() => {}} style={{ marginVertical: 30 }}>
+      <TouchableOpacity onPress={() => {}}>
         <Text style={{ fontSize: 17, color: '#b5b5b5' }}>Choisir une icone</Text>
       </TouchableOpacity>
 
       <Layout style={{
-        flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', backgroundColor: 'transparent',
+        flexDirection: 'row', marginTop: 21, justifyContent: 'space-around', alignItems: 'center', backgroundColor: 'transparent',
       }}
       >
         <Image
@@ -57,26 +60,27 @@ const Informations = ({ route }) => {
 
       </Layout>
 
-      <TouchableOpacity onPress={() => { onTakePicture(); }} style={{ marginVertical: 20 }}>
+      <TouchableOpacity onPress={() => { onTakePicture(); }} style={{ marginVertical: 39 }}>
         <Text style={styles.button}>Prendre une photo</Text>
       </TouchableOpacity>
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: 20 }}>
+
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: 1 }}>
         <TouchableOpacity onPress={() => { pickImage(); }}>
           <Text style={styles.button}>Ajouter une photo</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => {}}>
-          <Text style={{ fontSize: 17, color: '#000' }}>Supprimer la photo</Text>
+          <Text style={{ fontSize: 17.5, color: '#000' }}>Supprimer la photo</Text>
         </TouchableOpacity>
       </View>
 
       <View style={{
-        flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginVertical: 20,
+        flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginVertical: 36,
       }}
       >
         <TouchableOpacity onPress={() => {}}>
-          <Text style={{ fontSize: 17, color: '#000' }}>Ignorer</Text>
+          <Text style={{ fontSize: 19, color: '#000' }}>Ignorer</Text>
         </TouchableOpacity>
-        <Button onPress={onPress} style={{ width: 150 }}>
+        <Button onPress={onPress} style={{ width: 147 }}>
           Valider
         </Button>
       </View>
@@ -88,12 +92,13 @@ const Informations = ({ route }) => {
 
 const styles = StyleSheet.create({
   container: {
-    margin: 20,
+    margin: 22,
     backgroundColor: 'rgba(246, 246, 246, 0.5)',
   },
   title: {
-    marginVertical: 30,
-    fontSize: 21,
+    marginTop: 18,
+    marginBottom: 27,
+    fontSize: 23,
     fontWeight: '300', // not working fix it
     fontStyle: 'normal',
     letterSpacing: 0,

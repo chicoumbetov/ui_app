@@ -1,23 +1,24 @@
 import React from 'react';
 import {
-  StyleSheet, TextInput, TouchableOpacity, View,
+  StyleSheet, View,
 } from 'react-native';
 import {
   Button, Input, Layout, Text,
 } from '@ui-kitten/components';
 import { useNavigation } from '@react-navigation/native';
 
-const Informations = ({ route }) => {
-  const navigation = useNavigation();
+const Informations = () => {
   const [prenom, setPrenom] = React.useState('');
   const [nom, setNom] = React.useState('');
   const [email, setEmail] = React.useState('');
   const [motDePasee, setMotDePasse] = React.useState('');
   const [numeroTel, setNumeroTel] = React.useState('');
 
+  const navigation = useNavigation();
   const onPress = () => {
     navigation.navigate('ModifierInfo2');
   };
+
   return (
     <Layout style={styles.container}>
       <View>

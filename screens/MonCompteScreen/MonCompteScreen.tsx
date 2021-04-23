@@ -16,8 +16,6 @@ import ModifierInfo1 from './Components/ModifierInfo1';
 import ModifierInfo2 from './Components/ModifierInfo2';
 import ModifierInfo3 from './Components/ModifierInfo3';
 import HeaderLeftOpenDrawerNavigation from '../../navigation/HeaderLeftOpenDrawerNavigation';
-import HeaderRightOpenDrawerNavigation from '../../navigation/HeaderRightOpenDrawerNavigation';
-import LogoPicture from '../../components/LogoPicture/LogoPicture';
 import CameraDom from './Components/Camera';
 
 const Stack = createStackNavigator();

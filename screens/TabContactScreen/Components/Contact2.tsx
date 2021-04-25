@@ -1,19 +1,31 @@
+/**
+ * Contact component
+ *
+ * @author: Shynggys UMBETOV
+ */
+
 import React, { useState } from 'react';
-import { Button, Layout, Text } from '@ui-kitten/components';
+import {
+  Button, Input, Layout, Text,
+} from '@ui-kitten/components';
 import { useNavigation } from '@react-navigation/native';
 import {
   SectionList, StyleSheet, TouchableOpacity, View,
 } from 'react-native';
+
 import { AntDesign } from '@expo/vector-icons';
 import contactDATA from '../../../mockData/contactDATA';
 
-const Contact = () => {
+const Contact2 = () => {
   const navigation = useNavigation();
 
   const [questions, setQuestions] = useState(contactDATA);
 
-  const onMotif = () => {
-    navigation.navigate('Contact2');
+  // change to something meaningfull according on next tips taken from client wishes
+  const [value, setValue] = useState('');
+
+  const onContact = () => {
+    navigation.navigate('Contact');
   };
 
   const pressHandler = (id: number) => {
@@ -50,22 +62,27 @@ const Contact = () => {
             <View style={styles.item} key={index}>
               {isChecked
                     && (
-                    <TouchableOpacity onPress={onMotif}>
+                    <>
                       <Text
                         key={index}
                         style={{
-                          fontSize: 16,
+                          fontSize: 17.2,
                           letterSpacing: 0.07,
                           fontFamily: 'HouschkaRoundedDemiBold',
-                          backgroundColor: 'white',
-
-                          paddingHorizontal: 24,
+                          color: '#b5b5b5',
                           paddingVertical: 26,
                         }}
                       >
-                        {item.motif}
+                        Votre Message
                       </Text>
-                    </TouchableOpacity>
+                      <Input
+                        style={styles.inputStyle}
+                        placeholder="Saisissez votre texte ici"
+                        value={value}
+                        onChangeText={(nextValue) => setValue(nextValue)}
+                      />
+                    </>
+
                     )}
             </View>
           )}
@@ -79,7 +96,10 @@ const Contact = () => {
             (
               <View style={isChecked ? (styles.headerUp) : (styles.headerDown)}>
                 <Text style={styles.headerText} key={id}>
-                  {title}
+                  {/**
+                   * make index identification instead of hardcoded one
+                   */}
+                  {questions[0].data[0].motif}
                 </Text>
                 <TouchableOpacity onPress={() => pressHandler(id)} key={index + isChecked}>
                   {
@@ -93,6 +113,12 @@ const Contact = () => {
             )}
         />
 
+        <View style={styles.buttonRight}>
+          <Button onPress={() => { onContact(); }} style={{ width: 150 }}>
+            Envoyer
+          </Button>
+        </View>
+
       </Layout>
 
     </Layout>
@@ -100,7 +126,7 @@ const Contact = () => {
   );
 };
 
-export default Contact;
+export default Contact2;
 
 const styles = StyleSheet.create({
   containerOut: {
@@ -163,6 +189,21 @@ const styles = StyleSheet.create({
       height: 2,
     },
     shadowRadius: 2,
+    shadowOpacity: 1,
+  },
+
+  inputStyle: {
+    borderRadius: 7,
+    backgroundColor: '#fff',
+    fontWeight: 'normal',
+    borderColor: 'transparent',
+    marginBottom: 32,
+    shadowColor: '#dedede',
+    shadowOffset: {
+      width: 0,
+      height: 0.5,
+    },
+    shadowRadius: 4,
     shadowOpacity: 1,
   },
 });

@@ -1,3 +1,9 @@
+/**
+ * Mock data for Assistant page
+ *
+ * @author: Shynggys UMBETOV
+ */
+
 const assistantDATA = [
   {
     title: 'Choisissez le bien',

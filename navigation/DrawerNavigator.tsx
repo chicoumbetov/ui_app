@@ -1,3 +1,9 @@
+/**
+ * Drawer navigation
+ *
+ * @author: Shynggys UMBETOV
+ */
+
 import React from 'react';
 
 import { createDrawerNavigator } from '@react-navigation/drawer';
@@ -141,13 +147,7 @@ const DrawerNavigator = ({ navigation }) => (
         name="Contact"
         component={TabContactScreen}
         options={{
-          headerShown: true,
-          headerLeft: () => (
-            <HeaderLeftOpenDrawerNavigation navigation={navigation} />
-          ),
-          headerRight: () => (
-            <HeaderRightOpenDrawerNavigation navigation={navigation} />
-          ),
+          headerShown: false,
           drawerIcon: function getIcon({ color }: { color: string }) {
             return <Icon name="email-outline" {...{ color }} size={30} />;
           },

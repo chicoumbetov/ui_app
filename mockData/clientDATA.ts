@@ -1,3 +1,9 @@
+/**
+ * Mock data for all components that need to take name
+ *
+ * @author: Shynggys UMBETOV
+ */
+
 const clientData = {
   Client: {
     name: 'Client',

@@ -11,7 +11,7 @@ import {
   Image, ScrollView, StyleSheet,
 } from 'react-native';
 // import { API, graphqlOperation, DataStore } from 'aws-amplify';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Informations from './Informations';
 
 // import { Client } from '../../src/models';

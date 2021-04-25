@@ -22,7 +22,7 @@ const MonAssistant = () => {
         <Text style={styles.subtitle}>Générer les documents</Text>
 
         <Layout style={styles.docs}>
-          <Text style={styles.aideText}>Aide à la déclaration d impôts</Text>
+          <Text style={styles.aideText}>Aide à la déclaration d'impôts</Text>
           <TouchableOpacity onPress={onDeclarationImpots}>
             <AntDesign name="right" size={13} style={{ color: '#b5b5b5', fontWeight: '700' }} />
           </TouchableOpacity>
@@ -44,11 +44,11 @@ const MonAssistant = () => {
 const styles = StyleSheet.create({
   containerOut: {
     flex: 1,
-    backgroundColor: '#efefef',
+    backgroundColor: 'rgba(246, 246, 246, 0.5)',
   },
   container: {
     padding: 24,
-    marginVertical: 13,
+    // marginVertical: 13,
     backgroundColor: 'rgba(246, 246, 246, 0.5)',
   },
   title: {

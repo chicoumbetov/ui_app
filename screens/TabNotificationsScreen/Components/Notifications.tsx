@@ -1,132 +1,151 @@
-import React from 'react';
-import { Image, ScrollView, StyleSheet } from 'react-native';
-import { Layout, Text } from '@ui-kitten/components';
+import React, { useState } from 'react';
+import {
+  Image,
+  SafeAreaView, SectionList, StyleSheet, Text, TouchableOpacity, View,
+} from 'react-native';
 
-const Notifications = () =>
-/*
-  const onPress = () => {
-    console.warn('Button pressed');
+import { AntDesign } from '@expo/vector-icons';
+import notificationsDATA from '../../../mockData/notificationsDATA';
+
+const Notifications = () => {
+  const [questions, setQuestions] = useState(notificationsDATA);
+
+  const pressHandler = (id: number) => {
+    // console to check which question was clicked
+    // console.log(id);
+    // if Clicked then show chosen index ( therefore setAccodion)
+    const temp = questions.map((question) => {
+      // comparison of clicked index with taken index
+      if (id === question.id) {
+        // console to check that correct id was taken when clicked
+        // console.log(question.id);
+        // on recupere question et on fait copie,
+        // ensuite on change boolean de isChecked dans le faqDATA
+        return { ...question, isChecked: !question.isChecked };
+      }
+      return question;
+    });
+    // here we change the boolean of chosen button => isChecked state
+    setQuestions(temp);
+    // console.log(questions[id].isChecked);
   };
-*/
 
-// eslint-disable-next-line implicit-arrow-linebreak
-  (
-    <ScrollView>
-      <Layout style={styles.container}>
-        <Layout style={{ backgroundColor: 'transparent', padding: 26 }}>
-          <Text style={{ fontSize: 25, fontWeight: '600' }}>
-            Notifications
-          </Text>
-        </Layout>
+  return (
+    <SafeAreaView style={styles.container}>
+      <View>
+        <Text style={styles.faq}>Notifications</Text>
+      </View>
+      <SectionList
+        sections={questions}
+        keyExtractor={(item, index) => item.id + index + item.isChecked}
+        renderItem={({ item, section: { index, isChecked } }) => (
 
-        {/* use SectionList to render several accounts with its types and details */}
-        <Layout style={styles.compteSection}>
-          <Layout style={{
-            marginRight: 20, flexDirection: 'row', alignItems: 'center',
-          }}
-          >
-            <Image
-              source={require('../../../assets/Icones_omedom/logements/icones_log1.png')}
-              style={{ height: 40, width: 40, marginRight: 12 }}
-            />
+          <View style={styles.item} key={index}>
+            {isChecked
+                  && (
+                  <Text style={{
+                    fontSize: 11,
+                    paddingHorizontal: 20,
+                    paddingTop: 9,
+                    height: 199,
+                    lineHeight: 23.8,
+                  }}
+                  >
+                    {item}
+                  </Text>
+                  )}
+          </View>
+        )}
+        renderSectionHeader={({
+          section: {
+            title, id, index, isChecked,
+          },
+        }) =>
+        // console.log('isChecked', isChecked);
+        // eslint-disable-next-line implicit-arrow-linebreak
+          (
+            <View style={isChecked ? (styles.headerUp) : (styles.headerDown)}>
+              <Image
+                source={require('../../../assets/Icones_omedom/logements/icones_log1.png')}
+                style={{
+                  height: 40, width: 40, borderRadius: 40, backgroundColor: 'white',
+                }}
+              />
+              <Text style={styles.headerText} key={index}>
+                {title}
+              </Text>
+              <TouchableOpacity onPress={() => pressHandler(id)} key={index + isChecked}>
+                {
+                          isChecked
+                            ? <AntDesign name="up" color="white" size={13} />
+                            : <AntDesign name="right" color="white" size={13} />
+                        }
+              </TouchableOpacity>
 
-            <Text style={{ fontSize: 15, width: 240, fontWeight: '500' }}>
-              Un possible loyer a été détécté !
-            </Text>
-          </Layout>
-        </Layout>
-
-        <Layout style={styles.compteSection}>
-          <Layout style={{
-            marginRight: 20, flexDirection: 'row', alignItems: 'center',
-          }}
-          >
-            <Image
-              source={require('../../../assets/Icones_omedom/logements/icones_log1.png')}
-              style={{ height: 40, width: 40, marginRight: 12 }}
-            />
-
-            <Text style={{ fontSize: 15, width: 240, fontWeight: '500' }}>
-              Votre loyer pour La Maison de JP n'a pas été payé !
-            </Text>
-          </Layout>
-        </Layout>
-
-        <Layout style={styles.compteSection}>
-          <Layout style={{
-            marginRight: 20, flexDirection: 'row', alignItems: 'center',
-          }}
-          >
-            <Image
-              source={require('../../../assets/Icones_omedom/logements/icones_log1.png')}
-              style={{ height: 40, width: 40, marginRight: 12 }}
-            />
-
-            <Text style={{ fontSize: 15, width: 240, fontWeight: '500' }}>
-              Un mouvement négatif a été détécté !
-            </Text>
-          </Layout>
-        </Layout>
-
-        <Layout style={styles.compteSection}>
-          <Layout style={{
-            marginRight: 20, flexDirection: 'row', alignItems: 'center',
-          }}
-          >
-            <Image
-              source={require('../../../assets/Icones_omedom/logements/icones_log1.png')}
-              style={{ height: 40, width: 40, marginRight: 12 }}
-            />
-
-            <Text style={{ fontSize: 15, fontWeight: '500' }}>
-              Un possible loyer a été détécté !
-            </Text>
-          </Layout>
-        </Layout>
-
-        <Layout style={styles.compteSection}>
-          <Layout style={{
-            marginRight: 20, flexDirection: 'row', alignItems: 'center',
-          }}
-          >
-            <Image
-              source={require('../../../assets/Icones_omedom/logements/icones_log1.png')}
-              style={{ height: 40, width: 40, marginRight: 12 }}
-            />
-
-            <Text style={{ fontSize: 15, fontWeight: '500' }}>
-              Un possible loyer a été détécté !
-            </Text>
-          </Layout>
-        </Layout>
-        <Layout style={styles.compteSection}>
-          <Layout style={{
-            marginRight: 20, flexDirection: 'row', alignItems: 'center',
-          }}
-          >
-            <Image
-              source={require('../../../assets/Icones_omedom/logements/icones_log1.png')}
-              style={{ height: 40, width: 40, marginRight: 12 }}
-            />
-
-            <Text style={{ fontSize: 15, fontWeight: '500' }}>
-              Un possible loyer a été détécté !
-            </Text>
-          </Layout>
-        </Layout>
-
-      </Layout>
-    </ScrollView>
+            </View>
+          )}
+      />
+    </SafeAreaView>
   );
+};
+
 const styles = StyleSheet.create({
   container: {
-    margin: 20,
-    backgroundColor: 'rgba(246, 246, 246, 0.5)',
+    flex: 1,
+    margin: 30,
   },
-  compteSection: {
-    marginBottom: 20,
-    padding: 20,
-    borderRadius: 10,
+  faq: {
+    marginTop: 12,
+    marginBottom: 49,
+    fontSize: 24,
+    fontWeight: '600',
+    fontStyle: 'normal',
+    fontFamily: 'HouschkaRoundedMedium',
+    letterSpacing: 0,
+    color: '#000000',
+  },
+  item: {
+
+  },
+  headerDown: {
+    padding: 22,
+    marginBottom: 36,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    borderRadius: 7,
+    backgroundColor: '#5fc4ee',
+    shadowColor: 'rgba(199, 199, 199, 0.5)',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowRadius: 4,
+    shadowOpacity: 1,
+  },
+  headerUp: {
+    padding: 22,
+    marginBottom: 15,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    borderRadius: 7,
+    backgroundColor: '#37a3de',
+    shadowColor: 'rgba(199, 199, 199, 0.5)',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowRadius: 4,
+    shadowOpacity: 1,
+  },
+  headerText: {
+    fontSize: 16,
+    color: '#fff',
+    width: 220,
+  },
+  title: {
+    fontSize: 24,
   },
 });
 

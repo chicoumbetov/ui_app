@@ -12,7 +12,7 @@ const clientData = {
     }, {
       id: 'c2',
       nom: 'Gerard',
-      prenom: 'Departdieu',
+      prenom: 'Matthieu',
       email: 'gerard@web-premiere.fr',
       motDePasse: '4321',
       numeroTel: '0712341234',

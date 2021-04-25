@@ -1,31 +1,102 @@
-import React from 'react';
-import { Layout, Text } from '@ui-kitten/components';
+import React, { useState } from 'react';
+import { Button, Layout, Text } from '@ui-kitten/components';
 import { useNavigation } from '@react-navigation/native';
-import { StyleSheet, TouchableOpacity } from 'react-native';
+import {
+  SectionList, StyleSheet, TouchableOpacity, View,
+} from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
-import CompteHeader from '../../../components/CompteHeader/CompteHeader';
+import assistantDATA from '../../../mockData/assistantDATA';
 
 const DeclarationImpots = () => {
   const navigation = useNavigation();
+
+  const [questions, setQuestions] = useState(assistantDATA);
+
+  const onDeclarationImpots2 = () => {
+    navigation.navigate('DeclarationImpots2');
+  };
+
+  const pressHandler = (id: number) => {
+    // console to check which question was clicked
+    // console.log(id);
+    // if Clicked then show chosen index ( therefore setAccodion)
+    const temp = questions.map((question) => {
+      // comparison of clicked index with taken index
+      if (id === question.id) {
+        // console to check that correct id was taken when clicked
+        // console.log(question.id);
+        // on recupere question et on fait copie,
+        // ensuite on change boolean de isChecked dans le assistantDATA
+        return { ...question, isChecked: !question.isChecked };
+      }
+      return question;
+    });
+    // here we change the boolean of chosen button => isChecked state
+    setQuestions(temp);
+    // console.log(questions[id].isChecked);
+  };
 
   return (
     <Layout style={styles.containerOut}>
 
       <Layout style={styles.container}>
         <Text style={styles.title}>Paramétrer mon aide à la déclaration d'impôts</Text>
-        <Layout>
-          <CompteHeader />
-        </Layout>
-      </Layout>
+        <SectionList
+          sections={questions}
+          initialNumToRender={1}
+          keyExtractor={(item, index) => item.id + index + item.isChecked}
+          renderItem={({ item, section: { index, isChecked } }) => (
 
-      <Layout style={styles.container}>
-        <Text style={styles.subtitle}>Générer les documents</Text>
-        <Layout style={styles.docs}>
-          <Text style={styles.aideText}>Aide à la déclaration d impôts</Text>
-          <TouchableOpacity onPress={() => {}}>
-            <AntDesign name="right" size={11} style={{ color: '#b5b5b5' }} />
-          </TouchableOpacity>
-        </Layout>
+            <View style={styles.item} key={index}>
+              {isChecked
+                    && (
+                    <Text
+                      key={index}
+                      style={{
+                        fontSize: 17.2,
+                        letterSpacing: 0.07,
+                        fontFamily: 'HouschkaRoundedDemiBold',
+                        backgroundColor: 'white',
+
+                        paddingHorizontal: 24,
+                        paddingVertical: 26,
+                      }}
+                    >
+                      {item.typeBien}
+                    </Text>
+                    )}
+            </View>
+          )}
+          renderSectionHeader={({
+            section: {
+              title, id, index, isChecked,
+            },
+          }) =>
+          // console.log('isChecked', isChecked);
+          // eslint-disable-next-line implicit-arrow-linebreak
+            (
+              <View style={isChecked ? (styles.headerUp) : (styles.headerDown)}>
+                <Text style={styles.headerText} key={id}>
+                  {title}
+                </Text>
+                <TouchableOpacity onPress={() => pressHandler(id)} key={index + isChecked}>
+                  {
+                            isChecked
+                              ? <AntDesign name="up" color="white" size={13} />
+                              : <AntDesign name="down" color="white" size={13} />
+                          }
+                </TouchableOpacity>
+
+              </View>
+            )}
+        />
+
+        <View style={styles.buttonRight}>
+          <Button onPress={onDeclarationImpots2} style={{ width: 150 }}>
+            Confirmer
+          </Button>
+        </View>
+
       </Layout>
 
     </Layout>
@@ -38,54 +109,64 @@ export default DeclarationImpots;
 const styles = StyleSheet.create({
   containerOut: {
     flex: 1,
-    backgroundColor: '#efefef',
+    backgroundColor: 'rgba(246, 246, 246, 0.5)',
   },
   container: {
-    padding: 24,
-    marginBottom: 13,
+    padding: 25,
+    paddingRight: 21,
     backgroundColor: 'rgba(246, 246, 246, 0.5)',
   },
   title: {
-    fontSize: 25,
-    marginTop: 13,
-    letterSpacing: 0.2,
+    fontSize: 25.7,
+    marginTop: 19.7,
+    marginBottom: 14,
+    lineHeight: 27.4,
+    letterSpacing: 0.1,
     fontFamily: 'HouschkaRoundedDemiBold',
   },
-  subtitle: {
-    fontSize: 20,
-    marginTop: 40,
-    letterSpacing: 0.7,
-    marginBottom: 39,
+  item: {
+    borderBottomEndRadius: 20,
   },
-  docs: {
+  headerText: {
+    marginTop: 2.8,
+    fontSize: 17,
+    letterSpacing: 0.33,
+    color: '#fff',
+  },
+  buttonRight: { marginTop: 36, alignItems: 'flex-end' },
+  headerDown: {
+    padding: 22,
+    paddingRight: 23,
+    marginTop: 31,
     flexDirection: 'row',
+    alignItems: 'center',
     justifyContent: 'space-between',
-
-    paddingHorizontal: 25,
-    paddingVertical: 30,
-    borderWidth: 1,
-    borderRadius: 10,
-    marginBottom: 29,
+    borderRadius: 7,
+    backgroundColor: '#37a3de',
+    shadowColor: 'rgba(199, 199, 199, 0.5)',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowRadius: 4,
+    shadowOpacity: 1,
+  },
+  headerUp: {
+    padding: 28,
+    paddingLeft: 27,
+    paddingRight: 20.5,
+    marginTop: 31,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    borderRadius: 7,
+    backgroundColor: '#5fc4ee',
+    shadowColor: 'rgba(199, 199, 199, 0.5)',
     shadowOffset: {
       width: 0,
       height: 2,
     },
     shadowRadius: 2,
     shadowOpacity: 1,
-
-    backgroundColor: '#fff',
-    fontWeight: 'normal',
-    borderColor: 'transparent',
-    shadowColor: '#dedede',
-  },
-  aideText: {
-    fontSize: 16,
-    letterSpacing: 0.4,
-    fontFamily: 'HouschkaRoundedMedium',
-  },
-  quittanceText: {
-    fontSize: 16,
-    letterSpacing: 0.4,
-    fontFamily: 'HouschkaRoundedDemiBold',
   },
 });

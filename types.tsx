@@ -33,6 +33,10 @@ export type TabNotificationsParamList = {
   TabNotificationsScreen: undefined;
 };
 
+export type AjoutBienParamList = {
+  AjoutBienScreen: undefined;
+};
+
 export type CompteType = {
   id: string,
   nom: string,

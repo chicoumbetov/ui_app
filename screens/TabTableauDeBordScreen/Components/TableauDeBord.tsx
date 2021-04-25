@@ -1,5 +1,5 @@
 import React from 'react';
-import { Layout, Text } from '@ui-kitten/components';
+import { Button, Layout, Text } from '@ui-kitten/components';
 import { Image, ScrollView, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { colors, typographies } from '../../../assets/styles';
@@ -10,6 +10,9 @@ function TableauDeBord() {
 
   const allerTresorie = () => {
     navigation.navigate('Ma Trésorerie');
+  };
+  const onAjoutBien = () => {
+    navigation.navigate('AjoutBienScreen');
   };
 
   return (
@@ -122,6 +125,12 @@ function TableauDeBord() {
           </Layout>
 
         </Layout>
+        <Button
+          style={{ margin: 10 }}
+          onPress={() => { onAjoutBien(); }}
+        >
+          Ajouter un nouveau bien
+        </Button>
       </Layout>
     </ScrollView>
 

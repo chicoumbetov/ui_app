@@ -10,10 +10,6 @@ export default function TabMaTresorerieScreen() {
   // LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
   // }, []);
 
-  const onAjoutBien = () => {
-
-  };
-
   return (
     <ScrollView
       style={{ flex: 1 }}
@@ -21,12 +17,6 @@ export default function TabMaTresorerieScreen() {
     >
       <Layout style={{ flex: 1, backgroundColor: 'rgba(246, 246, 246, 0.5)' }}>
         <MaTresorerie />
-        <Button
-          style={{ margin: 10 }}
-          onPress={() => { onAjoutBien(); }}
-        >
-          Ajouter un nouveau bien
-        </Button>
       </Layout>
     </ScrollView>
 

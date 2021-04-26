@@ -1,15 +1,20 @@
 import React from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import { Layout, Text } from '@ui-kitten/components';
+import { useNavigation } from '@react-navigation/native';
 
 const CompteFooter = () => {
+  const navigation = useNavigation();
   const onPress = () => {
     console.warn('Button pressed');
+  };
+  const onAjoutCompte = () => {
+    navigation.navigate('AjoutCompte');
   };
 
   return (
     <Layout style={styles.button}>
-      <TouchableOpacity onPress={onPress}>
+      <TouchableOpacity onPress={onAjoutCompte}>
         <Layout style={styles.button}>
           <Text style={styles.buttonTextLeft}>Ajouter un compte</Text>
         </Layout>

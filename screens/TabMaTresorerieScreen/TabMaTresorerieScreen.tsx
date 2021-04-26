@@ -12,6 +12,7 @@ import HeaderLeftOpenDrawerNavigation from '../../navigation/HeaderLeftOpenDrawe
 import TresoMouvement_page1 from './Components/TresoMouvement/TresoMouvement_page1';
 import TresoMouvementPage2 from './Components/TresoMouvement/TresoMouvement_page2';
 import IgnorerMouvement from './Components/TresoMouvement/IgnorerMouvement';
+import AjoutCompte from './Components/AjoutCompte/AjoutCompte';
 
 const Stack = createStackNavigator();
 
@@ -115,6 +116,27 @@ export default function TabMaTresorerieScreen({ navigation }) {
             ),
           }}
           component={IgnorerMouvement}
+        />
+        <Stack.Screen
+          name="AjoutCompte"
+          options={{
+            headerTitle: false,
+            headerLeftContainerStyle: {
+              paddingBottom: 5,
+            },
+            headerRightContainerStyle: {
+              marginBottom: 5,
+            },
+            headerLeft: () => (
+              <TouchableOpacity onPress={() => { navigation.navigate('MaTresorerie'); }}>
+                <AntDesign name="arrowleft" size={30} style={{ color: '#b5b5b5', marginLeft: 20 }} />
+              </TouchableOpacity>
+            ),
+            headerRight: () => (
+              <HeaderLeftOpenDrawerNavigation navigation={navigation} />
+            ),
+          }}
+          component={AjoutCompte}
         />
       </Stack.Navigator>
     </Layout>

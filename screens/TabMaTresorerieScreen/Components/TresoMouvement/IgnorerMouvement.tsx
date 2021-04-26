@@ -6,6 +6,7 @@ import {
   ScrollView, StyleSheet, TouchableOpacity,
 } from 'react-native';
 
+import { useNavigation } from '@react-navigation/native';
 import CompteHeader from '../../../../components/CompteHeader/CompteHeader';
 import comptesData from '../../../../mockData/comptesData';
 
@@ -14,6 +15,12 @@ const IgnorerMouvement = ({ compte }) => {
   useEffect(() => {
     LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
   }, []);
+
+  // Back to previous page and delete chosen data
+  const navigation = useNavigation();
+  const onTresoMouvementPage1 = () => {
+    navigation.navigate('TresoMouvement_page1');
+  };
 
   const [client, setClient] = useState(comptesData);
 
@@ -113,7 +120,7 @@ const IgnorerMouvement = ({ compte }) => {
             )}
           />
           <Layout style={styles.button}>
-            <TouchableOpacity onPress={() => {}}>
+            <TouchableOpacity onPress={onTresoMouvementPage1}>
               <Layout style={styles.button}>
                 <Text style={styles.buttonTextRight}>Ignorer les mouvements</Text>
               </Layout>

@@ -32,9 +32,11 @@ const ComptesBancaires = ({ client }) => {
         renderItem={({ item }) => (
           <Layout style={{ backgroundColor: 'transparent' }}>
             <OwnerCompte compte={item} />
-            <Layout style={styles.footer}>
-              <CompteFooter />
-            </Layout>
+          </Layout>
+        )}
+        renderSectionFooter={() => (
+          <Layout style={styles.footer}>
+            <CompteFooter />
           </Layout>
         )}
         keyExtractor={(item) => item.id}

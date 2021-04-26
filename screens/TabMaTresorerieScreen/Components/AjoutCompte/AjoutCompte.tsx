@@ -1,29 +1,38 @@
 import React, { useEffect, useState } from 'react';
-import { Layout, Text } from '@ui-kitten/components';
+import {
+  Button, Input, Layout, Text,
+} from '@ui-kitten/components';
 import {
   LogBox,
-  ScrollView, StyleSheet,
+  ScrollView, StyleSheet, View,
 } from 'react-native';
 
+import { useNavigation } from '@react-navigation/native';
 import CompteHeader from '../../../../components/CompteHeader/CompteHeader';
 import comptesData from '../../../../mockData/comptesData';
-import MouvementAttente from './MouvementAttente';
-import MouvementValide from './MouvementValide';
 
-const TresoMouvementPage1 = ({ compte }) => {
+const AjoutCompte = ({ compte }) => {
   // to ignore warning
   useEffect(() => {
     LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
   }, []);
 
+  // Take data that chosen and render previous page with new chosen data
+  const navigation = useNavigation();
+  const onMaTresorerie = () => {
+    navigation.navigate('MaTresorerie');
+  };
+
   const [client, setClient] = useState(comptesData);
+  const [nom, setNom] = useState('');
+  const [iban, setIBAN] = useState('');
 
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
     >
       <Layout style={styles.container}>
-        <Layout style={{ backgroundColor: '#f6f6f6', padding: 26 }}>
+        <Layout style={{ backgroundColor: '#f6f6f6', padding: 26, marginBottom: 13 }}>
           <Text style={{
             fontSize: 26, letterSpacing: 0.2,
           }}
@@ -37,64 +46,49 @@ const TresoMouvementPage1 = ({ compte }) => {
         </Layout>
 
         <Layout style={{
-          marginVertical: 20, paddingVertical: 20, backgroundColor: '#f6f6f6', paddingHorizontal: 26,
-        }}
-        >
-          <Text style={{
-            // color: '#000',
-            fontSize: 16,
-            fontFamily: 'HouschkaRoundedDemiBold',
-            borderRadius: 10,
-            letterSpacing: 0.7,
-            paddingTop: 11,
-          }}
-          >
-            Monsieur
-            {' '}
-            {client[0].data[0].nom}
-            {' '}
-            {client[0].data[0].prenom}
-          </Text>
-          <Text style={{ color: '#b5b5b5', paddingTop: 8 }}>
-            FR
-            {client[0].data[0].IBAN}
-          </Text>
-          <Text style={{
-            fontSize: 14.5, color: '#b5b5b5', marginTop: 4.3, letterSpacing: 0.2,
-          }}
-          >
-            {client[0].data[0].bank}
-          </Text>
-        </Layout>
-
-        <Layout style={{
           flex: 1, marginBottom: 20, paddingVertical: 20, backgroundColor: '#f6f6f6', paddingHorizontal: 26,
         }}
         >
           <Text style={{
             // color: '#000',
-            fontSize: 18,
-            fontFamily: 'HouschkaRoundedMedium',
+            fontSize: 20,
+            fontFamily: 'Houschka_Rounded_Alt_Light_Regular',
             borderRadius: 10,
             letterSpacing: 0.7,
             paddingTop: 11,
+            marginBottom: 30,
           }}
           >
-            Mouvements
+            Ajouter un compte bancaire
           </Text>
+          <Input
+            style={styles.inputStyle}
+            placeholder="Nom du titulaire du compte"
+            value={nom}
+            onChangeText={(nextValue) => setNom(nextValue)}
+          />
+          <Input
+            style={styles.inputStyle}
+            placeholder="IBAN"
+            value={iban}
+            onChangeText={(nextValue) => setIBAN(nextValue)}
+          />
 
-          <MouvementAttente />
-          <Layout style={styles.separator} />
-          <MouvementValide />
+          <View style={styles.buttonRight}>
+            <Button onPress={onMaTresorerie} style={{ width: 130 }}>
+              Valider
+            </Button>
+          </View>
 
         </Layout>
 
       </Layout>
+
     </ScrollView>
   );
 };
 
-export default TresoMouvementPage1;
+export default AjoutCompte;
 
 const styles = StyleSheet.create({
   container: {
@@ -103,7 +97,6 @@ const styles = StyleSheet.create({
   },
   windowOut: {
     backgroundColor: '#f6f6f6',
-
   },
   separator: {
     borderBottomWidth: 1,
@@ -125,15 +118,19 @@ const styles = StyleSheet.create({
     shadowRadius: 0.5,
     shadowOpacity: 1,
   },
-  button: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    marginVertical: 15,
-    backgroundColor: 'transparent',
+  inputStyle: {
+    borderRadius: 7,
+    backgroundColor: '#fff',
+    fontWeight: 'normal',
+    borderColor: 'transparent',
+    marginBottom: 32,
+    shadowColor: '#dedede',
+    shadowOffset: {
+      width: 0,
+      height: 0.5,
+    },
+    shadowRadius: 4,
+    shadowOpacity: 1,
   },
-  buttonTextRight: {
-    color: '#0076c8',
-    fontSize: 17.5,
-    fontWeight: '600',
-  },
+  buttonRight: { alignItems: 'flex-end' },
 });

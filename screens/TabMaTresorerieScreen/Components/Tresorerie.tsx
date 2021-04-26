@@ -4,11 +4,11 @@
  * @author: Shynggys UMBETOV
  */
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Layout, Text } from '@ui-kitten/components';
 
 // import { API, graphqlOperation } from 'aws-amplify';
-import { ScrollView, StyleSheet } from 'react-native';
+import { LogBox, ScrollView, StyleSheet } from 'react-native';
 import ComptesBancaires from './ComptesBancaires';
 import comptesData from '../../../mockData/comptesData';
 // import { listComptes } from '../../src/graphql/queries';
@@ -28,6 +28,11 @@ import comptesData from '../../../mockData/comptesData';
 */
 
 const MaTresorerie = () => {
+  // to ignore warning
+  useEffect(() => {
+    LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
+  }, []);
+
   const [value, setValue] = useState('');
 
   return (

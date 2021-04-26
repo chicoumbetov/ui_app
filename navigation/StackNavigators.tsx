@@ -8,7 +8,6 @@ import {
   TabMonAssistantParamList,
   TabNotificationsParamList,
   TabTableauDeBordParamList,
-  AjoutBienParamList,
 } from '../types';
 
 import HeaderLeftOpenDrawerNavigation from './HeaderLeftOpenDrawerNavigation';
@@ -19,7 +18,6 @@ import TabMesBiensScreen from '../screens/TabMesBiensScreen/TabMesBiensScreen';
 import TabMonAssistantScreen from '../screens/MonAssistantScreen/TabMonAssistantScreen';
 import TabNotificationsScreen from '../screens/TabNotificationsScreen/TabNotificationsScreen';
 import TabMesChargeScreen from '../screens/TabMesChargesScreen/TabMesChargeScreen';
-import AjoutBienScreen from '../screens/AjoutBien/ajoutBienSceen';
 
 const TabMesBiensStack = createStackNavigator<TabMesBiensParamList>();
 
@@ -102,55 +100,7 @@ export function TabTableauDeBordNavigator({ navigation }) {
         }}
       />
 
-      <TabTableauDeBordStack.Screen
-        name="AjoutBienScreen"
-        component={AjoutBienScreen}
-        options={{
-          headerTitle: '',
-          headerRightContainerStyle: {
-            marginRight: 10,
-          },
-          headerRight: () => (
-            <HeaderRightOpenDrawerNavigation navigation={navigation} />
-          ),
-          headerLeftContainerStyle: {
-            marginLeft: 10,
-          },
-          headerLeft: () => (
-            <HeaderLeftOpenDrawerNavigation navigation={navigation} />
-          ),
-        }}
-      />
-
     </TabTableauDeBordStack.Navigator>
-  );
-}
-
-const AjoutBienStack = createStackNavigator<AjoutBienParamList>();
-
-export function AjoutBienNavigator({ navigation }) {
-  return (
-    <AjoutBienStack.Navigator>
-      <AjoutBienStack.Screen
-        name="AjoutBienScreen"
-        component={AjoutBienScreen}
-        options={{
-          headerTitle: '',
-          headerRightContainerStyle: {
-            marginRight: 10,
-          },
-          headerRight: () => (
-            <HeaderRightOpenDrawerNavigation navigation={navigation} />
-          ),
-          headerLeftContainerStyle: {
-            marginLeft: 10,
-          },
-          headerLeft: () => (
-            <HeaderLeftOpenDrawerNavigation navigation={navigation} />
-          ),
-        }}
-      />
-    </AjoutBienStack.Navigator>
   );
 }
 

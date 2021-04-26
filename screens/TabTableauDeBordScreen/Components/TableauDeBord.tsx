@@ -18,7 +18,7 @@ function TableauDeBord() {
     navigation.navigate('Ma Trésorerie');
   };
   const onAjoutBien = () => {
-    navigation.navigate('AjoutBienScreen');
+    navigation.navigate('TabMesBiensScreen', { screen: 'ajoutBienScreen' });
   };
 
   return (

@@ -27,9 +27,9 @@ function TableauDeBord() {
   const allerNotificaitons = () => {
     navigation.navigate('Notifications');
   };
-  allerNotificaitons;
+
   const onAjoutBien = () => {
-    navigation.navigate('TabMesBiensScreen', { screen: 'ajoutBienScreen' });
+    navigation.navigate('AjoutBienScreen');
   };
 
   return (

@@ -55,7 +55,7 @@ const DrawerContent = ({ navigation, state }) => (
           // eslint-disable-next-line default-case
           switch (index.row) {
             case 0:
-              navigation.navigate('Tableau de bord');
+              navigation.navigate('TableauDeBord');
               break;
             case 1:
               navigation.navigate('Mon Compte');

@@ -47,7 +47,7 @@ const BottomTabBar = ({ navigation, state }: any) => (
     {/* eslint-disable-next-line @typescript-eslint/no-shadow */}
     <BottomNavigationTab title="Mes Biens" icon={HomeIcon} />
     <BottomNavigationTab title="Mes Charges" icon={TrendingUpIcon} />
-    <BottomNavigationTab title="Tableau de Bord" icon={GridIcon} />
+    <BottomNavigationTab title="TableauDeBord" icon={GridIcon} />
     <BottomNavigationTab title="Mon Assistant" icon={FileIcon} />
     <BottomNavigationTab title="Notifications" icon={BellIcon} />
   </BottomNavigation>
@@ -66,7 +66,6 @@ export default function BottomTabNavigator() {
       <BottomTab.Screen
         name="MesBiens"
         component={TabMesBiensNavigator}
-
       />
       <BottomTab.Screen
         name="MesCharges"

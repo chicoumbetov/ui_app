@@ -8,7 +8,9 @@ import React from 'react';
 
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
-import { StyleSheet } from 'react-native';
+import { StyleSheet, TouchableOpacity } from 'react-native';
+import { DrawerActions } from '@react-navigation/native';
+import { AntDesign } from '@expo/vector-icons';
 import MonCompteScreen from '../screens/MonCompteScreen/MonCompteScreen';
 import TabMesBiensScreen from '../screens/TabMesBiensScreen/TabMesBiensScreen';
 import TabMaTresorerieScreen from '../screens/TabMaTresorerieScreen/TabMaTresorerieScreen';
@@ -25,6 +27,7 @@ import CustomDrawer from './CustomDrawer';
 import TabNotificationsScreen from '../screens/TabNotificationsScreen/TabNotificationsScreen';
 import TabMonAssistantScreen from '../screens/MonAssistantScreen/TabMonAssistantScreen';
 import { StatusBarHeight } from '../components/StatusBarHeight';
+import AjoutBienScreen from '../screens/AjoutBienScreen/AjoutBienSceen';
 
 const DrawerNav = createDrawerNavigator();
 
@@ -40,23 +43,16 @@ const DrawerNavigator = ({ navigation }) => (
         inactiveTintColor: 'white',
       }}
       drawerContent={(props) => <CustomDrawer {...props} />}
-      initialRouteName="Tableau de bord"
+      initialRouteName="TableauDeBord"
     >
       <DrawerNav.Screen
-        name="Tableau de bord"
+        name="TableauDeBord"
         component={BottomTabNavigator}
         options={{
           headerShown: false,
-          headerLeft: () => (
-            <HeaderLeftOpenDrawerNavigation navigation={navigation} />
-          ),
-          headerRight: () => (
-            <HeaderRightOpenDrawerNavigation navigation={navigation} />
-          ),
           drawerIcon: function getIcon({ color }: { color: string }) {
             return <Icon name="grid-outline" {...{ color }} />;
           },
-
         }}
       />
       <DrawerNav.Screen
@@ -74,10 +70,12 @@ const DrawerNavigator = ({ navigation }) => (
         options={{
           headerShown: true,
           headerLeft: () => (
-            <HeaderLeftOpenDrawerNavigation navigation={navigation} />
+            <TouchableOpacity onPress={() => { navigation.dispatch(DrawerActions.toggleDrawer()); }}>
+              <AntDesign name="arrowleft" size={30} style={{ color: '#b5b5b5', marginLeft: 20 }} />
+            </TouchableOpacity>
           ),
           headerRight: () => (
-            <HeaderRightOpenDrawerNavigation navigation={navigation} />
+            <HeaderLeftOpenDrawerNavigation navigation={navigation} />
           ),
           drawerIcon: function getIcon({ color }: { color: string }) {
             return <Icon name="home-outline" {...{ color }} size={30} />;
@@ -110,6 +108,7 @@ const DrawerNavigator = ({ navigation }) => (
         component={TabNotificationsScreen}
         options={{
           headerShown: true,
+          headerTitle: false,
           headerLeft: () => (
             <HeaderLeftOpenDrawerNavigation navigation={navigation} />
           ),
@@ -146,6 +145,28 @@ const DrawerNavigator = ({ navigation }) => (
             return <Icon name="email-outline" {...{ color }} size={30} />;
           },
         }}
+      />
+      <DrawerNav.Screen
+        name="AjoutBienScreen"
+        options={{
+          headerTitle: false,
+          headerShown: true,
+          headerLeftContainerStyle: {
+            paddingBottom: 5,
+          },
+          headerRightContainerStyle: {
+            marginBottom: 5,
+          },
+          headerLeft: () => (
+            <TouchableOpacity onPress={() => { navigation.navigate('TableauDeBord'); }}>
+              <AntDesign name="arrowleft" size={30} style={{ color: '#b5b5b5', marginLeft: 20 }} />
+            </TouchableOpacity>
+          ),
+          headerRight: () => (
+            <HeaderLeftOpenDrawerNavigation navigation={navigation} />
+          ),
+        }}
+        component={AjoutBienScreen}
       />
     </DrawerNav.Navigator>
   </>

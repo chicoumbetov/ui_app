@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import {
-  SafeAreaView, ScrollView, SectionList, StyleSheet, Text, TouchableOpacity, View,
+  ScrollView, StyleSheet, Text, TouchableOpacity, View,
 } from 'react-native';
 
-import { colors } from '../../../assets/styles';
+import { colors } from '../../assets/styles';
 
-function ajoutBienScreen() {
+function AjoutBienScreen() {
   const [etape1, setEtape1] = useState(1);
   const [etape2, setEtape2] = useState(1);
   const [etape3, setEtape3] = useState(1);
@@ -106,4 +106,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ajoutBienScreen;
+export default AjoutBienScreen;

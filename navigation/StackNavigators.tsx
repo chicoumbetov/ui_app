@@ -2,6 +2,7 @@
 // https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab
 import { createStackNavigator } from '@react-navigation/stack';
 import * as React from 'react';
+
 import {
   TabMesBiensParamList,
   TabMesChargesParamList,
@@ -28,7 +29,7 @@ export function TabMesBiensNavigator({ navigation }) {
         name="TabMesBiensScreen"
         component={TabMesBiensScreen}
         options={{
-          headerTitle: 'Tab Mes Biens',
+          headerTitle: false,
           headerLeftContainerStyle: {
             marginLeft: 10,
           },
@@ -84,19 +85,14 @@ export function TabTableauDeBordNavigator({ navigation }) {
         name="TabTableauDeBordScreen"
         component={TabTableauDeBordScreen}
         options={{
-          headerTitle: 'Tableau De Bord',
+          headerTitle: 'TableauDeBord',
+          headerShown: false,
           headerRightContainerStyle: {
             marginRight: 10,
           },
-          headerRight: () => (
-            <HeaderRightOpenDrawerNavigation navigation={navigation} />
-          ),
           headerLeftContainerStyle: {
             marginLeft: 10,
           },
-          headerLeft: () => (
-            <HeaderLeftOpenDrawerNavigation navigation={navigation} />
-          ),
         }}
       />
 
@@ -114,6 +110,7 @@ export function TabMonAssistantNavigator({ navigation }) {
         component={TabMonAssistantScreen}
         options={{
           headerTitle: 'Mon Assistant',
+          headerShown: false,
           headerRightContainerStyle: {
             marginRight: 10,
           },
@@ -141,7 +138,7 @@ export function TabNotificationsNavigator({ navigation }) {
         name="TabNotificationsScreen"
         component={TabNotificationsScreen}
         options={{
-          headerTitle: 'Notifications',
+          headerTitle: false,
           headerRightContainerStyle: {
             marginRight: 10,
           },

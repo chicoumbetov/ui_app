@@ -67,14 +67,6 @@ function MesBiens() {
         </Layout>
         <GraphicsII />
       </Layout>
-      <Button
-        style={{ margin: 10 }}
-        onPress={() => {
-          onAjoutBien();
-        }}
-      >
-        Ajouter un nouveau bien
-      </Button>
     </ScrollView>
   );
 }

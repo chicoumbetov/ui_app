@@ -72,7 +72,7 @@ const DrawerNavigator = ({ navigation }) => (
         name="Mes Biens"
         component={TabMesBiensScreen}
         options={{
-          headerShown: false,
+          headerShown: true,
           headerLeft: () => (
             <HeaderLeftOpenDrawerNavigation navigation={navigation} />
           ),

@@ -1,5 +1,5 @@
 /**
- * Mon Compte to visualise compte info or modify.
+ * Page d'acceuil
  *
  * @author: Shynggys UMBETOV, Amaury
  */

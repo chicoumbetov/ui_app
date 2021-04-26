@@ -63,7 +63,7 @@ export default function MonComptePage1() {
    */
 
   return (
-    <Layout style={{ flex: 1, backgroundColor: '#efefef', backgroundColor: '#efefef' }}>
+    <Layout style={styles.container}>
       <ScrollView
         showsVerticalScrollIndicator={false}
       >
@@ -100,6 +100,6 @@ export default function MonComptePage1() {
 
 const styles = StyleSheet.create({
   container: {
-
+    flex: 1, backgroundColor: '#efefef',
   },
 });

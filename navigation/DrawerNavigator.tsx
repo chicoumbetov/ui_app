@@ -88,13 +88,7 @@ const DrawerNavigator = ({ navigation }) => (
         name="Ma Trésorerie"
         component={TabMaTresorerieScreen}
         options={{
-          headerShown: true,
-          headerLeft: () => (
-            <HeaderLeftOpenDrawerNavigation navigation={navigation} />
-          ),
-          headerRight: () => (
-            <HeaderRightOpenDrawerNavigation navigation={navigation} />
-          ),
+          headerShown: false,
           drawerIcon: function getIcon({ color }: { color: string }) {
             return <Icon name="money" {...{ color }} size={30} />;
           },

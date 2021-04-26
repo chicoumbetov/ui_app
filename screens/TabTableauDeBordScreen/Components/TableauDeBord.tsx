@@ -1,3 +1,9 @@
+/**
+ * Page d'acceuil
+ *
+ * @author: Shynggys UMBETOV, Amaury
+ */
+
 import React from 'react';
 import { Button, Layout, Text } from '@ui-kitten/components';
 import { Image, ScrollView, StyleSheet } from 'react-native';
@@ -141,7 +147,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: 'rgb(255,255,255)',
     marginTop: 12,
-
   },
 });
+
 export default TableauDeBord;

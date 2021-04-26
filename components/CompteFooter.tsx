@@ -24,16 +24,18 @@ const CompteFooter = () => {
 };
 
 const styles = StyleSheet.create({
-  button: { flexDirection: 'row', marginTop: 20, justifyContent: 'space-between' },
+  button: {
+    flexDirection: 'row', marginTop: 10, justifyContent: 'space-between', backgroundColor: 'transparent',
+  },
   buttonTextLeft: {
     color: '#0076c8',
-    fontSize: 14,
-    marginLeft: 10,
-    fontWeight: '600',
+    fontSize: 17,
+    marginLeft: 6,
+    letterSpacing: 0.3,
+    // fontWeight: '600',
   },
   buttonTextRight: {
-    fontSize: 14,
-    marginRight: 10,
+    fontSize: 17.5,
     fontWeight: '600',
   },
   separator: { borderBottomWidth: 1, borderBottomColor: '#b5b5b5' },

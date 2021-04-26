@@ -1,23 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { Layout, Text } from '@ui-kitten/components';
 import {
+  FlatList,
   LogBox,
-  ScrollView, StyleSheet,
+  ScrollView, StyleSheet, TouchableOpacity,
 } from 'react-native';
 
 import CompteHeader from '../../../../components/CompteHeader/CompteHeader';
 import comptesData from '../../../../mockData/comptesData';
-import MouvementAttente from './MouvementAttente';
-import MouvementValide from './MouvementValide';
 
-const TresoMouvementPage1 = ({ compte }) => {
+const IgnorerMouvement = ({ compte }) => {
   // to ignore warning
   useEffect(() => {
     LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
   }, []);
 
   const [client, setClient] = useState(comptesData);
-  console.log('compte in TresoMouvement', compte);
 
   return (
     <ScrollView
@@ -69,7 +67,7 @@ const TresoMouvementPage1 = ({ compte }) => {
         </Layout>
 
         <Layout style={{
-          flex: 1, marginBottom: 20, paddingVertical: 20, backgroundColor: '#f6f6f6', paddingHorizontal: 26,
+          marginBottom: 20, paddingVertical: 20, backgroundColor: '#f6f6f6', paddingHorizontal: 26,
         }}
         >
           <Text style={{
@@ -81,12 +79,46 @@ const TresoMouvementPage1 = ({ compte }) => {
             paddingTop: 11,
           }}
           >
-            Mouvements
+            Mouvements sur le compte
           </Text>
 
-          <MouvementAttente />
-          <Layout style={styles.separator} />
-          <MouvementValide />
+          <FlatList
+            data={comptesData}
+            keyExtractor={(item) => item.id}
+            renderItem={() => (
+
+              <Layout style={styles.window}>
+                <Layout style={{
+                  flex: 1,
+                }}
+                >
+
+                  <Text style={{
+                    fontSize: 18,
+                    letterSpacing: 0.5,
+                    fontWeight: '600',
+                    color: 'red',
+                    justifyContent: 'center',
+                  }}
+                  >
+                    - 300 €
+                  </Text>
+
+                  <Text style={{ fontSize: 16, color: '#b5b5b5' }}>10/03/2021</Text>
+                  <Text style={{ fontSize: 14, color: '#b5b5b5' }}>Libellé du mouvement</Text>
+                </Layout>
+
+              </Layout>
+
+            )}
+          />
+          <Layout style={styles.button}>
+            <TouchableOpacity onPress={() => {}}>
+              <Layout style={styles.button}>
+                <Text style={styles.buttonTextRight}>Ignorer les mouvements</Text>
+              </Layout>
+            </TouchableOpacity>
+          </Layout>
 
         </Layout>
 
@@ -95,7 +127,7 @@ const TresoMouvementPage1 = ({ compte }) => {
   );
 };
 
-export default TresoMouvementPage1;
+export default IgnorerMouvement;
 
 const styles = StyleSheet.create({
   container: {
@@ -104,7 +136,6 @@ const styles = StyleSheet.create({
   },
   windowOut: {
     backgroundColor: '#f6f6f6',
-
   },
   separator: {
     borderBottomWidth: 1,
@@ -133,7 +164,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
   buttonTextRight: {
-    color: '#0076c8',
+    color: 'red',
     fontSize: 17.5,
     fontWeight: '600',
   },

@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { Layout, Text } from '@ui-kitten/components';
 import {
-  LogBox,
-  ScrollView, StyleSheet,
+  FlatList,
+  LogBox, ScrollView, StyleSheet, TouchableOpacity,
 } from 'react-native';
 
+import { AntDesign } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 import CompteHeader from '../../../../components/CompteHeader/CompteHeader';
 import comptesData from '../../../../mockData/comptesData';
-import MouvementAttente from './MouvementAttente';
-import MouvementValide from './MouvementValide';
 
-const TresoMouvementPage1 = ({ compte }) => {
+const TresoMouvementPage2 = ({ compte }) => {
   // to ignore warning
   useEffect(() => {
     LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
@@ -18,6 +18,12 @@ const TresoMouvementPage1 = ({ compte }) => {
 
   const [client, setClient] = useState(comptesData);
   console.log('compte in TresoMouvement', compte);
+
+  // Take data that chosen and back to previous page with new chosen data
+  const navigation = useNavigation();
+  const onTresoMouvementPage1 = () => {
+    navigation.navigate('TresoMouvement_page1');
+  };
 
   return (
     <ScrollView
@@ -69,6 +75,35 @@ const TresoMouvementPage1 = ({ compte }) => {
         </Layout>
 
         <Layout style={{
+          marginBottom: 20, paddingVertical: 20, backgroundColor: '#f6f6f6', paddingHorizontal: 26,
+        }}
+        >
+
+          <Layout style={styles.window}>
+            <Layout style={{
+              flex: 1,
+            }}
+            >
+              <Text style={{
+                fontSize: 18,
+                letterSpacing: 0.5,
+                fontWeight: '600',
+                color: '#00c29a',
+                justifyContent: 'center',
+              }}
+              >
+                + 500 €
+              </Text>
+
+              <Text style={{ fontSize: 16, color: '#b5b5b5' }}>10/03/2021</Text>
+              <Text style={{ fontSize: 14, color: '#b5b5b5' }}>Libellé du mouvement</Text>
+            </Layout>
+
+          </Layout>
+
+        </Layout>
+
+        <Layout style={{
           flex: 1, marginBottom: 20, paddingVertical: 20, backgroundColor: '#f6f6f6', paddingHorizontal: 26,
         }}
         >
@@ -81,12 +116,59 @@ const TresoMouvementPage1 = ({ compte }) => {
             paddingTop: 11,
           }}
           >
-            Mouvements
+            Revenus enregistés dans votre budget
           </Text>
 
-          <MouvementAttente />
-          <Layout style={styles.separator} />
-          <MouvementValide />
+          <FlatList
+            data={comptesData}
+            keyExtractor={(item) => item.id}
+            renderItem={() => (
+
+              <Layout style={styles.window}>
+                <Layout style={{
+                  flex: 1,
+                  borderRightWidth: 1,
+                  borderRightColor: '#b5b5b5',
+                }}
+                >
+
+                  <Text style={{
+                    fontSize: 18,
+                    letterSpacing: 0.5,
+                    fontWeight: '600',
+                    color: '#00c29a',
+                    justifyContent: 'center',
+                  }}
+                  >
+                    + 500 €
+                  </Text>
+
+                  <Text style={{ fontSize: 16, color: '#b5b5b5' }}>10/03/2021</Text>
+                  <Text style={{ fontSize: 14, color: '#b5b5b5' }}>Libellé du mouvement</Text>
+                </Layout>
+
+                <Layout style={{
+                  flex: 1,
+                  alignItems: 'center',
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                }}
+                >
+                  <Text style={{
+                    fontSize: 18, letterSpacing: 0.4, marginLeft: 15, fontWeight: '800', color: 'orange',
+                  }}
+                  >
+                    En attente
+                  </Text>
+                  <TouchableOpacity onPress={onTresoMouvementPage1}>
+                    <AntDesign size={14} name="right" color="#b5b5b5" style={{ marginRight: 20 }} />
+                  </TouchableOpacity>
+
+                </Layout>
+              </Layout>
+
+            )}
+          />
 
         </Layout>
 
@@ -95,7 +177,7 @@ const TresoMouvementPage1 = ({ compte }) => {
   );
 };
 
-export default TresoMouvementPage1;
+export default TresoMouvementPage2;
 
 const styles = StyleSheet.create({
   container: {
@@ -112,7 +194,7 @@ const styles = StyleSheet.create({
   },
   window: {
     flexDirection: 'row',
-    marginTop: 35,
+    marginVertical: 10,
     paddingTop: 15,
     paddingBottom: 15,
     paddingLeft: 37,

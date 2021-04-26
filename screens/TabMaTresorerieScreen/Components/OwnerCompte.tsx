@@ -4,17 +4,19 @@ import { StyleSheet } from 'react-native';
 import { Layout, Text } from '@ui-kitten/components';
 
 import { AntDesign } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 
 const OwnerCompte = ({ compte }) => {
-  const onPress = () => {
-    console.warn('Button pressed');
+  const navigation = useNavigation();
+  const onTresoMouvement = () => {
+    navigation.navigate('TresoMouvement_page1');
   };
 
   return (
 
     <Layout style={styles.container}>
 
-      <Layout style={{ paddingHorizontal: 14 }}>
+      <Layout style={{ paddingHorizontal: 14, width: 255 }}>
         <Text style={{
           color: '#000',
           fontSize: 16,
@@ -58,7 +60,7 @@ const OwnerCompte = ({ compte }) => {
           <Text style={{ color: '#fff' }}>3</Text>
         </Layout>
 
-        <AntDesign name="right" size={14} color="#b5b5b5" onPress={onPress} style={{ marginRight: 11, marginTop: 17 }} />
+        <AntDesign name="right" size={14} color="#b5b5b5" onPress={onTresoMouvement} style={{ marginRight: 11, marginTop: 17 }} />
       </Layout>
 
     </Layout>

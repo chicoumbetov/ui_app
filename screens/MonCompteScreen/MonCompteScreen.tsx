@@ -66,7 +66,6 @@ export default function MonCompteScreen({ navigation }) {
               <TouchableOpacity onPress={() => { navigation.navigate('MonCompte'); }}>
                 <AntDesign name="arrowleft" size={30} style={{ color: '#b5b5b5', marginLeft: 20 }} />
               </TouchableOpacity>
-
             ),
             headerRight: () => (
               <HeaderLeftOpenDrawerNavigation navigation={navigation} />

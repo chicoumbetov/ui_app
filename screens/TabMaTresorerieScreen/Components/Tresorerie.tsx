@@ -10,6 +10,7 @@ import { Layout, Text } from '@ui-kitten/components';
 // import { API, graphqlOperation } from 'aws-amplify';
 import { ScrollView, StyleSheet } from 'react-native';
 import ComptesBancaires from './ComptesBancaires';
+import comptesData from '../../../mockData/comptesData';
 // import { listComptes } from '../../src/graphql/queries';
 /*
   useEffect(() => {
@@ -84,7 +85,7 @@ const MaTresorerie = () => {
 
       </Layout>
 
-      <ComptesBancaires />
+      <ComptesBancaires client={comptesData} />
 
     </ScrollView>
   );

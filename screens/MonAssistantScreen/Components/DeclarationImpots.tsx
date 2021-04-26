@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
-import { Button, Layout, Text } from '@ui-kitten/components';
+import {
+  Button, Input, Layout, Text,
+} from '@ui-kitten/components';
 import { useNavigation } from '@react-navigation/native';
 import {
+  ScrollView,
   SectionList, StyleSheet, TouchableOpacity, View,
 } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
@@ -11,6 +14,7 @@ const DeclarationImpots = () => {
   const navigation = useNavigation();
 
   const [questions, setQuestions] = useState(assistantDATA);
+  const [value, setValue] = useState('');
 
   const onDeclarationImpots2 = () => {
     navigation.navigate('DeclarationImpots2');
@@ -37,70 +41,133 @@ const DeclarationImpots = () => {
   };
 
   return (
-    <Layout style={styles.containerOut}>
+    <ScrollView>
 
-      <Layout style={styles.container}>
-        <Text style={styles.title}>Paramétrer mon aide à la déclaration d'impôts</Text>
-        <SectionList
-          sections={questions}
-          initialNumToRender={1}
-          keyExtractor={(item, index) => item.id + index + item.isChecked}
-          renderItem={({ item, section: { index, isChecked } }) => (
+      <Layout style={styles.containerOut}>
 
-            <View style={styles.item} key={index}>
-              {isChecked
-                    && (
-                    <Text
-                      key={index}
-                      style={{
-                        fontSize: 17.2,
-                        letterSpacing: 0.07,
-                        fontFamily: 'HouschkaRoundedDemiBold',
-                        backgroundColor: 'white',
+        <Layout style={styles.container}>
+          <Text style={styles.title}>Paramétrer mon aide à la déclaration d'impôts</Text>
+          <SectionList
+            sections={questions}
+            initialNumToRender={1}
+            keyExtractor={(item, index) => item.id + index + item.isChecked}
+            renderItem={({ item, section: { index, isChecked } }) => (
 
-                        paddingHorizontal: 24,
-                        paddingVertical: 26,
-                      }}
-                    >
-                      {item.typeBien}
-                    </Text>
-                    )}
-            </View>
-          )}
-          renderSectionHeader={({
-            section: {
-              title, id, index, isChecked,
-            },
-          }) =>
-          // console.log('isChecked', isChecked);
-          // eslint-disable-next-line implicit-arrow-linebreak
-            (
-              <View style={isChecked ? (styles.headerUp) : (styles.headerDown)}>
-                <Text style={styles.headerText} key={id}>
-                  {title}
+              <View style={styles.item} key={index}>
+                {isChecked
+                && (
+                <Text
+                  key={index}
+                  style={{
+                    fontSize: 17.2,
+                    letterSpacing: 0.07,
+                    fontFamily: 'HouschkaRoundedDemiBold',
+                    backgroundColor: 'white',
+
+                    paddingHorizontal: 24,
+                    paddingVertical: 26,
+                  }}
+                >
+                  {item.typeBien}
                 </Text>
-                <TouchableOpacity onPress={() => pressHandler(id)} key={index + isChecked}>
-                  {
-                            isChecked
-                              ? <AntDesign name="up" color="white" size={13} />
-                              : <AntDesign name="down" color="white" size={13} />
-                          }
-                </TouchableOpacity>
-
+                )}
               </View>
             )}
-        />
+            renderSectionHeader={({
+              section: {
+                title, id, index, isChecked,
+              },
+            }) =>
+            // console.log('isChecked', isChecked);
+            // eslint-disable-next-line implicit-arrow-linebreak
+              (
+                <View style={isChecked ? (styles.headerUp) : (styles.headerDown)}>
+                  <Text style={styles.headerText} key={id}>
+                    {title}
+                  </Text>
+                  <TouchableOpacity onPress={() => pressHandler(id)} key={index + isChecked}>
+                    {
+                        isChecked
+                          ? <AntDesign name="up" color="white" size={13} />
+                          : <AntDesign name="down" color="white" size={13} />
+                      }
+                  </TouchableOpacity>
 
-        <View style={styles.buttonRight}>
-          <Button onPress={onDeclarationImpots2} style={{ width: 150 }}>
-            Confirmer
-          </Button>
-        </View>
+                </View>
+              )}
+          />
+
+          <SectionList
+            sections={questions}
+            initialNumToRender={1}
+            keyExtractor={(item, index) => item.id + index + item.isChecked}
+            renderItem={({ section: { index, isChecked } }) => (
+
+              <View style={styles.item} key={index}>
+                {isChecked
+                && (
+                <>
+                  <Text
+                    key={index}
+                    style={{
+                      fontSize: 17.2,
+                      letterSpacing: 0.07,
+                      fontFamily: 'HouschkaRoundedDemiBold',
+                      color: '#b5b5b5',
+                      paddingVertical: 26,
+                    }}
+                  >
+                    Votre Message
+                  </Text>
+                  <Input
+                    style={styles.inputStyle}
+                    placeholder="Saisissez votre texte ici"
+                    value={value}
+                    onChangeText={(nextValue) => setValue(nextValue)}
+                  />
+                </>
+
+                )}
+              </View>
+            )}
+            renderSectionHeader={({
+              section: {
+                id, isChecked,
+              },
+            }) =>
+            // console.log('isChecked', isChecked);
+            // eslint-disable-next-line implicit-arrow-linebreak
+              (
+                <View style={isChecked ? (styles.headerUp) : (styles.headerDown)}>
+                  <Text style={styles.headerText} key={id}>
+                    {/**
+                       * make index identification instead of hardcoded one
+                       */}
+                    {questions[0].data[0].motif}
+                  </Text>
+                  <TouchableOpacity onPress={() => pressHandler(id)} key={isChecked}>
+                    {
+                        isChecked
+                          ? <AntDesign name="up" color="white" size={13} />
+                          : <AntDesign name="down" color="white" size={13} />
+                      }
+                  </TouchableOpacity>
+
+                </View>
+              )}
+          />
+
+          <View style={styles.buttonRight}>
+            <Button onPress={onDeclarationImpots2} style={{ width: 150 }}>
+              Confirmer
+            </Button>
+          </View>
+
+        </Layout>
 
       </Layout>
 
-    </Layout>
-
+    </ScrollView>
   );
 };
 
@@ -167,6 +234,20 @@ const styles = StyleSheet.create({
       height: 2,
     },
     shadowRadius: 2,
+    shadowOpacity: 1,
+  },
+  inputStyle: {
+    borderRadius: 7,
+    backgroundColor: '#fff',
+    fontWeight: 'normal',
+    borderColor: 'transparent',
+    marginBottom: 32,
+    shadowColor: '#dedede',
+    shadowOffset: {
+      width: 0,
+      height: 0.5,
+    },
+    shadowRadius: 4,
     shadowOpacity: 1,
   },
 });

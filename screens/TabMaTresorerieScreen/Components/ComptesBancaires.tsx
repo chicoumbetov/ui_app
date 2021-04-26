@@ -4,11 +4,11 @@ import { Layout, Text } from '@ui-kitten/components';
 
 import OwnerCompte from './OwnerCompte';
 import CompteFooter from '../../../components/CompteFooter';
-import comptesData from '../../../mockData/comptesData';
 import CompteHeader from '../../../components/CompteHeader/CompteHeader';
 
-const ComptesBancaires = () => {
-  const [compte, setCompte] = useState(comptesData);
+const ComptesBancaires = ({ client }) => {
+  const [compte, setCompte] = useState(client);
+
   // query
   // const comptes = query
 
@@ -22,7 +22,7 @@ const ComptesBancaires = () => {
       </Text>
 
       <SectionList
-                /* sections data must be array */
+        /* sections data must be array */
         sections={compte}
         renderSectionHeader={({ section: { title } }) => (
           <Layout style={{ backgroundColor: 'transparent', marginTop: 25, marginLeft: 7 }}>

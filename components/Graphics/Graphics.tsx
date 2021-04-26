@@ -3,6 +3,7 @@ import { StyleSheet } from 'react-native';
 import { Layout, Text } from '@ui-kitten/components';
 
 import { VictoryPie } from 'victory-native';
+import { colors } from '../../assets/styles';
 
 const data = [
   { x: '35%', y: 35 },
@@ -31,24 +32,31 @@ const Graphics = () => (
       <Layout style={{ borderBottomWidth: 1, borderBottomColor: '#b5b5b5' }} />
       <Layout style={{ flexDirection: 'row', marginTop: 10, alignItems: 'center' }}>
         <Layout style={{
-          backgroundColor: 'gold', height: 30, width: 30, borderRadius: 30, marginRight: 10,
+          backgroundColor: colors.bleu, height: 30, width: 30, borderRadius: 30, marginRight: 10,
         }}
         />
-        <Text>Eau</Text>
+        <Text style={{ color: colors.gris }}>Eau</Text>
       </Layout>
       <Layout style={{ flexDirection: 'row', marginTop: 10, alignItems: 'center' }}>
         <Layout style={{
-          backgroundColor: 'orange', height: 30, width: 30, borderRadius: 30, marginRight: 10,
+          backgroundColor: colors.jaune, height: 30, width: 30, borderRadius: 30, marginRight: 10,
         }}
         />
-        <Text>Electiricité</Text>
+        <Text style={{ color: colors.gris }}>Electiricité</Text>
       </Layout>
       <Layout style={{ flexDirection: 'row', marginTop: 10, alignItems: 'center' }}>
         <Layout style={{
-          backgroundColor: 'tomato', height: 30, width: 30, borderRadius: 30, marginRight: 10,
+          backgroundColor: colors.vert2, height: 30, width: 30, borderRadius: 30, marginRight: 10,
         }}
         />
-        <Text>Assurances</Text>
+        <Text style={{ color: colors.gris }}>Assurances</Text>
+      </Layout>
+      <Layout style={{ flexDirection: 'row', marginTop: 10, alignItems: 'center' }}>
+        <Layout style={{
+          backgroundColor: colors.rouge, height: 30, width: 30, borderRadius: 30, marginRight: 10,
+        }}
+        />
+        <Text style={{ color: colors.gris }}>Frais Divers</Text>
       </Layout>
 
     </Layout>

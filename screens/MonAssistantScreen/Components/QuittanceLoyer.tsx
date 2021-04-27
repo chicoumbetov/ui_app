@@ -31,7 +31,6 @@ const QuittanceLoyer = () => {
       }
       return question;
     });
-    // here we change the boolean of chosen button => isChecked state
     setQuestions(temp);
     // console.log(questions[id].isChecked);
   };

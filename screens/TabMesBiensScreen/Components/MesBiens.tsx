@@ -17,6 +17,13 @@ import GraphicsII from '../../../components/Graphics/GraphicsII';
 import Graphics from '../../../components/Graphics/Graphics';
 import { colors } from '../../../assets/styles';
 
+const mesBiensData = [
+  { x: '35%', y: 35 },
+  { x: '15%', y: 15 },
+  { x: '15%', y: 15 },
+  { x: '35%', y: 35 },
+];
+
 function MesBiens() {
   // to ignore warning
   useEffect(() => {
@@ -87,7 +94,7 @@ function MesBiens() {
           </Layout>
 
         </Layout>
-        <Graphics />
+        <Graphics data={mesBiensData} />
         <GraphicsII />
 
         <Layout style={{

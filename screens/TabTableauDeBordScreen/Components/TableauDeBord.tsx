@@ -4,11 +4,11 @@
  * @author: Shynggys UMBETOV, Amaury
  */
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Layout, Text } from '@ui-kitten/components';
 import {
   FlatList,
-  Image, ScrollView, StyleSheet, TouchableOpacity,
+  Image, LogBox, ScrollView, StyleSheet, TouchableOpacity,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { AntDesign, Feather, Ionicons } from '@expo/vector-icons';
@@ -17,6 +17,11 @@ import CompteHeader from '../../../components/CompteHeader/CompteHeader';
 import comptesData from '../../../mockData/comptesData';
 
 function TableauDeBord() {
+  // to ignore warning
+  useEffect(() => {
+    LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
+  }, []);
+
   const navigation = useNavigation();
 
   const [compte, setCompte] = useState(comptesData);
@@ -92,6 +97,7 @@ function TableauDeBord() {
 
         <FlatList
           data={comptesData}
+          keyExtractor={(item) => { item.id; }}
           renderItem={(item) => (
             <Layout style={{
               flexDirection: 'column', marginTop: 28, padding: 17, borderRadius: 10,

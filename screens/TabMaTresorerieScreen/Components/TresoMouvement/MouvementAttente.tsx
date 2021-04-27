@@ -71,13 +71,12 @@ const MouvementAttente = () => {
 
         )}
       />
-      <Layout style={styles.button}>
-        <TouchableOpacity onPress={onIgnorerMouvement}>
-          <Layout style={styles.button}>
-            <Text style={styles.buttonTextRight}>Ignorer les mouvements</Text>
-          </Layout>
-        </TouchableOpacity>
-      </Layout>
+
+      <TouchableOpacity onPress={onIgnorerMouvement}>
+        <Layout style={styles.button}>
+          <Text style={styles.buttonTextRight}>Ignorer les mouvements</Text>
+        </Layout>
+      </TouchableOpacity>
 
     </Layout>
   );
@@ -116,7 +115,7 @@ const styles = StyleSheet.create({
   button: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
-    marginVertical: 15,
+    marginVertical: 30,
     backgroundColor: 'transparent',
   },
   buttonTextRight: {

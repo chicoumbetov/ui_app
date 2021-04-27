@@ -14,25 +14,26 @@ import {
 import { BottomTabParamList } from '../types';
 
 import Icon from '../components/Icon';
+import { colors } from '../assets/styles';
 
 const HomeIcon = () => (
-  <Icon name="home-outline" size={30} />
+  <Icon name="home-outline" size={30} color={colors.gris} />
 );
 
 const TrendingUpIcon = () => (
-  <Icon name="trending-up-outline" size={30} />
+  <Icon name="trending-up-outline" size={30} color={colors.gris} />
 );
 
 const GridIcon = () => (
-  <Icon name="grid-outline" size={30} />
+  <Icon name="grid-outline" size={30} color={colors.gris} />
 );
 
 const FileIcon = () => (
-  <Icon name="file-text-outline" size={30} />
+  <Icon name="file-text-outline" size={30} color={colors.gris} />
 );
 
 const BellIcon = () => (
-  <Icon name="bell-outline" size={30} />
+  <Icon name="bell-outline" size={30} color={colors.gris} />
 );
 
 // create type Props for props. Do Not leave any props

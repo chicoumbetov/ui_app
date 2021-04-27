@@ -24,17 +24,24 @@ export default function Icon(props: IconProps): JSX.Element {
   } = props;
   let iconColor: string;
   if (primary) {
-    iconColor = colors.primary;
+    iconColor = colors.gris;
   } else if (secondary) {
-    iconColor = colors.secondary;
+    iconColor = colors.green;
   } else if (color) {
     iconColor = color;
   } else {
-    iconColor = colors.darkGray;
+    iconColor = colors.green;
   }
   let iconSize: number = fontSize.text;
   if (size) {
     iconSize = size;
   }
-  return <IcomoonIcon color={iconColor} size={iconSize} name={name as never} {...{ style, iconStyle }} />;
+  return (
+    <IcomoonIcon
+      color={iconColor}
+      size={iconSize}
+      name={name as never}
+      {...{ style, iconStyle }}
+    />
+  );
 }

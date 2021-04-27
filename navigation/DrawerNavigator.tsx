@@ -68,15 +68,7 @@ const DrawerNavigator = ({ navigation }) => (
         name="Mes Biens"
         component={TabMesBiensScreen}
         options={{
-          headerShown: true,
-          headerLeft: () => (
-            <TouchableOpacity onPress={() => { navigation.dispatch(DrawerActions.toggleDrawer()); }}>
-              <AntDesign name="arrowleft" size={30} style={{ color: '#b5b5b5', marginLeft: 20 }} />
-            </TouchableOpacity>
-          ),
-          headerRight: () => (
-            <HeaderLeftOpenDrawerNavigation navigation={navigation} />
-          ),
+          headerShown: false,
           drawerIcon: function getIcon({ color }: { color: string }) {
             return <Icon name="home-outline" {...{ color }} size={30} />;
           },

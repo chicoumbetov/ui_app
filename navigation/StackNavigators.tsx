@@ -30,18 +30,7 @@ export function TabMesBiensNavigator({ navigation }) {
         component={TabMesBiensScreen}
         options={{
           headerTitle: false,
-          headerLeftContainerStyle: {
-            marginLeft: 10,
-          },
-          headerRightContainerStyle: {
-            marginRight: 10,
-          },
-          headerLeft: () => (
-            <HeaderLeftOpenDrawerNavigation navigation={navigation} />
-          ),
-          headerRight: () => (
-            <HeaderRightOpenDrawerNavigation navigation={navigation} />
-          ),
+          headerShown: false,
         }}
       />
     </TabMesBiensStack.Navigator>

@@ -16,6 +16,8 @@ import CompteHeader from '../../../components/CompteHeader/CompteHeader';
 import GraphicsII from '../../../components/Graphics/GraphicsII';
 import Graphics from '../../../components/Graphics/Graphics';
 import { colors } from '../../../assets/styles';
+import comptesData from '../../../mockData/comptesData';
+import Icon from '../../../components/Icon';
 
 const mesBiensData = [
   { x: '35%', y: 35 },
@@ -32,68 +34,71 @@ function MesBiens() {
 
   const navigation = useNavigation();
 
-  const onDetailsDuBien = () => {
-    console.warn('Pressed');
+  const onDetailsBiens = () => {
+    navigation.navigate('DetailsBien');
   };
 
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
+      style={{ backgroundColor: '#efefef', marginTop: 12 }}
     >
-      <Layout style={{ backgroundColor: '#efefef', padding: 26 }}>
-        <Text style={{ fontSize: 34, fontWeight: '600' }}>
-          Mes Biens
-        </Text>
-        <Layout style={{
-          flexDirection: 'column',
-          backgroundColor: '#fff',
-          marginTop: 20,
-          padding: 15,
-          borderRadius: 10,
+      <Layout style={{ backgroundColor: '#f6f6f6', padding: 26 }}>
+        <Text style={{
+          fontSize: 24.5, letterSpacing: 0.2, fontFamily: 'HouschkaRoundedDemiBold', marginBottom: 20,
         }}
         >
-          <CompteHeader />
+          Mes Biens
+        </Text>
+
+        <Layout style={{
+          flexDirection: 'column', marginTop: 27, padding: 15, paddingBottom: 20, borderRadius: 10,
+        }}
+        >
+          <Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+            <CompteHeader title={comptesData[0].title} />
+            <AntDesign name="up" size={12.5} style={{ color: '#b5b5b5', marginRight: 5, marginTop: 8 }} />
+          </Layout>
+
+          <Layout style={{ borderBottomWidth: 0.3, borderBottomColor: colors.gris, marginVertical: 20 }} />
+
           <Layout style={{ flexDirection: 'row' }}>
-            <Layout style={{
-              flex: 1,
-              alignItems: 'center',
-              borderRightColor: '#b5b5b5',
-              borderRightWidth: 1,
-              justifyContent: 'space-between',
-            }}
-            >
-              <Text style={{ justifyContent: 'center', color: '#b5b5b5' }}>Dernier crédit</Text>
-              <Text style={{ marginTop: 10, fontWeight: '600', color: '#00c29a' }}> + 500 €</Text>
-              <TouchableOpacity>
-                <Text style={{ color: colors.bleu }}>Affecter</Text>
+            <Layout style={styles.oneThirdBlock}>
+              <Text style={styles.text}>Dernier mouvement</Text>
+              <Text style={styles.incomeMouvement}>+ 500 €</Text>
+              <TouchableOpacity onPress={() => {}}>
+                <Text style={styles.buttonTextRight}>Affecter</Text>
               </TouchableOpacity>
             </Layout>
 
-            <Layout style={{
-              flex: 1,
-              alignItems: 'center',
-              borderRightWidth: 1,
-              borderRightColor: '#b5b5b5',
-              justifyContent: 'space-between',
-            }}
-            >
-              <Text style={{ justifyContent: 'center', color: '#b5b5b5' }}>Dernier débit</Text>
-              <Text style={{ marginTop: 10, fontWeight: '600', color: '#ff5640' }}> - 80 €</Text>
-              <TouchableOpacity>
-                <Text style={{ color: colors.bleu }}>En savoir +</Text>
+            <Layout style={styles.oneThirdBlock}>
+              <Text style={styles.text}>
+                Prochaine dépense
+              </Text>
+              <Text style={{ ...styles.incomeMouvement, color: colors.rouge }}>- 160 €</Text>
+              <TouchableOpacity onPress={() => {}}>
+                <Text style={styles.buttonTextRight}>En savoir +</Text>
               </TouchableOpacity>
             </Layout>
 
-            <Layout style={{ flex: 1, justifyContent: 'space-between' }}>
-              <Text style={{ alignItems: 'center', color: '#b5b5b5' }}>Prochain mouvement</Text>
-              <Text style={{ marginTop: 10, fontWeight: '600', color: '#ff5640' }}> - 160 €</Text>
-              <TouchableOpacity>
-                <Text style={{ color: colors.bleu }}>Mes rapports</Text>
+            <Layout style={styles.oneThirdBlock}>
+              <Text style={styles.text}>
+                Réntabilité du bien
+              </Text>
+              <Text style={{ ...styles.incomeMouvement, color: colors.jaune }}>60 %</Text>
+              <TouchableOpacity onPress={() => {}}>
+                <Text style={styles.buttonTextRight}>Mes rapports</Text>
               </TouchableOpacity>
             </Layout>
           </Layout>
 
+          <TouchableOpacity onPress={onDetailsBiens}>
+            <Layout style={styles.button}>
+              <Text style={{ ...styles.buttonTextRight, color: colors.noir }}>Accéder au bien</Text>
+            </Layout>
+          </TouchableOpacity>
         </Layout>
+
         <Graphics data={mesBiensData} />
         <GraphicsII />
 
@@ -102,7 +107,7 @@ function MesBiens() {
         }}
         >
           <TouchableOpacity onPress={() => {}} style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-            <CompteHeader />
+            <CompteHeader title={comptesData[0].title} />
             <AntDesign name="right" size={12.5} style={{ color: '#b5b5b5', marginRight: 5, marginTop: 8 }} />
           </TouchableOpacity>
 
@@ -134,7 +139,7 @@ function MesBiens() {
             >
               <Layout style={{ alignItems: 'center', flexDirection: 'row' }}>
                 <AntDesign name="arrowdown" size={13} style={{ marginTop: 14, color: '#b5b5b5' }} />
-                <Text style={styles.mouvementText}>- 160 €</Text>
+                <Text style={styles.biensIncomeMouvement}>- 160 €</Text>
               </Layout>
             </Layout>
 
@@ -145,14 +150,15 @@ function MesBiens() {
             }}
             >
               <Layout style={{ alignItems: 'center', flexDirection: 'row' }}>
-                <Feather
-                  name="trending-up"
-                  size={14}
+                <Icon
+                  name="trending-up-outline"
+                  size={20}
+                  color={colors.gris}
                   style={{
-                    marginTop: 14, marginRight: 8, fontWeight: 'bold', color: '#b5b5b5',
+                    marginTop: 14, marginRight: 8,
                   }}
                 />
-                <Text style={styles.mouvementPourcent}>60 %</Text>
+                <Text style={styles.biensIncomeMouvement}>60 %</Text>
               </Layout>
             </Layout>
           </Layout>
@@ -181,6 +187,8 @@ const styles = StyleSheet.create({
 
     paddingHorizontal: 23,
   },
+
+  // Part I
   oneThirdBlock: {
     flex: 1,
     marginTop: 3,
@@ -199,11 +207,12 @@ const styles = StyleSheet.create({
   },
   incomeMouvement: {
     fontSize: 18.5,
-    marginTop: 14,
+    marginVertical: 14,
     letterSpacing: 0.6,
     color: '#00c29a',
     fontFamily: 'HouschkaRoundedDemiBold',
   },
+
   biensIncomeMouvement: {
     fontSize: 17,
     marginTop: 14,
@@ -211,24 +220,7 @@ const styles = StyleSheet.create({
     color: colors.vert2,
     fontFamily: 'HouschkaRoundedDemiBold',
   },
-  mouvementText: {
-    fontSize: 18,
-    fontFamily: 'HouschkaRoundedDemiBold',
-    marginTop: 13,
-    color: colors.rouge,
-  },
-  mouvementPourcent: {
-    fontSize: 18,
-    fontFamily: 'HouschkaRoundedDemiBold',
-    marginTop: 13,
-    color: colors.jaune,
-  },
-  mouvementImage: {
-    height: 42,
-    width: 44,
-    marginRight: 3,
-    marginTop: 15,
-  },
+
   buttonText: {
     fontSize: 16.5,
     marginTop: 21,
@@ -236,5 +228,18 @@ const styles = StyleSheet.create({
     letterSpacing: 0.15,
     fontFamily: 'HouschkaRoundedDemiBold',
     color: colors.bleu,
+  },
+
+  // Button ignorer les mouvements
+  button: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    marginTop: 30,
+    backgroundColor: 'transparent',
+  },
+  buttonTextRight: {
+    color: colors.bleu,
+    fontSize: 17.5,
+    fontFamily: 'HouschkaRoundedDemiBold',
   },
 });

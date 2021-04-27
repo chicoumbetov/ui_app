@@ -62,7 +62,7 @@ const Informations = (props: DataProps) => {
   return (
 
     <Layout style={{
-      flex: 1, backgroundColor: 'rgba(246, 246, 246, 0.5)', paddingTop: 32, paddingHorizontal: 22, marginTop: 11,
+      flex: 1, backgroundColor: '#f6f6f6', paddingTop: 32, paddingHorizontal: 22, marginTop: 11,
     }}
     >
       <Text style={{

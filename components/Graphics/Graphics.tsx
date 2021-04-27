@@ -13,36 +13,33 @@ const Graphics = ({ data }) => {
 
         <Layout style={{ alignItems: 'center', margin: 30 }}>
           <VictoryPie
-            padAngle={1}
-            cornerRadius={15}
-            height={200}
-            width={200}
-            innerRadius={115}
+            padAngle={4}
+            startAngle={-27}
+            endAngle={333}
+            cornerRadius={30}
+            height={272}
+            width={272}
+            innerRadius={67}
             data={victoryData}
-            colorScale={[colors.green, colors.bleu, colors.jaune, colors.rouge]}
+            colorScale={[colors.green, colors.jaune, colors.bleu, colors.rouge]}
           />
         </Layout>
 
         <Layout style={{ borderBottomWidth: 1, borderBottomColor: '#b5b5b5' }} />
+
+        {/**
+        *         Remake with Flatlist and connect with Victory Pie
+        * */}
         <Layout style={{ flexDirection: 'row', marginTop: 10, alignItems: 'center' }}>
-          <Layout style={{
-            backgroundColor: colors.bleu, height: 30, width: 30, borderRadius: 30, marginRight: 10,
-          }}
-          />
+          <Layout style={{ ...styles.circles, backgroundColor: colors.bleu }} />
           <Text style={{ color: colors.gris }}>Eau</Text>
         </Layout>
         <Layout style={{ flexDirection: 'row', marginTop: 10, alignItems: 'center' }}>
-          <Layout style={{
-            backgroundColor: colors.jaune, height: 20, width: 20, borderRadius: 30, marginRight: 10,
-          }}
-          />
+          <Layout style={{ ...styles.circles, backgroundColor: colors.jaune }} />
           <Text style={{ color: colors.gris }}>Electiricité</Text>
         </Layout>
         <Layout style={{ flexDirection: 'row', marginTop: 10, alignItems: 'center' }}>
-          <Layout style={{
-            backgroundColor: colors.vert2, height: 20, width: 20, borderRadius: 30, marginRight: 10,
-          }}
-          />
+          <Layout style={{ ...styles.circles, backgroundColor: colors.vert2 }} />
           <Text style={{ color: colors.gris }}>Assurances</Text>
         </Layout>
         <Layout style={{ flexDirection: 'row', marginTop: 10, alignItems: 'center' }}>

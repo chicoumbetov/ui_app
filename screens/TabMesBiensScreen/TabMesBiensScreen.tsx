@@ -1,5 +1,5 @@
 /**
- * Page 1 Mes Biens pour visualiser les biens
+ * Navigator pour basculer entre les pages de section Biens
  *
  * @author: Shynggys UMBETOV
  */
@@ -7,7 +7,12 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import * as React from 'react';
 import { Layout } from '@ui-kitten/components';
+import { TouchableOpacity } from 'react-native';
+import { DrawerActions } from '@react-navigation/native';
+import { AntDesign } from '@expo/vector-icons';
+import DetailsBien from './Components/DetailsDuBien';
 import MesBiens from './Components/MesBiens';
+import HeaderLeftOpenDrawerNavigation from '../../navigation/HeaderLeftOpenDrawerNavigation';
 
 const Stack = createStackNavigator();
 
@@ -20,9 +25,50 @@ export default function TabMesBiensScreen({ navigation }) {
         <Stack.Screen
           name="MesBiens"
           options={{
-            headerShown: false,
+            headerShown: true,
+            headerLeftContainerStyle: {
+              paddingBottom: 5,
+            },
+            headerRightContainerStyle: {
+              marginBottom: 5,
+            },
+            headerLeft: () => (
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.dispatch(DrawerActions.toggleDrawer());
+                }}
+              >
+                <AntDesign name="arrowleft" size={31} style={{ color: '#b5b5b5', marginLeft: 20 }} />
+              </TouchableOpacity>
+
+            ),
+            headerRight: () => (
+              <HeaderLeftOpenDrawerNavigation navigation={navigation} />
+            ),
           }}
           component={MesBiens}
+        />
+        <Stack.Screen
+          name="DetailsBien"
+          options={{
+            headerShown: true,
+            headerTitle: false,
+            headerLeftContainerStyle: {
+              paddingBottom: 5,
+            },
+            headerRightContainerStyle: {
+              marginBottom: 5,
+            },
+            headerLeft: () => (
+              <TouchableOpacity onPress={() => { navigation.navigate('MesBiens'); }}>
+                <AntDesign name="arrowleft" size={30} style={{ color: '#b5b5b5', marginLeft: 20 }} />
+              </TouchableOpacity>
+            ),
+            headerRight: () => (
+              <HeaderLeftOpenDrawerNavigation navigation={navigation} />
+            ),
+          }}
+          component={DetailsBien}
         />
 
       </Stack.Navigator>

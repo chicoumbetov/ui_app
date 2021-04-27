@@ -19,7 +19,7 @@ export const colors: Colors = {
   gris: '#b5b5b5',
   text: '#04161b',
   error: '#ff5640',
-  background: 'rgba(246, 246, 246, 0)',
+  background: '#f6f6f6',
 };
 
 export const spacing: Spacing = {

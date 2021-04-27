@@ -1,34 +1,114 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   Image,
-  SafeAreaView, SectionList, StyleSheet, Text, TouchableOpacity, View,
+  SafeAreaView, SectionList, StyleSheet, Text, TouchableOpacity, View, Platform,
 } from 'react-native';
+import Constants from 'expo-constants';
+import * as Notifications from 'expo-notifications';
 
 import { AntDesign } from '@expo/vector-icons';
 import notificationsDATA from '../../../mockData/notificationsDATA';
 
-const Notifications = () => {
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: false,
+    shouldSetBadge: false,
+  }),
+});
+
+const NotificationsPage = () => {
   const [questions, setQuestions] = useState(notificationsDATA);
 
+  // Taken from doc. Adopt on needs
+  const [expoPushToken, setExpoPushToken] = useState('');
+  const [notification, setNotification] = useState(false);
+  const notificationListener = useRef();
+  const responseListener = useRef();
+
+  async function schedulePushNotification() {
+    await Notifications.scheduleNotificationAsync({
+      content: {
+        title: 'Test notification! 📬',
+        body: 'Notif itselft',
+        data: { data: questions },
+      },
+      trigger: { seconds: 1 },
+    });
+  }
+
+  // detect which one is clicked
   const pressHandler = (id: number) => {
-    // console to check which question was clicked
-    // console.log(id);
-    // if Clicked then show chosen index ( therefore setAccodion)
     const temp = questions.map((question) => {
-      // comparison of clicked index with taken index
       if (id === question.id) {
-        // console to check that correct id was taken when clicked
-        // console.log(question.id);
-        // on recupere question et on fait copie,
-        // ensuite on change boolean de isChecked dans le faqDATA
         return { ...question, isChecked: !question.isChecked };
       }
       return question;
     });
-    // here we change the boolean of chosen button => isChecked state
+
+    // handle promise of notifications. probably needs to be adopted on needs.
+    // Taken from official documentation
+    try {
+      const notif = async () => {
+        await schedulePushNotification();
+      };
+      notif();
+    } catch (e) {
+      console.log('Notification error: ', e);
+    }
+
     setQuestions(temp);
-    // console.log(questions[id].isChecked);
   };
+
+  // Taken from documentation. Probably need to adopt.
+  async function registerForPushNotificationsAsync() {
+    let token;
+    if (Constants.isDevice) {
+      const { status: existingStatus } = await Notifications.getPermissionsAsync();
+      let finalStatus = existingStatus;
+      if (existingStatus !== 'granted') {
+        const { status } = await Notifications.requestPermissionsAsync();
+        finalStatus = status;
+      }
+      if (finalStatus !== 'granted') {
+        alert('Failed to get push token for push notification!');
+        return;
+      }
+      token = (await Notifications.getExpoPushTokenAsync()).data;
+      console.log(token);
+    } else {
+      alert('Must use physical device for Push Notifications');
+    }
+
+    if (Platform.OS === 'android') {
+      Notifications.setNotificationChannelAsync('default', {
+        name: 'default',
+        importance: Notifications.AndroidImportance.MAX,
+        vibrationPattern: [0, 250, 250, 250],
+        lightColor: '#FF231F7C',
+      });
+    }
+
+    return token;
+  }
+
+  // notification lifecycle
+  useEffect(() => {
+    registerForPushNotificationsAsync().then((token) => setExpoPushToken(token));
+
+    notificationListener.current = Notifications.addNotificationReceivedListener((notification) => {
+      setNotification(notification);
+    });
+
+    responseListener.current = Notifications.addNotificationResponseReceivedListener((response) => {
+      console.log(response);
+    });
+
+    return () => {
+      Notifications.removeNotificationSubscription(notificationListener.current);
+      Notifications.removeNotificationSubscription(responseListener.current);
+    };
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -52,6 +132,7 @@ const Notifications = () => {
                   }}
                   >
                     {item}
+                    {notification && notification.request.content.body}
                   </Text>
                   )}
           </View>
@@ -73,6 +154,7 @@ const Notifications = () => {
               />
               <Text style={styles.headerText} key={index}>
                 {title}
+                {notification && notification.request.content.title}
               </Text>
               <TouchableOpacity onPress={() => pressHandler(id)} key={index + isChecked}>
                 {
@@ -88,6 +170,8 @@ const Notifications = () => {
     </SafeAreaView>
   );
 };
+
+export default NotificationsPage;
 
 const styles = StyleSheet.create({
   container: {
@@ -148,5 +232,3 @@ const styles = StyleSheet.create({
     fontSize: 24,
   },
 });
-
-export default Notifications;

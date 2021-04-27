@@ -52,7 +52,6 @@ const NotificationsPage = () => {
       const notif = async () => {
         await schedulePushNotification();
       };
-      notif();
     } catch (e) {
       console.log('Notification error: ', e);
     }
@@ -75,7 +74,7 @@ const NotificationsPage = () => {
         return;
       }
       token = (await Notifications.getExpoPushTokenAsync()).data;
-      console.log(token);
+      // console.log(token);
     } else {
       alert('Must use physical device for Push Notifications');
     }
@@ -101,7 +100,7 @@ const NotificationsPage = () => {
     });
 
     responseListener.current = Notifications.addNotificationResponseReceivedListener((response) => {
-      console.log(response);
+      // console.log(response);
     });
 
     return () => {

@@ -4,10 +4,12 @@
  * @author: Shynggys UMBETOV
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Layout, Text } from '@ui-kitten/components';
 
-import { ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
+import {
+  LogBox, ScrollView, StyleSheet, TouchableOpacity,
+} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { AntDesign, Feather, Ionicons } from '@expo/vector-icons';
 import CompteHeader from '../../../components/CompteHeader/CompteHeader';
@@ -16,6 +18,11 @@ import Graphics from '../../../components/Graphics/Graphics';
 import { colors } from '../../../assets/styles';
 
 function MesBiens() {
+  // to ignore warning
+  useEffect(() => {
+    LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
+  }, []);
+
   const navigation = useNavigation();
 
   const onDetailsDuBien = () => {

@@ -4,6 +4,7 @@ import { Layout, Text } from '@ui-kitten/components';
 import { AntDesign } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import comptesData from '../../../../mockData/comptesData';
+import { colors } from '../../../../assets/styles';
 
 const MouvementValide = () => {
   const [client, setClient] = useState(comptesData);
@@ -19,7 +20,7 @@ const MouvementValide = () => {
       <FlatList
         data={client}
         keyExtractor={(item) => item.id}
-        renderItem={() => (
+        renderItem={({ item, index }) => (
 
           <Layout style={styles.window}>
             <Layout style={{
@@ -52,7 +53,7 @@ const MouvementValide = () => {
             }}
             >
               <Text style={{
-                fontSize: 18, letterSpacing: 0.4, marginLeft: 15, fontWeight: '800', color: 'orange',
+                fontSize: 18, letterSpacing: 0.4, marginLeft: 15, fontWeight: '800', color: colors.vert2,
               }}
               >
                 Validé

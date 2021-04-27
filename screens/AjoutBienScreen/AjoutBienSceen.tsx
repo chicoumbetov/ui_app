@@ -1,11 +1,17 @@
 import React, { useState } from 'react';
 import {
-  ScrollView, StyleSheet, Text, TouchableOpacity, View,
+  ScrollView, SectionList, StyleSheet, Text, TextInput, TouchableOpacity, View,
 } from 'react-native';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
+import { Layout } from '@ui-kitten/components';
+import { AntDesign } from '@expo/vector-icons';
 import { colors } from '../../assets/styles';
 
 function AjoutBienScreen() {
+  { /**
+   *Variable pour gérer l'affichage des trois grandes partie
+   * */ }
   const [etape1, setEtape1] = useState(1);
   const [etape2, setEtape2] = useState(0);
   const [etape3, setEtape3] = useState(0);
@@ -37,6 +43,48 @@ function AjoutBienScreen() {
       setEtape2(2);
     }
     setEtape3(1);
+  };
+
+  { /**
+   *Variable pour gérer la date
+   * */ }
+  const [date, setDate] = useState(new Date(1598051730000));
+  const [show, setShow] = useState(false);
+
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate || date;
+    setDate(currentDate);
+  };
+
+  const showMode = () => {
+    setShow(true);
+  };
+  { /**
+   *Variable pour gérer l'affichage des données de modes de détention
+   * */ }
+
+  const [typeBien, setTypeBien] = useState('Type de Bien');
+  const [typeBienShow, setTypeBienShow] = useState(false);
+
+  const [detention, setDetention] = useState('Type de Bien');
+  const [detentionShow, setDetentionShow] = useState(false);
+
+  const [statut, setStatut] = useState('Statut');
+  const [statutShow, setStatutShow] = useState(false);
+
+  const [typeImpo, setTypeImpo] = useState('Type de Bien');
+  const [typeImpoShow, setTypeImpoShow] = useState(false);
+
+  const showModeDetention = (id: number) => {
+    switch (id) {
+      case 1:
+        setTypeBienShow(true);
+    }
+  };
+
+  const SetTypeBien = (tybeBientxt: string) => {
+    setTypeBien(tybeBientxt);
+    setTypeBienShow(false);
   };
 
   return (
@@ -124,12 +172,71 @@ function AjoutBienScreen() {
             }}
 
           >
-            Identité (1/3)
+            Mode de détention (3/3)
           </Text>
         </TouchableOpacity>
         {etape3 === 1 && (
         <View>
-          <Text>Text 3</Text>
+          <View style={{ flex: 2, flexDirection: 'row' }}>
+            <Text>Date d'acquisition</Text>
+            <TextInput
+              placeholder="dd/mm/yyyy"
+              value={date.toDateString()}
+            />
+          </View>
+          {show
+          && (
+          <DateTimePicker
+            testID="dateTimePicker"
+            value={date}
+            mode="date"
+            is24Hour
+            display="default"
+            onChange={onChange}
+          />
+          )}
+          <Layout>
+            <TouchableOpacity
+              onPress={() => showModeDetention(1)}
+            >
+              <Layout style={typeBienShow ? (styles.headerUp) : (styles.headerDown)}>
+                <Text>{typeBien}</Text>
+              </Layout>
+            </TouchableOpacity>
+            {typeBienShow && (
+            <Layout>
+              <TouchableOpacity
+                onPress={() => SetTypeBien('Rèsidence Principale')}
+              >
+                <Layout>
+                  <Text>Rèsidence Principale</Text>
+                </Layout>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => SetTypeBien('Résidence Secondaire')}
+              >
+                <Layout>
+                  <Text>Résidence Secondaire</Text>
+                </Layout>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => SetTypeBien('Investissement Locatif Professionnel ou Commercial')}
+              >
+                <Layout>
+                  <Text>Investissement Locatif Professionnel ou Commercial</Text>
+                </Layout>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                onPress={() => SetTypeBien('Investissement Locatif Particulier')}
+              >
+                <Layout>
+                  <Text>Investissement Locatif Particulier</Text>
+                </Layout>
+              </TouchableOpacity>
+            </Layout>
+            )}
+          </Layout>
         </View>
         )}
       </View>

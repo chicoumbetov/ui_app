@@ -7,13 +7,36 @@ import { colors } from '../../assets/styles';
 
 function AjoutBienScreen() {
   const [etape1, setEtape1] = useState(1);
-  const [etape2, setEtape2] = useState(1);
-  const [etape3, setEtape3] = useState(1);
+  const [etape2, setEtape2] = useState(0);
+  const [etape3, setEtape3] = useState(0);
 
   const SetEtape1 = () => {
-    if (etape1 === 0) {
-      setEtape1(1);
+    if (etape3 === 1) {
+      setEtape1(2);
     }
+    if (etape2 === 1) {
+      setEtape2(2);
+    }
+    setEtape1(1);
+  };
+  const SetEtape2 = () => {
+    if (etape1 === 1) {
+      setEtape1(2);
+    }
+    if (etape3 === 1) {
+      setEtape3(2);
+    }
+    setEtape2(1);
+  };
+
+  const SetEtape3 = () => {
+    if (etape1 === 1) {
+      setEtape1(2);
+    }
+    if (etape2 === 1) {
+      setEtape2(2);
+    }
+    setEtape3(1);
   };
 
   return (
@@ -21,7 +44,9 @@ function AjoutBienScreen() {
       <View>
         <Text style={styles.faq}>Création de votre bien</Text>
       </View>
-
+      {/**
+       *  Identité
+       */}
       <View style={{ ...styles.item, backgroundColor: ((etape1 === 0) ? colors.orange4 : ((etape1 === 1) ? colors.blanc : colors.green)) }}>
         <TouchableOpacity
           onPress={() => SetEtape1()}
@@ -41,7 +66,74 @@ function AjoutBienScreen() {
             Identité (1/3)
           </Text>
         </TouchableOpacity>
+        {etape1 === 1 && (
+        <View>
+          <Text>La maison de Matthieu</Text>
+        </View>
+        )}
+
       </View>
+
+      {/**
+       *  Localisation
+       */}
+
+      <View style={{ ...styles.item, backgroundColor: ((etape2 === 0) ? colors.orange4 : ((etape2 === 1) ? colors.blanc : colors.green)) }}>
+        <TouchableOpacity
+          onPress={() => SetEtape2()}
+        >
+          <Text
+            style={{
+              fontSize: 16,
+              fontWeight: '600',
+              fontStyle: 'normal',
+              lineHeight: 24,
+              letterSpacing: 0,
+              color: colors.noir,
+              marginLeft: 27,
+            }}
+
+          >
+            Localisation (2/3)
+          </Text>
+        </TouchableOpacity>
+        {etape2 === 1 && (
+        <View>
+          <Text>Text 2</Text>
+        </View>
+        )}
+      </View>
+
+      {/**
+       *  Mode de détention
+       */}
+
+      <View style={{ ...styles.item, backgroundColor: ((etape3 === 0) ? colors.orange4 : ((etape3 === 1) ? colors.blanc : colors.green)) }}>
+        <TouchableOpacity
+          onPress={() => SetEtape3()}
+        >
+          <Text
+            style={{
+              fontSize: 16,
+              fontWeight: '600',
+              fontStyle: 'normal',
+              lineHeight: 24,
+              letterSpacing: 0,
+              color: colors.noir,
+              marginLeft: 27,
+            }}
+
+          >
+            Identité (1/3)
+          </Text>
+        </TouchableOpacity>
+        {etape3 === 1 && (
+        <View>
+          <Text>Text 3</Text>
+        </View>
+        )}
+      </View>
+
     </ScrollView>
   );
 }
@@ -63,7 +155,14 @@ const styles = StyleSheet.create({
     color: '#000000',
   },
   item: {
-
+    padding: 20,
+    marginBottom: 30,
+    fontSize: 16,
+    fontWeight: '600',
+    fontStyle: 'normal',
+    lineHeight: 24,
+    letterSpacing: 0,
+    color: colors.noir,
   },
   headerDown: {
     padding: 22,

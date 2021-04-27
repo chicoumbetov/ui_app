@@ -44,7 +44,7 @@ BRF:0
 BRH:0
 end_of_record
 TN:
-SF:react-native.config.js
+SF:react-native.config.ts
 FNF:0
 FNH:0
 DA:1,0

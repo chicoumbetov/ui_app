@@ -28,7 +28,7 @@ const Contact2 = () => {
     navigation.navigate('Contact');
   };
 
-  const pressHandler = (id: number) => {
+  const pressHandler = (id) => {
     // console to check which question was clicked
     // console.log(id);
     // if Clicked then show chosen index ( therefore setAccodion)
@@ -57,7 +57,7 @@ const Contact2 = () => {
           sections={questions}
           initialNumToRender={1}
           keyExtractor={(item, index) => item.id + index + item.isChecked}
-          renderItem={({ item, section: { index, isChecked } }) => (
+          renderItem={({ id, section: { index, isChecked } }) => (
 
             <View style={styles.item} key={index}>
               {isChecked
@@ -88,7 +88,7 @@ const Contact2 = () => {
           )}
           renderSectionHeader={({
             section: {
-              title, id, index, isChecked,
+              id, index, isChecked,
             },
           }) =>
           // console.log('isChecked', isChecked);

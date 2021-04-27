@@ -25,7 +25,7 @@
         <metrics statements="1" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="3" count="0" type="stmt"/>
       </file>
-      <file name="react-native.config.js" path="/Users/shynggysumbetov/Documents/Projets/Omedom/omedom/react-native.config.js">
+      <file name="react-native.config.ts" path="/Users/shynggysumbetov/Documents/Projets/Omedom/omedom/react-native.config.ts">
         <metrics statements="1" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="0" type="stmt"/>
       </file>

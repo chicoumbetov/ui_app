@@ -57,19 +57,11 @@ export function TabMesChargesNavigator({ navigation }) {
         name="TabMesChargesScreen"
         component={TabMesChargeScreen}
         options={{
-          headerTitle: 'Tab Mes Charges',
+          headerTitle: false,
+          headerShown: false,
           headerRightContainerStyle: {
             marginRight: 10,
           },
-          headerRight: () => (
-            <HeaderRightOpenDrawerNavigation navigation={navigation} />
-          ),
-          headerLeftContainerStyle: {
-            marginLeft: 10,
-          },
-          headerLeft: () => (
-            <HeaderLeftOpenDrawerNavigation navigation={navigation} />
-          ),
         }}
       />
     </TabMesChargesStack.Navigator>

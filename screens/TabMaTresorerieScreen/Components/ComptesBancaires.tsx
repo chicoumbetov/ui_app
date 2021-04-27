@@ -9,9 +9,6 @@ import CompteHeader from '../../../components/CompteHeader/CompteHeader';
 const ComptesBancaires = ({ client }) => {
   const [compte, setCompte] = useState(client);
 
-  // query
-  // const comptes = query
-
   // eslint-disable-next-line implicit-arrow-linebreak
   return (
     <Layout style={styles.container}>
@@ -24,6 +21,7 @@ const ComptesBancaires = ({ client }) => {
       <SectionList
         /* sections data must be array */
         sections={compte}
+        keyExtractor={(item) => item.id}
         renderSectionHeader={({ section: { title } }) => (
           <Layout style={{ backgroundColor: 'transparent', marginTop: 25, marginLeft: 7 }}>
             <CompteHeader title={title} />
@@ -39,7 +37,7 @@ const ComptesBancaires = ({ client }) => {
             <CompteFooter />
           </Layout>
         )}
-        keyExtractor={(item) => item.id}
+
       />
 
     </Layout>

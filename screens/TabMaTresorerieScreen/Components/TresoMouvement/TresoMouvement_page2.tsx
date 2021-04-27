@@ -17,7 +17,6 @@ const TresoMouvementPage2 = ({ compte }) => {
   }, []);
 
   const [client, setClient] = useState(comptesData);
-  console.log('compte in TresoMouvement', compte);
 
   // Take data that chosen and back to previous page with new chosen data
   const navigation = useNavigation();

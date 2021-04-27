@@ -18,10 +18,13 @@ const Informations = ({ route }) => {
   const onTakePicture = () => (navigation.navigate('CameraDom'));
 
   const pickImage = async () => {
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-    });
-    console.log('result: ', result);
+    try {
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      });
+    } catch (e) {
+      console.log('pickImage error: ', e);
+    }
   };
 
   return (

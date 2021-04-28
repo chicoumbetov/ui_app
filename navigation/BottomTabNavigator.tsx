@@ -29,7 +29,7 @@ const GridIcon = () => (
 );
 
 const FileIcon = () => (
-  <Icon name="file-text-outline" size={30} color={colors.gris} />
+  <Icon name="file-text-outline1" size={30} color={colors.gris} />
 );
 
 const BellIcon = () => (

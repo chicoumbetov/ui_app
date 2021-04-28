@@ -1,6 +1,6 @@
 const comptesData = [
   {
-    title: 'Mathieu',
+    title: 'Matthieu',
     id: '0',
     data: [
       {

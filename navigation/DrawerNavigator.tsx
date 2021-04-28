@@ -9,7 +9,6 @@ import React from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
 import { StyleSheet, TouchableOpacity } from 'react-native';
-import { DrawerActions } from '@react-navigation/native';
 import { AntDesign } from '@expo/vector-icons';
 import MonCompteScreen from '../screens/MonCompteScreen/MonCompteScreen';
 import TabMesBiensScreen from '../screens/TabMesBiensScreen/TabMesBiensScreen';
@@ -28,6 +27,7 @@ import TabNotificationsScreen from '../screens/TabNotificationsScreen/TabNotific
 import TabMonAssistantScreen from '../screens/MonAssistantScreen/TabMonAssistantScreen';
 import { StatusBarHeight } from '../components/StatusBarHeight';
 import AjoutBienScreen from '../screens/AjoutBienScreen/AjoutBienSceen';
+import { colors } from '../assets/styles';
 
 const DrawerNav = createDrawerNavigator();
 
@@ -35,12 +35,14 @@ const DrawerNavigator = ({ navigation }) => (
   <>
     <DrawerNav.Navigator
       drawerType="slide"
-      drawerStyle={styles.drawerStyles}
+      drawerStyle={{ ...styles.drawerStyles }}
       sceneContainerStyle={{ backgroundColor: 'transparent' }}
       drawerContentOptions={{
         activeBackgroundColor: 'transparent',
-        activeTintColor: 'white',
+        activeTintColor: colors.green,
         inactiveTintColor: 'white',
+        // itemStyle: { height: 10 },
+        // labelStyle: { fontSize: 20 },
       }}
       drawerContent={(props) => <CustomDrawer {...props} />}
       initialRouteName="TableauDeBord"
@@ -50,9 +52,6 @@ const DrawerNavigator = ({ navigation }) => (
         component={BottomTabNavigator}
         options={{
           headerShown: false,
-          drawerIcon: function getIcon({ color }: { color: string }) {
-            return <Icon name="grid-outline" {...{ color }} />;
-          },
         }}
       />
       <DrawerNav.Screen
@@ -80,7 +79,7 @@ const DrawerNavigator = ({ navigation }) => (
         options={{
           headerShown: false,
           drawerIcon: function getIcon({ color }: { color: string }) {
-            return <Icon name="money" {...{ color }} size={30} />;
+            return <Icon name="calculator" {...{ color }} size={30} />;
           },
         }}
       />
@@ -177,11 +176,9 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.44,
     shadowRadius: 10.32,
     elevation: 5,
-    // overflow: 'scroll',
-    // borderWidth: 1,
   },
   drawerStyles: {
-    flex: 1, width: '70%', marginTop: StatusBarHeight, backgroundColor: 'transparent',
+    flex: 1, width: '76%', marginTop: StatusBarHeight, backgroundColor: '#fff',
   },
   drawerItem: { alignItems: 'flex-start', marginVertical: 0 },
   drawerLabel: { color: 'white', marginLeft: -16 },

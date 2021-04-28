@@ -107,7 +107,7 @@ function DetailsBien() {
             flexDirection: 'row', alignItems: 'center',
           }}
           >
-            <Icon name="file-text-outline" size={30} color={colors.green} style={{ marginRight: 10 }} />
+            <Icon name="calculator" size={33} color={colors.green} style={{ marginRight: 10 }} />
             <Text style={{
               fontSize: 17, fontFamily: 'HouschkaRoundedDemiBold', letterSpacing: 0.2,
             }}
@@ -134,7 +134,7 @@ function DetailsBien() {
             flexDirection: 'row', alignItems: 'center',
           }}
           >
-            <Icon name="file-text-outline" size={30} color={colors.green} style={{ marginRight: 10 }} />
+            <Icon name="money" size={30} color={colors.green} style={{ marginRight: 10 }} />
             <Text style={{
               fontSize: 16, fontFamily: 'HouschkaRoundedDemiBold', letterSpacing: 0.2,
             }}
@@ -153,7 +153,7 @@ function DetailsBien() {
             flexDirection: 'row', alignItems: 'center',
           }}
           >
-            <Icon name="file-text-outline" size={30} color={colors.green} style={{ marginRight: 10 }} />
+            <Icon name="trending-up-outline" size={30} color={colors.green} style={{ marginRight: 10 }} />
             <Text style={{
               fontSize: 16, fontFamily: 'HouschkaRoundedDemiBold', letterSpacing: 0.2,
             }}
@@ -171,7 +171,7 @@ function DetailsBien() {
             flexDirection: 'row', alignItems: 'center',
           }}
           >
-            <Icon name="file-text-outline" size={30} color={colors.green} style={{ marginRight: 10 }} />
+            <Icon name="file-text-outline1" size={30} color={colors.green} style={{ marginRight: 10 }} />
             <Text style={{
               fontSize: 16, fontFamily: 'HouschkaRoundedDemiBold', letterSpacing: 0.2,
             }}

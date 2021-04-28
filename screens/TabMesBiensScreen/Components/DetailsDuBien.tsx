@@ -29,15 +29,20 @@ function DetailsBien() {
 
   const [compte, setCompte] = useState(comptesData);
 
-  const allerTresorie = () => {
-    navigation.navigate('Ma Trésorerie');
+  const allerMonBudget = () => {
+    navigation.navigate('MonBudget');
   };
-  const allerNotificaitons = () => {
-    navigation.navigate('Notifications');
+  const allerTresorerie = () => {
+    console.warn('Go to Tresorerie');
   };
-
-  const onAjoutBien = () => {
-    navigation.navigate('AjoutBienScreen');
+  const allerMonAssistant = () => {
+    console.warn('Go to Mon Assistant');
+  };
+  const allerPartagerBien = () => {
+    navigation.navigate('PartagerBien');
+  };
+  const allerModifierCharacteristics = () => {
+    navigation.navigate('ModifierCharacteristiques');
   };
 
   return (
@@ -103,9 +108,11 @@ function DetailsBien() {
         </Text>
         {/**   1   */}
         <Layout style={styles.docs}>
-          <Layout style={{
-            flexDirection: 'row', alignItems: 'center',
-          }}
+          <TouchableOpacity
+            onPress={allerMonBudget}
+            style={{
+              flexDirection: 'row', alignItems: 'center',
+            }}
           >
             <Icon name="calculator" size={33} color={colors.green} style={{ marginRight: 10 }} />
             <Text style={{
@@ -114,13 +121,13 @@ function DetailsBien() {
             >
               Mon Budget
             </Text>
-          </Layout>
+          </TouchableOpacity>
         </Layout>
 
       </Layout>
 
       {/**
-       *  IV. Nos Service
+       *  IV. Nos Services
        */}
       <Layout style={styles.container}>
 
@@ -130,9 +137,11 @@ function DetailsBien() {
         {/**   1   */}
         <Layout style={{ ...styles.docs, marginBottom: 10 }}>
 
-          <Layout style={{
-            flexDirection: 'row', alignItems: 'center',
-          }}
+          <TouchableOpacity
+            onPress={allerTresorerie}
+            style={{
+              flexDirection: 'row', alignItems: 'center',
+            }}
           >
             <Icon name="money" size={30} color={colors.green} style={{ marginRight: 10 }} />
             <Text style={{
@@ -142,7 +151,7 @@ function DetailsBien() {
               Ma Trésorerie (Lier un compte bancaire)
             </Text>
 
-          </Layout>
+          </TouchableOpacity>
 
         </Layout>
 
@@ -167,9 +176,11 @@ function DetailsBien() {
         {/**   3   */}
         <Layout style={styles.docs}>
 
-          <Layout style={{
-            flexDirection: 'row', alignItems: 'center',
-          }}
+          <TouchableOpacity
+            onPress={allerMonAssistant}
+            style={{
+              flexDirection: 'row', alignItems: 'center',
+            }}
           >
             <Icon name="file-text-outline1" size={30} color={colors.green} style={{ marginRight: 10 }} />
             <Text style={{
@@ -179,7 +190,7 @@ function DetailsBien() {
               Mon Assistant
             </Text>
 
-          </Layout>
+          </TouchableOpacity>
         </Layout>
 
       </Layout>
@@ -218,7 +229,7 @@ function DetailsBien() {
           <Text style={{ color: '#b5b5b5', fontSize: 17, marginTop: 5 }}>{clientData.AdresseType.fields[0].ville}</Text>
         </Layout>
 
-        <TouchableOpacity onPress={() => {}}>
+        <TouchableOpacity onPress={allerModifierCharacteristics}>
           <Text style={{ ...styles.buttonText }}>Modifier le biens</Text>
         </TouchableOpacity>
       </Layout>
@@ -334,7 +345,7 @@ function DetailsBien() {
         </Layout>
 
         <Layout style={styles.button}>
-          <TouchableOpacity onPress={() => {}}>
+          <TouchableOpacity onPress={allerPartagerBien}>
             <Text style={styles.buttonText}>Ajouter</Text>
           </TouchableOpacity>
 

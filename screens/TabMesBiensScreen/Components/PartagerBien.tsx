@@ -1,11 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { Button, Layout, Text } from '@ui-kitten/components';
 import {
-  Image, ScrollView, StyleSheet, View,
+  Image, LogBox, ScrollView, StyleSheet, View,
 } from 'react-native';
 
 const PartagerBien = () => {
+  // to ignore warning
+  useEffect(() => {
+    LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
+  }, []);
+
   const navigation = useNavigation();
 
   const allerDetailsBien = () => {

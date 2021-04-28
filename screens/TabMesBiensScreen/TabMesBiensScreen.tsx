@@ -24,7 +24,190 @@ const Stack = createStackNavigator();
 export default function TabMesBiensScreen({ navigation }) {
   return (
     <Layout style={{ flex: 1, backgroundColor: '#efefef' }}>
-      <MesBiens />
+      <Stack.Navigator>
+        <Stack.Screen
+          name="MesBiens"
+          component={MesBiens}
+          options={{
+            headerTitle: false,
+            headerShown: true,
+            headerStyle: {
+              height: 120,
+            },
+            headerRightContainerStyle: {
+              marginRight: 18,
+            },
+            headerLeftContainerStyle: {
+              marginLeft: 13,
+            },
+            headerLeft: () => (
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.dispatch(DrawerActions.toggleDrawer());
+                }}
+              >
+                <AntDesign name="arrowleft" size={31} style={{ color: '#b5b5b5', marginLeft: 20 }} />
+              </TouchableOpacity>
+
+            ),
+            headerRight: () => (
+              <HeaderLeftOpenDrawerNavigation navigation={navigation} />
+            ),
+          }}
+        />
+        <Stack.Screen
+          name="DetailsBien"
+          options={{
+            headerShown: true,
+            headerTitle: false,
+            headerStyle: {
+              height: 120,
+            },
+            headerRightContainerStyle: {
+              marginRight: 18,
+            },
+            headerLeftContainerStyle: {
+              marginLeft: 13,
+            },
+            headerLeft: () => (
+              <TouchableOpacity onPress={() => { navigation.navigate('MesBiens'); }}>
+                <AntDesign name="arrowleft" size={30} style={{ color: '#b5b5b5', marginLeft: 20 }} />
+              </TouchableOpacity>
+            ),
+            headerRight: () => (
+              <HeaderLeftOpenDrawerNavigation navigation={navigation} />
+            ),
+          }}
+          component={DetailsBien}
+        />
+        <Stack.Screen
+          name="MonBudget"
+          options={{
+            headerShown: true,
+            headerTitle: false,
+            headerStyle: {
+              height: 120,
+            },
+            headerRightContainerStyle: {
+              marginRight: 18,
+            },
+            headerLeftContainerStyle: {
+              marginLeft: 13,
+            },
+            headerLeft: () => (
+              <TouchableOpacity onPress={() => { navigation.navigate('DetailsBien'); }}>
+                <AntDesign name="arrowleft" size={30} style={{ color: '#b5b5b5', marginLeft: 20 }} />
+              </TouchableOpacity>
+            ),
+            headerRight: () => (
+              <HeaderLeftOpenDrawerNavigation navigation={navigation} />
+            ),
+          }}
+          component={MonBudget}
+        />
+        <Stack.Screen
+          name="ParametrerAjoutRevenu"
+          options={{
+            headerShown: true,
+            headerTitle: false,
+            headerStyle: {
+              height: 120,
+            },
+            headerRightContainerStyle: {
+              marginRight: 18,
+            },
+            headerLeftContainerStyle: {
+              marginLeft: 13,
+            },
+            headerLeft: () => (
+              <TouchableOpacity onPress={() => { navigation.navigate('MonBudget'); }}>
+                <AntDesign name="arrowleft" size={30} style={{ color: '#b5b5b5', marginLeft: 20 }} />
+              </TouchableOpacity>
+            ),
+            headerRight: () => (
+              <HeaderLeftOpenDrawerNavigation navigation={navigation} />
+            ),
+          }}
+          component={ParametrerAjoutRevenu}
+        />
+        <Stack.Screen
+          name="ParametrerAjoutCharges"
+          options={{
+            headerShown: true,
+            headerTitle: false,
+            headerStyle: {
+              height: 120,
+            },
+            headerRightContainerStyle: {
+              marginRight: 18,
+            },
+            headerLeftContainerStyle: {
+              marginLeft: 13,
+            },
+            headerLeft: () => (
+              <TouchableOpacity onPress={() => { navigation.navigate('MonBudget'); }}>
+                <AntDesign name="arrowleft" size={30} style={{ color: '#b5b5b5', marginLeft: 20 }} />
+              </TouchableOpacity>
+            ),
+            headerRight: () => (
+              <HeaderLeftOpenDrawerNavigation navigation={navigation} />
+            ),
+          }}
+          component={ParametrerAjoutCharges}
+        />
+
+        <Stack.Screen
+          name="PartagerBien"
+          options={{
+            headerShown: true,
+            headerTitle: false,
+            headerStyle: {
+              height: 120,
+            },
+            headerRightContainerStyle: {
+              marginRight: 18,
+            },
+            headerLeftContainerStyle: {
+              marginLeft: 13,
+            },
+            headerLeft: () => (
+              <TouchableOpacity onPress={() => { navigation.navigate('DetailsBien'); }}>
+                <AntDesign name="arrowleft" size={30} style={{ color: '#b5b5b5', marginLeft: 20 }} />
+              </TouchableOpacity>
+            ),
+            headerRight: () => (
+              <HeaderLeftOpenDrawerNavigation navigation={navigation} />
+            ),
+          }}
+          component={PartagerBien}
+        />
+
+        <Stack.Screen
+          name="ModifierCharacteristiques"
+          options={{
+            headerShown: true,
+            headerTitle: false,
+            headerStyle: {
+              height: 120,
+            },
+            headerRightContainerStyle: {
+              marginRight: 18,
+            },
+            headerLeftContainerStyle: {
+              marginLeft: 13,
+            },
+            headerLeft: () => (
+              <TouchableOpacity onPress={() => { navigation.navigate('DetailsBien'); }}>
+                <AntDesign name="arrowleft" size={30} style={{ color: '#b5b5b5', marginLeft: 20 }} />
+              </TouchableOpacity>
+            ),
+            headerRight: () => (
+              <HeaderLeftOpenDrawerNavigation navigation={navigation} />
+            ),
+          }}
+          component={ModifierCharacteristiques}
+        />
+      </Stack.Navigator>
     </Layout>
   );
 }

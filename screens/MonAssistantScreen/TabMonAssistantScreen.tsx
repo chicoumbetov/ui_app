@@ -6,6 +6,7 @@ import { TouchableOpacity } from 'react-native';
 import { Layout } from '@ui-kitten/components';
 import { AntDesign } from '@expo/vector-icons';
 
+import { DrawerActions } from '@react-navigation/native';
 import HeaderLeftOpenDrawerNavigation from '../../navigation/HeaderLeftOpenDrawerNavigation';
 import HeaderRightOpenDrawerNavigation from '../../navigation/HeaderRightOpenDrawerNavigation';
 
@@ -39,10 +40,15 @@ export default function TabMonAssistantScreen({ navigation }) {
               marginLeft: 13,
             },
             headerLeft: () => (
-              <HeaderLeftOpenDrawerNavigation navigation={navigation} />
+              <TouchableOpacity onPress={() => {
+                navigation.dispatch(DrawerActions.toggleDrawer());
+              }}
+              >
+                <AntDesign name="arrowleft" size={30} style={{ color: '#b5b5b5', marginLeft: 20 }} />
+              </TouchableOpacity>
             ),
             headerRight: () => (
-              <HeaderRightOpenDrawerNavigation navigation={navigation} />
+              <HeaderLeftOpenDrawerNavigation navigation={navigation} />
             ),
           }}
           component={MonAssistant}

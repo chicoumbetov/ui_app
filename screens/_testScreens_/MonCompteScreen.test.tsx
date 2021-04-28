@@ -1,5 +1,5 @@
 import renderer from 'react-test-renderer';
-import MonCompteScreen from '../MonCompteScreen';
+import MonCompteScreen from '../MonCompteScreen/MonCompteScreen';
 
 it('renders TabContactScreen', () => {
   expect(MonCompteScreen);
@@ -8,7 +8,7 @@ it('renders TabContactScreen', () => {
 describe('<MonCompteScreen />', () => {
   it('renders correctly across screens', () => {
     const tree = renderer
-      .create('<MonCompteScreen />').toJSON();
+      .create(<MonCompteScreen />).toJSON();
     expect(tree).toMatchSnapshot();
   });
 });

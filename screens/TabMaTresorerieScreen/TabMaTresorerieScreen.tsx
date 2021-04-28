@@ -32,11 +32,14 @@ export default function TabMaTresorerieScreen({ navigation }) {
           name="MaTresorerie"
           options={{
             headerTitle: false,
-            headerLeftContainerStyle: {
-              paddingBottom: 5,
+            headerStyle: {
+              height: 120,
             },
             headerRightContainerStyle: {
-              marginBottom: 5,
+              marginRight: 18,
+            },
+            headerLeftContainerStyle: {
+              marginLeft: 13,
             },
             headerLeft: () => (
               <TouchableOpacity
@@ -58,11 +61,14 @@ export default function TabMaTresorerieScreen({ navigation }) {
           name="TresoMouvement_page1"
           options={{
             headerTitle: false,
-            headerLeftContainerStyle: {
-              paddingBottom: 5,
+            headerStyle: {
+              height: 120,
             },
             headerRightContainerStyle: {
-              marginBottom: 5,
+              marginRight: 18,
+            },
+            headerLeftContainerStyle: {
+              marginLeft: 13,
             },
             headerLeft: () => (
               <TouchableOpacity onPress={() => { navigation.navigate('MaTresorerie'); }}>
@@ -79,11 +85,14 @@ export default function TabMaTresorerieScreen({ navigation }) {
           name="TresoMouvement_page2"
           options={{
             headerTitle: false,
-            headerLeftContainerStyle: {
-              paddingBottom: 5,
+            headerStyle: {
+              height: 120,
             },
             headerRightContainerStyle: {
-              marginBottom: 5,
+              marginRight: 18,
+            },
+            headerLeftContainerStyle: {
+              marginLeft: 13,
             },
             headerLeft: () => (
               <TouchableOpacity onPress={() => { navigation.navigate('TresoMouvement_page1'); }}>
@@ -100,11 +109,14 @@ export default function TabMaTresorerieScreen({ navigation }) {
           name="IgnorerMouvement"
           options={{
             headerTitle: false,
-            headerLeftContainerStyle: {
-              paddingBottom: 5,
+            headerStyle: {
+              height: 120,
             },
             headerRightContainerStyle: {
-              marginBottom: 5,
+              marginRight: 18,
+            },
+            headerLeftContainerStyle: {
+              marginLeft: 13,
             },
             headerLeft: () => (
               <TouchableOpacity onPress={() => { navigation.navigate('TresoMouvement_page1'); }}>
@@ -121,11 +133,14 @@ export default function TabMaTresorerieScreen({ navigation }) {
           name="AjoutCompte"
           options={{
             headerTitle: false,
-            headerLeftContainerStyle: {
-              paddingBottom: 5,
+            headerStyle: {
+              height: 120,
             },
             headerRightContainerStyle: {
-              marginBottom: 5,
+              marginRight: 18,
+            },
+            headerLeftContainerStyle: {
+              marginLeft: 13,
             },
             headerLeft: () => (
               <TouchableOpacity onPress={() => { navigation.navigate('MaTresorerie'); }}>

@@ -1,12 +1,18 @@
+/**
+ * Creation of Biens
+ *
+ * @author: Amaury, Shynggys UMBETOV
+ */
+
 import React, { useState } from 'react';
 import {
   Image,
-  ScrollView, SectionList, StyleSheet, Text, TextInput, TouchableOpacity, View,
+  ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View,
 } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
 import { Layout } from '@ui-kitten/components';
-import { AntDesign } from '@expo/vector-icons';
+
 import * as ImagePicker from 'expo-image-picker';
 import { useNavigation } from '@react-navigation/native';
 import { colors } from '../../assets/styles';
@@ -28,9 +34,9 @@ function AjoutBienScreen() {
 
   const [logo, setLogo] = useState('../../assets/Icones_omedom/logements/icones_log1.png');
 
-  { /**
+  /**
    *Variable pour gérer l'affichage des trois grandes partie
-   * */ }
+   * */
   const [etape1, setEtape1] = useState(1);
   const [etape2, setEtape2] = useState(0);
   const [etape3, setEtape3] = useState(0);
@@ -64,9 +70,9 @@ function AjoutBienScreen() {
     setEtape3(1);
   };
 
-  { /**
+  /**
    *Variable pour gérer la date
-   * */ }
+   * */
   const [date, setDate] = useState(new Date(1598051730000));
   const [show, setShow] = useState(false);
 
@@ -78,14 +84,14 @@ function AjoutBienScreen() {
   const showMode = () => {
     setShow(true);
   };
-  { /**
+  /**
    *Variable pour gérer l'affichage des données de modes de détention
-   * */ }
+   * */
 
   const [typeBien, setTypeBien] = useState('Type de Bien');
   const [typeBienShow, setTypeBienShow] = useState(false);
 
-  const [detention, setDetention] = useState('Détention');
+  const [detention, setDetention] = useState('Mode de détention');
   const [detentionShow, setDetentionShow] = useState(false);
 
   const [statut, setStatut] = useState('Statut');
@@ -165,175 +171,224 @@ function AjoutBienScreen() {
   };
 
   return (
-    <ScrollView style={{ backgroundColor: colors.blanc }}>
+    <ScrollView style={{ backgroundColor: '#f6f6f6' }}>
       <View>
         <Text style={styles.faq}>Création de votre bien</Text>
       </View>
       {/**
        *  Identité
        */}
-      <View style={{ ...styles.item, backgroundColor: ((etape1 === 0) ? colors.orange4 : ((etape1 === 1) ? colors.blanc : colors.vert4)) }}>
+      <View
+        style={{
+          ...styles.item,
+          backgroundColor: ((etape1 === 0)
+            ? colors.orange4
+            : ((etape1 === 1) ? colors.blanc : colors.vert4)),
+        }}
+      >
         <TouchableOpacity
           onPress={() => SetEtape1()}
         >
           <Text
             style={{
-              fontSize: 16,
-              fontWeight: '600',
+              fontSize: 15.5,
+              fontFamily: 'HouschkaRoundedDemiBold',
               fontStyle: 'normal',
-              lineHeight: 24,
-              letterSpacing: 0,
+              lineHeight: 23,
+              letterSpacing: 0.9,
               color: colors.noir,
-              marginLeft: 27,
+              marginLeft: 7,
             }}
 
           >
             Identité (1/3)
           </Text>
         </TouchableOpacity>
-        {etape1 === 1 && (
+      </View>
+      {etape1 === 1 && (
         <View>
-          <Text>La maison de Matthieu</Text>
-          <Layout style={{ alignItems: 'center', backgroundColor: 'transparent', marginVertical: 30 }}>
-            <Icon name="vert_batiment" size={140} style={{ marginRight: 10 }} />
+          <Layout style={{
+            backgroundColor: colors.blanc, paddingHorizontal: 16, marginHorizontal: 23, marginTop: 7, paddingVertical: 11.5,
+          }}
+          >
+            <Text style={{ fontSize: 17, fontFamily: 'HouschkaRoundedMedium' }}>La Maison de Matthieu</Text>
           </Layout>
 
-          <Text style={{ fontSize: 17, color: '#b5b5b5' }}>Choisir une icone</Text>
+          <Layout style={{ marginLeft: 124, backgroundColor: 'transparent', marginVertical: 34 }}>
+            {/* <Icon name="vert_batiment" size={140} style={{ marginRight: 10 }} /> */}
+            <Image
+              source={require('../../assets/Icones_omedom/logements/icones_log1.png')}
+              style={{ height: 149, width: 149 }}
+            />
+          </Layout>
+
+          <Text style={{
+            fontSize: 16.5, color: '#b5b5b5', marginLeft: 23, marginTop: 2,
+          }}
+          >
+            Choisir une icone
+          </Text>
 
           <Layout style={{
-            flexDirection: 'row', marginTop: 21, justifyContent: 'space-around', alignItems: 'center', backgroundColor: 'transparent',
+            flexDirection: 'row', marginTop: 21, justifyContent: 'space-evenly', marginLeft: -6, backgroundColor: 'transparent',
           }}
           >
             <TouchableOpacity onPress={() => {}}>
               <Image
                 source={require('../../assets/Icones_omedom/logements/icones_log1.png')}
-                style={{ height: 50, width: 50 }}
+                style={{ height: 53, width: 52 }}
               />
             </TouchableOpacity>
             <Image
               source={require('../../assets/Icones_omedom/logements/icones_log4.png')}
-              style={{ height: 50, width: 50 }}
+              style={{ height: 53, width: 52 }}
             />
             <Image
               source={require('../../assets/Icones_omedom/logements/icones_log3.png')}
-              style={{ height: 50, width: 50 }}
+              style={{ height: 53, width: 52 }}
             />
             <Image
               source={require('../../assets/Icones_omedom/logements/icones_log2.png')}
-              style={{ height: 50, width: 50 }}
+              style={{ height: 53, width: 52 }}
             />
             <Image
               source={require('../../assets/Icones_omedom/logements/icones_log10.png')}
-              style={{ height: 50, width: 50 }}
+              style={{ height: 53, width: 52 }}
             />
 
           </Layout>
           <Layout style={{
-            flexDirection: 'row', marginTop: 21, justifyContent: 'space-around', alignItems: 'center', backgroundColor: 'transparent',
+            flexDirection: 'row', marginTop: 34, justifyContent: 'space-evenly', marginLeft: -6, backgroundColor: 'transparent',
           }}
           >
             <Image
               source={require('../../assets/Icones_omedom/logements/icones_log5.png')}
-              style={{ height: 50, width: 50 }}
+              style={{ height: 53, width: 52 }}
             />
             <Image
               source={require('../../assets/Icones_omedom/logements/icones_log6.png')}
-              style={{ height: 50, width: 50 }}
+              style={{ height: 53, width: 52 }}
             />
             <Image
               source={require('../../assets/Icones_omedom/logements/icones_log7.png')}
-              style={{ height: 50, width: 50 }}
+              style={{ height: 53, width: 52 }}
             />
             <Image
               source={require('../../assets/Icones_omedom/logements/icones_log8.png')}
-              style={{ height: 50, width: 50 }}
+              style={{ height: 53, width: 52 }}
             />
             <Image
               source={require('../../assets/Icones_omedom/logements/icones_log9.png')}
-              style={{ height: 50, width: 50 }}
+              style={{ height: 53, width: 52 }}
             />
 
           </Layout>
 
-          <TouchableOpacity onPress={() => { onTakePicture(); }} style={{ marginVertical: 39 }}>
-            <Text style={styles.button}>Prendre une photo</Text>
-          </TouchableOpacity>
+          <Layout style={{ paddingHorizontal: 23, backgroundColor: 'transparent' }}>
+            <TouchableOpacity onPress={() => { onTakePicture(); }} style={{ marginVertical: 30.5 }}>
+              <Text style={styles.button}>Prendre une photo</Text>
+            </TouchableOpacity>
 
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: 1 }}>
-            <TouchableOpacity onPress={() => { pickImage(); }}>
-              <Text style={styles.button}>Ajouter une photo</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => {}}>
-              <Text style={{ fontSize: 17.5, color: '#000' }}>Supprimer la photo</Text>
-            </TouchableOpacity>
-          </View>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: 7 }}>
+              <TouchableOpacity onPress={() => { pickImage(); }}>
+                <Text style={styles.button}>Ajouter une photo</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => {}}>
+                <Text style={{
+                  fontSize: 17, color: '#000', letterSpacing: 0, marginRight: 6,
+                }}
+                >
+                  Supprimer la photo
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </Layout>
+
         </View>
-        )}
-
-      </View>
+      )}
 
       {/**
        *  Localisation
        */}
 
-      <View style={{ ...styles.item, backgroundColor: ((etape2 === 0) ? colors.orange4 : ((etape2 === 1) ? colors.blanc : colors.vert4)) }}>
+      <View style={{
+        ...styles.item,
+        backgroundColor: ((etape2 === 0)
+          ? colors.orange4 : ((etape2 === 1) ? colors.blanc : colors.vert4)),
+        marginTop: 29,
+      }}
+      >
         <TouchableOpacity
           onPress={() => SetEtape2()}
         >
           <Text
             style={{
               fontSize: 16,
-              fontWeight: '600',
+              fontFamily: 'HouschkaRoundedDemiBold',
               fontStyle: 'normal',
-              lineHeight: 24,
-              letterSpacing: 0,
+              lineHeight: 28,
+              letterSpacing: 0.5,
               color: colors.noir,
-              marginLeft: 27,
+              marginLeft: 8,
             }}
 
           >
             Localisation (2/3)
           </Text>
         </TouchableOpacity>
-        {etape2 === 1 && (
-        <View>
-          <TextInput style={styles.inputText} placeholder="Adresse" />
-          <TextInput style={styles.inputText} placeholder="Complément d'adresse" />
-          <TextInput style={styles.inputText} placeholder="Code Postal" />
-          <TextInput style={styles.inputText} placeholder="Ville" />
-          <TextInput style={styles.inputText} placeholder="Pays" />
-        </View>
-        )}
       </View>
+      {etape2 === 1 && (
+        <View>
+          <TextInput style={styles.inputStyle} placeholder="Adresse" />
+          <TextInput style={{ ...styles.inputStyle, marginTop: -6, paddingLeft: 22.5 }} placeholder="Complément d'adresse" />
+          <TextInput style={{ ...styles.inputStyle, marginTop: -4, paddingLeft: 22.5 }} placeholder="Code Postal" />
+          <TextInput style={{ ...styles.inputStyle, marginTop: -4, paddingLeft: 22.5 }} placeholder="Ville" />
+          <TextInput style={{ ...styles.inputStyle, marginTop: -4, paddingLeft: 22.5 }} placeholder="Pays" />
+        </View>
+      )}
 
       {/**
        *  Mode de détention
        */}
 
-      <View style={{ ...styles.item, backgroundColor: ((etape3 === 0) ? colors.orange4 : ((etape3 === 1) ? colors.blanc : colors.vert4)) }}>
+      <View style={{
+        ...styles.item,
+        backgroundColor: ((etape3 === 0)
+          ? colors.orange4 : ((etape3 === 1) ? colors.blanc : colors.vert4)),
+      }}
+      >
         <TouchableOpacity
           onPress={() => SetEtape3()}
         >
           <Text
             style={{
               fontSize: 16,
-              fontWeight: '600',
+              fontFamily: 'HouschkaRoundedDemiBold',
               fontStyle: 'normal',
-              lineHeight: 24,
-              letterSpacing: 0,
+              lineHeight: 33,
+              letterSpacing: 0.5,
               color: colors.noir,
-              marginLeft: 27,
+              marginLeft: 8,
             }}
 
           >
             Mode de détention (3/3)
           </Text>
         </TouchableOpacity>
-        {etape3 === 1 && (
+      </View>
+      {etape3 === 1 && (
         <View>
-          <View style={{ flex: 2, flexDirection: 'row' }}>
-            <Text>Date d'acquisition</Text>
+          <View style={{ flexDirection: 'row', marginLeft: 27, marginRight: 10 }}>
+            <Text style={{
+              flex: 1, fontSize: 16, marginTop: 12, letterSpacing: 0,
+            }}
+            >
+              Date d'acquisition
+            </Text>
             <TextInput
+              style={{
+                ...styles.inputStyle, marginTop: 0, fontSize: 14, flex: 1, width: 50,
+              }}
               placeholder="dd/mm/yyyy"
               value={date.toDateString()}
             />
@@ -353,8 +408,16 @@ function AjoutBienScreen() {
             <TouchableOpacity
               onPress={() => showModeDetention(1)}
             >
-              <Layout style={typeBienShow ? (styles.headerUp) : (styles.headerDown)}>
-                <Text>{typeBien}</Text>
+              <Layout style={
+                typeBienShow
+                  ? (styles.headerUp)
+                  : ({
+                    ...styles.headerDown, marginTop: -11, paddingLeft: 25, paddingVertical: 23,
+                  })
+              }
+              >
+                <Text style={{ fontSize: 16, color: colors.blanc }}>{typeBien}</Text>
+                <Icon name="arrow-ios-downward-outline" color={colors.blanc} size={15} />
               </Layout>
             </TouchableOpacity>
             {typeBienShow && (
@@ -396,8 +459,18 @@ function AjoutBienScreen() {
             <TouchableOpacity
               onPress={() => showModeDetention(2)}
             >
-              <Layout style={detentionShow ? (styles.headerUp) : (styles.headerDown)}>
-                <Text>{detention}</Text>
+              <Layout style={
+                detentionShow
+                  ? ({
+                    ...styles.headerUp,
+                  })
+                  : ({
+                    ...styles.headerDown, paddingLeft: 25, paddingVertical: 22,
+                  })
+              }
+              >
+                <Text style={{ fontSize: 16, letterSpacing: 0.2, color: colors.blanc }}>{detention}</Text>
+                <Icon name="arrow-ios-downward-outline" color={colors.blanc} size={15} />
               </Layout>
             </TouchableOpacity>
             {detentionShow && (
@@ -492,8 +565,7 @@ function AjoutBienScreen() {
 
           )}
         </View>
-        )}
-      </View>
+      )}
 
     </ScrollView>
   );
@@ -506,14 +578,15 @@ const styles = StyleSheet.create({
     backgroundColor: colors.blanc,
   },
   faq: {
-    marginTop: 12,
-    marginBottom: 49,
+    marginTop: 53,
+    marginBottom: 45,
     marginLeft: 22,
     fontSize: 24,
     fontWeight: '600',
     fontStyle: 'normal',
-    letterSpacing: 0,
+    letterSpacing: 0.84,
     color: '#000000',
+    fontFamily: 'HouschkaRoundedDemiBold',
   },
   item: {
     padding: 20,
@@ -525,8 +598,11 @@ const styles = StyleSheet.create({
     letterSpacing: 0,
     color: colors.noir,
   },
+
+  // Mode de detention part
   headerDown: {
     padding: 22,
+    marginHorizontal: 24,
     marginBottom: 36,
     flexDirection: 'row',
     alignItems: 'center',
@@ -543,6 +619,7 @@ const styles = StyleSheet.create({
   },
   headerUp: {
     padding: 22,
+    marginHorizontal: 24,
     marginBottom: 15,
     flexDirection: 'row',
     alignItems: 'center',
@@ -570,6 +647,28 @@ const styles = StyleSheet.create({
     marginRight: 22,
 
   },
+
+  // Localisation input style
+  inputStyle: {
+    fontSize: 16,
+    marginTop: 6,
+    borderRadius: 7,
+    paddingVertical: 14,
+    paddingHorizontal: 21,
+    marginHorizontal: 20,
+    backgroundColor: '#fff',
+    fontWeight: 'normal',
+    borderColor: 'transparent',
+    marginBottom: 32,
+    shadowColor: '#dedede',
+    shadowOffset: {
+      width: 0,
+      height: 0.5,
+    },
+    shadowRadius: 4,
+    shadowOpacity: 1,
+  },
+
   text: {
     fontSize: 16,
     fontWeight: '600',
@@ -577,6 +676,12 @@ const styles = StyleSheet.create({
     lineHeight: 24,
     letterSpacing: 0,
     color: colors.noir,
+  },
+
+  // bouton ajouter supprimer
+  button: {
+    fontSize: 17,
+    color: '#0076c8',
   },
 });
 

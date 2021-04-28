@@ -10,6 +10,7 @@ import { StyleSheet, TouchableOpacity } from 'react-native';
 import { Layout } from '@ui-kitten/components';
 import { createStackNavigator } from '@react-navigation/stack';
 import { AntDesign } from '@expo/vector-icons';
+import { DrawerActions } from '@react-navigation/native';
 import Contact from './Components/Contact';
 import HeaderLeftOpenDrawerNavigation from '../../navigation/HeaderLeftOpenDrawerNavigation';
 import HeaderRightOpenDrawerNavigation from '../../navigation/HeaderRightOpenDrawerNavigation';
@@ -26,18 +27,25 @@ const TabContactScreen = ({ navigation }) => (
         name="Contact"
         options={{
           headerTitle: false,
-          headerLeftContainerStyle: {
-            paddingBottom: 5,
+          headerStyle: {
+            height: 120,
           },
           headerRightContainerStyle: {
-            marginBottom: 5,
+            marginRight: 18,
           },
-          headerShown: true,
+          headerLeftContainerStyle: {
+            marginLeft: 13,
+          },
           headerLeft: () => (
-            <HeaderLeftOpenDrawerNavigation navigation={navigation} />
+            <TouchableOpacity onPress={() => {
+              navigation.dispatch(DrawerActions.toggleDrawer());
+            }}
+            >
+              <AntDesign name="arrowleft" size={30} style={{ color: '#b5b5b5', marginLeft: 20 }} />
+            </TouchableOpacity>
           ),
           headerRight: () => (
-            <HeaderRightOpenDrawerNavigation navigation={navigation} />
+            <HeaderLeftOpenDrawerNavigation navigation={navigation} />
           ),
         }}
         component={Contact}

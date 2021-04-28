@@ -30,11 +30,14 @@ export default function MonCompteScreen({ navigation }) {
           name="MonCompte"
           options={{
             headerTitle: false,
-            headerLeftContainerStyle: {
-              paddingBottom: 5,
+            headerStyle: {
+              height: 120,
             },
             headerRightContainerStyle: {
-              marginBottom: 5,
+              marginRight: 18,
+            },
+            headerLeftContainerStyle: {
+              marginLeft: 13,
             },
             headerLeft: () => (
               <TouchableOpacity
@@ -56,11 +59,14 @@ export default function MonCompteScreen({ navigation }) {
           name="ModifierInfo1"
           options={{
             headerTitle: false,
-            headerLeftContainerStyle: {
-              paddingBottom: 5,
+            headerStyle: {
+              height: 120,
             },
             headerRightContainerStyle: {
-              marginBottom: 5,
+              marginRight: 18,
+            },
+            headerLeftContainerStyle: {
+              marginLeft: 13,
             },
             headerLeft: () => (
               <TouchableOpacity onPress={() => { navigation.navigate('MonCompte'); }}>
@@ -77,11 +83,14 @@ export default function MonCompteScreen({ navigation }) {
           name="ModifierInfo2"
           options={{
             headerTitle: false,
-            headerLeftContainerStyle: {
-              paddingBottom: 5,
+            headerStyle: {
+              height: 120,
             },
             headerRightContainerStyle: {
-              marginBottom: 5,
+              marginRight: 18,
+            },
+            headerLeftContainerStyle: {
+              marginLeft: 13,
             },
             headerLeft: () => (
               <TouchableOpacity onPress={() => { navigation.navigate('ModifierInfo1'); }}>
@@ -99,11 +108,14 @@ export default function MonCompteScreen({ navigation }) {
           name="ModifierInfo3"
           options={{
             headerTitle: false,
-            headerLeftContainerStyle: {
-              paddingBottom: 5,
+            headerStyle: {
+              height: 120,
             },
             headerRightContainerStyle: {
-              marginBottom: 5,
+              marginRight: 18,
+            },
+            headerLeftContainerStyle: {
+              marginLeft: 13,
             },
             headerLeft: () => (
               <TouchableOpacity onPress={() => { navigation.navigate('ModifierInfo2'); }}>

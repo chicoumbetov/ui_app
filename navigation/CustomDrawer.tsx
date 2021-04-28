@@ -1,3 +1,9 @@
+/**
+ * Custom drawer navigation
+ *
+ * @author: David BUCH, Shynggys UMBETOV
+ */
+
 import React from 'react';
 import {
   Drawer, DrawerItem, IndexPath, Layout, Text,
@@ -10,38 +16,38 @@ import { colors } from '../assets/styles';
 import Icon from '../components/Icon/Icon';
 
 // Icons
-const GridIcon = (props) => (
-  <Icon {...props} name="grid-outline" size={23} />
+const GridIcon = () => (
+  <Icon name="grid-outline" size={35} />
 );
 
-const MoneyIcon = (props) => (
-  <Icon name="money" size={35} color={colors.green} />
+const MoneyIcon = () => (
+  <Icon name="money" size={35} />
 );
-const QuestionIcon = (props) => (
-  <Icon name="question" size={35} color={colors.green} />
-);
-
-const BellIcon = (props) => (
-  <Icon {...props} name="bell-outline" size={24} />
+const QuestionIcon = () => (
+  <Icon name="question" size={35} />
 );
 
-const PersonIcon = (props) => (
-  <Icon {...props} name="person-outline" size={24} />
+const BellIcon = () => (
+  <Icon name="bell-outline" size={29} />
 );
 
-const HomeIcon = (props) => (
-  <Icon {...props} name="home-outline" size={22} />
+const PersonIcon = () => (
+  <Icon name="person-outline" size={35} />
 );
 
-const PaperIcon = (props) => (
-  <Icon {...props} name="file-text-outline1" size={22} />
+const HomeIcon = () => (
+  <Icon name="home-outline" size={30} />
 );
 
-const EmailIcon = (props) => (
-  <Icon {...props} name="email-outline" size={22} />
+const PaperIcon = () => (
+  <Icon name="file-text-outline1" size={28} />
 );
 
-const DrawerContent = ({ navigation, state }) => (
+const EmailIcon = () => (
+  <Icon name="email-outline" size={25} />
+);
+
+const CustomDrawer = ({ navigation, state }) => (
   <ScrollView
     showsVerticalScrollIndicator={false}
     contentContainerStyle={{ flex: 1, justifyContent: 'space-between' }}
@@ -108,7 +114,7 @@ const DrawerContent = ({ navigation, state }) => (
           )}
           accessoryLeft={GridIcon}
           style={{
-            ...styles.drawerItemContainer, height: 72, paddingLeft: 26, width: 214,
+            ...styles.drawerItemContainer, height: 68, width: 214, marginTop: 6,
           }}
         />
 
@@ -120,19 +126,22 @@ const DrawerContent = ({ navigation, state }) => (
           )}
           accessoryLeft={PersonIcon}
           style={{
-            ...styles.drawerItemContainer, height: 69, width: 191, paddingLeft: 26,
+            ...styles.drawerItemContainer, height: 66, width: 191,
           }}
         />
 
         <DrawerItem
           title={() => (
-            <Text style={{ ...styles.drawerItemText }}>
+            <Text style={{ ...styles.drawerItemText, marginTop: 9 }}>
               Mes Biens
             </Text>
           )}
           accessoryLeft={HomeIcon}
           style={{
-            ...styles.drawerItemContainer, height: 68, paddingLeft: 26, width: 170,
+            ...styles.drawerItemContainer,
+            height: 67,
+            width: 170,
+            marginTop: -2,
           }}
         />
         <DrawerItem
@@ -143,7 +152,7 @@ const DrawerContent = ({ navigation, state }) => (
           )}
           accessoryLeft={MoneyIcon}
           style={{
-            ...styles.drawerItemContainer, height: 66, paddingLeft: 31, width: 198,
+            ...styles.drawerItemContainer, height: 65, paddingLeft: 32, marginTop: 5, width: 198,
           }}
         />
 
@@ -155,7 +164,7 @@ const DrawerContent = ({ navigation, state }) => (
           )}
           accessoryLeft={PaperIcon}
           style={{
-            ...styles.drawerItemContainer, height: 68, paddingLeft: 29, width: 199,
+            ...styles.drawerItemContainer, height: 61, paddingLeft: 37, width: 198.5, marginTop: 3,
           }}
         />
         <DrawerItem
@@ -166,7 +175,7 @@ const DrawerContent = ({ navigation, state }) => (
           )}
           accessoryLeft={BellIcon}
           style={{
-            ...styles.drawerItemContainer, height: 67, paddingLeft: 28, width: 189,
+            ...styles.drawerItemContainer, height: 70, paddingLeft: 36, width: 189,
           }}
         />
         <DrawerItem
@@ -177,7 +186,7 @@ const DrawerContent = ({ navigation, state }) => (
           )}
           accessoryLeft={QuestionIcon}
           style={{
-            ...styles.drawerItemContainer, height: 63, paddingLeft: 32, width: 129,
+            ...styles.drawerItemContainer, height: 63, paddingLeft: 32, width: 128,
           }}
         />
         <DrawerItem
@@ -188,14 +197,14 @@ const DrawerContent = ({ navigation, state }) => (
           )}
           accessoryLeft={EmailIcon}
           style={{
-            ...styles.drawerItemContainer, height: 75, paddingLeft: 31, width: 156,
+            ...styles.drawerItemContainer, height: 77, paddingLeft: 39, width: 156,
           }}
         />
       </Drawer>
     </Layout>
 
     <Layout style={{
-      paddingHorizontal: 26, paddingBottom: 18,
+      paddingHorizontal: 29, paddingBottom: 24,
     }}
     >
       <TouchableOpacity onPress={() => {}}>
@@ -206,7 +215,7 @@ const DrawerContent = ({ navigation, state }) => (
   </ScrollView>
 );
 
-export default DrawerContent;
+export default CustomDrawer;
 
 const styles = StyleSheet.create({
   drawerItemText: {
@@ -216,5 +225,6 @@ const styles = StyleSheet.create({
   },
   drawerItemContainer: {
     backgroundColor: 'transparent',
+    paddingLeft: 33,
   },
 });

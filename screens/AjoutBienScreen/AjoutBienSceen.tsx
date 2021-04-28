@@ -137,7 +137,7 @@ function AjoutBienScreen() {
         <View>
           <Text>La maison de Matthieu</Text>
           <Layout style={{ alignItems: 'center', backgroundColor: 'transparent', marginVertical: 30 }}>
-            <Icon name="final4Plan-de-travail-1" size={140} style={{ marginRight: 10 }} />
+            <Icon name="vert_batiment" size={140} style={{ marginRight: 10 }} />
           </Layout>
 
           <Text style={{ fontSize: 17, color: '#b5b5b5' }}>Choisir une icone</Text>

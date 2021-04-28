@@ -85,7 +85,7 @@ function AjoutBienScreen() {
   const [typeBien, setTypeBien] = useState('Type de Bien');
   const [typeBienShow, setTypeBienShow] = useState(false);
 
-  const [detention, setDetention] = useState('Type de Bien');
+  const [detention, setDetention] = useState('Détention');
   const [detentionShow, setDetentionShow] = useState(false);
 
   const [statut, setStatut] = useState('Statut');
@@ -94,16 +94,74 @@ function AjoutBienScreen() {
   const [typeImpo, setTypeImpo] = useState('Type de Bien');
   const [typeImpoShow, setTypeImpoShow] = useState(false);
 
+  const [typeDetention, setTypeDetention] = useState('Type de détention');
+  const [typeDetentionShow, setTypeDetentionShow] = useState(false);
+
   const showModeDetention = (id: number) => {
     switch (id) {
       case 1:
         setTypeBienShow(true);
+        setDetentionShow(false);
+        setStatutShow(false);
+        setTypeImpoShow(false);
+        setTypeDetentionShow(false);
+        break;
+      case 2:
+        setTypeBienShow(false);
+        setDetentionShow(true);
+        setStatutShow(false);
+        setTypeImpoShow(false);
+        setTypeDetentionShow(false);
+        break;
+      case 3:
+        setTypeBienShow(false);
+        setDetentionShow(false);
+        setStatutShow(true);
+        setTypeImpoShow(false);
+        setTypeDetentionShow(false);
+        break;
+      case 4:
+        setTypeBienShow(false);
+        setDetentionShow(false);
+        setStatutShow(false);
+        setTypeImpoShow(true);
+        setTypeDetentionShow(false);
+        break;
+      case 5:
+        setTypeBienShow(false);
+        setDetentionShow(false);
+        setStatutShow(false);
+        setTypeImpoShow(false);
+        setTypeDetentionShow(true);
+        break;
     }
   };
 
   const SetTypeBien = (tybeBientxt: string) => {
     setTypeBien(tybeBientxt);
     setTypeBienShow(false);
+    setDetentionShow(true);
+  };
+
+  const SetDetention = (detentiontxt: string) => {
+    setDetention(detentiontxt);
+    setDetentionShow(false);
+    if (detentiontxt === 'Société') {
+      setStatutShow(true);
+    } else {
+      setTypeDetentionShow(true);
+    }
+  };
+
+  const SetStatut = (statuttxt: string) => {
+    setStatut(statuttxt);
+    setStatutShow(false);
+    setTypeImpoShow(true);
+  };
+
+  const SetTypeImpo = (tybeImpotxt: string) => {
+    setTypeBien(tybeImpotxt);
+    setTypeImpoShow(false);
   };
 
   return (
@@ -114,7 +172,7 @@ function AjoutBienScreen() {
       {/**
        *  Identité
        */}
-      <View style={{ ...styles.item, backgroundColor: ((etape1 === 0) ? colors.orange4 : ((etape1 === 1) ? colors.blanc : colors.green)) }}>
+      <View style={{ ...styles.item, backgroundColor: ((etape1 === 0) ? colors.orange4 : ((etape1 === 1) ? colors.blanc : colors.vert4)) }}>
         <TouchableOpacity
           onPress={() => SetEtape1()}
         >
@@ -218,7 +276,7 @@ function AjoutBienScreen() {
        *  Localisation
        */}
 
-      <View style={{ ...styles.item, backgroundColor: ((etape2 === 0) ? colors.orange4 : ((etape2 === 1) ? colors.blanc : colors.green)) }}>
+      <View style={{ ...styles.item, backgroundColor: ((etape2 === 0) ? colors.orange4 : ((etape2 === 1) ? colors.blanc : colors.vert4)) }}>
         <TouchableOpacity
           onPress={() => SetEtape2()}
         >
@@ -239,7 +297,11 @@ function AjoutBienScreen() {
         </TouchableOpacity>
         {etape2 === 1 && (
         <View>
-          <Text>Text 2</Text>
+          <TextInput style={styles.inputText} placeholder="Adresse" />
+          <TextInput style={styles.inputText} placeholder="Complément d'adresse" />
+          <TextInput style={styles.inputText} placeholder="Code Postal" />
+          <TextInput style={styles.inputText} placeholder="Ville" />
+          <TextInput style={styles.inputText} placeholder="Pays" />
         </View>
         )}
       </View>
@@ -248,7 +310,7 @@ function AjoutBienScreen() {
        *  Mode de détention
        */}
 
-      <View style={{ ...styles.item, backgroundColor: ((etape3 === 0) ? colors.orange4 : ((etape3 === 1) ? colors.blanc : colors.green)) }}>
+      <View style={{ ...styles.item, backgroundColor: ((etape3 === 0) ? colors.orange4 : ((etape3 === 1) ? colors.blanc : colors.vert4)) }}>
         <TouchableOpacity
           onPress={() => SetEtape3()}
         >
@@ -300,35 +362,135 @@ function AjoutBienScreen() {
               <TouchableOpacity
                 onPress={() => SetTypeBien('Rèsidence Principale')}
               >
-                <Layout>
-                  <Text>Rèsidence Principale</Text>
+                <Layout style={{ margin: 20 }}>
+                  <Text style={styles.text}>Rèsidence Principale</Text>
                 </Layout>
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => SetTypeBien('Résidence Secondaire')}
               >
-                <Layout>
-                  <Text>Résidence Secondaire</Text>
+                <Layout style={{ margin: 20 }}>
+                  <Text style={styles.text}>Résidence Secondaire</Text>
                 </Layout>
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => SetTypeBien('Investissement Locatif Professionnel ou Commercial')}
               >
-                <Layout>
-                  <Text>Investissement Locatif Professionnel ou Commercial</Text>
+                <Layout style={{ margin: 20 }}>
+                  <Text style={styles.text}>Investissement Locatif Professionnel ou Commercial</Text>
                 </Layout>
               </TouchableOpacity>
 
               <TouchableOpacity
                 onPress={() => SetTypeBien('Investissement Locatif Particulier')}
               >
-                <Layout>
-                  <Text>Investissement Locatif Particulier</Text>
+                <Layout style={{ margin: 20 }}>
+                  <Text style={styles.text}>Investissement Locatif Particulier</Text>
                 </Layout>
               </TouchableOpacity>
             </Layout>
             )}
           </Layout>
+
+          <Layout>
+            <TouchableOpacity
+              onPress={() => showModeDetention(2)}
+            >
+              <Layout style={detentionShow ? (styles.headerUp) : (styles.headerDown)}>
+                <Text>{detention}</Text>
+              </Layout>
+            </TouchableOpacity>
+            {detentionShow && (
+            <Layout>
+              <TouchableOpacity
+                onPress={() => SetDetention('Nom Propre')}
+              >
+                <Layout style={{ margin: 20 }}>
+                  <Text style={styles.text}>Nom Propre</Text>
+                </Layout>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => SetDetention('Société')}
+              >
+                <Layout style={{ margin: 20 }}>
+                  <Text style={styles.text}>Société</Text>
+                </Layout>
+              </TouchableOpacity>
+            </Layout>
+            )}
+          </Layout>
+          {detention === 'Société' && (
+          <Layout>
+            <TouchableOpacity
+              onPress={() => showModeDetention(3)}
+            >
+              <Layout style={statutShow ? (styles.headerUp) : (styles.headerDown)}>
+                <Text>{statut}</Text>
+              </Layout>
+            </TouchableOpacity>
+            {statutShow && (
+            <Layout>
+              <TouchableOpacity
+                onPress={() => SetStatut('SCI')}
+              >
+                <Layout style={{ margin: 20 }}>
+                  <Text style={styles.text}>SCI</Text>
+                </Layout>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => SetStatut('SAS')}
+              >
+                <Layout style={{ margin: 20 }}>
+                  <Text style={styles.text}>SAS</Text>
+                </Layout>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => SetStatut('SARL Classique')}
+              >
+                <Layout style={{ margin: 20 }}>
+                  <Text style={styles.text}>SARL Classique</Text>
+                </Layout>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                onPress={() => SetStatut('SARL Famille')}
+              >
+                <Layout style={{ margin: 20 }}>
+                  <Text style={styles.text}>SARL Famille</Text>
+                </Layout>
+              </TouchableOpacity>
+            </Layout>
+            )}
+
+            <TouchableOpacity
+              onPress={() => showModeDetention(4)}
+            >
+              <Layout style={statutShow ? (styles.headerUp) : (styles.headerDown)}>
+                <Text>{typeImpo}</Text>
+              </Layout>
+            </TouchableOpacity>
+            {typeImpoShow && (
+            <Layout>
+              <TouchableOpacity
+                onPress={() => SetTypeImpo('Impôt sur les revenus')}
+              >
+                <Layout style={{ margin: 20 }}>
+                  <Text style={styles.text}>Impôt sur les revenus</Text>
+                </Layout>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => SetTypeImpo('Impôt sur les sociétés')}
+              >
+                <Layout style={{ margin: 20 }}>
+                  <Text style={styles.text}>Impôt sur les sociétés</Text>
+                </Layout>
+              </TouchableOpacity>
+
+            </Layout>
+            )}
+          </Layout>
+
+          )}
         </View>
         )}
       </View>
@@ -401,6 +563,20 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 24,
+  },
+  inputText: {
+    marginLeft: 39,
+    marginTop: 30,
+    marginRight: 22,
+
+  },
+  text: {
+    fontSize: 16,
+    fontWeight: '600',
+    fontStyle: 'normal',
+    lineHeight: 24,
+    letterSpacing: 0,
+    color: colors.noir,
   },
 });
 

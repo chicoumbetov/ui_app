@@ -67,6 +67,10 @@ export default function BottomTabNavigator() {
       <BottomTab.Screen
         name="MesBiens"
         component={TabMesBiensNavigator}
+        options={{
+          headerTitle: false,
+          headerShown: true,
+        }}
       />
       <BottomTab.Screen
         name="MesCharges"

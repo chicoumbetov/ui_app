@@ -10,6 +10,7 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
+import { DrawerActions } from '@react-navigation/native';
 import MonCompteScreen from '../screens/MonCompteScreen/MonCompteScreen';
 import TabMesBiensScreen from '../screens/TabMesBiensScreen/TabMesBiensScreen';
 import TabMaTresorerieScreen from '../screens/TabMaTresorerieScreen/TabMaTresorerieScreen';
@@ -94,17 +95,31 @@ const DrawerNavigator = ({ navigation }) => (
         }}
       />
 
+      { /**
+         *      Notification from Drawer Nav
+         */ }
       <DrawerNav.Screen
         name="Notifications"
         component={TabNotificationsScreen}
         options={{
           headerShown: true,
           headerTitle: false,
+          headerStyle: {
+            height: 120,
+          },
+          headerRightContainerStyle: {
+            marginRight: 18,
+          },
+          headerLeftContainerStyle: {
+            marginLeft: 13,
+          },
           headerLeft: () => (
-            <HeaderLeftOpenDrawerNavigation navigation={navigation} />
+            <TouchableOpacity onPress={() => { navigation.dispatch(DrawerActions.toggleDrawer()); }}>
+              <AntDesign name="arrowleft" size={30} style={{ color: '#b5b5b5', marginLeft: 20 }} />
+            </TouchableOpacity>
           ),
           headerRight: () => (
-            <HeaderRightOpenDrawerNavigation navigation={navigation} />
+            <HeaderLeftOpenDrawerNavigation navigation={navigation} />
           ),
           drawerIcon: function getIcon({ color }: { color: string }) {
             return <Icon name="email-outline" {...{ color }} size={30} />;

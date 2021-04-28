@@ -10,6 +10,7 @@ import MesCharges1 from './Components/MesCharges1';
 import HeaderLeftOpenDrawerNavigation from '../../navigation/HeaderLeftOpenDrawerNavigation';
 import MesCharges2 from './Components/MesCharges2';
 import MesCharges3 from './Components/MesCharges3';
+import HeaderRightOpenDrawerNavigation from '../../navigation/HeaderRightOpenDrawerNavigation';
 
 const Stack = createStackNavigator();
 
@@ -23,22 +24,20 @@ export default function TabMesChargeScreen({ navigation }) {
           name="MesCharges1"
           options={{
             headerTitle: false,
-            headerLeftContainerStyle: {
-              paddingBottom: 5,
+            headerStyle: {
+              height: 120,
             },
             headerRightContainerStyle: {
-              marginBottom: 5,
+              marginRight: 18,
             },
-            headerShown: true,
+            headerLeftContainerStyle: {
+              marginLeft: 13,
+            },
             headerLeft: () => (
-              <TouchableOpacity
-                onPress={() => { navigation.dispatch(DrawerActions.toggleDrawer()); }}
-              >
-                <AntDesign name="arrowleft" size={30} style={{ color: '#b5b5b5', marginLeft: 20 }} />
-              </TouchableOpacity>
+              <HeaderLeftOpenDrawerNavigation navigation={navigation} />
             ),
             headerRight: () => (
-              <HeaderLeftOpenDrawerNavigation navigation={navigation} />
+              <HeaderRightOpenDrawerNavigation navigation={navigation} />
             ),
           }}
           component={MesCharges1}

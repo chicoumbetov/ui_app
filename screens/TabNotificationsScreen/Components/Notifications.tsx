@@ -126,7 +126,7 @@ const NotificationsPage = () => {
                     fontSize: 11,
                     paddingHorizontal: 20,
                     paddingTop: 9,
-                    height: 199,
+                    height: 20,
                     lineHeight: 23.8,
                   }}
                   >
@@ -175,11 +175,12 @@ export default NotificationsPage;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    margin: 30,
+    marginHorizontal: 24,
+    marginTop: 34,
   },
   faq: {
     marginTop: 12,
-    marginBottom: 49,
+    marginBottom: 41,
     fontSize: 24,
     fontWeight: '600',
     fontStyle: 'normal',
@@ -197,7 +198,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     borderRadius: 7,
-    backgroundColor: '#5fc4ee',
+    backgroundColor: '#37a3de',
     shadowColor: 'rgba(199, 199, 199, 0.5)',
     shadowOffset: {
       width: 0,
@@ -208,12 +209,12 @@ const styles = StyleSheet.create({
   },
   headerUp: {
     padding: 22,
-    marginBottom: 15,
+    marginBottom: 13,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     borderRadius: 7,
-    backgroundColor: '#37a3de',
+    backgroundColor: '#5fc4ee',
     shadowColor: 'rgba(199, 199, 199, 0.5)',
     shadowOffset: {
       width: 0,

@@ -97,14 +97,14 @@ function TableauDeBord() {
 
         <FlatList
           data={comptesData}
-          keyExtractor={(item) => { item.id; }}
-          renderItem={(item) => (
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
             <Layout style={{
               flexDirection: 'column', marginTop: 28, padding: 17, borderRadius: 10,
             }}
             >
               <TouchableOpacity onPress={() => {}} style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                <CompteHeader title={compte[0].title} key={item} />
+                <CompteHeader title={item.title} />
                 <AntDesign name="right" size={12.5} style={{ color: '#b5b5b5', marginRight: 5, marginTop: 8 }} />
               </TouchableOpacity>
 

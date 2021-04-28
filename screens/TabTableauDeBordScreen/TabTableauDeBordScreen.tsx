@@ -1,19 +1,19 @@
 /**
  * Page d'acceuil
  *
- * @author: Shynggys UMBETOV, Amaury
+ * @author: Shynggys UMBETOV
  */
 
 import * as React from 'react';
-import { StyleSheet, TouchableOpacity } from 'react-native';
+import { StyleSheet } from 'react-native';
 
 import { Layout } from '@ui-kitten/components';
 import { createStackNavigator } from '@react-navigation/stack';
-import { DrawerActions } from '@react-navigation/native';
-import { AntDesign } from '@expo/vector-icons';
+
 import TableauDeBord from './Components/TableauDeBord';
 import HeaderLeftOpenDrawerNavigation from '../../navigation/HeaderLeftOpenDrawerNavigation';
-import AjoutBienScreen from '../AjoutBienScreen/AjoutBienSceen';
+
+import HeaderRightOpenDrawerNavigation from '../../navigation/HeaderRightOpenDrawerNavigation';
 
 const Stack = createStackNavigator();
 
@@ -27,13 +27,20 @@ export default function TabTableauDeBordScreen({ navigation }) {
           name="TableauDeBord"
           options={{
             headerTitle: false,
+            headerStyle: {
+              height: 120,
+            },
+            headerRightContainerStyle: {
+              marginRight: 18,
+            },
+            headerLeftContainerStyle: {
+              marginLeft: 13,
+            },
             headerLeft: () => (
-              <TouchableOpacity onPress={() => { navigation.dispatch(DrawerActions.toggleDrawer()); }}>
-                <AntDesign name="arrowleft" size={30} style={{ color: '#b5b5b5', marginLeft: 20 }} />
-              </TouchableOpacity>
+              <HeaderLeftOpenDrawerNavigation navigation={navigation} />
             ),
             headerRight: () => (
-              <HeaderLeftOpenDrawerNavigation navigation={navigation} />
+              <HeaderRightOpenDrawerNavigation navigation={navigation} />
             ),
           }}
           component={TableauDeBord}

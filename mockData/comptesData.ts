@@ -23,6 +23,7 @@ const comptesData = [
   },
   {
     title: 'Jean',
+    id: '1',
     data: [
       {
         id: 'c1',

@@ -28,13 +28,16 @@ export default function TabMonAssistantScreen({ navigation }) {
           name="Mon Assistant"
           options={{
             headerTitle: false,
-            headerLeftContainerStyle: {
-              paddingBottom: 5,
+            headerShown: true,
+            headerStyle: {
+              height: 120,
             },
             headerRightContainerStyle: {
-              marginBottom: 5,
+              marginRight: 18,
             },
-            headerShown: true,
+            headerLeftContainerStyle: {
+              marginLeft: 13,
+            },
             headerLeft: () => (
               <HeaderLeftOpenDrawerNavigation navigation={navigation} />
             ),
@@ -51,11 +54,14 @@ export default function TabMonAssistantScreen({ navigation }) {
           component={DeclarationImpots}
           options={{
             headerTitle: false,
-            headerLeftContainerStyle: {
-              paddingBottom: 5,
+            headerStyle: {
+              height: 120,
             },
             headerRightContainerStyle: {
-              marginBottom: 5,
+              marginRight: 18,
+            },
+            headerLeftContainerStyle: {
+              marginLeft: 13,
             },
             headerLeft: () => (
               <TouchableOpacity onPress={() => { navigation.navigate('Mon Assistant'); }}>
@@ -72,11 +78,14 @@ export default function TabMonAssistantScreen({ navigation }) {
           component={DeclarationImpots2}
           options={{
             headerTitle: false,
-            headerLeftContainerStyle: {
-              paddingBottom: 5,
+            headerStyle: {
+              height: 120,
             },
             headerRightContainerStyle: {
-              marginBottom: 5,
+              marginRight: 18,
+            },
+            headerLeftContainerStyle: {
+              marginLeft: 13,
             },
             headerLeft: () => (
               <TouchableOpacity onPress={() => { navigation.navigate('DeclarationImpots'); }}>
@@ -96,11 +105,14 @@ export default function TabMonAssistantScreen({ navigation }) {
           component={PdfScreen}
           options={{
             headerTitle: false,
-            headerLeftContainerStyle: {
-              paddingBottom: 5,
+            headerStyle: {
+              height: 120,
             },
             headerRightContainerStyle: {
-              marginBottom: 5,
+              marginRight: 18,
+            },
+            headerLeftContainerStyle: {
+              marginLeft: 13,
             },
             headerLeft: () => (
               <TouchableOpacity onPress={() => { navigation.navigate('Mon Assistant'); }}>
@@ -120,11 +132,14 @@ export default function TabMonAssistantScreen({ navigation }) {
           component={QuittanceLoyer}
           options={{
             headerTitle: false,
-            headerLeftContainerStyle: {
-              paddingBottom: 5,
+            headerStyle: {
+              height: 120,
             },
             headerRightContainerStyle: {
-              marginBottom: 5,
+              marginRight: 18,
+            },
+            headerLeftContainerStyle: {
+              marginLeft: 13,
             },
             headerLeft: () => (
               <TouchableOpacity onPress={() => { navigation.navigate('Mon Assistant'); }}>
@@ -142,11 +157,14 @@ export default function TabMonAssistantScreen({ navigation }) {
           component={QuittanceLoyer2}
           options={{
             headerTitle: false,
-            headerLeftContainerStyle: {
-              paddingBottom: 5,
+            headerStyle: {
+              height: 120,
             },
             headerRightContainerStyle: {
-              marginBottom: 5,
+              marginRight: 18,
+            },
+            headerLeftContainerStyle: {
+              marginLeft: 13,
             },
             headerLeft: () => (
               <TouchableOpacity onPress={() => { navigation.navigate('Mon Assistant'); }}>

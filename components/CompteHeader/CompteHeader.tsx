@@ -2,7 +2,11 @@ import React from 'react';
 import { Layout, Text } from '@ui-kitten/components';
 import { Image } from 'react-native';
 
-const CompteHeader = ({ title }) => (
+type TitleProps = {
+  title: string
+};
+
+const CompteHeader = ({ title }: TitleProps) => (
 
   <Layout style={{
     marginRight: 20, flexDirection: 'row', backgroundColor: 'transparent',

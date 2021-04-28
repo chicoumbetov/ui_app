@@ -1,14 +1,33 @@
 import React, { useState } from 'react';
 import {
+  Image,
   ScrollView, SectionList, StyleSheet, Text, TextInput, TouchableOpacity, View,
 } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
 import { Layout } from '@ui-kitten/components';
 import { AntDesign } from '@expo/vector-icons';
+import * as ImagePicker from 'expo-image-picker';
+import { useNavigation } from '@react-navigation/native';
 import { colors } from '../../assets/styles';
+import Icon from '../../components/Icon';
 
 function AjoutBienScreen() {
+  const navigation = useNavigation();
+  const onTakePicture = () => (console.log('photo'));
+
+  const pickImage = async () => {
+    try {
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      });
+    } catch (e) {
+      console.log('pickImage error: ', e);
+    }
+  };
+
+  const [logo, setLogo] = useState('../../assets/Icones_omedom/logements/icones_log1.png');
+
   { /**
    *Variable pour gérer l'affichage des trois grandes partie
    * */ }
@@ -117,6 +136,79 @@ function AjoutBienScreen() {
         {etape1 === 1 && (
         <View>
           <Text>La maison de Matthieu</Text>
+          <Layout style={{ alignItems: 'center', backgroundColor: 'transparent', marginVertical: 30 }}>
+            <Icon name="final4Plan-de-travail-1" size={140} style={{ marginRight: 10 }} />
+          </Layout>
+
+          <Text style={{ fontSize: 17, color: '#b5b5b5' }}>Choisir une icone</Text>
+
+          <Layout style={{
+            flexDirection: 'row', marginTop: 21, justifyContent: 'space-around', alignItems: 'center', backgroundColor: 'transparent',
+          }}
+          >
+            <TouchableOpacity onPress={() => {}}>
+              <Image
+                source={require('../../assets/Icones_omedom/logements/icones_log1.png')}
+                style={{ height: 50, width: 50 }}
+              />
+            </TouchableOpacity>
+            <Image
+              source={require('../../assets/Icones_omedom/logements/icones_log4.png')}
+              style={{ height: 50, width: 50 }}
+            />
+            <Image
+              source={require('../../assets/Icones_omedom/logements/icones_log3.png')}
+              style={{ height: 50, width: 50 }}
+            />
+            <Image
+              source={require('../../assets/Icones_omedom/logements/icones_log2.png')}
+              style={{ height: 50, width: 50 }}
+            />
+            <Image
+              source={require('../../assets/Icones_omedom/logements/icones_log10.png')}
+              style={{ height: 50, width: 50 }}
+            />
+
+          </Layout>
+          <Layout style={{
+            flexDirection: 'row', marginTop: 21, justifyContent: 'space-around', alignItems: 'center', backgroundColor: 'transparent',
+          }}
+          >
+            <Image
+              source={require('../../assets/Icones_omedom/logements/icones_log5.png')}
+              style={{ height: 50, width: 50 }}
+            />
+            <Image
+              source={require('../../assets/Icones_omedom/logements/icones_log6.png')}
+              style={{ height: 50, width: 50 }}
+            />
+            <Image
+              source={require('../../assets/Icones_omedom/logements/icones_log7.png')}
+              style={{ height: 50, width: 50 }}
+            />
+            <Image
+              source={require('../../assets/Icones_omedom/logements/icones_log8.png')}
+              style={{ height: 50, width: 50 }}
+            />
+            <Image
+              source={require('../../assets/Icones_omedom/logements/icones_log9.png')}
+              style={{ height: 50, width: 50 }}
+            />
+
+          </Layout>
+
+          <TouchableOpacity onPress={() => { onTakePicture(); }} style={{ marginVertical: 39 }}>
+            <Text style={styles.button}>Prendre une photo</Text>
+          </TouchableOpacity>
+
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: 1 }}>
+            <TouchableOpacity onPress={() => { pickImage(); }}>
+              <Text style={styles.button}>Ajouter une photo</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => {}}>
+              <Text style={{ fontSize: 17.5, color: '#000' }}>Supprimer la photo</Text>
+            </TouchableOpacity>
+          </View>
         </View>
         )}
 

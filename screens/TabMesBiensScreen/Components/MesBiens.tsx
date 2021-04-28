@@ -139,7 +139,7 @@ function MesBiens() {
             >
               <Layout style={{ alignItems: 'center', flexDirection: 'row' }}>
                 <AntDesign name="arrowdown" size={13} style={{ marginTop: 14, color: '#b5b5b5' }} />
-                <Text style={styles.biensIncomeMouvement}>- 160 €</Text>
+                <Text style={{ ...styles.biensIncomeMouvement, color: colors.rouge }}>- 160 €</Text>
               </Layout>
             </Layout>
 
@@ -158,7 +158,7 @@ function MesBiens() {
                     marginTop: 14, marginRight: 8,
                   }}
                 />
-                <Text style={styles.biensIncomeMouvement}>60 %</Text>
+                <Text style={{ ...styles.biensIncomeMouvement, color: colors.jaune }}>60 %</Text>
               </Layout>
             </Layout>
           </Layout>

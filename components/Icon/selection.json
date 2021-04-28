@@ -507,7 +507,7 @@
       "properties": {
         "order": 97,
         "id": 17,
-        "name": "final4Plan-de-travail-1",
+        "name": "vert_maison",
         "prevSize": 32,
         "code": 59675,
         "codes": [
@@ -797,7 +797,7 @@
       "properties": {
         "order": 98,
         "id": 16,
-        "name": "final4Plan-de-travail-1_22",
+        "name": "vert_magasin",
         "prevSize": 32,
         "code": 59685,
         "codes": [
@@ -1022,7 +1022,7 @@
       "properties": {
         "order": 99,
         "id": 15,
-        "name": "final4Plan-de-travail-1_20",
+        "name": "voiture",
         "prevSize": 32,
         "code": 59721,
         "codes": [
@@ -1234,7 +1234,7 @@
       "properties": {
         "order": 106,
         "id": 14,
-        "name": "final4Plan-de-travail-1_11",
+        "name": "vert_logement",
         "prevSize": 32,
         "code": 59744,
         "codes": [
@@ -1488,7 +1488,7 @@
       "properties": {
         "order": 105,
         "id": 13,
-        "name": "final4Plan-de-travail-1_10",
+        "name": "bleu_maison",
         "prevSize": 32,
         "code": 59767,
         "codes": [
@@ -2140,7 +2140,7 @@
       "properties": {
         "order": 104,
         "id": 12,
-        "name": "final4Plan-de-travail-1_9",
+        "name": "jaune_batiment",
         "prevSize": 32,
         "code": 59796,
         "codes": [
@@ -2624,7 +2624,7 @@
       "properties": {
         "order": 103,
         "id": 11,
-        "name": "final4Plan-de-travail-1_8",
+        "name": "vert_chateau",
         "prevSize": 32,
         "code": 59881,
         "codes": [
@@ -2818,7 +2818,7 @@
       "properties": {
         "order": 102,
         "id": 10,
-        "name": "final4Plan-de-travail-1_6",
+        "name": "jaune_maison",
         "prevSize": 32,
         "code": 59934,
         "codes": [
@@ -2932,7 +2932,7 @@
       "properties": {
         "order": 101,
         "id": 9,
-        "name": "final4Plan-de-travail-1_5",
+        "name": "voile",
         "prevSize": 32,
         "code": 59950,
         "codes": [
@@ -3096,7 +3096,7 @@
       "properties": {
         "order": 100,
         "id": 8,
-        "name": "final4Plan-de-travail-1_7",
+        "name": "vert_batiment",
         "prevSize": 32,
         "code": 59960,
         "codes": [

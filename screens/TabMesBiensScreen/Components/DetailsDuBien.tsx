@@ -46,7 +46,7 @@ function DetailsBien() {
       {/**
        *  I. Details du bien
        */}
-      <Layout style={styles.container}>
+      <Layout style={{ ...styles.container, marginTop: 0 }}>
         <Text style={{ fontSize: 25, fontFamily: 'HouschkaRoundedDemiBold' }}>
           Détails du bien
         </Text>

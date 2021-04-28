@@ -13,6 +13,7 @@ import { AntDesign } from '@expo/vector-icons';
 import DetailsBien from './Components/DetailsDuBien';
 import MesBiens from './Components/MesBiens';
 import HeaderLeftOpenDrawerNavigation from '../../navigation/HeaderLeftOpenDrawerNavigation';
+import MonBudget from './Components/MonBudget';
 
 const Stack = createStackNavigator();
 
@@ -69,6 +70,28 @@ export default function TabMesBiensScreen({ navigation }) {
             ),
           }}
           component={DetailsBien}
+        />
+        <Stack.Screen
+          name="MonBudget"
+          options={{
+            headerShown: true,
+            headerTitle: false,
+            headerLeftContainerStyle: {
+              paddingBottom: 5,
+            },
+            headerRightContainerStyle: {
+              marginBottom: 5,
+            },
+            headerLeft: () => (
+              <TouchableOpacity onPress={() => { navigation.navigate('DetailsBien'); }}>
+                <AntDesign name="arrowleft" size={30} style={{ color: '#b5b5b5', marginLeft: 20 }} />
+              </TouchableOpacity>
+            ),
+            headerRight: () => (
+              <HeaderLeftOpenDrawerNavigation navigation={navigation} />
+            ),
+          }}
+          component={MonBudget}
         />
 
       </Stack.Navigator>

@@ -4,6 +4,15 @@
  * @author: David BUCH, Shynggys UMBETOV
  */
 
+/** Contenu:
+ * 1. imports
+ * 2. Icons
+ * 3. Custom Drawer itself
+ */
+
+/**
+ * 1. imports
+ */
 import React from 'react';
 import {
   Drawer, DrawerItem, IndexPath, Layout, Text,
@@ -15,6 +24,9 @@ import comptesData from '../mockData/comptesData';
 import { colors } from '../assets/styles';
 import Icon from '../components/Icon/Icon';
 
+/**
+ * 2. Icons
+ */
 // Icons
 const GridIcon = () => (
   <Icon name="grid-outline" size={35} />
@@ -47,6 +59,9 @@ const EmailIcon = () => (
   <Icon name="email-outline" size={25} />
 );
 
+/**
+ * 3. Custom Drawer itself
+ */
 const CustomDrawer = ({ navigation, state }) => (
   <ScrollView
     showsVerticalScrollIndicator={false}
@@ -83,25 +98,25 @@ const CustomDrawer = ({ navigation, state }) => (
               navigation.navigate('TableauDeBord');
               break;
             case 1:
-              navigation.navigate('Mon Compte');
+              navigation.navigate('MonCompteDrawer');
               break;
             case 2:
-              navigation.navigate('MesBiens');
+              navigation.navigate('MesBiensDrawer');
               break;
             case 3:
-              navigation.navigate('Ma Trésorerie');
+              navigation.navigate('MaTrésorerieDrawer');
               break;
             case 4:
-              navigation.navigate('MonAssistant');
+              navigation.navigate('MonAssistantDrawer');
               break;
             case 5:
-              navigation.navigate('Notifications');
+              navigation.navigate('NotificationsDrawer');
               break;
             case 6:
-              navigation.navigate('FAQ');
+              navigation.navigate('FaqDrawer');
               break;
             case 7:
-              navigation.navigate('Contact');
+              navigation.navigate('ContactDrawer');
               break;
           }
         }}

@@ -14,11 +14,6 @@ import {
 import { AntDesign } from '@expo/vector-icons';
 
 import { Layout } from '@ui-kitten/components';
-import MonCompteScreen from '../screens/MonCompteScreen/MonCompteScreen';
-import TabMesBiensScreen from '../screens/TabMesBiensScreen/TabMesBiensScreen';
-import TabMaTresorerieScreen from '../screens/TabMaTresorerieScreen/TabMaTresorerieScreen';
-import TabFaqScreen from '../screens/FaqScreen/TabFaqScreen';
-import TabContactScreen from '../screens/TabContactScreen/TabContactScreen';
 
 import BottomTabNavigator from './BottomTabNavigator';
 
@@ -31,8 +26,15 @@ import { StatusBarHeight } from '../components/StatusBarHeight';
 import AjoutBienScreen from '../screens/AjoutBienScreen/AjoutBienSceen';
 import { colors } from '../assets/styles';
 
-import { TabMesBiensNavigator, TabMonAssistantNavigator, TabNotificationsNavigator } from './StackNavigators';
-
+import {
+  TabContactNavigator,
+  TabFaqNavigator,
+  TabMaTresorerieNavigator,
+  TabMesBiensNavigator,
+  TabMonAssistantNavigator,
+  TabMonCompteNavigator,
+  TabNotificationsNavigator,
+} from './StackNavigators';
 
 const DrawerNav = createDrawerNavigator();
 
@@ -66,8 +68,8 @@ const DrawerNavigator = ({ navigation }) => {
           }}
         />
         <DrawerNav.Screen
-          name="Mon Compte"
-          component={MonCompteScreen}
+          name="MonCompteDrawer"
+          component={TabMonCompteNavigator}
           options={{
             headerShown: false,
             drawerIcon: function getIcon({ color }: { color: string }) {
@@ -76,7 +78,7 @@ const DrawerNavigator = ({ navigation }) => {
           }}
         />
         <DrawerNav.Screen
-          name="Mes Biens"
+          name="MesBiensDrawer"
           component={TabMesBiensNavigator}
           options={{
             headerShown: false,
@@ -86,8 +88,8 @@ const DrawerNavigator = ({ navigation }) => {
           }}
         />
         <DrawerNav.Screen
-          name="Ma Trésorerie"
-          component={TabMaTresorerieScreen}
+          name="MaTrésorerieDrawer"
+          component={TabMaTresorerieNavigator}
           options={{
             headerShown: false,
             drawerIcon: function getIcon({ color }: { color: string }) {
@@ -96,7 +98,7 @@ const DrawerNavigator = ({ navigation }) => {
           }}
         />
         <DrawerNav.Screen
-          name="MonAssistant"
+          name="MonAssistantDrawer"
           component={TabMonAssistantNavigator}
           options={{
             headerShown: false,
@@ -106,11 +108,8 @@ const DrawerNavigator = ({ navigation }) => {
           }}
         />
 
-        { /**
-        *      Notification from Drawer Nav
-        */}
         <DrawerNav.Screen
-          name="Notifications"
+          name="NotificationsDrawer"
           component={TabNotificationsNavigator}
           options={{
             headerShown: false,
@@ -121,8 +120,8 @@ const DrawerNavigator = ({ navigation }) => {
           }}
         />
         <DrawerNav.Screen
-          name="FAQ"
-          component={TabFaqScreen}
+          name="FaqDrawer"
+          component={TabFaqNavigator}
           options={{
             headerShown: false,
             drawerIcon: function getIcon({ color }: { color: string }) {
@@ -131,8 +130,8 @@ const DrawerNavigator = ({ navigation }) => {
           }}
         />
         <DrawerNav.Screen
-          name="Contact"
-          component={TabContactScreen}
+          name="ContactDrawer"
+          component={TabContactNavigator}
           options={{
             headerShown: false,
             drawerIcon: function getIcon({ color }: { color: string }) {
@@ -140,6 +139,8 @@ const DrawerNavigator = ({ navigation }) => {
             },
           }}
         />
+
+        {/** It is not appeared in drawer navigation */}
         <DrawerNav.Screen
           name="AjoutBienScreen"
           options={{

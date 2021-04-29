@@ -692,7 +692,7 @@ export function TabMonAssistantNavigator({ navigation }) {
             marginLeft: 13,
           },
           headerLeft: () => (
-            <TouchableOpacity onPress={() => { navigation.navigate('Mon Assistant'); }}>
+            <TouchableOpacity onPress={() => { navigation.navigate('MonAssistant'); }}>
               <AntDesign name="arrowleft" size={30} style={{ color: '#b5b5b5', marginLeft: 20 }} />
             </TouchableOpacity>
           ),
@@ -743,7 +743,7 @@ export function TabMonAssistantNavigator({ navigation }) {
             marginLeft: 13,
           },
           headerLeft: () => (
-            <TouchableOpacity onPress={() => { navigation.navigate('Mon Assistant'); }}>
+            <TouchableOpacity onPress={() => { navigation.navigate('MonAssistant'); }}>
               <AntDesign name="arrowleft" size={30} style={{ color: '#b5b5b5', marginLeft: 20 }} />
             </TouchableOpacity>
 
@@ -770,7 +770,7 @@ export function TabMonAssistantNavigator({ navigation }) {
             marginLeft: 13,
           },
           headerLeft: () => (
-            <TouchableOpacity onPress={() => { navigation.navigate('Mon Assistant'); }}>
+            <TouchableOpacity onPress={() => { navigation.navigate('MonAssistant'); }}>
               <AntDesign name="arrowleft" size={30} style={{ color: '#b5b5b5', marginLeft: 20 }} />
             </TouchableOpacity>
 
@@ -795,7 +795,7 @@ export function TabMonAssistantNavigator({ navigation }) {
             marginLeft: 13,
           },
           headerLeft: () => (
-            <TouchableOpacity onPress={() => { navigation.navigate('Mon Assistant'); }}>
+            <TouchableOpacity onPress={() => { navigation.navigate('MonAssistant'); }}>
               <AntDesign name="arrowleft" size={30} style={{ color: '#b5b5b5', marginLeft: 20 }} />
             </TouchableOpacity>
 

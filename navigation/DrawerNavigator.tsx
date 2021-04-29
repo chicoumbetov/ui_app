@@ -27,6 +27,7 @@ import AjoutBienScreen from '../screens/AjoutBienScreen/AjoutBienSceen';
 import { colors } from '../assets/styles';
 
 import {
+  TabAjoutNavigator,
   TabContactNavigator,
   TabFaqNavigator,
   TabMaTresorerieNavigator,
@@ -140,32 +141,6 @@ const DrawerNavigator = ({ navigation }) => {
           }}
         />
 
-        {/** It is not appeared in drawer navigation */}
-        <DrawerNav.Screen
-          name="AjoutBienScreen"
-          options={{
-            headerTitle: false,
-            headerShown: true,
-            headerLeftContainerStyle: {
-              paddingBottom: 5,
-            },
-            headerRightContainerStyle: {
-              marginBottom: 5,
-            },
-            headerLeft: () => (
-              <TouchableOpacity onPress={() => {
-                navigation.navigate('TableauDeBord');
-              }}
-              >
-                <AntDesign name="arrowleft" size={30} style={{ color: '#b5b5b5', marginLeft: 20 }} />
-              </TouchableOpacity>
-            ),
-            headerRight: () => (
-              <HeaderLeftOpenDrawerNavigation navigation={navigation} />
-            ),
-          }}
-          component={AjoutBienScreen}
-        />
       </DrawerNav.Navigator>
     </Layout>
   );

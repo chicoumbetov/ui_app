@@ -28,15 +28,17 @@ export type RootStackParamList = {
  * */
 
 export type BottomTabParamList = {
-  'MesBiens': undefined;
-  'MesCharges': undefined;
-  'TableauDeBord': undefined;
-  'MonAssistant': undefined;
-  'Notifications': undefined;
+  'MesBiensBottom': undefined;
+  'MesChargesBottom': undefined;
+  'TableauDeBordBottom': undefined;
+  'MonAssistantBottom': undefined;
+  'NotificationsBottom': undefined;
 };
 
 export type TabTableauDeBordParamList = {
   TableauDeBord: undefined;
+  AjoutBienScreen: undefined;
+  CameraDom: undefined;
 };
 
 export type TabMonCompteParamList = {
@@ -93,6 +95,7 @@ export type TabMesChargesParamList = {
 
 export type AjoutBienParamList = {
   AjoutBienScreen: undefined;
+  CameraDom: undefined;
 };
 
 /**

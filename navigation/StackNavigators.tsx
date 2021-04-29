@@ -139,6 +139,53 @@ export function TabTableauDeBordNavigator({ navigation }) {
           ),
         }}
       />
+      <TabTableauDeBordStack.Screen
+        name="AjoutBienScreen"
+        component={AjoutBienScreen}
+        options={{
+          headerTitle: false,
+          headerShown: true,
+          headerStyle: {
+            height: 120,
+          },
+          headerRightContainerStyle: {
+            marginRight: 18,
+          },
+          headerLeftContainerStyle: {
+            marginLeft: 13,
+          },
+          headerLeft: () => (
+            <TouchableOpacity onPress={() => { navigation.navigate('TableauDeBord'); }}>
+              <AntDesign name="arrowleft" size={30} style={{ color: '#b5b5b5', marginLeft: 20 }} />
+            </TouchableOpacity>
+          ),
+          headerRight: () => (
+            <HeaderLeftOpenDrawerNavigation navigation={navigation} />
+          ),
+        }}
+      />
+      <TabTableauDeBordStack.Screen
+        name="CameraDom"
+        options={{
+          headerTitle: false,
+          headerShown: true,
+          headerStyle: {
+            height: 120,
+          },
+          headerRightContainerStyle: {
+            marginRight: 18,
+          },
+          headerLeftContainerStyle: {
+            marginLeft: 13,
+          },
+          headerLeft: () => (
+            <TouchableOpacity onPress={() => { navigation.navigate('AjoutBienScreen'); }}>
+              <AntDesign name="arrowleft" size={30} style={{ color: '#b5b5b5', marginLeft: 20 }} />
+            </TouchableOpacity>
+          ),
+        }}
+        component={CameraDom}
+      />
 
     </TabTableauDeBordStack.Navigator>
   );
@@ -149,7 +196,9 @@ const TabMonCompteStack = createStackNavigator<TabMonCompteParamList>();
 
 export function TabMonCompteNavigator({ navigation }) {
   return (
-    <TabMonCompteStack.Navigator>
+    <TabMonCompteStack.Navigator
+      initialRouteName="MonCompte"
+    >
       <TabMonCompteStack.Screen
         name="MonCompte"
         component={MonComptePage1}
@@ -276,7 +325,10 @@ const TabMesBiensStack = createStackNavigator<TabMesBiensParamList>();
 
 export function TabMesBiensNavigator({ navigation }) {
   return (
-    <TabMesBiensStack.Navigator headerMode="screen">
+    <TabMesBiensStack.Navigator
+      headerMode="screen"
+      initialRouteName="MesBiens"
+    >
       <TabMesBiensStack.Screen
         name="MesBiens"
         component={MesBiens}
@@ -462,7 +514,9 @@ const TabMaTresorerieStack = createStackNavigator<TabMaTresorerieParamList>();
 
 export function TabMaTresorerieNavigator({ navigation }) {
   return (
-    <TabMaTresorerieStack.Navigator>
+    <TabMaTresorerieStack.Navigator
+      initialRouteName="MaTresorerie"
+    >
       <TabMaTresorerieStack.Screen
         name="MaTresorerie"
         component={MaTresorerie}
@@ -597,7 +651,9 @@ const TabMonAssistantStack = createStackNavigator<TabMonAssistantParamList>();
 
 export function TabMonAssistantNavigator({ navigation }) {
   return (
-    <TabMonAssistantStack.Navigator>
+    <TabMonAssistantStack.Navigator
+      initialRouteName="MonAssistant"
+    >
       <TabMonAssistantStack.Screen
         name="MonAssistant"
         component={MonAssistant}
@@ -758,7 +814,9 @@ const TabNotificationsStack = createStackNavigator<TabNotificationsParamList>();
 
 export function TabNotificationsNavigator({ navigation }) {
   return (
-    <TabNotificationsStack.Navigator>
+    <TabNotificationsStack.Navigator
+      initialRouteName="Notifications"
+    >
       <TabNotificationsStack.Screen
         name="Notifications"
         component={Notifications}
@@ -790,7 +848,9 @@ const TabFaqStack = createStackNavigator<TabFaqParamList>();
 
 export function TabFaqNavigator({ navigation }) {
   return (
-    <TabFaqStack.Navigator>
+    <TabFaqStack.Navigator
+      initialRouteName="Faq"
+    >
       <TabFaqStack.Screen
         name="Faq"
         component={Faq}
@@ -828,7 +888,9 @@ const TabContactStack = createStackNavigator<TabContactParamList>();
 
 export function TabContactNavigator({ navigation }) {
   return (
-    <TabContactStack.Navigator>
+    <TabContactStack.Navigator
+      initialRouteName="Contact"
+    >
       <TabContactStack.Screen
         name="Contact"
         component={Contact}
@@ -888,7 +950,9 @@ const TabMesChargesStack = createStackNavigator<TabMesChargesParamList>();
 
 export function TabMesChargesNavigator({ navigation }) {
   return (
-    <TabMesChargesStack.Navigator>
+    <TabMesChargesStack.Navigator
+      initialRouteName="TabMesChargesScreen"
+    >
       <TabMesChargesStack.Screen
         name="TabMesChargesScreen"
         component={TabMesChargeScreen}
@@ -915,6 +979,19 @@ export function TabAjoutNavigator({ navigation }) {
           headerTitle: false,
           headerShown: false,
         }}
+      />
+      <TabAjoutBienStack.Screen
+        name="CameraDom"
+        options={{
+          headerTitle: false,
+          headerLeft: () => (
+            <TouchableOpacity onPress={() => { navigation.navigate('AjoutBienScreen'); }}>
+              <AntDesign name="arrowleft" size={30} style={{ color: '#b5b5b5', marginLeft: 20 }} />
+            </TouchableOpacity>
+
+          ),
+        }}
+        component={CameraDom}
       />
     </TabAjoutBienStack.Navigator>
   );

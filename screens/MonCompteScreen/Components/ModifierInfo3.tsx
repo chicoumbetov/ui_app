@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Image, StyleSheet, TouchableOpacity, View,
+  Image, ScrollView, StyleSheet, TouchableOpacity, View,
 } from 'react-native';
 import { Button, Layout, Text } from '@ui-kitten/components';
 import { useNavigation } from '@react-navigation/native';
@@ -28,7 +28,10 @@ const Informations = ({ route }) => {
   };
 
   return (
-    <Layout style={styles.container}>
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      style={styles.container}
+    >
       <View>
         <Text style={styles.title}>Modifier vos informations</Text>
       </View>
@@ -88,7 +91,7 @@ const Informations = ({ route }) => {
         </Button>
       </View>
 
-    </Layout>
+    </ScrollView>
 
   );
 };

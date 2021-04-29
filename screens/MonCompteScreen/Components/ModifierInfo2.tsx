@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import {
   Button, Input, Layout, Text,
 } from '@ui-kitten/components';
@@ -18,7 +18,10 @@ const Informations = ({ route }) => {
     navigation.navigate('ModifierInfo3');
   };
   return (
-    <Layout style={styles.container}>
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      style={styles.container}
+    >
       <View>
         <Text style={styles.title}>Modifier vos informations</Text>
       </View>
@@ -74,7 +77,7 @@ const Informations = ({ route }) => {
         </Button>
       </View>
 
-    </Layout>
+    </ScrollView>
 
   );
 };

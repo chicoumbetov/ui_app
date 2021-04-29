@@ -235,6 +235,7 @@ export default CustomDrawer;
 const styles = StyleSheet.create({
   drawerItemText: {
     fontSize: 16,
+    fontFamily: 'HouschkaRoundedDemiBold',
     letterSpacing: 0.5,
     color: colors.noir,
   },

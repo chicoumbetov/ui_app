@@ -5,29 +5,20 @@
  */
 
 import React, { useEffect } from 'react';
-
-import { createDrawerNavigator } from '@react-navigation/drawer';
-
 import {
-  LogBox, StyleSheet, TouchableOpacity,
+  LogBox, StyleSheet,
 } from 'react-native';
-import { AntDesign } from '@expo/vector-icons';
-
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import { Layout } from '@ui-kitten/components';
+import { StatusBarHeight } from '../components/StatusBarHeight';
+import { colors } from '../assets/styles';
 
 import BottomTabNavigator from './BottomTabNavigator';
+import CustomDrawer from './CustomDrawer';
 
 import Icon from '../components/Icon/Icon';
 
-import HeaderLeftOpenDrawerNavigation from './HeaderLeftOpenDrawerNavigation';
-
-import CustomDrawer from './CustomDrawer';
-import { StatusBarHeight } from '../components/StatusBarHeight';
-import AjoutBienScreen from '../screens/AjoutBienScreen/AjoutBienSceen';
-import { colors } from '../assets/styles';
-
 import {
-  TabAjoutNavigator,
   TabContactNavigator,
   TabFaqNavigator,
   TabMaTresorerieNavigator,
@@ -39,15 +30,17 @@ import {
 
 const DrawerNav = createDrawerNavigator();
 
-const DrawerNavigator = ({ navigation }) => {
+const DrawerNavigator = () => {
   // to ignore warning
   useEffect(() => {
     LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
   }, []);
 
+  const { Navigator, Screen } = DrawerNav;
+
   return (
     <Layout style={{ flex: 1 }}>
-      <DrawerNav.Navigator
+      <Navigator
         drawerType="slide"
         drawerStyle={{ ...styles.drawerStyles }}
         sceneContainerStyle={{ backgroundColor: 'transparent' }}
@@ -59,16 +52,16 @@ const DrawerNavigator = ({ navigation }) => {
           // labelStyle: { fontSize: 20 },
         }}
         drawerContent={(props) => <CustomDrawer {...props} />}
-        initialRouteName="TableauDeBord"
+        initialRouteName="TableauDeBordDrawer"
       >
-        <DrawerNav.Screen
-          name="TableauDeBord"
+        <Screen
+          name="TableauDeBordDrawer"
           component={BottomTabNavigator}
           options={{
             headerShown: false,
           }}
         />
-        <DrawerNav.Screen
+        <Screen
           name="MonCompteDrawer"
           component={TabMonCompteNavigator}
           options={{
@@ -78,7 +71,7 @@ const DrawerNavigator = ({ navigation }) => {
             },
           }}
         />
-        <DrawerNav.Screen
+        <Screen
           name="MesBiensDrawer"
           component={TabMesBiensNavigator}
           options={{
@@ -88,7 +81,7 @@ const DrawerNavigator = ({ navigation }) => {
             },
           }}
         />
-        <DrawerNav.Screen
+        <Screen
           name="MaTrésorerieDrawer"
           component={TabMaTresorerieNavigator}
           options={{
@@ -98,7 +91,7 @@ const DrawerNavigator = ({ navigation }) => {
             },
           }}
         />
-        <DrawerNav.Screen
+        <Screen
           name="MonAssistantDrawer"
           component={TabMonAssistantNavigator}
           options={{
@@ -109,18 +102,17 @@ const DrawerNavigator = ({ navigation }) => {
           }}
         />
 
-        <DrawerNav.Screen
+        <Screen
           name="NotificationsDrawer"
           component={TabNotificationsNavigator}
           options={{
             headerShown: false,
-            headerTitle: false,
             drawerIcon: function getIcon({ color }: { color: string }) {
               return <Icon name="email-outline" {...{ color }} size={30} />;
             },
           }}
         />
-        <DrawerNav.Screen
+        <Screen
           name="FaqDrawer"
           component={TabFaqNavigator}
           options={{
@@ -130,7 +122,7 @@ const DrawerNavigator = ({ navigation }) => {
             },
           }}
         />
-        <DrawerNav.Screen
+        <Screen
           name="ContactDrawer"
           component={TabContactNavigator}
           options={{
@@ -141,7 +133,7 @@ const DrawerNavigator = ({ navigation }) => {
           }}
         />
 
-      </DrawerNav.Navigator>
+      </Navigator>
     </Layout>
   );
 };

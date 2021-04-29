@@ -5,9 +5,8 @@ import {
 import { Button, Layout, Text } from '@ui-kitten/components';
 import { useNavigation } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
-import CameraDom from './Camera';
 
-const Informations = ({ route }) => {
+const Informations = () => {
   const [value, setValue] = React.useState('');
   const navigation = useNavigation();
 

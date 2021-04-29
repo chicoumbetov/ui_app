@@ -1,11 +1,11 @@
 import React from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import {
-  Button, Input, Layout, Text,
+  Button, Input, Text,
 } from '@ui-kitten/components';
 import { useNavigation } from '@react-navigation/native';
 
-const Informations = ({ route }) => {
+const Informations = () => {
   const navigation = useNavigation();
   const [dateDeNaissance, setDateDeNaissance] = React.useState('');
   const [adresse, setAdresse] = React.useState('');

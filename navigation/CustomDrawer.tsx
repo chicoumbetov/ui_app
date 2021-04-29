@@ -86,7 +86,7 @@ const CustomDrawer = ({ navigation, state }) => (
               navigation.navigate('Mon Compte');
               break;
             case 2:
-              navigation.navigate('Mes Biens');
+              navigation.navigate('MesBiens');
               break;
             case 3:
               navigation.navigate('Ma Trésorerie');

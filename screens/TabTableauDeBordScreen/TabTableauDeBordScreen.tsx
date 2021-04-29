@@ -17,7 +17,7 @@ import HeaderRightOpenDrawerNavigation from '../../navigation/HeaderRightOpenDra
 
 const Stack = createStackNavigator();
 
-export default function TabTableauDeBordScreen({ navigation }) {
+// export default function TabTableauDeBordScreen({ navigation }) {
   return (
     <Layout style={styles.container}>
       <Stack.Navigator

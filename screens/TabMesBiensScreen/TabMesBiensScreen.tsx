@@ -18,10 +18,11 @@ import ParametrerAjoutRevenu from './Components/ParametrerAjoutRevenu';
 import ParametrerAjoutCharges from './Components/ParametrerAjoutCharges';
 import PartagerBien from './Components/PartagerBien';
 import ModifierCharacteristiques from './Components/ModifierCharacteristiques';
+import HeaderRightOpenDrawerNavigation from '../../navigation/HeaderRightOpenDrawerNavigation';
 
 const Stack = createStackNavigator();
 
-export default function TabMesBiensScreen({ navigation }) {
+// export default function TabMesBiensScreen({ navigation }) {
   return (
     <Layout style={{ flex: 1, backgroundColor: '#efefef' }}>
       <Stack.Navigator>
@@ -30,29 +31,7 @@ export default function TabMesBiensScreen({ navigation }) {
           component={MesBiens}
           options={{
             headerTitle: false,
-            headerShown: true,
-            headerStyle: {
-              height: 120,
-            },
-            headerRightContainerStyle: {
-              marginRight: 18,
-            },
-            headerLeftContainerStyle: {
-              marginLeft: 13,
-            },
-            headerLeft: () => (
-              <TouchableOpacity
-                onPress={() => {
-                  navigation.dispatch(DrawerActions.toggleDrawer());
-                }}
-              >
-                <AntDesign name="arrowleft" size={31} style={{ color: '#b5b5b5', marginLeft: 20 }} />
-              </TouchableOpacity>
-
-            ),
-            headerRight: () => (
-              <HeaderLeftOpenDrawerNavigation navigation={navigation} />
-            ),
+            headerShown: false,
           }}
         />
         <Stack.Screen

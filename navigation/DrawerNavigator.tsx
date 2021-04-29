@@ -27,11 +27,12 @@ import Icon from '../components/Icon/Icon';
 import HeaderLeftOpenDrawerNavigation from './HeaderLeftOpenDrawerNavigation';
 
 import CustomDrawer from './CustomDrawer';
-import TabNotificationsScreen from '../screens/TabNotificationsScreen/TabNotificationsScreen';
-import TabMonAssistantScreen from '../screens/MonAssistantScreen/TabMonAssistantScreen';
 import { StatusBarHeight } from '../components/StatusBarHeight';
 import AjoutBienScreen from '../screens/AjoutBienScreen/AjoutBienSceen';
 import { colors } from '../assets/styles';
+
+import { TabMesBiensNavigator, TabMonAssistantNavigator, TabNotificationsNavigator } from './StackNavigators';
+
 
 const DrawerNav = createDrawerNavigator();
 
@@ -76,7 +77,7 @@ const DrawerNavigator = ({ navigation }) => {
         />
         <DrawerNav.Screen
           name="Mes Biens"
-          component={TabMesBiensScreen}
+          component={TabMesBiensNavigator}
           options={{
             headerShown: false,
             drawerIcon: function getIcon({ color }: { color: string }) {
@@ -96,7 +97,7 @@ const DrawerNavigator = ({ navigation }) => {
         />
         <DrawerNav.Screen
           name="MonAssistant"
-          component={TabMonAssistantScreen}
+          component={TabMonAssistantNavigator}
           options={{
             headerShown: false,
             drawerIcon: function getIcon({ color }: { color: string }) {
@@ -110,7 +111,7 @@ const DrawerNavigator = ({ navigation }) => {
         */}
         <DrawerNav.Screen
           name="Notifications"
-          component={TabNotificationsScreen}
+          component={TabNotificationsNavigator}
           options={{
             headerShown: false,
             headerTitle: false,

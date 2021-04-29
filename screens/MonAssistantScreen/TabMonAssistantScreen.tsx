@@ -19,7 +19,7 @@ import QuittanceLoyer2 from './Components/QuittanceLoyer2';
 
 const Stack = createStackNavigator();
 
-export default function TabMonAssistantScreen({ navigation }) {
+// export default function TabMonAssistantScreen({ navigation }) {
   return (
     <Layout style={{ flex: 1, backgroundColor: '#efefef' }}>
       <Stack.Navigator
@@ -29,27 +29,7 @@ export default function TabMonAssistantScreen({ navigation }) {
           name="Mon Assistant"
           options={{
             headerTitle: false,
-            headerShown: true,
-            headerStyle: {
-              height: 120,
-            },
-            headerRightContainerStyle: {
-              marginRight: 18,
-            },
-            headerLeftContainerStyle: {
-              marginLeft: 13,
-            },
-            headerLeft: () => (
-              <TouchableOpacity onPress={() => {
-                navigation.dispatch(DrawerActions.toggleDrawer());
-              }}
-              >
-                <AntDesign name="arrowleft" size={30} style={{ color: '#b5b5b5', marginLeft: 20 }} />
-              </TouchableOpacity>
-            ),
-            headerRight: () => (
-              <HeaderLeftOpenDrawerNavigation navigation={navigation} />
-            ),
+            headerShown: false,
           }}
           component={MonAssistant}
         />

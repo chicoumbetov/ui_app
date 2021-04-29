@@ -7,10 +7,11 @@ import { DrawerActions } from '@react-navigation/native';
 import { AntDesign } from '@expo/vector-icons';
 import Notifications from './Components/Notifications';
 import HeaderLeftOpenDrawerNavigation from '../../navigation/HeaderLeftOpenDrawerNavigation';
+import HeaderRightOpenDrawerNavigation from '../../navigation/HeaderRightOpenDrawerNavigation';
 
 const Stack = createStackNavigator();
 
-export default function TabNotificationsScreen({ navigation }) {
+// export default function TabNotificationsScreen({ navigation }) {
   return (
     <Layout style={styles.container}>
       <Stack.Navigator>
@@ -18,27 +19,7 @@ export default function TabNotificationsScreen({ navigation }) {
           name="Notifications"
           component={Notifications}
           options={{
-            headerShown: true,
-            headerStyle: {
-              height: 120,
-            },
-            headerRightContainerStyle: {
-              marginRight: 18,
-            },
-            headerLeftContainerStyle: {
-              marginLeft: 13,
-            },
-            headerLeft: () => (
-              <TouchableOpacity onPress={() => {
-                navigation.dispatch(DrawerActions.toggleDrawer());
-              }}
-              >
-                <AntDesign name="arrowleft" size={30} style={{ color: '#b5b5b5', marginLeft: 20 }} />
-              </TouchableOpacity>
-            ),
-            headerRight: () => (
-              <HeaderLeftOpenDrawerNavigation navigation={navigation} />
-            ),
+            headerShown: false,
           }}
         />
       </Stack.Navigator>

@@ -15,11 +15,6 @@ import { BottomTabParamList } from '../types';
 
 import Icon from '../components/Icon';
 import { colors } from '../assets/styles';
-import TabMonAssistantScreen from '../screens/MonAssistantScreen/TabMonAssistantScreen';
-import TabTableauDeBordScreen from '../screens/TabTableauDeBordScreen/TabTableauDeBordScreen';
-import TabMesBiensScreen from '../screens/TabMesBiensScreen/TabMesBiensScreen';
-import TabNotificationsScreen from '../screens/TabNotificationsScreen/TabNotificationsScreen';
-import TabMesChargeScreen from '../screens/TabMesChargesScreen/TabMesChargeScreen';
 
 const HomeIcon = () => (
   <Icon name="home-outline" size={30} color={colors.green} />
@@ -71,23 +66,23 @@ export default function BottomTabNavigator() {
     >
       <BottomTab.Screen
         name="MesBiens"
-        component={TabMesBiensScreen}
+        component={TabMesBiensNavigator}
       />
       <BottomTab.Screen
         name="MesCharges"
-        component={TabMesChargeScreen}
+        component={TabMesChargesNavigator}
       />
       <BottomTab.Screen
         name="TableauDeBord"
-        component={TabTableauDeBordScreen}
+        component={TabTableauDeBordNavigator}
       />
       <BottomTab.Screen
         name="MonAssistant"
-        component={TabMonAssistantScreen}
+        component={TabMonAssistantNavigator}
       />
       <BottomTab.Screen
         name="Notifications"
-        component={TabNotificationsScreen}
+        component={TabNotificationsNavigator}
       />
 
     </BottomTab.Navigator>

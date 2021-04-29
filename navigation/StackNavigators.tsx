@@ -9,7 +9,7 @@ import * as React from 'react';
 
 import { TouchableOpacity } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
-import { DrawerActions } from '@react-navigation/native';
+import { DrawerActions, useNavigation } from '@react-navigation/native';
 // Header components Logo and Burger icons
 import HeaderLeftOpenDrawerNavigation from './HeaderLeftOpenDrawerNavigation';
 import HeaderRightOpenDrawerNavigation from './HeaderRightOpenDrawerNavigation';
@@ -93,8 +93,10 @@ import Contact from '../screens/TabContactScreen/Components/Contact';
 import Contact2 from '../screens/TabContactScreen/Components/Contact2';
 
 /** import Mes Charges screens */
-import TabMesChargeScreen from '../screens/TabMesChargesScreen/TabMesChargeScreen';
 import AjoutBienScreen from '../screens/AjoutBienScreen/AjoutBienSceen';
+import MesCharges1 from '../screens/TabMesChargesScreen/Components/MesCharges1';
+import MesCharges2 from '../screens/TabMesChargesScreen/Components/MesCharges2';
+import MesCharges3 from '../screens/TabMesChargesScreen/Components/MesCharges3';
 
 /**
  * Stack sections:
@@ -110,74 +112,60 @@ import AjoutBienScreen from '../screens/AjoutBienScreen/AjoutBienSceen';
  * 10. Ajout Bien stack    //  NOT USED in Drawer Navigator because doesn't work that way
  * */
 
+// FIX headerTitle props errors
+
 /** Tableau de bord Section */
 const TabTableauDeBordStack = createStackNavigator<TabTableauDeBordParamList>();
 
-export function TabTableauDeBordNavigator({ navigation }) {
+export function TabTableauDeBordNavigator() {
+  const navigation = useNavigation();
+  const { Navigator, Screen } = TabTableauDeBordStack;
+
   return (
-    <TabTableauDeBordStack.Navigator>
-      <TabTableauDeBordStack.Screen
+    <Navigator
+      screenOptions={{
+        headerTitle: false,
+        headerShown: true,
+        headerStyle: {
+          height: 120,
+        },
+        headerRightContainerStyle: {
+          marginRight: 18,
+        },
+        headerLeftContainerStyle: {
+          marginLeft: 13,
+        },
+      }}
+    >
+      <Screen
         name="TableauDeBord"
         component={TableauDeBord}
         options={{
-          headerTitle: false,
-          headerShown: true,
-          headerStyle: {
-            height: 120,
-          },
-          headerRightContainerStyle: {
-            marginRight: 18,
-          },
-          headerLeftContainerStyle: {
-            marginLeft: 13,
-          },
           headerLeft: () => (
-            <HeaderLeftOpenDrawerNavigation navigation={navigation} />
+            <HeaderLeftOpenDrawerNavigation />
           ),
           headerRight: () => (
-            <HeaderRightOpenDrawerNavigation navigation={navigation} />
+            <HeaderRightOpenDrawerNavigation />
           ),
         }}
       />
-      <TabTableauDeBordStack.Screen
+      <Screen
         name="AjoutBienScreen"
         component={AjoutBienScreen}
         options={{
-          headerTitle: false,
-          headerShown: true,
-          headerStyle: {
-            height: 120,
-          },
-          headerRightContainerStyle: {
-            marginRight: 18,
-          },
-          headerLeftContainerStyle: {
-            marginLeft: 13,
-          },
           headerLeft: () => (
             <TouchableOpacity onPress={() => { navigation.navigate('TableauDeBord'); }}>
               <AntDesign name="arrowleft" size={30} style={{ color: '#b5b5b5', marginLeft: 20 }} />
             </TouchableOpacity>
           ),
           headerRight: () => (
-            <HeaderLeftOpenDrawerNavigation navigation={navigation} />
+            <HeaderLeftOpenDrawerNavigation />
           ),
         }}
       />
-      <TabTableauDeBordStack.Screen
+      <Screen
         name="CameraDom"
         options={{
-          headerTitle: false,
-          headerShown: true,
-          headerStyle: {
-            height: 120,
-          },
-          headerRightContainerStyle: {
-            marginRight: 18,
-          },
-          headerLeftContainerStyle: {
-            marginLeft: 13,
-          },
           headerLeft: () => (
             <TouchableOpacity onPress={() => { navigation.navigate('AjoutBienScreen'); }}>
               <AntDesign name="arrowleft" size={30} style={{ color: '#b5b5b5', marginLeft: 20 }} />
@@ -187,32 +175,37 @@ export function TabTableauDeBordNavigator({ navigation }) {
         component={CameraDom}
       />
 
-    </TabTableauDeBordStack.Navigator>
+    </Navigator>
   );
 }
 
 /** Mon Compte Section */
 const TabMonCompteStack = createStackNavigator<TabMonCompteParamList>();
 
-export function TabMonCompteNavigator({ navigation }) {
+export function TabMonCompteNavigator() {
+  const navigation = useNavigation();
+  const { Navigator, Screen } = TabMonCompteStack;
+
   return (
-    <TabMonCompteStack.Navigator
+    <Navigator
       initialRouteName="MonCompte"
+      screenOptions={{
+        headerTitle: false,
+        headerStyle: {
+          height: 120,
+        },
+        headerRightContainerStyle: {
+          marginRight: 18,
+        },
+        headerLeftContainerStyle: {
+          marginLeft: 13,
+        },
+      }}
     >
-      <TabMonCompteStack.Screen
+      <Screen
         name="MonCompte"
         component={MonComptePage1}
         options={{
-          headerTitle: false,
-          headerStyle: {
-            height: 120,
-          },
-          headerRightContainerStyle: {
-            marginRight: 18,
-          },
-          headerLeftContainerStyle: {
-            marginLeft: 13,
-          },
           headerLeft: () => (
             <TouchableOpacity
               onPress={() => {
@@ -224,47 +217,27 @@ export function TabMonCompteNavigator({ navigation }) {
 
           ),
           headerRight: () => (
-            <HeaderLeftOpenDrawerNavigation navigation={navigation} />
+            <HeaderLeftOpenDrawerNavigation />
           ),
         }}
       />
-      <TabMonCompteStack.Screen
+      <Screen
         name="ModifierInfo1"
         options={{
-          headerTitle: false,
-          headerStyle: {
-            height: 120,
-          },
-          headerRightContainerStyle: {
-            marginRight: 18,
-          },
-          headerLeftContainerStyle: {
-            marginLeft: 13,
-          },
           headerLeft: () => (
             <TouchableOpacity onPress={() => { navigation.navigate('MonCompte'); }}>
               <AntDesign name="arrowleft" size={30} style={{ color: '#b5b5b5', marginLeft: 20 }} />
             </TouchableOpacity>
           ),
           headerRight: () => (
-            <HeaderLeftOpenDrawerNavigation navigation={navigation} />
+            <HeaderLeftOpenDrawerNavigation />
           ),
         }}
         component={ModifierInfo1}
       />
-      <TabMonCompteStack.Screen
+      <Screen
         name="ModifierInfo2"
         options={{
-          headerTitle: false,
-          headerStyle: {
-            height: 120,
-          },
-          headerRightContainerStyle: {
-            marginRight: 18,
-          },
-          headerLeftContainerStyle: {
-            marginLeft: 13,
-          },
           headerLeft: () => (
             <TouchableOpacity onPress={() => { navigation.navigate('ModifierInfo1'); }}>
               <AntDesign name="arrowleft" size={30} style={{ color: '#b5b5b5', marginLeft: 20 }} />
@@ -272,24 +245,14 @@ export function TabMonCompteNavigator({ navigation }) {
 
           ),
           headerRight: () => (
-            <HeaderLeftOpenDrawerNavigation navigation={navigation} />
+            <HeaderLeftOpenDrawerNavigation />
           ),
         }}
         component={ModifierInfo2}
       />
-      <TabMonCompteStack.Screen
+      <Screen
         name="ModifierInfo3"
         options={{
-          headerTitle: false,
-          headerStyle: {
-            height: 120,
-          },
-          headerRightContainerStyle: {
-            marginRight: 18,
-          },
-          headerLeftContainerStyle: {
-            marginLeft: 13,
-          },
           headerLeft: () => (
             <TouchableOpacity onPress={() => { navigation.navigate('ModifierInfo2'); }}>
               <AntDesign name="arrowleft" size={30} style={{ color: '#b5b5b5', marginLeft: 20 }} />
@@ -297,15 +260,14 @@ export function TabMonCompteNavigator({ navigation }) {
 
           ),
           headerRight: () => (
-            <HeaderLeftOpenDrawerNavigation navigation={navigation} />
+            <HeaderLeftOpenDrawerNavigation />
           ),
         }}
         component={ModifierInfo3}
       />
-      <TabMonCompteStack.Screen
+      <Screen
         name="CameraDom"
         options={{
-          headerTitle: false,
           headerLeft: () => (
             <TouchableOpacity onPress={() => { navigation.navigate('ModifierInfo3'); }}>
               <AntDesign name="arrowleft" size={30} style={{ color: '#b5b5b5', marginLeft: 20 }} />
@@ -316,221 +278,167 @@ export function TabMonCompteNavigator({ navigation }) {
         component={CameraDom}
       />
 
-    </TabMonCompteStack.Navigator>
+    </Navigator>
   );
 }
 
 /** Mes Biens Section */
 const TabMesBiensStack = createStackNavigator<TabMesBiensParamList>();
 
-export function TabMesBiensNavigator({ navigation }) {
+export function TabMesBiensNavigator() {
+  const { Navigator, Screen } = TabMesBiensStack;
+  const navigation = useNavigation();
   return (
-    <TabMesBiensStack.Navigator
+    <Navigator
       headerMode="screen"
       initialRouteName="MesBiens"
+      screenOptions={{
+        headerTitle: false,
+        headerShown: true,
+        headerStyle: {
+          height: 120,
+        },
+        headerRightContainerStyle: {
+          marginRight: 18,
+        },
+        headerLeftContainerStyle: {
+          marginLeft: 13,
+        },
+      }}
     >
-      <TabMesBiensStack.Screen
+      <Screen
         name="MesBiens"
         component={MesBiens}
         options={{
-          headerTitle: false,
-          headerShown: true,
-          headerStyle: {
-            height: 120,
-          },
-          headerRightContainerStyle: {
-            marginRight: 18,
-          },
-          headerLeftContainerStyle: {
-            marginLeft: 13,
-          },
           headerLeft: () => (
-            <HeaderLeftOpenDrawerNavigation navigation={navigation} />
+            <HeaderLeftOpenDrawerNavigation />
           ),
           headerRight: () => (
-            <HeaderRightOpenDrawerNavigation navigation={navigation} />
+            <HeaderRightOpenDrawerNavigation />
           ),
         }}
       />
-      <TabMesBiensStack.Screen
+      <Screen
         name="DetailsBien"
         options={{
-          headerShown: true,
-          headerTitle: false,
-          headerStyle: {
-            height: 120,
-          },
-          headerRightContainerStyle: {
-            marginRight: 18,
-          },
-          headerLeftContainerStyle: {
-            marginLeft: 13,
-          },
           headerLeft: () => (
             <TouchableOpacity onPress={() => { navigation.navigate('MesBiens'); }}>
               <AntDesign name="arrowleft" size={30} style={{ color: '#b5b5b5', marginLeft: 20 }} />
             </TouchableOpacity>
           ),
           headerRight: () => (
-            <HeaderLeftOpenDrawerNavigation navigation={navigation} />
+            <HeaderLeftOpenDrawerNavigation />
           ),
         }}
         component={DetailsBien}
       />
-      <TabMesBiensStack.Screen
+      <Screen
         name="MonBudget"
         options={{
-          headerShown: true,
-          headerTitle: false,
-          headerStyle: {
-            height: 120,
-          },
-          headerRightContainerStyle: {
-            marginRight: 18,
-          },
-          headerLeftContainerStyle: {
-            marginLeft: 13,
-          },
           headerLeft: () => (
             <TouchableOpacity onPress={() => { navigation.navigate('DetailsBien'); }}>
               <AntDesign name="arrowleft" size={30} style={{ color: '#b5b5b5', marginLeft: 20 }} />
             </TouchableOpacity>
           ),
           headerRight: () => (
-            <HeaderLeftOpenDrawerNavigation navigation={navigation} />
+            <HeaderLeftOpenDrawerNavigation />
           ),
         }}
         component={MonBudget}
       />
-      <TabMesBiensStack.Screen
+      <Screen
         name="ParametrerAjoutRevenu"
         options={{
-          headerShown: true,
-          headerTitle: false,
-          headerStyle: {
-            height: 120,
-          },
-          headerRightContainerStyle: {
-            marginRight: 18,
-          },
-          headerLeftContainerStyle: {
-            marginLeft: 13,
-          },
           headerLeft: () => (
             <TouchableOpacity onPress={() => { navigation.navigate('MonBudget'); }}>
               <AntDesign name="arrowleft" size={30} style={{ color: '#b5b5b5', marginLeft: 20 }} />
             </TouchableOpacity>
           ),
           headerRight: () => (
-            <HeaderLeftOpenDrawerNavigation navigation={navigation} />
+            <HeaderLeftOpenDrawerNavigation />
           ),
         }}
         component={ParametrerAjoutRevenu}
       />
-      <TabMesBiensStack.Screen
+      <Screen
         name="ParametrerAjoutCharges"
         options={{
-          headerShown: true,
-          headerTitle: false,
-          headerStyle: {
-            height: 120,
-          },
-          headerRightContainerStyle: {
-            marginRight: 18,
-          },
-          headerLeftContainerStyle: {
-            marginLeft: 13,
-          },
           headerLeft: () => (
             <TouchableOpacity onPress={() => { navigation.navigate('MonBudget'); }}>
               <AntDesign name="arrowleft" size={30} style={{ color: '#b5b5b5', marginLeft: 20 }} />
             </TouchableOpacity>
           ),
           headerRight: () => (
-            <HeaderLeftOpenDrawerNavigation navigation={navigation} />
+            <HeaderLeftOpenDrawerNavigation />
           ),
         }}
         component={ParametrerAjoutCharges}
       />
 
-      <TabMesBiensStack.Screen
+      <Screen
         name="PartagerBien"
         options={{
-          headerShown: true,
-          headerTitle: false,
-          headerStyle: {
-            height: 120,
-          },
-          headerRightContainerStyle: {
-            marginRight: 18,
-          },
-          headerLeftContainerStyle: {
-            marginLeft: 13,
-          },
           headerLeft: () => (
             <TouchableOpacity onPress={() => { navigation.navigate('DetailsBien'); }}>
               <AntDesign name="arrowleft" size={30} style={{ color: '#b5b5b5', marginLeft: 20 }} />
             </TouchableOpacity>
           ),
           headerRight: () => (
-            <HeaderLeftOpenDrawerNavigation navigation={navigation} />
+            <HeaderLeftOpenDrawerNavigation />
           ),
         }}
         component={PartagerBien}
       />
 
-      <TabMesBiensStack.Screen
+      <Screen
         name="ModifierCharacteristiques"
         options={{
-          headerShown: true,
-          headerTitle: false,
-          headerStyle: {
-            height: 120,
-          },
-          headerRightContainerStyle: {
-            marginRight: 18,
-          },
-          headerLeftContainerStyle: {
-            marginLeft: 13,
-          },
           headerLeft: () => (
             <TouchableOpacity onPress={() => { navigation.navigate('DetailsBien'); }}>
               <AntDesign name="arrowleft" size={30} style={{ color: '#b5b5b5', marginLeft: 20 }} />
             </TouchableOpacity>
           ),
           headerRight: () => (
-            <HeaderLeftOpenDrawerNavigation navigation={navigation} />
+            <HeaderLeftOpenDrawerNavigation />
           ),
         }}
         component={ModifierCharacteristiques}
       />
 
-    </TabMesBiensStack.Navigator>
+    </Navigator>
   );
 }
 
 /** Ma Tresorerie Section */
 const TabMaTresorerieStack = createStackNavigator<TabMaTresorerieParamList>();
 
-export function TabMaTresorerieNavigator({ navigation }) {
+export function TabMaTresorerieNavigator() {
+  const { Navigator, Screen } = TabMaTresorerieStack;
+  const navigation = useNavigation();
   return (
-    <TabMaTresorerieStack.Navigator
+    <Navigator
       initialRouteName="MaTresorerie"
+      screenOptions={{
+        headerTitle: false,
+        headerShown: true,
+        headerStyle: {
+          height: 120,
+        },
+        headerRightContainerStyle: {
+          marginRight: 18,
+        },
+        headerLeftContainerStyle: {
+          marginLeft: 13,
+        },
+        headerRight: () => (
+          <HeaderLeftOpenDrawerNavigation />
+        ),
+      }}
     >
-      <TabMaTresorerieStack.Screen
+      <Screen
         name="MaTresorerie"
         component={MaTresorerie}
         options={{
-          headerShown: true,
-          headerStyle: {
-            height: 120,
-          },
-          headerRightContainerStyle: {
-            marginRight: 18,
-          },
-          headerLeftContainerStyle: {
-            marginLeft: 13,
-          },
           headerLeft: () => (
             <TouchableOpacity
               onPress={() => {
@@ -541,234 +449,142 @@ export function TabMaTresorerieNavigator({ navigation }) {
             </TouchableOpacity>
 
           ),
-          headerRight: () => (
-            <HeaderLeftOpenDrawerNavigation navigation={navigation} />
-          ),
         }}
       />
-      <TabMaTresorerieStack.Screen
+      <Screen
         name="TresoMouvement_page1"
         options={{
-          headerTitle: false,
-          headerStyle: {
-            height: 120,
-          },
-          headerRightContainerStyle: {
-            marginRight: 18,
-          },
-          headerLeftContainerStyle: {
-            marginLeft: 13,
-          },
           headerLeft: () => (
             <TouchableOpacity onPress={() => { navigation.navigate('MaTresorerie'); }}>
               <AntDesign name="arrowleft" size={30} style={{ color: '#b5b5b5', marginLeft: 20 }} />
             </TouchableOpacity>
-          ),
-          headerRight: () => (
-            <HeaderLeftOpenDrawerNavigation navigation={navigation} />
           ),
         }}
         component={TresoMouvement_page1}
       />
-      <TabMaTresorerieStack.Screen
+      <Screen
         name="TresoMouvement_page2"
         options={{
-          headerTitle: false,
-          headerStyle: {
-            height: 120,
-          },
-          headerRightContainerStyle: {
-            marginRight: 18,
-          },
-          headerLeftContainerStyle: {
-            marginLeft: 13,
-          },
           headerLeft: () => (
             <TouchableOpacity onPress={() => { navigation.navigate('TresoMouvement_page1'); }}>
               <AntDesign name="arrowleft" size={30} style={{ color: '#b5b5b5', marginLeft: 20 }} />
             </TouchableOpacity>
-          ),
-          headerRight: () => (
-            <HeaderLeftOpenDrawerNavigation navigation={navigation} />
           ),
         }}
         component={TresoMouvementPage2}
       />
-      <TabMaTresorerieStack.Screen
+      <Screen
         name="IgnorerMouvement"
         options={{
-          headerTitle: false,
-          headerStyle: {
-            height: 120,
-          },
-          headerRightContainerStyle: {
-            marginRight: 18,
-          },
-          headerLeftContainerStyle: {
-            marginLeft: 13,
-          },
           headerLeft: () => (
             <TouchableOpacity onPress={() => { navigation.navigate('TresoMouvement_page1'); }}>
               <AntDesign name="arrowleft" size={30} style={{ color: '#b5b5b5', marginLeft: 20 }} />
             </TouchableOpacity>
           ),
-          headerRight: () => (
-            <HeaderLeftOpenDrawerNavigation navigation={navigation} />
-          ),
         }}
         component={IgnorerMouvement}
       />
-      <TabMaTresorerieStack.Screen
+      <Screen
         name="AjoutCompte"
         options={{
-          headerTitle: false,
-          headerStyle: {
-            height: 120,
-          },
-          headerRightContainerStyle: {
-            marginRight: 18,
-          },
-          headerLeftContainerStyle: {
-            marginLeft: 13,
-          },
           headerLeft: () => (
             <TouchableOpacity onPress={() => { navigation.navigate('MaTresorerie'); }}>
               <AntDesign name="arrowleft" size={30} style={{ color: '#b5b5b5', marginLeft: 20 }} />
             </TouchableOpacity>
           ),
-          headerRight: () => (
-            <HeaderLeftOpenDrawerNavigation navigation={navigation} />
-          ),
         }}
         component={AjoutCompte}
       />
-    </TabMaTresorerieStack.Navigator>
+    </Navigator>
   );
 }
 
 /** Mon Assistant Section */
 const TabMonAssistantStack = createStackNavigator<TabMonAssistantParamList>();
 
-export function TabMonAssistantNavigator({ navigation }) {
+export function TabMonAssistantNavigator() {
+  const { Navigator, Screen } = TabMonAssistantStack;
+  const navigation = useNavigation();
   return (
-    <TabMonAssistantStack.Navigator
+    <Navigator
       initialRouteName="MonAssistant"
+      screenOptions={{
+        headerTitle: false,
+        headerShown: true,
+        headerStyle: {
+          height: 120,
+        },
+        headerRightContainerStyle: {
+          marginRight: 18,
+        },
+        headerLeftContainerStyle: {
+          marginLeft: 13,
+        },
+      }}
     >
-      <TabMonAssistantStack.Screen
+      <Screen
         name="MonAssistant"
         component={MonAssistant}
         options={{
-          headerShown: true,
-          headerStyle: {
-            height: 120,
-          },
-          headerRightContainerStyle: {
-            marginRight: 18,
-          },
-          headerLeftContainerStyle: {
-            marginLeft: 13,
-          },
           headerLeft: () => (
-            <HeaderLeftOpenDrawerNavigation navigation={navigation} />
+            <HeaderLeftOpenDrawerNavigation />
           ),
           headerRight: () => (
-            <HeaderRightOpenDrawerNavigation navigation={navigation} />
+            <HeaderRightOpenDrawerNavigation />
           ),
         }}
       />
       {/**         Declaration impots screens      */}
-      <TabMonAssistantStack.Screen
+      <Screen
         name="DeclarationImpots"
         component={DeclarationImpots}
         options={{
-          headerTitle: false,
-          headerStyle: {
-            height: 120,
-          },
-          headerRightContainerStyle: {
-            marginRight: 18,
-          },
-          headerLeftContainerStyle: {
-            marginLeft: 13,
-          },
           headerLeft: () => (
             <TouchableOpacity onPress={() => { navigation.navigate('MonAssistant'); }}>
               <AntDesign name="arrowleft" size={30} style={{ color: '#b5b5b5', marginLeft: 20 }} />
             </TouchableOpacity>
           ),
           headerRight: () => (
-            <HeaderLeftOpenDrawerNavigation navigation={navigation} />
+            <HeaderLeftOpenDrawerNavigation />
           ),
         }}
       />
-      <TabMonAssistantStack.Screen
+      <Screen
         name="DeclarationImpots2"
         component={DeclarationImpots2}
         options={{
-          headerTitle: false,
-          headerStyle: {
-            height: 120,
-          },
-          headerRightContainerStyle: {
-            marginRight: 18,
-          },
-          headerLeftContainerStyle: {
-            marginLeft: 13,
-          },
           headerLeft: () => (
             <TouchableOpacity onPress={() => { navigation.navigate('DeclarationImpots'); }}>
               <AntDesign name="arrowleft" size={30} style={{ color: '#b5b5b5', marginLeft: 20 }} />
             </TouchableOpacity>
-
           ),
           headerRight: () => (
-            <HeaderLeftOpenDrawerNavigation navigation={navigation} />
+            <HeaderLeftOpenDrawerNavigation />
           ),
         }}
       />
 
       {/**         Pdf component      */}
-      <TabMonAssistantStack.Screen
+      <Screen
         name="PdfScreen"
         component={PdfScreen}
         options={{
-          headerTitle: false,
-          headerStyle: {
-            height: 120,
-          },
-          headerRightContainerStyle: {
-            marginRight: 18,
-          },
-          headerLeftContainerStyle: {
-            marginLeft: 13,
-          },
           headerLeft: () => (
             <TouchableOpacity onPress={() => { navigation.navigate('MonAssistant'); }}>
               <AntDesign name="arrowleft" size={30} style={{ color: '#b5b5b5', marginLeft: 20 }} />
             </TouchableOpacity>
-
           ),
           headerRight: () => (
-            <HeaderLeftOpenDrawerNavigation navigation={navigation} />
+            <HeaderLeftOpenDrawerNavigation />
           ),
         }}
       />
 
       {/**         Quittance Loyer screens      */}
-      <TabMonAssistantStack.Screen
+      <Screen
         name="QuittanceLoyer"
         component={QuittanceLoyer}
         options={{
-          headerTitle: false,
-          headerStyle: {
-            height: 120,
-          },
-          headerRightContainerStyle: {
-            marginRight: 18,
-          },
-          headerLeftContainerStyle: {
-            marginLeft: 13,
-          },
           headerLeft: () => (
             <TouchableOpacity onPress={() => { navigation.navigate('MonAssistant'); }}>
               <AntDesign name="arrowleft" size={30} style={{ color: '#b5b5b5', marginLeft: 20 }} />
@@ -776,24 +592,14 @@ export function TabMonAssistantNavigator({ navigation }) {
 
           ),
           headerRight: () => (
-            <HeaderLeftOpenDrawerNavigation navigation={navigation} />
+            <HeaderLeftOpenDrawerNavigation />
           ),
         }}
       />
-      <TabMonAssistantStack.Screen
+      <Screen
         name="QuittanceLoyer2"
         component={QuittanceLoyer2}
         options={{
-          headerTitle: false,
-          headerStyle: {
-            height: 120,
-          },
-          headerRightContainerStyle: {
-            marginRight: 18,
-          },
-          headerLeftContainerStyle: {
-            marginLeft: 13,
-          },
           headerLeft: () => (
             <TouchableOpacity onPress={() => { navigation.navigate('MonAssistant'); }}>
               <AntDesign name="arrowleft" size={30} style={{ color: '#b5b5b5', marginLeft: 20 }} />
@@ -801,71 +607,79 @@ export function TabMonAssistantNavigator({ navigation }) {
 
           ),
           headerRight: () => (
-            <HeaderLeftOpenDrawerNavigation navigation={navigation} />
+            <HeaderLeftOpenDrawerNavigation />
           ),
         }}
       />
-    </TabMonAssistantStack.Navigator>
+    </Navigator>
   );
 }
 
 /** Notifications Section */
 const TabNotificationsStack = createStackNavigator<TabNotificationsParamList>();
 
-export function TabNotificationsNavigator({ navigation }) {
+export function TabNotificationsNavigator() {
+  const { Navigator, Screen } = TabNotificationsStack;
   return (
-    <TabNotificationsStack.Navigator
+    <Navigator
       initialRouteName="Notifications"
+      screenOptions={{
+        headerTitle: false,
+        headerShown: true,
+        headerStyle: {
+          height: 120,
+        },
+        headerRightContainerStyle: {
+          marginRight: 18,
+        },
+        headerLeftContainerStyle: {
+          marginLeft: 13,
+        },
+      }}
     >
-      <TabNotificationsStack.Screen
+      <Screen
         name="Notifications"
         component={Notifications}
         options={{
-          headerShown: true,
-          headerStyle: {
-            height: 120,
-          },
-          headerRightContainerStyle: {
-            marginRight: 18,
-          },
-          headerLeftContainerStyle: {
-            marginLeft: 13,
-          },
           headerLeft: () => (
-            <HeaderLeftOpenDrawerNavigation navigation={navigation} />
+            <HeaderLeftOpenDrawerNavigation />
           ),
           headerRight: () => (
-            <HeaderRightOpenDrawerNavigation navigation={navigation} />
+            <HeaderRightOpenDrawerNavigation />
           ),
         }}
       />
-    </TabNotificationsStack.Navigator>
+    </Navigator>
   );
 }
 
 /** FAQ Section */
 const TabFaqStack = createStackNavigator<TabFaqParamList>();
 
-export function TabFaqNavigator({ navigation }) {
+export function TabFaqNavigator() {
+  const { Navigator, Screen } = TabFaqStack;
+  const navigation = useNavigation();
   return (
-    <TabFaqStack.Navigator
+    <Navigator
       initialRouteName="Faq"
+      screenOptions={{
+        headerTitle: false,
+        headerShown: true,
+        headerStyle: {
+          height: 120,
+        },
+        headerRightContainerStyle: {
+          marginRight: 18,
+        },
+        headerLeftContainerStyle: {
+          marginLeft: 13,
+        },
+      }}
     >
-      <TabFaqStack.Screen
+      <Screen
         name="Faq"
         component={Faq}
         options={{
-          headerTitle: false,
-          headerShown: true,
-          headerStyle: {
-            height: 120,
-          },
-          headerRightContainerStyle: {
-            marginRight: 18,
-          },
-          headerLeftContainerStyle: {
-            marginLeft: 13,
-          },
           headerLeft: () => (
             <TouchableOpacity onPress={() => {
               navigation.dispatch(DrawerActions.toggleDrawer());
@@ -875,37 +689,45 @@ export function TabFaqNavigator({ navigation }) {
             </TouchableOpacity>
           ),
           headerRight: () => (
-            <HeaderLeftOpenDrawerNavigation navigation={navigation} />
+            <HeaderLeftOpenDrawerNavigation />
           ),
         }}
       />
-    </TabFaqStack.Navigator>
+    </Navigator>
   );
 }
 
 /** Contact Section */
 const TabContactStack = createStackNavigator<TabContactParamList>();
 
-export function TabContactNavigator({ navigation }) {
+export function TabContactNavigator() {
+  const { Navigator, Screen } = TabContactStack;
+  const navigation = useNavigation();
+
   return (
-    <TabContactStack.Navigator
+    <Navigator
       initialRouteName="Contact"
+      screenOptions={{
+        headerTitle: false,
+        headerShown: true,
+        headerStyle: {
+          height: 120,
+        },
+        headerRightContainerStyle: {
+          marginRight: 18,
+        },
+        headerLeftContainerStyle: {
+          marginLeft: 13,
+        },
+        headerRight: () => (
+          <HeaderLeftOpenDrawerNavigation />
+        ),
+      }}
     >
-      <TabContactStack.Screen
+      <Screen
         name="Contact"
         component={Contact}
         options={{
-          headerTitle: false,
-          headerShown: true,
-          headerStyle: {
-            height: 120,
-          },
-          headerRightContainerStyle: {
-            marginRight: 18,
-          },
-          headerLeftContainerStyle: {
-            marginLeft: 13,
-          },
           headerLeft: () => (
             <TouchableOpacity onPress={() => {
               navigation.dispatch(DrawerActions.toggleDrawer());
@@ -914,54 +736,88 @@ export function TabContactNavigator({ navigation }) {
               <AntDesign name="arrowleft" size={30} style={{ color: '#b5b5b5', marginLeft: 20 }} />
             </TouchableOpacity>
           ),
-          headerRight: () => (
-            <HeaderLeftOpenDrawerNavigation navigation={navigation} />
-          ),
         }}
       />
-      <TabContactStack.Screen
+      <Screen
         name="Contact2"
         options={{
-          headerTitle: false,
-          headerLeftContainerStyle: {
-            paddingBottom: 5,
-          },
-          headerRightContainerStyle: {
-            marginBottom: 5,
-          },
-          headerShown: true,
           headerLeft: () => (
             <TouchableOpacity onPress={() => { navigation.navigate('Contact'); }}>
               <AntDesign name="arrowleft" size={30} style={{ color: '#b5b5b5', marginLeft: 20 }} />
             </TouchableOpacity>
           ),
-          headerRight: () => (
-            <HeaderLeftOpenDrawerNavigation navigation={navigation} />
-          ),
         }}
         component={Contact2}
       />
-    </TabContactStack.Navigator>
+    </Navigator>
   );
 }
 
 /** Mes Charges Section */
 const TabMesChargesStack = createStackNavigator<TabMesChargesParamList>();
 
-export function TabMesChargesNavigator({ navigation }) {
+export function TabMesChargesNavigator() {
+  const { Navigator, Screen } = TabMesChargesStack;
+  const navigation = useNavigation();
   return (
-    <TabMesChargesStack.Navigator
+    <Navigator
       initialRouteName="TabMesChargesScreen"
+      screenOptions={{
+        headerTitle: false,
+        headerShown: true,
+        headerStyle: {
+          height: 120,
+        },
+        headerRightContainerStyle: {
+          marginRight: 18,
+        },
+        headerLeftContainerStyle: {
+          marginLeft: 13,
+        },
+      }}
     >
-      <TabMesChargesStack.Screen
-        name="TabMesChargesScreen"
-        component={TabMesChargeScreen}
+      <Screen
+        name="MesCharges1"
         options={{
-          headerTitle: false,
-          headerShown: false,
+          headerLeft: () => (
+            <HeaderLeftOpenDrawerNavigation />
+          ),
+          headerRight: () => (
+            <HeaderRightOpenDrawerNavigation />
+          ),
         }}
+        component={MesCharges1}
       />
-    </TabMesChargesStack.Navigator>
+      <Screen
+        name="MesCharges2"
+        options={{
+          headerLeft: () => (
+            <TouchableOpacity onPress={() => { navigation.navigate('MesCharges1'); }}>
+              <AntDesign name="arrowleft" size={30} style={{ color: '#b5b5b5', marginLeft: 20 }} />
+            </TouchableOpacity>
+          ),
+          headerRight: () => (
+            <HeaderLeftOpenDrawerNavigation />
+          ),
+        }}
+        component={MesCharges2}
+      />
+      <Screen
+        name="MesCharges3"
+        options={{
+          headerLeft: () => (
+            <TouchableOpacity onPress={() => { navigation.navigate('MesCharges2'); }}>
+              <AntDesign name="arrowleft" size={30} style={{ color: '#b5b5b5', marginLeft: 20 }} />
+            </TouchableOpacity>
+          ),
+          headerRight: () => (
+            <HeaderLeftOpenDrawerNavigation />
+          ),
+        }}
+        component={MesCharges3}
+      />
+
+    </Navigator>
   );
 }
 
@@ -969,30 +825,31 @@ export function TabMesChargesNavigator({ navigation }) {
 /** Ajout Bien Section */
 const TabAjoutBienStack = createStackNavigator<AjoutBienParamList>();
 
-export function TabAjoutNavigator({ navigation }) {
+export function TabAjoutNavigator() {
+  const { Navigator, Screen } = TabAjoutBienStack;
+  const navigation = useNavigation();
   return (
-    <TabAjoutBienStack.Navigator>
-      <TabAjoutBienStack.Screen
+    <Navigator
+      screenOptions={{
+        headerTitle: false,
+        headerShown: false,
+      }}
+    >
+      <Screen
         name="AjoutBienScreen"
         component={AjoutBienScreen}
-        options={{
-          headerTitle: false,
-          headerShown: false,
-        }}
       />
-      <TabAjoutBienStack.Screen
+      <Screen
         name="CameraDom"
         options={{
-          headerTitle: false,
           headerLeft: () => (
             <TouchableOpacity onPress={() => { navigation.navigate('AjoutBienScreen'); }}>
-              <AntDesign name="arrowleft" size={30} style={{ color: '#b5b5b5', marginLeft: 20 }} />
+              <AntDesign name="arrowleft" size={30} style={{ backgroundColor: 'transparent', color: '#b5b5b5', marginLeft: 10 }} />
             </TouchableOpacity>
-
           ),
         }}
         component={CameraDom}
       />
-    </TabAjoutBienStack.Navigator>
+    </Navigator>
   );
 }

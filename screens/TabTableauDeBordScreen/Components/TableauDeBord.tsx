@@ -27,7 +27,7 @@ function TableauDeBord() {
   const [compte, setCompte] = useState(comptesData);
 
   const allerTresorie = () => {
-    navigation.navigate('Ma Trésorerie');
+    navigation.navigate('MaTrésorerieDrawer');
   };
   const allerNotificaitons = () => {
     navigation.navigate('Notifications');

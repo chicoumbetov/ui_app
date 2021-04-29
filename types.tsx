@@ -91,6 +91,9 @@ export type TabContactParamList = {
 
 export type TabMesChargesParamList = {
   TabMesChargesScreen: undefined;
+  MesCharges1: undefined;
+  MesCharges2: undefined;
+  MesCharges3: undefined;
 };
 
 export type AjoutBienParamList = {

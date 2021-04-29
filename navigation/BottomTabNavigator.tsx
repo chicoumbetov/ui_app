@@ -59,7 +59,7 @@ const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 export default function BottomTabNavigator() {
   return (
     <BottomTab.Navigator
-      initialRouteName="TableauDeBord"
+      initialRouteName="TableauDeBordBottom"
       tabBar={
         (props) => <BottomTabBar {...props} style={{ margin: 100 }} />
       }

@@ -1,17 +1,20 @@
 import React from 'react';
-import { DrawerActions } from '@react-navigation/native';
+import { DrawerActions, useNavigation } from '@react-navigation/native';
 import { TouchableOpacity } from 'react-native';
 import LogoPicture from '../components/LogoPicture/LogoPicture';
 
-const HeaderLeftOpenDrawerNavigation = ({ navigation }) => (
+const HeaderLeftOpenDrawerNavigation = () => {
+  const navigation = useNavigation();
 
-  <TouchableOpacity
-    style={{ marginRight: 18 }}
-    onPress={() => { navigation.dispatch(DrawerActions.toggleDrawer()); }}
-  >
-    <LogoPicture />
-  </TouchableOpacity>
-
-);
+  return (
+    <TouchableOpacity
+      onPress={() => {
+        navigation.dispatch(DrawerActions.toggleDrawer());
+      }}
+    >
+      <LogoPicture />
+    </TouchableOpacity>
+  );
+};
 
 export default HeaderLeftOpenDrawerNavigation;

@@ -15,6 +15,7 @@ import { Layout } from '@ui-kitten/components';
 
 import * as ImagePicker from 'expo-image-picker';
 import { useNavigation } from '@react-navigation/native';
+import { container } from 'aws-amplify';
 import { colors } from '../../assets/styles';
 import Icon from '../../components/Icon';
 
@@ -97,7 +98,7 @@ function AjoutBienScreen() {
   const [statut, setStatut] = useState('Statut');
   const [statutShow, setStatutShow] = useState(false);
 
-  const [typeImpo, setTypeImpo] = useState('Type de Bien');
+  const [typeImpo, setTypeImpo] = useState("Type d'imposition");
   const [typeImpoShow, setTypeImpoShow] = useState(false);
 
   const [typeDetention, setTypeDetention] = useState('Type de détention');
@@ -166,7 +167,7 @@ function AjoutBienScreen() {
   };
 
   const SetTypeImpo = (tybeImpotxt: string) => {
-    setTypeBien(tybeImpotxt);
+    setTypeImpo(tybeImpotxt);
     setTypeImpoShow(false);
   };
 
@@ -561,12 +562,58 @@ function AjoutBienScreen() {
 
             </Layout>
             )}
+            {typeImpo !== 'Type d\'imposition' && (
+            <Layout style={{
+              flex: 1,
+              margin: 30,
+              backgroundColor: colors.blanc,
+              flexDirection: 'row',
+            }}
+            >
+              <Text>Pourcentage de détention</Text>
+              <TextInput style={{ alignItems: 'flex-end' }} />
+              <Text>%</Text>
+
+            </Layout>
+            )}
           </Layout>
 
           )}
-        </View>
-      )}
 
+        </View>
+
+      )}
+      {typeDetentionShow && (
+      <Layout>
+        <TouchableOpacity
+          onPress={() => SetTypeImpo('Impôt sur les revenus')}
+        >
+          <Layout style={{ margin: 20 }}>
+            <Text style={styles.text}>Impôt sur les revenus</Text>
+          </Layout>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => SetTypeImpo('Impôt sur les sociétés')}
+        >
+          <Layout style={{ margin: 20 }}>
+            <Text style={styles.text}>Impôt sur les sociétés</Text>
+          </Layout>
+        </TouchableOpacity>
+
+      </Layout>
+      )}
+      {typeDetention !== ''}
+      <Layout style={{
+        flex: 2,
+        margin: 30,
+        backgroundColor: colors.blanc,
+        flexDirection: 'row',
+      }}
+      >
+        <Text>Pourcentage de détention</Text>
+        <TextInput />
+        <Text>%</Text>
+      </Layout>
     </ScrollView>
   );
 }

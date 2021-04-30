@@ -1,0 +1,420 @@
+import * as React from 'react';
+import { useState, useEffect } from 'react';
+
+import {
+  Alert, Image, ScrollView, StyleSheet, TouchableOpacity, View, Button,
+} from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+
+import {
+  Layout, Radio, Text,
+} from '@ui-kitten/components';
+// import { colors } from '../assets/styles';
+import { useForm } from 'react-hook-form';
+import Animated from 'react-native-reanimated';
+import { API, Auth, graphqlOperation } from 'aws-amplify';
+// import { useUser } from '../../utils/user';
+import { DrawerActions } from '@react-navigation/native';
+import Form from '../../components/Form/Form';
+import TextInput from '../../components/Form/TextInput';
+import ActivityIndicator from '../../components/ActivityIndicator';
+import { AvailableValidationRules } from '../../components/Form/validation';
+import TabTableauDeBordScreen from '../TabTableauDeBordScreen/TabTableauDeBordScreen';
+import { getClient } from '../../src/graphql/queries';
+import { Permissions } from '../../utils/user';
+import { createClient } from '../../src/graphql/mutations';
+import LogoPicture from '../../components/LogoPicture/LogoPicture';
+
+type ConfirmCodeForm = {
+  AuthCode: number;
+};
+
+type LoginForm = {
+  email: string;
+  motDePasse: string;
+};
+
+type SignUpForm = {
+  prenom: string;
+  nom: string;
+  email: string;
+  motDePasse: string;
+  numeroTel: string;
+};
+
+enum AvailableFormTypes {
+  signUp,
+  signIn,
+  confirmSignUp,
+  finaliserCreation,
+}
+
+const initialFormState = {
+  nom: '',
+  prenom: '',
+  motDePasse: '',
+  email: '',
+  authCode: '',
+  AvailableFormTypes: '',
+  numeroTel: '',
+};
+
+function LoginScreen(): JSX.Element {
+  // const [formType, setFormType] = useState<AvailableFormTypes>(AvailableFormTypes.signIn);
+
+  // Sign In:
+  const loginForm = useForm<LoginForm>();
+  // Sign Up:
+  const signUpForm = useForm<SignUpForm>();
+  // Confirm by code that come to email during sign up
+  const waitingCodeForm = useForm<FormData>();
+  // When password forgotten:
+
+  // const {login, user, signUp,} = useUser();
+
+  const [stayConnected, setStayConnected] = React.useState(false);
+  const [stayInformed, setStayInformed] = React.useState(false);
+  const [acceptConditions, setAcceptConditions] = React.useState(false);
+
+  const [formState, updateFormState] = useState(initialFormState);
+  const [user, setUser] = React.useState(null);
+
+  // switching between pages
+  const [onLoggin, setOnLoggin] = useState(true);
+  const [signedIn, setSignedIn] = useState(false);
+  const [onWaitingCode, setOnWaitingCode] = useState(false);
+  const [onSignUp, setSignUp] = useState(false);
+  const [finaliserCreation, setFinaliserCreation] = useState(false);
+
+  const [loading, setLoading] = useState(false);
+
+  /*
+  useEffect(() => {
+    if (user) {
+      setOnLoggin(false);
+      setSignedIn(true);
+    }
+    return () => {
+      setOnLoggin(true);
+      setSignedIn(false);
+    };
+  }, [user]);
+  */
+
+    checkUser();
+  }, []);
+
+  /**
+   * Acces to CognitoUser
+   */
+  const assesLoggedInState = () => {
+    Auth.currentAuthenticatedUser()
+      .then((sess) => {
+        console.log('logged in');
+        setOnLoggin(false);
+      })
+      .catch(() => {
+        console.log('not logged in');
+        setOnLoggin(true);
+      });
+  };
+  useEffect(() => {
+    assesLoggedInState();
+  }, []);
+
+  /**
+   * Connecting SingIn form with aws by 'login' variable that calls Auth.signUp
+   */
+  /* version 1
+  const signIn = async () => {
+    try {
+      const { email, motDePasse } = formState;
+      await Auth.signIn(email, motDePasse);
+      console.log(formState);
+      updateFormState(() => ({ ...formState, signedIn }));
+    } catch (error) {
+      console.log('error signing in', error);
+    }
+  };
+  */
+
+  const onSubmitLogin = async (data: LoginForm) => {
+    console.log('onSubmitLogin');
+    // setOnLoggin(false);
+    // setSignedIn(true);
+    try {
+      setLoading(true);
+      // if (login) await login(data.email, data.motDePasse);
+      // const openUser = async (email: string, motDePasse: string) => {
+      const cognito = await Auth.signIn(data.email, data.motDePasse);
+      console.log('cognito: ', cognito);
+      console.log('formState: ', formState);
+      // };
+      setUser(cognito);
+      console.log(cognito);
+
+      setLoading(false);
+      console.log('onSubmitLogin declencé');
+    } catch (error) {
+      console.log(error);
+      let message = 'Une erreur est survenue.';
+      if (error.code === 'UserNotFoundException') {
+        message = 'Vos identifiants sont erronés.';
+      }
+      if (error.code === 'PasswordResetRequiredException') {
+        message = 'Vous devez réinitialiser votre mot de passe.';
+      }
+      if (error.code === 'UserNotConfirmedException') {
+        // setOnChangePassword(true);
+        setOnLoggin(false);
+        message = 'Vous devez réinitialiser votre mot de passe.';
+      }
+      Alert.alert('Erreur', message);
+      setLoading(false);
+    }
+  };
+
+  /**
+   * Connecting SingUp form with aws
+   *
+   *
+   */
+
+  const onSubmitSignUp = async (data: SignUpForm) => {
+    try {
+      setLoading(true);
+      const cognitoSignUp = await Auth.signUp(data.nom, data.prenom, data.email, data.motDePasse, data.numeroTel);
+      console.log(cognitoSignUp);
+      setSignUp(false);
+      setOnWaitingCode(true);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      const message = 'Une erreur est survenue.';
+      Alert.alert('Erreur', message);
+      setLoading(false);
+    }
+  };
+
+  /**
+   * Connecting AuthCode form with aws
+   *
+   *
+   */
+  const onSubmitConfirmCode = async (data: ConfirmCodeForm, { navigation }) => {
+    try {
+      setLoading(true);
+      setOnWaitingCode(false);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      const message = 'Une erreur est survenue.';
+      Alert.alert('Erreur', message);
+      setLoading(false);
+    }
+  };
+
+  // @ts-ignore
+  return (
+    <KeyboardAwareScrollView
+      contentContainerStyle={styles.containerScrollView}
+      style={styles.form}
+      enableOnAndroid
+    >
+      {/* Bascule entre les form de connexion/ inscription */}
+      {loading ? (
+        <ActivityIndicator size={40} />
+      ) : (
+        onLoggin && (
+          <Form<LoginForm> {...loginForm}>
+            <>
+              {/* eslint-disable-next-line global-require */}
+              <Layout style={{ backgroundColor: 'transparent', alignItems: 'center' }}>
+                {/* eslint-disable-next-line global-require */}
+                <Image source={require('../../assets/Icones_omedom/logo_menu_principal.png')} style={{ height: 200 }} resizeMode="contain" />
+              </Layout>
+
+              <Layout style={{ backgroundColor: 'transparent', alignItems: 'center' }}>
+                <Text style={{ fontSize: 20, color: 'black' }}>Très heureux de vous revoir, Benjamin</Text>
+              </Layout>
+
+              <TextInput
+                name="email"
+                placeholder="Votre e-mail"
+                validators={[AvailableValidationRules.email]}
+              />
+
+              <TextInput name="motDePasse" secureTextEntry placeholder="Votre mot de passe" />
+
+              <Layout style={{ flexDirection: 'row', padding: 10 }}>
+                <Text>Souhaitez-vous rester connecté ?</Text>
+                <Radio
+                  checked={stayConnected}
+                  onChange={(nextChecked) => setStayConnected(nextChecked)}
+                >
+                  {`Checked: ${stayConnected}`}
+                </Radio>
+              </Layout>
+
+              <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'space-evenly' }}>
+                <Button
+                  style={{ width: 130, margin: 2 }}
+                  onPress={loginForm.handleSubmit(onSubmitLogin)}
+                  title="Se connecter"
+                />
+                <Button
+                  style={{ width: 130, margin: 2 }}
+                  onPress={() => {
+                    setOnLoggin(false);
+                    setSignUp(true);
+                  }}
+                  title={"S'inscrire"}
+                />
+              </View>
+
+            </>
+          </Form>
+        )
+      )}
+      {onSignUp && (
+        <Form<SignUpForm> {...signUpForm}>
+          <>
+
+            <Layout style={{ backgroundColor: 'transparent', padding: 5 }}>
+              <Text style={{ fontSize: 22, color: 'black' }}>Créer votre compte</Text>
+            </Layout>
+            <Layout style={{
+              backgroundColor: 'transparent', padding: 5, marginVertical: 5,
+            }}
+            >
+              <Text style={{ fontSize: 21, color: '#cecece' }}>*Tous les champs sont obligatoires</Text>
+            </Layout>
+
+            <TextInput name="prenom" placeholder="Votre prénom" />
+            <TextInput name="nom" placeholder="Votre nom" />
+            <TextInput name="email" placeholder="Votre email" />
+            <TextInput name="motDePasse" placeholder="Votre mot de passe" />
+            <TextInput name="numeroTel" placeholder="Votre numéro de téléphone" />
+
+            <Layout style={{ flexDirection: 'row', marginBottom: 20 }}>
+              <Text>Souhaitez-vous rester informé de nos actualités ?</Text>
+              <Radio
+                checked={stayInformed}
+                onChange={(nextChecked) => setStayInformed(nextChecked)}
+              >
+                {`Checked: ${stayInformed}`}
+              </Radio>
+            </Layout>
+
+            <Layout style={{ flexDirection: 'row', marginBottom: 20 }}>
+              <Text>J accepte les conditions générales d utilisation de Omedom</Text>
+              <Radio
+                checked={acceptConditions}
+                onChange={(nextChecked) => setAcceptConditions(nextChecked)}
+              >
+                {`Checked: ${acceptConditions}`}
+              </Radio>
+            </Layout>
+
+            <Layout style={{
+              alignItems: 'flex-end',
+            }}
+            >
+              <Button onPress={signUpForm.handleSubmit(onSubmitSignUp)}>
+                Valider
+              </Button>
+            </Layout>
+
+          </>
+        </Form>
+      )}
+      {onWaitingCode && (
+        <Layout>
+          <Form<ConfirmCodeForm> {...waitingCodeForm}>
+            <>
+              <Layout style={{ padding: 5, marginVertical: 20 }}>
+                <Text style={{ fontSize: 25, color: 'black' }}>Un code de confirmation vous a été envoyé par mail</Text>
+                <Text style={{ fontSize: 25, color: '#cecece' }}>Veuillez saisir ci-dessous le code à 6 chiffres</Text>
+              </Layout>
+
+              <Layout style={{ padding: 5 }}>
+                <TextInput name="authCode" placeholder="Votre code de confirmation" />
+              </Layout>
+              <Button onPress={() => {
+                signUpForm.handleSubmit(onSubmitConfirmCode());
+                setOnWaitingCode(false);
+                setFinaliserCreation(true);
+              }}
+              >
+                Confirm
+              </Button>
+            </>
+
+          </Form>
+        </Layout>
+      )}
+      {finaliserCreation && (
+        <Layout>
+
+          <Layout style={{ justifyContent: 'space-between', flexDirection: 'row' }}>
+            <HeaderRightOpenDrawerNavigation />
+            <TouchableOpacity onPress={() => {
+              navigation.goBack();
+            }}
+            >
+              <LogoPicture />
+            </TouchableOpacity>
+          </Layout>
+
+          <Layout style={{ backgroundColor: 'transparent', padding: 5 }}>
+            <Text style={{ fontSize: 22, color: 'black' }}>Finaliser la création de votre compte</Text>
+          </Layout>
+          <Layout style={{
+            backgroundColor: 'transparent', padding: 5, marginVertical: 20,
+          }}
+          >
+            <Text style={{ fontSize: 21, color: '#cecece' }}>*Tous les champs sont obligatoires</Text>
+          </Layout>
+
+          <TextInput name="dateNaissance" placeholder="dd/mm/yyyy" />
+          <TextInput name="adresse" placeholder="Adresse" />
+          <TextInput name="complementAdresse" placeholder="Complément d'adresse" />
+          <TextInput name="codePostal" placeholder="Code Postal" />
+          <TextInput name="ville" placeholder="Ville" />
+          <TextInput name="pays" placeholder="Pays" />
+
+          <Layout style={{
+            alignItems: 'flex-end',
+          }}
+          >
+            <Button onPress={() => {
+              setFinaliserCreation(false);
+              setSignedIn(true);
+              // go to app
+            }}
+            >
+              Valider
+            </Button>
+          </Layout>
+
+        </Layout>
+      )}
+      {signedIn && (
+        <TabTableauDeBordScreen />
+      )}
+
+    </KeyboardAwareScrollView>
+  );
+}
+
+export default LoginScreen;
+
+const styles = StyleSheet.create({
+  containerScrollView: { flex: 1, backgroundColor: 'yellow' },
+  form: {
+    flex: 1,
+    padding: 10,
+    backgroundColor: 'orange',
+    // backgroundColor: 'rgba(246, 246, 246, 0.5)',
+  },
+});

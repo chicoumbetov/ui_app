@@ -93,7 +93,7 @@ import Contact from '../screens/TabContactScreen/Components/Contact';
 import Contact2 from '../screens/TabContactScreen/Components/Contact2';
 
 /** import Mes Charges screens */
-import AjoutBienScreen from '../screens/AjoutBienScreen/AjoutBienSceen';
+import AjoutBienScreen from '../screens/AjoutBienScreen/AjoutBienScreen';
 import MesCharges1 from '../screens/TabMesChargesScreen/Components/MesCharges1';
 import MesCharges2 from '../screens/TabMesChargesScreen/Components/MesCharges2';
 import MesCharges3 from '../screens/TabMesChargesScreen/Components/MesCharges3';

@@ -64,9 +64,9 @@ const Faq = () => {
               </Text>
               <TouchableOpacity onPress={() => pressHandler(id)} key={index + isChecked}>
                 {
-                isChecked
-                  ? <AntDesign name="up" color="white" size={13} />
-                  : <AntDesign name="down" color="white" size={13} />
+              isChecked
+                ? <AntDesign name="up" color="white" size={13} />
+                : <AntDesign name="down" color="white" size={13} />
               }
               </TouchableOpacity>
 

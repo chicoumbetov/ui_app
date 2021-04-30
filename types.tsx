@@ -41,9 +41,3 @@ export type CompteType = {
   IBAN: string,
   bank: string,
 };
-
-export type UsernameType = 'username' | 'email' | 'phone_number';
-
-export interface UsernameInputProps extends InputProps {
-  type: UsernameType
-}

@@ -8,14 +8,10 @@ import { Layout, ApplicationProvider, IconRegistry } from '@ui-kitten/components
 import * as eva from '@eva-design/eva';
 
 import { EvaIconsPack } from '@ui-kitten/eva-icons';
-// eslint-disable-next-line import/no-named-as-default
-// import FeatherIconsPack from './assets/feather-icons';
-// import AssetIconsPack from './assets/asset-icons';
 
 import Amplify from 'aws-amplify';
 
-// import { Authenticator } from 'aws-amplify-react-native';
-// import { SignIn } from './components/Auth/SignIn';
+import { Authenticator } from 'aws-amplify-react-native';
 
 import { default as theme } from './custom-theme.json';
 import { default as mapping } from './mapping.json';
@@ -26,6 +22,7 @@ import useAssetLoader from './hooks/useAssetLoader';
 import ActivityIndicator from './components/ActivityIndicator';
 
 import awsExports from './src/aws-exports';
+import { SignIn } from './components/Auth/components';
 
 Amplify.configure(awsExports);
 
@@ -60,9 +57,15 @@ function App() {
       }
     })();
     return (
-      <Layout style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <ActivityIndicator />
-      </Layout>
+      <ApplicationProvider
+        {...eva}
+        customMapping={mapping}
+        theme={{ ...eva.dark, ...theme }}
+      >
+        <Layout style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+          <ActivityIndicator />
+        </Layout>
+      </ApplicationProvider>
     );
   }
 
@@ -74,12 +77,15 @@ function App() {
         customMapping={mapping}
         theme={{ ...eva.dark, ...theme }}
       >
-        <SafeAreaProvider>
-
-          <Navigation colorScheme={colorScheme} />
-
-        </SafeAreaProvider>
-
+        {authState === 'signedIn' ? (<Navigation colorScheme={colorScheme} />) : (
+          <Authenticator
+            onStateChange={setAuthState}
+            hideDefault
+            usernameAttributes="email"
+          >
+            <SignIn />
+          </Authenticator>
+        )}
       </ApplicationProvider>
     </>
 

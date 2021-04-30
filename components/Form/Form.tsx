@@ -18,11 +18,8 @@ import { useUpdateEffect } from '../../utils/CustomHooks';
 export interface ErrorMap {
   [key: string]: FieldError | undefined;
 }
-
 export type PossibleFields = TextInput | SelectHandles | Switch | AutoCompleteHandles;
-
 export type ChangeValueCallbackType = (v?: string | boolean | number) => void;
-
 interface Props<T> {
   children: React.ReactElement;
   register: UseFormRegister<T>;
@@ -30,13 +27,11 @@ interface Props<T> {
   setValue: UseFormSetValue<T>;
   defaultValues?: Partial<T>;
 }
-
 export type ChildProp = {
   name: string;
   validators: AvailableValidationRules[];
   label: string;
 };
-
 export default function Form<T>({
   register,
   formState,
@@ -45,7 +40,6 @@ export default function Form<T>({
   defaultValues,
 }: Props<T>): JSX.Element {
   const Inputs = React.useRef<PossibleFields[]>([]);
-
   const registerMyInput = (
     name: string,
     label: string,
@@ -59,7 +53,6 @@ export default function Form<T>({
       setInitialValue && setValue(name, initialValue);
     }
   };
-
   /**
    * Function registering all children in a recursive manner, allowing Form to have as many nested
    * components as required by the desired layout.
@@ -71,7 +64,7 @@ export default function Form<T>({
     (Array.isArray(innerChildren) ? [...innerChildren] : [innerChildren]).forEach(
       (child: React.ReactElement) => {
         if (child.props?.name && child.props?.name !== '') {
-          registerMyInput(child.props.name, child.props.label, child.props.validators, setValues);
+          registerMyInput(child.props.name, child.props.label ? child.props.label : child.props.placeholder, child.props.validators, setValues);
         } else if (child.props?.children && Array.isArray(child.props?.children)) {
           registerChildren(child.props.children, setValues);
         } else if (child.props?.children?.props?.name && child.props?.children?.props?.name !== ''
@@ -89,18 +82,14 @@ export default function Form<T>({
       },
     );
   };
-
   useUpdateEffect(() => {
     registerChildren(children);
   }, [register]);
-
   React.useEffect(() => {
     // lors du premier render on met les valeurs, sinon elles manques
     registerChildren(children, true);
   }, []);
-
   let index = -1;
-
   /**
    * Function rendering all children in a recursive manner, allowing Form to have as many nested
    * components as required by the desired layout.
@@ -142,10 +131,15 @@ export default function Form<T>({
     }
     if (
       child.props?.children
-                && Array.isArray(child.props.children)
-                && child.props.children.length > 0
+        && Array.isArray(child.props.children)
+        && child.props.children.length > 0
     ) {
-      return renderInputs(child.props.children);
+      return React.createElement(child.type, {
+        ...{
+          ...child.props,
+          children: renderInputs(child.props.children),
+        },
+      });
     }
     if (child.props?.children?.props?.name && child.props?.children?.props?.name !== ''
     ) {
@@ -153,14 +147,17 @@ export default function Form<T>({
       return renderInput(myUniqueChild);
     }
     if (Array.isArray(child)) {
-      return renderInputs(child);
+      return React.createElement(child.type, {
+        ...{
+          ...child.props,
+          children: renderInputs(child),
+        },
+      });
     }
     return child;
   };
-
   // eslint-disable-next-line max-len,@typescript-eslint/no-shadow
   const renderInputs = (children: React.ReactElement) => (Array.isArray(children) ? [...children] : [children])
     .map((child) => renderInput(child));
-
   return <>{renderInputs(children)}</>;
 }

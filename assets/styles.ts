@@ -17,7 +17,7 @@ export const colors: Colors = {
   bleu2: '#37a3de',
   bleu3: '#5fc4ee',
   gris: '#b5b5b5',
-  text: '#04161b',
+  text: '#b5b5b5', // '#04161b',
   error: '#ff5640',
   background: '#f6f6f6',
 };
@@ -56,67 +56,67 @@ export const typographies: Typographies = {
   },
   regularText: {
     fontSize: 16,
-    fontFamily: 'HouschkaRounded-DemiBold',
+    fontFamily: 'HouschkaRoundedDemiBold',
   },
   caption: {
     fontSize: 11,
     lineHeight: 13,
-    fontFamily: 'Overpass_400Regular',
+    fontFamily: 'Houschka_Rounded_Alt_Light_Regular',
   },
   footnote: {
     fontSize: 12,
     lineHeight: 18,
-    fontFamily: 'Overpass_400Regular',
+    fontFamily: 'Houschka_Rounded_Alt_Light_Regular',
   },
   headline: {
     fontSize: 20,
     lineHeight: 22,
-    fontFamily: 'Overpass_700Bold',
+    fontFamily: 'HouschkaRoundedDemiBold',
   },
   subhead: {
     fontSize: 14,
     lineHeight: 20,
-    fontFamily: 'Overpass_700Bold',
+    fontFamily: 'HouschkaRoundedDemiBold',
   },
   title1: {
     fontSize: 15,
     lineHeight: 15,
-    fontFamily: 'Overpass_700Bold',
+    fontFamily: 'HouschkaRoundedDemiBold',
   },
   title2: {
-    fontFamily: 'Overpass_600SemiBold',
+    fontFamily: 'HouschkaRoundedDemiBold',
     fontSize: 15,
   },
   title4: {
     fontSize: 28,
     lineHeight: 34,
-    fontFamily: 'Overpass_600SemiBold',
+    fontFamily: 'HouschkaRoundedDemiBold',
   },
   title3: {
     fontSize: 20,
     lineHeight: 26,
-    fontFamily: 'Overpass_700Bold',
+    fontFamily: 'HouschkaRoundedDemiBold',
   },
   subtitle: {
     fontSize: 15,
     lineHeight: 16,
-    fontFamily: 'Overpass_400Regular',
+    fontFamily: 'HouschkaRoundedDemiBold',
   },
   description: {
     fontSize: 16,
     lineHeight: 18,
-    fontFamily: 'Overpass_400Regular',
+    fontFamily: 'HouschkaRoundedDemiBold',
   },
   label: {
     fontSize: 16,
-    fontFamily: 'Overpass_700Bold',
+    fontFamily: 'HouschkaRoundedDemiBold',
   },
   input: {
     fontSize: 20,
-    fontFamily: 'Overpass_400Regular',
+    fontFamily: 'HouschkaRoundedDemiBold',
   },
   error: {
-    fontFamily: 'Overpass_400Regular',
+    fontFamily: 'HouschkaRoundedDemiBold',
     fontSize: 14,
   },
 };

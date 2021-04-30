@@ -1,39 +1,34 @@
 import React, { useState } from 'react';
 import { Button, Layout, Text } from '@ui-kitten/components';
-import { useNavigation } from '@react-navigation/native';
+
 import {
   SectionList, StyleSheet, TouchableOpacity, View,
 } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import contactDATA from '../../../mockData/contactDATA';
+import TextInput from '../../../components/Form/TextInput';
+import { colors } from '../../../assets/styles';
+
+enum MotifState {
+  hideMotif,
+  showMotif,
+}
 
 const Contact = () => {
-  const navigation = useNavigation();
-
   const [questions, setQuestions] = useState(contactDATA);
+  const [motifContact, setMotifContact] = useState(false);
 
-  const onMotif = () => {
-    navigation.navigate('Contact2');
-  };
-
-  const pressHandler = (id: number) => {
-    // console to check which question was clicked
-    // console.log(id);
-    // if Clicked then show chosen index ( therefore setAccodion)
-    const temp = questions.map((question) => {
-      // comparison of clicked index with taken index
-      if (id === question.id) {
-        // console to check that correct id was taken when clicked
-        // console.log(question.id);
-        // on recupere question et on fait copie,
-        // ensuite on change boolean de isChecked dans le assistantDATA
-        return { ...question, isChecked: !question.isChecked };
-      }
-      return question;
-    });
-    // here we change the boolean of chosen button => isChecked state
-    setQuestions(temp);
-    // console.log(questions[id].isChecked);
+  const showMotifContact = (id: number) => {
+    switch (id) {
+      case MotifState.showMotif:
+        setMotifContact(true);
+        break;
+      case MotifState.hideMotif:
+        setMotifContact(false);
+        break;
+      default:
+        break;
+    }
   };
 
   return (
@@ -44,15 +39,14 @@ const Contact = () => {
         <SectionList
           sections={questions}
           initialNumToRender={1}
-          keyExtractor={(item, index) => item.id + index + item.isChecked}
-          renderItem={({ item, section: { index, isChecked } }) => (
+          keyExtractor={(item, index) => item.id + index}
+          renderItem={({ item }) => (
 
-            <View style={styles.item} key={index}>
-              {isChecked
+            <View style={styles.item}>
+              {motifContact
                     && (
-                    <TouchableOpacity onPress={onMotif}>
+                    <TouchableOpacity onPress={() => {}}>
                       <Text
-                        key={index}
                         style={{
                           fontSize: 16,
                           letterSpacing: 0.07,
@@ -71,27 +65,44 @@ const Contact = () => {
           )}
           renderSectionHeader={({
             section: {
-              title, id, index, isChecked,
+              title, id,
             },
           }) =>
           // console.log('isChecked', isChecked);
           // eslint-disable-next-line implicit-arrow-linebreak
             (
-              <View style={isChecked ? (styles.headerUp) : (styles.headerDown)}>
+              <Layout style={motifContact ? (styles.headerUp) : (styles.headerDown)}>
                 <Text style={styles.headerText} key={id}>
                   {title}
                 </Text>
-                <TouchableOpacity onPress={() => pressHandler(id)} key={index + isChecked}>
+
+                <TouchableOpacity onPress={() => {}}>
                   {
-                            isChecked
-                              ? <AntDesign name="up" color="white" size={13} />
-                              : <AntDesign name="down" color="white" size={13} />
-                          }
+                  motifContact
+                    ? <AntDesign name="up" color="white" size={13} />
+                    : <AntDesign name="down" color="white" size={13} />
+                  }
                 </TouchableOpacity>
 
-              </View>
+              </Layout>
             )}
         />
+        <TextInput
+          name="Votre Message"
+          label="Votre Message"
+          placeholderTextColor={colors.gris}
+          placeholder="Saisissez votre texte ici"
+          style={styles.inputStyle}
+        />
+        <Layout style={{ alignItems: 'flex-end', backgroundColor: 'transparent' }}>
+          <Button
+            onPress={() => {}}
+            style={{ ...styles.buttonRight }}
+          >
+            Envoyer
+          </Button>
+
+        </Layout>
 
       </Layout>
 
@@ -129,7 +140,6 @@ const styles = StyleSheet.create({
     letterSpacing: 0.33,
     color: '#fff',
   },
-  buttonRight: { marginTop: 36, alignItems: 'flex-end' },
   headerDown: {
     padding: 22,
     paddingRight: 23,
@@ -164,5 +174,26 @@ const styles = StyleSheet.create({
     },
     shadowRadius: 2,
     shadowOpacity: 1,
+  },
+  inputStyle: {
+    borderRadius: 7,
+    backgroundColor: '#fff',
+    fontWeight: 'normal',
+    borderColor: 'transparent',
+    marginBottom: 32,
+    shadowColor: '#dedede',
+    shadowOffset: {
+      width: 0,
+      height: 0.5,
+    },
+    shadowRadius: 4,
+    shadowOpacity: 1,
+  },
+
+  // Envoyer button
+  buttonRight: {
+    width: 150,
+    backgroundColor:
+  colors.green,
   },
 });

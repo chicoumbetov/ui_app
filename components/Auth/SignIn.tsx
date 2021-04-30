@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { SignIn as AmplifySignIn } from 'aws-amplify-react-native';
 import {
-  Image, KeyboardAvoidingView, Platform, View,
+  Image, KeyboardAvoidingView, Platform,
 } from 'react-native';
 import { Button, Layout, Text } from '@ui-kitten/components';
 import { useForm } from 'react-hook-form';
@@ -41,25 +41,35 @@ const MySigIn = ({
 
   return (
     <KeyboardAvoidingView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-      <Layout style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Layout style={{
+        flex: 1, alignItems: 'center', backgroundColor: '#f6f6f6',
+      }}
+      >
 
         <Form<LoginForm> {...loginForm}>
-          <>
+          <Layout style={{ marginHorizontal: 25, backgroundColor: 'transparent', alignItems: 'center' }}>
             {/* eslint-disable-next-line global-require */}
-            <Layout style={{ backgroundColor: 'transparent', alignItems: 'center' }}>
+            <Layout style={{ backgroundColor: 'transparent', marginTop: 34 }}>
               {/* eslint-disable-next-line global-require */}
-              <Image source={require('../../assets/Icones_omedom/logo_menu_principal.png')} style={{ height: 200 }} resizeMode="contain" />
+              <Image source={require('../../assets/Icones_omedom/Logo_Omedom.png')} style={{ height: 230 }} resizeMode="contain" />
             </Layout>
 
-            <Layout style={{ backgroundColor: 'transparent', alignItems: 'center' }}>
-              <Text style={{ fontSize: 20, color: 'black' }}>Très heureux de vous revoir, Benjamin</Text>
+            <Layout style={{ backgroundColor: 'transparent', marginLeft: 0 }}>
+              <Text style={{
+                fontSize: 25, color: 'black', letterSpacing: 0.2, lineHeight: 32, fontFamily: 'HouschkaRoundedDemiBold',
+              }}
+              >
+                Très heureux de vous revoir, Matthieu
+              </Text>
             </Layout>
 
+            {/**
             <Text category="h1" style={AuthStyles.header}>Se connecter</Text>
+            */}
             <Text category="h1" style={AuthStyles.header}>{errorMessage}</Text>
             <TextInputComp
               name="email"
-              label="Votre e-mail"
+              placeholder="Votre e-mail"
               validators={[
                 AvailableValidationRules.required,
                 AvailableValidationRules.email,
@@ -67,31 +77,35 @@ const MySigIn = ({
             />
             <TextInputComp
               name="password"
-              label="Votre mot de passe"
+              placeholder="Votre mot de passe"
               validators={[
                 AvailableValidationRules.required,
                 AvailableValidationRules.password,
               ]}
             />
 
-            <Switch name="stayConnected" label="Souhaitez-vous rester connecté ?" />
+            <Switch name="stayConnected" label="Souhaitez-vous rester connecté ?" labelPosition="after" />
 
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', flex: 1 }}>
+            <Layout style={{
+              flexDirection: 'row', justifyContent: 'space-between', backgroundColor: 'transparent',
+            }}
+            >
               <Button
-                style={{ width: 130 }}
-                onPress={loginForm.handleSubmit((data) => login(data))}
+                style={{ width: 160 }}
+                onPress={loginForm.handleSubmit((data) => console.log(data))}
               >
                 Se connecter
               </Button>
+
               <Button
-                style={{ width: 130 }}
+                style={{ width: 160 }}
                 onPress={signUp}
               >
                 S'inscrire
               </Button>
-            </View>
+            </Layout>
 
-          </>
+          </Layout>
         </Form>
 
         <Button appearance="ghost" onPress={forgotPassword}>Forgot password?</Button>

@@ -610,6 +610,134 @@
           }
         }
       }
+    },
+    "Drawer": {
+      "meta": {
+        "scope": "mobile",
+        "parameters": {
+          "backgroundColor": {
+            "type": "string"
+          },
+          "headerPaddingHorizontal": {
+            "type": "number"
+          },
+          "headerPaddingVertical": {
+            "type": "number"
+          },
+          "footerPaddingHorizontal": {
+            "type": "number"
+          },
+          "footerPaddingVertical": {
+            "type": "number"
+          }
+        },
+        "appearances": {
+          "default": {
+            "default": true
+          },
+          "noDivider": {
+            "default": false
+          }
+        },
+        "variantGroups": {},
+        "states": {}
+      },
+      "appearances": {
+        "default": {
+          "mapping": {
+            "backgroundColor": "background-basic-color-1",
+            "headerPaddingHorizontal": 24,
+            "headerPaddingVertical": 16,
+            "footerPaddingHorizontal": 24,
+            "footerPaddingVertical": 8
+          }
+        },
+        "noDivider": {
+          "mapping": {}
+        }
+      }
+    },
+    "Tab": {
+      "meta": {
+        "scope": "all",
+        "parameters": {
+          "textFontFamily": {
+            "type": "string"
+          },
+          "textFontSize": {
+            "type": "number"
+          },
+          "textFontWeight": {
+            "type": "number"
+          },
+          "textMarginVertical": {
+            "type": "number"
+          },
+          "textColor": {
+            "type": "string"
+          },
+          "iconWidth": {
+            "type": "number"
+          },
+          "iconHeight": {
+            "type": "number"
+          },
+          "iconMarginVertical": {
+            "type": "number"
+          },
+          "iconTintColor": {
+            "type": "string"
+          }
+        },
+        "appearances": {
+          "default": {
+            "default": true
+          }
+        },
+        "variantGroups": {},
+        "states": {
+          "selected": {
+            "default": false,
+            "priority": 0,
+            "scope": "all"
+          },
+          "hover": {
+            "default": false,
+            "priority": 1,
+            "scope": "all"
+          },
+          "focused": {
+            "default": false,
+            "priority": 2,
+            "scope": "all"
+          }
+        }
+      },
+      "appearances": {
+        "default": {
+          "mapping": {
+            "textMarginVertical": 2,
+            "textFontSize": 14,
+            "textFontWeight": "bold",
+            "textFontFamily": "text-font-family",
+            "textColor": "text-hint-color",
+            "iconWidth": 24,
+            "iconHeight": 24,
+            "iconMarginVertical": 2,
+            "iconTintColor": "text-hint-color",
+            "state": {
+              "hover": {
+                "textColor": "text-primary-hover-color",
+                "iconTintColor": "text-primary-hover-color"
+              },
+              "selected": {
+                "textColor": "text-primary-color",
+                "iconTintColor": "text-primary-color"
+              }
+            }
+          }
+        }
+      }
     }
   }
 }

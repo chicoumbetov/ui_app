@@ -1,7 +1,8 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import { Layout, Text } from '@ui-kitten/components';
-import { VictoryLine, VictoryPie } from 'victory-native';
+import { VictoryLine } from 'victory-native';
+import { colors } from '../../assets/styles';
 
 const GraphicsII = () => (
   <Layout style={styles.container}>
@@ -29,24 +30,31 @@ const GraphicsII = () => (
       <Layout style={{ borderBottomWidth: 1, borderBottomColor: '#b5b5b5' }} />
       <Layout style={{ flexDirection: 'row', marginTop: 10, alignItems: 'center' }}>
         <Layout style={{
-          backgroundColor: 'gold', height: 30, width: 30, borderRadius: 30, marginRight: 10,
+          backgroundColor: colors.bleu, height: 30, width: 30, borderRadius: 30, marginRight: 10,
         }}
         />
-        <Text>Total Entrée par mois</Text>
+        <Text style={{ color: colors.gris }}>Total Entrée par mois</Text>
       </Layout>
       <Layout style={{ flexDirection: 'row', marginTop: 10, alignItems: 'center' }}>
         <Layout style={{
-          backgroundColor: 'tomato', height: 30, width: 30, borderRadius: 30, marginRight: 10,
+          backgroundColor: colors.rouge, height: 30, width: 30, borderRadius: 30, marginRight: 10,
         }}
         />
-        <Text>Total Sorties par mois</Text>
+        <Text style={{ color: colors.gris }}>Total Sorties par mois</Text>
       </Layout>
       <Layout style={{ flexDirection: 'row', marginTop: 10, alignItems: 'center' }}>
         <Layout style={{
-          backgroundColor: 'green', height: 30, width: 30, borderRadius: 30, marginRight: 10,
+          backgroundColor: colors.green, height: 30, width: 30, borderRadius: 30, marginRight: 10,
         }}
         />
-        <Text>Total Trésorie Cumul</Text>
+        <Text style={{ color: colors.gris }}>Total Trésorie Cumul</Text>
+      </Layout>
+      <Layout style={{ flexDirection: 'row', marginTop: 10, alignItems: 'center' }}>
+        <Layout style={{
+          backgroundColor: colors.jaune, height: 30, width: 30, borderRadius: 30, marginRight: 10,
+        }}
+        />
+        <Text style={{ color: colors.gris }}>Evolution de la trésorerie par mois</Text>
       </Layout>
     </Layout>
   </Layout>

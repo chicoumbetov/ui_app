@@ -1,6 +1,6 @@
 import renderer from 'react-test-renderer';
 
-import TabContactScreen from '../TabContactScreen';
+import TabContactScreen from '../TabContactScreen/TabContactScreen';
 
 it('renders TabContactScreen', () => {
   expect(TabContactScreen);

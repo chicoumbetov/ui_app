@@ -13,8 +13,8 @@ const LogoPicture = () => (
 const styles = StyleSheet.create({
 
   tinyLogo: {
-    width: 50,
-    height: 50,
+    width: 62,
+    height: 62,
   },
 });
 

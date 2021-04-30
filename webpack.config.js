@@ -3,6 +3,7 @@ const path = require('path')
 
 module.exports = async function(env, argv) {
   const config = await createExpoWebpackConfigAsync(env, argv);
+
   config.module.rules.forEach(r => {
     if (r.oneOf) {
       r.oneOf.forEach(o => {
@@ -10,10 +11,14 @@ module.exports = async function(env, argv) {
           o.include = [
             path.resolve('.'),
             path.resolve('node_modules/@ui-kitten/components'),
+            path.resolve('node_modules/@ant-design/react-native'),
+            path.resolve('node_modules/@ant-design/icons-react-native'),
+            path.resolve('node_modules/react-native'),
           ]
         }
       })
     }
   })
+
   return config;
 };

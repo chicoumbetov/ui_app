@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import {
   SafeAreaView, SectionList, StyleSheet, Text, TouchableOpacity, View,
 } from 'react-native';
-
 import { AntDesign } from '@expo/vector-icons';
+import faqDATA from '../../../mockData/faqDATA';
 
-const Faq = ({ faqDATA }: any) => {
+const Faq = () => {
   const [questions, setQuestions] = useState(faqDATA);
 
   const pressHandler = (id: number) => {

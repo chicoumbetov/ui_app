@@ -1,0 +1,47 @@
+enum Abonnement {
+ UnADeuxBiens
+ TroisACinqbiens
+ PlusDeCinqBiens
+}
+
+type AdresseType @model {
+  id: ID!
+  adresse: String!
+  complementAdresse: String
+  codePostal: Int!
+  ville: String!
+  pays: String!
+
+  clientID: ID!
+  client: Client @connection(fields: ["clientID"])
+}
+
+# Type Client
+# Client & AdresseType are connected by clientID
+type Client @model {
+  id: ID!
+  userID: ID
+  nom: String!
+  prenom: String!
+  email: AWSEmail!
+  motDePasse: String!
+  numeroTel: AWSPhone!
+  optIn: Boolean
+
+  avatarUri: String
+  dateNaissance: AWSDate
+  abonnement: Abonnement
+}
+
+type Compte @model {
+  id: ID!
+  IBAN: String!
+  bank: String!
+
+  clientID: ID!
+  client: Client @connection(fields: ["clientID"])
+}
+
+
+
+

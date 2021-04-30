@@ -1,3 +1,9 @@
+/**
+ * Mock data for all components that need to take name
+ *
+ * @author: Shynggys UMBETOV
+ */
+
 const clientData = {
   Client: {
     name: 'Client',
@@ -12,7 +18,7 @@ const clientData = {
     }, {
       id: 'c2',
       nom: 'Gerard',
-      prenom: 'Departdieu',
+      prenom: 'Matthieu',
       email: 'gerard@web-premiere.fr',
       motDePasse: '4321',
       numeroTel: '0712341234',

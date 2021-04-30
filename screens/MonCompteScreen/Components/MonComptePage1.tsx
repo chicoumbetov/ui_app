@@ -11,7 +11,7 @@ import {
   Image, ScrollView, StyleSheet,
 } from 'react-native';
 // import { API, graphqlOperation, DataStore } from 'aws-amplify';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Informations from './Informations';
 
 // import { Client } from '../../src/models';
@@ -63,14 +63,16 @@ export default function MonComptePage1() {
    */
 
   return (
-    <Layout style={{ flex: 1, backgroundColor: '#efefef', backgroundColor: '#efefef' }}>
-      <ScrollView>
+    <Layout style={styles.container}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+      >
 
         <Layout style={{
           flex: 1, backgroundColor: 'rgba(246, 246, 246, 0.5)', paddingHorizontal: 22, paddingTop: 37,
         }}
         >
-          <Text style={{ fontSize: 26, fontWeight: '700' }}>
+          <Text style={{ fontSize: 26, fontFamily: 'HouschkaRoundedDemiBold' }}>
             Mon Compte
           </Text>
           <Layout style={{
@@ -98,6 +100,6 @@ export default function MonComptePage1() {
 
 const styles = StyleSheet.create({
   container: {
-
+    flex: 1, backgroundColor: '#efefef',
   },
 });

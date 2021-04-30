@@ -36,7 +36,7 @@ const fonts = {
 
 function App() {
   const colorScheme = useColorScheme();
-  const [authState, setAuthState] = useState<string>();
+  // const [authState, setAuthState] = useState<string>();
 
   const assetLoader = useAssetLoader({ fonts });
 

@@ -3,10 +3,12 @@ import { Image, Text, View } from 'react-native';
 import { CompteType } from '../types';
 
 export type CompteProps = {
-  compte: CompteType,
+  title: string,
+  id: string,
+  data: CompteType,
 };
 
-const CompteHeader = ({ compte }: CompteProps) => (
+const CompteHeader = ({ data }: CompteProps) => (
   <View style={{
     marginTop: 10, marginRight: 20, flexDirection: 'row', alignItems: 'center',
   }}
@@ -19,7 +21,7 @@ const CompteHeader = ({ compte }: CompteProps) => (
       {' '}
       de Mathieu
       {' '}
-      {compte.prenom}
+      {data.prenom}
     </Text>
   </View>
 );

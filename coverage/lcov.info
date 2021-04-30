@@ -44,7 +44,7 @@ BRF:0
 BRH:0
 end_of_record
 TN:
-SF:react-native.config.js
+SF:react-native.config.ts
 FNF:0
 FNH:0
 DA:1,0
@@ -1032,7 +1032,7 @@ BRF:0
 BRH:0
 end_of_record
 TN:
-SF:screens/MonCompteScreen.tsx
+SF:screens/MonCompteScreen
 FN:6,MonCompteScreen
 FNF:1
 FNH:0
@@ -1060,7 +1060,7 @@ BRF:0
 BRH:0
 end_of_record
 TN:
-SF:screens/TabContactScreen.tsx
+SF:screens/TabContactScreen
 FN:8,(anonymous_0)
 FNF:1
 FNH:0
@@ -1074,7 +1074,7 @@ BRF:0
 BRH:0
 end_of_record
 TN:
-SF:screens/TabFaqScreen.tsx
+SF:screens/TabFaqScreen
 FN:8,(anonymous_0)
 FNF:1
 FNH:0
@@ -1088,7 +1088,7 @@ BRF:0
 BRH:0
 end_of_record
 TN:
-SF:screens/TabMaTresorerieScreen.tsx
+SF:screens/TabMaTresorerieScreen
 FN:5,TabMaTresorerieScreen
 FNF:1
 FNH:0
@@ -1100,7 +1100,7 @@ BRF:0
 BRH:0
 end_of_record
 TN:
-SF:screens/TabMesBiensScreen.tsx
+SF:screens/TabMesBiensScreen
 FN:5,TabMesBiensScreen
 FNF:1
 FNH:0
@@ -1112,7 +1112,7 @@ BRF:0
 BRH:0
 end_of_record
 TN:
-SF:screens/TabMesChargeScreen.tsx
+SF:screens/TabMesChargeScreen
 FN:6,TabMesChargeScreen
 FNF:1
 FNH:0
@@ -1125,7 +1125,7 @@ BRF:0
 BRH:0
 end_of_record
 TN:
-SF:screens/TabMonAssistantScreen.tsx
+SF:screens/TabMonAssistantScreen
 FN:7,TabMonAssistantScreen
 FNF:1
 FNH:0
@@ -1138,7 +1138,7 @@ BRF:0
 BRH:0
 end_of_record
 TN:
-SF:screens/TabNotificationsScreen.tsx
+SF:screens/TabNotificationsScreen
 FN:7,TabNotificationsScreen
 FNF:1
 FNH:0
@@ -1151,7 +1151,7 @@ BRF:0
 BRH:0
 end_of_record
 TN:
-SF:screens/TabTableauDeBordScreen.tsx
+SF:screens/TabTableauDeBordScreen
 FN:7,TabTableauDeBordScreen
 FNF:1
 FNH:0

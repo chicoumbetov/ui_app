@@ -1,65 +1,75 @@
 import React from 'react';
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import {
-  Button, Input, Layout, Text,
+  Button, Input, Text,
 } from '@ui-kitten/components';
 import { useNavigation } from '@react-navigation/native';
 
-const Informations = ({ route }) => {
-  const [value, setValue] = React.useState('');
+const Informations = () => {
   const navigation = useNavigation();
+  const [dateDeNaissance, setDateDeNaissance] = React.useState('');
+  const [adresse, setAdresse] = React.useState('');
+  const [adresseComplement, setAdresseComplement] = React.useState('');
+  const [codePostal, setCodePostal] = React.useState('');
+  const [ville, setVille] = React.useState('');
+  const [pays, setPays] = React.useState('');
 
   const onPress = () => {
     navigation.navigate('ModifierInfo3');
   };
   return (
-    <Layout style={styles.container}>
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      style={styles.container}
+    >
       <View>
         <Text style={styles.title}>Modifier vos informations</Text>
       </View>
 
-      <View style={{ flexDirection: 'row', marginBottom: 20, alignItems: 'center' }}>
-        <View style={{ marginRight: 10 }}>
+      <View style={{
+        flexDirection: 'row', marginBottom: 35, alignItems: 'center',
+      }}
+      >
+        <View style={{ marginRight: 25 }}>
           <Text style={{ fontSize: 17 }}>Votre date de naissance</Text>
         </View>
-
         <Input
-          style={{ flex: 1, backgroundColor: 'transparent', fontWeight: 'normal' }}
-          placeholder="Changer date"
-          value={value}
-          onChangeText={(nextValue) => setValue(nextValue)}
+          style={styles.inputStyleDate}
+          placeholder="Date de naissance"
+          value={dateDeNaissance}
+          onChangeText={(nextValue) => setDateDeNaissance(nextValue)}
         />
       </View>
 
       <Input
-        style={styles.input}
-        placeholder="Changer l'adresse"
-        value={value}
-        onChangeText={(nextValue) => setValue(nextValue)}
+        style={styles.inputStyle}
+        placeholder="Adresse"
+        value={adresse}
+        onChangeText={(nextValue) => setAdresse(nextValue)}
       />
       <Input
-        style={styles.input}
-        placeholder="Changer l'adresse complément"
-        value={value}
-        onChangeText={(nextValue) => setValue(nextValue)}
+        style={styles.inputStyle}
+        placeholder="Complément d'adresse"
+        value={adresseComplement}
+        onChangeText={(nextValue) => setAdresseComplement(nextValue)}
       />
       <Input
-        style={styles.input}
-        placeholder="Changer code postale"
-        value={value}
-        onChangeText={(nextValue) => setValue(nextValue)}
+        style={styles.inputStyle}
+        placeholder="Code postale"
+        value={codePostal}
+        onChangeText={(nextValue) => setCodePostal(nextValue)}
       />
       <Input
-        style={styles.input}
-        placeholder="Changer ville"
-        value={value}
-        onChangeText={(nextValue) => setValue(nextValue)}
+        style={styles.inputStyle}
+        placeholder="Ville"
+        value={ville}
+        onChangeText={(nextValue) => setVille(nextValue)}
       />
       <Input
-        style={styles.input}
-        placeholder="Changer pays"
-        value={value}
-        onChangeText={(nextValue) => setValue(nextValue)}
+        style={styles.inputStyle}
+        placeholder="Pays"
+        value={pays}
+        onChangeText={(nextValue) => setPays(nextValue)}
       />
       <View style={styles.buttonRight}>
         <Button onPress={onPress} style={{ width: 150 }}>
@@ -67,30 +77,54 @@ const Informations = ({ route }) => {
         </Button>
       </View>
 
-    </Layout>
+    </ScrollView>
 
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    margin: 20,
+    flex: 1,
+    margin: 21,
     backgroundColor: 'rgba(246, 246, 246, 0.5)',
   },
+  inputStyle: {
+    borderRadius: 7,
+    backgroundColor: '#fff',
+    fontWeight: 'normal',
+    borderColor: 'transparent',
+    marginBottom: 32,
+    shadowColor: '#dedede',
+    shadowOffset: {
+      width: 0,
+      height: 0.5,
+    },
+    shadowRadius: 2,
+    shadowOpacity: 0.5,
+  },
+  buttonRight: { alignItems: 'flex-end' },
   title: {
     marginTop: 12,
-    marginBottom: 49,
-    fontSize: 21,
-    fontWeight: '300', // not working fix it
+    marginBottom: 39,
+    fontSize: 25,
+    fontWeight: '800', // not working fix it
     fontStyle: 'normal',
     letterSpacing: 0,
     color: '#000000',
   },
-  buttonRight: {
-    alignItems: 'flex-end',
-  },
-  input: {
-    backgroundColor: 'transparent', fontWeight: 'normal', marginBottom: 20,
+  inputStyleDate: {
+    flex: 1,
+    borderRadius: 7,
+    backgroundColor: '#fff',
+    fontWeight: 'normal',
+    borderColor: 'transparent',
+    shadowColor: '#dedede',
+    shadowOffset: {
+      width: 0,
+      height: 0.5,
+    },
+    shadowRadius: 2,
+    shadowOpacity: 0.5,
   },
 });
 

@@ -1,63 +1,69 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { SectionList, StyleSheet } from 'react-native';
 import { Layout, Text } from '@ui-kitten/components';
 
 import OwnerCompte from './OwnerCompte';
 import CompteFooter from '../../../components/CompteFooter';
-import comptesData from '../../../mockData/comptesData';
 import CompteHeader from '../../../components/CompteHeader/CompteHeader';
 
-const ComptesBancaires = () =>
-// query
-// const comptes = query
+const ComptesBancaires = ({ client }) => {
+  const [compte, setCompte] = useState(client);
 
-// eslint-disable-next-line implicit-arrow-linebreak
-  (
+  // eslint-disable-next-line implicit-arrow-linebreak
+  return (
     <Layout style={styles.container}>
 
       {/* use SectionList to render several accounts with its types and details */}
-      <Layout style={styles.compteSection}>
-        <Text style={styles.compteHeader}>
-          Comptes Bancaires
-        </Text>
-        <SectionList
-                    /* sections data must be array */
-          sections={comptesData}
-          renderSectionHeader={({ section: { title } }) => (
-            <CompteHeader title={title} />
-          )}
-          renderItem={({ item }) => <OwnerCompte compte={item} />}
-          renderSectionFooter={() => (
-            <Layout style={styles.footer}>
-              <CompteFooter />
-            </Layout>
+      <Text style={styles.compteHeader}>
+        Comptes Bancaires
+      </Text>
 
-          )}
-          keyExtractor={(item) => item.id}
-        />
-      </Layout>
+      <SectionList
+        /* sections data must be array */
+        sections={compte}
+        keyExtractor={(item) => item.id}
+        renderSectionHeader={({ section: { title } }) => (
+          <Layout style={{ backgroundColor: 'transparent', marginTop: 25, marginLeft: 7 }}>
+            <CompteHeader title={title} />
+          </Layout>
+        )}
+        renderItem={({ item }) => (
+          <Layout style={{ backgroundColor: 'transparent' }}>
+            <OwnerCompte compte={item} />
+          </Layout>
+        )}
+        renderSectionFooter={() => (
+          <Layout style={styles.footer}>
+            <CompteFooter />
+          </Layout>
+        )}
+
+      />
 
     </Layout>
 
   );
+};
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 20,
-    borderRadius: 10,
-  },
-  compteSection: {
-    paddingTop: 10,
+    marginTop: 13,
+    paddingTop: 17,
     padding: 20,
-    borderRadius: 10,
+    backgroundColor: '#f6f6f6',
   },
   compteHeader: {
-    fontSize: 24,
-    marginBottom: 20,
-    fontWeight: '400',
+    fontSize: 21,
+    paddingTop: 3,
+    letterSpacing: 0.2,
+    paddingHorizontal: 8,
+    marginBottom: 15,
+    // fontWeight: '400',
   },
   footer: {
-    paddingBottom: 29,
+    paddingTop: 5,
+    backgroundColor: 'transparent',
+    paddingBottom: 32,
     borderBottomWidth: 0.5,
     borderBottomColor: '#b5b5b5',
   },

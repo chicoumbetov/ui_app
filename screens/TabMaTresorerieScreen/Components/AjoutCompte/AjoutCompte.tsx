@@ -12,11 +12,6 @@ import CompteHeader from '../../../../components/CompteHeader/CompteHeader';
 import comptesData from '../../../../mockData/comptesData';
 
 const AjoutCompte = ({ compte }) => {
-  // to ignore warning
-  useEffect(() => {
-    LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
-  }, []);
-
   // Take data that chosen and render previous page with new chosen data
   const navigation = useNavigation();
   const onMaTresorerie = () => {

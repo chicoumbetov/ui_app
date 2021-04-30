@@ -31,11 +31,6 @@ import {
 const DrawerNav = createDrawerNavigator();
 
 const DrawerNavigator = () => {
-  // to ignore warning
-  useEffect(() => {
-    LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
-  }, []);
-
   const { Navigator, Screen } = DrawerNav;
 
   return (

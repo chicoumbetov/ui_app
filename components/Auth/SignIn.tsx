@@ -1,67 +1,42 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SignIn as AmplifySignIn } from 'aws-amplify-react-native';
 import {
   Image, KeyboardAvoidingView, Platform, View,
 } from 'react-native';
-import {
-  Input, Layout, Button, Text, Radio,
-} from '@ui-kitten/components';
+import { Button, Layout, Text } from '@ui-kitten/components';
 import { useForm } from 'react-hook-form';
-import TextInput from '../Form/TextInput';
 
-import { AvailableValidationRules } from '../Form/validation';
 import Form from '../Form/Form';
-import { UsernameType } from '../../types';
-import { UsernameInput } from './components/UsernameInput';
 import { AuthStyles } from './styles';
+import TextInputComp from '../Form/TextInput';
+import Switch from '../Form/Switch';
+import { AvailableValidationRules } from '../Form/validation';
 
 interface SignInProps {
   signUp: () => void
   forgotPassword: () => void
   signIn: (email: string, password: string) => void
-  usernameType: UsernameType
   error?: string
 }
 
 type LoginForm = {
   email: string;
-  motDePasse: string;
-};
-
-type SignUpForm = {
-  prenom: string;
-  nom: string;
-  email: string;
-  motDePasse: string;
-  numeroTel: string;
+  password: string;
 };
 
 const MySigIn = ({
-  forgotPassword, signIn, signUp, usernameType, error,
+  forgotPassword, signIn, signUp, error,
 }: SignInProps) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [errorMessage, setErrorMessage] = useState<string>('');
-  const passwordRef = useRef<Input>(null);
+  const [errorMessage, setErrorMessage] = useState<string>();
 
-  const [stayConnected, setStayConnected] = React.useState(false);
-  const [stayInformed, setStayInformed] = React.useState(false);
-  const [acceptConditions, setAcceptConditions] = React.useState(false);
-
-  // Sign In:
   const loginForm = useForm<LoginForm>();
-  // Sign Up:
-  const signUpForm = useForm<SignUpForm>();
-  // Confirm by code that come to email during sign up
-  const waitingCodeForm = useForm<FormData>();
-  // When password forgotten:
 
   useEffect(() => {
     setErrorMessage(error);
   }, [error]);
 
-  const login = () => {
-    signIn(email, password);
+  const login = (data: LoginForm) => {
+    signIn(data.email, data.password);
   };
 
   return (
@@ -81,63 +56,38 @@ const MySigIn = ({
             </Layout>
 
             <Text category="h1" style={AuthStyles.header}>Se connecter</Text>
-
-            <TextInput
-              type={usernameType}
-              defaultValue={email}
-              placeholder="Votre e-mail"
-              importantForAutofill="yes"
-              autoCapitalize="none"
-              returnKeyType="next"
-              onChangeText={(nextValue) => {
-                setErrorMessage(errorMessage);
-                setEmail(nextValue);
-              }}
-              onSubmitEditing={() => passwordRef.current?.focus()}
-              style={AuthStyles.input}
-              // validators={[AvailableValidationRules.email]}
+            <Text category="h1" style={AuthStyles.header}>{errorMessage}</Text>
+            <TextInputComp
+              name="email"
+              label="Votre e-mail"
+              validators={[
+                AvailableValidationRules.required,
+                AvailableValidationRules.email,
+              ]}
+            />
+            <TextInputComp
+              name="password"
+              label="Votre mot de passe"
+              validators={[
+                AvailableValidationRules.required,
+                AvailableValidationRules.password,
+              ]}
             />
 
-            <TextInput
-              ref={passwordRef}
-              name="motDePasse"
-              secureTextEntry
-              placeholder="Votre mot de passe"
-              importantForAutofill="yes"
-              autoCapitalize="none"
-              returnKeyType="done"
-              onChangeText={(nextValue) => {
-                setErrorMessage(undefined);
-                setPassword(nextValue);
-              }}
-              onSubmitEditing={login}
-              style={AuthStyles.input}
-            />
+            <Switch name="stayConnected" label="Souhaitez-vous rester connecté ?" />
 
-            <Layout style={{ flexDirection: 'row', padding: 10 }}>
-              <Text>Souhaitez-vous rester connecté ?</Text>
-              <Radio
-                checked={stayConnected}
-                onChange={(nextChecked) => setStayConnected(nextChecked)}
-              >
-                {`Checked: ${stayConnected}`}
-              </Radio>
-            </Layout>
-
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', flex: 1 }}>
               <Button
                 style={{ width: 130 }}
-                // onPress={loginForm.handleSubmit((data) => signIn(data.email, data.motDePasse))}
-                onPress={login}
+                onPress={loginForm.handleSubmit((data) => login(data))}
               >
                 Se connecter
               </Button>
               <Button
                 style={{ width: 130 }}
-                // onPress={signUpForm.handleSubmit((data) => signUp())}
                 onPress={signUp}
               >
-                S inscrire
+                S'inscrire
               </Button>
             </View>
 
@@ -152,8 +102,6 @@ const MySigIn = ({
 
 export default class SignIn extends AmplifySignIn {
   showComponent(theme: any) {
-    const { usernameAttributes = 'username' } = this.props;
-
     return (
       <MySigIn
         signUp={() => this.changeState('signUp')}
@@ -163,7 +111,6 @@ export default class SignIn extends AmplifySignIn {
             password, email, phone_number: email, error: null,
           }, this.signIn);
         }}
-        usernameType={usernameAttributes}
         error={this.state.error}
       />
     );

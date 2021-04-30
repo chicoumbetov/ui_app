@@ -39,11 +39,11 @@ const availableValidationRulesDefinition: ValidationRulesDefinitionMap = {
   password: (name?: string): ValidationRules => ({
     validate: (data: string | undefined) => {
       try {
-        if (data !== undefined && !parsePhoneNumber(data).isValid()) {
-          return `Le champ ${name} n'est pas valide`;
+        if (data !== undefined && data.length < 6) {
+          return `${name} doit avoir une longueur minimale de 6 caractères`;
         }
       } catch (error) {
-        return `Le champ ${name} n'est pas valide`;
+        return `${name} n'est pas valide`;
       }
       return true;
     },

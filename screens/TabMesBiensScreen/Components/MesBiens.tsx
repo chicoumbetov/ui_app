@@ -27,11 +27,6 @@ const mesBiensData = [
 ];
 
 function MesBiens() {
-  // to ignore warning
-  useEffect(() => {
-    LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
-  }, []);
-
   const navigation = useNavigation();
 
   const onDetailsBiens = () => {

@@ -11,11 +11,6 @@ import MouvementAttente from './MouvementAttente';
 import MouvementValide from './MouvementValide';
 
 const TresoMouvementPage1 = ({ compte }) => {
-  // to ignore warning
-  useEffect(() => {
-    LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
-  }, []);
-
   const [client, setClient] = useState(comptesData);
 
   return (

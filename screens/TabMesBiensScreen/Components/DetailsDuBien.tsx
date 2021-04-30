@@ -20,11 +20,6 @@ import clientData from '../../../mockData/clientDATA';
 import Icon from '../../../components/Icon';
 
 function DetailsBien() {
-  // to ignore warning
-  useEffect(() => {
-    LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
-  }, []);
-
   const navigation = useNavigation();
 
   const [compte, setCompte] = useState(comptesData);

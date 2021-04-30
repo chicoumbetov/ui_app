@@ -28,11 +28,6 @@ import comptesData from '../../../mockData/comptesData';
 */
 
 const MaTresorerie = () => {
-  // to ignore warning
-  useEffect(() => {
-    LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
-  }, []);
-
   const [value, setValue] = useState('');
 
   return (

@@ -4,9 +4,10 @@ import {
 } from 'react-native';
 import { FieldError } from 'react-hook-form';
 import { useEffect, useState } from 'react';
+import { Input, Text } from '@ui-kitten/components';
+import { TouchableWithoutFeedback } from '@ui-kitten/components/devsupport';
 import { colors, fontSize, size } from '../../assets/styles';
 import { AvailableValidationRules } from './validation';
-import Text from '../Text';
 import { ChangeValueCallbackType } from './Form';
 
 export type TextInputFormProps = Exclude<TextInputProps, 'onChangeText'> & {
@@ -19,7 +20,7 @@ export type TextInputFormProps = Exclude<TextInputProps, 'onChangeText'> & {
   onChangeValue?: ChangeValueCallbackType;
 };
 
-const TextInputComp = React.forwardRef<TextInput, TextInputFormProps>(
+const TextInputComp = React.forwardRef<Input, TextInputFormProps>(
   (props: TextInputFormProps, ref): React.ReactElement => {
     const {
       label,
@@ -44,43 +45,20 @@ const TextInputComp = React.forwardRef<TextInput, TextInputFormProps>(
 
     return (
       <View style={[styles.container, containerStyle]}>
-        {label && (
-        <Text
-          type="label"
-          style={[
-            {
-              paddingVertical: 5,
-            },
-            labelStyle,
-          ]}
-          color={inputColor}
-        >
-          {label}
-        </Text>
-        )}
-        <TextInput
+        <TouchableWithoutFeedback />
+        <Input
           autoCapitalize="none"
           ref={ref}
-          style={StyleSheet.flatten([
-            styles.input,
-            { borderColor: error ? colors.error : inputColor },
-            style,
-          ])}
+          label={label}
+          caption={error && error.message}
+          status={error && error.message ? 'danger' : ''}
           {...inputProps}
-          onFocus={() => {
-            setInputColor(colors.green);
-          }}
           onChangeText={(text) => {
             setInputValue(text);
             onChangeValue && onChangeValue(text);
           }}
-          onBlur={() => {
-            setInputColor(colors.text);
-          }}
-          placeholderTextColor={inputColor}
           value={inputValue}
         />
-        <Text type="error">{error && error.message}</Text>
       </View>
     );
   },
@@ -93,15 +71,5 @@ export default TextInputComp;
 const styles = StyleSheet.create({
   container: {
     marginVertical: 8,
-  },
-  input: {
-    borderStyle: 'solid',
-    borderWidth: 1,
-    paddingVertical: 5,
-    paddingLeft: 10,
-    fontSize: fontSize.input,
-    height: 40,
-    color: colors.text,
-    borderRadius: size.borderRadius,
   },
 });

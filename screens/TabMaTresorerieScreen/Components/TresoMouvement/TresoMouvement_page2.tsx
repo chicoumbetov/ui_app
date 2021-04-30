@@ -11,11 +11,6 @@ import CompteHeader from '../../../../components/CompteHeader/CompteHeader';
 import comptesData from '../../../../mockData/comptesData';
 
 const TresoMouvementPage2 = ({ compte }) => {
-  // to ignore warning
-  useEffect(() => {
-    LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
-  }, []);
-
   const [client, setClient] = useState(comptesData);
 
   // Take data that chosen and back to previous page with new chosen data

@@ -24,7 +24,12 @@ import ActivityIndicator from './components/ActivityIndicator';
 import awsExports from './src/aws-exports';
 import { SignIn } from './components/Auth/components';
 
-Amplify.configure(awsExports);
+Amplify.configure({
+  ...awsExports,
+  Analytics: {
+    disabled: true,
+  },
+});
 
 const fonts = {
   Icons: require('./components/Icon/icomoon.ttf'),
@@ -36,7 +41,7 @@ const fonts = {
 
 function App() {
   const colorScheme = useColorScheme();
-  // const [authState, setAuthState] = useState<string>();
+  const [authState, setAuthState] = useState<string>();
 
   const assetLoader = useAssetLoader({ fonts });
 

@@ -11,11 +11,6 @@ import CompteHeader from '../../../../components/CompteHeader/CompteHeader';
 import comptesData from '../../../../mockData/comptesData';
 
 const IgnorerMouvement = ({ compte }) => {
-  // to ignore warning
-  useEffect(() => {
-    LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
-  }, []);
-
   // Back to previous page and delete chosen data
   const navigation = useNavigation();
   const onTresoMouvementPage1 = () => {

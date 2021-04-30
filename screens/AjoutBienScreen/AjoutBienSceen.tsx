@@ -9,7 +9,6 @@ import {
   Image,
   ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View,
 } from 'react-native';
-import DateTimePicker from '@react-native-community/datetimepicker';
 
 import { Layout } from '@ui-kitten/components';
 
@@ -394,17 +393,6 @@ function AjoutBienScreen() {
               value={date.toDateString()}
             />
           </View>
-          {show
-          && (
-          <DateTimePicker
-            testID="dateTimePicker"
-            value={date}
-            mode="date"
-            is24Hour
-            display="default"
-            onChange={onChange}
-          />
-          )}
           <Layout>
             <TouchableOpacity
               onPress={() => showModeDetention(1)}

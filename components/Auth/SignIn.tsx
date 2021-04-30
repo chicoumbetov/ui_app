@@ -1,17 +1,16 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SignIn as AmplifySignIn } from 'aws-amplify-react-native';
 import {
   Image, KeyboardAvoidingView, Platform, View,
 } from 'react-native';
-import {
-  Input, Layout, Button, Text, Radio,
-} from '@ui-kitten/components';
+import { Button, Layout, Text } from '@ui-kitten/components';
 import { useForm } from 'react-hook-form';
 
 import Form from '../Form/Form';
 import { AuthStyles } from './styles';
-import { PasswordInput } from './components/PasswordInput';
-import { UsernameInput } from './components/UsernameInput';
+import TextInputComp from '../Form/TextInput';
+import Switch from '../Form/Switch';
+import { AvailableValidationRules } from '../Form/validation';
 
 interface SignInProps {
   signUp: () => void
@@ -22,44 +21,22 @@ interface SignInProps {
 
 type LoginForm = {
   email: string;
-  motDePasse: string;
-};
-
-type SignUpForm = {
-  prenom: string;
-  nom: string;
-  email: string;
-  motDePasse: string;
-  numeroTel: string;
+  password: string;
 };
 
 const MySigIn = ({
   forgotPassword, signIn, signUp, error,
 }: SignInProps) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState<string>();
-  const passwordRef = useRef<Input>(null);
 
-  const [stayConnected, setStayConnected] = React.useState(false);
-  const [stayInformed, setStayInformed] = React.useState(false);
-  const [acceptConditions, setAcceptConditions] = React.useState(false);
-
-  // Sign In:
   const loginForm = useForm<LoginForm>();
-  // Sign Up:
-  const signUpForm = useForm<SignUpForm>();
-  // Confirm by code that come to email during sign up
-  const waitingCodeForm = useForm<FormData>();
-  // When password forgotten:
 
   useEffect(() => {
     setErrorMessage(error);
   }, [error]);
 
-  const login = () => {
-    console.log(email, password);
-    signIn(email, password);
+  const login = (data: LoginForm) => {
+    signIn(data.email, data.password);
   };
 
   return (
@@ -80,59 +57,34 @@ const MySigIn = ({
 
             <Text category="h1" style={AuthStyles.header}>Se connecter</Text>
             <Text category="h1" style={AuthStyles.header}>{errorMessage}</Text>
-
-            <UsernameInput
-              type="email"
-              defaultValue={email}
-              placeholder="Votre e-mail"
-              importantForAutofill="yes"
-              autoCapitalize="none"
-              returnKeyType="next"
-              onChangeText={(nextValue) => {
-                setErrorMessage(undefined);
-                setEmail(nextValue);
-              }}
-              onSubmitEditing={() => passwordRef.current?.focus()}
-              style={AuthStyles.input}
-              // validators={[AvailableValidationRules.email]}
+            <TextInputComp
+              name="email"
+              label="Votre e-mail"
+              validators={[
+                AvailableValidationRules.required,
+                AvailableValidationRules.email,
+              ]}
+            />
+            <TextInputComp
+              name="password"
+              label="Votre mot de passe"
+              validators={[
+                AvailableValidationRules.required,
+                AvailableValidationRules.password,
+              ]}
             />
 
-            <PasswordInput
-              ref={passwordRef}
-              secureTextEntry
-              placeholder="Votre mot de passe"
-              importantForAutofill="yes"
-              autoCapitalize="none"
-              returnKeyType="done"
-              onChangeText={(nextValue) => {
-                setErrorMessage(undefined);
-                setPassword(nextValue);
-              }}
-              onSubmitEditing={login}
-              style={AuthStyles.input}
-            />
+            <Switch name="stayConnected" label="Souhaitez-vous rester connecté ?" />
 
-            <Layout style={{ flexDirection: 'row', padding: 10 }}>
-              <Text>Souhaitez-vous rester connecté ?</Text>
-              <Radio
-                checked={stayConnected}
-                onChange={(nextChecked) => setStayConnected(nextChecked)}
-              >
-                {`Checked: ${stayConnected}`}
-              </Radio>
-            </Layout>
-
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', flex: 1 }}>
               <Button
                 style={{ width: 130 }}
-                // onPress={loginForm.handleSubmit((data) => signIn(data.email, data.motDePasse))}
-                onPress={login}
+                onPress={loginForm.handleSubmit((data) => login(data))}
               >
                 Se connecter
               </Button>
               <Button
                 style={{ width: 130 }}
-                // onPress={signUpForm.handleSubmit((data) => signUp())}
                 onPress={signUp}
               >
                 S'inscrire

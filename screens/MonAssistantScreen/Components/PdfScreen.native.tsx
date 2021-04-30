@@ -1,13 +1,19 @@
 import { Dimensions, StyleSheet } from 'react-native';
 import React from 'react';
+import Pdf from 'react-native-pdf';
 
-const PdfScreen = () =>
-// eslint-disable-next-line global-require
+const PdfScreenNative = () => {
+  // eslint-disable-next-line global-require
+  const source = require('../../../mockData/ReactRedux.pdf');
 
-  (
-    <></>
+  return (
+    <Pdf
+      source={source}
+      style={styles.pdf}
+    />
   );
-export default PdfScreen;
+};
+export default PdfScreenNative;
 
 const styles = StyleSheet.create({
   container: {

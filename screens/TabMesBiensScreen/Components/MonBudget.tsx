@@ -18,11 +18,6 @@ import { colors } from '../../../assets/styles';
 import Icon from '../../../components/Icon';
 
 function MonBudget() {
-  // to ignore warning
-  useEffect(() => {
-    LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
-  }, []);
-
   const navigation = useNavigation();
 
   const [compte, setCompte] = useState(comptesData);

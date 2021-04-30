@@ -6,11 +6,6 @@ import {
 } from 'react-native';
 
 const PartagerBien = () => {
-  // to ignore warning
-  useEffect(() => {
-    LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
-  }, []);
-
   const navigation = useNavigation();
 
   const allerDetailsBien = () => {

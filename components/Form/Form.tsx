@@ -70,10 +70,19 @@ export default function Form<T>({
   const registerChildren = (innerChildren: React.ReactElement, setValues = false) => {
     (Array.isArray(innerChildren) ? [...innerChildren] : [innerChildren]).forEach(
       (child: React.ReactElement) => {
-        if (child.props && child.props.name && child.props.name !== '') {
+        if (child.props?.name && child.props?.name !== '') {
           registerMyInput(child.props.name, child.props.label, child.props.validators, setValues);
-        } else if (child.props && child.props?.children && Array.isArray(child.props.children)) {
+        } else if (child.props?.children && Array.isArray(child.props?.children)) {
           registerChildren(child.props.children, setValues);
+        } else if (child.props?.children?.props?.name && child.props?.children?.props?.name !== ''
+        ) {
+          const myUniqueChild = child.props.children;
+          registerMyInput(
+            myUniqueChild.props.name,
+            myUniqueChild.props.label,
+            myUniqueChild.props.validators,
+            setValues,
+          );
         } else if (Array.isArray(child)) {
           registerChildren(child, setValues);
         }
@@ -100,7 +109,7 @@ export default function Form<T>({
    * form
    */
   const renderInput = (child: JSX.Element): React.ReactNode => {
-    if (child.props?.name) {
+    if (child.props?.name && child.props?.name !== '') {
       // eslint-disable-next-line no-plusplus
       index++;
       const i = index;
@@ -115,10 +124,12 @@ export default function Form<T>({
             setValue(child.props.name, v, {
               shouldValidate: true,
             });
+            child.props.onChangeValue(v);
           },
           onSubmitEditing: () => {
             // eslint-disable-next-line @typescript-eslint/no-unused-expressions
             Inputs.current[i + 1] ? Inputs.current[i + 1].focus() : Inputs.current[i].blur();
+            child.props.onSubmitEditing();
           },
           blurOnSubmit: false,
           error: _.get(formState.errors, child.props.name),
@@ -131,7 +142,13 @@ export default function Form<T>({
                 && child.props.children.length > 0
     ) {
       return renderInputs(child.props.children);
-    } if (Array.isArray(child)) {
+    }
+    if (child.props?.children?.props?.name && child.props?.children?.props?.name !== ''
+    ) {
+      const myUniqueChild = child.props.children;
+      return renderInput(myUniqueChild);
+    }
+    if (Array.isArray(child)) {
       return renderInputs(child);
     }
     return child;

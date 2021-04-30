@@ -17,11 +17,6 @@ import CompteHeader from '../../../components/CompteHeader/CompteHeader';
 import comptesData from '../../../mockData/comptesData';
 
 function TableauDeBord() {
-  // to ignore warning
-  useEffect(() => {
-    LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
-  }, []);
-
   const navigation = useNavigation();
 
   const [compte, setCompte] = useState(comptesData);

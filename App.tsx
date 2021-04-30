@@ -13,8 +13,8 @@ import Amplify from 'aws-amplify';
 
 import { Authenticator } from 'aws-amplify-react-native';
 
-import { default as theme } from './custom-theme.json';
-import { default as mapping } from './mapping.json';
+import omedomTheme from './custom-theme';
+import mapping from './mapping.json';
 
 import useColorScheme from './hooks/useColorScheme';
 import Navigation from './navigation';
@@ -65,7 +65,7 @@ function App() {
       <ApplicationProvider
         {...eva}
         customMapping={mapping}
-        theme={{ ...eva.dark, ...theme }}
+        theme={{ ...eva.light, ...omedomTheme }}
       >
         <Layout style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
           <ActivityIndicator />
@@ -80,7 +80,7 @@ function App() {
       <ApplicationProvider
         {...eva}
         customMapping={mapping}
-        theme={{ ...eva.dark, ...theme }}
+        theme={{ ...eva.light, ...omedomTheme }}
       >
         {authState === 'signedIn' ? (<Navigation colorScheme={colorScheme} />) : (
           <Authenticator

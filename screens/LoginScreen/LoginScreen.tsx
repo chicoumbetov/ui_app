@@ -60,8 +60,7 @@ function LoginScreen(): JSX.Element {
       const {
         email, motDePasse, nom, prenom, numeroTel,
       } = formState;
-      await Auth.signUp({ email, motDePasse, attributes: { nom, prenom, numeroTel } });
-      updateFormState(() => ({ ...formState, formType: 'confirmSignUp' }));
+      await Auth.signUp({ email, motDePasse, attributes: { nom, prenom, numeroTel } }); updateFormState(() => ({ ...formState, formType: 'confirmSignUp' }));
     } catch (error) {
       console.log('Error signing up: ', error);
     }

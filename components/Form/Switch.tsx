@@ -4,28 +4,28 @@ import {
   StyleSheet,
   TextStyle,
   ViewStyle,
-  Switch as SwitchOriginal,
-  SwitchProps,
   StyleProp,
 } from 'react-native';
 import { FieldError } from 'react-hook-form';
 import { useEffect, useState } from 'react';
-import Text from '../Text';
+import { Toggle, ToggleProps, Text } from '@ui-kitten/components';
 import { ChangeValueCallbackType } from './Form';
 
 export type SwitchFormProps = {
   name: string;
   label?: string;
+  labelPosition?: 'before' | 'after';
   labelStyle?: StyleProp<TextStyle>;
   error?: FieldError | undefined;
   style?: StyleProp<ViewStyle>;
+  value?: boolean;
   onChangeValue?: ChangeValueCallbackType;
-} & SwitchProps;
+} & ToggleProps;
 
-const Switch = React.forwardRef<SwitchOriginal, SwitchFormProps>(
+const Switch = React.forwardRef<Toggle, SwitchFormProps>(
   (props: SwitchFormProps, ref): React.ReactElement => {
     const {
-      label, labelStyle, error, style, onChangeValue, value, ...switchProps
+      label, labelStyle, error, style, onChangeValue, value = false, labelPosition = 'before', ...switchProps
     } = props;
 
     const [isEnabled, setIsEnabled] = useState(value);
@@ -35,18 +35,26 @@ const Switch = React.forwardRef<SwitchOriginal, SwitchFormProps>(
     };
 
     useEffect(() => {
-      onChangeValue && onChangeValue(isEnabled);
+      if (onChangeValue) {
+        onChangeValue(isEnabled);
+      }
     }, [isEnabled]);
 
     return (
       <View style={[styles.container, style]}>
-        {label && (
-        <Text type="label" style={labelStyle}>
+        {label && labelPosition === 'before' && (
+        <Text category="label" style={labelStyle}>
           {label}
         </Text>
         )}
-        <SwitchOriginal {...switchProps} onValueChange={toggleSwitch} value={isEnabled} ref={ref} />
-        <Text type="error">{error && error.message}</Text>
+        <Toggle {...switchProps} onChange={toggleSwitch} checked={isEnabled} ref={ref} />
+
+        {label && labelPosition === 'after' && (
+          <Text category="label" style={labelStyle}>
+            {label}
+          </Text>
+        )}
+        <Text category="error">{error && error.message}</Text>
       </View>
     );
   },
@@ -59,5 +67,6 @@ export default Switch;
 const styles = StyleSheet.create({
   container: {
     marginVertical: 8,
+    flexDirection: 'row',
   },
 });

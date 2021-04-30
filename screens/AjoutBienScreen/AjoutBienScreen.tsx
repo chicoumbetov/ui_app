@@ -86,13 +86,14 @@ function AjoutBienScreen() {
     setShow(true);
   };
   /**
-   *Variable pour gérer l'affichage des données de modes de détention
+   * For part III
+   * Variable pour gérer l'affichage des données de modes de détention
    * */
 
-  const [typeBien, setTypeBien] = useState('Type de Bien');
+  const [typeBien, setTypeBien] = useState('Type de bien');
   const [typeBienShow, setTypeBienShow] = useState(false);
 
-  const [detention, setDetention] = useState('Mode de détention');
+  const [detention, setDetention] = useState('Détention');
   const [detentionShow, setDetentionShow] = useState(false);
 
   const [statut, setStatut] = useState('Statut');
@@ -209,7 +210,12 @@ function AjoutBienScreen() {
       {etape1 === 1 && (
         <View>
           <Layout style={{
-            backgroundColor: colors.blanc, paddingHorizontal: 16, marginHorizontal: 23, marginTop: 7, paddingVertical: 11.5,
+            backgroundColor: colors.blanc,
+            paddingHorizontal: 16,
+            marginHorizontal: 23,
+            marginTop: 7,
+            paddingVertical: 11.5,
+            borderRadius: 7,
           }}
           >
             <Text style={{ fontSize: 17, fontFamily: 'HouschkaRoundedMedium' }}>La Maison de Matthieu</Text>
@@ -381,7 +387,7 @@ function AjoutBienScreen() {
         <View>
           <View style={{ flexDirection: 'row', marginLeft: 27, marginRight: 10 }}>
             <Text style={{
-              flex: 1, fontSize: 16, marginTop: 12, letterSpacing: 0,
+              flex: 1, fontSize: 15.4, marginTop: 12, letterSpacing: 0.01,
             }}
             >
               Date d'acquisition
@@ -405,58 +411,76 @@ function AjoutBienScreen() {
             onChange={onChange}
           />
           )}
-          <Layout>
+          <Layout style={{ backgroundColor: 'transparent' }}>
             <TouchableOpacity
               onPress={() => showModeDetention(1)}
             >
               <Layout style={
                 typeBienShow
-                  ? (styles.headerUp)
+                  ? ({
+                    ...styles.headerUp, marginBottom: 0, marginTop: 0, paddingTop: 22,
+                  })
                   : ({
-                    ...styles.headerDown, marginTop: -11, paddingLeft: 25, paddingVertical: 23,
+                    ...styles.headerDown, marginTop: -11, paddingLeft: 24, paddingVertical: 23,
                   })
               }
               >
-                <Text style={{ fontSize: 16, color: colors.blanc }}>{typeBien}</Text>
-                <Icon name="arrow-ios-downward-outline" color={colors.blanc} size={15} />
+                <Text style={{
+                  fontSize: 16,
+                  letterSpacing: 0.05,
+                  color: colors.blanc,
+                }}
+                >
+                  {typeBien}
+                </Text>
+                {
+                  typeBienShow
+                    ? <Icon name="arrow-ios-upward-outline" color={colors.blanc} size={15} />
+                    : <Icon name="arrow-ios-downward-outline" color={colors.blanc} size={15} />
+                }
+
               </Layout>
             </TouchableOpacity>
             {typeBienShow && (
-            <Layout>
+            <Layout style={{ marginHorizontal: 25, marginBottom: 30 }}>
               <TouchableOpacity
                 onPress={() => SetTypeBien('Rèsidence Principale')}
               >
-                <Layout style={{ margin: 20 }}>
-                  <Text style={styles.text}>Rèsidence Principale</Text>
+                <Layout style={{ margin: 22 }}>
+                  <Text style={{ ...styles.text, letterSpacing: 0.5 }}>Rèsidence Principale</Text>
                 </Layout>
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => SetTypeBien('Résidence Secondaire')}
               >
-                <Layout style={{ margin: 20 }}>
-                  <Text style={styles.text}>Résidence Secondaire</Text>
+                <Layout style={{ marginHorizontal: 20, marginVertical: 23 }}>
+                  <Text style={{ ...styles.text, letterSpacing: 0.5 }}>Résidence Secondaire</Text>
                 </Layout>
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => SetTypeBien('Investissement Locatif Professionnel ou Commercial')}
               >
-                <Layout style={{ margin: 20 }}>
-                  <Text style={styles.text}>Investissement Locatif Professionnel ou Commercial</Text>
+                <Layout style={{ marginHorizontal: 22, marginTop: 21 }}>
+                  <Text style={{ ...styles.text, letterSpacing: 0.5, lineHeight: 25 }}>
+                    Investissement Locatif Professionnel ou Commercial
+                  </Text>
                 </Layout>
               </TouchableOpacity>
 
               <TouchableOpacity
                 onPress={() => SetTypeBien('Investissement Locatif Particulier')}
               >
-                <Layout style={{ margin: 20 }}>
-                  <Text style={styles.text}>Investissement Locatif Particulier</Text>
+                <Layout style={{ marginHorizontal: 21, marginTop: 18, marginBottom: 24 }}>
+                  <Text style={{ ...styles.text, letterSpacing: 0.5 }}>
+                    Investissement Locatif Particulier
+                  </Text>
                 </Layout>
               </TouchableOpacity>
             </Layout>
             )}
           </Layout>
 
-          <Layout>
+          <Layout style={{ backgroundColor: 'transparent' }}>
             <TouchableOpacity
               onPress={() => showModeDetention(2)}
             >
@@ -466,12 +490,18 @@ function AjoutBienScreen() {
                     ...styles.headerUp,
                   })
                   : ({
-                    ...styles.headerDown, paddingLeft: 25, paddingVertical: 22,
+                    ...styles.headerDown, paddingLeft: 25, paddingVertical: 25,
                   })
               }
               >
-                <Text style={{ fontSize: 16, letterSpacing: 0.2, color: colors.blanc }}>{detention}</Text>
-                <Icon name="arrow-ios-downward-outline" color={colors.blanc} size={15} />
+                <Text style={{ fontSize: 16, letterSpacing: 0.4, color: colors.blanc }}>
+                  {detention}
+                </Text>
+                {
+                detentionShow
+                  ? <Icon name="arrow-ios-upward-outline" color={colors.blanc} size={15} />
+                  : <Icon name="arrow-ios-downward-outline" color={colors.blanc} size={15} />
+                }
               </Layout>
             </TouchableOpacity>
             {detentionShow && (
@@ -665,11 +695,13 @@ const styles = StyleSheet.create({
     shadowOpacity: 1,
   },
   headerUp: {
-    padding: 22,
+    paddingHorizontal: 23,
+    paddingTop: 24,
+    paddingBottom: 23.5,
     marginHorizontal: 24,
     marginBottom: 15,
     flexDirection: 'row',
-    alignItems: 'center',
+    // alignItems: 'center',
     justifyContent: 'space-between',
     borderRadius: 7,
     backgroundColor: '#5fc4ee',
@@ -692,7 +724,13 @@ const styles = StyleSheet.create({
     marginLeft: 39,
     marginTop: 30,
     marginRight: 22,
-
+  },
+  text: {
+    fontSize: 16,
+    fontFamily: 'HouschkaRoundedDemiBold',
+    lineHeight: 24,
+    letterSpacing: 0,
+    color: colors.noir,
   },
 
   // Localisation input style
@@ -714,15 +752,6 @@ const styles = StyleSheet.create({
     },
     shadowRadius: 4,
     shadowOpacity: 1,
-  },
-
-  text: {
-    fontSize: 16,
-    fontWeight: '600',
-    fontStyle: 'normal',
-    lineHeight: 24,
-    letterSpacing: 0,
-    color: colors.noir,
   },
 
   // bouton ajouter supprimer

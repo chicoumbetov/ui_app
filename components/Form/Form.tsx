@@ -124,12 +124,16 @@ export default function Form<T>({
             setValue(child.props.name, v, {
               shouldValidate: true,
             });
-            child.props.onChangeValue(v);
+            if (child.props.onChangeValue) {
+              child.props.onChangeValue(v);
+            }
           },
           onSubmitEditing: () => {
             // eslint-disable-next-line @typescript-eslint/no-unused-expressions
             Inputs.current[i + 1] ? Inputs.current[i + 1].focus() : Inputs.current[i].blur();
-            child.props.onSubmitEditing();
+            if (child.props.onSubmitEditing) {
+              child.props.onSubmitEditing();
+            }
           },
           blurOnSubmit: false,
           error: _.get(formState.errors, child.props.name),

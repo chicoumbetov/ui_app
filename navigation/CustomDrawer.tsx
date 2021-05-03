@@ -21,6 +21,7 @@ import {
   Image, StyleSheet, TouchableOpacity,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { Auth } from 'aws-amplify';
 import comptesData from '../mockData/comptesData';
 import { colors } from '../assets/styles';
 import Icon from '../components/Icon/Icon';
@@ -227,6 +228,7 @@ const CustomDrawer = ({ state }) => {
       }}
       >
         <TouchableOpacity onPress={() => {
+          Auth.signOut();
         }}
         >
           <Text style={{ fontSize: 17, letterSpacing: 0 }}>Déconnexion</Text>

@@ -8,6 +8,7 @@ import { AntDesign } from '@expo/vector-icons';
 import contactDATA from '../../../mockData/contactDATA';
 import TextInput from '../../../components/Form/TextInput';
 import { colors } from '../../../assets/styles';
+import SelectComp from '../../../components/Form/Select';
 
 enum MotifState {
   hideMotif,
@@ -16,19 +17,10 @@ enum MotifState {
 
 const Contact = () => {
   const [questions, setQuestions] = useState(contactDATA);
-  const [motifContact, setMotifContact] = useState(false);
+  const [motifContact, setMotifContact] = useState(true);
 
-  const showMotifContact = (id: number) => {
-    switch (id) {
-      case MotifState.showMotif:
-        setMotifContact(true);
-        break;
-      case MotifState.hideMotif:
-        setMotifContact(false);
-        break;
-      default:
-        break;
-    }
+  const pressHandler = (index) => {
+    setMotifContact(!motifContact);
   };
 
   return (
@@ -36,57 +28,7 @@ const Contact = () => {
 
       <Layout style={styles.container}>
         <Text style={styles.title}>Contact</Text>
-        <SectionList
-          sections={questions}
-          initialNumToRender={1}
-          keyExtractor={(item, index) => item.id + index}
-          renderItem={({ item }) => (
 
-            <View style={styles.item}>
-              {motifContact
-                    && (
-                    <TouchableOpacity onPress={() => {}}>
-                      <Text
-                        style={{
-                          fontSize: 16,
-                          letterSpacing: 0.07,
-                          fontFamily: 'HouschkaRoundedDemiBold',
-                          backgroundColor: 'white',
-
-                          paddingHorizontal: 24,
-                          paddingVertical: 26,
-                        }}
-                      >
-                        {item.motif}
-                      </Text>
-                    </TouchableOpacity>
-                    )}
-            </View>
-          )}
-          renderSectionHeader={({
-            section: {
-              title, id,
-            },
-          }) =>
-          // console.log('isChecked', isChecked);
-          // eslint-disable-next-line implicit-arrow-linebreak
-            (
-              <Layout style={motifContact ? (styles.headerUp) : (styles.headerDown)}>
-                <Text style={styles.headerText} key={id}>
-                  {title}
-                </Text>
-
-                <TouchableOpacity onPress={() => {}}>
-                  {
-                  motifContact
-                    ? <AntDesign name="up" color="white" size={13} />
-                    : <AntDesign name="down" color="white" size={13} />
-                  }
-                </TouchableOpacity>
-
-              </Layout>
-            )}
-        />
         <TextInput
           name="Votre Message"
           label="Votre Message"
@@ -94,16 +36,16 @@ const Contact = () => {
           placeholder="Saisissez votre texte ici"
           style={styles.inputStyle}
         />
+
+        <SelectComp name="contact" data={contactDATA} placeholder="Motif Contact" size="large" appearance="default" status="primary" />
         <Layout style={{ alignItems: 'flex-end', backgroundColor: 'transparent' }}>
           <Button
-            onPress={() => {}}
+            onPress={() => { co; }}
             style={{ ...styles.buttonRight }}
           >
             Envoyer
           </Button>
-
         </Layout>
-
       </Layout>
 
     </Layout>

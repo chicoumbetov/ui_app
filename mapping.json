@@ -3,7 +3,9 @@
     "text-font-family": "HouschkaRoundedMedium",
     "text-label-font-size": 20,
     "text-label-font-weight": "500",
-    "text-label-font-family": "HouschkaRoundedMedium"
+    "text-label-font-family": "HouschkaRoundedMedium",
+    "text-subtitle-2-font-family": "HouschkaRoundedDemiBold",
+    "size-large": 64
   },
   "components": {
     "BottomNavigationTab": {
@@ -908,6 +910,113 @@
                     "textColor": "text-primary-disabled-color"
                   }
                 }
+              }
+            }
+          }
+        }
+      }
+    },
+    "Select": {
+      "appearances": {
+        "default": {
+          "mapping": {
+            "paddingHorizontal": 8,
+            "iconWidth": 24,
+            "iconHeight": 24,
+            "iconMarginHorizontal": 8,
+            "textMarginHorizontal": 8,
+            "textFontFamily": "text-subtitle-2-font-family",
+            "placeholderFontFamily": "text-subtitle-2-font-family",
+            "placeholderFontSize": 16,
+            "placeholderFontWeight": 600,
+            "labelMarginBottom": 4,
+            "labelFontSize": "text-label-font-size",
+            "labelFontWeight": "text-label-font-weight",
+            "labelFontFamily": "text-label-font-family",
+            "captionFontSize": "text-caption-1-font-size",
+            "captionFontWeight": "text-caption-1-font-weight",
+            "captionFontFamily": "text-caption-1-font-family",
+            "popoverMaxHeight": 220,
+            "popoverBorderRadius": "border-radius",
+            "popoverBorderWidth": "border-width",
+            "popoverBorderColor": "border-basic-color-4"
+          },
+          "variantGroups": {
+            "status": {
+              "primary": {
+                "borderColor": "color-info-400",
+                "backgroundColor": "color-info-400",
+                "textColor": "text-alternate-color",
+                "labelColor": "text-hint-color",
+                "captionColor": "text-primary-color",
+                "placeholderColor": "text-alternate-color",
+                "iconTintColor": "text-alternate-color",
+                "state": {
+                  "focused": {
+                    "borderColor": "color-info-300",
+                    "backgroundColor": "color-info-300"
+                  },
+                  "hover": {
+                    "borderColor": "color-info-300",
+                    "backgroundColor": "color-info-300"
+                  },
+                  "active": {
+                    "borderColor": "color-info-300",
+                    "backgroundColor": "color-info-300",
+                    "iconTintColor": "text-basic-color"
+                  },
+                  "disabled": {
+                    "borderColor": "border-basic-color-4",
+                    "backgroundColor": "background-basic-color-2",
+                    "placeholderColor": "text-disabled-color",
+                    "textColor": "text-disabled-color",
+                    "iconTintColor": "text-disabled-color"
+                  }
+                }
+              },
+
+              "danger": {
+                "borderColor": "color-danger-default",
+                "backgroundColor": "background-basic-color-2",
+                "textColor": "text-basic-color",
+                "labelColor": "text-hint-color",
+                "captionColor": "text-danger-color",
+                "placeholderColor": "text-hint-color",
+                "iconTintColor": "text-hint-color",
+                "state": {
+                  "focused": {
+                    "borderColor": "color-danger-focus",
+                    "backgroundColor": "background-basic-color-1"
+                  },
+                  "hover": {
+                    "borderColor": "color-danger-hover",
+                    "backgroundColor": "background-basic-color-3"
+                  },
+                  "active": {
+                    "borderColor": "color-danger-active",
+                    "backgroundColor": "background-basic-color-1",
+                    "iconTintColor": "text-basic-color"
+                  },
+                  "disabled": {
+                    "borderColor": "border-basic-color-4",
+                    "backgroundColor": "background-basic-color-2",
+                    "placeholderColor": "text-disabled-color",
+                    "textColor": "text-disabled-color",
+                    "iconTintColor": "text-disabled-color"
+                  }
+                }
+                          }
+            },
+            "size": {
+              "large": {
+                "borderRadius": "border-radius",
+                "borderWidth": "border-width",
+                "minHeight": "size-large",
+                "paddingVertical": 11,
+                "textFontSize": "text-subtitle-1-font-size",
+                "textFontWeight": "text-subtitle-1-font-weight",
+                "placeholderFontSize": "text-paragraph-1-font-size",
+                "placeholderFontWeight": "text-paragraph-1-font-weight"
               }
             }
           }

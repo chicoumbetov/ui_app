@@ -1,16 +1,11 @@
 const contactDATA = [
   {
-    title: 'Motif du contact',
-    data: [{
-      motif: '1 Motif Contact',
-      id: 'b1',
-    },
-    {
-      motif: '2 Motif Contact',
-      id: 'b2',
-    }],
-    id: '0',
-    isChecked: false,
+    label: '1 Motif Contact',
+    key: 'b1',
+  },
+  {
+    label: '2 Motif Contact',
+    key: 'b2',
   },
 ];
 

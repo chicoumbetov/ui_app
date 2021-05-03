@@ -4,46 +4,56 @@ import {
 } from 'react-native';
 import { FieldError } from 'react-hook-form';
 import {
-  useEffect, useState, useRef, useImperativeHandle,
+  useState, useRef, useImperativeHandle, useEffect,
 } from 'react';
+import {
+  Select, SelectProps, SelectItem, IndexPath,
+} from '@ui-kitten/components';
 import { colors } from '../../assets/styles';
-import { Select, SelectHandles, SelectProps } from '../Select/Select';
+import { SelectHandles } from '../Select/Select';
 import { AvailableValidationRules } from './validation';
 import { ChangeValueCallbackType } from './Form';
 import Text from '../Text';
 import { AutoCompleteHandles } from '../AutoComplete/AutoComplete';
+import { IconName } from '../Icon';
 
-export type SelectFormProps = {
+export type SelectFormProps<KT> = {
   name: string;
   label?: string;
+  size?: string
+  placeholder?: string;
+  value?: KT;
   labelStyle?: StyleProp<TextStyle>;
   error?: FieldError | undefined;
   validators?: Array<AvailableValidationRules>;
   onChangeValue?: ChangeValueCallbackType;
   containerStyle?: StyleProp<ViewStyle>;
-} & SelectProps;
+  data: SelectItemProps<KT>[];
+} & Exclude<SelectProps, 'children'>;
 
-const SelectComp = React.forwardRef<SelectHandles, SelectFormProps>(
-  (props: SelectFormProps, ref): React.ReactElement => {
+export type SelectItemProps<KT = string | number> = {
+  key: KT;
+  label: string;
+  section?: boolean;
+  icon?: IconName;
+  // to be as configurable as possible allow any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  onPress?: (row?: any) => void;
+};
+
+const SelectComp = React.forwardRef<SelectHandles, SelectFormProps<string | number>>(
+  (props: SelectFormProps<string | number>, ref): React.ReactElement => {
     const {
-      label,
+      value,
       labelStyle,
       error,
       style,
       onChangeValue,
-      initKey,
       containerStyle,
       data,
+      status,
       ...selectProps
     } = props;
-    const [inputValue, setInputValue] = useState<string | number | undefined>('');
-
-    useEffect(() => {
-      if (inputValue === '') {
-        setInputValue(initKey ? data.filter((item) => item?.key === initKey)[0].key : undefined);
-      }
-      if (onChangeValue && initKey) onChangeValue(inputValue);
-    }, [inputValue]);
 
     const selectRef = useRef<AutoCompleteHandles>({
       focus: () => {
@@ -59,29 +69,30 @@ const SelectComp = React.forwardRef<SelectHandles, SelectFormProps>(
       blur: selectRef.current.blur,
     }));
 
+    const [selectedIndex, setSelectedIndex] = useState<number>(0);
+
+    useEffect(() => {
+      const selectedIndexValue = data.findIndex((item) => item.key === value);
+      setSelectedIndex(selectedIndexValue);
+    }, []);
+
     return (
       <View style={[styles.container, containerStyle]}>
-        {label && (
-        <Text type="label" style={[labelStyle, { color: colors.text }]}>
-          {label}
-        </Text>
-        )}
         <Select
-          style={StyleSheet.flatten([
-            styles.input,
-            { borderColor: error ? colors.error : undefined },
-            style,
-          ])}
-          data={data}
-          onSelect={(item) => {
-            setInputValue(item?.key);
-            onChangeValue && onChangeValue(item?.key);
-          }}
-          initKey={initKey}
+          value={selectedIndex > -1 ? data[selectedIndex].label : undefined}
+          selectedIndex={selectedIndex > -1 ? new IndexPath(selectedIndex) : undefined}
+          onSelect={(index) => setSelectedIndex(index.row)}
           {...selectProps}
-          passedInRef={selectRef}
-        />
-        <Text type="error">{error && error.message}</Text>
+          caption={error && error.message}
+          status={error && error.message !== '' ? 'danger' : status}
+        >
+          {data.map((item) => (
+            <SelectItem
+              title={item.label}
+              key={item.key}
+            />
+          ))}
+        </Select>
       </View>
     );
   },

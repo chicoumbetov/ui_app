@@ -84,6 +84,13 @@ const omedomTheme = {
   'border-basic-color-3': '$color-basic-300',
   'border-basic-color-4': '$color-basic-400',
   'border-basic-color-5': '$color-basic-500',
+
+  'text-font-family': 'HouschkaRoundedMedium',
+  'border-radius': 4,
+  'border-width': 1,
+  'text-subtitle-1-font-size': 15,
+  'size-medium': 40,
+  'size-small': 32,
 };
 
 export default omedomTheme;

@@ -14,10 +14,11 @@ const window = Dimensions.get('window');
 const styles = StyleSheet.create({
   overlay: {
     position: 'absolute',
-    width: window.width * 2,
-    height: window.height * 2,
-    top: -window.height,
-    left: -window.width,
+    width: window.width,
+    height: window.height,
+    top: 0,
+    left: 0,
+    backgroundColor: 'red',
   },
 });
 

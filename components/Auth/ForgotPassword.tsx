@@ -1,121 +1,112 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ForgotPassword as AmplifyForgotPassword } from 'aws-amplify-react-native';
 import { KeyboardAvoidingView, Platform } from 'react-native';
 import {
-  Input, Layout, Button, Text,
+  Layout, Button, Text,
 } from '@ui-kitten/components';
+import { useForm } from 'react-hook-form';
 import { AuthStyles } from './styles';
-import { UsernameInput, UsernameType } from './components/UsernameInput';
 import { ErrorMessage } from './components/ErrorMessage';
-import { PasswordInput } from './components/PasswordInput';
+import Form from '../Form/Form';
+import { AvailableValidationRules } from '../Form/validation';
+import TextInputComp from '../Form/TextInput';
+import DigitsInput from '../Form/DigitsInput';
+
+type ResetForm = {
+  email: string;
+};
+type NewPasswordForm = {
+  code: string;
+  password: string;
+};
 
 const MyForgotPassword = ({
-  resetPassword, usernameType, goBack, error,
+  resetPassword, goBack, error,
 }: ForgotPasswordProps) => {
-  const [userName, setUserName] = useState('');
   const [errorMessage, setErrorMessage] = useState<string>();
 
+  const resetForm = useForm<ResetForm>();
   useEffect(() => { setErrorMessage(error); }, [error]);
 
-  const reset = () => resetPassword(userName);
+  const reset = (data: ResetForm) => resetPassword(data.email);
 
   return (
     <KeyboardAvoidingView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} behavior={Platform.OS == 'ios' ? 'padding' : 'height'}>
       <Layout style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
 
-        <Text category="h1" style={AuthStyles.header}>Reset your password</Text>
+        <Text category="h1" style={AuthStyles.header}>Mot de passe oublié</Text>
 
-        <UsernameInput
-          type={usernameType}
-          defaultValue={userName}
-          size="large"
-          autoCompleteType="username"
-          textContentType="username"
-          autoCapitalize="none"
-          returnKeyType="send"
-          onChangeText={(nextValue) => {
-            setErrorMessage(undefined);
-            setUserName(nextValue);
-          }}
-          onSubmitEditing={reset}
-          style={AuthStyles.input}
-        />
+        <Form<ResetForm> {...resetForm}>
+          <>
+            <TextInputComp
+              name="email"
+              placeholder="Votre e-mail"
+              validators={[
+                AvailableValidationRules.required,
+                AvailableValidationRules.email,
+              ]}
+            />
 
-        {errorMessage && <ErrorMessage message={errorMessage} />}
+            {errorMessage && <ErrorMessage message={errorMessage} />}
 
-        <Button size="large" appearance="outline" style={AuthStyles.button} onPress={reset}>Send</Button>
+            <Button size="large" appearance="outline" style={AuthStyles.button} onPress={resetForm.handleSubmit((data) => reset(data))}>Envoyer</Button>
+          </>
+        </Form>
 
-        <Button appearance="ghost" style={AuthStyles.button} onPress={goBack}>Back to Sign In</Button>
+        <Button appearance="ghost" style={AuthStyles.button} onPress={goBack}>Retour à la connexion</Button>
       </Layout>
     </KeyboardAvoidingView>
   );
 };
 
 const MyNewPassword = ({ error, goBack, setNewPassword }: NewPasswordProps) => {
-  const [confirmCode, setConfirmCode] = useState('');
-  const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState<string>();
-  const passwordRef = useRef<Input>(null);
 
+  const newPasswordForm = useForm<NewPasswordForm>();
   useEffect(() => { setErrorMessage(error); }, [error]);
 
-  const submit = () => {
-    setNewPassword(confirmCode, password);
+  const submit = (data: NewPasswordForm) => {
+    setNewPassword(data.code, data.password);
   };
 
   return (
     <KeyboardAvoidingView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} behavior={Platform.OS == 'ios' ? 'padding' : 'height'}>
       <Layout style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
 
-        <Text category="h1" style={AuthStyles.header}>Set la nouvelle mot de passe</Text>
+        <Text category="h1" style={AuthStyles.header}>Enregistrez votre nouveau mot de passe</Text>
+        <Form<NewPasswordForm> {...newPasswordForm}>
+          <>
+            <DigitsInput
+              name="digits"
+              numberOfDigits={6}
+              label="Code de vérification"
+              validators={[
+                AvailableValidationRules.required,
+              ]}
+            />
+            <TextInputComp
+              name="password"
+              placeholder="Votre nouveau mot de passe"
+              validators={[
+                AvailableValidationRules.required,
+                AvailableValidationRules.password,
+              ]}
+            />
 
-        <Input
-          label="Verification code"
-          placeholder="Enter the verification code"
-          size="large"
-          textContentType="oneTimeCode"
-          importantForAutofill="yes"
-          autoCapitalize="none"
-          returnKeyType="next"
-          keyboardType="number-pad"
-          onChangeText={(nextValue) => {
-            setErrorMessage(undefined);
-            setConfirmCode(nextValue);
-          }}
-          onSubmitEditing={() => passwordRef.current?.focus()}
-          style={AuthStyles.input}
-        />
+            {errorMessage && <ErrorMessage message={errorMessage} />}
 
-        <PasswordInput
-          ref={passwordRef}
-          label="New password"
-          placeholder="Enter your new password"
-          size="large"
-          textContentType="newPassword"
-          autoCapitalize="none"
-          returnKeyType="next"
-          onChangeText={(nextValue) => {
-            setErrorMessage(undefined);
-            setPassword(nextValue);
-          }}
-          onSubmitEditing={submit}
-          style={AuthStyles.input}
-        />
-
-        {errorMessage && <ErrorMessage message={errorMessage} />}
-
-        <Button size="large" appearance="outline" style={AuthStyles.button} onPress={submit}>Submit</Button>
-
-        <Button appearance="ghost" style={AuthStyles.button} onPress={goBack}>Back to Sign In</Button>
+            <Button size="large" style={AuthStyles.button} onPress={newPasswordForm.handleSubmit((data) => submit(data))}>Enregistrer</Button>
+          </>
+        </Form>
+        <Button appearance="ghost" style={AuthStyles.button} onPress={goBack}>Retour à la connexion</Button>
       </Layout>
     </KeyboardAvoidingView>
   );
 };
 
 interface ForgotPasswordProps {
-  usernameType: UsernameType
   goBack: () => void
-  resetPassword: (username: string) => void
+  resetPassword: (email: string) => void
   error?: string
 }
 
@@ -127,17 +118,14 @@ interface NewPasswordProps {
 
 export default class ForgotPassword extends AmplifyForgotPassword {
   showComponent(theme: any) {
-    const { usernameAttributes = 'username' } = this.props;
-
     if (!this.state.delivery) {
       return (
         <MyForgotPassword
-          usernameType={usernameAttributes}
           goBack={() => this.changeState('signIn')}
           error={this.state.error}
-          resetPassword={(username) => {
+          resetPassword={(email) => {
             this.setState({
-              username, phone_number: username, email: username, error: null,
+              username: email, phone_number: email, email, error: null,
             }, this.send);
           }}
         />

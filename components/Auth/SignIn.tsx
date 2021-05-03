@@ -3,6 +3,7 @@ import { SignIn as AmplifySignIn } from 'aws-amplify-react-native';
 import {
   Image, KeyboardAvoidingView, Platform,
 } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import { Button, Layout, Text } from '@ui-kitten/components';
 import { useForm } from 'react-hook-form';
 
@@ -22,18 +23,28 @@ interface SignInProps {
 type LoginForm = {
   email: string;
   password: string;
+  stayConnected: boolean;
 };
 
 const MySigIn = ({
   forgotPassword, signIn, signUp, error,
 }: SignInProps) => {
   const [errorMessage, setErrorMessage] = useState<string>();
+  const [lastUser, setLastUser] = useState<string>('');
 
   const loginForm = useForm<LoginForm>();
 
   useEffect(() => {
     setErrorMessage(error);
   }, [error]);
+
+  useEffect(() => {
+    AsyncStorage.getItem('lastFirstname', (err?: Error, result?: string) => {
+      if (result) {
+        setLastUser(result);
+      }
+    });
+  }, []);
 
   const login = (data: LoginForm) => {
     signIn(data.email, data.password);
@@ -42,12 +53,15 @@ const MySigIn = ({
   return (
     <KeyboardAvoidingView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <Layout style={{
-        flex: 1, alignItems: 'center', backgroundColor: '#f6f6f6',
+        flex: 1, alignItems: 'center', maxWidth: 400,
       }}
       >
 
         <Form<LoginForm> {...loginForm}>
-          <Layout style={{ marginHorizontal: 25, backgroundColor: 'transparent', alignItems: 'center' }}>
+          <Layout style={{
+            marginHorizontal: 25, backgroundColor: 'transparent', alignItems: 'stretch',
+          }}
+          >
             {/* eslint-disable-next-line global-require */}
             <Layout style={{ backgroundColor: 'transparent', marginTop: 34 }}>
               {/* eslint-disable-next-line global-require */}
@@ -59,7 +73,7 @@ const MySigIn = ({
                 fontSize: 25, color: 'black', letterSpacing: 0.2, lineHeight: 32, fontFamily: 'HouschkaRoundedDemiBold',
               }}
               >
-                Très heureux de vous revoir, Matthieu
+                {lastUser !== '' ? `Très heureux de vous revoir, ${lastUser}` : 'Bienvenue'}
               </Text>
             </Layout>
 
@@ -78,6 +92,7 @@ const MySigIn = ({
             <TextInputComp
               name="password"
               placeholder="Votre mot de passe"
+              secureTextEntry
               validators={[
                 AvailableValidationRules.required,
                 AvailableValidationRules.password,
@@ -91,14 +106,20 @@ const MySigIn = ({
             }}
             >
               <Button
-                style={{ width: 160 }}
-                onPress={loginForm.handleSubmit((data) => console.log(data))}
+                size="large"
+                style={{ width: 140 }}
+                onPress={loginForm.handleSubmit((data) => {
+                  AsyncStorage.setItem('stayConnected', data.stayConnected ? 'true' : 'false');
+                  login(data);
+                })}
               >
                 Se connecter
               </Button>
 
               <Button
-                style={{ width: 160 }}
+                size="large"
+                style={{ width: 140 }}
+                appearance="outline"
                 onPress={signUp}
               >
                 S'inscrire
@@ -108,7 +129,7 @@ const MySigIn = ({
           </Layout>
         </Form>
 
-        <Button appearance="ghost" onPress={forgotPassword}>Forgot password?</Button>
+        <Button appearance="ghost" onPress={forgotPassword}>Mot de passe oublié ?</Button>
       </Layout>
     </KeyboardAvoidingView>
   );

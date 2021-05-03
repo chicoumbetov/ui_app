@@ -9,10 +9,13 @@ import * as eva from '@eva-design/eva';
 
 import { EvaIconsPack } from '@ui-kitten/eva-icons';
 
-import Amplify from 'aws-amplify';
+import Amplify, { Auth, Hub } from 'aws-amplify';
 
 import { Authenticator } from 'aws-amplify-react-native';
 
+import { HubCapsule } from 'aws-amplify-react-native/types';
+import AsyncStorage from '@react-native-community/async-storage';
+import { CognitoUserAttribute } from 'amazon-cognito-identity-js';
 import omedomTheme from './custom-theme';
 import mapping from './mapping.json';
 
@@ -22,7 +25,7 @@ import useAssetLoader from './hooks/useAssetLoader';
 import ActivityIndicator from './components/ActivityIndicator';
 
 import awsExports from './src/aws-exports';
-import { SignIn } from './components/Auth/components';
+import { ForgotPassword, SignIn } from './components/Auth';
 
 Amplify.configure({
   ...awsExports,
@@ -30,6 +33,41 @@ Amplify.configure({
     disabled: true,
   },
 });
+
+const listener = async (data: HubCapsule) => {
+  switch (data.payload.event) {
+    case 'signIn': {
+      const user = await Auth.currentAuthenticatedUser();
+      user.getUserAttributes((error?: Error, result?: CognitoUserAttribute[]) => {
+        if (result) {
+          for (let i = 0; i < result.length; i++) {
+            if (result[i].getName() === 'email') {
+              AsyncStorage.setItem('lastFirstname', result[i].getValue());
+            }
+          }
+        }
+      });
+      user.getCachedDeviceKeyAndPassword();
+      const stayConnected = await AsyncStorage.getItem('stayConnected');
+      if (stayConnected === 'true') {
+        user.setDeviceStatusRemembered({
+          onSuccess: () => {},
+          onFailure: () => {},
+        });
+      } else {
+        user.setDeviceStatusNotRemembered({
+          onSuccess: () => {},
+          onFailure: () => {},
+        });
+      }
+      break;
+    }
+    default:
+      break;
+  }
+};
+
+Hub.listen('auth', listener);
 
 const fonts = {
   Icons: require('./components/Icon/icomoon.ttf'),
@@ -89,6 +127,7 @@ function App() {
             usernameAttributes="email"
           >
             <SignIn />
+            <ForgotPassword />
           </Authenticator>
         )}
       </ApplicationProvider>

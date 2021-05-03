@@ -8,7 +8,10 @@ import {
 } from 'react-native';
 import { FieldError } from 'react-hook-form';
 import { useEffect, useState } from 'react';
-import { Toggle, ToggleProps, Text } from '@ui-kitten/components';
+import {
+  Toggle, ToggleProps,
+} from '@ui-kitten/components';
+import { FalsyText } from '@ui-kitten/components/devsupport';
 import { ChangeValueCallbackType } from './Form';
 
 export type SwitchFormProps = {
@@ -42,19 +45,26 @@ const Switch = React.forwardRef<Toggle, SwitchFormProps>(
 
     return (
       <View style={[styles.container, style]}>
-        {label && labelPosition === 'before' && (
-        <Text category="label" style={labelStyle}>
-          {label}
-        </Text>
+        {labelPosition === 'before' && (
+        <FalsyText
+          category="label"
+          style={labelStyle}
+          component={label}
+        />
         )}
         <Toggle {...switchProps} onChange={toggleSwitch} checked={isEnabled} ref={ref} />
 
-        {label && labelPosition === 'after' && (
-          <Text category="label" style={labelStyle}>
-            {label}
-          </Text>
+        {labelPosition === 'after' && (
+        <FalsyText
+          category="label"
+          style={labelStyle}
+          component={label}
+        />
         )}
-        <Text category="error">{error && error.message}</Text>
+        <FalsyText
+          status={error && error.message ? 'danger' : ''}
+          component={error && error.message}
+        />
       </View>
     );
   },

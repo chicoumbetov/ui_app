@@ -63,11 +63,11 @@ export default function Form<T>({
   const registerChildren = (innerChildren: React.ReactElement, setValues = false) => {
     (Array.isArray(innerChildren) ? [...innerChildren] : [innerChildren]).forEach(
       (child: React.ReactElement) => {
-        if (child.props?.name && child.props?.name !== '') {
+        if (child?.props?.name && child?.props?.name !== '') {
           registerMyInput(child.props.name, child.props.label ? child.props.label : child.props.placeholder, child.props.validators, setValues);
-        } else if (child.props?.children && Array.isArray(child.props?.children)) {
+        } else if (child?.props?.children && Array.isArray(child?.props?.children)) {
           registerChildren(child.props.children, setValues);
-        } else if (child.props?.children?.props?.name && child.props?.children?.props?.name !== ''
+        } else if (child?.props?.children?.props?.name && child?.props?.children?.props?.name !== ''
         ) {
           const myUniqueChild = child.props.children;
           registerMyInput(
@@ -98,7 +98,7 @@ export default function Form<T>({
    * form
    */
   const renderInput = (child: JSX.Element): React.ReactNode => {
-    if (child.props?.name && child.props?.name !== '') {
+    if (child?.props?.name && child?.props?.name !== '') {
       // eslint-disable-next-line no-plusplus
       index++;
       const i = index;
@@ -130,7 +130,7 @@ export default function Form<T>({
       });
     }
     if (
-      child.props?.children
+      child?.props?.children
         && Array.isArray(child.props.children)
         && child.props.children.length > 0
     ) {
@@ -141,7 +141,7 @@ export default function Form<T>({
         },
       });
     }
-    if (child.props?.children?.props?.name && child.props?.children?.props?.name !== ''
+    if (child?.props?.children?.props?.name && child?.props?.children?.props?.name !== ''
     ) {
       const myUniqueChild = child.props.children;
       return renderInput(myUniqueChild);

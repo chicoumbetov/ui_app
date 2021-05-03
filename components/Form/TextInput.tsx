@@ -75,24 +75,4 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
   },
-  input: {
-    borderStyle: 'solid',
-    width: '100%',
-    borderWidth: 1,
-    paddingVertical: 7,
-    paddingHorizontal: 22,
-    fontSize: fontSize.input,
-    height: 62,
-    color: colors.text,
-    backgroundColor: colors.blanc,
-    borderRadius: size.borderRadius,
-    borderColor: 'transparent',
-    shadowColor: '#dedede',
-    shadowOffset: {
-      width: 0,
-      height: 0.5,
-    },
-    shadowRadius: 4,
-    shadowOpacity: 1,
-  },
 });

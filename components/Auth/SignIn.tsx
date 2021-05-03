@@ -3,7 +3,7 @@ import { SignIn as AmplifySignIn } from 'aws-amplify-react-native';
 import {
   Image, KeyboardAvoidingView, Platform,
 } from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Button, Layout, Text } from '@ui-kitten/components';
 import { useForm } from 'react-hook-form';
 
@@ -53,19 +53,22 @@ const MySigIn = ({
   return (
     <KeyboardAvoidingView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <Layout style={{
-        flex: 1, alignItems: 'center', maxWidth: 400,
+        flex: 1,
+        alignItems: 'center',
       }}
       >
 
         <Form<LoginForm> {...loginForm}>
           <Layout style={{
-            marginHorizontal: 25, backgroundColor: 'transparent', alignItems: 'stretch',
+            marginHorizontal: 25,
+            backgroundColor: 'transparent',
+
           }}
           >
             {/* eslint-disable-next-line global-require */}
-            <Layout style={{ backgroundColor: 'transparent', marginTop: 34 }}>
+            <Layout style={{ backgroundColor: 'transparent', marginTop: 34, alignItems: 'center' }}>
               {/* eslint-disable-next-line global-require */}
-              <Image source={require('../../assets/Icones_omedom/Logo_Omedom.png')} style={{ height: 230 }} resizeMode="contain" />
+              <Image source={require('../../assets/Icones_omedom/Logo_Omedom.png')} style={{ height: 230, width: 230 }} resizeMode="contain" />
             </Layout>
 
             <Layout style={{ backgroundColor: 'transparent', marginLeft: 0 }}>
@@ -99,7 +102,7 @@ const MySigIn = ({
               ]}
             />
 
-            <Switch name="stayConnected" label="Souhaitez-vous rester connecté ?" labelPosition="after" />
+            <Switch name="stayConnected" label="Souhaitez-vous rester connecté ?" labelPosition="before" />
 
             <Layout style={{
               flexDirection: 'row', justifyContent: 'space-between', backgroundColor: 'transparent',
@@ -108,6 +111,7 @@ const MySigIn = ({
               <Button
                 size="large"
                 style={{ width: 140 }}
+                appearance="outline"
                 onPress={loginForm.handleSubmit((data) => {
                   AsyncStorage.setItem('stayConnected', data.stayConnected ? 'true' : 'false');
                   login(data);
@@ -119,7 +123,6 @@ const MySigIn = ({
               <Button
                 size="large"
                 style={{ width: 140 }}
-                appearance="outline"
                 onPress={signUp}
               >
                 S'inscrire

@@ -31,7 +31,7 @@ const MyForgotPassword = ({
   const reset = (data: ResetForm) => resetPassword(data.email);
 
   return (
-    <KeyboardAvoidingView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} behavior={Platform.OS == 'ios' ? 'padding' : 'height'}>
+    <KeyboardAvoidingView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <Layout style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
 
         <Text category="h1" style={AuthStyles.header}>Mot de passe oublié</Text>
@@ -70,14 +70,14 @@ const MyNewPassword = ({ error, goBack, setNewPassword }: NewPasswordProps) => {
   };
 
   return (
-    <KeyboardAvoidingView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} behavior={Platform.OS == 'ios' ? 'padding' : 'height'}>
+    <KeyboardAvoidingView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <Layout style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
 
         <Text category="h1" style={AuthStyles.header}>Enregistrez votre nouveau mot de passe</Text>
         <Form<NewPasswordForm> {...newPasswordForm}>
           <>
             <DigitsInput
-              name="digits"
+              name="code"
               numberOfDigits={6}
               label="Code de vérification"
               validators={[

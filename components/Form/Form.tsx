@@ -64,7 +64,9 @@ export default function Form<T>({
     (Array.isArray(innerChildren) ? [...innerChildren] : [innerChildren]).forEach(
       (child: React.ReactElement) => {
         if (child?.props?.name && child?.props?.name !== '') {
-          registerMyInput(child.props.name, child.props.label ? child.props.label : child.props.placeholder, child.props.validators, setValues);
+          registerMyInput(child.props.name, child.props.label
+            ? child.props.label
+            : child.props.placeholder, child.props.validators, setValues);
         } else if (child?.props?.children && Array.isArray(child?.props?.children)) {
           registerChildren(child.props.children, setValues);
         } else if (child?.props?.children?.props?.name && child?.props?.children?.props?.name !== ''
@@ -119,7 +121,9 @@ export default function Form<T>({
           },
           onSubmitEditing: () => {
             // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-            Inputs.current[i + 1] ? Inputs.current[i + 1].focus() : Inputs.current[i].blur();
+            Inputs.current[i + 1] && Inputs.current[i + 1].focus
+              ? Inputs.current[i + 1].focus()
+              : (Inputs.current[i].blur && Inputs.current[i].blur());
             if (child.props.onSubmitEditing) {
               child.props.onSubmitEditing();
             }

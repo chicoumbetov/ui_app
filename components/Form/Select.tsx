@@ -9,11 +9,8 @@ import {
 import {
   Select, SelectProps, SelectItem, IndexPath,
 } from '@ui-kitten/components';
-import { colors } from '../../assets/styles';
-import { SelectHandles } from '../Select/Select';
 import { AvailableValidationRules } from './validation';
 import { ChangeValueCallbackType } from './Form';
-import Text from '../Text';
 import { AutoCompleteHandles } from '../AutoComplete/AutoComplete';
 import { IconName } from '../Icon';
 
@@ -39,6 +36,11 @@ export type SelectItemProps<KT = string | number> = {
   // to be as configurable as possible allow any
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onPress?: (row?: any) => void;
+};
+
+export type SelectHandles = {
+  focus: () => void;
+  blur: () => void;
 };
 
 const SelectComp = React.forwardRef<SelectHandles, SelectFormProps<string | number>>(

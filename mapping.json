@@ -611,7 +611,7 @@
             "iconWidth": 24,
             "iconHeight": 24,
             "iconMarginHorizontal": 8,
-            "labelMarginBottom": 4,
+            "labelMarginBottom": 30,
             "labelFontSize": "text-label-font-size",
             "labelFontWeight": "text-label-font-weight",
             "labelFontFamily": "text-label-font-family",
@@ -857,6 +857,35 @@
     },
     "Button": {
       "appearances": {
+        "default": {
+          "mapping": {
+            "paddingHorizontal": 15,
+            "textMarginHorizontal": 8,
+            "textFontFamily": "text-font-family",
+            "iconWidth": 24,
+            "iconHeight": 24,
+            "iconMarginHorizontal": 8,
+            "labelMarginBottom": 4,
+            "labelFontSize": "text-label-font-size",
+            "labelFontWeight": "text-label-font-weight",
+            "labelFontFamily": "text-label-font-family",
+            "captionFontSize": "text-caption-1-font-size",
+            "captionFontWeight": "text-caption-1-font-weight",
+            "captionFontFamily": "text-caption-1-font-family"
+          },
+          "variantGroups": {
+            "size": {
+              "large": {
+                "minHeight": "size-large",
+                "borderRadius": "border-radius",
+                "borderWidth": "border-width",
+                "paddingVertical": 6,
+                "textFontSize": "text-subtitle-1-font-size",
+                "textFontWeight": "normal"
+              }
+            }
+          }
+        },
         "outline": {
           "variantGroups": {
             "status": {
@@ -1017,6 +1046,49 @@
                 "textFontWeight": "text-subtitle-1-font-weight",
                 "placeholderFontSize": "text-paragraph-1-font-size",
                 "placeholderFontWeight": "text-paragraph-1-font-weight"
+              }
+            }
+          }
+        }
+      }
+    },
+    "SelectOption": {
+      "appearances": {
+        "default": {
+          "mapping": {
+            "paddingHorizontal": 8,
+            "paddingVertical": 24,
+            "backgroundColor": "background-basic-color-1",
+            "textMarginHorizontal": 8,
+            "textFontSize": "text-subtitle-1-font-size",
+            "textFontWeight": "text-subtitle-1-font-weight",
+            "textFontFamily": "text-subtitle-1-font-family",
+            "textColor": "text-basic-color",
+            "iconWidth": 20,
+            "iconHeight": 20,
+            "iconMarginHorizontal": 8,
+            "iconTintColor": "text-hint-color",
+            "state": {
+              "hover": {
+                "iconTintColor": "text-primary-hover-color",
+                "backgroundColor": "color-basic-transparent-hover"
+              },
+              "active": {
+                "backgroundColor": "color-basic-transparent-active"
+              },
+              "selected": {
+                "backgroundColor": "color-primary-transparent-default",
+                "textColor": "text-basic-color",
+                "iconTintColor": "text-primary-color"
+              },
+              "selected.hover": {
+                "background-color": "color-primary-transparent-100",
+                "textColor": "text-basic-color"
+              },
+              "disabled": {
+                "backgroundColor": "background-basic-color-1",
+                "textColor": "text-disabled-color",
+                "iconTintColor": "text-disabled-color"
               }
             }
           }

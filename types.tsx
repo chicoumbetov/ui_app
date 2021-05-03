@@ -86,7 +86,6 @@ export type TabFaqParamList = {
 
 export type TabContactParamList = {
   Contact: undefined;
-  Contact2: undefined;
 };
 
 export type TabMesChargesParamList = {

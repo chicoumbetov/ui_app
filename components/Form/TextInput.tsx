@@ -1,16 +1,14 @@
 import * as React from 'react';
 import {
-  View, TextInput, StyleSheet, TextStyle, TextInputProps, StyleProp, ViewStyle,
+  View, StyleSheet, TextStyle, StyleProp, ViewStyle,
 } from 'react-native';
 import { FieldError } from 'react-hook-form';
 import { useEffect, useState } from 'react';
-import { Input, Text } from '@ui-kitten/components';
-import { TouchableWithoutFeedback } from '@ui-kitten/components/devsupport';
-import { colors, fontSize, size } from '../../assets/styles';
+import { Input, InputProps } from '@ui-kitten/components';
 import { AvailableValidationRules } from './validation';
 import { ChangeValueCallbackType } from './Form';
 
-export type TextInputFormProps = Exclude<TextInputProps, 'onChangeText'> & {
+export type TextInputFormProps = Exclude<InputProps, 'onChangeText'> & {
   name: string;
   label?: string;
   labelStyle?: StyleProp<TextStyle>;
@@ -33,7 +31,6 @@ const TextInputComp = React.forwardRef<Input, TextInputFormProps>(
       ...inputProps
     } = props;
 
-    const [inputColor, setInputColor] = useState<string>(colors.text);
     const [inputValue, setInputValue] = useState<string | undefined>('');
 
     useEffect(() => {
@@ -45,17 +42,19 @@ const TextInputComp = React.forwardRef<Input, TextInputFormProps>(
 
     return (
       <View style={[styles.container, containerStyle]}>
-        <TouchableWithoutFeedback />
         <Input
           autoCapitalize="none"
           ref={ref}
           label={label}
+          style={[styles.input, style]}
           caption={error && error.message}
           status={error && error.message ? 'danger' : ''}
           {...inputProps}
           onChangeText={(text) => {
             setInputValue(text);
-            onChangeValue && onChangeValue(text);
+            if (onChangeValue) {
+              onChangeValue(text);
+            }
           }}
           value={inputValue}
         />
@@ -71,5 +70,9 @@ export default TextInputComp;
 const styles = StyleSheet.create({
   container: {
     marginVertical: 8,
+    flexDirection: 'row',
+  },
+  input: {
+    flex: 1,
   },
 });

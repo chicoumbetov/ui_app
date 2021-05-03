@@ -947,6 +947,56 @@
           }
         }
       }
+    },
+    "Button": {
+      "appearances": {
+        "ghost": {
+          "variantGroups": {
+            "status": {
+              "basic": {
+                "backgroundColor": "transparent",
+                "state": {
+                  "focused": {
+                    "borderColor":"transparent",
+                    "backgroundColor": "transparent"
+                  },
+                  "active": {
+                    "backgroundColor": "transparent"
+                  },
+                  "hover": {
+                    "backgroundColor": "transparent"
+                  },
+                  "disabled": {
+                    "backgroundColor": "transparent"
+                  }
+                }
+              },
+              "primary": {
+                "backgroundColor": "transparent",
+                "state": {
+                  "focused": {
+                    "borderColor":"transparent",
+                    "backgroundColor": "transparent",
+                    "textColor": "text-primary-focused-color"
+                  },
+                  "active": {
+                    "backgroundColor": "transparent",
+                    "textColor": "text-primary-active-color"
+                  },
+                  "hover": {
+                    "backgroundColor": "transparent",
+                    "textColor": "text-primary-hover-color"
+                  },
+                  "disabled": {
+                    "backgroundColor": "transparent",
+                    "textColor": "text-primary-disabled-color"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
 }

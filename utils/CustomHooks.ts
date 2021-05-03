@@ -4,7 +4,7 @@
  * @author: David Buch
  */
 import {
-  DependencyList, EffectCallback, useEffect, useRef, useState,
+  DependencyList, EffectCallback, ForwardedRef, useEffect, useRef, useState,
 } from 'react';
 import { useDimensions } from '@react-native-community/hooks';
 import { Platform, ScaledSize } from 'react-native';
@@ -64,4 +64,18 @@ export const useNetworkInfo = () => {
   }), []);
 
   return network;
+};
+
+export const useForwardedRef = <T>(ref: ForwardedRef<T>) => {
+  const innerRef = useRef<T>(null);
+  useEffect(() => {
+    if (!ref) return;
+    if (typeof ref === 'function') {
+      ref(innerRef.current);
+    } else {
+      ref.current = innerRef.current;
+    }
+  });
+
+  return innerRef;
 };

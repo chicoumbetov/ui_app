@@ -15,12 +15,11 @@ import { Button, Layout } from '@ui-kitten/components';
 
 import * as ImagePicker from 'expo-image-picker';
 import { useNavigation } from '@react-navigation/native';
-import { SvgCss, SvgCssUri, SvgUri } from 'react-native-svg';
 import { colors } from '../../assets/styles';
 import Icon from '../../components/Icon';
 import Form from '../../components/Form/Form';
 import SelectComp from '../../components/Form/Select';
-import LogementIcons, { MaisonVerte } from '../../assets/LogementIcons';
+import MaisonVerte from '../../assets/Omedom_Icons_svg/Logement/maison_verte.svg';
 
 type AjoutBienForm = {
   typeBien: string;

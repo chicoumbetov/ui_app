@@ -31,5 +31,9 @@
     "web": {
       "favicon": "./assets/Icones_omedom/logo.png"
     },
+    "packagerOpts": {
+      "config": "metro.config.js",
+      "sourceExts": ["js", "jsx", "ts", "tsx", "svg"]
+    }
   }
 }

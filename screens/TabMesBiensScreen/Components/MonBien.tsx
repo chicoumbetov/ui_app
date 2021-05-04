@@ -19,6 +19,7 @@ import Graphics from '../../../components/Graphics/Graphics';
 import { colors } from '../../../assets/styles';
 import comptesData from '../../../mockData/comptesData';
 import Icon from '../../../components/Icon';
+import RotatingIcon from '../../../components/Icon/RotatingIcon';
 
 const mesBiensData = [
   { x: '35%', y: 35 },
@@ -44,26 +45,7 @@ function MonBien() {
         <TouchableOpacity onPress={() => setOpened(!opened)}>
           <Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
             <CompteHeader title={comptesData[0].title} />
-            <MotiView
-              from={{
-                rotate: opened ? '0deg' : '180deg',
-              }}
-              animate={{
-                rotate: opened ? '180deg' : '0deg',
-              }}
-              transition={{
-                type: 'timing',
-                duration: 500,
-              }}
-              style={{
-                marginRight: 5,
-                marginTop: 8,
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
-            >
-              <AntDesign name="up" size={12.5} style={{ color: '#b5b5b5' }} />
-            </MotiView>
+            <RotatingIcon name="arrow-up2" state={opened} />
           </Layout>
         </TouchableOpacity>
 

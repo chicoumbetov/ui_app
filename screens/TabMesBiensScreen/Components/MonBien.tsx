@@ -97,7 +97,11 @@ function MonBien() {
               >
                 <Layout style={{ alignItems: 'center', flexDirection: 'row' }}>
                   <AntDesign name="arrowdown" size={13} style={{ marginTop: 14, color: '#b5b5b5' }} />
-                  <Text style={{ ...styles.biensIncomeMouvement, color: colors.rouge }}>- 160 €</Text>
+                  <Text
+                    style={{ ...styles.biensIncomeMouvement, color: colors.rouge }}
+                  >
+                    - 160 €
+                  </Text>
                 </Layout>
               </Layout>
 

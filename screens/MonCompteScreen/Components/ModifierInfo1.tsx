@@ -6,6 +6,7 @@ import {
   Button, Input, Layout, Text,
 } from '@ui-kitten/components';
 import { useNavigation } from '@react-navigation/native';
+import TextInputComp from '../../../components/Form/TextInput';
 
 const Informations = () => {
   const [prenom, setPrenom] = React.useState('');
@@ -25,24 +26,21 @@ const Informations = () => {
         <Text style={styles.title}>Modifier vos informations</Text>
       </View>
 
-      <Input
-        style={styles.inputStyle}
+      <TextInputComp
+        name="prenom"
         placeholder="Changer prènom"
-        value={prenom}
-        onChangeText={(nextValue) => setPrenom(nextValue)}
+
       />
-      <Input
-        style={styles.inputStyle}
+      <TextInputComp
+        name="nom"
         placeholder="Changer nom"
-        value={nom}
-        onChangeText={(nextValue) => setNom(nextValue)}
+
       />
-      <Input
-        style={styles.inputStyle}
+      <TextInputComp
+        name="email"
         placeholder="Changer email"
-        value={email}
-        onChangeText={(nextValue) => setEmail(nextValue)}
       />
+
       <Input
         style={styles.inputStyle}
         placeholder="Changer mot de Passe"

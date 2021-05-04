@@ -4,9 +4,10 @@ import {
 } from 'react-native';
 import { FieldError } from 'react-hook-form';
 import { useEffect, useState } from 'react';
-import { Input, InputProps } from '@ui-kitten/components';
+import { InputProps } from '@ui-kitten/components';
 import { AvailableValidationRules } from './validation';
 import { ChangeValueCallbackType } from './Form';
+import { Input } from '../UIKittenRewrite/Input';
 
 export type TextInputFormProps = Exclude<InputProps, 'onChangeText'> & {
   name: string;

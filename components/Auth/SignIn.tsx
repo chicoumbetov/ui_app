@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { SignIn as AmplifySignIn } from 'aws-amplify-react-native';
 import {
-  Image, KeyboardAvoidingView, Platform,
+  Image, Platform,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Button, Layout, Text } from '@ui-kitten/components';
 import { useForm } from 'react-hook-form';
 
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Form from '../Form/Form';
 import { AuthStyles } from './styles';
 import TextInputComp from '../Form/TextInput';
-import Switch from '../Form/Switch';
+import Radio from '../Form/Radio';
 import { AvailableValidationRules } from '../Form/validation';
 
 interface SignInProps {
@@ -51,7 +52,7 @@ const MySigIn = ({
   };
 
   return (
-    <KeyboardAvoidingView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+    <KeyboardAwareScrollView enableOnAndroid>
       <Layout style={{
         flex: 1,
         alignItems: 'center',
@@ -102,7 +103,7 @@ const MySigIn = ({
               ]}
             />
 
-            <Switch name="stayConnected" label="Souhaitez-vous rester connecté ?" labelPosition="before" />
+            <Radio name="stayConnected" label="Souhaitez-vous rester connecté ?" labelPosition="before" />
 
             <Layout style={{
               flexDirection: 'row', justifyContent: 'space-between', backgroundColor: 'transparent',
@@ -122,7 +123,17 @@ const MySigIn = ({
 
               <Button
                 size="large"
-                style={{ width: 140 }}
+                style={{
+                  width: 140,
+                  shadowColor: 'rgba(190, 190, 190, 0.5)',
+                  shadowOffset: {
+                    width: 0,
+                    height: 2,
+                  },
+                  shadowRadius: 2,
+                  shadowOpacity: 1,
+                  elevation: 2,
+                }}
                 onPress={signUp}
               >
                 S'inscrire
@@ -134,7 +145,7 @@ const MySigIn = ({
 
         <Button appearance="ghost" onPress={forgotPassword}>Mot de passe oublié ?</Button>
       </Layout>
-    </KeyboardAvoidingView>
+    </KeyboardAwareScrollView>
   );
 };
 

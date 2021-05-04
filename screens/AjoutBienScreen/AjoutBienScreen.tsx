@@ -15,10 +15,12 @@ import { Button, Layout } from '@ui-kitten/components';
 
 import * as ImagePicker from 'expo-image-picker';
 import { useNavigation } from '@react-navigation/native';
+import { SvgCss, SvgCssUri, SvgUri } from 'react-native-svg';
 import { colors } from '../../assets/styles';
 import Icon from '../../components/Icon';
 import Form from '../../components/Form/Form';
 import SelectComp from '../../components/Form/Select';
+import LogementIcons, { MaisonVerte } from '../../assets/LogementIcons';
 
 type AjoutBienForm = {
   typeBien: string;
@@ -159,6 +161,10 @@ function AjoutBienScreen() {
     setTypeImpoShow(false);
   };
 
+  const [selectedImage, setSelectedImage] = useState('MaisonVerte');
+
+  const SelectedImage = `${selectedImage}`;
+
   return (
     <ScrollView style={{ backgroundColor: '#f6f6f6' }}>
       <Form<AjoutBienForm> {...ajoutBienForm}>
@@ -210,11 +216,11 @@ function AjoutBienScreen() {
             </Layout>
 
             <Layout style={{ marginLeft: 124, backgroundColor: 'transparent', marginVertical: 34 }}>
-              {/* <Icon name="vert_batiment" size={140} style={{ marginRight: 10 }} /> */}
-              <Image
+
+              {/* <Image
                 source={require('../../assets/Icones_omedom/logements/icones_log1.png')}
                 style={{ height: 149, width: 149 }}
-              />
+              /> */}
             </Layout>
 
             <Text style={{
@@ -228,12 +234,8 @@ function AjoutBienScreen() {
               flexDirection: 'row', marginTop: 21, justifyContent: 'space-evenly', marginLeft: -6, backgroundColor: 'transparent',
             }}
             >
-              <TouchableOpacity onPress={() => {}}>
-                <Image
-                  source={require('../../assets/Icones_omedom/logements/icones_log1.png')}
-                  style={{ height: 53, width: 52 }}
-                />
-              </TouchableOpacity>
+              <TouchableOpacity onPress={() => {}} />
+              <MaisonVerte height={53} width={53} />
               <Image
                 source={require('../../assets/Icones_omedom/logements/icones_log4.png')}
                 style={{ height: 53, width: 52 }}

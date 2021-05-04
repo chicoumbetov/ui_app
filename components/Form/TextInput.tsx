@@ -4,7 +4,7 @@ import {
 } from 'react-native';
 import { FieldError } from 'react-hook-form';
 import { useEffect, useState } from 'react';
-import { Icon, InputProps } from '@ui-kitten/components';
+import { Icon, IndexPath, InputProps } from '@ui-kitten/components';
 import { AvailableValidationRules } from './validation';
 import { ChangeValueCallbackType } from './Form';
 import { Input } from '../UIKittenRewrite/Input';
@@ -44,7 +44,7 @@ const TextInputComp = React.forwardRef<Input, TextInputFormProps>(
     }, [inputValue]);
 
     const renderIcon = (props) => (
-      <Icon {...props} name="calendar-outline" />
+      <Icon {...props} name={icon} />
     );
 
     return (
@@ -53,7 +53,7 @@ const TextInputComp = React.forwardRef<Input, TextInputFormProps>(
           autoCapitalize="none"
           ref={ref}
           label={label}
-          accessoryRight={renderIcon}
+          accessoryRight={icon ? renderIcon : undefined}
           style={[styles.input, style]}
           caption={error && error.message}
           status={error && error.message ? 'danger' : ''}

@@ -1,20 +1,16 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Button, Layout, Text,
 } from '@ui-kitten/components';
 import { useNavigation } from '@react-navigation/native';
 import {
   ScrollView,
-  SectionList, StyleSheet, TouchableOpacity, View,
+  StyleSheet, View,
 } from 'react-native';
-import { AntDesign } from '@expo/vector-icons';
 import { useForm } from 'react-hook-form';
-import assistantDATA from '../../../mockData/assistantDATA';
 import TextInputComp from '../../../components/Form/TextInput';
 import Form from '../../../components/Form/Form';
 import SelectComp from '../../../components/Form/Select';
-import Icon from '../../../components/Icon';
-import { colors } from '../../../assets/styles';
 
 type DeclarationImpotsForm = {
   bien: string;
@@ -24,9 +20,6 @@ type DeclarationImpotsForm = {
 const DeclarationImpots = () => {
   const navigation = useNavigation();
 
-  const [questions, setQuestions] = useState(assistantDATA);
-  const [value, setValue] = useState('');
-  const [show, setShow] = useState(false);
   const comptesData = [
     {
       label: 'La Maison de Matthieu',
@@ -44,26 +37,6 @@ const DeclarationImpots = () => {
     navigation.navigate('DeclarationImpots2');
   };
 
-  const pressHandler = (id: number) => {
-    // console to check which question was clicked
-    // console.log(id);
-    // if Clicked then show chosen index ( therefore setAccodion)
-    const temp = questions.map((question) => {
-      // comparison of clicked index with taken index
-      if (id === question.id) {
-        // console to check that correct id was taken when clicked
-        // console.log(question.id);
-        // on recupere question et on fait copie,
-        // ensuite on change boolean de isChecked dans le assistantDATA
-        return { ...question, isChecked: !question.isChecked };
-      }
-      return question;
-    });
-    // here we change the boolean of chosen button => isChecked state
-    setQuestions(temp);
-    // console.log(questions[id].isChecked);
-  };
-
   return (
     <ScrollView>
 
@@ -77,7 +50,7 @@ const DeclarationImpots = () => {
 
             <SelectComp name="bien" data={comptesData} placeholder="Choisissez le bien" size="large" appearance="default" status="primary" />
 
-            <TextInputComp label="Année de l'écheance" placeholder="aaaa" />
+            <TextInputComp label="Année de l'écheance" placeholder="aaaa" icon="calendar-outline" />
 
           </Form>
 

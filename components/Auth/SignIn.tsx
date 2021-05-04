@@ -3,7 +3,7 @@ import { SignIn as AmplifySignIn } from 'aws-amplify-react-native';
 import {
   Image, KeyboardAvoidingView, Platform,
 } from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Button, Layout, Text } from '@ui-kitten/components';
 import { useForm } from 'react-hook-form';
 
@@ -53,13 +53,13 @@ const MySigIn = ({
   return (
     <KeyboardAvoidingView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <Layout style={{
-        flex: 1, alignItems: 'center', maxWidth: 400,
+        flex: 1, alignItems: 'center',
       }}
       >
 
         <Form<LoginForm> {...loginForm}>
           <Layout style={{
-            marginHorizontal: 25, backgroundColor: 'transparent', alignItems: 'stretch',
+            marginHorizontal: 70, backgroundColor: 'transparent', alignItems: 'stretch', maxWidth: 350,
           }}
           >
             {/* eslint-disable-next-line global-require */}

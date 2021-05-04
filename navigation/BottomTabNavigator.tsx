@@ -1,8 +1,9 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import * as React from 'react';
 
-import { BottomNavigation, BottomNavigationTab } from '@ui-kitten/components';
+import { BottomNavigationTab } from '@ui-kitten/components';
 
+import { SafeAreaView } from 'react-native';
 import {
   TabMesBiensNavigator,
   TabMesChargesNavigator,
@@ -15,6 +16,7 @@ import { BottomTabParamList } from '../types';
 
 import Icon from '../components/Icon';
 import { colors } from '../assets/styles';
+import { BottomNavigation } from './BottomNavigation';
 
 const HomeIcon = () => (
   <Icon name="home-outline" size={30} color={colors.green} />
@@ -40,18 +42,20 @@ const BellIcon = () => (
 
 const BottomTabBar = ({ navigation, state }: any) => (
 
-  <BottomNavigation
-    style={{ marginHorizontal: 2 }}
-    selectedIndex={state.index}
-    onSelect={(index) => navigation.navigate(state.routeNames[index])}
-  >
-    {/* eslint-disable-next-line @typescript-eslint/no-shadow */}
-    <BottomNavigationTab title="Mes Biens" icon={HomeIcon} />
-    <BottomNavigationTab title="Mes Charges" icon={TrendingUpIcon} />
-    <BottomNavigationTab title="Tableau De Bord" icon={GridIcon} />
-    <BottomNavigationTab title="Mon Assistant" icon={FileIcon} />
-    <BottomNavigationTab title="Notifications" icon={BellIcon} />
-  </BottomNavigation>
+  <SafeAreaView>
+    <BottomNavigation
+      style={{ marginHorizontal: 2 }}
+      selectedIndex={state.index}
+      onSelect={(index) => navigation.navigate(state.routeNames[index])}
+    >
+      {/* eslint-disable-next-line @typescript-eslint/no-shadow */}
+      <BottomNavigationTab title="Mes Biens" icon={HomeIcon} />
+      <BottomNavigationTab title="Mes Charges" icon={TrendingUpIcon} />
+      <BottomNavigationTab title="Tableau de bord" icon={GridIcon} />
+      <BottomNavigationTab title="Mon Assistant" icon={FileIcon} />
+      <BottomNavigationTab title="Notifications" icon={BellIcon} />
+    </BottomNavigation>
+  </SafeAreaView>
 );
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();

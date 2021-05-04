@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { Platform } from 'react-native';
+import { Platform, SafeAreaView } from 'react-native';
 import AppLoading from 'expo-app-loading';
 import { Layout, ApplicationProvider, IconRegistry } from '@ui-kitten/components';
 
@@ -14,7 +14,7 @@ import Amplify, { Auth, Hub } from 'aws-amplify';
 import { Authenticator } from 'aws-amplify-react-native';
 
 import { HubCapsule } from 'aws-amplify-react-native/types';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { CognitoUserAttribute } from 'amazon-cognito-identity-js';
 import omedomTheme from './custom-theme';
 import mapping from './mapping.json';
@@ -113,7 +113,7 @@ function App() {
   }
 
   return (
-    <>
+    <SafeAreaProvider>
       <IconRegistry icons={[EvaIconsPack]} />
       <ApplicationProvider
         {...eva}
@@ -131,7 +131,7 @@ function App() {
           </Authenticator>
         )}
       </ApplicationProvider>
-    </>
+    </SafeAreaProvider>
 
   );
 }

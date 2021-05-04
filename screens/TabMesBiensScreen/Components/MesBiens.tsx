@@ -4,7 +4,7 @@
  * @author: Shynggys UMBETOV
  */
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Layout, Text } from '@ui-kitten/components';
 
 import {
@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { AntDesign, Feather, Ionicons } from '@expo/vector-icons';
+import { View as MotiView } from 'moti';
 import CompteHeader from '../../../components/CompteHeader/CompteHeader';
 import GraphicsII from '../../../components/Graphics/GraphicsII';
 import Graphics from '../../../components/Graphics/Graphics';
@@ -33,6 +34,8 @@ function MesBiens() {
     navigation.navigate('DetailsBien');
   };
 
+  const [state, setState] = useState(false);
+
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
@@ -50,10 +53,31 @@ function MesBiens() {
           flexDirection: 'column', marginTop: 27, padding: 15, paddingBottom: 20, borderRadius: 10,
         }}
         >
-          <Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-            <CompteHeader title={comptesData[0].title} />
-            <AntDesign name="up" size={12.5} style={{ color: '#b5b5b5', marginRight: 5, marginTop: 8 }} />
-          </Layout>
+          <TouchableOpacity onPress={() => setState(!state)}>
+            <Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+              <CompteHeader title={comptesData[0].title} />
+              <MotiView
+                from={{
+                  rotate: state ? '0deg' : '180deg',
+                }}
+                animate={{
+                  rotate: state ? '180deg' : '0deg',
+                }}
+                transition={{
+                  type: 'timing',
+                  duration: 500,
+                }}
+                style={{
+                  marginRight: 5,
+                  marginTop: 8,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+              >
+                <AntDesign name="up" size={12.5} style={{ color: '#b5b5b5' }} />
+              </MotiView>
+            </Layout>
+          </TouchableOpacity>
 
           <Layout style={{ borderBottomWidth: 0.3, borderBottomColor: colors.gris, marginVertical: 20 }} />
 

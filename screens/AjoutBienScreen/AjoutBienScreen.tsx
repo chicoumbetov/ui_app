@@ -418,7 +418,7 @@ function AjoutBienScreen() {
               </TouchableOpacity>
               {typeBienShow && (
               <Layout style={{ marginHorizontal: 25, marginBottom: 30 }}>
-                <SelectComp name="TypeBien" data={typeBien} onChangeValue={(v) => { updateFormState(() => ({ ...formState, typeBien: v })); }} />
+                <SelectComp name="TypeBien" data={typeBien} label="test" />
 
               </Layout>
               )}

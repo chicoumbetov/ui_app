@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { Platform, SafeAreaView } from 'react-native';
+import { Platform } from 'react-native';
 import AppLoading from 'expo-app-loading';
 import { Layout, ApplicationProvider, IconRegistry } from '@ui-kitten/components';
 
@@ -22,6 +22,7 @@ import mapping from './mapping.json';
 import useColorScheme from './hooks/useColorScheme';
 import Navigation from './navigation';
 import useAssetLoader from './hooks/useAssetLoader';
+
 import ActivityIndicator from './components/ActivityIndicator';
 
 import awsExports from './src/aws-exports';
@@ -70,10 +71,15 @@ const listener = async (data: HubCapsule) => {
 Hub.listen('auth', listener);
 
 const fonts = {
+  // eslint-disable-next-line global-require
   Icons: require('./components/Icon/icomoon.ttf'),
+  // eslint-disable-next-line global-require
   HouschkaRoundedMedium: require('./assets/fonts/HouschkaRoundedMedium.ttf'),
+  // eslint-disable-next-line global-require
   HouschkaRoundedDemiBold: require('./assets/fonts/HouschkaRoundedDemiBold.ttf'),
+  // eslint-disable-next-line global-require
   Houschka_Rounded_Alt_Light_Regular: require('./assets/fonts/Houschka_Rounded_Alt_Light_Regular.ttf'),
+  // eslint-disable-next-line global-require
   Houschka_Rounded_Alt_Bold_Regular: require('./assets/fonts/Houschka_Rounded_Alt_Bold_Regular.ttf'),
 };
 

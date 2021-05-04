@@ -90,7 +90,6 @@ import Faq from '../screens/FaqScreen/Components/Faq';
 
 /** import Contact screens */
 import Contact from '../screens/TabContactScreen/Components/Contact';
-import Contact2 from '../screens/TabContactScreen/Components/Contact2';
 
 /** import Mes Charges screens */
 import AjoutBienScreen from '../screens/AjoutBienScreen/AjoutBienScreen';
@@ -737,17 +736,6 @@ export function TabContactNavigator() {
             </TouchableOpacity>
           ),
         }}
-      />
-      <Screen
-        name="Contact2"
-        options={{
-          headerLeft: () => (
-            <TouchableOpacity onPress={() => { navigation.navigate('Contact'); }}>
-              <AntDesign name="arrowleft" size={30} style={{ color: '#b5b5b5', marginLeft: 20 }} />
-            </TouchableOpacity>
-          ),
-        }}
-        component={Contact2}
       />
     </Navigator>
   );

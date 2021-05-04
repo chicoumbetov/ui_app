@@ -4,9 +4,9 @@
  * @author: Shynggys UMBETOV
  */
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
-  LogBox, StyleSheet,
+  StyleSheet,
 } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { Layout } from '@ui-kitten/components';

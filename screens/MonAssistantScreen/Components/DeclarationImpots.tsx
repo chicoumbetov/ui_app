@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  Button, Input, Layout, Text,
+  Button, Layout, Text,
 } from '@ui-kitten/components';
 import { useNavigation } from '@react-navigation/native';
 import {
@@ -8,13 +8,37 @@ import {
   SectionList, StyleSheet, TouchableOpacity, View,
 } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
+import { useForm } from 'react-hook-form';
 import assistantDATA from '../../../mockData/assistantDATA';
+import TextInputComp from '../../../components/Form/TextInput';
+import Form from '../../../components/Form/Form';
+import SelectComp from '../../../components/Form/Select';
+import Icon from '../../../components/Icon';
+import { colors } from '../../../assets/styles';
+
+type DeclarationImpotsForm = {
+  bien: string;
+  anneeEcheance: string;
+};
 
 const DeclarationImpots = () => {
   const navigation = useNavigation();
 
   const [questions, setQuestions] = useState(assistantDATA);
   const [value, setValue] = useState('');
+  const [show, setShow] = useState(false);
+  const comptesData = [
+    {
+      label: 'La Maison de Matthieu',
+      key: 'b1',
+    },
+    {
+      label: 'L\'Appart de Matthieu',
+      key: 'b2',
+    },
+  ];
+
+  const declarationImpotsForm = useForm<DeclarationImpotsForm>();
 
   const onDeclarationImpots2 = () => {
     navigation.navigate('DeclarationImpots2');
@@ -46,116 +70,16 @@ const DeclarationImpots = () => {
       <Layout style={styles.containerOut}>
 
         <Layout style={styles.container}>
+
           <Text style={styles.title}>Paramétrer mon aide à la déclaration d'impôts</Text>
-          <SectionList
-            sections={questions}
-            initialNumToRender={1}
-            keyExtractor={(item, index) => item.id + index + item.isChecked}
-            renderItem={({ item, section: { index, isChecked } }) => (
 
-              <View style={styles.item} key={index}>
-                {isChecked
-                && (
-                <Text
-                  key={index}
-                  style={{
-                    fontSize: 17.2,
-                    letterSpacing: 0.07,
-                    fontFamily: 'HouschkaRoundedDemiBold',
-                    backgroundColor: 'white',
+          <Form <DeclarationImpotsForm> {...declarationImpotsForm}>
 
-                    paddingHorizontal: 24,
-                    paddingVertical: 26,
-                  }}
-                >
-                  {item.typeBien}
-                </Text>
-                )}
-              </View>
-            )}
-            renderSectionHeader={({
-              section: {
-                title, id, index, isChecked,
-              },
-            }) =>
-            // console.log('isChecked', isChecked);
-            // eslint-disable-next-line implicit-arrow-linebreak
-              (
-                <View style={isChecked ? (styles.headerUp) : (styles.headerDown)}>
-                  <Text style={styles.headerText} key={id}>
-                    {title}
-                  </Text>
-                  <TouchableOpacity onPress={() => pressHandler(id)} key={index + isChecked}>
-                    {
-                        isChecked
-                          ? <AntDesign name="up" color="white" size={13} />
-                          : <AntDesign name="down" color="white" size={13} />
-                      }
-                  </TouchableOpacity>
+            <SelectComp name="bien" data={comptesData} placeholder="Choisissez le bien" size="large" appearance="default" status="primary" />
 
-                </View>
-              )}
-          />
+            <TextInputComp label="Année de l'écheance" placeholder="aaaa" />
 
-          <SectionList
-            sections={questions}
-            initialNumToRender={1}
-            keyExtractor={(item, index) => item.id + index + item.isChecked}
-            renderItem={({ section: { index, isChecked } }) => (
-
-              <View style={styles.item} key={index}>
-                {isChecked
-                && (
-                <>
-                  <Text
-                    key={index}
-                    style={{
-                      fontSize: 17.2,
-                      letterSpacing: 0.07,
-                      fontFamily: 'HouschkaRoundedDemiBold',
-                      color: '#b5b5b5',
-                      paddingVertical: 26,
-                    }}
-                  >
-                    Votre Message
-                  </Text>
-                  <Input
-                    style={styles.inputStyle}
-                    placeholder="Saisissez votre texte ici"
-                    value={value}
-                    onChangeText={(nextValue) => setValue(nextValue)}
-                  />
-                </>
-
-                )}
-              </View>
-            )}
-            renderSectionHeader={({
-              section: {
-                id, isChecked,
-              },
-            }) =>
-            // console.log('isChecked', isChecked);
-            // eslint-disable-next-line implicit-arrow-linebreak
-              (
-                <View style={isChecked ? (styles.headerUp) : (styles.headerDown)}>
-                  <Text style={styles.headerText} key={id}>
-                    {/**
-                       * make index identification instead of hardcoded one
-                       */}
-                    {questions[0].data[0].motif}
-                  </Text>
-                  <TouchableOpacity onPress={() => pressHandler(id)} key={isChecked}>
-                    {
-                        isChecked
-                          ? <AntDesign name="up" color="white" size={13} />
-                          : <AntDesign name="down" color="white" size={13} />
-                      }
-                  </TouchableOpacity>
-
-                </View>
-              )}
-          />
+          </Form>
 
           <View style={styles.buttonRight}>
             <Button onPress={onDeclarationImpots2} style={{ width: 150 }}>

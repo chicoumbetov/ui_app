@@ -4,6 +4,7 @@ import {
   Button, Input, Text,
 } from '@ui-kitten/components';
 import { useNavigation } from '@react-navigation/native';
+import TextInputComp from '../../../components/Form/TextInput';
 
 const Informations = () => {
   const navigation = useNavigation();
@@ -33,44 +34,35 @@ const Informations = () => {
         <View style={{ marginRight: 25 }}>
           <Text style={{ fontSize: 17 }}>Votre date de naissance</Text>
         </View>
-        <Input
-          style={styles.inputStyleDate}
+
+        <TextInputComp
+          name="dateDeNaissance"
           placeholder="Date de naissance"
-          value={dateDeNaissance}
-          onChangeText={(nextValue) => setDateDeNaissance(nextValue)}
         />
       </View>
 
-      <Input
-        style={styles.inputStyle}
+      <TextInputComp
+        name="adresse"
         placeholder="Adresse"
-        value={adresse}
-        onChangeText={(nextValue) => setAdresse(nextValue)}
       />
-      <Input
-        style={styles.inputStyle}
+      <TextInputComp
+        name="adresseComplement"
         placeholder="Complément d'adresse"
-        value={adresseComplement}
-        onChangeText={(nextValue) => setAdresseComplement(nextValue)}
       />
-      <Input
-        style={styles.inputStyle}
+
+      <TextInputComp
+        name="codePostal"
         placeholder="Code postale"
-        value={codePostal}
-        onChangeText={(nextValue) => setCodePostal(nextValue)}
       />
-      <Input
-        style={styles.inputStyle}
+      <TextInputComp
+        name="ville"
         placeholder="Ville"
-        value={ville}
-        onChangeText={(nextValue) => setVille(nextValue)}
       />
-      <Input
-        style={styles.inputStyle}
+      <TextInputComp
+        name="pays"
         placeholder="Pays"
-        value={pays}
-        onChangeText={(nextValue) => setPays(nextValue)}
       />
+
       <View style={styles.buttonRight}>
         <Button onPress={onPress} style={{ width: 150 }}>
           Valider

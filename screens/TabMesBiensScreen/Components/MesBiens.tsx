@@ -4,29 +4,15 @@
  * @author: Shynggys UMBETOV
  */
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Layout, Text } from '@ui-kitten/components';
 
 import {
-  LogBox, ScrollView, StyleSheet, TouchableOpacity,
+  ScrollView, StyleSheet,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { AntDesign, Feather, Ionicons } from '@expo/vector-icons';
-import { View as MotiView } from 'moti';
-import CompteHeader from '../../../components/CompteHeader/CompteHeader';
-import GraphicsII from '../../../components/Graphics/GraphicsII';
-import Graphics from '../../../components/Graphics/Graphics';
 import { colors } from '../../../assets/styles';
-import comptesData from '../../../mockData/comptesData';
-import Icon from '../../../components/Icon';
 import MonBien from './MonBien';
-
-const mesBiensData = [
-  { x: '35%', y: 35 },
-  { x: '15%', y: 15 },
-  { x: '15%', y: 15 },
-  { x: '35%', y: 35 },
-];
 
 function MesBiens() {
   const navigation = useNavigation();
@@ -34,8 +20,6 @@ function MesBiens() {
   const onDetailsBiens = () => {
     navigation.navigate('DetailsBien');
   };
-
-  const [state, setState] = useState(false);
 
   return (
     <ScrollView

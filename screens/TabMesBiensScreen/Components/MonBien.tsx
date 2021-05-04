@@ -4,14 +4,15 @@
  * @author: Shynggys UMBETOV
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Layout, Text } from '@ui-kitten/components';
 
 import {
-  LogBox, ScrollView, StyleSheet, TouchableOpacity,
+  StyleSheet, TouchableOpacity,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { AntDesign, Feather, Ionicons } from '@expo/vector-icons';
+import { AntDesign, Ionicons } from '@expo/vector-icons';
+import { View as MotiView } from 'moti';
 import CompteHeader from '../../../components/CompteHeader/CompteHeader';
 import GraphicsII from '../../../components/Graphics/GraphicsII';
 import Graphics from '../../../components/Graphics/Graphics';
@@ -40,12 +41,31 @@ function MonBien() {
         flexDirection: 'column', marginTop: 27, padding: 15, paddingBottom: 20, borderRadius: 10,
       }}
       >
-        <Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-          <CompteHeader title={comptesData[0].title} />
-          <TouchableOpacity onPress={() => setOpened(!opened)}>
-            <AntDesign name={opened ? 'down' : 'up'} size={12.5} style={{ color: '#b5b5b5', marginRight: 5, marginTop: 8 }} />
-          </TouchableOpacity>
-        </Layout>
+        <TouchableOpacity onPress={() => setOpened(!opened)}>
+          <Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+            <CompteHeader title={comptesData[0].title} />
+            <MotiView
+              from={{
+                rotate: opened ? '0deg' : '180deg',
+              }}
+              animate={{
+                rotate: opened ? '180deg' : '0deg',
+              }}
+              transition={{
+                type: 'timing',
+                duration: 500,
+              }}
+              style={{
+                marginRight: 5,
+                marginTop: 8,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <AntDesign name="up" size={12.5} style={{ color: '#b5b5b5' }} />
+            </MotiView>
+          </Layout>
+        </TouchableOpacity>
 
         {!opened ? (
           <>

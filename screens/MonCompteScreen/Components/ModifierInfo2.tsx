@@ -72,7 +72,7 @@ const Informations = () => {
       </Layout>
 
       <View style={styles.buttonRight}>
-        <Button onPress={onPress} style={{ width: 139 }}>
+        <Button onPress={onPress} size="large" style={{ width: 139 }}>
           Valider
         </Button>
       </View>

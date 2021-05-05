@@ -30,25 +30,37 @@ const Informations = () => {
         name="prenom"
         placeholder="Changer prènom"
       />
-      <TextInputComp
-        name="nom"
-        placeholder="Changer nom"
-      />
-      <TextInputComp
-        name="email"
-        placeholder="Changer email"
-      />
-      <TextInputComp
-        name="motDePasse"
-        placeholder="Changer mot de Passe"
-      />
-      <TextInputComp
-        name="numeroTel"
-        placeholder="Changer numéro télephone"
-      />
+
+      <Layout style={{ marginTop: 20, backgroundColor: 'transparent' }}>
+        <TextInputComp
+          name="nom"
+          placeholder="Changer nom"
+        />
+      </Layout>
+
+      <Layout style={{ marginTop: 20, backgroundColor: 'transparent' }}>
+        <TextInputComp
+          name="email"
+          placeholder="Changer email"
+        />
+      </Layout>
+
+      <Layout style={{ marginTop: 20, backgroundColor: 'transparent' }}>
+        <TextInputComp
+          name="motDePasse"
+          placeholder="Changer mot de Passe"
+        />
+      </Layout>
+
+      <Layout style={{ marginTop: 20, backgroundColor: 'transparent' }}>
+        <TextInputComp
+          name="numeroTel"
+          placeholder="Changer numéro télephone"
+        />
+      </Layout>
 
       <View style={styles.buttonRight}>
-        <Button onPress={onPress} style={{ width: 139 }}>
+        <Button onPress={onPress} size="large" style={{ width: 139 }}>
           Valider
         </Button>
       </View>

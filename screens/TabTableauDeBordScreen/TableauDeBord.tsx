@@ -52,7 +52,7 @@ function TableauDeBord() {
               <Text style={styles.text}>Dernier crédit</Text>
               <Text style={styles.incomeMouvement}>+ 500 €</Text>
               <Image
-                source={require('../../assets/Icones_omedom/logements/icones_log1.png')}
+                source={require('../../assets/Icones_omedom/logements/maisonVert.png')}
                 style={styles.mouvementImage}
               />
             </Layout>
@@ -63,7 +63,7 @@ function TableauDeBord() {
               </Text>
               <Text style={styles.mouvementText}>- 80 €</Text>
               <Image
-                source={require('../../assets/Icones_omedom/logements/icones_log4.png')}
+                source={require('../../assets/Icones_omedom/logements/batimentVert.png')}
                 style={styles.mouvementImage}
               />
             </Layout>
@@ -74,7 +74,7 @@ function TableauDeBord() {
               </Text>
               <Text style={styles.mouvementText}>- 160 €</Text>
               <Image
-                source={require('../../assets/Icones_omedom/logements/icones_log1.png')}
+                source={require('../../assets/Icones_omedom/logements/maisonVert.png')}
                 style={styles.mouvementImage}
               />
             </Layout>
@@ -185,7 +185,7 @@ function TableauDeBord() {
           >
             <Image
                   /* eslint-disable-next-line global-require */
-              source={require('../../assets/Icones_omedom/logements/icones_log1.png')}
+              source={require('../../assets/Icones_omedom/logements/maisonVert.png')}
               style={{
                 height: 41, width: 41, marginRight: 18,
               }}

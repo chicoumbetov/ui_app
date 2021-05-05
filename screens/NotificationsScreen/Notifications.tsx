@@ -1,14 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react';
 import {
-  Image,
-  SafeAreaView, SectionList, StyleSheet, TouchableOpacity, View, Platform,
+
+  SafeAreaView, SectionList, StyleSheet, View, Platform, TouchableOpacity,
 } from 'react-native';
 import Constants from 'expo-constants';
 import * as Notifications from 'expo-notifications';
 
-import { AntDesign } from '@expo/vector-icons';
-import { Icon, Text } from '@ui-kitten/components';
+import { Text } from '@ui-kitten/components';
 import notificationsDATA from '../../mockData/notificationsDATA';
+import MaisonVert from '../../assets/Omedom_Icons_svg/Logement/maison_verte.svg';
+import Icon from '../../components/Icon';
+import { colors } from '../../assets/styles';
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -71,13 +73,13 @@ const NotificationsPage = () => {
         finalStatus = status;
       }
       if (finalStatus !== 'granted') {
-        alert('Failed to get push token for push notification!');
+        // alert('Failed to get push token for push notification!');
         return;
       }
       token = (await Notifications.getExpoPushTokenAsync()).data;
       // console.log(token);
     } else {
-      alert('Must use physical device for Push Notifications');
+      // alert('Must use physical device for Push Notifications');
     }
 
     if (Platform.OS === 'android') {
@@ -117,55 +119,26 @@ const NotificationsPage = () => {
       </View>
       <SectionList
         sections={questions}
-        keyExtractor={(item, index) => item.id + index + item.isChecked}
-        renderItem={({ item, section: { index, isChecked } }) => (
+        keyExtractor={(item, index) => item.id + index}
+        renderItem={({ item }) => (
 
-          <View style={styles.item} key={index}>
-            {isChecked
-                  && (
-                  <Text style={{
-                    fontSize: 11,
-                    paddingHorizontal: 20,
-                    paddingTop: 9,
-                    height: 20,
-                    lineHeight: 23.8,
-                  }}
-                  >
-                    {item}
-                    {notification && notification.request.content.body}
-                  </Text>
-                  )}
+          <View style={styles.headerDown}>
+            <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
+              <MaisonVert height={40} width={40} style={{ marginRight: 10 }} />
+              <Text category="h6" status="control" style={{ width: 200 }}>
+                {item}
+              </Text>
+            </View>
+            <TouchableOpacity onPress={() => {}}>
+              <Icon
+                name="arrow-ios-forward-outline"
+                size={20}
+                color={colors.blanc}
+              />
+            </TouchableOpacity>
           </View>
         )}
-        renderSectionHeader={({
-          section: {
-            title, id, index, isChecked,
-          },
-        }) =>
-        // console.log('isChecked', isChecked);
-        // eslint-disable-next-line implicit-arrow-linebreak
-          (
-            <View style={isChecked ? (styles.headerUp) : (styles.headerDown)}>
-              <Image
-                source={require('../../assets/Icones_omedom/logements/icones_log1.png')}
-                style={{
-                  height: 40, width: 40, borderRadius: 40, backgroundColor: 'white',
-                }}
-              />
-              <Text style={styles.headerText} key={index}>
-                {title}
-                {notification && notification.request.content.title}
-              </Text>
-              <TouchableOpacity onPress={() => pressHandler(id)} key={index + isChecked}>
-                {
-                          isChecked
-                            ? <AntDesign name="up" color="white" size={13} />
-                            : <AntDesign name="right" color="white" size={13} />
-                        }
-              </TouchableOpacity>
 
-            </View>
-          )}
       />
     </SafeAreaView>
   );
@@ -183,47 +156,12 @@ const styles = StyleSheet.create({
     marginTop: 12,
     marginBottom: 41,
   },
-  item: {
-
-  },
   headerDown: {
-    padding: 22,
+    padding: 18,
     marginBottom: 36,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
     borderRadius: 7,
     backgroundColor: '#37a3de',
-    shadowColor: 'rgba(199, 199, 199, 0.5)',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowRadius: 4,
-    shadowOpacity: 1,
-  },
-  headerUp: {
-    padding: 22,
-    marginBottom: 13,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    borderRadius: 7,
-    backgroundColor: '#5fc4ee',
-    shadowColor: 'rgba(199, 199, 199, 0.5)',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowRadius: 4,
-    shadowOpacity: 1,
-  },
-  headerText: {
-    fontSize: 16,
-    color: '#fff',
-    width: 220,
-  },
-  title: {
-    fontSize: 24,
   },
 });

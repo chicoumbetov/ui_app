@@ -38,7 +38,11 @@
 
     "text-paragraph-1-font-size": 17,
     "text-paragraph-1-font-weight": 500,
-    "text-paragraph-1-font-family": "HouschkaRoundedMedium"
+    "text-paragraph-1-font-family": "HouschkaRoundedMedium",
+
+
+    "border-radius": 7
+
   },
   "components": {
     "BottomNavigationTab": {
@@ -895,7 +899,7 @@
           "mapping": {
             "paddingHorizontal": 15,
             "textMarginHorizontal": 8,
-            "textFontFamily": "text-font-family",
+            "textFontFamily": "text-subtitle-2-font-family",
             "iconWidth": 24,
             "iconHeight": 24,
             "iconMarginHorizontal": 8,
@@ -913,7 +917,7 @@
                 "minHeight": "size-large",
                 "borderRadius": "border-radius",
                 "borderWidth": "border-width",
-                "paddingVertical": 6,
+                "paddingVertical": 2,
                 "textFontSize": "text-subtitle-1-font-size",
                 "textFontWeight": "normal"
               },

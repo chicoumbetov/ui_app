@@ -51,7 +51,7 @@ function DetailsBien() {
           Détails du bien
         </Text>
         <Layout style={{ alignItems: 'center', backgroundColor: 'transparent', marginVertical: 30 }}>
-          <Image source={require('../../assets/Icones_omedom/logements/icones_log1.png')} style={{ height: 100, width: 100, marginRight: 12 }} />
+          <Image source={require('../../assets/Icones_omedom/logements/maisonVert.png')} style={{ height: 100, width: 100, marginRight: 12 }} />
           <Text style={{ fontSize: 21, fontFamily: 'HouschkaRoundedDemiBold' }}>
             La Maison de JP
           </Text>
@@ -314,7 +314,7 @@ function DetailsBien() {
           >
             <Image
                 /* eslint-disable-next-line global-require */
-              source={require('../../assets/Icones_omedom/avatars/avatar_2.png')}
+              source={require('../../assets/Icones_omedom/avatars/womanAvatar.png')}
               style={{
                 height: 50, width: 50, marginRight: 18,
               }}

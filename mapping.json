@@ -1085,7 +1085,7 @@
             },
             "size": {
               "large": {
-                "borderRadius": "border-radius",
+                "borderRadius": 0,
                 "borderWidth": "border-width",
                 "minHeight": "size-large",
                 "paddingVertical": 11,

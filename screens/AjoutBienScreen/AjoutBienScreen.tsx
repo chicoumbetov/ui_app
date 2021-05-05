@@ -21,6 +21,8 @@ import {
   detention, statut, typeBien, typeDetention, typeImpo,
 } from '../../mockData/ajoutBienData';
 
+import MaisonVerte from '../../assets/Omedom_Icons_svg/Logement/maison_verte.svg';
+
 type AjoutBienForm = {
   typeBien: string;
   detention: string;
@@ -150,10 +152,7 @@ function AjoutBienScreen() {
             }}
             >
               <TouchableOpacity onPress={() => {}}>
-                <Image
-                  source={require('../../assets/Icones_omedom/logements/icones_log1.png')}
-                  style={{ height: 53, width: 52 }}
-                />
+                <MaisonVerte height={53} width={53} />
               </TouchableOpacity>
               <Image
                 source={require('../../assets/Icones_omedom/logements/icones_log4.png')}

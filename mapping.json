@@ -1089,8 +1089,8 @@
                 "borderWidth": "border-width",
                 "minHeight": "size-large",
                 "paddingVertical": 11,
-                "textFontSize": "text-subtitle-1-font-size",
-                "textFontWeight": "text-subtitle-1-font-weight",
+                "textFontSize": "text-heading-5-font-size",
+                "textFontWeight": "text-heading-5-font-weight",
                 "placeholderFontSize": "text-paragraph-1-font-size",
                 "placeholderFontWeight": "text-paragraph-1-font-weight"
               }
@@ -1107,9 +1107,9 @@
             "paddingVertical": 24,
             "backgroundColor": "background-basic-color-1",
             "textMarginHorizontal": 8,
-            "textFontSize": "text-subtitle-1-font-size",
-            "textFontWeight": "text-subtitle-1-font-weight",
-            "textFontFamily": "text-subtitle-1-font-family",
+            "textFontSize": "text-heading-5-font-size",
+            "textFontWeight": "text-heading-5-font-weight",
+            "textFontFamily": "text-heading-5-font-family",
             "textColor": "text-basic-color",
             "iconWidth": 20,
             "iconHeight": 20,

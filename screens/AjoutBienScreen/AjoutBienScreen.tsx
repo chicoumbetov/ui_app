@@ -293,10 +293,7 @@ function AjoutBienScreen() {
               >
                 Date d'acquisition
               </Text>
-              <TextInput
-                style={{
-                  ...styles.inputStyle, marginTop: 0, fontSize: 14, flex: 1, width: 50,
-                }}
+              <TextInputComp
                 placeholder="dd/mm/yyyy"
                 value={date.toDateString()}
               />

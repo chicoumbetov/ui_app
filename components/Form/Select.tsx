@@ -106,6 +106,7 @@ export default SelectComp;
 
 const styles = StyleSheet.create({
   container: {
+    margin: 10,
     marginVertical: 8,
     flex: 1,
   },

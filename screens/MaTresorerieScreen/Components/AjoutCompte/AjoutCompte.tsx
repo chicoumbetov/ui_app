@@ -28,10 +28,7 @@ const AjoutCompte = ({ compte }) => {
     >
       <Layout style={styles.container}>
         <Layout style={{ backgroundColor: '#f6f6f6', padding: 26, marginBottom: 13 }}>
-          <Text style={{
-            fontSize: 26, letterSpacing: 0.2,
-          }}
-          >
+          <Text category="h1">
             Ma Trésorerie
           </Text>
           <Layout style={{ backgroundColor: 'transparent', marginTop: 20 }}>

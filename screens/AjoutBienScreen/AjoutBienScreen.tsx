@@ -306,7 +306,7 @@ function AjoutBienScreen() {
               </Layout>
 
               <Layout>
-                <SelectComp name="Detention" data={detention} placeholder="Détention" onChangeValue={(v) => { console.log(v); if (v === 'Nom Prope') { setDetentionShow(true); } else { setStatutShow(true); } }} size="large" appearance="default" status="primary" />
+                <SelectComp name="Detention" data={detention} placeholder="Détention" onChangeValue={(v) => { console.log('testeteteteteet'); }} size="large" appearance="default" status="primary" />
 
               </Layout>
               {detentionShow

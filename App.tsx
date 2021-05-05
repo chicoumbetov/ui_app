@@ -1,5 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Platform } from 'react-native';
 import AppLoading from 'expo-app-loading';
 import { Layout, ApplicationProvider, IconRegistry } from '@ui-kitten/components';
@@ -118,7 +119,7 @@ function App() {
   }
 
   return (
-    <>
+    <SafeAreaProvider>
       <IconRegistry icons={[EvaIconsPack]} />
       <ApplicationProvider
         {...eva}
@@ -136,7 +137,7 @@ function App() {
           </Authenticator>
         )}
       </ApplicationProvider>
-    </>
+    </SafeAreaProvider>
 
   );
 }

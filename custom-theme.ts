@@ -94,6 +94,7 @@ const omedomTheme = {
   'text-subtitle-1-font-size': 15,
   'size-medium': 40,
   'size-small': 32,
+  'icon-size-default': 24,
 };
 
 export default omedomTheme;

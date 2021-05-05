@@ -3,7 +3,7 @@ import {
   StyleSheet, View,
 } from 'react-native';
 import {
-  Button, Layout, Text,
+  Button, Input, Layout, Text,
 } from '@ui-kitten/components';
 import { useNavigation } from '@react-navigation/native';
 import TextInputComp from '../../../components/Form/TextInput';
@@ -17,7 +17,7 @@ const Informations = () => {
 
   const navigation = useNavigation();
   const onPress = () => {
-    navigation.navigate('ModifierInfo2');
+    navigation.navigate('DetailsBien');
   };
 
   return (
@@ -27,24 +27,21 @@ const Informations = () => {
       </View>
 
       <TextInputComp
-        name="prenom"
-        placeholder="Changer prènom"
+        name="localisation"
+        placeholder="Changer localisation"
       />
       <TextInputComp
-        name="nom"
-        placeholder="Changer nom"
+        name="dateAcquisition"
+        placeholder="Changer date d'acquisition"
       />
       <TextInputComp
-        name="email"
-        placeholder="Changer email"
+        name="typeDeBien"
+        placeholder="Changer type de bien"
       />
+
       <TextInputComp
-        name="motDePasse"
-        placeholder="Changer mot de Passe"
-      />
-      <TextInputComp
-        name="numeroTel"
-        placeholder="Changer numéro télephone"
+        name="nombreDeParts"
+        placeholder="Changer nombre de parts"
       />
 
       <View style={styles.buttonRight}>
@@ -63,6 +60,20 @@ const styles = StyleSheet.create({
     flex: 1,
     margin: 21,
     backgroundColor: 'rgba(246, 246, 246, 0.5)',
+  },
+  inputStyle: {
+    borderRadius: 7,
+    backgroundColor: '#fff',
+    fontWeight: 'normal',
+    borderColor: 'transparent',
+    marginBottom: 32,
+    shadowColor: '#dedede',
+    shadowOffset: {
+      width: 0,
+      height: 0.5,
+    },
+    shadowRadius: 4,
+    shadowOpacity: 1,
   },
   buttonRight: { alignItems: 'flex-end' },
   title: {

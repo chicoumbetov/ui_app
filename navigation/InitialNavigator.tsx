@@ -5,49 +5,23 @@
  */
 
 import { createStackNavigator } from '@react-navigation/stack';
-import Animated from 'react-native-reanimated';
-import { StyleSheet } from 'react-native';
 import * as React from 'react';
 import { RootStackParamList } from '../types';
-import DrawerNavigator from './DrawerNavigator';
+import MainDrawerNavigator from './MainDrawerNavigator';
 import NotFoundScreen from '../screens/NotFoundScreen';
-// import { StatusBarHeight } from '../components/StatusBarHeight';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
 function InitialNavigator() {
   return (
-    <Animated.View style={StyleSheet.flatten([styles.stack])}>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen
-          name="Root"
-          component={DrawerNavigator}
-        />
-        <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
-      </Stack.Navigator>
-    </Animated.View>
-
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen
+        name="Root"
+        component={MainDrawerNavigator}
+      />
+      <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
+    </Stack.Navigator>
   );
 }
 
 export default InitialNavigator;
-
-const styles = StyleSheet.create({
-  stack: {
-    flex: 1,
-    // marginTop: StatusBarHeight,
-    shadowColor: '#FFF',
-    shadowOffset: {
-      width: 0,
-      height: 8,
-    },
-    shadowOpacity: 0.44,
-    shadowRadius: 10.32,
-    elevation: 5,
-    // overflow: 'scroll',
-    // borderWidth: 1,
-  },
-  drawerStyles: { flex: 1, width: '50%', backgroundColor: 'transparent' },
-  drawerItem: { alignItems: 'flex-start', marginVertical: 0 },
-  drawerLabel: { color: 'white', marginLeft: -16 },
-});

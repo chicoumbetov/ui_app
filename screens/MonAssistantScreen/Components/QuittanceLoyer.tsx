@@ -1,38 +1,37 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Button, Layout, Text } from '@ui-kitten/components';
 import { useNavigation } from '@react-navigation/native';
 import {
-  SectionList, StyleSheet, TouchableOpacity, View,
+  StyleSheet, View,
 } from 'react-native';
-import { AntDesign } from '@expo/vector-icons';
-import quittanceDATA from '../../../mockData/quittanceDATA';
+import { useForm } from 'react-hook-form';
+import Form from '../../../components/Form/Form';
+import SelectComp from '../../../components/Form/Select';
+import TextInputComp from '../../../components/Form/TextInput';
+
+type QuittanceLoyerForm = {
+  bien: string;
+  anneeEcheance: string;
+};
 
 const QuittanceLoyer = () => {
   const navigation = useNavigation();
 
-  const [questions, setQuestions] = useState(quittanceDATA);
+  const comptesData = [
+    {
+      label: 'La Maison de Matthieu',
+      key: 'b1',
+    },
+    {
+      label: 'L\'Appart de Matthieu',
+      key: 'b2',
+    },
+  ];
+
+  const quittanceLoyerForm = useForm<QuittanceLoyerForm>();
 
   const onQuittanceLoyer2 = () => {
     navigation.navigate('QuittanceLoyer2');
-  };
-
-  const pressHandler = (id: number) => {
-    // console to check which question was clicked
-    // console.log(id);
-    // if Clicked then show chosen index ( therefore setAccodion)
-    const temp = questions.map((question) => {
-      // comparison of clicked index with taken index
-      if (id === question.id) {
-        // console to check that correct id was taken when clicked
-        // console.log(question.id);
-        // on recupere question et on fait copie,
-        // ensuite on change boolean de isChecked dans le assistantDATA
-        return { ...question, isChecked: !question.isChecked };
-      }
-      return question;
-    });
-    setQuestions(temp);
-    // console.log(questions[id].isChecked);
   };
 
   return (
@@ -40,55 +39,13 @@ const QuittanceLoyer = () => {
 
       <Layout style={styles.container}>
         <Text style={styles.title}>Générer une quittance de loyer</Text>
-        <SectionList
-          sections={questions}
-          initialNumToRender={1}
-          keyExtractor={(item, index) => item.id + index + item.isChecked}
-          renderItem={({ item, section: { index, isChecked } }) => (
+        <Form <QuittanceLoyerForm> {...quittanceLoyerForm}>
 
-            <View style={styles.item} key={index}>
-              {isChecked
-                            && (
-                            <Text
-                              key={index}
-                              style={{
-                                fontSize: 17.2,
-                                letterSpacing: 0.07,
-                                fontFamily: 'HouschkaRoundedDemiBold',
-                                backgroundColor: 'white',
+          <SelectComp name="bien" data={comptesData} placeholder="Choisissez le bien" size="large" appearance="default" status="primary" />
 
-                                paddingHorizontal: 24,
-                                paddingVertical: 26,
-                              }}
-                            >
-                              {item.typeBien}
-                            </Text>
-                            )}
-            </View>
-          )}
-          renderSectionHeader={({
-            section: {
-              title, id, index, isChecked,
-            },
-          }) =>
-            // console.log('isChecked', isChecked);
-            // eslint-disable-next-line implicit-arrow-linebreak
-            (
-              <View style={isChecked ? (styles.headerUp) : (styles.headerDown)}>
-                <Text style={styles.headerText} key={id}>
-                  {title}
-                </Text>
-                <TouchableOpacity onPress={() => pressHandler(id)} key={index + isChecked}>
-                  {
-                                        isChecked
-                                          ? <AntDesign name="up" color="white" size={13} />
-                                          : <AntDesign name="down" color="white" size={13} />
-                                    }
-                </TouchableOpacity>
+          <TextInputComp label="Année de l'écheance" placeholder="jj/mm/aaaa" icon="calendar-outline" />
 
-              </View>
-            )}
-        />
+        </Form>
 
         <View style={styles.buttonRight}>
           <Button onPress={onQuittanceLoyer2} style={{ width: 150 }}>

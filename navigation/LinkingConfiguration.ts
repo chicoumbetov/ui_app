@@ -6,16 +6,53 @@ export default {
     screens: {
       Root: {
         screens: {
-          TabOne: {
+          'bottom-tab-nav': {
+            path: '',
             screens: {
-              TabMesBiensScreen: 'one',
+              'mes-biens-nav': {
+                path: 'mes-biens',
+                screens: {
+                  'mes-biens': '/',
+                  DetailsBien: '/bien/:id',
+                },
+              },
+              'mes-charges-nav': {
+                path: 'mes-charges',
+                screens: {
+                  'mes-charges': '/',
+                },
+              },
+              'tableau-de-bord': {
+                path: 'tableau-de-bord',
+                screens: {
+                  'mes-charges': '/',
+                },
+              },
+              'mon-assistant-nav': {
+                path: 'mon-assistant',
+                screens: {
+                  'mon-assistant': '/',
+                },
+              },
+              notifications: {
+                path: 'notifications',
+              },
             },
           },
-          TabTwo: {
+          'mon-compte-nav': {
+            path: 'mon-compte',
             screens: {
-              TabMesChargesScreen: 'two',
+              'mon-compte': '/',
             },
           },
+          'ma-tresorerie-nav': {
+            path: 'ma-tresorerie',
+            screens: {
+              'ma-tresorerie': '/',
+            },
+          },
+          faq: 'faq',
+          contact: 'contact',
         },
       },
       NotFound: '*',

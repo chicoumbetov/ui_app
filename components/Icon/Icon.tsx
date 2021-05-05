@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { createIconSetFromIcoMoon } from '@expo/vector-icons';
 import { StyleProp, ViewStyle } from 'react-native';
+import { useTheme } from '@ui-kitten/components';
 import icoMoonConfig from './selection.json';
 import { colors, fontSize } from '../../assets/styles';
 
@@ -8,8 +9,7 @@ export type IconName = 'eye' | 'microphone' | 'camera' | 'image' | 'eye1' | 'arr
 
 export type IconProps = {
   name: IconName;
-  primary?: boolean;
-  secondary?: boolean;
+  status?: 'basic' | 'primary' | 'success' | 'info' | 'warning' | 'danger';
   color?: string;
   size?: number;
   style?: StyleProp<ViewStyle>;
@@ -19,23 +19,12 @@ export type IconProps = {
 export const IcomoonIcon = createIconSetFromIcoMoon(icoMoonConfig, 'Icons', 'icomoon.ttf');
 
 export default function Icon(props: IconProps): JSX.Element {
+  const theme = useTheme();
   const {
-    name, primary, secondary, color, size, style, iconStyle,
+    name, status = 'basic', size, style, iconStyle, color,
   } = props;
-  let iconColor: string;
-  if (primary) {
-    iconColor = colors.gris;
-  } else if (secondary) {
-    iconColor = colors.green;
-  } else if (color) {
-    iconColor = color;
-  } else {
-    iconColor = colors.green;
-  }
-  let iconSize: number = fontSize.text;
-  if (size) {
-    iconSize = size;
-  }
+  const iconColor = color || theme[`color-${status}-600`];
+  const iconSize: number = size || parseInt(theme['icon-size-default'], 10);
   return (
     <IcomoonIcon
       color={iconColor}

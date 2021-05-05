@@ -33,7 +33,7 @@ function MonBien() {
   const [opened, setOpened] = useState(false);
 
   const onDetailsBiens = () => {
-    navigation.navigate('DetailsBien');
+    navigation.navigate('DetailsBien', { id: 10 });
   };
 
   return (

@@ -7,7 +7,7 @@ import Constants from 'expo-constants';
 import * as Notifications from 'expo-notifications';
 
 import { AntDesign } from '@expo/vector-icons';
-import notificationsDATA from '../../../mockData/notificationsDATA';
+import notificationsDATA from '../../mockData/notificationsDATA';
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -146,7 +146,7 @@ const NotificationsPage = () => {
           (
             <View style={isChecked ? (styles.headerUp) : (styles.headerDown)}>
               <Image
-                source={require('../../../assets/Icones_omedom/logements/icones_log1.png')}
+                source={require('../../assets/Icones_omedom/logements/icones_log1.png')}
                 style={{
                   height: 40, width: 40, borderRadius: 40, backgroundColor: 'white',
                 }}

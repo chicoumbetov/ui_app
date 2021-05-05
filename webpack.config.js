@@ -48,6 +48,13 @@ module.exports = async function(env, argv) {
           use: [
             {
               loader: '@svgr/webpack',
+              options: {
+                svgoConfig: {
+                  plugins: [{
+                    removeViewBox: false
+                  }]
+                }
+              }
             }
           ]
         });

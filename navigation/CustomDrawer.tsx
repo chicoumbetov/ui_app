@@ -18,240 +18,205 @@ import {
   Drawer, DrawerItem, IndexPath, Layout, Text,
 } from '@ui-kitten/components';
 import {
-  Image, ScrollView, StyleSheet, TouchableOpacity,
+  Image, ImageProps, SafeAreaView, ScrollView, TouchableOpacity,
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { InitialState, useLinkTo, useNavigation } from '@react-navigation/native';
 import { Auth } from 'aws-amplify';
+import { DrawerContentComponentProps } from '@react-navigation/drawer/src/types';
 import comptesData from '../mockData/comptesData';
-import { colors } from '../assets/styles';
-import Icon from '../components/Icon/Icon';
+import Icon, { IconName } from '../components/Icon/Icon';
 
 /**
  * 2. Icons
  */
 // Icons
-const GridIcon = () => (
-  <Icon name="grid-outline" size={35} />
-);
+const IconGenerator = (name: IconName) => ({ style }: ImageProps) => {
+  let width; let
+    color;
+  if (style) {
+    // @ts-expect-error : UI-Kitten renverra un objet ImageStyle
+    width = style.width;
+    // @ts-expect-error : UI-Kitten renverra un objet ImageStyle
+    color = style.tintColor;
+  }
+  return <Icon name={name} size={width} color={color} />;
+};
 
-const MoneyIcon = () => (
-  <Icon name="money" size={35} />
-);
-const QuestionIcon = () => (
-  <Icon name="question" size={35} />
-);
+const GridIcon = IconGenerator('grid-outline');
 
-const BellIcon = () => (
-  <Icon name="bell-outline" size={29} />
-);
+const MoneyIcon = IconGenerator('money');
 
-const PersonIcon = () => (
-  <Icon name="person-outline" size={35} />
-);
+const QuestionIcon = IconGenerator('question');
 
-const HomeIcon = () => (
-  <Icon name="home-outline" size={30} />
-);
+const BellIcon = IconGenerator('bell-outline');
 
-const PaperIcon = () => (
-  <Icon name="file-text-outline1" size={28} />
-);
+const PersonIcon = IconGenerator('person-outline');
 
-const EmailIcon = () => (
-  <Icon name="email-outline" size={25} />
-);
+const HomeIcon = IconGenerator('home-outline');
+
+const PaperIcon = IconGenerator('file-text-outline1');
+
+const EmailIcon = IconGenerator('email-outline');
+
+function findIndexByRouteName(name?: string) {
+  switch (name) {
+    case '':
+      return 0;
+    case 'mon-compte-nav':
+      return 1;
+    case 'mes-biens-nav':
+      return 2;
+    case 'ma-tresorerie-nav':
+      return 3;
+    case 'mon-assistant-nav':
+      return 4;
+    case 'notifications':
+      return 5;
+    case 'faq':
+      return 6;
+    case 'contact':
+      return 7;
+    default:
+      return null;
+  }
+}
+
+function findFocusedDrawerItem(state: InitialState) {
+  let current: InitialState | undefined = state;
+
+  while (current?.routes[current.index ?? 0].state != null) {
+    console.log(current?.routes[current.index ?? 0].name);
+    const drawerIndex = findIndexByRouteName(current?.routes[current.index ?? 0].name);
+    if (drawerIndex !== null) {
+      return drawerIndex;
+    }
+    current = current.routes[current.index ?? 0].state;
+  }
+
+  const drawerIndex = findIndexByRouteName(current?.routes[current.index ?? 0].name);
+  if (drawerIndex !== null) {
+    return drawerIndex;
+  }
+
+  return 0;
+}
 
 /**
  * 3. Custom Drawer itself
  */
-const CustomDrawer = ({ state }) => {
+const CustomDrawer = (props: DrawerContentComponentProps) => {
+  const { state } = props;
   const navigation = useNavigation();
+  const linkTo = useLinkTo();
   return (
-    <ScrollView>
-      <Layout style={{ flex: 1, justifyContent: 'space-between' }}>
+    <SafeAreaView>
+      <ScrollView>
+        <Layout style={{ flex: 1, justifyContent: 'space-between' }}>
 
-        <Layout>
-          <Layout style={{
-            margin: 24,
-            marginHorizontal: 21,
-            flexDirection: 'row',
-          }}
-          >
-            {/* eslint-disable-next-line global-require */}
-            <Image
-              source={require('../assets/Icones_omedom/avatars/avatar_1.png')}
-              style={{
-                height: 41, width: 41, marginRight: 18, marginLeft: 9,
-              }}
-            />
-            <Text style={{
-              fontSize: 25, marginTop: 11, letterSpacing: 0.4, fontWeight: '600', color: '#b5b5b5',
+          <Layout>
+            <Layout style={{
+              margin: 24,
+              marginHorizontal: 21,
+              flexDirection: 'row',
             }}
             >
-              {comptesData[0].title}
-            </Text>
+              {/* eslint-disable-next-line global-require */}
+              <Image
+                source={require('../assets/Icones_omedom/avatars/avatar_1.png')}
+                style={{
+                  height: 41, width: 41, marginRight: 18, marginLeft: 9,
+                }}
+              />
+              <Text style={{
+                fontSize: 25, marginTop: 11, letterSpacing: 0.4, fontWeight: '600', color: '#b5b5b5',
+              }}
+              >
+                {comptesData[0].title}
+              </Text>
+            </Layout>
+            <Drawer
+              selectedIndex={new IndexPath(findFocusedDrawerItem(state))}
+              onSelect={(index) => {
+                // eslint-disable-next-line default-case
+                switch (index.row) {
+                  case 0:
+                    linkTo('/tableau-de-bord');
+                    break;
+                  case 1:
+                    linkTo('/mon-compte');
+                    break;
+                  case 2:
+                    linkTo('/mes-biens');
+                    break;
+                  case 3:
+                    linkTo('/ma-tresorerie');
+                    break;
+                  case 4:
+                    linkTo('/mon-assistant');
+                    break;
+                  case 5:
+                    linkTo('/notifications');
+                    break;
+                  case 6:
+                    linkTo('/faq');
+                    break;
+                  case 7:
+                    linkTo('/contact');
+                    break;
+                }
+              }}
+            >
+              <DrawerItem
+                title="Tableau de bord"
+                accessoryLeft={GridIcon}
+              />
+              <DrawerItem
+                title="Mon Compte"
+                accessoryLeft={PersonIcon}
+              />
+              <DrawerItem
+                title="Mes Biens"
+                accessoryLeft={HomeIcon}
+              />
+              <DrawerItem
+                title="Ma Trésorerie"
+                accessoryLeft={MoneyIcon}
+              />
+              <DrawerItem
+                title="Mon Assistant"
+                accessoryLeft={PaperIcon}
+              />
+              <DrawerItem
+                title="Notifications"
+                accessoryLeft={BellIcon}
+              />
+              <DrawerItem
+                title="FAQ"
+                accessoryLeft={QuestionIcon}
+              />
+              <DrawerItem
+                title="Contact"
+                accessoryLeft={EmailIcon}
+              />
+            </Drawer>
           </Layout>
-          <Drawer
-            selectedIndex={new IndexPath(state.index)}
-            onSelect={(index) => {
-              // eslint-disable-next-line default-case
-              switch (index.row) {
-                case 0:
-                  navigation.navigate('TableauDeBordDrawer');
-                  break;
-                case 1:
-                  navigation.navigate('MonCompteDrawer');
-                  break;
-                case 2:
-                  navigation.navigate('MesBiensDrawer');
-                  break;
-                case 3:
-                  navigation.navigate('MaTrésorerieDrawer');
-                  break;
-                case 4:
-                  navigation.navigate('MonAssistantDrawer');
-                  break;
-                case 5:
-                  navigation.navigate('NotificationsDrawer');
-                  break;
-                case 6:
-                  navigation.navigate('FaqDrawer');
-                  break;
-                case 7:
-                  navigation.navigate('ContactDrawer');
-                  break;
-              }
-            }}
-          >
-            <DrawerItem
-              title={() => (
-                <Text style={{ ...styles.drawerItemText, fontSize: 16.5 }}>
-                  Tableau de bord
-                </Text>
-              )}
-              accessoryLeft={GridIcon}
-              style={{
-                ...styles.drawerItemContainer, height: 68, width: 214, marginTop: 6,
-              }}
-            />
 
-            <DrawerItem
-              title={() => (
-                <Text style={styles.drawerItemText}>
-                  Mon Compte
-                </Text>
-              )}
-              accessoryLeft={PersonIcon}
-              style={{
-                ...styles.drawerItemContainer, height: 66, width: 191,
-              }}
-            />
-
-            <DrawerItem
-              title={() => (
-                <Text style={{ ...styles.drawerItemText, marginTop: 9 }}>
-                  Mes Biens
-                </Text>
-              )}
-              accessoryLeft={HomeIcon}
-              style={{
-                ...styles.drawerItemContainer,
-                height: 67,
-                width: 170,
-                marginTop: -2,
-              }}
-            />
-            <DrawerItem
-              title={() => (
-                <Text style={{ ...styles.drawerItemText, letterSpacing: 0.6 }}>
-                  Ma Trésorerie
-                </Text>
-              )}
-              accessoryLeft={MoneyIcon}
-              style={{
-                ...styles.drawerItemContainer, height: 65, paddingLeft: 32, marginTop: 5, width: 198,
-              }}
-            />
-
-            <DrawerItem
-              title={() => (
-                <Text style={{ ...styles.drawerItemText }}>
-                  Mon Assistant
-                </Text>
-              )}
-              accessoryLeft={PaperIcon}
-              style={{
-                ...styles.drawerItemContainer,
-                height: 61,
-                paddingLeft: 37,
-                width: 198.5,
-                marginTop: 3,
-              }}
-            />
-            <DrawerItem
-              title={() => (
-                <Text style={{ ...styles.drawerItemText }}>
-                  Notifications
-                </Text>
-              )}
-              accessoryLeft={BellIcon}
-              style={{
-                ...styles.drawerItemContainer, height: 70, paddingLeft: 36, width: 189,
-              }}
-            />
-            <DrawerItem
-              title={() => (
-                <Text style={{ ...styles.drawerItemText }}>
-                  FAQ
-                </Text>
-              )}
-              accessoryLeft={QuestionIcon}
-              style={{
-                ...styles.drawerItemContainer, height: 63, paddingLeft: 32, width: 128,
-              }}
-            />
-            <DrawerItem
-              title={() => (
-                <Text style={{ ...styles.drawerItemText }}>
-                  Contact
-                </Text>
-              )}
-              accessoryLeft={EmailIcon}
-              style={{
-                ...styles.drawerItemContainer, height: 77, paddingLeft: 39, width: 156,
-              }}
-            />
-          </Drawer>
-        </Layout>
-
-        <Layout style={{
-          paddingHorizontal: 29, paddingBottom: 24,
-        }}
-        >
-          <TouchableOpacity onPress={() => {
-            Auth.signOut();
+          <Layout style={{
+            paddingHorizontal: 29, paddingBottom: 24,
           }}
           >
-            <Text style={{ fontSize: 17, letterSpacing: 0 }}>Déconnexion</Text>
-          </TouchableOpacity>
-        </Layout>
+            <TouchableOpacity onPress={() => {
+              Auth.signOut();
+            }}
+            >
+              <Text style={{ fontSize: 17, letterSpacing: 0 }}>Déconnexion</Text>
+            </TouchableOpacity>
+          </Layout>
 
-      </Layout>
-    </ScrollView>
+        </Layout>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
 export default CustomDrawer;
-
-const styles = StyleSheet.create({
-  drawerItemText: {
-    fontSize: 16,
-    fontFamily: 'HouschkaRoundedDemiBold',
-    letterSpacing: 0.5,
-    color: colors.noir,
-  },
-  drawerItemContainer: {
-    backgroundColor: 'transparent',
-    paddingLeft: 33,
-  },
-});

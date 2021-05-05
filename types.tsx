@@ -28,11 +28,11 @@ export type RootStackParamList = {
  * */
 
 export type BottomTabParamList = {
-  'MesBiensBottom': undefined;
-  'MesChargesBottom': undefined;
-  'TableauDeBordBottom': undefined;
-  'MonAssistantBottom': undefined;
-  'NotificationsBottom': undefined;
+  'mes-biens-nav': undefined;
+  'mes-charges-nav': undefined;
+  'tableau-de-bord': undefined;
+  'mon-assistant-nav': undefined;
+  'notifications': undefined;
 };
 
 export type TabTableauDeBordParamList = {
@@ -42,7 +42,7 @@ export type TabTableauDeBordParamList = {
 };
 
 export type TabMonCompteParamList = {
-  MonCompte: undefined;
+  'mon-compte': undefined;
   ModifierInfo1: undefined;
   ModifierInfo2: undefined;
   ModifierInfo3: undefined;
@@ -50,7 +50,7 @@ export type TabMonCompteParamList = {
 };
 
 export type TabMesBiensParamList = {
-  MesBiens: undefined;
+  'mes-biens': undefined;
   DetailsBien: undefined;
   MonBudget: undefined;
   ParametrerAjoutRevenu: undefined;
@@ -60,7 +60,7 @@ export type TabMesBiensParamList = {
 };
 
 export type TabMaTresorerieParamList = {
-  MaTresorerie: undefined;
+  'ma-tresorerie': undefined;
   TresoMouvement_page1: undefined;
   TresoMouvement_page2: undefined;
   IgnorerMouvement: undefined;
@@ -68,7 +68,7 @@ export type TabMaTresorerieParamList = {
 };
 
 export type TabMonAssistantParamList = {
-  MonAssistant: undefined;
+  'mon-assistant': undefined;
   DeclarationImpots: undefined;
   DeclarationImpots2: undefined;
   PdfScreen: undefined;
@@ -76,21 +76,8 @@ export type TabMonAssistantParamList = {
   QuittanceLoyer2: undefined;
 };
 
-export type TabNotificationsParamList = {
-  Notifications: undefined;
-};
-
-export type TabFaqParamList = {
-  Faq: undefined;
-};
-
-export type TabContactParamList = {
-  Contact: undefined;
-};
-
 export type TabMesChargesParamList = {
-  TabMesChargesScreen: undefined;
-  MesCharges1: undefined;
+  'mes-charges': undefined;
   MesCharges2: undefined;
   MesCharges3: undefined;
 };

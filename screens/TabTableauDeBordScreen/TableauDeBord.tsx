@@ -12,9 +12,9 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { AntDesign, Feather, Ionicons } from '@expo/vector-icons';
-import { colors } from '../../../assets/styles';
-import CompteHeader from '../../../components/CompteHeader/CompteHeader';
-import comptesData from '../../../mockData/comptesData';
+import { colors } from '../../assets/styles';
+import CompteHeader from '../../components/CompteHeader/CompteHeader';
+import comptesData from '../../mockData/comptesData';
 
 function TableauDeBord() {
   const navigation = useNavigation();
@@ -51,7 +51,7 @@ function TableauDeBord() {
               <Text style={styles.text}>Dernier crédit</Text>
               <Text style={styles.incomeMouvement}>+ 500 €</Text>
               <Image
-                source={require('../../../assets/Icones_omedom/logements/icones_log1.png')}
+                source={require('../../assets/Icones_omedom/logements/icones_log1.png')}
                 style={styles.mouvementImage}
               />
             </Layout>
@@ -62,7 +62,7 @@ function TableauDeBord() {
               </Text>
               <Text style={styles.mouvementText}>- 80 €</Text>
               <Image
-                source={require('../../../assets/Icones_omedom/logements/icones_log4.png')}
+                source={require('../../assets/Icones_omedom/logements/icones_log4.png')}
                 style={styles.mouvementImage}
               />
             </Layout>
@@ -73,7 +73,7 @@ function TableauDeBord() {
               </Text>
               <Text style={styles.mouvementText}>- 160 €</Text>
               <Image
-                source={require('../../../assets/Icones_omedom/logements/icones_log1.png')}
+                source={require('../../assets/Icones_omedom/logements/icones_log1.png')}
                 style={styles.mouvementImage}
               />
             </Layout>
@@ -184,7 +184,7 @@ function TableauDeBord() {
           >
             <Image
                   /* eslint-disable-next-line global-require */
-              source={require('../../../assets/Icones_omedom/logements/icones_log1.png')}
+              source={require('../../assets/Icones_omedom/logements/icones_log1.png')}
               style={{
                 height: 41, width: 41, marginRight: 18,
               }}

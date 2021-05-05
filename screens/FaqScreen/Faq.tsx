@@ -3,7 +3,7 @@ import {
   SafeAreaView, SectionList, StyleSheet, Text, TouchableOpacity, View,
 } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
-import faqDATA from '../../../mockData/faqDATA';
+import faqDATA from '../../mockData/faqDATA';
 
 const Faq = () => {
   const [questions, setQuestions] = useState(faqDATA);

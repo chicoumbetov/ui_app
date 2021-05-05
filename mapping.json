@@ -4,6 +4,7 @@
     "text-label-font-size": 20,
     "text-label-font-weight": "500",
     "text-label-font-family": "HouschkaRoundedMedium",
+    "text-subtitle-1-font-size": 16,
     "text-subtitle-2-font-family": "HouschkaRoundedDemiBold",
     "size-large": 64
   },
@@ -1088,6 +1089,48 @@
               "disabled": {
                 "backgroundColor": "background-basic-color-1",
                 "textColor": "text-disabled-color",
+                "iconTintColor": "text-disabled-color"
+              }
+            }
+          }
+        }
+      }
+    },
+    "MenuItem": {
+      "appearances": {
+        "default": {
+          "mapping": {
+            "paddingHorizontal": 35,
+            "paddingVertical": 20,
+            "backgroundColor": "background-basic-color-1",
+            "indicatorWidth": 0,
+            "indicatorBackgroundColor": "transparent",
+            "titleMarginHorizontal": 23,
+            "titleFontSize": "text-subtitle-1-font-size",
+            "titleFontWeight": "text-subtitle-1-font-weight",
+            "titleFontFamily": "text-subtitle-1-font-family",
+            "titleColor": "text-basic-color",
+            "iconWidth": 24,
+            "iconHeight": 24,
+            "iconMarginHorizontal": 8,
+            "iconTintColor": "text-hint-color",
+            "state": {
+              "hover": {
+                "titleColor": "text-primary-hover-color",
+                "iconTintColor": "text-primary-hover-color"
+              },
+              "active": {
+                "backgroundColor": "color-basic-transparent-active"
+              },
+              "selected": {
+                "backgroundColor": "color-primary-transparent-default",
+                "indicatorWidth": 4,
+                "indicatorBackgroundColor": "color-primary-default",
+                "titleColor": "text-primary-color",
+                "iconTintColor": "text-primary-color"
+              },
+              "disabled": {
+                "titleColor": "text-disabled-color",
                 "iconTintColor": "text-disabled-color"
               }
             }

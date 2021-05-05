@@ -5,9 +5,9 @@ import {
   StyleSheet,
 } from 'react-native';
 
-import contactDATA from '../../../mockData/contactDATA';
-import TextInput from '../../../components/Form/TextInput';
-import SelectComp from '../../../components/Form/Select';
+import contactDATA from '../../mockData/contactDATA';
+import TextInput from '../../components/Form/TextInput';
+import SelectComp from '../../components/Form/Select';
 
 const Contact = () => (
   <Layout style={styles.containerOut}>

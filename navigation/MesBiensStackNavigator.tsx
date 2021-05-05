@@ -9,6 +9,7 @@ import ParametrerAjoutCharges from '../screens/MesBiensScreen/Components/Paramet
 import PartagerBien from '../screens/MesBiensScreen/Components/PartagerBien';
 import ModifierCharacteristiques
   from '../screens/MesBiensScreen/Components/ModifierCharacteristiques';
+import AjoutBienScreen from '../screens/AjoutBienScreen/AjoutBienScreen';
 
 const Stack = createStackNavigator<TabMesBiensParamList>();
 
@@ -45,6 +46,10 @@ export default function MesBiensStackNavigator() {
       <Stack.Screen
         name="ModifierCharacteristiques"
         component={ModifierCharacteristiques}
+      />
+      <Stack.Screen
+        name="ajout-bien-screen"
+        component={AjoutBienScreen}
       />
     </Stack.Navigator>
   );

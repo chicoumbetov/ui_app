@@ -57,6 +57,7 @@ export type TabMesBiensParamList = {
   ParametrerAjoutCharges: undefined;
   PartagerBien: undefined;
   ModifierCharacteristiques: undefined;
+  'ajout-bien-screen': undefined;
 };
 
 export type TabMaTresorerieParamList = {

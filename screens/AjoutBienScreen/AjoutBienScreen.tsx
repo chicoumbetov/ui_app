@@ -7,21 +7,31 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import {
-  Image,
-  ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View,
+  ScrollView, StyleSheet, TouchableOpacity, View,
 } from 'react-native';
 
-import { Button, Layout } from '@ui-kitten/components';
+import { Button, Layout, Text } from '@ui-kitten/components';
 
 import * as ImagePicker from 'expo-image-picker';
 import { colors } from '../../assets/styles';
 import Form from '../../components/Form/Form';
 import SelectComp from '../../components/Form/Select';
+
+import TextInputComp from '../../components/Form/TextInput';
 import {
   detention, statut, typeBien, typeDetention, typeImpo,
 } from '../../mockData/ajoutBienData';
 
 import MaisonVerte from '../../assets/Omedom_Icons_svg/Logement/maison_verte.svg';
+import Bateau from '../../assets/Omedom_Icons_svg/Logement/bateau.svg';
+import Boutique from '../../assets/Omedom_Icons_svg/Logement/boutique.svg';
+import Cabane from '../../assets/Omedom_Icons_svg/Logement/cabane.svg';
+import Chateau from '../../assets/Omedom_Icons_svg/Logement/chateau.svg';
+import Immeuble from '../../assets/Omedom_Icons_svg/Logement/immeuble.svg';
+import MaisonBleu from '../../assets/Omedom_Icons_svg/Logement/maison_bleu.svg';
+import Manoir from '../../assets/Omedom_Icons_svg/Logement/manoir.svg';
+import Riad from '../../assets/Omedom_Icons_svg/Logement/riad.svg';
+import Voiture from '../../assets/Omedom_Icons_svg/Logement/voiture.svg';
 
 type AjoutBienForm = {
   typeBien: string;
@@ -104,15 +114,8 @@ function AjoutBienScreen() {
               onPress={() => setEtape(0)}
             >
               <Text
-                style={{
-                  fontSize: 15.5,
-                  fontFamily: 'HouschkaRoundedDemiBold',
-                  fontStyle: 'normal',
-                  lineHeight: 23,
-                  letterSpacing: 0.9,
-                  color: colors.noir,
-                  marginLeft: 7,
-                }}
+                appearance="H6"
+
               >
                 Identité (1/3)
               </Text>
@@ -129,21 +132,14 @@ function AjoutBienScreen() {
               borderRadius: 7,
             }}
             >
-              <Text style={{ fontSize: 17, fontFamily: 'HouschkaRoundedMedium' }}>La Maison de Matthieu</Text>
+              <Text category="H5">La Maison de Matthieu</Text>
             </Layout>
 
             <Layout style={{ marginLeft: 124, backgroundColor: 'transparent', marginVertical: 34 }}>
-              {/* <Icon name="vert_batiment" size={140} style={{ marginRight: 10 }} /> */}
-              <Image
-                source={require('../../assets/Icones_omedom/logements/icones_log1.png')}
-                style={{ height: 149, width: 149 }}
-              />
+              <MaisonVerte height={53} width={53} />
             </Layout>
 
-            <Text style={{
-              fontSize: 16.5, color: '#b5b5b5', marginLeft: 23, marginTop: 2,
-            }}
-            >
+            <Text category="h5" appearance="hint">
               Choisir une icone
             </Text>
 
@@ -154,53 +150,52 @@ function AjoutBienScreen() {
               <TouchableOpacity onPress={() => {}}>
                 <MaisonVerte height={53} width={53} />
               </TouchableOpacity>
-              <Image
-                source={require('../../assets/Icones_omedom/logements/icones_log4.png')}
-                style={{ height: 53, width: 52 }}
-              />
-              <Image
-                source={require('../../assets/Icones_omedom/logements/icones_log3.png')}
-                style={{ height: 53, width: 52 }}
-              />
-              <Image
-                source={require('../../assets/Icones_omedom/logements/icones_log2.png')}
-                style={{ height: 53, width: 52 }}
-              />
-              <Image
-                source={require('../../assets/Icones_omedom/logements/icones_log10.png')}
-                style={{ height: 53, width: 52 }}
-              />
+
+              <TouchableOpacity onPress={() => {}}>
+                <Immeuble height={53} width={53} />
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={() => {}}>
+                <Cabane height={53} width={53} />
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={() => {}}>
+                <Bateau height={53} width={53} />
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={() => {}}>
+                <Boutique height={53} width={53} />
+              </TouchableOpacity>
 
             </Layout>
             <Layout style={{
               flexDirection: 'row', marginTop: 34, justifyContent: 'space-evenly', marginLeft: -6, backgroundColor: 'transparent',
             }}
             >
-              <Image
-                source={require('../../assets/Icones_omedom/logements/icones_log5.png')}
-                style={{ height: 53, width: 52 }}
-              />
-              <Image
-                source={require('../../assets/Icones_omedom/logements/icones_log6.png')}
-                style={{ height: 53, width: 52 }}
-              />
-              <Image
-                source={require('../../assets/Icones_omedom/logements/icones_log7.png')}
-                style={{ height: 53, width: 52 }}
-              />
-              <Image
-                source={require('../../assets/Icones_omedom/logements/icones_log8.png')}
-                style={{ height: 53, width: 52 }}
-              />
-              <Image
-                source={require('../../assets/Icones_omedom/logements/icones_log9.png')}
-                style={{ height: 53, width: 52 }}
-              />
+              <TouchableOpacity onPress={() => {}}>
+                <Chateau height={53} width={53} />
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={() => {}}>
+                <Manoir height={53} width={53} />
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={() => {}}>
+                <MaisonBleu height={53} width={53} />
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={() => {}}>
+                <Riad height={53} width={53} />
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={() => {}}>
+                <Voiture height={53} width={53} />
+              </TouchableOpacity>
 
             </Layout>
 
             <Layout style={{ paddingHorizontal: 23, backgroundColor: 'transparent' }}>
-              <TouchableOpacity onPress={() => { onTakePicture(); }} style={{ marginVertical: 30.5 }}>
+              <TouchableOpacity onPress={() => {}} style={{ marginVertical: 30.5 }}>
                 <Text style={styles.button}>Prendre une photo</Text>
               </TouchableOpacity>
 
@@ -253,11 +248,11 @@ function AjoutBienScreen() {
           </View>
           {etape === 1 && (
           <View>
-            <TextInput style={styles.inputStyle} placeholder="Adresse" />
-            <TextInput style={{ ...styles.inputStyle, marginTop: -6, paddingLeft: 22.5 }} placeholder="Complément d'adresse" />
-            <TextInput style={{ ...styles.inputStyle, marginTop: -4, paddingLeft: 22.5 }} placeholder="Code Postal" />
-            <TextInput style={{ ...styles.inputStyle, marginTop: -4, paddingLeft: 22.5 }} placeholder="Ville" />
-            <TextInput style={{ ...styles.inputStyle, marginTop: -4, paddingLeft: 22.5 }} placeholder="Pays" />
+            <TextInputComp name="adresse" placeholder="Adresse" />
+            <TextInputComp name="complement" placeholder="Complément d'adresse" />
+            <TextInputComp name="codePostal" placeholder="Code Postal" />
+            <TextInputComp name="ville" placeholder="Ville" />
+            <TextInputComp name="pays" placeholder="Pays" />
           </View>
           )}
 

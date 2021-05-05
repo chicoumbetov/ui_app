@@ -57,6 +57,7 @@ const TextInputComp = React.forwardRef<Input, TextInputFormProps>(
           style={[styles.input, style]}
           caption={error && error.message}
           status={error && error.message ? 'danger' : ''}
+
           {...inputProps}
           onChangeText={(text) => {
             setInputValue(text);

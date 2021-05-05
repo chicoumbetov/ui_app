@@ -10,7 +10,7 @@ import {
   FlatList,
   Image, LogBox, ScrollView, StyleSheet, TouchableOpacity,
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useLinkTo, useNavigation } from '@react-navigation/native';
 import { AntDesign, Feather, Ionicons } from '@expo/vector-icons';
 import { colors } from '../../assets/styles';
 import CompteHeader from '../../components/CompteHeader/CompteHeader';
@@ -18,6 +18,7 @@ import comptesData from '../../mockData/comptesData';
 
 function TableauDeBord() {
   const navigation = useNavigation();
+  const linkTo = useLinkTo();
 
   const [compte, setCompte] = useState(comptesData);
 
@@ -25,11 +26,11 @@ function TableauDeBord() {
     navigation.navigate('MaTrésorerieDrawer');
   };
   const allerNotificaitons = () => {
-    navigation.navigate('Notifications');
+    linkTo('/notifications');
   };
 
   const onAjoutBien = () => {
-    navigation.navigate('AjoutBienScreen');
+    linkTo('/mes-biens/ajouter');
   };
 
   return (

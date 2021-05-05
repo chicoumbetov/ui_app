@@ -9,9 +9,12 @@
     "size-large": 64,
 
     "text-heading-1-font-size": 25,
+    "text-heading-1-font-weight": 600,
     "text-heading-1-font-family": "HouschkaRoundedDemiBold",
 
-    "text-heading-2-font-size": 21
+    "text-heading-2-font-size": 21,
+    "text-heading-2-font-weight": 500,
+    "text-heading-2-font-family": "HouschkaRoundedMedium"
   },
   "components": {
     "BottomNavigationTab": {

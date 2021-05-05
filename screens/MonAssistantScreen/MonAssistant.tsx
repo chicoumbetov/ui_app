@@ -19,7 +19,7 @@ const MonAssistant = () => {
     <Layout style={styles.containerOut}>
       <Layout style={styles.container}>
         <Text category="h1" style={styles.title}>Mon Assistant</Text>
-        <Text style={styles.subtitle}>Générer les documents</Text>
+        <Text category="h2" style={styles.subtitle}>Générer les documents</Text>
 
         <Layout style={styles.docs}>
           <Text style={styles.aideText}>Aide à la déclaration d'impôts</Text>

@@ -20,6 +20,10 @@ import Icon from '../../components/Icon';
 import Form from '../../components/Form/Form';
 import SelectComp from '../../components/Form/Select';
 
+import {
+  typeBien, detention, typeDetention, statut, typeImpo,
+} from '../../mockData/ajoutBienData';
+
 type AjoutBienForm = {
   typeBien: string;
   detention: string;
@@ -70,94 +74,14 @@ function AjoutBienScreen() {
     setDate(currentDate);
   };
 
-  const showMode = () => {
-    setShow(true);
-  };
   /**
    * For part III
    * Variable pour gérer l'affichage des données de modes de détention
    * */
 
-  const typeBien = [
-    'Résidence Principale', 'Résidence Secondaire', 'Investissement Locatif Professionnel ou Commercial', 'Investissement Locatif Particulier',
-  ];
-
-  const [typeBienShow, setTypeBienShow] = useState(false);
-
   const [detentionShow, setDetentionShow] = useState(false);
 
   const [statutShow, setStatutShow] = useState(false);
-
-  const [typeImpoShow, setTypeImpoShow] = useState(false);
-
-  const [typeDetentionShow, setTypeDetentionShow] = useState(false);
-
-  const showModeDetention = (id: number) => {
-    switch (id) {
-      case 1:
-        setTypeBienShow(true);
-        setDetentionShow(false);
-        setStatutShow(false);
-        setTypeImpoShow(false);
-        setTypeDetentionShow(false);
-        break;
-      case 2:
-        setTypeBienShow(false);
-        setDetentionShow(true);
-        setStatutShow(false);
-        setTypeImpoShow(false);
-        setTypeDetentionShow(false);
-        break;
-      case 3:
-        setTypeBienShow(false);
-        setDetentionShow(false);
-        setStatutShow(true);
-        setTypeImpoShow(false);
-        setTypeDetentionShow(false);
-        break;
-      case 4:
-        setTypeBienShow(false);
-        setDetentionShow(false);
-        setStatutShow(false);
-        setTypeImpoShow(true);
-        setTypeDetentionShow(false);
-        break;
-      case 5:
-        setTypeBienShow(false);
-        setDetentionShow(false);
-        setStatutShow(false);
-        setTypeImpoShow(false);
-        setTypeDetentionShow(true);
-        break;
-    }
-  };
-
-  const SetTypeBien = (tybeBientxt: string) => {
-    setTypeBien(tybeBientxt);
-    setTypeBienShow(false);
-    setDetentionShow(true);
-  };
-
-  const SetDetention = (detentiontxt: string) => {
-    setDetention(detentiontxt);
-    setDetentionShow(false);
-    if (detentiontxt === 'Société') {
-      setStatutShow(true);
-    } else {
-      setTypeDetentionShow(true);
-    }
-  };
-
-  const SetStatut = (statuttxt: string) => {
-    setStatut(statuttxt);
-    setStatutShow(false);
-    setTypeImpoShow(true);
-  };
-
-  const SetTypeImpo = (tybeImpotxt: string) => {
-    setTypeImpo(tybeImpotxt);
-    setTypeImpoShow(false);
-  };
 
   return (
     <ScrollView style={{ backgroundColor: '#f6f6f6' }}>
@@ -387,217 +311,44 @@ function AjoutBienScreen() {
               />
             </View>
             <Layout style={{ backgroundColor: 'transparent' }}>
-              <TouchableOpacity
-                onPress={() => showModeDetention(1)}
-              >
-                <Layout style={
-                typeBienShow
-                  ? ({
-                    ...styles.headerUp, marginBottom: 0, marginTop: 0, paddingTop: 22,
-                  })
-                  : ({
-                    ...styles.headerDown, marginTop: -11, paddingLeft: 24, paddingVertical: 23,
-                  })
-              }
-                >
-                  <Text style={{
-                    fontSize: 16,
-                    letterSpacing: 0.05,
-                    color: colors.blanc,
-                  }}
-                  >
-                    {formState.typeBien}
-                  </Text>
-                  {
-                  typeBienShow
-                    ? <Icon name="arrow-ios-upward-outline" color={colors.blanc} size={15} />
-                    : <Icon name="arrow-ios-downward-outline" color={colors.blanc} size={15} />
-                }
 
-                </Layout>
-              </TouchableOpacity>
-              {typeBienShow && (
-              <Layout style={{ marginHorizontal: 25, marginBottom: 30 }}>
-                <SelectComp name="TypeBien" data={typeBien} label="test" />
-
-              </Layout>
-              )}
-            </Layout>
-
-            <Layout style={{ backgroundColor: 'transparent' }}>
-              <TouchableOpacity
-                onPress={() => showModeDetention(2)}
-              >
-                <Layout style={
-                detentionShow
-                  ? ({
-                    ...styles.headerUp,
-                  })
-                  : ({
-                    ...styles.headerDown, paddingLeft: 25, paddingVertical: 25,
-                  })
-              }
-                >
-                  <Text style={{ fontSize: 16, letterSpacing: 0.4, color: colors.blanc }}>
-                    {formState.detention}
-                  </Text>
-                  {
-                detentionShow
-                  ? <Icon name="arrow-ios-upward-outline" color={colors.blanc} size={15} />
-                  : <Icon name="arrow-ios-downward-outline" color={colors.blanc} size={15} />
-                }
-                </Layout>
-              </TouchableOpacity>
-              {detentionShow && (
               <Layout>
-                <TouchableOpacity
-                  onPress={() => SetDetention('Nom Propre')}
-                >
-                  <Layout style={{ margin: 20 }}>
-                    <Text style={styles.text}>Nom Propre</Text>
-                  </Layout>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={() => SetDetention('Société')}
-                >
-                  <Layout style={{ margin: 20 }}>
-                    <Text style={styles.text}>Société</Text>
-                  </Layout>
-                </TouchableOpacity>
+                <SelectComp name="typeBien" data={typeBien} placeholder="Type De Bien" size="large" appearance="default" status="primary" />
+
               </Layout>
-              )}
-            </Layout>
-            {formState.detention === 'Société' && (
-            <Layout>
-              <TouchableOpacity
-                onPress={() => showModeDetention(3)}
-              >
-                <Layout style={statutShow ? (styles.headerUp) : (styles.headerDown)}>
-                  <Text>{formState.statut}</Text>
-                </Layout>
-              </TouchableOpacity>
-              {statutShow && (
+
               <Layout>
-                <TouchableOpacity
-                  onPress={() => SetStatut('SCI')}
-                >
-                  <Layout style={{ margin: 20 }}>
-                    <Text style={styles.text}>SCI</Text>
-                  </Layout>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={() => SetStatut('SAS')}
-                >
-                  <Layout style={{ margin: 20 }}>
-                    <Text style={styles.text}>SAS</Text>
-                  </Layout>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={() => SetStatut('SARL Classique')}
-                >
-                  <Layout style={{ margin: 20 }}>
-                    <Text style={styles.text}>SARL Classique</Text>
-                  </Layout>
-                </TouchableOpacity>
+                <SelectComp name="Detention" data={detention} placeholder="Détention" onChangeValue={(v) => { console.log(v); if (v === 'Nom Prope') { setDetentionShow(true); } else { setStatutShow(true); } }} size="large" appearance="default" status="primary" />
 
-                <TouchableOpacity
-                  onPress={() => SetStatut('SARL Famille')}
-                >
-                  <Layout style={{ margin: 20 }}>
-                    <Text style={styles.text}>SARL Famille</Text>
-                  </Layout>
-                </TouchableOpacity>
               </Layout>
-              )}
-
-              <TouchableOpacity
-                onPress={() => showModeDetention(4)}
-              >
-                <Layout style={statutShow ? (styles.headerUp) : (styles.headerDown)}>
-                  <Text>{formState.typeImpo}</Text>
-                </Layout>
-              </TouchableOpacity>
-              {typeImpoShow && (
+              {detentionShow
+              && (
               <Layout>
-                <TouchableOpacity
-                  onPress={() => SetTypeImpo('Impôt sur les revenus')}
-                >
-                  <Layout style={{ margin: 20 }}>
-                    <Text style={styles.text}>Impôt sur les revenus</Text>
-                  </Layout>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={() => SetTypeImpo('Impôt sur les sociétés')}
-                >
-                  <Layout style={{ margin: 20 }}>
-                    <Text style={styles.text}>Impôt sur les sociétés</Text>
-                  </Layout>
-                </TouchableOpacity>
+                <SelectComp name="typeDetention" data={typeDetention} placeholder="Type De Détention" size="large" appearance="default" status="primary" />
 
               </Layout>
               )}
-              {formState.typeImpo !== 'Type d\'imposition' && (
-              <Layout style={{
-                flex: 1,
-                margin: 30,
-                backgroundColor: colors.blanc,
-                flexDirection: 'row',
-              }}
-              >
-                <Text>Pourcentage de détention</Text>
-                <TextInput style={{ alignItems: 'flex-end' }} />
-                <Text>%</Text>
+              {statutShow
+              && (
+              <>
+                <Layout>
+                  <SelectComp name="typeBien" data={statut} placeholder="Status" size="large" appearance="default" status="primary" />
 
-              </Layout>
+                </Layout>
+
+                <Layout>
+                  <SelectComp name="typeBien" data={typeImpo} placeholder="Type d'imposition" size="large" appearance="default" status="primary" />
+
+                </Layout>
+              </>
               )}
+
             </Layout>
-
-            )}
 
           </View>
 
           )}
-          {typeDetentionShow && (
-          <Layout>
-            <TouchableOpacity
-              onPress={() => SetTypeImpo('Impôt sur les revenus')}
-            >
-              <Layout style={{ margin: 20 }}>
-                <Text style={styles.text}>Impôt sur les revenus</Text>
-              </Layout>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => SetTypeImpo('Impôt sur les sociétés')}
-            >
-              <Layout style={{ margin: 20 }}>
-                <Text style={styles.text}>Impôt sur les sociétés</Text>
-              </Layout>
-            </TouchableOpacity>
 
-          </Layout>
-          )}
-          {formState.typeDetention !== ''}
-          <Layout style={{
-            flex: 2,
-            margin: 30,
-            backgroundColor: colors.blanc,
-            flexDirection: 'row',
-          }}
-          >
-            <Text>Pourcentage de détention</Text>
-            <TextInput />
-            <Text>%</Text>
-          </Layout>
-          <Layout style={{ marginBottom: 10 }}>
-            <Button
-              style={{ width: 130 }}
-              onPress={ajoutBienForm.handleSubmit((e) => {
-                console.log(e);
-              })}
-            >
-              Valider
-            </Button>
-          </Layout>
         </>
       </Form>
     </ScrollView>

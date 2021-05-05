@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, Layout, Text } from '@ui-kitten/components';
 import { useNavigation } from '@react-navigation/native';
 import {
+  ScrollView,
   StyleSheet, View,
 } from 'react-native';
 import { useForm } from 'react-hook-form';
@@ -35,9 +36,10 @@ const QuittanceLoyer = () => {
   };
 
   return (
-    <Layout style={styles.containerOut}>
+    <ScrollView>
 
-      <Layout style={styles.container}>
+      <Layout style={styles.containerOut}>
+
         <Text category="h1" style={styles.title}>Générer une quittance de loyer</Text>
         <Form <QuittanceLoyerForm> {...quittanceLoyerForm}>
 
@@ -54,9 +56,7 @@ const QuittanceLoyer = () => {
         </View>
 
       </Layout>
-
-    </Layout>
-
+    </ScrollView>
   );
 };
 
@@ -66,11 +66,8 @@ const styles = StyleSheet.create({
   containerOut: {
     flex: 1,
     backgroundColor: 'rgba(246, 246, 246, 0.5)',
-  },
-  container: {
     padding: 25,
     paddingRight: 21,
-    backgroundColor: 'transparent',
   },
   title: {
     marginTop: 19.7,

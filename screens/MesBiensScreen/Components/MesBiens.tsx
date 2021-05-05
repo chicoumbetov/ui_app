@@ -17,10 +17,6 @@ import MonBien from './MonBien';
 function MesBiens() {
   const navigation = useNavigation();
 
-  const onDetailsBiens = () => {
-    navigation.navigate('DetailsBien');
-  };
-
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}

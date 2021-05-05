@@ -984,7 +984,8 @@
                 "state": {
                   "focused": {
                     "borderColor": "color-info-300",
-                    "backgroundColor": "color-info-300"
+                    "backgroundColor": "color-info-300",
+                    "iconTintColor": "text-alternate-color"
                   },
                   "hover": {
                     "borderColor": "color-info-300",
@@ -993,7 +994,7 @@
                   "active": {
                     "borderColor": "color-info-300",
                     "backgroundColor": "color-info-300",
-                    "iconTintColor": "text-basic-color"
+                    "iconTintColor": "text-alternate-color",
                   },
                   "disabled": {
                     "borderColor": "border-basic-color-4",

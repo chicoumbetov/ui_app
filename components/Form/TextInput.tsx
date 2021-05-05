@@ -4,7 +4,7 @@ import {
 } from 'react-native';
 import { FieldError } from 'react-hook-form';
 import { useEffect, useState } from 'react';
-import { InputProps } from '@ui-kitten/components';
+import { Icon, IndexPath, InputProps } from '@ui-kitten/components';
 import { AvailableValidationRules } from './validation';
 import { ChangeValueCallbackType } from './Form';
 import { Input } from '../UIKittenRewrite/Input';
@@ -12,6 +12,7 @@ import { Input } from '../UIKittenRewrite/Input';
 export type TextInputFormProps = Exclude<InputProps, 'onChangeText'> & {
   name: string;
   label?: string;
+  icon?: string;
   labelStyle?: StyleProp<TextStyle>;
   containerStyle?: StyleProp<ViewStyle>;
   error?: FieldError | undefined;
@@ -23,6 +24,7 @@ const TextInputComp = React.forwardRef<Input, TextInputFormProps>(
   (props: TextInputFormProps, ref): React.ReactElement => {
     const {
       label,
+      icon,
       labelStyle,
       error,
       onChangeValue,
@@ -41,12 +43,17 @@ const TextInputComp = React.forwardRef<Input, TextInputFormProps>(
       if (onChangeValue && defaultValue) onChangeValue(inputValue);
     }, [inputValue]);
 
+    const renderIcon = (props) => (
+      <Icon {...props} name={icon} />
+    );
+
     return (
       <View style={[styles.container, containerStyle]}>
         <Input
           autoCapitalize="none"
           ref={ref}
           label={label}
+          accessoryRight={icon ? renderIcon : undefined}
           style={[styles.input, style]}
           caption={error && error.message}
           status={error && error.message ? 'danger' : ''}

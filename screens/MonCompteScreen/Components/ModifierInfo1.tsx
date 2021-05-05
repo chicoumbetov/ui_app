@@ -3,7 +3,7 @@ import {
   StyleSheet, View,
 } from 'react-native';
 import {
-  Button, Input, Layout, Text,
+  Button, Layout, Text,
 } from '@ui-kitten/components';
 import { useNavigation } from '@react-navigation/native';
 import TextInputComp from '../../../components/Form/TextInput';
@@ -29,29 +29,22 @@ const Informations = () => {
       <TextInputComp
         name="prenom"
         placeholder="Changer prènom"
-
       />
       <TextInputComp
         name="nom"
         placeholder="Changer nom"
-
       />
       <TextInputComp
         name="email"
         placeholder="Changer email"
       />
-
-      <Input
-        style={styles.inputStyle}
+      <TextInputComp
+        name="motDePasse"
         placeholder="Changer mot de Passe"
-        value={motDePasee}
-        onChangeText={(nextValue) => setMotDePasse(nextValue)}
       />
-      <Input
-        style={styles.inputStyle}
+      <TextInputComp
+        name="numeroTel"
         placeholder="Changer numéro télephone"
-        value={numeroTel}
-        onChangeText={(nextValue) => setNumeroTel(nextValue)}
       />
 
       <View style={styles.buttonRight}>
@@ -70,20 +63,6 @@ const styles = StyleSheet.create({
     flex: 1,
     margin: 21,
     backgroundColor: 'rgba(246, 246, 246, 0.5)',
-  },
-  inputStyle: {
-    borderRadius: 7,
-    backgroundColor: '#fff',
-    fontWeight: 'normal',
-    borderColor: 'transparent',
-    marginBottom: 32,
-    shadowColor: '#dedede',
-    shadowOffset: {
-      width: 0,
-      height: 0.5,
-    },
-    shadowRadius: 4,
-    shadowOpacity: 1,
   },
   buttonRight: { alignItems: 'flex-end' },
   title: {

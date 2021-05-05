@@ -6,6 +6,7 @@ import {
   Button, Input, Layout, Text,
 } from '@ui-kitten/components';
 import { useNavigation } from '@react-navigation/native';
+import TextInputComp from '../../../components/Form/TextInput';
 
 const Informations = () => {
   const [prenom, setPrenom] = React.useState('');
@@ -25,35 +26,22 @@ const Informations = () => {
         <Text style={styles.title}>Modifier vos informations</Text>
       </View>
 
-      <Input
-        style={styles.inputStyle}
+      <TextInputComp
+        name="localisation"
         placeholder="Changer localisation"
-        value={prenom}
-        onChangeText={(nextValue) => setPrenom(nextValue)}
       />
-      <Input
-        style={styles.inputStyle}
+      <TextInputComp
+        name="dateAcquisition"
         placeholder="Changer date d'acquisition"
-        value={nom}
-        onChangeText={(nextValue) => setNom(nextValue)}
       />
-      <Input
-        style={styles.inputStyle}
+      <TextInputComp
+        name="typeDeBien"
         placeholder="Changer type de bien"
-        value={email}
-        onChangeText={(nextValue) => setEmail(nextValue)}
       />
-      <Input
-        style={styles.inputStyle}
-        placeholder="Changer mode de détention"
-        value={motDePasee}
-        onChangeText={(nextValue) => setMotDePasse(nextValue)}
-      />
-      <Input
-        style={styles.inputStyle}
+
+      <TextInputComp
+        name="nombreDeParts"
         placeholder="Changer nombre de parts"
-        value={numeroTel}
-        onChangeText={(nextValue) => setNumeroTel(nextValue)}
       />
 
       <View style={styles.buttonRight}>

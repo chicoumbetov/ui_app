@@ -23,7 +23,7 @@ const DeclarationImpots = () => (
 
         <Layout style={{ flexDirection: 'row' }}>
           <TouchableOpacity onPress={() => {}}>
-            <SimpleLineIcons name="cloud-download" size={14} style={{ color: '#b5b5b5', paddingRight: 25 }} />
+            <SimpleLineIcons ame="cloud-download" size={14} style={{ color: '#b5b5b5', paddingRight: 25 }} />
           </TouchableOpacity>
 
           <TouchableOpacity onPress={() => {}}>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Layout, Text } from '@ui-kitten/components';
-import { Image } from 'react-native';
+import MaisonVerte from '../../assets/Omedom_Icons_svg/Logement/maison_verte.svg';
 
 type TitleProps = {
   title: string
@@ -12,18 +12,9 @@ const CompteHeader = ({ title }: TitleProps) => (
     marginRight: 20, flexDirection: 'row', backgroundColor: 'transparent',
   }}
   >
-    <Image
-      /* eslint-disable-next-line global-require */
-      source={require('../../assets/Icones_omedom/logements/icones_log1.png')}
-      style={{
-        height: 40, width: 40, marginRight: 10,
-      }}
-    />
+    <MaisonVerte height={40} width={40} style={{ marginRight: 10 }} />
 
-    <Text style={{
-      fontSize: 21, fontWeight: '400', paddingTop: 12.5, letterSpacing: 0.2, fontFamily: 'HouschkaRoundedDemiBold',
-    }}
-    >
+    <Text category="h3" style={{ paddingTop: 13 }}>
       {' '}
       La Maison de
       {' '}

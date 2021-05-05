@@ -54,10 +54,8 @@ const styles = StyleSheet.create({
   },
   compteHeader: {
     paddingTop: 3,
-    letterSpacing: 0.2,
     paddingHorizontal: 8,
     marginBottom: 15,
-
   },
   footer: {
     paddingTop: 5,

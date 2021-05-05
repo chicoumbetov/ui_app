@@ -103,11 +103,6 @@ const styles = StyleSheet.create({
   title: {
     marginTop: 18,
     marginBottom: 27,
-    fontSize: 23,
-    fontWeight: '300', // not working fix it
-    fontStyle: 'normal',
-    letterSpacing: 0,
-    color: '#000000',
   },
   button: {
     fontSize: 17,

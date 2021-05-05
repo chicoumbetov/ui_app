@@ -26,7 +26,7 @@ function MesBiens() {
         <Text
           category="h1"
           style={{
-            letterSpacing: 0.2, marginBottom: 20,
+            marginBottom: 20,
           }}
         >
           Mes Biens

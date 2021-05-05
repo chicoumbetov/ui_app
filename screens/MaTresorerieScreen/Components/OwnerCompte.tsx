@@ -1,10 +1,9 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
-
+import { StyleSheet, TouchableOpacity } from 'react-native';
 import { Layout, Text } from '@ui-kitten/components';
 
-import { AntDesign } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import Icon from '../../../components/Icon';
 
 const OwnerCompte = ({ compte }) => {
   const navigation = useNavigation();
@@ -17,14 +16,12 @@ const OwnerCompte = ({ compte }) => {
     <Layout style={styles.container}>
 
       <Layout style={{ paddingHorizontal: 14, width: 255 }}>
-        <Text style={{
-          color: '#000',
-          fontSize: 16,
-          fontFamily: 'HouschkaRoundedMedium',
-          borderRadius: 10,
-          letterSpacing: 0.7,
-          paddingTop: 11,
-        }}
+        <Text
+          category="h6"
+          style={{
+            borderRadius: 10,
+            paddingTop: 11,
+          }}
         >
           Monsieur
           {' '}
@@ -32,13 +29,17 @@ const OwnerCompte = ({ compte }) => {
           {' '}
           {compte.prenom}
         </Text>
-        <Text style={{ color: '#b5b5b5', paddingTop: 8 }}>
+        <Text
+          category="h6"
+          appearance="hint"
+          style={{ paddingTop: 8 }}
+        >
           FR
           {compte.IBAN}
         </Text>
-        <Text style={{
-          fontSize: 14.5, color: '#b5b5b5', marginTop: 4.3, letterSpacing: 0.2,
-        }}
+        <Text
+          category="h6"
+          appearance="hint"
         >
           {compte.bank}
         </Text>
@@ -48,7 +49,7 @@ const OwnerCompte = ({ compte }) => {
         <Layout style={{
           backgroundColor: '#ffbe00',
           marginTop: 17,
-          marginRight: 17,
+          marginRight: 5,
           height: 30,
           width: 30,
           alignItems: 'center',
@@ -57,10 +58,12 @@ const OwnerCompte = ({ compte }) => {
           borderRadius: 30,
         }}
         >
-          <Text style={{ color: '#fff' }}>3</Text>
+          <Text status="control">3</Text>
         </Layout>
+        <TouchableOpacity onPress={onTresoMouvement} style={{ marginRight: 2, marginTop: 17 }}>
+          <Icon name="arrow-ios-forward-outline" size={20} />
+        </TouchableOpacity>
 
-        <AntDesign name="right" size={14} color="#b5b5b5" onPress={onTresoMouvement} style={{ marginRight: 11, marginTop: 17 }} />
       </Layout>
 
     </Layout>

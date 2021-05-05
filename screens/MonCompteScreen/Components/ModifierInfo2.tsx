@@ -1,19 +1,13 @@
 import React from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import {
-  Button, Input, Text,
+  Button, Layout, Text,
 } from '@ui-kitten/components';
 import { useNavigation } from '@react-navigation/native';
 import TextInputComp from '../../../components/Form/TextInput';
 
 const Informations = () => {
   const navigation = useNavigation();
-  const [dateDeNaissance, setDateDeNaissance] = React.useState('');
-  const [adresse, setAdresse] = React.useState('');
-  const [adresseComplement, setAdresseComplement] = React.useState('');
-  const [codePostal, setCodePostal] = React.useState('');
-  const [ville, setVille] = React.useState('');
-  const [pays, setPays] = React.useState('');
 
   const onPress = () => {
     navigation.navigate('ModifierInfo3');
@@ -24,47 +18,61 @@ const Informations = () => {
       style={styles.container}
     >
       <View>
-        <Text style={styles.title}>Modifier vos informations</Text>
+        <Text category="h1" style={styles.title}>Modifier vos informations</Text>
       </View>
 
       <View style={{
-        flexDirection: 'row', marginBottom: 35, alignItems: 'center',
+        flexDirection: 'row', marginBottom: 20, alignItems: 'center',
       }}
       >
-        <View style={{ marginRight: 25 }}>
-          <Text style={{ fontSize: 17 }}>Votre date de naissance</Text>
+        <View style={{ marginRight: 20 }}>
+          <Text category="p1">Votre date de naissance</Text>
         </View>
 
-        <TextInputComp
-          name="dateDeNaissance"
-          placeholder="Date de naissance"
-        />
+        <Layout style={{ flex: 1, backgroundColor: 'transparent' }}>
+          <TextInputComp
+            name="dateDeNaissance"
+            placeholder="dd/mm/yyyy"
+            icon="calendar-outline"
+          />
+        </Layout>
       </View>
 
       <TextInputComp
         name="adresse"
         placeholder="Adresse"
       />
-      <TextInputComp
-        name="adresseComplement"
-        placeholder="Complément d'adresse"
-      />
 
-      <TextInputComp
-        name="codePostal"
-        placeholder="Code postale"
-      />
-      <TextInputComp
-        name="ville"
-        placeholder="Ville"
-      />
-      <TextInputComp
-        name="pays"
-        placeholder="Pays"
-      />
+      <Layout style={{ marginTop: 20, backgroundColor: 'transparent' }}>
+        <TextInputComp
+          name="adresseComplement"
+          placeholder="Complément d'adresse"
+        />
+      </Layout>
+
+      <Layout style={{ marginTop: 20, backgroundColor: 'transparent' }}>
+        <TextInputComp
+          name="codePostal"
+          placeholder="Code postale"
+        />
+      </Layout>
+
+      <Layout style={{ marginTop: 20, backgroundColor: 'transparent' }}>
+        <TextInputComp
+          name="ville"
+          placeholder="Ville"
+        />
+      </Layout>
+
+      <Layout style={{ marginTop: 20, backgroundColor: 'transparent' }}>
+        <TextInputComp
+          name="pays"
+          placeholder="Pays"
+        />
+      </Layout>
 
       <View style={styles.buttonRight}>
-        <Button onPress={onPress} style={{ width: 150 }}>
+        <Button onPress={onPress} style={{ width: 139 }}>
           Valider
         </Button>
       </View>
@@ -78,45 +86,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     margin: 21,
-    backgroundColor: 'rgba(246, 246, 246, 0.5)',
+    backgroundColor: 'transparent',
   },
-  inputStyle: {
-    borderRadius: 7,
-    backgroundColor: '#fff',
-    fontWeight: 'normal',
-    borderColor: 'transparent',
-    marginBottom: 32,
-    shadowColor: '#dedede',
-    shadowOffset: {
-      width: 0,
-      height: 0.5,
-    },
-    shadowRadius: 2,
-    shadowOpacity: 0.5,
-  },
-  buttonRight: { alignItems: 'flex-end' },
+  buttonRight: { alignItems: 'flex-end', marginTop: 34 },
   title: {
     marginTop: 12,
     marginBottom: 39,
-    fontSize: 25,
-    fontWeight: '800', // not working fix it
-    fontStyle: 'normal',
-    letterSpacing: 0,
-    color: '#000000',
-  },
-  inputStyleDate: {
-    flex: 1,
-    borderRadius: 7,
-    backgroundColor: '#fff',
-    fontWeight: 'normal',
-    borderColor: 'transparent',
-    shadowColor: '#dedede',
-    shadowOffset: {
-      width: 0,
-      height: 0.5,
-    },
-    shadowRadius: 2,
-    shadowOpacity: 0.5,
   },
 });
 

@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import {
-  SafeAreaView, SectionList, StyleSheet, Text, TouchableOpacity, View,
+  SafeAreaView, SectionList, StyleSheet, TouchableOpacity, View,
 } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
+import { Text } from '@ui-kitten/components';
 import faqDATA from '../../mockData/faqDATA';
 
 const Faq = () => {
@@ -31,7 +32,7 @@ const Faq = () => {
   return (
     <SafeAreaView style={styles.container}>
       <View>
-        <Text style={styles.faq}>FAQ</Text>
+        <Text category="h1" style={styles.header}>FAQ</Text>
       </View>
       <SectionList
         sections={questions}
@@ -82,14 +83,9 @@ const styles = StyleSheet.create({
     flex: 1,
     margin: 30,
   },
-  faq: {
+  header: {
     marginTop: 12,
     marginBottom: 49,
-    fontSize: 24,
-    fontWeight: '600',
-    fontStyle: 'normal',
-    letterSpacing: 0,
-    color: '#000000',
   },
   item: {
 

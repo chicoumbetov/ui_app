@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import {
   Image,
-  SafeAreaView, SectionList, StyleSheet, Text, TouchableOpacity, View, Platform,
+  SafeAreaView, SectionList, StyleSheet, TouchableOpacity, View, Platform,
 } from 'react-native';
 import Constants from 'expo-constants';
 import * as Notifications from 'expo-notifications';
 
 import { AntDesign } from '@expo/vector-icons';
+import { Icon, Text } from '@ui-kitten/components';
 import notificationsDATA from '../../mockData/notificationsDATA';
 
 Notifications.setNotificationHandler({
@@ -112,7 +113,7 @@ const NotificationsPage = () => {
   return (
     <SafeAreaView style={styles.container}>
       <View>
-        <Text style={styles.faq}>Notifications</Text>
+        <Text category="h1" style={styles.faq}>Notifications</Text>
       </View>
       <SectionList
         sections={questions}
@@ -181,12 +182,6 @@ const styles = StyleSheet.create({
   faq: {
     marginTop: 12,
     marginBottom: 41,
-    fontSize: 24,
-    fontWeight: '600',
-    fontStyle: 'normal',
-    fontFamily: 'HouschkaRoundedMedium',
-    letterSpacing: 0,
-    color: '#000000',
   },
   item: {
 

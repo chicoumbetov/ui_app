@@ -50,8 +50,7 @@ type AdresseProps = {
   }]
 };
 
-const Informations = (props: DataProps) => {
-  const { clientData } = props;
+const Informations = ({ clientData }: DataProps) => {
   // console.log('info props', clientData.Client.fields[0]);
   // console.log('AdresseType props', clientData.AdresseType);
   const navigation = useNavigation();
@@ -68,35 +67,32 @@ const Informations = (props: DataProps) => {
       <Text
         category="h2"
         style={{
-          fontWeight: '200', marginBottom: 36,
+          marginBottom: 36,
         }}
       >
         Informations
       </Text>
       <Layout style={styles.compteSection}>
         {/* use SectionList to render several accounts with its types and details */}
-        <Text style={{ fontSize: 17 }}>Date de naissance</Text>
-        <Text style={{ color: '#b5b5b5', fontSize: 17, marginTop: 6 }}>{clientData.Client.fields[0].dateDeNaissance}</Text>
+        <Text category="h6">Date de naissance</Text>
+        <Text appearance="hint" style={{ marginTop: 6 }}>{clientData.Client.fields[0].dateDeNaissance}</Text>
         <Layout style={{ borderBottomWidth: 0.5, borderBottomColor: '#b5b5b5', marginVertical: 15 }} />
 
-        <Text style={{ fontSize: 17, marginTop: 7 }}>Adresse mail : </Text>
-        <Text style={{
-          color: '#b5b5b5', fontSize: 17, marginTop: 5,
-        }}
-        >
+        <Text category="h6" style={{ marginTop: 7 }}>Adresse mail : </Text>
+        <Text appearance="hint" style={{ marginTop: 5 }}>
           {clientData.Client.fields[0].email}
         </Text>
         <Layout style={{ borderBottomWidth: 0.3, borderBottomColor: '#b5b5b5', marginVertical: 15 }} />
 
-        <Text style={{ fontSize: 17, marginTop: 8 }}>Ville</Text>
-        <Text style={{ color: '#b5b5b5', fontSize: 17, marginTop: 5 }}>{clientData.AdresseType.fields[0].ville}</Text>
+        <Text category="h6" style={{ marginTop: 8 }}>Ville</Text>
+        <Text appearance="hint" style={{ marginTop: 5 }}>{clientData.AdresseType.fields[0].ville}</Text>
         <Layout style={{ borderBottomWidth: 0.5, borderBottomColor: '#b5b5b5', marginVertical: 15 }} />
 
-        <Text style={{ fontSize: 17, marginTop: 10 }}>Numéro de téléphone</Text>
-        <Text style={{ color: '#b5b5b5', fontSize: 17, marginTop: 5 }}>{clientData.Client.fields[0].numeroTel}</Text>
+        <Text category="h6" style={{ marginTop: 10 }}>Numéro de téléphone</Text>
+        <Text appearance="hint" style={{ marginTop: 5 }}>{clientData.Client.fields[0].numeroTel}</Text>
       </Layout>
       <TouchableOpacity onPress={onPress}>
-        <Text style={styles.buttonTextLeft}>Modifier les informations</Text>
+        <Text category="h5" status="info" style={styles.buttonTextLeft}>Modifier les informations</Text>
       </TouchableOpacity>
     </Layout>
 
@@ -110,11 +106,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   buttonTextLeft: {
-    color: '#0076c8',
-    fontSize: 18,
     marginVertical: 18,
-    marginLeft: 1,
-    fontWeight: '600',
     paddingBottom: 18,
   },
 });

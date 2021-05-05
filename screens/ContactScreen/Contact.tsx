@@ -13,15 +13,17 @@ const Contact = () => (
   <Layout style={styles.containerOut}>
 
     <Layout style={styles.container}>
-      <Text style={styles.title}>Contact</Text>
+      <Text category="h1" style={styles.title}>Contact</Text>
 
       <SelectComp name="contact" data={contactDATA} placeholder="Motif Contact" size="large" appearance="default" status="primary" />
 
-      <TextInput
-        name="Votre Message"
-        label="Votre Message"
-        placeholder="Saisissez votre texte ici"
-      />
+      <Layout style={{ backgroundColor: 'transparent', marginTop: 60 }}>
+        <TextInput
+          name="Votre Message"
+          label="Votre Message"
+          placeholder="Saisissez votre texte ici"
+        />
+      </Layout>
 
       <Layout style={{ alignItems: 'flex-end', backgroundColor: 'transparent', marginTop: 30 }}>
         <Button size="large">Envoyer</Button>
@@ -45,11 +47,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#f7f7f7',
   },
   title: {
-    fontSize: 25.7,
     marginTop: 19.7,
     marginBottom: 14,
     lineHeight: 27.4,
-    letterSpacing: 0.1,
-    fontFamily: 'HouschkaRoundedDemiBold',
   },
 });

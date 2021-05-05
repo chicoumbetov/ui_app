@@ -23,7 +23,7 @@ const Informations = () => {
   return (
     <Layout style={styles.container}>
       <View>
-        <Text style={styles.title}>Modifier vos informations</Text>
+        <Text category="h1" style={styles.title}>Modifier vos informations</Text>
       </View>
 
       <TextInputComp
@@ -48,7 +48,7 @@ const Informations = () => {
       />
 
       <View style={styles.buttonRight}>
-        <Button onPress={onPress} style={{ width: 150 }}>
+        <Button onPress={onPress} style={{ width: 139 }}>
           Valider
         </Button>
       </View>
@@ -62,17 +62,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     margin: 21,
-    backgroundColor: 'rgba(246, 246, 246, 0.5)',
+    backgroundColor: 'transparent',
   },
-  buttonRight: { alignItems: 'flex-end' },
+  buttonRight: { alignItems: 'flex-end', marginTop: 34 },
   title: {
     marginTop: 12,
     marginBottom: 39,
-    fontSize: 25,
-    fontWeight: '300', // not working fix it
-    fontStyle: 'normal',
-    letterSpacing: 0,
-    color: '#000000',
   },
 });
 

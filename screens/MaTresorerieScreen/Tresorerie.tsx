@@ -4,28 +4,12 @@
  * @author: Shynggys UMBETOV
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Layout, Text } from '@ui-kitten/components';
-
-// import { API, graphqlOperation } from 'aws-amplify';
 import { ScrollView, StyleSheet } from 'react-native';
+
 import ComptesBancaires from './Components/ComptesBancaires';
 import comptesData from '../../mockData/comptesData';
-// import { listComptes } from '../../src/graphql/queries';
-/*
-  useEffect(() => {
-    const fetchCompte = async () => {
-      // fetchCompte
-      try {
-        const response = await API.graphql(graphqlOperation(listComptes));
-        console.log(response);
-      } catch (e) {
-        console.error(e);
-      }
-      fetchCompte();
-    };
-  }, []);
-*/
 
 const MaTresorerie = () => {
   const [value, setValue] = useState('');
@@ -39,7 +23,7 @@ const MaTresorerie = () => {
         <Text
           category="h1"
           style={{
-            letterSpacing: 0.2, marginLeft: 26, marginTop: 33,
+            marginLeft: 26, marginTop: 33,
           }}
         >
           Ma Trésorerie
@@ -52,16 +36,15 @@ const MaTresorerie = () => {
             borderRightColor: '#b5b5b5',
           }}
           >
-            <Text style={{ fontSize: 18, color: '#b5b5b5' }}>Dernier crédit</Text>
+            <Text category="h6" appearance="hint">Dernier crédit</Text>
             <Layout style={{ marginLeft: 20 }}>
-              <Text style={{
-                fontSize: 18,
-                marginTop: 14,
-                letterSpacing: 0.5,
-                fontWeight: '600',
-                color: '#00c29a',
-                justifyContent: 'center',
-              }}
+              <Text
+                category="h4"
+                status="success"
+                style={{
+                  marginTop: 14,
+                  justifyContent: 'center',
+                }}
               >
                 + 500 €
               </Text>
@@ -74,10 +57,13 @@ const MaTresorerie = () => {
             justifyContent: 'space-between',
           }}
           >
-            <Text style={{ fontSize: 18, color: '#b5b5b5', marginLeft: 38 }}>Dernier débit</Text>
-            <Text style={{
-              fontSize: 18, letterSpacing: 0.4, marginLeft: 35, fontWeight: '800', color: '#ff5640',
-            }}
+            <Text category="h6" appearance="hint" style={{ marginLeft: 32 }}>Dernier débit</Text>
+            <Text
+              category="h4"
+              status="danger"
+              style={{
+                marginLeft: 35,
+              }}
             >
               - 80 €
             </Text>
@@ -101,7 +87,7 @@ const styles = StyleSheet.create({
   window: {
     flexDirection: 'row',
     margin: 24,
-    marginTop: 35,
+    marginTop: 39,
     paddingTop: 31,
     paddingBottom: 28,
     paddingHorizontal: 37,

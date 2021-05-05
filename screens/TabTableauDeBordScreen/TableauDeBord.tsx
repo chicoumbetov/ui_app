@@ -160,7 +160,7 @@ function TableauDeBord() {
         />
 
         <Button
-          style={{ marginVertical: 32 }}
+          size="large"
           onPress={() => { onAjoutBien(); }}
         >
           Ajouter un nouveau bien

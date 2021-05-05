@@ -251,7 +251,7 @@ function AjoutBienScreen() {
             <TextInputComp name="adresse" placeholder="Adresse" />
             <TextInputComp name="complement" placeholder="Complément d'adresse" />
             <TextInputComp name="codePostal" placeholder="Code Postal" />
-            <TextInputComp name="ville" placeholder="Ville" />
+            <TextInputComp name="ville" placeholder="Ville" icon="calendar-outline" />
             <TextInputComp name="pays" placeholder="Pays" />
           </View>
           )}
@@ -342,10 +342,10 @@ function AjoutBienScreen() {
 
           <Layout style={{ marginBottom: 10 }}>
             <Button
-              style={{ width: 130 }}
               onPress={ajoutBienForm.handleSubmit((e) => {
                 console.log(e);
               })}
+              size="large"
             >
               Valider
             </Button>

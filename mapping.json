@@ -5,7 +5,8 @@
     "text-label-font-weight": "500",
     "text-label-font-family": "HouschkaRoundedMedium",
     "text-subtitle-2-font-family": "HouschkaRoundedDemiBold",
-    "size-large": 64,
+    "size-large": 40,
+    "border-radius": 7,
 
     "text-heading-1-font-size": 25,
     "text-heading-1-font-weight": 600,
@@ -640,6 +641,7 @@
             "paddingHorizontal": 8,
             "textMarginHorizontal": 8,
             "textFontFamily": "text-font-family",
+            "textFontSize": "text-label-font-size",
             "iconWidth": 24,
             "iconHeight": 24,
             "iconMarginHorizontal": 8,
@@ -660,7 +662,7 @@
                 "labelColor": "text-hint-color",
                 "captionColor": "text-hint-color",
                 "placeholderColor": "text-hint-color",
-                "iconTintColor": "text-hint-color",
+                "iconTintColor": "text-basic-color",
                 "state": {
                   "focused": {
                     "borderColor": "color-primary-default",
@@ -912,6 +914,14 @@
                 "borderRadius": "border-radius",
                 "borderWidth": "border-width",
                 "paddingVertical": 6,
+                "textFontSize": "text-subtitle-1-font-size",
+                "textFontWeight": "normal"
+              },
+              "medium": {
+                "minHeight": "size-medium",
+                "borderRadius": "border-radius",
+                "borderWidth": "border-width",
+                "paddingVertical": 7,
                 "textFontSize": "text-subtitle-1-font-size",
                 "textFontWeight": "normal"
               }

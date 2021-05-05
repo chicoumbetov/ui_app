@@ -8,7 +8,7 @@ import React, { useEffect, useState } from 'react';
 import { Layout, Text } from '@ui-kitten/components';
 
 // import { API, graphqlOperation } from 'aws-amplify';
-import { LogBox, ScrollView, StyleSheet } from 'react-native';
+import { ScrollView, StyleSheet } from 'react-native';
 import ComptesBancaires from './Components/ComptesBancaires';
 import comptesData from '../../mockData/comptesData';
 // import { listComptes } from '../../src/graphql/queries';
@@ -36,9 +36,11 @@ const MaTresorerie = () => {
       style={{ backgroundColor: '#efefef' }}
     >
       <Layout style={styles.container}>
-        <Text style={{
-          fontSize: 26, fontWeight: '600', letterSpacing: 0.2, marginLeft: 26, marginTop: 33,
-        }}
+        <Text
+          category="h1"
+          style={{
+            letterSpacing: 0.2, marginLeft: 26, marginTop: 33,
+          }}
         >
           Ma Trésorerie
         </Text>

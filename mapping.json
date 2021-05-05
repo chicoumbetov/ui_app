@@ -6,7 +6,12 @@
     "text-label-font-family": "HouschkaRoundedMedium",
     "text-subtitle-1-font-size": 16,
     "text-subtitle-2-font-family": "HouschkaRoundedDemiBold",
-    "size-large": 64
+    "size-large": 64,
+
+    "text-heading-1-font-size": 25,
+    "text-heading-1-font-family": "HouschkaRoundedDemiBold",
+
+    "text-heading-2-font-size": 21
   },
   "components": {
     "BottomNavigationTab": {

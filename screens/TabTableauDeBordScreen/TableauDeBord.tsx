@@ -39,7 +39,7 @@ function TableauDeBord() {
        *  Trésorerie section
        */}
       <Layout style={styles.container}>
-        <Text style={{ fontSize: 25, fontFamily: 'HouschkaRoundedDemiBold' }}>
+        <Text category="h1">
           Trésorerie
         </Text>
         <Layout style={{
@@ -86,7 +86,7 @@ function TableauDeBord() {
       *  Mes Biens section
       */}
       <Layout style={styles.containerBiens}>
-        <Text style={{ fontSize: 25, letterSpacing: 0.5, fontFamily: 'HouschkaRoundedDemiBold' }}>
+        <Text category="h1" style={{ letterSpacing: 0.5 }}>
           Mes Biens
         </Text>
 
@@ -170,7 +170,7 @@ function TableauDeBord() {
        *  Notifications
        */}
       <Layout style={styles.container}>
-        <Text style={{ fontSize: 25, marginTop: -5, fontFamily: 'HouschkaRoundedDemiBold' }}>
+        <Text category="h1" style={{ marginTop: -5 }}>
           Notifications
         </Text>
         <Layout style={{

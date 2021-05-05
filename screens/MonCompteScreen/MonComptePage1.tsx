@@ -72,7 +72,7 @@ export default function MonComptePage1() {
           flex: 1, backgroundColor: 'rgba(246, 246, 246, 0.5)', paddingHorizontal: 22, paddingTop: 37,
         }}
         >
-          <Text style={{ fontSize: 26, fontFamily: 'HouschkaRoundedDemiBold' }}>
+          <Text category="h1">
             Mon Compte
           </Text>
           <Layout style={{

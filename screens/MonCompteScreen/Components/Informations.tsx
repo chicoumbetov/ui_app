@@ -65,9 +65,11 @@ const Informations = (props: DataProps) => {
       flex: 1, backgroundColor: '#f6f6f6', paddingTop: 32, paddingHorizontal: 22, marginTop: 11,
     }}
     >
-      <Text style={{
-        fontSize: 21, fontWeight: '200', marginBottom: 36,
-      }}
+      <Text
+        category="h2"
+        style={{
+          fontWeight: '200', marginBottom: 36,
+        }}
       >
         Informations
       </Text>

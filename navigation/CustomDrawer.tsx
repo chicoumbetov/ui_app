@@ -20,7 +20,7 @@ import {
 import {
   Image, ImageProps, SafeAreaView, ScrollView, TouchableOpacity,
 } from 'react-native';
-import { InitialState, useLinkTo, useNavigation } from '@react-navigation/native';
+import { InitialState, useLinkTo } from '@react-navigation/native';
 import { Auth } from 'aws-amplify';
 import { DrawerContentComponentProps } from '@react-navigation/drawer/src/types';
 import comptesData from '../mockData/comptesData';
@@ -106,7 +106,6 @@ function findFocusedDrawerItem(state: InitialState) {
  */
 const CustomDrawer = (props: DrawerContentComponentProps) => {
   const { state } = props;
-  const navigation = useNavigation();
   const linkTo = useLinkTo();
   return (
     <SafeAreaView>

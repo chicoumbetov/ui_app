@@ -11,8 +11,8 @@ import {
   ScrollView, StyleSheet,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { colors } from '../../../assets/styles';
-import MonBien from './MonBien';
+import { colors } from '../../assets/styles';
+import MonBien from './Components/MonBien';
 
 function MesBiens() {
   const navigation = useNavigation();

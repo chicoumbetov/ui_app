@@ -9,8 +9,8 @@ import { Layout, Text } from '@ui-kitten/components';
 
 // import { API, graphqlOperation } from 'aws-amplify';
 import { LogBox, ScrollView, StyleSheet } from 'react-native';
-import ComptesBancaires from './ComptesBancaires';
-import comptesData from '../../../mockData/comptesData';
+import ComptesBancaires from './Components/ComptesBancaires';
+import comptesData from '../../mockData/comptesData';
 // import { listComptes } from '../../src/graphql/queries';
 /*
   useEffect(() => {

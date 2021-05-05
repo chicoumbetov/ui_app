@@ -994,7 +994,7 @@
                   "active": {
                     "borderColor": "color-info-300",
                     "backgroundColor": "color-info-300",
-                    "iconTintColor": "text-alternate-color",
+                    "iconTintColor": "text-alternate-color"
                   },
                   "disabled": {
                     "borderColor": "border-basic-color-4",

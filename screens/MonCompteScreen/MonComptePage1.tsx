@@ -12,13 +12,13 @@ import {
 } from 'react-native';
 // import { API, graphqlOperation, DataStore } from 'aws-amplify';
 import { useState } from 'react';
-import Informations from './Informations';
+import Informations from './Components/Informations';
 
 // import { Client } from '../../src/models';
 // import { getClient } from '../../src/graphql/queries';
 
-import clientData from '../../../mockData/clientDATA';
-import Abonnement from './Abonnement';
+import clientData from '../../mockData/clientDATA';
+import Abonnement from './Components/Abonnement';
 
 export default function MonComptePage1() {
   const [clients, updateClients] = useState(clientData);
@@ -80,7 +80,7 @@ export default function MonComptePage1() {
           }}
           >
             <Image
-              source={require('../../../assets/Icones_omedom/avatars/avatar_1.png')}
+              source={require('../../assets/Icones_omedom/avatars/avatar_1.png')}
               style={{ height: 109, width: 108 }}
             />
 

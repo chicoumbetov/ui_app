@@ -1,7 +1,7 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import * as React from 'react';
 import { TabMonCompteParamList } from '../types';
-import MonComptePage1 from '../screens/MonCompteScreen/Components/MonComptePage1';
+import MonComptePage1 from '../screens/MonCompteScreen/MonComptePage1';
 import ModifierInfo1 from '../screens/MonCompteScreen/Components/ModifierInfo1';
 import ModifierInfo2 from '../screens/MonCompteScreen/Components/ModifierInfo2';
 import ModifierInfo3 from '../screens/MonCompteScreen/Components/ModifierInfo3';

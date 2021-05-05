@@ -9,9 +9,6 @@ import {
   StyleSheet,
 } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import {
-  InitialState, NavigationProp, NavigationState,
-} from '@react-navigation/native';
 
 import BottomTabNavigator from './BottomTabNavigator';
 import CustomDrawer from './CustomDrawer';

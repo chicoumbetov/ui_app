@@ -5,7 +5,7 @@ import {
   FlatList, StyleSheet, TouchableOpacity,
 } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
-import { colors } from '../../../assets/styles';
+import { colors } from '../../assets/styles';
 
 const DATA = [
   {

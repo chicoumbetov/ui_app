@@ -65,7 +65,7 @@ import AjoutCompte from '../screens/TabMaTresorerieScreen/Components/AjoutCompte
 
 /** import Mes Charges screens */
 import AjoutBienScreen from '../screens/AjoutBienScreen/AjoutBienScreen';
-import MesCharges1 from '../screens/MesChargesScreen/Components/MesCharges1';
+import MesCharges1 from '../screens/MesChargesScreen/MesCharges1';
 import MesCharges2 from '../screens/MesChargesScreen/Components/MesCharges2';
 import MesCharges3 from '../screens/MesChargesScreen/Components/MesCharges3';
 

@@ -40,6 +40,10 @@
     "text-paragraph-1-font-weight": 500,
     "text-paragraph-1-font-family": "HouschkaRoundedMedium",
 
+    "text-paragraph-2-font-size": 15,
+    "text-paragraph-2-font-weight": 500,
+    "text-paragraph-2-font-family": "HouschkaRoundedMedium",
+
 
     "border-radius": 7
 
@@ -1085,7 +1089,7 @@
             },
             "size": {
               "large": {
-                "borderRadius": 0,
+                "borderRadius": 7,
                 "borderWidth": "border-width",
                 "minHeight": "size-large",
                 "paddingVertical": 11,

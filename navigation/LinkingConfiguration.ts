@@ -10,6 +10,7 @@ export default {
             path: '',
             screens: {
               'mes-biens-nav': {
+                initialRouteName: 'mes-biens',
                 path: 'mes-biens',
                 screens: {
                   'mes-biens': '/',

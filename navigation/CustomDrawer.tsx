@@ -27,13 +27,16 @@ import { RenderProp } from '@ui-kitten/components/devsupport';
 import comptesData from '../mockData/comptesData';
 import Icon, { IconName } from '../components/Icon/Icon';
 import ManAvatar from '../assets/Omedom_Icons_svg/Avatars/manAvatar.svg';
+import {Icon as IconUIKitten} from '@ui-kitten/components';
+import {DrawerContentScrollView} from "@react-navigation/drawer";
+import {useSafeAreaInsets} from "react-native-safe-area-context";
 
 /**
  * 2. Icons
  */
 // Icons
 // eslint-disable-next-line max-len
-const IconGenerator = (name: IconName): RenderProp<Partial<ImageProps>> => (props?: Partial<ImageProps>) => {
+const IconGenerator = (name: IconName, uikitten?: boolean): RenderProp<Partial<ImageProps>> => (props?: Partial<ImageProps>) => {
   let width;
   let color;
   if (props) {
@@ -45,25 +48,28 @@ const IconGenerator = (name: IconName): RenderProp<Partial<ImageProps>> => (prop
       color = style.tintColor;
     }
   }
+  if (uikitten) {
+    return <IconUIKitten name={name} fill={color} style={{width, height : props?.style?.height}}/>;
+  }
 
   return <Icon name={name} size={width} color={color} />;
 };
 
-const GridIcon = IconGenerator('grid-outline');
+const GridIcon = IconGenerator('grid-outline', true);
 
 const MoneyIcon = IconGenerator('money');
 
 const QuestionIcon = IconGenerator('question');
 
-const BellIcon = IconGenerator('bell-outline');
+const BellIcon = IconGenerator('bell-outline', true);
 
-const PersonIcon = IconGenerator('person-outline');
+const PersonIcon = IconGenerator('person-outline', true);
 
-const HomeIcon = IconGenerator('home-outline');
+const HomeIcon = IconGenerator('home-outline', true);
 
-const PaperIcon = IconGenerator('file-text-outline1');
+const PaperIcon = IconGenerator('file-text-outline', true);
 
-const EmailIcon = IconGenerator('email-outline');
+const EmailIcon = IconGenerator('email-outline', true);
 
 function findIndexByRouteName(name?: string) {
   switch (name) {
@@ -112,10 +118,10 @@ function findFocusedDrawerItem(state: InitialState) {
  */
 const CustomDrawer = (props: DrawerContentComponentProps) => {
   const { state } = props;
+  const inset = useSafeAreaInsets();
   const linkTo = useLinkTo();
   return (
-    <SafeAreaView>
-      <ScrollView>
+    <DrawerContentScrollView style={{ flex: 1}} contentContainerStyle={{ flex: 1}}>
         <Layout style={{ flex: 1, justifyContent: 'space-between' }}>
 
           <Layout>
@@ -198,7 +204,7 @@ const CustomDrawer = (props: DrawerContentComponentProps) => {
           </Layout>
 
           <Layout style={{
-            paddingHorizontal: 29, paddingBottom: 24,
+            paddingHorizontal: 29, marginBottom: 10 + inset.bottom
           }}
           >
             <TouchableOpacity onPress={() => {
@@ -210,8 +216,7 @@ const CustomDrawer = (props: DrawerContentComponentProps) => {
           </Layout>
 
         </Layout>
-      </ScrollView>
-    </SafeAreaView>
+    </DrawerContentScrollView>
   );
 };
 

@@ -649,7 +649,6 @@
             "paddingHorizontal": 8,
             "textMarginHorizontal": 8,
             "textFontFamily": "text-font-family",
-            "textFontSize": "text-label-font-size",
             "iconWidth": 24,
             "iconHeight": 24,
             "iconMarginHorizontal": 8,
@@ -880,8 +879,8 @@
                 "minHeight": "size-medium",
                 "borderRadius": "border-radius",
                 "borderWidth": "border-width",
-                "paddingVertical": 7,
-                "textFontSize": "text-subtitle-1-font-size",
+                "paddingVertical": 16,
+                "textFontSize": "text-paragraph-1-font-size",
                 "textFontWeight": "normal"
               },
               "large": {

@@ -10,7 +10,9 @@ import {
   ScrollView, StyleSheet, TouchableOpacity, View,
 } from 'react-native';
 
-import { Button, Layout, Text } from '@ui-kitten/components';
+import {
+  Button, Layout, Text, useTheme,
+} from '@ui-kitten/components';
 
 import * as ImagePicker from 'expo-image-picker';
 import { colors } from '../../assets/styles';
@@ -50,6 +52,7 @@ const initialFormState = {
 };
 
 function AjoutBienScreen() {
+  const theme = useTheme();
   const [formState, updateFormState] = useState(initialFormState);
 
   const ajoutBienForm = useForm<AjoutBienForm>();
@@ -104,18 +107,20 @@ function AjoutBienScreen() {
        *  Identité
        */}
           <View
-            style={{
-              ...styles.item,
-              backgroundColor: ((etape === 0)
-                ? colors.blanc
-                : (colors.vert4)),
-            }}
+            style={[
+              styles.item,
+              {
+                backgroundColor: ((etape === 0)
+                  ? colors.blanc
+                  : (colors.vert4)),
+              },
+            ]}
           >
             <TouchableOpacity
               onPress={() => setEtape(0)}
             >
               <Text
-                category="H6"
+                category="h6"
 
               >
                 Identité (1/3)
@@ -225,18 +230,20 @@ function AjoutBienScreen() {
        *  Localisation
        */}
 
-          <View style={{
-            ...styles.item,
-            backgroundColor: ((etape === 1)
-              ? colors.blanc : ((etape === 0) ? colors.orange4 : colors.vert4)),
-            marginTop: 29,
-          }}
+          <View style={[
+            styles.item,
+            {
+              backgroundColor: ((etape === 1)
+                ? colors.blanc : ((etape === 0) ? theme['color-warning-100'] : colors.vert4)),
+              marginTop: 29,
+            },
+          ]}
           >
             <TouchableOpacity
               onPress={() => setEtape(1)}
             >
               <Text
-                category="H6"
+                category="h6"
               >
                 Localisation (2/3)
               </Text>
@@ -244,7 +251,7 @@ function AjoutBienScreen() {
           </View>
           {etape === 1 && (
           <View style={{ marginBottom: 30, marginLeft: 23, marginRight: 22 }}>
-            <TextInputComp style={{ marginBottom: 30 }} name="adresse" placeholder="Adresse" />
+            <TextInputComp style={{ marginBottom: 30 }} name="adresse" placeholder="Adresse" label="Adresse" />
             <TextInputComp style={{ marginBottom: 30 }} name="complement" placeholder="Complément d'adresse" />
             <TextInputComp style={{ marginBottom: 30 }} name="codePostal" placeholder="Code Postal" />
             <TextInputComp style={{ marginBottom: 30 }} name="ville" placeholder="Ville" />
@@ -266,7 +273,7 @@ function AjoutBienScreen() {
               onPress={() => setEtape(2)}
             >
               <Text
-                category="H6"
+                category="h6"
               >
                 Mode de détention (3/3)
               </Text>

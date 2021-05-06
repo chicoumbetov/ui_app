@@ -1,24 +1,9 @@
 import * as React from 'react';
-import {
-  View, StyleSheet, TextStyle, StyleProp, ViewStyle,
-} from 'react-native';
-import { FieldError } from 'react-hook-form';
+import { View, StyleSheet } from 'react-native';
 import { useEffect, useState } from 'react';
-import { Icon, IndexPath, InputProps } from '@ui-kitten/components';
-import { AvailableValidationRules } from './validation';
-import { ChangeValueCallbackType } from './Form';
+import { Icon, IconProps } from '@ui-kitten/components';
 import { Input } from '../UIKittenRewrite/Input';
-
-export type TextInputFormProps = Exclude<InputProps, 'onChangeText'> & {
-  name: string;
-  label?: string;
-  icon?: string;
-  labelStyle?: StyleProp<TextStyle>;
-  containerStyle?: StyleProp<ViewStyle>;
-  error?: FieldError | undefined;
-  validators?: Array<AvailableValidationRules>;
-  onChangeValue?: ChangeValueCallbackType;
-};
+import { TextInputFormProps } from './types';
 
 const TextInputComp = React.forwardRef<Input, TextInputFormProps>(
   (props: TextInputFormProps, ref): React.ReactElement => {
@@ -43,8 +28,8 @@ const TextInputComp = React.forwardRef<Input, TextInputFormProps>(
       if (onChangeValue && defaultValue) onChangeValue(inputValue);
     }, [inputValue]);
 
-    const renderIcon = (props) => (
-      <Icon {...props} name={icon} />
+    const renderIcon = (iconProps: IconProps) => (
+      <Icon {...iconProps} name={icon} />
     );
 
     return (

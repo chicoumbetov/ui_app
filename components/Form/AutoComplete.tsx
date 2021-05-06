@@ -1,29 +1,14 @@
 import * as React from 'react';
-import {
-  View, StyleSheet, TextStyle, ViewStyle, StyleProp,
-} from 'react-native';
-import { FieldError } from 'react-hook-form';
+import { View, StyleSheet } from 'react-native';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { PersistentModel } from '@aws-amplify/datastore';
 import { useRef, useImperativeHandle } from 'react';
 import { colors, fontSize, size } from '../../assets/styles';
-import { AvailableValidationRules } from './validation';
-import { AutoCompleteHandles, AutoCompleteProps } from '../AutoComplete/AutoComplete';
-import { ChangeValueCallbackType } from './Form';
+import { AutoCompleteHandles } from '../AutoComplete/AutoComplete';
 import Text from '../Text';
 
 import { AwsAutoComplete } from '../AutoComplete/AwsAutoComplete';
-
-export type AutoCompleteFormProps<T extends PersistentModel> = {
-  name: string;
-  label?: string;
-  labelStyle?: StyleProp<TextStyle>;
-  error?: FieldError | undefined;
-  style?: StyleProp<ViewStyle>;
-  validators?: Array<AvailableValidationRules>;
-  onChangeValue?: ChangeValueCallbackType;
-  itemsFormator: (allItems: T[], selectedItem?: T) => string | number;
-} & AutoCompleteProps<T>;
+import { AutoCompleteFormProps } from './types';
 
 // eslint-disable-next-line max-len
 const AutoCompleteComp = React.forwardRef<AutoCompleteHandles, AutoCompleteFormProps<PersistentModel>>(

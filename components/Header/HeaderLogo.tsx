@@ -1,24 +1,21 @@
 import React from 'react';
 import { DrawerActions, useNavigation } from '@react-navigation/native';
 import { TouchableOpacity } from 'react-native';
-import Icon from '../components/Icon';
+import Logo from '../../assets/logo.svg';
 
-const HeaderBurger = () => {
+const HeaderLogo = () => {
   const navigation = useNavigation();
-  // onPress !== undefined ? onPress :
+
   return (
     <TouchableOpacity
       onPress={() => {
         navigation.dispatch(DrawerActions.toggleDrawer());
       }}
-      style={{
-        marginTop: -1,
-        marginHorizontal: 21,
-      }}
+      style={{ justifyContent: 'center', alignItems: 'center', marginHorizontal: 28 }}
     >
-      <Icon name="menu-outline" status="primary" size={33} />
+      <Logo height={33} width={30} />
     </TouchableOpacity>
   );
 };
 
-export default HeaderBurger;
+export default HeaderLogo;

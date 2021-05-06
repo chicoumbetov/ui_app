@@ -23,6 +23,7 @@ import {
 import { InitialState, useLinkTo } from '@react-navigation/native';
 import { Auth } from 'aws-amplify';
 import { DrawerContentComponentProps } from '@react-navigation/drawer/src/types';
+import { RenderProp } from '@ui-kitten/components/devsupport';
 import comptesData from '../mockData/comptesData';
 import Icon, { IconName } from '../components/Icon/Icon';
 
@@ -30,15 +31,20 @@ import Icon, { IconName } from '../components/Icon/Icon';
  * 2. Icons
  */
 // Icons
-const IconGenerator = (name: IconName) => ({ style }: ImageProps) => {
-  let width; let
-    color;
-  if (style) {
-    // @ts-expect-error : UI-Kitten renverra un objet ImageStyle
-    width = style.width;
-    // @ts-expect-error : UI-Kitten renverra un objet ImageStyle
-    color = style.tintColor;
+// eslint-disable-next-line max-len
+const IconGenerator = (name: IconName): RenderProp<Partial<ImageProps>> => (props?: Partial<ImageProps>) => {
+  let width;
+  let color;
+  if (props) {
+    const { style } = props;
+    if (style) {
+      // @ts-ignore : Dans le cas de UI KItten ce sera une ImageProps
+      width = style.width;
+      // @ts-ignore : Dans le cas de UI KItten ce sera une ImageProps
+      color = style.tintColor;
+    }
   }
+
   return <Icon name={name} size={width} color={color} />;
 };
 
@@ -85,7 +91,6 @@ function findFocusedDrawerItem(state: InitialState) {
   let current: InitialState | undefined = state;
 
   while (current?.routes[current.index ?? 0].state != null) {
-    console.log(current?.routes[current.index ?? 0].name);
     const drawerIndex = findIndexByRouteName(current?.routes[current.index ?? 0].name);
     if (drawerIndex !== null) {
       return drawerIndex;
@@ -119,8 +124,8 @@ const CustomDrawer = (props: DrawerContentComponentProps) => {
               flexDirection: 'row',
             }}
             >
-              {/* eslint-disable-next-line global-require */}
               <Image
+                /* eslint-disable-next-line global-require */
                 source={require('../assets/Icones_omedom/avatars/avatar_1.png')}
                 style={{
                   height: 41, width: 41, marginRight: 18, marginLeft: 9,

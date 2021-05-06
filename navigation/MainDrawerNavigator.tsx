@@ -15,12 +15,13 @@ import CustomDrawer from './CustomDrawer';
 
 import Faq from '../screens/FaqScreen/Faq';
 import Contact from '../screens/ContactScreen/Contact';
-import HeaderLogo from './HeaderLogo';
-import HeaderBurger from './HeaderBurger';
-import HeaderBack from './HeaderBack';
+import HeaderLogo from '../components/Header/HeaderLogo';
+import HeaderBurger from '../components/Header/HeaderBurger';
+import HeaderBack from '../components/Header/HeaderBack';
 import MaTresorerieStackNavigator from './MaTresorerieStackNavigator';
 import MonCompteStackNavigator from './MonCompteStackNavigator';
 import { getStackInfos } from './Utils';
+import {useSafeAreaInsets} from "react-native-safe-area-context";
 
 const Drawer = createDrawerNavigator();
 
@@ -33,50 +34,52 @@ const getTitleFromName = (name?:string) => {
   }
 };
 
-const MainDrawerNavigator = () => (
-  <Drawer.Navigator
-    drawerContent={(props) => <CustomDrawer {...props} />}
-    initialRouteName="TableauDeBordDrawer"
-    screenOptions={({ navigation }) => {
-      const state = navigation.getState();
-      const { showBack, currentRouteName } = getStackInfos(state);
-      return {
-        title: getTitleFromName(currentRouteName),
-        headerLeft: () => (
-          showBack ? <HeaderBack />
-            : <HeaderLogo />
-        ),
-        headerRight: () => (
-          <HeaderBurger />
-        ),
-        headerStyle: {
-          height: 70,
-        },
-      };
-    }}
+const MainDrawerNavigator = () => {
+  const insets = useSafeAreaInsets();
+  return <Drawer.Navigator
+      drawerContent={(props) => <CustomDrawer {...props} />}
+      initialRouteName="TableauDeBordDrawer"
+      screenOptions={({navigation}) => {
+        const state = navigation.getState();
+        const {showBack, currentRouteName} = getStackInfos(state);
+        return {
+          title: getTitleFromName(currentRouteName),
+          headerLeft: () => (
+              showBack ? <HeaderBack/>
+                  :
+                  <HeaderBurger/>
+          ),
+          headerRight: () => (
+              <HeaderLogo/>
+          ),
+          headerStyle: {
+            height: 70 + insets.top,
+          },
+        };
+      }}
   >
     <Drawer.Screen
-      name="bottom-tab-nav"
-      component={BottomTabNavigator}
+        name="bottom-tab-nav"
+        component={BottomTabNavigator}
     />
     <Drawer.Screen
-      name="mon-compte-nav"
-      component={MonCompteStackNavigator}
+        name="mon-compte-nav"
+        component={MonCompteStackNavigator}
     />
     <Drawer.Screen
-      name="ma-tresorerie-nav"
-      component={MaTresorerieStackNavigator}
+        name="ma-tresorerie-nav"
+        component={MaTresorerieStackNavigator}
     />
     <Drawer.Screen
-      name="faq"
-      component={Faq}
+        name="faq"
+        component={Faq}
     />
     <Drawer.Screen
-      name="contact"
-      component={Contact}
+        name="contact"
+        component={Contact}
     />
   </Drawer.Navigator>
-);
+};
 
 export default MainDrawerNavigator;
 

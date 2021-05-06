@@ -1,3 +1,4 @@
+// @ts-nocheck Code venant de UI Kitten directement
 /**
  * @license
  * Copyright Akveo. All Rights Reserved.
@@ -212,6 +213,6 @@ const styles = StyleSheet.create({
   },
   indicator: {
     position: 'absolute',
-    bottom: 0,
+    bottom: 3,
   },
 });

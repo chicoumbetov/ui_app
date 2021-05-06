@@ -7,6 +7,10 @@ import { AuthStyles } from '../styles';
 export const ErrorMessage = ({ message }: ErrorMessageProps) => {
   const theme = useTheme();
 
+  if (!message) {
+    return <></>;
+  }
+
   return (
     <Layout style={[AuthStyles.header, { flexDirection: 'row' }]}>
       <Icon name="alert-triangle-outline" fill={theme['color-danger-default']} width={20} height={20} style={{ marginRight: 4 }} />
@@ -16,5 +20,5 @@ export const ErrorMessage = ({ message }: ErrorMessageProps) => {
 };
 
 export interface ErrorMessageProps {
-  message: string
+  message?: string
 }

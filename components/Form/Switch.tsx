@@ -1,29 +1,9 @@
 import * as React from 'react';
-import {
-  View,
-  StyleSheet,
-  TextStyle,
-  ViewStyle,
-  StyleProp,
-} from 'react-native';
-import { FieldError } from 'react-hook-form';
+import { View, StyleSheet } from 'react-native';
 import { useEffect, useState } from 'react';
-import {
-  Toggle, ToggleProps,
-} from '@ui-kitten/components';
+import { Toggle } from '@ui-kitten/components';
 import { FalsyText } from '@ui-kitten/components/devsupport';
-import { ChangeValueCallbackType } from './Form';
-
-export type SwitchFormProps = {
-  name: string;
-  label?: string;
-  labelPosition?: 'before' | 'after';
-  labelStyle?: StyleProp<TextStyle>;
-  error?: FieldError | undefined;
-  style?: StyleProp<ViewStyle>;
-  value?: boolean;
-  onChangeValue?: ChangeValueCallbackType;
-} & ToggleProps;
+import { SwitchFormProps } from './types';
 
 const Switch = React.forwardRef<Toggle, SwitchFormProps>(
   (props: SwitchFormProps, ref): React.ReactElement => {

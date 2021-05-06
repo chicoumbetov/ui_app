@@ -1,8 +1,8 @@
 import React from 'react';
 import { StackActions, useNavigation, useRoute } from '@react-navigation/native';
 import { TouchableOpacity } from 'react-native';
-import Icon from '../components/Icon';
-import debounce from '../utils/debounce';
+import Icon from '../Icon';
+import debounce from '../../utils/debounce';
 
 const HeaderBack = () => {
   const navigation = useNavigation();

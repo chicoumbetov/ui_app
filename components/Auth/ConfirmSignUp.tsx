@@ -6,10 +6,9 @@ import {
 } from '@ui-kitten/components';
 import { AuthStyles } from './styles';
 import { ErrorMessage } from './components/ErrorMessage';
-import { UsernameInput, UsernameType } from './components/UsernameInput';
 
 const MyConfirmSignUp = ({
-  error, goBack, confirmSignUp, usernameType, isUserNameNeeded,
+  error, goBack, confirmSignUp,
 }: ConfirmSignUpProps) => {
   const [confirmCode, setConfirmCode] = useState('');
   const [errorMessage, setErrorMessage] = useState<string>();
@@ -26,24 +25,6 @@ const MyConfirmSignUp = ({
       <Layout style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
 
         <Text category="h1" style={AuthStyles.header}>Confirm Inscription</Text>
-
-        {isUserNameNeeded && (
-          <UsernameInput
-            type={usernameType}
-            size="large"
-            textContentType="username"
-            autoCompleteType="username"
-            importantForAutofill="yes"
-            autoCapitalize="none"
-            returnKeyType="next"
-            onChangeText={(nextValue) => {
-              setErrorMessage(undefined);
-              setConfirmCode(nextValue);
-            }}
-            onSubmitEditing={() => confirmationCodeRef.current?.focus()}
-            style={AuthStyles.input}
-          />
-        )}
 
         <Input
           label="Confirmation code"
@@ -77,21 +58,15 @@ interface ConfirmSignUpProps {
   error?: string
   goBack: () => void
   confirmSignUp: (code: string) => void
-  usernameType: UsernameType
-  isUserNameNeeded: boolean
 }
 
 export default class ConfirmSignUp extends AmplifyConfirmSignUp {
-  showComponent(theme: any) {
-    const { usernameAttributes = 'username' } = this.props;
-
+  showComponent() {
     return (
       <MyConfirmSignUp
         goBack={() => this.changeState('signIn')}
         error={this.state.error}
         confirmSignUp={(code) => this.setState({ code, error: null }, this.confirm)}
-        usernameType={usernameAttributes}
-        isUserNameNeeded={this.getUsernameFromInput() === null}
       />
     );
   }

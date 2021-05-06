@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { SignIn as AmplifySignIn } from 'aws-amplify-react-native';
 import {
-  Image, Platform,
+  Image,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Button, Layout, Text } from '@ui-kitten/components';
@@ -9,10 +9,10 @@ import { useForm } from 'react-hook-form';
 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Form from '../Form/Form';
-import { AuthStyles } from './styles';
 import TextInputComp from '../Form/TextInput';
 import Radio from '../Form/Radio';
 import { AvailableValidationRules } from '../Form/validation';
+import { ErrorMessage } from './components/ErrorMessage';
 
 interface SignInProps {
   signUp: () => void
@@ -81,10 +81,7 @@ const MySigIn = ({
               </Text>
             </Layout>
 
-            {/**
-            <Text category="h1" style={AuthStyles.header}>Se connecter</Text>
-            */}
-            <Text category="h1" style={AuthStyles.header}>{errorMessage}</Text>
+            <ErrorMessage message={errorMessage} />
             <TextInputComp
               name="email"
               placeholder="Votre e-mail"
@@ -150,14 +147,17 @@ const MySigIn = ({
 };
 
 export default class SignIn extends AmplifySignIn {
-  showComponent(theme: any) {
+  showComponent() {
     return (
       <MySigIn
+        // @ts-expect-error : AWS does not expose Types
         signUp={() => this.changeState('signUp')}
+        // @ts-expect-error : AWS does not expose Types
         forgotPassword={() => this.changeState('forgotPassword')}
         signIn={(email: string, password: string) => {
           this.setState({
             password, email, phone_number: email, error: null,
+          // @ts-expect-error : AWS does not expose Types
           }, this.signIn);
         }}
         error={this.state.error}

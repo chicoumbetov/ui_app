@@ -1,25 +1,11 @@
 import * as React from 'react';
-import {
-  View, StyleSheet, TextStyle, TextInputProps, StyleProp, ViewStyle,
-} from 'react-native';
-import { FieldError } from 'react-hook-form';
+import { View, StyleSheet } from 'react-native';
 import { useEffect, useState } from 'react';
 import PhoneInput from 'react-native-phone-number-input';
 import { colors, fontSize, size } from '../../assets/styles';
-import { AvailableValidationRules } from './validation';
 import Text from '../Text';
-import { ChangeValueCallbackType } from './Form';
 import Icon from '../Icon';
-
-export type PhoneNumberInputFormProps = Exclude<TextInputProps, 'onChangeText'> & {
-  name: string;
-  label?: string;
-  labelStyle?: StyleProp<TextStyle>;
-  containerStyle?: StyleProp<ViewStyle>;
-  error?: FieldError | undefined;
-  validators?: Array<AvailableValidationRules>;
-  onChangeValue?: ChangeValueCallbackType;
-};
+import { PhoneNumberInputFormProps } from './types';
 
 const PhoneNumberInputComp = React.forwardRef<PhoneInput, PhoneNumberInputFormProps>(
   (props: PhoneNumberInputFormProps, ref): React.ReactElement => {

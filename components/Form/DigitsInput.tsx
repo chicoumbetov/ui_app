@@ -7,8 +7,8 @@ import {
   StyleService, Text, useStyleSheet, Modal,
 } from '@ui-kitten/components';
 import { FalsyText } from '@ui-kitten/components/devsupport';
-import { TextInputFormProps } from './TextInput';
 import { useForwardedRef } from '../../utils/CustomHooks';
+import { TextInputFormProps } from './types';
 
 export type DigitsInputFormProps = Exclude<TextInputFormProps, 'placeholder'> & {
   numberOfDigits: number;
@@ -141,7 +141,9 @@ const themedStyles = StyleService.create({
     backgroundColor: 'background-basic-color-2',
     paddingHorizontal: 8,
     minHeight: 'size-medium',
+    // @ts-ignore
     borderRadius: 'border-radius',
+    // @ts-ignore
     borderWidth: 'border-width',
     paddingVertical: 7,
     flexDirection: 'row',

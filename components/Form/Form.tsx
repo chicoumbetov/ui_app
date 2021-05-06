@@ -5,21 +5,14 @@
  */
 import * as React from 'react';
 import {
-  FieldError, FormState,
+  FormState,
 } from 'react-hook-form';
-import { Switch, TextInput } from 'react-native';
 import _ from 'lodash';
 import { UseFormRegister, UseFormSetValue } from 'react-hook-form/dist/types/form';
-import { AvailableValidationRules, composeValidationRules } from './validation';
-import { SelectHandles } from './Select';
-import { AutoCompleteHandles } from './AutoComplete';
+import { composeValidationRules, ValidationRuleConfig } from './validation';
 import { useUpdateEffect } from '../../utils/CustomHooks';
+import { PossibleFields } from './types/Form';
 
-export interface ErrorMap {
-  [key: string]: FieldError | undefined;
-}
-export type PossibleFields = TextInput | SelectHandles | Switch | AutoCompleteHandles;
-export type ChangeValueCallbackType = (v?: string | boolean | number) => void;
 interface Props<T> {
   children: React.ReactElement;
   register: UseFormRegister<T>;
@@ -27,11 +20,7 @@ interface Props<T> {
   setValue: UseFormSetValue<T>;
   defaultValues?: Partial<T>;
 }
-export type ChildProp = {
-  name: string;
-  validators: AvailableValidationRules[];
-  label: string;
-};
+
 export default function Form<T>({
   register,
   formState,
@@ -43,7 +32,7 @@ export default function Form<T>({
   const registerMyInput = (
     name: string,
     label: string,
-    validators: AvailableValidationRules[],
+    validators: ValidationRuleConfig,
     setInitialValue = false,
   ) => {
     if (name) {

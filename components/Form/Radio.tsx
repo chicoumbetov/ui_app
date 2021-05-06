@@ -1,29 +1,10 @@
 import * as React from 'react';
-import {
-  View,
-  StyleSheet,
-  TextStyle,
-  ViewStyle,
-  StyleProp,
-} from 'react-native';
-import { FieldError } from 'react-hook-form';
-import { useEffect, useState } from 'react';
-import {
-  Radio, RadioProps,
-} from '@ui-kitten/components';
-import { FalsyText } from '@ui-kitten/components/devsupport';
-import { ChangeValueCallbackType } from './Form';
+import { View, StyleSheet } from 'react-native';
 
-export type RadioFormProps = {
-  name: string;
-  label?: string;
-  labelPosition?: 'before' | 'after';
-  labelStyle?: StyleProp<TextStyle>;
-  error?: FieldError | undefined;
-  style?: StyleProp<ViewStyle>;
-  value?: boolean;
-  onChangeValue?: ChangeValueCallbackType;
-} & RadioProps;
+import { useEffect, useState } from 'react';
+import { Radio } from '@ui-kitten/components';
+import { FalsyText } from '@ui-kitten/components/devsupport';
+import { RadioFormProps } from './types';
 
 const RadioComp = React.forwardRef<Radio, RadioFormProps>(
   (props: RadioFormProps, ref): React.ReactElement => {

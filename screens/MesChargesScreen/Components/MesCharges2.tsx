@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Layout, RadioGroup, Radio, Text, Button,
 } from '@ui-kitten/components';
@@ -16,6 +16,10 @@ const MesCharges2 = ({ charges }) => {
   const onMesCharges3 = () => {
     navigation.navigate('MesCharges3');
   };
+
+  useEffect(() => {
+    console.log('useEffect test of MesCharges 2');
+  });
 
   return (
 

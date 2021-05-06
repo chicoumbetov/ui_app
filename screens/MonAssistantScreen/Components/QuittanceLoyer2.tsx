@@ -1,7 +1,7 @@
 import React from 'react';
 import { Icon, Layout, Text } from '@ui-kitten/components';
 import { StyleSheet, TouchableOpacity } from 'react-native';
-import { Entypo, SimpleLineIcons } from '@expo/vector-icons';
+
 import CompteHeader from '../../../components/CompteHeader/CompteHeader';
 import clientData from '../../../mockData/clientDATA';
 
@@ -10,14 +10,14 @@ const QuittanceLoyer2 = () => (
   <Layout style={styles.containerOut}>
 
     <Layout style={styles.container}>
-      <Text category="h1" style={styles.title}>Générer une quittance de loyer</Text>
+      <Text category="h1" style={{ marginBottom: 6 }}>Générer une quittance de loyer</Text>
       <Layout style={{ marginTop: 20, backgroundColor: 'transparent' }}>
         <CompteHeader title={clientData.Client.fields[1].prenom} />
       </Layout>
     </Layout>
 
     <Layout style={styles.containerDocument}>
-      <Text category="h2" style={styles.subtitle}>Votre document est prêt</Text>
+      <Text category="h2" style={{ marginBottom: 41 }}>Votre document est prêt</Text>
       <Layout style={styles.docs}>
         <Text category="p2">Quittance_Loyer_Maison_de_JP</Text>
 
@@ -51,9 +51,6 @@ const styles = StyleSheet.create({
     marginBottom: 13,
     backgroundColor: 'rgba(246, 246, 246, 0.5)',
   },
-  title: {
-    marginBottom: 6,
-  },
   containerDocument: {
     flex: 1,
     paddingLeft: 27,
@@ -61,9 +58,6 @@ const styles = StyleSheet.create({
     paddingTop: 33,
     marginBottom: 13,
     backgroundColor: 'rgba(246, 246, 246, 0.5)',
-  },
-  subtitle: {
-    marginBottom: 41,
   },
   docs: {
     flexDirection: 'row',
@@ -83,13 +77,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 1,
 
     backgroundColor: '#fff',
-    fontWeight: 'normal',
     borderColor: 'transparent',
     shadowColor: '#dedede',
-  },
-  quittanceText: {
-    fontSize: 16,
-    letterSpacing: 0.4,
-    fontFamily: 'HouschkaRoundedDemiBold',
   },
 });

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Icon, Layout, Text } from '@ui-kitten/components';
 import { StyleSheet, TouchableOpacity } from 'react-native';
-import { Entypo, SimpleLineIcons } from '@expo/vector-icons';
+
 import CompteHeader from '../../../components/CompteHeader/CompteHeader';
 import clientData from '../../../mockData/clientDATA';
 
@@ -10,16 +10,16 @@ const DeclarationImpots = () => (
   <Layout style={styles.containerOut}>
 
     <Layout style={styles.container}>
-      <Text style={styles.title}>Paramétrer mon aide à la déclaration d'impôts</Text>
+      <Text style={{ marginBottom: 6 }}>Paramétrer mon aide à la déclaration d'impôts</Text>
       <Layout style={{ marginTop: 20, backgroundColor: 'transparent' }}>
         <CompteHeader title={clientData.Client.fields[1].prenom} />
       </Layout>
     </Layout>
 
     <Layout style={styles.containerDocument}>
-      <Text style={styles.subtitle}>Votre document est prêt</Text>
+      <Text category="h2" style={{ marginBottom: 41 }}>Votre document est prêt</Text>
       <Layout style={styles.docs}>
-        <Text style={styles.aideText}>Aide_Déclaration_Impôts_2021</Text>
+        <Text category="p2">Aide_Déclaration_Impôts_2021</Text>
 
         <Layout style={{ flexDirection: 'row' }}>
           <TouchableOpacity onPress={() => {}}>
@@ -50,13 +50,6 @@ const styles = StyleSheet.create({
     marginBottom: 13,
     backgroundColor: 'rgba(246, 246, 246, 0.5)',
   },
-  title: {
-    fontSize: 25,
-    marginBottom: 6,
-    lineHeight: 30,
-    letterSpacing: 0.3,
-    fontFamily: 'HouschkaRoundedDemiBold',
-  },
   containerDocument: {
     flex: 1,
     paddingLeft: 27,
@@ -64,12 +57,6 @@ const styles = StyleSheet.create({
     paddingTop: 33,
     marginBottom: 13,
     backgroundColor: 'rgba(246, 246, 246, 0.5)',
-  },
-  subtitle: {
-    fontSize: 20,
-    fontFamily: 'HouschkaRoundedMedium',
-    letterSpacing: 0.6,
-    marginBottom: 41,
   },
   docs: {
     flexDirection: 'row',
@@ -89,18 +76,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 1,
 
     backgroundColor: '#fff',
-    fontWeight: 'normal',
     borderColor: 'transparent',
     shadowColor: '#dedede',
-  },
-  aideText: {
-    fontSize: 15,
-    letterSpacing: 0.01,
-    fontFamily: 'HouschkaRoundedMedium',
-  },
-  quittanceText: {
-    fontSize: 16,
-    letterSpacing: 0.4,
-    fontFamily: 'HouschkaRoundedDemiBold',
   },
 });

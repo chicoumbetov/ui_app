@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import { Layout, Text } from '@ui-kitten/components';
 import { useNavigation } from '@react-navigation/native';
@@ -58,6 +58,11 @@ const AbonnementComp = () => {
   const onPress = () => {
     navigation.navigate('ModifierInfo1');
   };
+
+  useEffect(() => {
+    console.log('useEffect test of Abonnement component');
+  });
+
   // eslint-disable-next-line implicit-arrow-linebreak
   return (
 

@@ -1,73 +1,65 @@
-import React from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import React, { useEffect } from 'react';
+import {
+  StyleSheet, View,
+} from 'react-native';
 import {
   Button, Layout, Text,
 } from '@ui-kitten/components';
 import { useNavigation } from '@react-navigation/native';
-import TextInputComp from '../../../components/Form/TextInput';
+import TextInputComp from '../../components/Form/TextInput';
 
-const Informations = () => {
+const ModifierInfo1 = () => {
+  const [prenom, setPrenom] = React.useState('');
+  const [nom, setNom] = React.useState('');
+  const [email, setEmail] = React.useState('');
+  const [motDePasee, setMotDePasse] = React.useState('');
+  const [numeroTel, setNumeroTel] = React.useState('');
+
   const navigation = useNavigation();
-
   const onPress = () => {
-    navigation.navigate('ModifierInfo3');
+    navigation.navigate('ModifierInfo2');
   };
+
+  useEffect(() => {
+    console.log('useEffect test of ModifierInfo 1');
+  });
+
   return (
-    <ScrollView
-      showsVerticalScrollIndicator={false}
-      style={styles.container}
-    >
+    <Layout style={styles.container}>
       <View>
         <Text category="h1" style={styles.title}>Modifier vos informations</Text>
       </View>
 
-      <View style={{
-        flexDirection: 'row', marginBottom: 20, alignItems: 'center',
-      }}
-      >
-        <View style={{ marginRight: 20 }}>
-          <Text category="p1">Votre date de naissance</Text>
-        </View>
-
-        <Layout style={{ flex: 1, backgroundColor: 'transparent' }}>
-          <TextInputComp
-            name="dateDeNaissance"
-            placeholder="dd/mm/yyyy"
-            icon="calendar-outline"
-          />
-        </Layout>
-      </View>
-
       <TextInputComp
-        name="adresse"
-        placeholder="Adresse"
+        name="prenom"
+        placeholder="Changer prènom"
       />
 
       <Layout style={{ marginTop: 20, backgroundColor: 'transparent' }}>
         <TextInputComp
-          name="adresseComplement"
-          placeholder="Complément d'adresse"
+          name="nom"
+          placeholder="Changer nom"
         />
       </Layout>
 
       <Layout style={{ marginTop: 20, backgroundColor: 'transparent' }}>
         <TextInputComp
-          name="codePostal"
-          placeholder="Code postale"
+          name="email"
+          placeholder="Changer email"
         />
       </Layout>
 
       <Layout style={{ marginTop: 20, backgroundColor: 'transparent' }}>
         <TextInputComp
-          name="ville"
-          placeholder="Ville"
+          name="motDePasse"
+          placeholder="Changer mot de Passe"
         />
       </Layout>
 
       <Layout style={{ marginTop: 20, backgroundColor: 'transparent' }}>
         <TextInputComp
-          name="pays"
-          placeholder="Pays"
+          name="numeroTel"
+          placeholder="Changer numéro télephone"
         />
       </Layout>
 
@@ -77,7 +69,7 @@ const Informations = () => {
         </Button>
       </View>
 
-    </ScrollView>
+    </Layout>
 
   );
 };
@@ -95,4 +87,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Informations;
+export default ModifierInfo1;

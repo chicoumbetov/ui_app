@@ -1,19 +1,20 @@
 import React from 'react';
 import {
-  Image, ScrollView, StyleSheet, TouchableOpacity, View,
+  ScrollView, StyleSheet, TouchableOpacity, View,
 } from 'react-native';
 import { Button, Layout, Text } from '@ui-kitten/components';
-import { useNavigation } from '@react-navigation/native';
+import { useLinkTo, useNavigation } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
-import ManAvatar from '../../../assets/Omedom_Icons_svg/Avatars/manAvatar.svg';
-import WomanAvatar from '../../../assets/Omedom_Icons_svg/Avatars/womanAvatar.svg';
+import ManAvatar from '../../assets/Omedom_Icons_svg/Avatars/manAvatar.svg';
+import WomanAvatar from '../../assets/Omedom_Icons_svg/Avatars/womanAvatar.svg';
 
 const Informations = () => {
   const [value, setValue] = React.useState('');
   const navigation = useNavigation();
+  const linkTo = useLinkTo();
 
   const onPress = () => {
-    navigation.navigate('MonCompte');
+    linkTo('/');
   };
 
   const onTakePicture = () => (navigation.navigate('CameraDom'));
@@ -53,7 +54,6 @@ const Informations = () => {
       >
         <ManAvatar height={50} width={50} />
         <WomanAvatar height={50} width={50} />
-
       </Layout>
 
       <TouchableOpacity onPress={() => { onTakePicture(); }} style={{ marginVertical: 39 }}>
@@ -89,7 +89,7 @@ const Informations = () => {
 const styles = StyleSheet.create({
   container: {
     margin: 22,
-    backgroundColor: '#f6f6f6',
+    backgroundColor: 'transparent',
   },
   title: {
     marginTop: 18,

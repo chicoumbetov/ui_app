@@ -18,7 +18,7 @@ import {
   Drawer, DrawerItem, IndexPath, Layout, Text,
 } from '@ui-kitten/components';
 import {
-  Image, ImageProps, SafeAreaView, ScrollView, TouchableOpacity,
+  ImageProps, SafeAreaView, ScrollView, TouchableOpacity,
 } from 'react-native';
 import { InitialState, useLinkTo } from '@react-navigation/native';
 import { Auth } from 'aws-amplify';

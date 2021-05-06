@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Layout, Text } from '@ui-kitten/components';
 import { useNavigation } from '@react-navigation/native';
 import {
@@ -47,6 +47,10 @@ const MesCharges1 = () => {
     });
     setCharges(temp);
   };
+
+  useEffect(() => {
+    console.log('useEffect test of MesCharges 1');
+  });
 
   return (
 

@@ -5,16 +5,17 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import { Button, Layout, Text } from '@ui-kitten/components';
 import {
-  FlatList,
-  Image, LogBox, ScrollView, StyleSheet, TouchableOpacity,
+  Button, Icon, Layout, Text,
+} from '@ui-kitten/components';
+import {
+  FlatList, ScrollView, StyleSheet, TouchableOpacity, View,
 } from 'react-native';
+
 import { useLinkTo, useNavigation } from '@react-navigation/native';
-import { AntDesign, Feather, Ionicons } from '@expo/vector-icons';
-import { colors } from '../../assets/styles';
 import CompteHeader from '../../components/CompteHeader/CompteHeader';
 import comptesData from '../../mockData/comptesData';
+import MaisonVert from '../../assets/Omedom_Icons_svg/Logement/maison_verte.svg';
 
 function TableauDeBord() {
   const navigation = useNavigation();
@@ -33,6 +34,10 @@ function TableauDeBord() {
     linkTo('/mes-biens/ajouter');
   };
 
+  useEffect(() => {
+    console.log('useEffect test of Tableau de bord');
+  });
+
   return (
     <ScrollView style={{ backgroundColor: '#efefef' }}>
 
@@ -49,45 +54,52 @@ function TableauDeBord() {
         >
           <Layout style={{ flexDirection: 'row' }}>
             <Layout style={styles.oneThirdBlock}>
-              <Text style={styles.text}>Dernier crédit</Text>
-              <Text style={styles.incomeMouvement}>+ 500 €</Text>
-              <Image
-                source={require('../../assets/Icones_omedom/logements/maisonVert.png')}
-                style={styles.mouvementImage}
-              />
+              <Text appearance="hint" style={styles.text}>Dernier crédit</Text>
+              <Text category="h3" status="success" style={{ marginTop: 14 }}>+ 500 €</Text>
+              <View style={styles.mouvementImage}>
+                <MaisonVert height={42} width={44} />
+              </View>
+
             </Layout>
 
             <Layout style={styles.oneThirdBlock}>
-              <Text style={styles.text}>
+              <Text appearance="hint" style={styles.text}>
                 Dernier débit
               </Text>
-              <Text style={styles.mouvementText}>- 80 €</Text>
-              <Image
-                source={require('../../assets/Icones_omedom/logements/batimentVert.png')}
-                style={styles.mouvementImage}
-              />
+              <Text category="h3" status="danger" style={{ marginTop: 14 }}>- 80 €</Text>
+              {/**
+               * <MaisonVert height={42} width={44} style={styles.mouvementImage} />
+               * */}
+
             </Layout>
 
             <Layout style={styles.oneThirdBlock}>
-              <Text style={styles.text}>
+              <Text appearance="hint" style={styles.text}>
                 Prochain mouvement
               </Text>
-              <Text style={styles.mouvementText}>- 160 €</Text>
-              <Image
-                source={require('../../assets/Icones_omedom/logements/maisonVert.png')}
-                style={styles.mouvementImage}
-              />
+              <Text category="h3" status="danger" style={{ marginTop: 14 }}>- 160 €</Text>
+              {/**
+               * <MaisonVert height={42} width={44} style={styles.mouvementImage} />
+               * */}
+
             </Layout>
           </Layout>
         </Layout>
-        <Text style={styles.buttonText} onPress={allerTresorie}>Accéder à la trésorerie</Text>
+        <Text
+          category="h5"
+          status="info"
+          style={{ marginVertical: 10 }}
+          onPress={allerTresorie}
+        >
+          Accéder à la trésorerie
+        </Text>
       </Layout>
 
       {/**
       *  Mes Biens section
       */}
       <Layout style={styles.containerBiens}>
-        <Text category="h1" style={{ letterSpacing: 0.5 }}>
+        <Text category="h1">
           Mes Biens
         </Text>
 
@@ -101,7 +113,13 @@ function TableauDeBord() {
             >
               <TouchableOpacity onPress={() => {}} style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                 <CompteHeader title={item.title} />
-                <AntDesign name="right" size={12.5} style={{ color: '#b5b5b5', marginRight: 5, marginTop: 8 }} />
+                <Icon
+                  name="arrow-ios-forward"
+                  fill="#b5b5b5"
+                  style={{
+                    height: 16, width: 16, marginRight: 5, marginTop: 8,
+                  }}
+                />
               </TouchableOpacity>
 
               <Layout style={{ flexDirection: 'row', marginTop: 8, marginBottom: 5 }}>
@@ -112,45 +130,55 @@ function TableauDeBord() {
                 }}
                 >
 
-                  <Layout style={{ alignItems: 'center', flexDirection: 'row' }}>
-                    <Ionicons
-                      name="swap-vertical"
-                      size={18}
+                  <Layout style={{
+                    alignItems: 'center', flexDirection: 'row', marginTop: 14, marginRight: 8,
+                  }}
+                  >
+                    <Icon
+                      name="arrow-downward"
+                      fill="#b5b5b5"
+                      style={{ height: 16, width: 16 }}
+                    />
+                    <Icon
+                      name="arrow-upward"
+                      fill="#b5b5b5"
                       style={{
-                        marginTop: 14, marginRight: 8, color: '#b5b5b5',
+                        height: 16, width: 16, marginRight: 8,
                       }}
                     />
-                    <Text style={styles.biensIncomeMouvement}>+ 10 800 €</Text>
+
+                    <Text category="h5" status="success">+ 10 800 €</Text>
                   </Layout>
                 </Layout>
 
                 <Layout style={{
-                  flex: 1,
                   alignItems: 'center',
                   justifyContent: 'space-between',
+                  marginRight: 8,
                 }}
                 >
-                  <Layout style={{ alignItems: 'center', flexDirection: 'row' }}>
-                    <AntDesign name="arrowdown" size={13} style={{ marginTop: 14, color: '#b5b5b5' }} />
-                    <Text style={styles.mouvementText}>- 160 €</Text>
+                  <Layout style={{ alignItems: 'center', flexDirection: 'row', marginTop: 13 }}>
+                    <Icon
+                      name="arrow-downward"
+                      fill="#b5b5b5"
+                      style={{ height: 16, width: 16, marginRight: 8 }}
+                    />
+                    <Text category="h4" status="danger">- 160 €</Text>
                   </Layout>
                 </Layout>
 
                 <Layout style={{
-                  flex: 1,
                   alignItems: 'center',
                   justifyContent: 'space-between',
                 }}
                 >
-                  <Layout style={{ alignItems: 'center', flexDirection: 'row' }}>
-                    <Feather
+                  <Layout style={{ marginTop: 14, alignItems: 'center', flexDirection: 'row' }}>
+                    <Icon
                       name="trending-up"
-                      size={14}
-                      style={{
-                        marginTop: 14, marginRight: 8, fontWeight: 'bold', color: '#b5b5b5',
-                      }}
+                      fill="#b5b5b5"
+                      style={{ height: 18, width: 18, marginRight: 8 }}
                     />
-                    <Text style={styles.mouvementPourcent}>60 %</Text>
+                    <Text category="h4" status="warning">60 %</Text>
                   </Layout>
                 </Layout>
               </Layout>
@@ -162,6 +190,7 @@ function TableauDeBord() {
         <Button
           size="large"
           onPress={() => { onAjoutBien(); }}
+          style={{ marginVertical: 10 }}
         >
           Ajouter un nouveau bien
         </Button>
@@ -180,28 +209,38 @@ function TableauDeBord() {
         >
 
           <Layout style={{
-            marginRight: 20, flexDirection: 'row', backgroundColor: 'transparent',
+            marginRight: 20, flexDirection: 'row', backgroundColor: 'transparent', alignItems: 'center',
           }}
           >
-            <Image
-                  /* eslint-disable-next-line global-require */
-              source={require('../../assets/Icones_omedom/logements/maisonVert.png')}
-              style={{
-                height: 41, width: 41, marginRight: 18,
-              }}
-            />
+            {/**
+             * <MaisonVert height={42} width={44} style={{ marginRight: 18 }} />
+             */}
 
-            <Text style={{
-              fontSize: 15, width: 245, paddingTop: 12.5, letterSpacing: 0.2, fontFamily: 'HouschkaRoundedDemiBold',
-            }}
+            <Text
+              category="h6"
+              status="basic"
+              style={{ width: 250 }}
             >
               Un mouvement négatif a été détécté
             </Text>
-            <AntDesign name="right" size={12.5} style={{ color: '#b5b5b5', alignItems: 'center', marginTop: 15 }} />
+            <Icon
+              name="arrow-ios-forward"
+              fill="#b5b5b5"
+              style={{
+                height: 16, width: 16, marginRight: 5, alignItems: 'center',
+              }}
+            />
           </Layout>
 
         </Layout>
-        <Text style={styles.buttonText} onPress={allerNotificaitons}>Consulter les notifications</Text>
+        <Text
+          category="h5"
+          status="info"
+          style={{ marginTop: 21, marginBottom: 35 }}
+          onPress={allerNotificaitons}
+        >
+          Consulter les notifications
+        </Text>
       </Layout>
 
     </ScrollView>
@@ -214,14 +253,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#f6f6f6',
     marginTop: 12,
     paddingTop: 38,
-
     paddingHorizontal: 26,
   },
   containerBiens: {
     backgroundColor: '#f6f6f6',
     marginTop: 12,
     paddingTop: 38,
-
     paddingHorizontal: 23,
   },
   oneThirdBlock: {
@@ -231,54 +268,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   text: {
-    fontSize: 17,
     width: 94,
-    letterSpacing: 0.005,
-    lineHeight: 20,
     justifyContent: 'center',
-    color: colors.gris,
-    fontFamily: 'HouschkaRoundedDemiBold',
     textAlign: 'center',
   },
-  incomeMouvement: {
-    fontSize: 18.5,
-    marginTop: 14,
-    letterSpacing: 0.6,
-    color: '#00c29a',
-    fontFamily: 'HouschkaRoundedDemiBold',
-  },
-  biensIncomeMouvement: {
-    fontSize: 17,
-    marginTop: 14,
-    letterSpacing: 0.6,
-    color: colors.vert2,
-    fontFamily: 'HouschkaRoundedDemiBold',
-  },
-  mouvementText: {
-    fontSize: 18,
-    fontFamily: 'HouschkaRoundedDemiBold',
-    marginTop: 13,
-    color: colors.rouge,
-  },
-  mouvementPourcent: {
-    fontSize: 18,
-    fontFamily: 'HouschkaRoundedDemiBold',
-    marginTop: 13,
-    color: colors.jaune,
-  },
   mouvementImage: {
-    height: 42,
-    width: 44,
     marginRight: 3,
     marginTop: 15,
-  },
-  buttonText: {
-    fontSize: 16.5,
-    marginTop: 21,
-    marginBottom: 35,
-    letterSpacing: 0.15,
-    fontFamily: 'HouschkaRoundedDemiBold',
-    color: colors.bleu,
   },
 });
 

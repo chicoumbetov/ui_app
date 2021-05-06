@@ -1,7 +1,7 @@
 import React from 'react';
 import { StackActions, useNavigation, useRoute } from '@react-navigation/native';
 import { TouchableOpacity } from 'react-native';
-import Icon from '../Icon';
+import { Icon } from '@ui-kitten/components';
 import debounce from '../../utils/debounce';
 
 const HeaderBack = () => {
@@ -30,7 +30,7 @@ const HeaderBack = () => {
         marginHorizontal: 20,
       }}
     >
-      <Icon name="arrow-back-outline" size={30} />
+      <Icon name="arrow-back-outline" fill="#b5b5b5" style={{ height: 40, width: 40 }} />
     </TouchableOpacity>
   );
 };

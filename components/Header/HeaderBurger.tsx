@@ -1,7 +1,7 @@
 import React from 'react';
 import { DrawerActions, useNavigation } from '@react-navigation/native';
 import { TouchableOpacity } from 'react-native';
-import Icon from '../Icon';
+import { Icon } from '@ui-kitten/components';
 
 const HeaderBurger = () => {
   const navigation = useNavigation();
@@ -16,7 +16,7 @@ const HeaderBurger = () => {
         marginHorizontal: 21,
       }}
     >
-      <Icon name="menu-outline" status="primary" size={33} />
+      <Icon name="menu-outline" fill="#5eecb4" style={{ height: 40, width: 40 }} />
     </TouchableOpacity>
   );
 };

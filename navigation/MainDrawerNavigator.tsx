@@ -57,6 +57,7 @@ const MainDrawerNavigator = () => {
           },
         };
       }}
+      draw
   >
     <Drawer.Screen
         name="bottom-tab-nav"

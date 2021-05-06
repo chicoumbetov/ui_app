@@ -1,14 +1,14 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import * as React from 'react';
 
-import { BottomNavigationTab } from '@ui-kitten/components';
+import {BottomNavigationTab, Icon} from '@ui-kitten/components';
 
 import { SafeAreaView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import { BottomTabParamList } from '../types';
 
-import Icon from '../components/Icon';
+
 import { BottomNavigation } from './BottomNavigation';
 import MonAssistantStackNavigator from './MonAssistantStackNavigator';
 import Notifications from '../screens/NotificationsScreen/Notifications';
@@ -18,23 +18,23 @@ import { getStackInfos } from './Utils';
 import TableauDeBord from '../screens/TabTableauDeBordScreen/TableauDeBord';
 
 const HomeIcon = () => (
-  <Icon name="home-outline" size={30} status="primary" />
+    <Icon name="home-outline" fill='#5eecb4' style={{ height: 20, width: 20 }} />
 );
 
 const TrendingUpIcon = () => (
-  <Icon name="trending-up-outline" size={30} status="primary" />
+    <Icon name="trending-up-outline" fill='#5eecb4' style={{ height: 20, width: 20 }} />
 );
 
 const GridIcon = () => (
-  <Icon name="grid-outline" size={30} status="primary" />
+    <Icon name="grid-outline" fill='#5eecb4' style={{ height: 20, width: 20 }} />
 );
 
 const FileIcon = () => (
-  <Icon name="file-text-outline1" size={30} status="primary" />
+    <Icon name="file-text-outline" fill='#5eecb4' style={{ height: 20, width: 20 }} />
 );
 
 const BellIcon = () => (
-  <Icon name="bell-outline" size={30} status="primary" />
+    <Icon name="bell-outline" fill='#5eecb4' style={{ height: 20, width: 20 }} />
 );
 
 // create type Props for props. Do Not leave any props

@@ -16,12 +16,13 @@ import { useLinkTo, useNavigation } from '@react-navigation/native';
 import CompteHeader from '../../components/CompteHeader/CompteHeader';
 import comptesData from '../../mockData/comptesData';
 import MaisonVert from '../../assets/Omedom_Icons_svg/Logement/maison_verte.svg';
+import Immeuble from '../../assets/Omedom_Icons_svg/Logement/immeuble.svg';
 
 function TableauDeBord() {
   const navigation = useNavigation();
   const linkTo = useLinkTo();
 
-  const [compte, setCompte] = useState(comptesData);
+  // const [compte, setCompte] = useState(comptesData);
 
   const allerTresorie = () => {
     navigation.navigate('MaTrésorerieDrawer');
@@ -67,9 +68,9 @@ function TableauDeBord() {
                 Dernier débit
               </Text>
               <Text category="h3" status="danger" style={{ marginTop: 14 }}>- 80 €</Text>
-              {/**
-               * <MaisonVert height={42} width={44} style={styles.mouvementImage} />
-               * */}
+              <View style={styles.mouvementImage}>
+                <Immeuble height={42} width={44} />
+              </View>
 
             </Layout>
 
@@ -78,9 +79,9 @@ function TableauDeBord() {
                 Prochain mouvement
               </Text>
               <Text category="h3" status="danger" style={{ marginTop: 14 }}>- 160 €</Text>
-              {/**
-               * <MaisonVert height={42} width={44} style={styles.mouvementImage} />
-               * */}
+              <View style={styles.mouvementImage}>
+                <MaisonVert height={42} width={44} />
+              </View>
 
             </Layout>
           </Layout>
@@ -212,9 +213,9 @@ function TableauDeBord() {
             marginRight: 20, flexDirection: 'row', backgroundColor: 'transparent', alignItems: 'center',
           }}
           >
-            {/**
-             * <MaisonVert height={42} width={44} style={{ marginRight: 18 }} />
-             */}
+            <View style={{ marginRight: 18 }}>
+              <MaisonVert height={42} width={44} />
+            </View>
 
             <Text
               category="h6"

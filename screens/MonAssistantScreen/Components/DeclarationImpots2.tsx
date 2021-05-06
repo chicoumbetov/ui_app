@@ -1,5 +1,5 @@
 import React from 'react';
-import { Layout, Text } from '@ui-kitten/components';
+import { Icon, Layout, Text } from '@ui-kitten/components';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import { Entypo, SimpleLineIcons } from '@expo/vector-icons';
 import CompteHeader from '../../../components/CompteHeader/CompteHeader';
@@ -23,12 +23,12 @@ const DeclarationImpots = () => (
 
         <Layout style={{ flexDirection: 'row' }}>
           <TouchableOpacity onPress={() => {}}>
-            <SimpleLineIcons ame="cloud-download" size={14} style={{ color: '#b5b5b5', paddingRight: 25 }} />
+            <Icon name="cloud-download" fill="#b5b5b5" style={{ height: 20, width: 20, marginRight: 24 }} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => {}}>
+            <Icon name="eye" fill="#b5b5b5" style={{ height: 20, width: 20 }} />
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => {}}>
-            <Entypo name="eye" size={16.5} style={{ color: '#b5b5b5', paddingRight: 3.5 }} />
-          </TouchableOpacity>
         </Layout>
       </Layout>
     </Layout>

@@ -18,8 +18,8 @@ const MonAssistant = () => {
   return (
     <Layout style={styles.containerOut}>
       <Layout style={styles.container}>
-        <Text style={styles.title}>Mon Assistant</Text>
-        <Text style={styles.subtitle}>Générer les documents</Text>
+        <Text category="h1" style={styles.title}>Mon Assistant</Text>
+        <Text category="h2" style={styles.subtitle}>Générer les documents</Text>
 
         <Layout style={styles.docs}>
           <Text style={styles.aideText}>Aide à la déclaration d'impôts</Text>
@@ -52,13 +52,10 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(246, 246, 246, 0.5)',
   },
   title: {
-    fontSize: 25,
     marginTop: 13,
     letterSpacing: 0.2,
-    fontFamily: 'HouschkaRoundedDemiBold',
   },
   subtitle: {
-    fontSize: 20,
     marginTop: 40,
     letterSpacing: 0.7,
     marginBottom: 39,

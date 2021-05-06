@@ -8,15 +8,13 @@ import * as React from 'react';
 
 import { Layout, Text } from '@ui-kitten/components';
 import {
-  Image, ScrollView, StyleSheet,
+  ScrollView, StyleSheet,
 } from 'react-native';
-// import { API, graphqlOperation, DataStore } from 'aws-amplify';
+
 import { useState } from 'react';
+import ManAvatar from '../../assets/Omedom_Icons_svg/Avatars/manAvatar.svg';
+
 import Informations from './Components/Informations';
-
-// import { Client } from '../../src/models';
-// import { getClient } from '../../src/graphql/queries';
-
 import clientData from '../../mockData/clientDATA';
 import Abonnement from './Components/Abonnement';
 
@@ -63,38 +61,35 @@ export default function MonComptePage1() {
    */
 
   return (
-    <Layout style={styles.container}>
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-      >
 
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      style={styles.container}
+    >
+
+      <Layout style={{
+        flex: 1, backgroundColor: '#f6f6f6', paddingHorizontal: 22, paddingTop: 37,
+      }}
+      >
+        <Text category="h1">
+          Mon Compte
+        </Text>
         <Layout style={{
-          flex: 1, backgroundColor: 'rgba(246, 246, 246, 0.5)', paddingHorizontal: 22, paddingTop: 37,
+          alignItems: 'center', backgroundColor: 'transparent', marginTop: 41, marginBottom: 34,
         }}
         >
-          <Text style={{ fontSize: 26, fontFamily: 'HouschkaRoundedDemiBold' }}>
-            Mon Compte
+          <ManAvatar height={109} width={108} />
+          <Text category="h2" style={{ marginTop: 15 }}>
+            {clients.Client.fields[0].nom}
           </Text>
-          <Layout style={{
-            alignItems: 'center', backgroundColor: 'rgba(246, 246, 246, 0.5)', marginTop: 41, marginBottom: 34,
-          }}
-          >
-            <Image
-              source={require('../../assets/Icones_omedom/avatars/avatar_1.png')}
-              style={{ height: 109, width: 108 }}
-            />
 
-            <Text style={{ fontSize: 22, fontWeight: '400', marginTop: 15 }}>
-              {clients.Client.fields[0].nom}
-            </Text>
-          </Layout>
         </Layout>
+      </Layout>
 
-        <Informations clientData={clients} />
-        <Abonnement clientData={clients} />
+      <Informations clientData={clients} />
+      <Abonnement />
 
-      </ScrollView>
-    </Layout>
+    </ScrollView>
   );
 }
 

@@ -88,6 +88,8 @@ const omedomTheme = {
 
   'color-primary-default': '$color-primary-400',
 
+  'text-hint-color': '#b5b5b5',
+
   'text-font-family': 'HouschkaRoundedMedium',
   'border-radius': 4,
   'border-width': 1,

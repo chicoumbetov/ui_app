@@ -4,9 +4,49 @@
     "text-label-font-size": 20,
     "text-label-font-weight": "500",
     "text-label-font-family": "HouschkaRoundedMedium",
-    "text-subtitle-1-font-size": 16,
     "text-subtitle-2-font-family": "HouschkaRoundedDemiBold",
-    "size-large": 64
+    "size-large": 40,
+    "border-radius": 7,
+
+    "text-heading-1-font-size": 25,
+    "text-heading-1-font-weight": 600,
+    "text-heading-1-font-family": "HouschkaRoundedDemiBold",
+
+    "text-heading-2-font-size": 21,
+    "text-heading-2-font-weight": 500,
+    "text-heading-2-font-family": "HouschkaRoundedMedium",
+
+    "text-heading-3-font-size": 19,
+    "text-heading-3-font-weight": 600,
+    "text-heading-3-font-family": "HouschkaRoundedDemiBold",
+
+    "text-heading-4-font-size": 19,
+    "text-heading-4-font-weight": 600,
+    "text-heading-4-font-family": "HouschkaRoundedDemiBold",
+
+    "text-heading-5-font-size": 17,
+    "text-heading-5-font-weight": 600,
+    "text-heading-5-font-family": "HouschkaRoundedDemiBold",
+
+    "text-heading-6-font-size": 16,
+    "text-heading-6-font-weight": 600,
+    "text-heading-6-font-family": "HouschkaRoundedDemiBold",
+
+    "text-subtitle-1-font-size": 11,
+    "text-subtitle-1-font-weight": 500,
+    "text-subtitle-1-font-family": "HouschkaRoundedMedium",
+
+    "text-paragraph-1-font-size": 17,
+    "text-paragraph-1-font-weight": 500,
+    "text-paragraph-1-font-family": "HouschkaRoundedMedium",
+
+    "text-paragraph-2-font-size": 15,
+    "text-paragraph-2-font-weight": 500,
+    "text-paragraph-2-font-family": "HouschkaRoundedMedium",
+
+
+    "border-radius": 7
+
   },
   "components": {
     "BottomNavigationTab": {
@@ -609,6 +649,7 @@
             "paddingHorizontal": 8,
             "textMarginHorizontal": 8,
             "textFontFamily": "text-font-family",
+            "textFontSize": "text-label-font-size",
             "iconWidth": 24,
             "iconHeight": 24,
             "iconMarginHorizontal": 8,
@@ -629,7 +670,7 @@
                 "labelColor": "text-hint-color",
                 "captionColor": "text-hint-color",
                 "placeholderColor": "text-hint-color",
-                "iconTintColor": "text-hint-color",
+                "iconTintColor": "text-basic-color",
                 "state": {
                   "focused": {
                     "borderColor": "color-primary-default",
@@ -862,7 +903,7 @@
           "mapping": {
             "paddingHorizontal": 15,
             "textMarginHorizontal": 8,
-            "textFontFamily": "text-font-family",
+            "textFontFamily": "text-subtitle-2-font-family",
             "iconWidth": 24,
             "iconHeight": 24,
             "iconMarginHorizontal": 8,
@@ -880,7 +921,15 @@
                 "minHeight": "size-large",
                 "borderRadius": "border-radius",
                 "borderWidth": "border-width",
-                "paddingVertical": 6,
+                "paddingVertical": 2,
+                "textFontSize": "text-subtitle-1-font-size",
+                "textFontWeight": "normal"
+              },
+              "medium": {
+                "minHeight": "size-medium",
+                "borderRadius": "border-radius",
+                "borderWidth": "border-width",
+                "paddingVertical": 7,
                 "textFontSize": "text-subtitle-1-font-size",
                 "textFontWeight": "normal"
               }
@@ -1040,12 +1089,12 @@
             },
             "size": {
               "large": {
-                "borderRadius": "border-radius",
+                "borderRadius": 7,
                 "borderWidth": "border-width",
                 "minHeight": "size-large",
                 "paddingVertical": 11,
-                "textFontSize": "text-subtitle-1-font-size",
-                "textFontWeight": "text-subtitle-1-font-weight",
+                "textFontSize": "text-heading-5-font-size",
+                "textFontWeight": "text-heading-5-font-weight",
                 "placeholderFontSize": "text-paragraph-1-font-size",
                 "placeholderFontWeight": "text-paragraph-1-font-weight"
               }
@@ -1062,9 +1111,9 @@
             "paddingVertical": 24,
             "backgroundColor": "background-basic-color-1",
             "textMarginHorizontal": 8,
-            "textFontSize": "text-subtitle-1-font-size",
-            "textFontWeight": "text-subtitle-1-font-weight",
-            "textFontFamily": "text-subtitle-1-font-family",
+            "textFontSize": "text-heading-5-font-size",
+            "textFontWeight": "text-heading-5-font-weight",
+            "textFontFamily": "text-heading-5-font-family",
             "textColor": "text-basic-color",
             "iconWidth": 20,
             "iconHeight": 20,

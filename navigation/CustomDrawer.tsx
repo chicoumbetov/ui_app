@@ -26,6 +26,7 @@ import { DrawerContentComponentProps } from '@react-navigation/drawer/src/types'
 import { RenderProp } from '@ui-kitten/components/devsupport';
 import comptesData from '../mockData/comptesData';
 import Icon, { IconName } from '../components/Icon/Icon';
+import ManAvatar from '../assets/Omedom_Icons_svg/Avatars/manAvatar.svg';
 
 /**
  * 2. Icons
@@ -124,17 +125,8 @@ const CustomDrawer = (props: DrawerContentComponentProps) => {
               flexDirection: 'row',
             }}
             >
-              <Image
-                /* eslint-disable-next-line global-require */
-                source={require('../assets/Icones_omedom/avatars/avatar_1.png')}
-                style={{
-                  height: 41, width: 41, marginRight: 18, marginLeft: 9,
-                }}
-              />
-              <Text style={{
-                fontSize: 25, marginTop: 11, letterSpacing: 0.4, fontWeight: '600', color: '#b5b5b5',
-              }}
-              >
+              <ManAvatar height={41} width={41} style={{ marginRight: 18, marginLeft: 9 }} />
+              <Text category="h2" appearance="hint" style={{ marginTop: 11 }}>
                 {comptesData[0].title}
               </Text>
             </Layout>

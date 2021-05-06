@@ -14,6 +14,7 @@ export default {
                 screens: {
                   'mes-biens': '/',
                   DetailsBien: '/bien/:id',
+                  'ajout-bien-screen': '/ajouter',
                 },
               },
               'mes-charges-nav': {

@@ -42,25 +42,21 @@ const DeclarationImpots = () => {
 
       <Layout style={styles.containerOut}>
 
-        <Layout style={styles.container}>
+        <Text category="h1" style={styles.title}>Paramétrer mon aide à la déclaration d'impôts</Text>
 
-          <Text style={styles.title}>Paramétrer mon aide à la déclaration d'impôts</Text>
+        <Form <DeclarationImpotsForm> {...declarationImpotsForm}>
 
-          <Form <DeclarationImpotsForm> {...declarationImpotsForm}>
+          <SelectComp name="bien" data={comptesData} placeholder="Choisissez le bien" size="large" appearance="default" status="primary" />
 
-            <SelectComp name="bien" data={comptesData} placeholder="Choisissez le bien" size="large" appearance="default" status="primary" />
+          <TextInputComp label="Année de l'écheance" placeholder="aaaa" icon="calendar-outline" />
 
-            <TextInputComp label="Année de l'écheance" placeholder="aaaa" icon="calendar-outline" />
+        </Form>
 
-          </Form>
-
-          <View style={styles.buttonRight}>
-            <Button onPress={onDeclarationImpots2} style={{ width: 150 }}>
-              Confirmer
-            </Button>
-          </View>
-
-        </Layout>
+        <View style={styles.buttonRight}>
+          <Button onPress={onDeclarationImpots2} size="large" style={{ width: 139 }}>
+            Confirmer
+          </Button>
+        </View>
 
       </Layout>
 
@@ -73,20 +69,13 @@ export default DeclarationImpots;
 const styles = StyleSheet.create({
   containerOut: {
     flex: 1,
-    backgroundColor: 'rgba(246, 246, 246, 0.5)',
-  },
-  container: {
+    backgroundColor: '#f6f6f6',
     padding: 25,
     paddingRight: 21,
-    backgroundColor: 'rgba(246, 246, 246, 0.5)',
   },
   title: {
-    fontSize: 25.7,
     marginTop: 19.7,
     marginBottom: 14,
-    lineHeight: 27.4,
-    letterSpacing: 0.1,
-    fontFamily: 'HouschkaRoundedDemiBold',
   },
   item: {
     borderBottomEndRadius: 20,

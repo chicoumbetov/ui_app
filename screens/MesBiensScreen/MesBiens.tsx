@@ -23,9 +23,11 @@ function MesBiens() {
       style={{ backgroundColor: '#efefef', marginTop: 12 }}
     >
       <Layout style={{ backgroundColor: '#f6f6f6', padding: 26 }}>
-        <Text style={{
-          fontSize: 24.5, letterSpacing: 0.2, fontFamily: 'HouschkaRoundedDemiBold', marginBottom: 20,
-        }}
+        <Text
+          category="h1"
+          style={{
+            marginBottom: 20,
+          }}
         >
           Mes Biens
         </Text>

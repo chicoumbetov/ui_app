@@ -220,6 +220,9 @@ export class Input extends React.Component<InputProps> implements WebEventRespon
         color: textColor,
       },
       placeholder: {
+        fontFamily: textFontFamily,
+        fontSize: textFontSize,
+        fontWeight: textFontWeight,
         color: placeholderColor,
       },
       icon: {

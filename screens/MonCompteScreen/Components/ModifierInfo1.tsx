@@ -23,32 +23,44 @@ const Informations = () => {
   return (
     <Layout style={styles.container}>
       <View>
-        <Text style={styles.title}>Modifier vos informations</Text>
+        <Text category="h1" style={styles.title}>Modifier vos informations</Text>
       </View>
 
       <TextInputComp
         name="prenom"
         placeholder="Changer prènom"
       />
-      <TextInputComp
-        name="nom"
-        placeholder="Changer nom"
-      />
-      <TextInputComp
-        name="email"
-        placeholder="Changer email"
-      />
-      <TextInputComp
-        name="motDePasse"
-        placeholder="Changer mot de Passe"
-      />
-      <TextInputComp
-        name="numeroTel"
-        placeholder="Changer numéro télephone"
-      />
+
+      <Layout style={{ marginTop: 20, backgroundColor: 'transparent' }}>
+        <TextInputComp
+          name="nom"
+          placeholder="Changer nom"
+        />
+      </Layout>
+
+      <Layout style={{ marginTop: 20, backgroundColor: 'transparent' }}>
+        <TextInputComp
+          name="email"
+          placeholder="Changer email"
+        />
+      </Layout>
+
+      <Layout style={{ marginTop: 20, backgroundColor: 'transparent' }}>
+        <TextInputComp
+          name="motDePasse"
+          placeholder="Changer mot de Passe"
+        />
+      </Layout>
+
+      <Layout style={{ marginTop: 20, backgroundColor: 'transparent' }}>
+        <TextInputComp
+          name="numeroTel"
+          placeholder="Changer numéro télephone"
+        />
+      </Layout>
 
       <View style={styles.buttonRight}>
-        <Button onPress={onPress} style={{ width: 150 }}>
+        <Button onPress={onPress} size="large" style={{ width: 139 }}>
           Valider
         </Button>
       </View>
@@ -62,17 +74,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     margin: 21,
-    backgroundColor: 'rgba(246, 246, 246, 0.5)',
+    backgroundColor: 'transparent',
   },
-  buttonRight: { alignItems: 'flex-end' },
+  buttonRight: { alignItems: 'flex-end', marginTop: 34 },
   title: {
     marginTop: 12,
     marginBottom: 39,
-    fontSize: 25,
-    fontWeight: '300', // not working fix it
-    fontStyle: 'normal',
-    letterSpacing: 0,
-    color: '#000000',
   },
 });
 

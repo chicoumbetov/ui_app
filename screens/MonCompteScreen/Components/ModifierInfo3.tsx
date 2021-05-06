@@ -5,6 +5,8 @@ import {
 import { Button, Layout, Text } from '@ui-kitten/components';
 import { useNavigation } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
+import ManAvatar from '../../../assets/Omedom_Icons_svg/Avatars/manAvatar.svg';
+import WomanAvatar from '../../../assets/Omedom_Icons_svg/Avatars/womanAvatar.svg';
 
 const Informations = () => {
   const [value, setValue] = React.useState('');
@@ -31,50 +33,39 @@ const Informations = () => {
       showsVerticalScrollIndicator={false}
       style={styles.container}
     >
-      <View>
-        <Text style={styles.title}>Modifier vos informations</Text>
-      </View>
-      <Text style={{ fontSize: 20 }}>Changer votre photo de profil</Text>
+
+      <Text category="h1" style={styles.title}>Modifier vos informations</Text>
+      <Text category="h2">Changer votre photo de profil</Text>
       <Layout style={{
         alignItems: 'center', backgroundColor: 'transparent', marginVertical: 45,
       }}
       >
-        <Image
-          source={require('../../../assets/Icones_omedom/avatars/avatar_1.png')}
-          style={{ marginTop: 8, height: 140, width: 140 }}
-        />
-
+        <ManAvatar height={140} width={140} style={{ marginTop: 8 }} />
       </Layout>
 
       <TouchableOpacity onPress={() => {}}>
-        <Text style={{ fontSize: 17, color: '#b5b5b5' }}>Choisir une icone</Text>
+        <Text category="h5" appearance="hint">Choisir une icone</Text>
       </TouchableOpacity>
 
       <Layout style={{
         flexDirection: 'row', marginTop: 21, justifyContent: 'space-around', alignItems: 'center', backgroundColor: 'transparent',
       }}
       >
-        <Image
-          source={require('../../../assets/Icones_omedom/avatars/avatar_1.png')}
-          style={{ height: 50, width: 50 }}
-        />
-        <Image
-          source={require('../../../assets/Icones_omedom/avatars/avatar_2.png')}
-          style={{ height: 50, width: 50 }}
-        />
+        <ManAvatar height={50} width={50} />
+        <WomanAvatar height={50} width={50} />
 
       </Layout>
 
       <TouchableOpacity onPress={() => { onTakePicture(); }} style={{ marginVertical: 39 }}>
-        <Text style={styles.button}>Prendre une photo</Text>
+        <Text category="h5" status="info">Prendre une photo</Text>
       </TouchableOpacity>
 
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: 1 }}>
         <TouchableOpacity onPress={() => { pickImage(); }}>
-          <Text style={styles.button}>Ajouter une photo</Text>
+          <Text category="h5" status="info">Ajouter une photo</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => {}}>
-          <Text style={{ fontSize: 17.5, color: '#000' }}>Supprimer la photo</Text>
+          <Text category="h5" status="basic">Supprimer la photo</Text>
         </TouchableOpacity>
       </View>
 
@@ -83,9 +74,9 @@ const Informations = () => {
       }}
       >
         <TouchableOpacity onPress={() => {}}>
-          <Text style={{ fontSize: 19, color: '#000' }}>Ignorer</Text>
+          <Text category="h5" status="basic">Ignorer</Text>
         </TouchableOpacity>
-        <Button onPress={onPress} style={{ width: 147 }}>
+        <Button onPress={onPress} size="large">
           Valider
         </Button>
       </View>
@@ -98,16 +89,11 @@ const Informations = () => {
 const styles = StyleSheet.create({
   container: {
     margin: 22,
-    backgroundColor: 'rgba(246, 246, 246, 0.5)',
+    backgroundColor: '#f6f6f6',
   },
   title: {
     marginTop: 18,
     marginBottom: 27,
-    fontSize: 23,
-    fontWeight: '300', // not working fix it
-    fontStyle: 'normal',
-    letterSpacing: 0,
-    color: '#000000',
   },
   button: {
     fontSize: 17,

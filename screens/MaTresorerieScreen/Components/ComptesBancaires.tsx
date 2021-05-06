@@ -14,7 +14,7 @@ const ComptesBancaires = ({ client }) => {
     <Layout style={styles.container}>
 
       {/* use SectionList to render several accounts with its types and details */}
-      <Text style={styles.compteHeader}>
+      <Text category="h2" style={styles.compteHeader}>
         Comptes Bancaires
       </Text>
 
@@ -53,12 +53,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#f6f6f6',
   },
   compteHeader: {
-    fontSize: 21,
     paddingTop: 3,
-    letterSpacing: 0.2,
     paddingHorizontal: 8,
     marginBottom: 15,
-    // fontWeight: '400',
   },
   footer: {
     paddingTop: 5,

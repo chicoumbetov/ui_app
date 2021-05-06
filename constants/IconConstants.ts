@@ -1,4 +1,4 @@
-export const avatar1 = require('../assets/Icones_omedom/avatars/avatar_1.png');
+export const avatar1 = require('../assets/Icones_omedom/avatars/manAvatar.png');
 
 export default {
   avatar1,

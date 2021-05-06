@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, Layout, Text } from '@ui-kitten/components';
 import { useNavigation } from '@react-navigation/native';
 import {
+  ScrollView,
   StyleSheet, View,
 } from 'react-native';
 import { useForm } from 'react-hook-form';
@@ -35,10 +36,11 @@ const QuittanceLoyer = () => {
   };
 
   return (
-    <Layout style={styles.containerOut}>
+    <ScrollView>
 
-      <Layout style={styles.container}>
-        <Text style={styles.title}>Générer une quittance de loyer</Text>
+      <Layout style={styles.containerOut}>
+
+        <Text category="h1" style={styles.title}>Générer une quittance de loyer</Text>
         <Form <QuittanceLoyerForm> {...quittanceLoyerForm}>
 
           <SelectComp name="bien" data={comptesData} placeholder="Choisissez le bien" size="large" appearance="default" status="primary" />
@@ -48,15 +50,13 @@ const QuittanceLoyer = () => {
         </Form>
 
         <View style={styles.buttonRight}>
-          <Button onPress={onQuittanceLoyer2} style={{ width: 150 }}>
+          <Button onPress={onQuittanceLoyer2} size="large" style={{ width: 139 }}>
             Confirmer
           </Button>
         </View>
 
       </Layout>
-
-    </Layout>
-
+    </ScrollView>
   );
 };
 
@@ -66,19 +66,12 @@ const styles = StyleSheet.create({
   containerOut: {
     flex: 1,
     backgroundColor: 'rgba(246, 246, 246, 0.5)',
-  },
-  container: {
     padding: 25,
     paddingRight: 21,
-    backgroundColor: 'transparent',
   },
   title: {
-    fontSize: 25.7,
     marginTop: 19.7,
     marginBottom: 14,
-    lineHeight: 27.4,
-    letterSpacing: 0.1,
-    fontFamily: 'HouschkaRoundedDemiBold',
   },
   item: {
     borderBottomEndRadius: 20,

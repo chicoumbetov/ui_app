@@ -10,7 +10,7 @@ import {
   FlatList,
   Image, LogBox, ScrollView, StyleSheet, TouchableOpacity,
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useLinkTo, useNavigation } from '@react-navigation/native';
 import { AntDesign, Feather, Ionicons } from '@expo/vector-icons';
 import { colors } from '../../assets/styles';
 import CompteHeader from '../../components/CompteHeader/CompteHeader';
@@ -18,6 +18,7 @@ import comptesData from '../../mockData/comptesData';
 
 function TableauDeBord() {
   const navigation = useNavigation();
+  const linkTo = useLinkTo();
 
   const [compte, setCompte] = useState(comptesData);
 
@@ -25,11 +26,11 @@ function TableauDeBord() {
     navigation.navigate('MaTrésorerieDrawer');
   };
   const allerNotificaitons = () => {
-    navigation.navigate('Notifications');
+    linkTo('/notifications');
   };
 
   const onAjoutBien = () => {
-    navigation.navigate('AjoutBienScreen');
+    linkTo('/mes-biens/ajouter');
   };
 
   return (
@@ -39,7 +40,7 @@ function TableauDeBord() {
        *  Trésorerie section
        */}
       <Layout style={styles.container}>
-        <Text style={{ fontSize: 25, fontFamily: 'HouschkaRoundedDemiBold' }}>
+        <Text category="h1">
           Trésorerie
         </Text>
         <Layout style={{
@@ -51,7 +52,7 @@ function TableauDeBord() {
               <Text style={styles.text}>Dernier crédit</Text>
               <Text style={styles.incomeMouvement}>+ 500 €</Text>
               <Image
-                source={require('../../assets/Icones_omedom/logements/icones_log1.png')}
+                source={require('../../assets/Icones_omedom/logements/maisonVert.png')}
                 style={styles.mouvementImage}
               />
             </Layout>
@@ -62,7 +63,7 @@ function TableauDeBord() {
               </Text>
               <Text style={styles.mouvementText}>- 80 €</Text>
               <Image
-                source={require('../../assets/Icones_omedom/logements/icones_log4.png')}
+                source={require('../../assets/Icones_omedom/logements/batimentVert.png')}
                 style={styles.mouvementImage}
               />
             </Layout>
@@ -73,7 +74,7 @@ function TableauDeBord() {
               </Text>
               <Text style={styles.mouvementText}>- 160 €</Text>
               <Image
-                source={require('../../assets/Icones_omedom/logements/icones_log1.png')}
+                source={require('../../assets/Icones_omedom/logements/maisonVert.png')}
                 style={styles.mouvementImage}
               />
             </Layout>
@@ -86,7 +87,7 @@ function TableauDeBord() {
       *  Mes Biens section
       */}
       <Layout style={styles.containerBiens}>
-        <Text style={{ fontSize: 25, letterSpacing: 0.5, fontFamily: 'HouschkaRoundedDemiBold' }}>
+        <Text category="h1" style={{ letterSpacing: 0.5 }}>
           Mes Biens
         </Text>
 
@@ -159,7 +160,7 @@ function TableauDeBord() {
         />
 
         <Button
-          style={{ marginVertical: 32 }}
+          size="large"
           onPress={() => { onAjoutBien(); }}
         >
           Ajouter un nouveau bien
@@ -170,7 +171,7 @@ function TableauDeBord() {
        *  Notifications
        */}
       <Layout style={styles.container}>
-        <Text style={{ fontSize: 25, marginTop: -5, fontFamily: 'HouschkaRoundedDemiBold' }}>
+        <Text category="h1" style={{ marginTop: -5 }}>
           Notifications
         </Text>
         <Layout style={{
@@ -184,7 +185,7 @@ function TableauDeBord() {
           >
             <Image
                   /* eslint-disable-next-line global-require */
-              source={require('../../assets/Icones_omedom/logements/icones_log1.png')}
+              source={require('../../assets/Icones_omedom/logements/maisonVert.png')}
               style={{
                 height: 41, width: 41, marginRight: 18,
               }}

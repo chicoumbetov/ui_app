@@ -74,6 +74,7 @@ function AjoutBienScreen() {
    * */
   const [date, setDate] = useState(new Date(1598051730000));
   const [show, setShow] = useState(false);
+  const [image, setImage] = useState('MaisonVerte');
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
@@ -97,7 +98,7 @@ function AjoutBienScreen() {
       <Form<AjoutBienForm> {...ajoutBienForm}>
         <>
           <View>
-            <Text style={styles.faq}>Création de votre bien</Text>
+            <Text style={styles.faq} category="h1">Création de votre bien</Text>
           </View>
           {/**
        *  Identité
@@ -114,7 +115,7 @@ function AjoutBienScreen() {
               onPress={() => setEtape(0)}
             >
               <Text
-                appearance="H6"
+                category="H6"
 
               >
                 Identité (1/3)
@@ -136,7 +137,7 @@ function AjoutBienScreen() {
             </Layout>
 
             <Layout style={{ marginLeft: 124, backgroundColor: 'transparent', marginVertical: 34 }}>
-              <MaisonVerte height={53} width={53} />
+              <MaisonVerte height={146} width={146} />
             </Layout>
 
             <Text category="h5" appearance="hint">
@@ -151,7 +152,7 @@ function AjoutBienScreen() {
                 <MaisonVerte height={53} width={53} />
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => {}}>
+              <TouchableOpacity onPress={() => { setImage('Immeuble'); }}>
                 <Immeuble height={53} width={53} />
               </TouchableOpacity>
 
@@ -196,17 +197,19 @@ function AjoutBienScreen() {
 
             <Layout style={{ paddingHorizontal: 23, backgroundColor: 'transparent' }}>
               <TouchableOpacity onPress={() => {}} style={{ marginVertical: 30.5 }}>
-                <Text style={styles.button}>Prendre une photo</Text>
+                <Text category="h5" status="info">Prendre une photo</Text>
               </TouchableOpacity>
 
               <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: 7 }}>
                 <TouchableOpacity onPress={() => { pickImage(); }}>
-                  <Text style={styles.button}>Ajouter une photo</Text>
+                  <Text category="h5" status="info">Ajouter une photo</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => {}}>
-                  <Text style={{
-                    fontSize: 17, color: '#000', letterSpacing: 0, marginRight: 6,
-                  }}
+                  <Text
+                    category="h5"
+                    style={{
+                      marginRight: 6,
+                    }}
                   >
                     Supprimer la photo
                   </Text>
@@ -232,26 +235,18 @@ function AjoutBienScreen() {
               onPress={() => setEtape(1)}
             >
               <Text
-                style={{
-                  fontSize: 16,
-                  fontFamily: 'HouschkaRoundedDemiBold',
-                  fontStyle: 'normal',
-                  lineHeight: 28,
-                  letterSpacing: 0.5,
-                  color: colors.noir,
-                  marginLeft: 8,
-                }}
+                category="H6"
               >
                 Localisation (2/3)
               </Text>
             </TouchableOpacity>
           </View>
           {etape === 1 && (
-          <View>
-            <TextInputComp name="adresse" placeholder="Adresse" />
-            <TextInputComp name="complement" placeholder="Complément d'adresse" />
-            <TextInputComp name="codePostal" placeholder="Code Postal" />
-            <TextInputComp name="ville" placeholder="Ville" icon="calendar-outline" />
+          <View style={{ marginBottom: 30, marginLeft: 23, marginRight: 22 }}>
+            <TextInputComp style={{ marginBottom: 30 }} name="adresse" placeholder="Adresse" />
+            <TextInputComp style={{ marginBottom: 30 }} name="complement" placeholder="Complément d'adresse" />
+            <TextInputComp style={{ marginBottom: 30 }} name="codePostal" placeholder="Code Postal" />
+            <TextInputComp style={{ marginBottom: 30 }} name="ville" placeholder="Ville" />
             <TextInputComp name="pays" placeholder="Pays" />
           </View>
           )}
@@ -270,15 +265,7 @@ function AjoutBienScreen() {
               onPress={() => setEtape(2)}
             >
               <Text
-                style={{
-                  fontSize: 16,
-                  fontFamily: 'HouschkaRoundedDemiBold',
-                  fontStyle: 'normal',
-                  lineHeight: 33,
-                  letterSpacing: 0.5,
-                  color: colors.noir,
-                  marginLeft: 8,
-                }}
+                category="H6"
               >
                 Mode de détention (3/3)
               </Text>
@@ -287,10 +274,7 @@ function AjoutBienScreen() {
           {etape === 2 && (
           <View>
             <View style={{ flexDirection: 'row', marginLeft: 27, marginRight: 10 }}>
-              <Text style={{
-                flex: 1, fontSize: 15.4, marginTop: 12, letterSpacing: 0.01,
-              }}
-              >
+              <Text category="h5" style={{ marginTop: 12 }}>
                 Date d'acquisition
               </Text>
               <TextInputComp
@@ -363,12 +347,6 @@ const styles = StyleSheet.create({
     marginTop: 53,
     marginBottom: 45,
     marginLeft: 22,
-    fontSize: 24,
-    fontWeight: '600',
-    fontStyle: 'normal',
-    letterSpacing: 0.84,
-    color: '#000000',
-    fontFamily: 'HouschkaRoundedDemiBold',
   },
   item: {
     padding: 20,

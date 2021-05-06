@@ -210,20 +210,28 @@ function TableauDeBord() {
         >
 
           <Layout style={{
-            marginRight: 20, flexDirection: 'row', backgroundColor: 'transparent', alignItems: 'center',
+            marginRight: 20,
+            flexDirection: 'row',
+            backgroundColor: 'transparent',
+            alignItems: 'center',
+            justifyContent: 'space-between',
           }}
           >
-            <View style={{ marginRight: 18 }}>
-              <MaisonVert height={42} width={44} />
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+
+              <View style={{ marginRight: 18 }}>
+                <MaisonVert height={42} width={44} />
+              </View>
+              <Text
+                category="h6"
+                status="basic"
+                style={{ flex: 1 }}
+              >
+                Un mouvement négatif a été détécté
+              </Text>
+
             </View>
 
-            <Text
-              category="h6"
-              status="basic"
-              style={{ width: 250 }}
-            >
-              Un mouvement négatif a été détécté
-            </Text>
             <Icon
               name="arrow-ios-forward"
               fill="#b5b5b5"
@@ -231,6 +239,7 @@ function TableauDeBord() {
                 height: 16, width: 16, marginRight: 5, alignItems: 'center',
               }}
             />
+
           </Layout>
 
         </Layout>

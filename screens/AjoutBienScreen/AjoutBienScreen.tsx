@@ -136,7 +136,8 @@ function AjoutBienScreen() {
               <Text category="H5">La Maison de Matthieu</Text>
             </Layout>
 
-            <Layout style={{ marginLeft: 124, backgroundColor: 'transparent', marginVertical: 34 }}>
+            <Layout style={{ alignItems: 'center', backgroundColor: 'transparent', marginVertical: 34 }}>
+
               <MaisonVerte height={146} width={146} />
             </Layout>
 

@@ -127,7 +127,7 @@ export class TabIndicator extends React.Component<TabIndicatorProps> {
         onLayout={this.onLayout}
       >
         <LinearGradient
-          colors={['#F00', '#0F0']}
+          colors={['#36a3de', '#5eecb4']}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 0 }}
           style={{

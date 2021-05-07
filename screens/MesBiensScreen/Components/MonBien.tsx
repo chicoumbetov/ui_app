@@ -10,7 +10,7 @@ import { Layout, Text, Icon } from '@ui-kitten/components';
 import {
   StyleSheet, TouchableOpacity,
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useLinkTo, useNavigation } from '@react-navigation/native';
 import { AntDesign, Ionicons } from '@expo/vector-icons';
 import { View as MotiView } from 'moti';
 import CompteHeader from '../../../components/CompteHeader/CompteHeader';
@@ -29,11 +29,12 @@ const mesBiensData = [
 ];
 
 function MonBien() {
-  const navigation = useNavigation();
+  const linkTo = useLinkTo();
   const [opened, setOpened] = useState(false);
 
   const onDetailsBiens = () => {
-    navigation.navigate('DetailsBien', { id: 10 });
+    const id = '10';
+    linkTo(`/mes-biens/bien/${id}`);
   };
 
   return (

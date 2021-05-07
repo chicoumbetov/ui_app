@@ -24,7 +24,7 @@ export default function MesBiensStackNavigator() {
         component={MesBiens}
       />
       <Stack.Screen
-        name="DetailsBien"
+        name="detail-bien"
         component={DetailsBien}
       />
       <Stack.Screen
@@ -32,7 +32,7 @@ export default function MesBiensStackNavigator() {
         component={MonBudget}
       />
       <Stack.Screen
-        name="ParametrerAjoutRevenu"
+        name="ajout-revenu"
         component={ParametrerAjoutRevenu}
       />
       <Stack.Screen

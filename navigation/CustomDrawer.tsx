@@ -30,6 +30,7 @@ import ManAvatar from '../assets/Omedom_Icons_svg/Avatars/manAvatar.svg';
 import {Icon as IconUIKitten} from '@ui-kitten/components';
 import {DrawerContentScrollView} from "@react-navigation/drawer";
 import {useSafeAreaInsets} from "react-native-safe-area-context";
+import {useDimensions} from "@react-native-community/hooks";
 
 /**
  * 2. Icons
@@ -81,22 +82,24 @@ const EmailIcon = IconGenerator({name: 'email-outline', uikitten: true});
 
 function findIndexByRouteName(name?: string) {
   switch (name) {
-    case '':
+    case 'tableau-de-bord':
       return 0;
     case 'mon-compte-nav':
       return 1;
-    case 'mes-biens-nav':
+    case 'mes-charges-nav':
       return 2;
-    case 'ma-tresorerie-nav':
+    case 'mes-biens-nav':
       return 3;
-    case 'mon-assistant-nav':
+    case 'ma-tresorerie-nav':
       return 4;
-    case 'notifications':
+    case 'mon-assistant-nav':
       return 5;
-    case 'faq':
+    case 'notifications':
       return 6;
-    case 'contact':
+    case 'faq':
       return 7;
+    case 'contact':
+      return 8;
     default:
       return null;
   }
@@ -128,6 +131,7 @@ const CustomDrawer = (props: DrawerContentComponentProps) => {
   const { state, navigation } = props;
   const inset = useSafeAreaInsets();
   const linkTo = useLinkTo();
+  const {window} = useDimensions();
   return (
     <DrawerContentScrollView style={{ flex: 1}} contentContainerStyle={{ flex: 1}}>
         <Layout style={{ flex: 1, justifyContent: 'space-between' }}>
@@ -157,21 +161,24 @@ const CustomDrawer = (props: DrawerContentComponentProps) => {
                     linkTo('/mon-compte');
                     break;
                   case 2:
-                    linkTo('/mes-biens');
+                    linkTo('/mes-charges');
                     break;
                   case 3:
-                    linkTo('/ma-tresorerie');
+                    linkTo('/mes-biens');
                     break;
                   case 4:
-                    linkTo('/mon-assistant');
+                    linkTo('/ma-tresorerie');
                     break;
                   case 5:
-                    linkTo('/notifications');
+                    linkTo('/mon-assistant');
                     break;
                   case 6:
-                    linkTo('/faq');
+                    linkTo('/notifications');
                     break;
                   case 7:
+                    linkTo('/faq');
+                    break;
+                  case 8:
                     linkTo('/contact');
                     break;
                 }
@@ -185,6 +192,11 @@ const CustomDrawer = (props: DrawerContentComponentProps) => {
                 title="Mon Compte"
                 accessoryLeft={PersonIcon}
               />
+              {/* On utilise un fragment pour garder les mêmes index de row */}
+              {window.width > 780 ? <DrawerItem
+                  title="Mes charges"
+                  accessoryLeft={HomeIcon}
+              /> : <></>}
               <DrawerItem
                 title="Mes Biens"
                 accessoryLeft={HomeIcon}

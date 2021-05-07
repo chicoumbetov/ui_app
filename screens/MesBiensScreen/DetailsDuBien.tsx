@@ -11,7 +11,7 @@ import {
 import {
   Image, ScrollView, StyleSheet, TouchableOpacity,
 } from 'react-native';
-import { useLinkTo, useNavigation } from '@react-navigation/native';
+import { useLinkTo, useNavigation, useRoute } from '@react-navigation/native';
 import {
   Entypo, SimpleLineIcons,
 } from '@expo/vector-icons';
@@ -24,6 +24,7 @@ import MaisonVert from '../../assets/Omedom_Icons_svg/Logement/maison_verte.svg'
 
 function DetailsBien() {
   const navigation = useNavigation();
+  const route = useRoute();
   const linkTo = useLinkTo();
   const theme = useTheme();
 
@@ -54,6 +55,7 @@ function DetailsBien() {
       <Layout style={{ ...styles.container, backgroundColor: '#f6f6f6', marginTop: 0 }}>
         <Text category="h1" status="basic" style={{ marginVertical: 30, marginHorizontal: 26 }}>
           Détails du bien
+          {route.params.id}
         </Text>
         <Layout style={{ alignItems: 'center', backgroundColor: 'transparent', marginVertical: 30 }}>
           <MaisonVert

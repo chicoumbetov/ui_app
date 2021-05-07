@@ -14,7 +14,8 @@ export default {
                 path: 'mes-biens',
                 screens: {
                   'mes-biens': '/',
-                  DetailsBien: '/bien/:id',
+                  'detail-bien': '/bien/:id',
+                  'ajout-revenu': '/bien/:id/ajout-revenu',
                   'ajout-bien-screen': '/ajouter',
                 },
               },

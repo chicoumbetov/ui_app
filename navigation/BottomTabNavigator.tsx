@@ -16,6 +16,7 @@ import MesBiensStackNavigator from './MesBiensStackNavigator';
 import MesChargesStackNavigator from './MesChargesStackNavigator';
 import { getStackInfos } from './Utils';
 import TableauDeBord from '../screens/TabTableauDeBordScreen/TableauDeBord';
+import {useDimensions} from "@react-native-community/hooks";
 
 const HomeIcon = () => (
     <Icon name="home-outline" fill='#5eecb4' style={{ height: 20, width: 20 }} />
@@ -61,13 +62,14 @@ const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
 export default function BottomTabNavigator() {
   const navigation = useNavigation();
+  const {window} = useDimensions();
   return (
     <BottomTab.Navigator
       initialRouteName="tableau-de-bord"
       tabBar={
         (props) => {
           const { showBack } = getStackInfos(navigation.dangerouslyGetState());
-          if (showBack) {
+          if (showBack || window.width > 780) {
             return <></>;
           }
           return <BottomTabBar {...props} style={{ margin: 100 }} />;

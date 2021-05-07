@@ -51,9 +51,9 @@ export type TabMonCompteParamList = {
 
 export type TabMesBiensParamList = {
   'mes-biens': undefined;
-  DetailsBien: undefined;
+  'detail-bien': { id: number };
   MonBudget: undefined;
-  ParametrerAjoutRevenu: undefined;
+  'ajout-revenu': undefined;
   ParametrerAjoutCharges: undefined;
   PartagerBien: undefined;
   ModifierCharacteristiques: undefined;

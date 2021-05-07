@@ -29,7 +29,7 @@ function MonBudget() {
   };
 
   const allerAjoutRevenu = () => {
-    navigation.navigate('ParametrerAjoutRevenu');
+    navigation.navigate('ajout-revenu', { id: 11 });
   };
 
   const allerAjoutCharge = () => {

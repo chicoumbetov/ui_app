@@ -112,7 +112,7 @@ function AjoutBienScreen() {
               {
                 backgroundColor: ((etape === 0)
                   ? colors.blanc
-                  : (colors.vert4)),
+                  : (theme['color-success-100'])),
               },
             ]}
           >
@@ -145,11 +145,11 @@ function AjoutBienScreen() {
 
               <MaisonVerte height={146} width={146} />
             </Layout>
-
-            <Text category="h5" appearance="hint">
-              Choisir une icone
-            </Text>
-
+            <Layout style={{ marginLeft: 10, backgroundColor: 'transparent' }}>
+              <Text category="h5" appearance="hint">
+                Choisir une icone
+              </Text>
+            </Layout>
             <Layout style={{
               flexDirection: 'row', marginTop: 21, justifyContent: 'space-evenly', marginLeft: -6, backgroundColor: 'transparent',
             }}
@@ -234,7 +234,7 @@ function AjoutBienScreen() {
             styles.item,
             {
               backgroundColor: ((etape === 1)
-                ? colors.blanc : ((etape === 0) ? theme['color-warning-100'] : colors.vert4)),
+                ? colors.blanc : ((etape === 0) ? theme['color-warning-100'] : theme['color-success-100'])),
               marginTop: 29,
             },
           ]}
@@ -251,7 +251,7 @@ function AjoutBienScreen() {
           </View>
           {etape === 1 && (
           <View style={{ marginBottom: 30, marginLeft: 23, marginRight: 22 }}>
-            <TextInputComp style={{ marginBottom: 30 }} name="adresse" placeholder="Adresse" label="Adresse" />
+            <TextInputComp style={{ marginBottom: 30 }} name="adresse" placeholder="Adresse" />
             <TextInputComp style={{ marginBottom: 30 }} name="complement" placeholder="Complément d'adresse" />
             <TextInputComp style={{ marginBottom: 30 }} name="codePostal" placeholder="Code Postal" />
             <TextInputComp style={{ marginBottom: 30 }} name="ville" placeholder="Ville" />
@@ -263,11 +263,14 @@ function AjoutBienScreen() {
        *  Mode de détention
        */}
 
-          <View style={{
-            ...styles.item,
-            backgroundColor: ((etape === 2)
-              ? colors.blanc : (colors.orange4)),
-          }}
+          <View style={[
+            styles.item,
+            {
+              backgroundColor: ((etape === 2)
+                ? colors.blanc : (theme['color-warning-100'])),
+              marginTop: 29,
+            },
+          ]}
           >
             <TouchableOpacity
               onPress={() => setEtape(2)}

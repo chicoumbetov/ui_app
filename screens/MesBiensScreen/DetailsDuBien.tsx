@@ -4,10 +4,10 @@
  * @author: Shynggys UMBETOV
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Layout, Text } from '@ui-kitten/components';
 import {
-  Image, LogBox, ScrollView, StyleSheet, TouchableOpacity,
+  Image, ScrollView, StyleSheet, TouchableOpacity,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import {

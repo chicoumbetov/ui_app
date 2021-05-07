@@ -206,8 +206,6 @@ export class Input extends React.Component<InputProps> implements WebEventRespon
       ...containerParameters
     } = source;
 
-    console.log(textFontSize);
-
     return {
       container: containerStyle,
       inputContainer: {
@@ -262,7 +260,6 @@ export class Input extends React.Component<InputProps> implements WebEventRespon
 
     const evaStyle = this.getComponentStyle(eva.style);
 
-    console.log(evaStyle.text);
     return (
       <TouchableWithoutFeedback
         style={evaStyle.container}

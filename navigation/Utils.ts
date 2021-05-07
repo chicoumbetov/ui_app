@@ -2,8 +2,7 @@ import { InitialState, NavigationState } from '@react-navigation/native';
 
 function findFocusedState(state: InitialState) {
   let current: InitialState | undefined = state;
-  console.log(state);
-
+  
   while (current?.routes[current.index ?? 0].state != null) {
     current = current.routes[current.index ?? 0].state;
   }

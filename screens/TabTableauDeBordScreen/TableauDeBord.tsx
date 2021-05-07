@@ -123,36 +123,37 @@ function TableauDeBord() {
                 />
               </TouchableOpacity>
 
-              <Layout style={{ flexDirection: 'row', marginTop: 8, marginBottom: 5 }}>
+              <Layout style={{
+                flexDirection: 'row', alignItems: 'center', marginTop: 8, marginBottom: 5,
+              }}
+              >
+
                 <Layout style={{
                   flex: 1,
                   alignItems: 'center',
-                  justifyContent: 'space-between',
+                  flexDirection: 'row',
+                  marginTop: 14,
+                  marginRight: 8,
                 }}
                 >
+                  <Icon
+                    name="arrow-downward"
+                    fill="#b5b5b5"
+                    style={{ height: 16, width: 16 }}
+                  />
+                  <Icon
+                    name="arrow-upward"
+                    fill="#b5b5b5"
+                    style={{
+                      height: 16, width: 16, marginRight: 8,
+                    }}
+                  />
 
-                  <Layout style={{
-                    alignItems: 'center', flexDirection: 'row', marginTop: 14, marginRight: 8,
-                  }}
-                  >
-                    <Icon
-                      name="arrow-downward"
-                      fill="#b5b5b5"
-                      style={{ height: 16, width: 16 }}
-                    />
-                    <Icon
-                      name="arrow-upward"
-                      fill="#b5b5b5"
-                      style={{
-                        height: 16, width: 16, marginRight: 8,
-                      }}
-                    />
-
-                    <Text category="h5" status="success">+ 10 800 €</Text>
-                  </Layout>
+                  <Text category="h5" status="success">+ 10 800 €</Text>
                 </Layout>
 
                 <Layout style={{
+                  flex: 1,
                   alignItems: 'center',
                   justifyContent: 'space-between',
                   marginRight: 8,
@@ -169,6 +170,7 @@ function TableauDeBord() {
                 </Layout>
 
                 <Layout style={{
+                  flex: 1,
                   alignItems: 'center',
                   justifyContent: 'space-between',
                 }}

@@ -10,7 +10,6 @@ const HeaderBack = () => {
 
   const goBack = React.useCallback(
     debounce(() => {
-      console.log(navigation.isFocused(), navigation.canGoBack());
       if (navigation.isFocused()) {
         navigation.dispatch({
           ...StackActions.pop(),

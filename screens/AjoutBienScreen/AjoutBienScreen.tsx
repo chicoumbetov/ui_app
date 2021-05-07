@@ -96,6 +96,40 @@ function AjoutBienScreen() {
 
   const [statutShow, setStatutShow] = useState(false);
 
+  let SelectedIcon = MaisonVerte;
+  switch (image) {
+    case 'Immeuble':
+      SelectedIcon = Immeuble;
+      break;
+    case 'MaisonVerte':
+      SelectedIcon = MaisonVerte;
+      break;
+    case 'Cabane':
+      SelectedIcon = Cabane;
+      break;
+    case 'Bateau':
+      SelectedIcon = Bateau;
+      break;
+    case 'Boutique':
+      SelectedIcon = Boutique;
+      break;
+    case 'Chateau':
+      SelectedIcon = Chateau;
+      break;
+    case 'Manoir':
+      SelectedIcon = Manoir;
+      break;
+    case 'MaisonBleu':
+      SelectedIcon = MaisonBleu;
+      break;
+    case 'Riad':
+      SelectedIcon = Riad;
+      break;
+    case 'Voiture':
+      SelectedIcon = Voiture;
+      break;
+  }
+
   return (
     <ScrollView style={{ backgroundColor: '#f6f6f6' }}>
       <Form<AjoutBienForm> {...ajoutBienForm}>
@@ -138,12 +172,12 @@ function AjoutBienScreen() {
               borderRadius: 7,
             }}
             >
-              <Text category="H5">La Maison de Matthieu</Text>
+
+              <TextInputComp style={{ marginBottom: 30, marginLeft: 23, marginRight: 22 }} name="nomDuBien" placeholder="Le nom du bien" />
             </Layout>
 
             <Layout style={{ alignItems: 'center', backgroundColor: 'transparent', marginVertical: 34 }}>
-
-              <MaisonVerte height={146} width={146} />
+              <SelectedIcon height={146} width={146} />
             </Layout>
             <Layout style={{ marginLeft: 10, backgroundColor: 'transparent' }}>
               <Text category="h5" appearance="hint">
@@ -154,7 +188,7 @@ function AjoutBienScreen() {
               flexDirection: 'row', marginTop: 21, justifyContent: 'space-evenly', marginLeft: -6, backgroundColor: 'transparent',
             }}
             >
-              <TouchableOpacity onPress={() => {}}>
+              <TouchableOpacity onPress={() => { setImage('MaisonVerte'); }}>
                 <MaisonVerte height={53} width={53} />
               </TouchableOpacity>
 
@@ -162,15 +196,15 @@ function AjoutBienScreen() {
                 <Immeuble height={53} width={53} />
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => {}}>
+              <TouchableOpacity onPress={() => { setImage('Cabane'); }}>
                 <Cabane height={53} width={53} />
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => {}}>
+              <TouchableOpacity onPress={() => { setImage('Bateau'); }}>
                 <Bateau height={53} width={53} />
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => {}}>
+              <TouchableOpacity onPress={() => { setImage('Boutique'); }}>
                 <Boutique height={53} width={53} />
               </TouchableOpacity>
 
@@ -179,23 +213,23 @@ function AjoutBienScreen() {
               flexDirection: 'row', marginTop: 34, justifyContent: 'space-evenly', marginLeft: -6, backgroundColor: 'transparent',
             }}
             >
-              <TouchableOpacity onPress={() => {}}>
+              <TouchableOpacity onPress={() => { setImage('Chateau'); }}>
                 <Chateau height={53} width={53} />
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => {}}>
+              <TouchableOpacity onPress={() => { setImage('Manoir'); }}>
                 <Manoir height={53} width={53} />
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => {}}>
+              <TouchableOpacity onPress={() => { setImage('MaisonBleu'); }}>
                 <MaisonBleu height={53} width={53} />
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => {}}>
+              <TouchableOpacity onPress={() => { setImage('Riad'); }}>
                 <Riad height={53} width={53} />
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => {}}>
+              <TouchableOpacity onPress={() => { setImage('Voiture'); }}>
                 <Voiture height={53} width={53} />
               </TouchableOpacity>
 
@@ -301,7 +335,7 @@ function AjoutBienScreen() {
               </Layout>
 
               <Layout>
-                <SelectComp name="Detention" data={detention} placeholder="Détention" onChangeValue={(v) => { console.log('testeteteteteet'); }} size="large" appearance="default" status="primary" />
+                <SelectComp name="Detention" data={detention} placeholder="Détention" onChangeValue={(v) => { if (v === 'b1') { setDetentionShow(true); setStatutShow(false); } else { setDetentionShow(false); setStatutShow(true); } }} size="large" appearance="default" status="primary" />
 
               </Layout>
               {detentionShow

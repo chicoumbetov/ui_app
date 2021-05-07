@@ -79,9 +79,6 @@ const TresoMouvementPage1 = ({ compte }) => {
           </Text>
 
           <MouvementAttente />
-          <Layout style={styles.separator} />
-          <MouvementValide />
-
 
         </Layout>
 

@@ -51,7 +51,13 @@ const SelectComp = React.forwardRef<SelectHandles, SelectFormProps<string | numb
         <Select
           value={selectedIndex > -1 ? data[selectedIndex].label : undefined}
           selectedIndex={selectedIndex > -1 ? new IndexPath(selectedIndex) : undefined}
-          onSelect={(index) => setSelectedIndex(Array.isArray(index) ? index[0].row : index.row)}
+          onSelect={(index) => {
+            const selectedI = Array.isArray(index) ? index[0].row : index.row;
+            setSelectedIndex(selectedI);
+            if (onChangeValue) {
+              onChangeValue(data[selectedI].key);
+            }
+          }}
           {...selectProps}
           caption={error && error.message}
           status={error && error.message !== '' ? 'danger' : status}

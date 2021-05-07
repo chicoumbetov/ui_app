@@ -3,11 +3,9 @@ import { FlatList, StyleSheet, TouchableOpacity } from 'react-native';
 import { Layout, Text } from '@ui-kitten/components';
 import { AntDesign } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import comptesData from '../../../../mockData/comptesData';
+import mouvementData from '../../../../mockData/mouvementData';
 
 const MouvementAttente = () => {
-  const [client, setClient] = useState(comptesData);
-
   // Go to next page
   const navigation = useNavigation();
 
@@ -22,9 +20,9 @@ const MouvementAttente = () => {
   return (
     <Layout style={styles.windowOut}>
       <FlatList
-        data={comptesData}
+        data={mouvementData}
         keyExtractor={(item) => item.id}
-        renderItem={() => (
+        renderItem={({ item }) => (
 
           <Layout style={styles.window}>
             <Layout style={{
@@ -34,19 +32,18 @@ const MouvementAttente = () => {
             }}
             >
 
-              <Text style={{
-                fontSize: 18,
-                letterSpacing: 0.5,
-                fontWeight: '600',
-                color: '#00c29a',
-                justifyContent: 'center',
-              }}
+              <Text
+                style={{
+                  justifyContent: 'center',
+                }}
+                category="h5"
+                status="success"
               >
-                + 500 €
+                {item.valeur}
               </Text>
 
-              <Text style={{ fontSize: 16, color: '#b5b5b5' }}>10/03/2021</Text>
-              <Text style={{ fontSize: 14, color: '#b5b5b5' }}>Libellé du mouvement</Text>
+              <Text category="h6" appearance="hint">{item.date}</Text>
+              <Text category="p1" appearance="hint">Libellé du mouvement</Text>
             </Layout>
 
             <Layout style={{
@@ -54,19 +51,23 @@ const MouvementAttente = () => {
               alignItems: 'center',
               flexDirection: 'row',
               justifyContent: 'space-between',
+              paddingLeft: 10,
             }}
             >
-              <Text style={{
-                fontSize: 18, letterSpacing: 0.4, marginLeft: 15, fontWeight: '800', color: 'orange',
-              }}
+              <Text
+                style={{ justifyContent: 'center' }}
+                category="h6"
+                status={item.typeMouvement === 'Validé' ? ('success') : ('warning')}
+
               >
-                En attente
+                {item.typeMouvement}
               </Text>
               <TouchableOpacity onPress={onTresoMouvementPage2}>
                 <AntDesign size={14} name="right" color="#b5b5b5" style={{ marginRight: 20 }} />
               </TouchableOpacity>
 
             </Layout>
+
           </Layout>
 
         )}
@@ -77,7 +78,7 @@ const MouvementAttente = () => {
           <Text style={styles.buttonTextRight}>Ignorer les mouvements</Text>
         </Layout>
       </TouchableOpacity>
-
+      <Layout style={styles.separator} />
     </Layout>
   );
 };

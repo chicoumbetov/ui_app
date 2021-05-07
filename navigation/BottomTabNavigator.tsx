@@ -17,9 +17,10 @@ import MesChargesStackNavigator from './MesChargesStackNavigator';
 import { getStackInfos } from './Utils';
 import TableauDeBord from '../screens/TabTableauDeBordScreen/TableauDeBord';
 import {useDimensions} from "@react-native-community/hooks";
+import BellOutlineColor from '../assets/Icones_couleurs_2/bellOutlineIcon.svg'
 
 const HomeIcon = () => (
-    <Icon name="home-outline" fill='#5eecb4' style={{ height: 20, width: 20 }} />
+    <BellOutlineColor height={20} width={20} />
 );
 
 const TrendingUpIcon = () => (
@@ -35,7 +36,7 @@ const FileIcon = () => (
 );
 
 const BellIcon = () => (
-    <Icon name="bell-outline" fill='#5eecb4' style={{ height: 20, width: 20 }} />
+    <BellOutlineColor height={20} width={20} />
 );
 
 // create type Props for props. Do Not leave any props

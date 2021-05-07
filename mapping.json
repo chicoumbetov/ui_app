@@ -671,8 +671,8 @@
           "variantGroups": {
             "status": {
               "basic": {
-                "borderColor": "border-basic-color-4",
-                "backgroundColor": "background-basic-color-2",
+                "borderColor": "border-basic-color-1",
+                "backgroundColor": "background-basic-color-1",
                 "textColor": "text-basic-color",
                 "labelColor": "text-hint-color",
                 "captionColor": "text-hint-color",

@@ -74,21 +74,21 @@ const Informations = ({ clientData }: DataProps) => {
       </Text>
       <Layout style={styles.compteSection}>
         {/* use SectionList to render several accounts with its types and details */}
-        <Text category="h6">Date de naissance</Text>
+        <Text category="h6" status="basic">Date de naissance</Text>
         <Text appearance="hint" style={{ marginTop: 6 }}>{clientData.Client.fields[0].dateDeNaissance}</Text>
         <Layout style={{ borderBottomWidth: 0.5, borderBottomColor: '#b5b5b5', marginVertical: 15 }} />
 
-        <Text category="h6" style={{ marginTop: 7 }}>Adresse mail : </Text>
+        <Text category="h6" status="basic" style={{ marginTop: 7 }}>Adresse mail : </Text>
         <Text appearance="hint" style={{ marginTop: 5 }}>
           {clientData.Client.fields[0].email}
         </Text>
         <Layout style={{ borderBottomWidth: 0.3, borderBottomColor: '#b5b5b5', marginVertical: 15 }} />
 
-        <Text category="h6" style={{ marginTop: 8 }}>Ville</Text>
+        <Text category="h6" status="basic" style={{ marginTop: 8 }}>Ville</Text>
         <Text appearance="hint" style={{ marginTop: 5 }}>{clientData.AdresseType.fields[0].ville}</Text>
         <Layout style={{ borderBottomWidth: 0.5, borderBottomColor: '#b5b5b5', marginVertical: 15 }} />
 
-        <Text category="h6" style={{ marginTop: 10 }}>Numéro de téléphone</Text>
+        <Text category="h6" status="basic" style={{ marginTop: 10 }}>Numéro de téléphone</Text>
         <Text appearance="hint" style={{ marginTop: 5 }}>{clientData.Client.fields[0].numeroTel}</Text>
       </Layout>
       <TouchableOpacity onPress={onPress}>

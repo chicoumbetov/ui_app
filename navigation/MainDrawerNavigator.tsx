@@ -6,7 +6,7 @@
 
 import React from 'react';
 import {
-  StyleSheet,
+  StyleSheet, View,
 } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
@@ -22,6 +22,8 @@ import MaTresorerieStackNavigator from './MaTresorerieStackNavigator';
 import MonCompteStackNavigator from './MonCompteStackNavigator';
 import { getStackInfos } from './Utils';
 import {useSafeAreaInsets} from "react-native-safe-area-context";
+
+import {Text} from '@ui-kitten/components';
 
 const Drawer = createDrawerNavigator();
 
@@ -40,14 +42,12 @@ const MainDrawerNavigator = () => {
       drawerContent={(props) => <CustomDrawer {...props} />}
       initialRouteName="TableauDeBordDrawer"
       screenOptions={({navigation}) => {
-        const state = navigation.getState();
+        const state = navigation.dangerouslyGetState();
         const {showBack, currentRouteName} = getStackInfos(state);
         return {
           title: getTitleFromName(currentRouteName),
           headerLeft: () => (
-              showBack ? <HeaderBack/>
-                  :
-                  <HeaderBurger/>
+              showBack ? <HeaderBack/> : <HeaderBurger/>
           ),
           headerRight: () => (
               <HeaderLogo/>
@@ -55,9 +55,9 @@ const MainDrawerNavigator = () => {
           headerStyle: {
             height: 70 + insets.top,
           },
+          headerShown: true,
         };
       }}
-      draw
   >
     <Drawer.Screen
         name="bottom-tab-nav"

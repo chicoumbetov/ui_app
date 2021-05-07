@@ -48,6 +48,10 @@
 
     "text-paragraph-2-font-family": "HouschkaRoundedMedium",
 
+    "text-paragraph-3-font-size": 15,
+
+    "text-paragraph-3-font-family": "HouschkaRoundedDemiBold",
+
 
     "border-radius": 7
 

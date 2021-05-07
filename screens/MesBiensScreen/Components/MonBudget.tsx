@@ -5,7 +5,9 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import { Layout, Text, Icon as IconUIKitten } from '@ui-kitten/components';
+import {
+  Layout, Text, Icon as IconUIKitten, useTheme,
+} from '@ui-kitten/components';
 import {
   FlatList, ScrollView, StyleSheet, TouchableOpacity, View,
 } from 'react-native';
@@ -13,12 +15,12 @@ import {
 import { useNavigation } from '@react-navigation/native';
 import comptesData from '../../../mockData/comptesData';
 
-import { colors } from '../../../assets/styles';
 import MaisonVert from '../../../assets/Omedom_Icons_svg/Logement/maison_verte.svg';
 import Icon from '../../../components/Icon';
 
 function MonBudget() {
   const navigation = useNavigation();
+  const theme = useTheme();
 
   const [compte, setCompte] = useState(comptesData);
 
@@ -38,10 +40,10 @@ function MonBudget() {
     <ScrollView style={{ backgroundColor: '#efefef' }}>
 
       {/**
-             *  I. Mon Budget
-             */}
-      <Layout style={{ ...styles.container }}>
-        <Text category="h1" style={{ marginVertical: 12 }}>
+      *  I. Mon Budget
+      */}
+      <Layout style={styles.container}>
+        <Text category="h1" status="basic" style={{ marginVertical: 12 }}>
           Mon Budget
         </Text>
         <View style={{
@@ -68,15 +70,18 @@ function MonBudget() {
       */}
       <Layout style={styles.container}>
 
-        <Layout style={{ backgroundColor: 'transparent', flexDirection: 'row' }}>
+        <Layout style={{
+          backgroundColor: 'transparent', flexDirection: 'row', alignItems: 'center', marginBottom: 10,
+        }}
+        >
           <IconUIKitten
-            name="arrow-ios-upward-outline"
-            fill={colors.green}
+            name="arrow-upward-outline"
+            fill={theme['color-success-400']}
             style={{
-              height: 16, width: 16, marginRight: 5, alignItems: 'center',
+              height: 20, width: 20, marginRight: 5,
             }}
           />
-          <Text category="h4" status="success" style={{ paddingBottom: 30 }}>
+          <Text category="s2" status="success">
             Revenus
           </Text>
         </Layout>
@@ -99,7 +104,7 @@ function MonBudget() {
                 </Text>
 
                 <Text category="h6" appearance="hint">10/03/2021</Text>
-                <Text category="p2" appearance="hint">Libellé du mouvement</Text>
+                <Text category="p2" appearance="hint">Mensuel</Text>
               </Layout>
 
               <Layout style={{
@@ -135,19 +140,22 @@ function MonBudget() {
       </Layout>
 
       {/**
-       *     Charge
+       *     Charges
        */}
       <Layout style={styles.container}>
 
-        <Layout style={{ backgroundColor: 'transparent', flexDirection: 'row' }}>
+        <Layout style={{
+          backgroundColor: 'transparent', flexDirection: 'row', alignItems: 'center', marginBottom: 10,
+        }}
+        >
           <IconUIKitten
-            name="arrow-ios-downward-outline"
-            fill={colors.rouge}
+            name="arrow-downward-outline"
+            fill={theme['color-danger-500']}
             style={{
-              height: 16, width: 16, marginRight: 5, alignItems: 'center',
+              height: 20, width: 20, marginRight: 5,
             }}
           />
-          <Text category="h4" status="danger" style={{ paddingBottom: 30 }}>
+          <Text category="s2" status="danger">
             Charges
           </Text>
         </Layout>
@@ -166,15 +174,15 @@ function MonBudget() {
               >
 
                 <Text
-                  category="h3"
-                  status="success"
+                  category="h6"
+                  status="danger"
                   style={{ justifyContent: 'center' }}
                 >
-                  + 500 €
+                  -500
                 </Text>
 
-                <Text style={{ fontSize: 16, color: '#b5b5b5' }}>10/03/2021</Text>
-                <Text style={{ fontSize: 14, color: '#b5b5b5' }}>Libellé du mouvement</Text>
+                <Text category="h6" status="basic">Assurances</Text>
+                <Text category="p1" appearance="hint">Mensuel</Text>
               </Layout>
 
               <Layout style={{
@@ -182,12 +190,12 @@ function MonBudget() {
                 marginLeft: 10,
               }}
               >
-                <Text category="h6" style={{ justifyContent: 'center' }}>
-                  + 500 €
+                <Text category="p1" appearance="hint" style={{ justifyContent: 'center' }}>
+                  Date d'échéance
                 </Text>
 
-                <Text category="p2" status="basic">10/03/2021</Text>
-                <Text category="p2" appearance="hint">Libellé du mouvement</Text>
+                <Text category="p3" status="basic">03/03/2021</Text>
+                <Text category="h6" status="success">Validé</Text>
 
               </Layout>
             </Layout>
@@ -198,12 +206,12 @@ function MonBudget() {
         <Layout style={styles.button}>
           <TouchableOpacity onPress={allerAjoutCharge}>
             <Layout style={styles.button}>
-              <Text category="h6" style={{ marginLeft: 6 }}>Ajouter un compte</Text>
+              <Text category="h6" status="info" style={{ marginLeft: 6 }}>Ajouter un compte</Text>
             </Layout>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => {}}>
             <Layout style={styles.button}>
-              <Text category="h6">Supprimer un compte</Text>
+              <Text category="h6" status="basic">Supprimer un compte</Text>
             </Layout>
           </TouchableOpacity>
         </Layout>
@@ -219,7 +227,7 @@ function MonBudget() {
           Consulter la trésorerie pour affecter les mouvements bancaires
         </Text>
         {/**   1   */}
-        <Layout style={{ ...styles.docs, marginBottom: 10, justifyContent: 'center' }}>
+        <Layout style={[styles.docs, { marginBottom: 10, justifyContent: 'center' }]}>
 
           <TouchableOpacity
             onPress={allerTresorerie}
@@ -227,11 +235,8 @@ function MonBudget() {
               flexDirection: 'row', alignItems: 'center',
             }}
           >
-            <Icon name="money" size={30} color={colors.green} style={{ marginRight: 10 }} />
-            <Text style={{
-              fontSize: 16, fontFamily: 'HouschkaRoundedDemiBold', letterSpacing: 0.2,
-            }}
-            >
+            <Icon name="money" size={30} color={theme['color-success-400']} style={{ marginRight: 10 }} />
+            <Text category="h6" status="basic">
               Ma Trésorerie
             </Text>
 

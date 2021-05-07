@@ -9,7 +9,7 @@ import { useNavigation } from '@react-navigation/native';
 import { BottomTabParamList } from '../types';
 
 
-import { BottomNavigation } from './BottomNavigation';
+import { BottomNavigation } from '../components/UIKittenRewrite/BottomNavigation';
 import MonAssistantStackNavigator from './MonAssistantStackNavigator';
 import Notifications from '../screens/NotificationsScreen/Notifications';
 import MesBiensStackNavigator from './MesBiensStackNavigator';
@@ -66,7 +66,7 @@ export default function BottomTabNavigator() {
       initialRouteName="tableau-de-bord"
       tabBar={
         (props) => {
-          const { showBack } = getStackInfos(navigation.getState());
+          const { showBack } = getStackInfos(navigation.dangerouslyGetState());
           if (showBack) {
             return <></>;
           }

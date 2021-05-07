@@ -132,11 +132,13 @@ export class TabIndicator extends React.Component<TabIndicatorProps> {
           end={{ x: 1, y: 0 }}
           style={{
             position: 'absolute',
-            left: 0,
+            left: '50%',
+            marginLeft: -35,
             right: 0,
             top: 0,
             bottom: 0,
-            borderRadius: 2,
+            width: 70,
+            borderRadius: 0,
           }}
         />
       </Animated.View>

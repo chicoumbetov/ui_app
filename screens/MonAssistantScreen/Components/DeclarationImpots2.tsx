@@ -1,5 +1,5 @@
 import React from 'react';
-import { Icon, Layout, Text } from '@ui-kitten/components';
+import { Icon as IconUIKitten, Layout, Text } from '@ui-kitten/components';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 
 import CompteHeader from '../../../components/CompteHeader/CompteHeader';
@@ -23,10 +23,10 @@ const DeclarationImpots = () => (
 
         <Layout style={{ flexDirection: 'row' }}>
           <TouchableOpacity onPress={() => {}}>
-            <Icon name="cloud-download" fill="#b5b5b5" style={{ height: 20, width: 20, marginRight: 24 }} />
+            <IconUIKitten name="cloud-download" fill="#b5b5b5" style={{ height: 20, width: 20, marginRight: 24 }} />
           </TouchableOpacity>
           <TouchableOpacity onPress={() => {}}>
-            <Icon name="eye" fill="#b5b5b5" style={{ height: 20, width: 20 }} />
+            <IconUIKitten name="eye" fill="#b5b5b5" style={{ height: 20, width: 20 }} />
           </TouchableOpacity>
 
         </Layout>

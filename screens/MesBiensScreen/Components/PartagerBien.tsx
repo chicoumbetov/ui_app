@@ -2,8 +2,9 @@ import React, { useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { Button, Layout, Text } from '@ui-kitten/components';
 import {
-  Image, ScrollView, StyleSheet, View,
+  ScrollView, StyleSheet, View,
 } from 'react-native';
+import MaisonVert from '../../../assets/Omedom_Icons_svg/Logement/maison_verte.svg';
 
 const PartagerBien = () => {
   const navigation = useNavigation();
@@ -17,16 +18,16 @@ const PartagerBien = () => {
       {/**
       *  I part
       */}
-      <Layout style={{ ...styles.container, marginTop: 0 }}>
-        <Text style={{ fontSize: 25, fontFamily: 'HouschkaRoundedDemiBold' }}>
+      <Layout style={[styles.container, { marginTop: 0 }]}>
+        <Text category="h1" status="basic" style={{ marginBottom: 30 }}>
           Partager le bien
         </Text>
         <View style={{
           marginTop: 10, marginRight: 20, flexDirection: 'row', alignItems: 'center',
         }}
         >
-          <Image source={require('../../../assets/Icones_omedom/logements/maisonVert.png')} style={{ height: 40, width: 40, marginRight: 12 }} />
-          <Text style={{ fontSize: 19, fontFamily: 'HouschkaRoundedDemiBold' }}>
+          <MaisonVert height={40} width={40} style={{ marginRight: 12 }} />
+          <Text category="h4" status="basic">
             {' '}
             {/* {compte.typeBien} */}
             La Maison

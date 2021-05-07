@@ -4,6 +4,7 @@ import { Layout, Text } from '@ui-kitten/components';
 import {
   Image, ScrollView, StyleSheet, View,
 } from 'react-native';
+import MaisonVert from '../../../assets/Omedom_Icons_svg/Logement/maison_verte.svg';
 
 const ParametrerAjoutRevenu = () => {
   const navigation = useNavigation();
@@ -14,15 +15,18 @@ const ParametrerAjoutRevenu = () => {
          *  I. Mon Budget
          */}
       <Layout style={{ ...styles.container, marginTop: 0 }}>
-        <Text style={{ fontSize: 25, fontFamily: 'HouschkaRoundedDemiBold' }}>
+        <Text category="h1">
           Mon Budget
         </Text>
         <View style={{
           marginTop: 10, marginRight: 20, flexDirection: 'row', alignItems: 'center',
         }}
         >
-          <Image source={require('../../../assets/Icones_omedom/logements/maisonVert.png')} style={{ height: 40, width: 40, marginRight: 12 }} />
-          <Text style={{ fontSize: 19, fontFamily: 'HouschkaRoundedDemiBold' }}>
+          <View style={{ marginRight: 12 }}>
+            <MaisonVert height={40} width={40} />
+          </View>
+
+          <Text category="h2">
             {' '}
             {/* {compte.typeBien} */}
             La Maison
@@ -37,7 +41,7 @@ const ParametrerAjoutRevenu = () => {
        *  II. Ajouter revenu
        */}
       <Layout style={{ ...styles.container }}>
-        <Text style={{ fontSize: 25, fontFamily: 'HouschkaRoundedDemiBold' }}>
+        <Text category="h4">
           Ajouter un revenu
         </Text>
       </Layout>

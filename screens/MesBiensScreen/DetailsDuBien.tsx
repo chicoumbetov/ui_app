@@ -5,11 +5,13 @@
  */
 
 import React, { useState } from 'react';
-import { Layout, Text } from '@ui-kitten/components';
+import {
+  Layout, Text, Icon as IconUIKitten, useTheme,
+} from '@ui-kitten/components';
 import {
   Image, ScrollView, StyleSheet, TouchableOpacity,
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useLinkTo, useNavigation } from '@react-navigation/native';
 import {
   Entypo, SimpleLineIcons,
 } from '@expo/vector-icons';
@@ -21,6 +23,8 @@ import Icon from '../../components/Icon';
 
 function DetailsBien() {
   const navigation = useNavigation();
+  const linkTo = useLinkTo();
+  const theme = useTheme();
 
   const [compte, setCompte] = useState(comptesData);
 
@@ -28,10 +32,10 @@ function DetailsBien() {
     navigation.navigate('MonBudget');
   };
   const allerTresorerie = () => {
-    console.warn('Go to Tresorerie');
+    linkTo('/ma-tresorerie');
   };
   const allerMonAssistant = () => {
-    console.warn('Go to Mon Assistant');
+    linkTo('/mon-assistant');
   };
   const allerPartagerBien = () => {
     navigation.navigate('PartagerBien');
@@ -46,8 +50,8 @@ function DetailsBien() {
       {/**
        *  I. Details du bien
        */}
-      <Layout style={{ ...styles.container, marginTop: 0 }}>
-        <Text style={{ fontSize: 25, fontFamily: 'HouschkaRoundedDemiBold' }}>
+      <Layout style={{ ...styles.container }}>
+        <Text category="h1" status="basic" style={{ marginVertical: 30, marginHorizontal: 26 }}>
           Détails du bien
         </Text>
         <Layout style={{ alignItems: 'center', backgroundColor: 'transparent', marginVertical: 30 }}>
@@ -63,7 +67,7 @@ function DetailsBien() {
        *  II. Compteurs
        */}
       <Layout style={styles.container}>
-        <Text style={{ ...styles.mainTitle, letterSpacing: 0.5 }}>
+        <Text category="s2" style={{ marginBottom: 30 }}>
           Compteurs
         </Text>
 
@@ -98,7 +102,7 @@ function DetailsBien() {
        */}
       <Layout style={styles.container}>
 
-        <Text style={{ ...styles.mainTitle }}>
+        <Text category="s2" style={{ marginBottom: 30 }}>
           Budget
         </Text>
         {/**   1   */}
@@ -109,7 +113,7 @@ function DetailsBien() {
               flexDirection: 'row', alignItems: 'center',
             }}
           >
-            <Icon name="calculator" size={33} color={colors.green} style={{ marginRight: 10 }} />
+            <Icon name="calculator" size={33} color={theme['color-success-400']} style={{ marginRight: 10 }} />
             <Text style={{
               fontSize: 17, fontFamily: 'HouschkaRoundedDemiBold', letterSpacing: 0.2,
             }}
@@ -126,7 +130,7 @@ function DetailsBien() {
        */}
       <Layout style={styles.container}>
 
-        <Text style={{ ...styles.mainTitle }}>
+        <Text category="s2" style={{ marginBottom: 30 }}>
           Nos Services
         </Text>
         {/**   1   */}
@@ -157,7 +161,7 @@ function DetailsBien() {
             flexDirection: 'row', alignItems: 'center',
           }}
           >
-            <Icon name="trending-up-outline" size={30} color={colors.green} style={{ marginRight: 10 }} />
+            <IconUIKitten name="trending-up-outline" fill={colors.green} style={{ marginRight: 10 }} />
             <Text style={{
               fontSize: 16, fontFamily: 'HouschkaRoundedDemiBold', letterSpacing: 0.2,
             }}
@@ -371,11 +375,6 @@ const styles = StyleSheet.create({
     marginTop: 12,
     paddingVertical: 25,
     paddingHorizontal: 26,
-  },
-  mainTitle: {
-    fontFamily: 'Houschka_Rounded_Alt_Light_Regular',
-    fontSize: 22,
-    paddingBottom: 30,
   },
 
   // Compteurs

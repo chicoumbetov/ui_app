@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { Button, Layout, Text } from '@ui-kitten/components';
 import {
-  Image, LogBox, ScrollView, StyleSheet, View,
+  Image, ScrollView, StyleSheet, View,
 } from 'react-native';
 
 const PartagerBien = () => {

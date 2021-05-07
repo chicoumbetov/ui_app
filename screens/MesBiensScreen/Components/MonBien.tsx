@@ -51,7 +51,12 @@ function MonBien() {
 
         {!opened ? (
           <>
-            <Layout style={{ flexDirection: 'row', marginTop: 8, marginBottom: 5 }}>
+            <Layout style={{
+              flexDirection: 'row',
+              marginTop: 8,
+              marginBottom: 5,
+            }}
+            >
               <Layout style={{
                 flex: 1,
                 alignItems: 'center',
@@ -107,21 +112,24 @@ function MonBien() {
                   />
                   <Text category="h4" status="warning">60 %</Text>
                 </Layout>
+
               </Layout>
             </Layout>
           </>
         ) : (
           <>
             <Layout style={{
-              borderBottomWidth: 0.3,
-              borderBottomColor: colors.gris,
+              borderWidth: 0.5,
+              borderColor: colors.gris,
               marginVertical: 20,
             }}
             />
-
-            <Layout style={{ flexDirection: 'row' }}>
+            <Layout style={{
+              flexDirection: 'row',
+            }}
+            >
               <Layout style={styles.oneThirdBlock}>
-                <Text style={styles.text}>Dernier mouvement</Text>
+                <Text category="h6" appearance="hint" style={styles.text}>Dernier mouvement</Text>
                 <Text category="h4" status="success" style={{ marginVertical: 14 }}>+ 500 €</Text>
                 <TouchableOpacity onPress={() => {}}>
                   <Text category="h6" status="info">Affecter</Text>
@@ -129,7 +137,7 @@ function MonBien() {
               </Layout>
 
               <Layout style={styles.oneThirdBlock}>
-                <Text style={styles.text}>
+                <Text category="h6" appearance="hint" style={styles.text}>
                   Prochaine dépense
                 </Text>
                 <Text category="h4" status="danger">- 160 €</Text>
@@ -139,7 +147,7 @@ function MonBien() {
               </Layout>
 
               <Layout style={styles.oneThirdBlock}>
-                <Text style={styles.text}>
+                <Text category="h6" appearance="hint" style={styles.text}>
                   Réntabilité du bien
                 </Text>
                 <Text category="h4" status="warning" style={{ marginVertical: 14 }}>60 %</Text>
@@ -173,14 +181,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#f6f6f6',
     marginTop: 12,
     paddingTop: 38,
-
     paddingHorizontal: 26,
   },
   containerBiens: {
     backgroundColor: '#f6f6f6',
     marginTop: 12,
     paddingTop: 38,
-
     paddingHorizontal: 23,
   },
 
@@ -195,14 +201,6 @@ const styles = StyleSheet.create({
     width: 94,
     justifyContent: 'center',
     textAlign: 'center',
-  },
-  buttonText: {
-    fontSize: 16.5,
-    marginTop: 21,
-    marginBottom: 35,
-    letterSpacing: 0.15,
-    fontFamily: 'HouschkaRoundedDemiBold',
-    color: colors.bleu,
   },
 
   // Button ignorer les mouvements

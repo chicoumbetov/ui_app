@@ -25,26 +25,47 @@ const Graphics = ({ data }) => {
           />
         </Layout>
 
-        <Layout style={{ borderBottomWidth: 1, borderBottomColor: '#b5b5b5' }} />
+        <Layout style={{
+          borderWidth: 1,
+          borderColor: '#b5b5b5',
+          marginVertical: 20,
+        }}
+        />
 
         {/**
         *         Remake with Flatlist and connect with Victory Pie
         * */}
-        <Layout style={{ flexDirection: 'row', marginTop: 10, alignItems: 'center' }}>
-          <Layout style={{ ...styles.circles, backgroundColor: colors.bleu }} />
-          <Text style={{ color: colors.gris }}>Eau</Text>
+        <Layout style={{
+          flex: 1, flexDirection: 'row', marginTop: 10, alignItems: 'center',
+        }}
+        >
+          <Layout style={{
+            backgroundColor: colors.bleu, height: 30, width: 30, borderRadius: 30, marginRight: 10,
+          }}
+          />
+          <Text category="h6" appearance="hint">Eau</Text>
         </Layout>
         <Layout style={{ flexDirection: 'row', marginTop: 10, alignItems: 'center' }}>
-          <Layout style={{ ...styles.circles, backgroundColor: colors.jaune }} />
-          <Text style={{ color: colors.gris }}>Electiricité</Text>
+
+          <Layout style={{
+            backgroundColor: colors.jaune, height: 30, width: 30, borderRadius: 30, marginRight: 10,
+          }}
+          />
+          <Text category="h6" appearance="hint">Electiricité</Text>
         </Layout>
         <Layout style={{ flexDirection: 'row', marginTop: 10, alignItems: 'center' }}>
-          <Layout style={{ ...styles.circles, backgroundColor: colors.vert2 }} />
-          <Text style={{ color: colors.gris }}>Assurances</Text>
+          <Layout style={{
+            backgroundColor: colors.green, height: 30, width: 30, borderRadius: 30, marginRight: 10,
+          }}
+          />
+          <Text category="h6" appearance="hint">Assurances</Text>
         </Layout>
         <Layout style={{ flexDirection: 'row', marginTop: 10, alignItems: 'center' }}>
-          <Layout style={{ ...styles.circles, backgroundColor: colors.rouge }} />
-          <Text style={{ color: colors.gris }}>Frais Divers</Text>
+          <Layout style={{
+            backgroundColor: colors.rouge, height: 30, width: 30, borderRadius: 30, marginRight: 10,
+          }}
+          />
+          <Text category="h6" appearance="hint">Frais Divers</Text>
         </Layout>
 
       </Layout>
@@ -64,7 +85,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   circles: {
-    backgroundColor: colors.rouge, height: 20, width: 20, borderRadius: 30, marginRight: 10,
+    height: 20, width: 20, borderRadius: 30, marginRight: 10,
   },
 });
 

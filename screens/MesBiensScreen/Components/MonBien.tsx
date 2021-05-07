@@ -10,9 +10,7 @@ import { Layout, Text, Icon } from '@ui-kitten/components';
 import {
   StyleSheet, TouchableOpacity,
 } from 'react-native';
-import { useLinkTo, useNavigation } from '@react-navigation/native';
-import { AntDesign, Ionicons } from '@expo/vector-icons';
-import { View as MotiView } from 'moti';
+import { useLinkTo } from '@react-navigation/native';
 import CompteHeader from '../../../components/CompteHeader/CompteHeader';
 import GraphicsII from '../../../components/Graphics/GraphicsII';
 import Graphics from '../../../components/Graphics/Graphics';

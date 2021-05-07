@@ -56,9 +56,7 @@ const MainDrawerNavigator = () => {
             height: 70 + insets.top,
           },
           headerShown: true,
-          sceneContainerStyle: {
-            maxWidth: 780
-          }
+
         };
       }}
   >

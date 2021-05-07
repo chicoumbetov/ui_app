@@ -4,12 +4,12 @@
  * @author: Shynggys UMBETOV, Amaury
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import {
   Button, Icon, Layout, Text,
 } from '@ui-kitten/components';
 import {
-  FlatList, ScrollView, StyleSheet, TouchableOpacity, View,
+  FlatList, StyleSheet, TouchableOpacity, View,
 } from 'react-native';
 
 import { useLinkTo } from '@react-navigation/native';
@@ -17,6 +17,7 @@ import CompteHeader from '../../components/CompteHeader/CompteHeader';
 import comptesData from '../../mockData/comptesData';
 import MaisonVert from '../../assets/Omedom_Icons_svg/Logement/maison_verte.svg';
 import Immeuble from '../../assets/Omedom_Icons_svg/Logement/immeuble.svg';
+import MaxWidthContainer from '../../components/MaxWidthContainer';
 
 function TableauDeBord() {
   const linkTo = useLinkTo();
@@ -43,8 +44,7 @@ function TableauDeBord() {
   };
 
   return (
-    <ScrollView style={{ backgroundColor: '#efefef' }}>
-
+    <MaxWidthContainer outerViewProps={{ style: { backgroundColor: '#efefef' } }}>
       {/**
        *  Trésorerie section
        */}
@@ -257,8 +257,7 @@ function TableauDeBord() {
           Consulter les notifications
         </Text>
       </Layout>
-
-    </ScrollView>
+    </MaxWidthContainer>
 
   );
 }

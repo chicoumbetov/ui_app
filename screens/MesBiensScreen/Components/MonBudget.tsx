@@ -5,16 +5,16 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import { Layout, Text } from '@ui-kitten/components';
+import { Layout, Text, Icon as IconUIKitten } from '@ui-kitten/components';
 import {
-  FlatList,
-  Image, LogBox, ScrollView, StyleSheet, TouchableOpacity, View,
+  FlatList, ScrollView, StyleSheet, TouchableOpacity, View,
 } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
 import comptesData from '../../../mockData/comptesData';
 
 import { colors } from '../../../assets/styles';
+import MaisonVert from '../../../assets/Omedom_Icons_svg/Logement/maison_verte.svg';
 import Icon from '../../../components/Icon';
 
 function MonBudget() {
@@ -23,7 +23,7 @@ function MonBudget() {
   const [compte, setCompte] = useState(comptesData);
 
   const allerTresorerie = () => {
-    console.warn('Go to Tresorerie');
+    navigation.navigate('MaTrésorerieDrawer');
   };
 
   const allerAjoutRevenu = () => {
@@ -40,16 +40,19 @@ function MonBudget() {
       {/**
              *  I. Mon Budget
              */}
-      <Layout style={{ ...styles.container, marginTop: 0 }}>
-        <Text style={{ fontSize: 25, fontFamily: 'HouschkaRoundedDemiBold' }}>
+      <Layout style={{ ...styles.container }}>
+        <Text category="h1" style={{ marginVertical: 12 }}>
           Mon Budget
         </Text>
         <View style={{
           marginTop: 10, marginRight: 20, flexDirection: 'row', alignItems: 'center',
         }}
         >
-          <Image source={require('../../../assets/Icones_omedom/logements/maisonVert.png')} style={{ height: 40, width: 40, marginRight: 12 }} />
-          <Text style={{ fontSize: 19, fontFamily: 'HouschkaRoundedDemiBold' }}>
+          <View style={{ marginRight: 12 }}>
+            <MaisonVert height={40} width={40} />
+          </View>
+
+          <Text category="h2" status="basic">
             {' '}
             {/* {compte.typeBien} */}
             La Maison
@@ -66,8 +69,14 @@ function MonBudget() {
       <Layout style={styles.container}>
 
         <Layout style={{ backgroundColor: 'transparent', flexDirection: 'row' }}>
-          <Icon name="arrow-up2" size={18} style={{ marginRight: 10, marginTop: 5 }} />
-          <Text style={{ ...styles.mainTitle, color: colors.green }}>
+          <IconUIKitten
+            name="arrow-ios-upward-outline"
+            fill={colors.green}
+            style={{
+              height: 16, width: 16, marginRight: 5, alignItems: 'center',
+            }}
+          />
+          <Text category="h4" status="success" style={{ paddingBottom: 30 }}>
             Revenus
           </Text>
         </Layout>
@@ -85,19 +94,12 @@ function MonBudget() {
               }}
               >
 
-                <Text style={{
-                  fontSize: 18,
-                  letterSpacing: 0.5,
-                  fontWeight: '600',
-                  color: '#00c29a',
-                  justifyContent: 'center',
-                }}
-                >
+                <Text category="h6" status="success" style={{ justifyContent: 'center' }}>
                   + 500 €
                 </Text>
 
-                <Text style={{ fontSize: 16, color: '#b5b5b5' }}>10/03/2021</Text>
-                <Text style={{ fontSize: 14, color: '#b5b5b5' }}>Libellé du mouvement</Text>
+                <Text category="h6" appearance="hint">10/03/2021</Text>
+                <Text category="p2" appearance="hint">Libellé du mouvement</Text>
               </Layout>
 
               <Layout style={{
@@ -107,10 +109,7 @@ function MonBudget() {
                 justifyContent: 'space-between',
               }}
               >
-                <Text style={{
-                  fontSize: 18, letterSpacing: 0.4, marginLeft: 15, fontWeight: '800', color: 'orange',
-                }}
-                >
+                <Text category="h6" status="warning" style={{ marginLeft: 15 }}>
                   En attente
                 </Text>
 
@@ -123,12 +122,12 @@ function MonBudget() {
         <Layout style={styles.button}>
           <TouchableOpacity onPress={allerAjoutRevenu}>
             <Layout style={styles.button}>
-              <Text style={styles.buttonTextLeft}>Ajouter un compte</Text>
+              <Text category="h6" status="info" style={styles.buttonTextLeft}>Ajouter un compte</Text>
             </Layout>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => {}}>
             <Layout style={styles.button}>
-              <Text style={styles.buttonTextRight}>Supprimer un compte</Text>
+              <Text category="h6" status="basic">Supprimer un compte</Text>
             </Layout>
           </TouchableOpacity>
         </Layout>
@@ -141,8 +140,14 @@ function MonBudget() {
       <Layout style={styles.container}>
 
         <Layout style={{ backgroundColor: 'transparent', flexDirection: 'row' }}>
-          <Icon name="arrow-down2" size={18} style={{ marginRight: 10, marginTop: 5, color: colors.rouge }} />
-          <Text style={{ ...styles.mainTitle, color: colors.rouge }}>
+          <IconUIKitten
+            name="arrow-ios-downward-outline"
+            fill={colors.rouge}
+            style={{
+              height: 16, width: 16, marginRight: 5, alignItems: 'center',
+            }}
+          />
+          <Text category="h4" status="danger" style={{ paddingBottom: 30 }}>
             Charges
           </Text>
         </Layout>
@@ -160,13 +165,10 @@ function MonBudget() {
               }}
               >
 
-                <Text style={{
-                  fontSize: 18,
-                  letterSpacing: 0.5,
-                  fontWeight: '600',
-                  color: '#00c29a',
-                  justifyContent: 'center',
-                }}
+                <Text
+                  category="h3"
+                  status="success"
+                  style={{ justifyContent: 'center' }}
                 >
                   + 500 €
                 </Text>
@@ -180,19 +182,12 @@ function MonBudget() {
                 marginLeft: 10,
               }}
               >
-                <Text style={{
-                  fontSize: 18,
-                  letterSpacing: 0.5,
-                  fontWeight: '600',
-                  color: '#00c29a',
-                  justifyContent: 'center',
-                }}
-                >
+                <Text category="h6" style={{ justifyContent: 'center' }}>
                   + 500 €
                 </Text>
 
-                <Text style={{ fontSize: 16, color: colors.noir }}>10/03/2021</Text>
-                <Text style={{ fontSize: 14, color: '#b5b5b5' }}>Libellé du mouvement</Text>
+                <Text category="p2" status="basic">10/03/2021</Text>
+                <Text category="p2" appearance="hint">Libellé du mouvement</Text>
 
               </Layout>
             </Layout>
@@ -203,12 +198,12 @@ function MonBudget() {
         <Layout style={styles.button}>
           <TouchableOpacity onPress={allerAjoutCharge}>
             <Layout style={styles.button}>
-              <Text style={styles.buttonTextLeft}>Ajouter un compte</Text>
+              <Text category="h6" style={{ marginLeft: 6 }}>Ajouter un compte</Text>
             </Layout>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => {}}>
             <Layout style={styles.button}>
-              <Text style={styles.buttonTextRight}>Supprimer un compte</Text>
+              <Text category="h6">Supprimer un compte</Text>
             </Layout>
           </TouchableOpacity>
         </Layout>
@@ -220,10 +215,7 @@ function MonBudget() {
       */}
       <Layout style={styles.container}>
 
-        <Text style={{
-          fontSize: 16, fontFamily: 'HouschkaRoundedDemiBold', letterSpacing: 0.2, marginBottom: 20,
-        }}
-        >
+        <Text category="h6" status="info" style={{ marginBottom: 20 }}>
           Consulter la trésorerie pour affecter les mouvements bancaires
         </Text>
         {/**   1   */}
@@ -260,11 +252,6 @@ const styles = StyleSheet.create({
     marginTop: 12,
     paddingVertical: 25,
     paddingHorizontal: 26,
-  },
-  mainTitle: {
-    fontFamily: 'Houschka_Rounded_Alt_Light_Regular',
-    fontSize: 22,
-    paddingBottom: 30,
   },
   window: {
     flexDirection: 'row',
@@ -312,14 +299,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row', marginTop: 10, justifyContent: 'space-between', backgroundColor: 'transparent',
   },
   buttonTextLeft: {
-    color: '#0076c8',
-    fontSize: 17,
     marginLeft: 6,
-    letterSpacing: 0.3,
-    // fontWeight: '600',
-  },
-  buttonTextRight: {
-    fontSize: 17.5,
-    fontWeight: '600',
   },
 });

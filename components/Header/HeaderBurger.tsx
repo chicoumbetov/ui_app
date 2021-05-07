@@ -1,15 +1,23 @@
 import React from 'react';
-import { DrawerActions, useNavigation } from '@react-navigation/native';
+import { DrawerActions, StackActions, useNavigation } from '@react-navigation/native';
 import { TouchableOpacity } from 'react-native';
 import { Icon } from '@ui-kitten/components';
+import debounce from '../../utils/debounce';
 
 const HeaderBurger = () => {
   const navigation = useNavigation();
-  // onPress !== undefined ? onPress :
+
+  const openDrawer = React.useCallback(
+    debounce(() => {
+      navigation.dispatch(DrawerActions.openDrawer());
+    }, 50),
+    [navigation],
+  );
+
   return (
     <TouchableOpacity
       onPress={() => {
-        navigation.dispatch(DrawerActions.toggleDrawer());
+        openDrawer();
       }}
       style={{
         marginTop: -1,

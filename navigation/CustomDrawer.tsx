@@ -18,9 +18,9 @@ import {
   Drawer, DrawerItem, IndexPath, Layout, Text,
 } from '@ui-kitten/components';
 import {
-  ImageProps, SafeAreaView, ScrollView, TouchableOpacity,
+  ImageProps, TouchableOpacity,
 } from 'react-native';
-import { InitialState, useLinkTo } from '@react-navigation/native';
+import {InitialState, useLinkTo} from '@react-navigation/native';
 import { Auth } from 'aws-amplify';
 import { DrawerContentComponentProps } from '@react-navigation/drawer/src/types';
 import { RenderProp } from '@ui-kitten/components/devsupport';
@@ -36,7 +36,13 @@ import {useSafeAreaInsets} from "react-native-safe-area-context";
  */
 // Icons
 // eslint-disable-next-line max-len
-const IconGenerator = (name: IconName, uikitten?: boolean): RenderProp<Partial<ImageProps>> => (props?: Partial<ImageProps>) => {
+type IconProps = {
+  name: IconName, uikitten?: false
+} | {
+  name: string, uikitten: true
+};
+
+const IconGenerator = ({name, uikitten}: IconProps): RenderProp<Partial<ImageProps>> => (props?: Partial<ImageProps>) => {
   let width;
   let color;
   if (props) {
@@ -52,24 +58,26 @@ const IconGenerator = (name: IconName, uikitten?: boolean): RenderProp<Partial<I
     return <IconUIKitten name={name} fill={color} style={{width, height : props?.style?.height}}/>;
   }
 
+  {/* Dans le cas de Icomoon on à uikitten === false ou undefined (cf. type)
+      @ts-expect-error */}
   return <Icon name={name} size={width} color={color} />;
 };
 
-const GridIcon = IconGenerator('grid-outline', true);
+const GridIcon = IconGenerator({name: 'grid-outline', uikitten: true});
 
-const MoneyIcon = IconGenerator('money');
+const MoneyIcon = IconGenerator({name: 'money'});
 
-const QuestionIcon = IconGenerator('question');
+const QuestionIcon = IconGenerator({name: 'question'});
 
-const BellIcon = IconGenerator('bell-outline', true);
+const BellIcon = IconGenerator({name: 'bell-outline', uikitten: true});
 
-const PersonIcon = IconGenerator('person-outline', true);
+const PersonIcon = IconGenerator({name: 'person-outline', uikitten: true});
 
-const HomeIcon = IconGenerator('home-outline', true);
+const HomeIcon = IconGenerator({name: 'home-outline', uikitten: true});
 
-const PaperIcon = IconGenerator('file-text-outline', true);
+const PaperIcon = IconGenerator({name: 'file-text-outline', uikitten: true});
 
-const EmailIcon = IconGenerator('email-outline', true);
+const EmailIcon = IconGenerator({name: 'email-outline', uikitten: true});
 
 function findIndexByRouteName(name?: string) {
   switch (name) {
@@ -117,7 +125,7 @@ function findFocusedDrawerItem(state: InitialState) {
  * 3. Custom Drawer itself
  */
 const CustomDrawer = (props: DrawerContentComponentProps) => {
-  const { state } = props;
+  const { state, navigation } = props;
   const inset = useSafeAreaInsets();
   const linkTo = useLinkTo();
   return (
@@ -139,6 +147,7 @@ const CustomDrawer = (props: DrawerContentComponentProps) => {
             <Drawer
               selectedIndex={new IndexPath(findFocusedDrawerItem(state))}
               onSelect={(index) => {
+                console.log(index);
                 // eslint-disable-next-line default-case
                 switch (index.row) {
                   case 0:

@@ -1,3 +1,19 @@
+# enum Abonnement
+# type AdresseType
+
+# type Client
+# type Compte
+
+# type Bien
+# enum TypeBien {
+#enum TypeSociete
+
+#type LigneBudget
+# enum Frequence
+
+# type InfoLocataire
+# info Crédit   =>   type MensualiteCredit
+
 enum Abonnement {
  UnADeuxBiens
  TroisACinqbiens
@@ -16,7 +32,7 @@ type AdresseType @model {
   client: Client @connection(fields: ["clientID"])
 }
 
-# Type Client
+# Type Client  and Compte
 # Client & AdresseType are connected by clientID
 type Client @model {
   id: ID!
@@ -44,4 +60,90 @@ type Compte @model {
 
 
 
+######  NOT PUSHED YET
 
+#type Bien
+
+type Bien @model @auth(rules: [
+  {allow: owner, ownerField: "admins", operations: [ create, update, delete, read]]}
+  {allow: owner, ownerField: "shared", operations:[read]}
+]) {
+  id: ID!
+  nom: String!
+  iconeUri: String!
+  anneeAcquisition:  AWSDate
+  typeBien: TypeBien
+
+  nomPropre: String    # ????
+
+  societe:TypeSociete
+  detention: Int
+
+  lignesBudget: [LigneBudget]
+  admins: [String!]!
+  shared: [String!]
+  adresseID: ID!
+  adresse: CLientAdresse @connection(fields: ["adresseID"])
+}
+
+enum TypeBien {
+  residencePrincipale
+  residenceSecondaire
+  investissementLocatifProfessionnelOuCommercial
+  investissementLocatifParticulier
+}
+
+enum TypeSociete {
+  SCI
+  SAS
+  SARLclassique
+  SARLfamille
+}
+
+
+#type LigneBudget
+
+type LigneBudget {
+  id: ID!
+  typeLigneBudget: String
+  montant: Int
+  frequence: Frequence
+  dateProchaineEcheance: Int
+
+  infoLocataire: String  # ????
+  infoCredit: String   # ????
+
+  InfoLocataireID: ID!
+  infoLocataire: InfoLocataire @connection(fields:
+  ["InfoLocataireID"])
+}
+
+enum Frequence {
+ mensuelle
+ bimensuelle
+ trimestrielle
+ annuelle
+}
+
+# type InfoLocataire
+type InfoLocataire {
+  id: ID!
+  montant: Int!
+  charges: Int
+  tauxGestion: Int
+  nom: String
+  prenom: String
+  email: AWSEmail
+  dateDebut: AWSDate
+  dateFin: AWSDate
+}
+
+# info Crédit
+type MensualiteCredit {
+  id: ID!
+  capitalEmprunte: Int!
+  dateDebutPret: AWSDate
+  duree: String     # ???? Int
+  tauxInteret: Int
+  tauxAssurance: Int
+}

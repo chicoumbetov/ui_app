@@ -5,7 +5,7 @@
  */
 
 import React, { useState } from 'react';
-import { Layout, Text } from '@ui-kitten/components';
+import { Layout, Text, Icon } from '@ui-kitten/components';
 
 import {
   StyleSheet, TouchableOpacity,
@@ -18,7 +18,7 @@ import GraphicsII from '../../../components/Graphics/GraphicsII';
 import Graphics from '../../../components/Graphics/Graphics';
 import { colors } from '../../../assets/styles';
 import comptesData from '../../../mockData/comptesData';
-import Icon from '../../../components/Icon';
+
 import RotatingIcon from '../../../components/Icon/RotatingIcon';
 
 const mesBiensData = [
@@ -45,106 +45,125 @@ function MonBien() {
         <TouchableOpacity onPress={() => setOpened(!opened)}>
           <Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
             <CompteHeader title={comptesData[0].title} />
-            <RotatingIcon name="arrow-up2" state={opened} />
+            <RotatingIcon name="arrow-ios-upward-outline" uikitten state={opened} width={24} height={25} fill="#b5b5b5" />
           </Layout>
         </TouchableOpacity>
 
         {!opened ? (
           <>
-            <Layout style={{ flexDirection: 'row', marginTop: 8, marginBottom: 5 }}>
+            <Layout style={{
+              flexDirection: 'row',
+              marginTop: 8,
+              marginBottom: 5,
+            }}
+            >
               <Layout style={{
                 flex: 1,
                 alignItems: 'center',
-                justifyContent: 'space-between',
+                flexDirection: 'row',
+                marginTop: 14,
+                marginRight: 8,
               }}
               >
+                <Icon
+                  name="arrow-downward"
+                  fill="#b5b5b5"
+                  style={{ height: 16, width: 16 }}
+                />
+                <Icon
+                  name="arrow-upward"
+                  fill="#b5b5b5"
+                  style={{
+                    height: 16, width: 16, marginRight: 8,
+                  }}
+                />
 
-                <Layout style={{ alignItems: 'center', flexDirection: 'row' }}>
-                  <Ionicons
-                    name="swap-vertical"
-                    size={18}
-                    style={{
-                      marginTop: 14, marginRight: 8, color: '#b5b5b5',
-                    }}
-                  />
-                  <Text style={styles.biensIncomeMouvement}>+ 10 800 €</Text>
-                </Layout>
+                <Text category="h5" status="success">+ 10 800 €</Text>
               </Layout>
 
               <Layout style={{
                 flex: 1,
                 alignItems: 'center',
                 justifyContent: 'space-between',
+                marginRight: 8,
               }}
               >
-                <Layout style={{ alignItems: 'center', flexDirection: 'row' }}>
-                  <AntDesign name="arrowdown" size={13} style={{ marginTop: 14, color: '#b5b5b5' }} />
-                  <Text
-                    style={{ ...styles.biensIncomeMouvement, color: colors.rouge }}
-                  >
-                    - 160 €
-                  </Text>
-                </Layout>
-              </Layout>
-
-              <Layout style={{
-                flex: 1,
-                alignItems: 'center',
-                justifyContent: 'space-between',
-              }}
-              >
-                <Layout style={{ alignItems: 'center', flexDirection: 'row' }}>
+                <Layout style={{ alignItems: 'center', flexDirection: 'row', marginTop: 13 }}>
                   <Icon
-                    name="trending-up-outline"
-                    size={20}
-                    color={colors.gris}
-                    style={{
-                      marginTop: 14, marginRight: 8,
-                    }}
+                    name="arrow-downward"
+                    fill="#b5b5b5"
+                    style={{ height: 16, width: 16, marginRight: 8 }}
                   />
-                  <Text style={{ ...styles.biensIncomeMouvement, color: colors.jaune }}>60 %</Text>
+                  <Text category="h4" status="danger">- 160 €</Text>
                 </Layout>
+              </Layout>
+
+              <Layout style={{
+                flex: 1,
+                alignItems: 'center',
+                justifyContent: 'space-between',
+              }}
+              >
+                <Layout style={{ marginTop: 14, alignItems: 'center', flexDirection: 'row' }}>
+                  <Icon
+                    name="trending-up"
+                    fill="#b5b5b5"
+                    style={{ height: 18, width: 18, marginRight: 8 }}
+                  />
+                  <Text category="h4" status="warning">60 %</Text>
+                </Layout>
+
               </Layout>
             </Layout>
           </>
         ) : (
           <>
-            <Layout style={{ borderBottomWidth: 0.3, borderBottomColor: colors.gris, marginVertical: 20 }} />
-
-            <Layout style={{ flexDirection: 'row' }}>
+            <Layout style={{
+              borderWidth: 0.5,
+              borderColor: colors.gris,
+              marginVertical: 20,
+            }}
+            />
+            <Layout style={{
+              flexDirection: 'row',
+            }}
+            >
               <Layout style={styles.oneThirdBlock}>
-                <Text style={styles.text}>Dernier mouvement</Text>
-                <Text style={styles.incomeMouvement}>+ 500 €</Text>
+                <Text category="h6" appearance="hint" style={styles.text}>Dernier mouvement</Text>
+                <Text category="h4" status="success" style={{ marginVertical: 14 }}>+ 500 €</Text>
                 <TouchableOpacity onPress={() => {}}>
-                  <Text style={styles.buttonTextRight}>Affecter</Text>
+                  <Text category="h6" status="info">Affecter</Text>
                 </TouchableOpacity>
               </Layout>
 
               <Layout style={styles.oneThirdBlock}>
-                <Text style={styles.text}>
+                <Text category="h6" appearance="hint" style={styles.text}>
                   Prochaine dépense
                 </Text>
-                <Text style={{ ...styles.incomeMouvement, color: colors.rouge }}>- 160 €</Text>
+                <Text category="h4" status="danger">- 160 €</Text>
                 <TouchableOpacity onPress={() => {}}>
-                  <Text style={styles.buttonTextRight}>En savoir +</Text>
+                  <Text category="h6" status="info">En savoir +</Text>
                 </TouchableOpacity>
               </Layout>
 
               <Layout style={styles.oneThirdBlock}>
-                <Text style={styles.text}>
+                <Text category="h6" appearance="hint" style={styles.text}>
                   Réntabilité du bien
                 </Text>
-                <Text style={{ ...styles.incomeMouvement, color: colors.jaune }}>60 %</Text>
+                <Text category="h4" status="warning" style={{ marginVertical: 14 }}>60 %</Text>
                 <TouchableOpacity onPress={() => {}}>
-                  <Text style={styles.buttonTextRight}>Mes rapports</Text>
+                  <Text category="h6" status="info">Mes rapports</Text>
                 </TouchableOpacity>
               </Layout>
             </Layout>
 
-            <TouchableOpacity onPress={onDetailsBiens}>
-              <Layout style={styles.button}>
-                <Text style={{ ...styles.buttonTextRight, color: colors.noir }}>Accéder au bien</Text>
-              </Layout>
+            <TouchableOpacity onPress={onDetailsBiens} style={styles.button}>
+              <Text category="h6" status="basic">Accéder au bien</Text>
+              <Icon
+                name="chevron-right-outline"
+                fill="#b5b5b5"
+                style={{ height: 18, width: 18, marginRight: 8 }}
+              />
             </TouchableOpacity>
             <Graphics data={mesBiensData} />
             <GraphicsII />
@@ -162,14 +181,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#f6f6f6',
     marginTop: 12,
     paddingTop: 38,
-
     paddingHorizontal: 26,
   },
   containerBiens: {
     backgroundColor: '#f6f6f6',
     marginTop: 12,
     paddingTop: 38,
-
     paddingHorizontal: 23,
   },
 
@@ -181,38 +198,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   text: {
-    fontSize: 17,
     width: 94,
-    letterSpacing: 0.005,
-    lineHeight: 20,
     justifyContent: 'center',
-    color: colors.gris,
-    fontFamily: 'HouschkaRoundedDemiBold',
     textAlign: 'center',
-  },
-  incomeMouvement: {
-    fontSize: 18.5,
-    marginVertical: 14,
-    letterSpacing: 0.6,
-    color: '#00c29a',
-    fontFamily: 'HouschkaRoundedDemiBold',
-  },
-
-  biensIncomeMouvement: {
-    fontSize: 17,
-    marginTop: 14,
-    letterSpacing: 0.6,
-    color: colors.vert2,
-    fontFamily: 'HouschkaRoundedDemiBold',
-  },
-
-  buttonText: {
-    fontSize: 16.5,
-    marginTop: 21,
-    marginBottom: 35,
-    letterSpacing: 0.15,
-    fontFamily: 'HouschkaRoundedDemiBold',
-    color: colors.bleu,
   },
 
   // Button ignorer les mouvements
@@ -221,10 +209,5 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     marginTop: 30,
     backgroundColor: 'transparent',
-  },
-  buttonTextRight: {
-    color: colors.bleu,
-    fontSize: 17.5,
-    fontFamily: 'HouschkaRoundedDemiBold',
   },
 });

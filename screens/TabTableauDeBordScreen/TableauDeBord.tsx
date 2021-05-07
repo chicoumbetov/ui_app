@@ -12,20 +12,19 @@ import {
   FlatList, ScrollView, StyleSheet, TouchableOpacity, View,
 } from 'react-native';
 
-import { useLinkTo, useNavigation } from '@react-navigation/native';
+import { useLinkTo } from '@react-navigation/native';
 import CompteHeader from '../../components/CompteHeader/CompteHeader';
 import comptesData from '../../mockData/comptesData';
 import MaisonVert from '../../assets/Omedom_Icons_svg/Logement/maison_verte.svg';
 import Immeuble from '../../assets/Omedom_Icons_svg/Logement/immeuble.svg';
 
 function TableauDeBord() {
-  const navigation = useNavigation();
   const linkTo = useLinkTo();
 
   // const [compte, setCompte] = useState(comptesData);
 
   const allerTresorie = () => {
-    navigation.navigate('MaTrésorerieDrawer');
+    linkTo('/ma-tresorerie');
   };
   const allerNotificaitons = () => {
     linkTo('/notifications');
@@ -38,6 +37,10 @@ function TableauDeBord() {
   useEffect(() => {
     console.log('useEffect test of Tableau de bord');
   });
+
+  const allerDetailsBien = () => {
+    linkTo('/mes-biens/bien/:id');
+  };
 
   return (
     <ScrollView style={{ backgroundColor: '#efefef' }}>
@@ -55,7 +58,7 @@ function TableauDeBord() {
         >
           <Layout style={{ flexDirection: 'row' }}>
             <Layout style={styles.oneThirdBlock}>
-              <Text appearance="hint" style={styles.text}>Dernier crédit</Text>
+              <Text category="h6" appearance="hint" style={styles.text}>Dernier crédit</Text>
               <Text category="h3" status="success" style={{ marginTop: 14 }}>+ 500 €</Text>
               <View style={styles.mouvementImage}>
                 <MaisonVert height={42} width={44} />
@@ -64,7 +67,7 @@ function TableauDeBord() {
             </Layout>
 
             <Layout style={styles.oneThirdBlock}>
-              <Text appearance="hint" style={styles.text}>
+              <Text category="h6" appearance="hint" style={styles.text}>
                 Dernier débit
               </Text>
               <Text category="h3" status="danger" style={{ marginTop: 14 }}>- 80 €</Text>
@@ -75,7 +78,7 @@ function TableauDeBord() {
             </Layout>
 
             <Layout style={styles.oneThirdBlock}>
-              <Text appearance="hint" style={styles.text}>
+              <Text category="h6" appearance="hint" style={styles.text}>
                 Prochain mouvement
               </Text>
               <Text category="h3" status="danger" style={{ marginTop: 14 }}>- 160 €</Text>
@@ -112,7 +115,7 @@ function TableauDeBord() {
               flexDirection: 'column', marginTop: 28, padding: 17, borderRadius: 10,
             }}
             >
-              <TouchableOpacity onPress={() => {}} style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+              <TouchableOpacity onPress={allerDetailsBien} style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                 <CompteHeader title={item.title} />
                 <Icon
                   name="arrow-ios-forward"
@@ -123,36 +126,37 @@ function TableauDeBord() {
                 />
               </TouchableOpacity>
 
-              <Layout style={{ flexDirection: 'row', marginTop: 8, marginBottom: 5 }}>
+              <Layout style={{
+                flexDirection: 'row', alignItems: 'center', marginTop: 8, marginBottom: 5,
+              }}
+              >
+
                 <Layout style={{
                   flex: 1,
                   alignItems: 'center',
-                  justifyContent: 'space-between',
+                  flexDirection: 'row',
+                  marginTop: 14,
+                  marginRight: 8,
                 }}
                 >
+                  <Icon
+                    name="arrow-downward"
+                    fill="#b5b5b5"
+                    style={{ height: 16, width: 16 }}
+                  />
+                  <Icon
+                    name="arrow-upward"
+                    fill="#b5b5b5"
+                    style={{
+                      height: 16, width: 16, marginRight: 8,
+                    }}
+                  />
 
-                  <Layout style={{
-                    alignItems: 'center', flexDirection: 'row', marginTop: 14, marginRight: 8,
-                  }}
-                  >
-                    <Icon
-                      name="arrow-downward"
-                      fill="#b5b5b5"
-                      style={{ height: 16, width: 16 }}
-                    />
-                    <Icon
-                      name="arrow-upward"
-                      fill="#b5b5b5"
-                      style={{
-                        height: 16, width: 16, marginRight: 8,
-                      }}
-                    />
-
-                    <Text category="h5" status="success">+ 10 800 €</Text>
-                  </Layout>
+                  <Text category="h5" status="success">+ 10 800 €</Text>
                 </Layout>
 
                 <Layout style={{
+                  flex: 1,
                   alignItems: 'center',
                   justifyContent: 'space-between',
                   marginRight: 8,
@@ -169,6 +173,7 @@ function TableauDeBord() {
                 </Layout>
 
                 <Layout style={{
+                  flex: 1,
                   alignItems: 'center',
                   justifyContent: 'space-between',
                 }}

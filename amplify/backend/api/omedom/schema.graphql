@@ -36,7 +36,7 @@ type AdresseType @model {
 # Client & AdresseType are connected by clientID
 type Client @model {
   id: ID!
-  userID: ID
+  userID: ID!
   nom: String!
   prenom: String!
   email: AWSEmail!
@@ -74,7 +74,7 @@ type Bien @model @auth(rules: [
   anneeAcquisition:  AWSDate
   typeBien: TypeBien
 
-  nomPropre: String    # ????
+  nomPropre: Boolean
 
   societe:TypeSociete
   detention: Int
@@ -82,7 +82,6 @@ type Bien @model @auth(rules: [
   lignesBudget: [LigneBudget]
   admins: [String!]!
   shared: [String!]
-  adresseID: ID!
   adresse: CLientAdresse @connection(fields: ["adresseID"])
 }
 

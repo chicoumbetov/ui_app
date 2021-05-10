@@ -1,23 +1,27 @@
 import React from 'react';
 import { Button, Layout, Text } from '@ui-kitten/components';
 
-import {
-  StyleSheet,
-} from 'react-native';
+import { StyleSheet } from 'react-native';
 
 import contactDATA from '../../mockData/contactDATA';
 import TextInput from '../../components/Form/TextInput';
 import SelectComp from '../../components/Form/Select';
+import MaxWidthContainer from '../../components/MaxWidthContainer';
 
 const Contact = () => (
-  <Layout style={styles.containerOut}>
+  <MaxWidthContainer outerViewProps={{
+    style: {
+      backgroundColor: '#efefef',
+    },
+  }}
+  >
 
     <Layout style={styles.container}>
       <Text category="h1" style={styles.title}>Contact</Text>
 
       <SelectComp name="contact" data={contactDATA} placeholder="Motif Contact" size="large" appearance="default" status="primary" />
 
-      <Layout style={{ backgroundColor: 'transparent', marginTop: 60 }}>
+      <Layout style={{ backgroundColor: 'transparent', marginTop: 15 }}>
         <TextInput
           name="Votre Message"
           label="Votre Message"
@@ -30,7 +34,7 @@ const Contact = () => (
       </Layout>
     </Layout>
 
-  </Layout>
+  </MaxWidthContainer>
 
 );
 

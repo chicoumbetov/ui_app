@@ -1,76 +1,83 @@
 import React, { useState } from 'react';
 import { StyleSheet } from 'react-native';
-import { Layout, Text } from '@ui-kitten/components';
+import { Layout, Text, useTheme } from '@ui-kitten/components';
 
 import { VictoryPie } from 'victory-native';
-import { colors } from '../../assets/styles';
+import MaxWidthContainer from '../MaxWidthContainer';
 
 const Graphics = ({ data }) => {
+  const theme = useTheme();
   const [victoryData, setVictoryData] = useState(data);
   return (
-    <Layout style={styles.container}>
-      <Layout style={styles.compteSection}>
+    <MaxWidthContainer>
+      <Layout style={styles.container}>
+        <Layout style={styles.compteSection}>
 
-        <Layout style={{ alignItems: 'center', margin: 30 }}>
-          <VictoryPie
-            padAngle={4}
-            startAngle={-27}
-            endAngle={333}
-            cornerRadius={30}
-            height={272}
-            width={272}
-            innerRadius={67}
-            data={victoryData}
-            colorScale={[colors.green, colors.jaune, colors.bleu, colors.rouge]}
+          <Layout style={{ alignItems: 'center', margin: 30 }}>
+            <VictoryPie
+              padAngle={4}
+              startAngle={-27}
+              endAngle={333}
+              cornerRadius={30}
+              height={272}
+              width={272}
+              innerRadius={67}
+              data={victoryData}
+              colorScale={[
+                theme['color-success-400'],
+                theme['color-warning-500'],
+                theme['color-info-500'],
+                theme['color-danger-500'],
+              ]}
+            />
+          </Layout>
+
+          <Layout style={{
+            borderWidth: 1,
+            borderColor: '#b5b5b5',
+            marginVertical: 20,
+          }}
           />
-        </Layout>
 
-        <Layout style={{
-          borderWidth: 1,
-          borderColor: '#b5b5b5',
-          marginVertical: 20,
-        }}
-        />
-
-        {/**
+          {/**
         *         Remake with Flatlist and connect with Victory Pie
         * */}
-        <Layout style={{
-          flex: 1, flexDirection: 'row', marginTop: 10, alignItems: 'center',
-        }}
-        >
           <Layout style={{
-            backgroundColor: colors.bleu, height: 30, width: 30, borderRadius: 30, marginRight: 10,
+            flex: 1, flexDirection: 'row', marginTop: 10, alignItems: 'center',
           }}
-          />
-          <Text category="h6" appearance="hint">Eau</Text>
-        </Layout>
-        <Layout style={{ flexDirection: 'row', marginTop: 10, alignItems: 'center' }}>
+          >
+            <Layout style={{
+              backgroundColor: theme['color-info-500'], height: 30, width: 30, borderRadius: 30, marginRight: 10,
+            }}
+            />
+            <Text category="h6" appearance="hint">Eau</Text>
+          </Layout>
+          <Layout style={{ flexDirection: 'row', marginTop: 10, alignItems: 'center' }}>
 
-          <Layout style={{
-            backgroundColor: colors.jaune, height: 30, width: 30, borderRadius: 30, marginRight: 10,
-          }}
-          />
-          <Text category="h6" appearance="hint">Electiricité</Text>
-        </Layout>
-        <Layout style={{ flexDirection: 'row', marginTop: 10, alignItems: 'center' }}>
-          <Layout style={{
-            backgroundColor: colors.green, height: 30, width: 30, borderRadius: 30, marginRight: 10,
-          }}
-          />
-          <Text category="h6" appearance="hint">Assurances</Text>
-        </Layout>
-        <Layout style={{ flexDirection: 'row', marginTop: 10, alignItems: 'center' }}>
-          <Layout style={{
-            backgroundColor: colors.rouge, height: 30, width: 30, borderRadius: 30, marginRight: 10,
-          }}
-          />
-          <Text category="h6" appearance="hint">Frais Divers</Text>
-        </Layout>
+            <Layout style={{
+              backgroundColor: theme['color-warning-500'], height: 30, width: 30, borderRadius: 30, marginRight: 10,
+            }}
+            />
+            <Text category="h6" appearance="hint">Electiricité</Text>
+          </Layout>
+          <Layout style={{ flexDirection: 'row', marginTop: 10, alignItems: 'center' }}>
+            <Layout style={{
+              backgroundColor: theme['color-success-400'], height: 30, width: 30, borderRadius: 30, marginRight: 10,
+            }}
+            />
+            <Text category="h6" appearance="hint">Assurances</Text>
+          </Layout>
+          <Layout style={{ flexDirection: 'row', marginTop: 10, alignItems: 'center' }}>
+            <Layout style={{
+              backgroundColor: theme['color-danger-500'], height: 30, width: 30, borderRadius: 30, marginRight: 10,
+            }}
+            />
+            <Text category="h6" appearance="hint">Frais Divers</Text>
+          </Layout>
 
+        </Layout>
       </Layout>
-    </Layout>
-
+    </MaxWidthContainer>
   );
 };
 

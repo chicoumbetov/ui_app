@@ -5,7 +5,9 @@
  */
 
 import React, { useState } from 'react';
-import { Layout, Text, Icon } from '@ui-kitten/components';
+import {
+  Layout, Text, Icon, useTheme,
+} from '@ui-kitten/components';
 
 import {
   StyleSheet, TouchableOpacity,
@@ -30,6 +32,7 @@ const mesBiensData = [
 function MonBien() {
   const linkTo = useLinkTo();
   const [opened, setOpened] = useState(false);
+  const theme = useTheme();
 
   const onDetailsBiens = () => {
     const id = '10';
@@ -60,10 +63,14 @@ function MonBien() {
               flexDirection: 'row',
               marginTop: 8,
               marginBottom: 5,
+              justifyContent: 'space-between',
             }}
             >
+              {/**
+              *
+              */}
               <Layout style={{
-                flex: 1,
+                flex: 2,
                 alignItems: 'center',
                 flexDirection: 'row',
                 marginTop: 14,
@@ -86,47 +93,49 @@ function MonBien() {
                 <Text category="h5" status="success">+ 10 800 €</Text>
               </Layout>
 
+              {/**
+               *
+               */}
               <Layout style={{
                 flex: 1,
                 alignItems: 'center',
-                justifyContent: 'space-between',
                 marginRight: 8,
+                flexDirection: 'row',
+                marginTop: 13,
               }}
               >
-                <Layout style={{ alignItems: 'center', flexDirection: 'row', marginTop: 13 }}>
-                  <Icon
-                    name="arrow-downward"
-                    fill="#b5b5b5"
-                    style={{ height: 16, width: 16, marginRight: 8 }}
-                  />
-                  <Text category="h4" status="danger">- 160 €</Text>
-                </Layout>
+                <Icon
+                  name="arrow-downward"
+                  fill="#b5b5b5"
+                  style={{ height: 16, width: 16, marginRight: 8 }}
+                />
+                <Text category="h4" status="danger">- 160 €</Text>
               </Layout>
 
+              {/**
+               *
+               */}
               <Layout style={{
                 flex: 1,
                 alignItems: 'center',
-                justifyContent: 'space-between',
+                marginTop: 14,
+                flexDirection: 'row',
               }}
               >
-                <Layout style={{ marginTop: 14, alignItems: 'center', flexDirection: 'row' }}>
-                  <Icon
-                    name="trending-up"
-                    fill="#b5b5b5"
-                    style={{ height: 18, width: 18, marginRight: 8 }}
-                  />
-                  <Text category="h4" status="warning">60 %</Text>
-                </Layout>
-
+                <Icon
+                  name="trending-up"
+                  fill="#b5b5b5"
+                  style={{ height: 18, width: 18, marginRight: 8 }}
+                />
+                <Text category="h4" status="warning">60 %</Text>
               </Layout>
+
             </Layout>
           </>
         ) : (
-          <>
+          <Layout style={{ backgroundColor: 'transparent' }}>
             <Layout style={{
-              borderWidth: 0.5,
-              borderColor: colors.gris,
-              marginVertical: 20,
+              borderBottomWidth: 1, marginVertical: 20, borderBottomColor: theme['text-hint-color'],
             }}
             />
             <Layout style={{
@@ -172,7 +181,7 @@ function MonBien() {
             </TouchableOpacity>
             <Graphics data={mesBiensData} />
             <GraphicsII />
-          </>
+          </Layout>
         )}
       </Layout>
     </MaxWidthContainer>

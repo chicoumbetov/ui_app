@@ -4,6 +4,7 @@ import { Layout, Text } from '@ui-kitten/components';
 import { AntDesign } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import mouvementData from '../../../../mockData/mouvementData';
+import MaxWidthContainer from '../../../../components/MaxWidthContainer';
 
 const MouvementAttente = () => {
   // Go to next page
@@ -18,68 +19,69 @@ const MouvementAttente = () => {
   };
 
   return (
-    <Layout style={styles.windowOut}>
-      <FlatList
-        data={mouvementData}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
+    <MaxWidthContainer>
+      <Layout style={styles.windowOut}>
+        <FlatList
+          data={mouvementData}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
 
-          <Layout style={styles.window}>
-            <Layout style={{
-              flex: 1,
-              borderRightWidth: 1,
-              borderRightColor: '#b5b5b5',
-            }}
-            >
-
-              <Text
-                style={{
-                  justifyContent: 'center',
-                }}
-                category="h5"
-                status="success"
+            <Layout style={styles.window}>
+              <Layout style={{
+                flex: 1,
+                borderRightWidth: 1,
+                borderRightColor: '#b5b5b5',
+              }}
               >
-                {item.valeur}
-              </Text>
 
-              <Text category="h6" appearance="hint">{item.date}</Text>
-              <Text category="p1" appearance="hint">Libellé du mouvement</Text>
+                <Text
+                  style={{
+                    justifyContent: 'center',
+                  }}
+                  category="h5"
+                  status="success"
+                >
+                  {item.valeur}
+                </Text>
+
+                <Text category="h6" appearance="hint">{item.date}</Text>
+                <Text category="p1" appearance="hint">Libellé du mouvement</Text>
+              </Layout>
+
+              <Layout style={{
+                flex: 1,
+                alignItems: 'center',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                paddingLeft: 10,
+              }}
+              >
+                <Text
+                  style={{ justifyContent: 'center' }}
+                  category="h6"
+                  status={item.typeMouvement === 'Validé' ? ('success') : ('warning')}
+                >
+                  {item.typeMouvement}
+                </Text>
+                <TouchableOpacity onPress={onTresoMouvementPage2}>
+                  <AntDesign size={14} name="right" color="#b5b5b5" style={{ marginRight: 20 }} />
+                </TouchableOpacity>
+
+              </Layout>
+
             </Layout>
 
-            <Layout style={{
-              flex: 1,
-              alignItems: 'center',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              paddingLeft: 10,
-            }}
-            >
-              <Text
-                style={{ justifyContent: 'center' }}
-                category="h6"
-                status={item.typeMouvement === 'Validé' ? ('success') : ('warning')}
+          )}
+        />
 
-              >
-                {item.typeMouvement}
-              </Text>
-              <TouchableOpacity onPress={onTresoMouvementPage2}>
-                <AntDesign size={14} name="right" color="#b5b5b5" style={{ marginRight: 20 }} />
-              </TouchableOpacity>
-
-            </Layout>
-
+        <TouchableOpacity onPress={onIgnorerMouvement}>
+          <Layout style={styles.button}>
+            <Text style={styles.buttonTextRight}>Ignorer les mouvements</Text>
           </Layout>
-
-        )}
-      />
-
-      <TouchableOpacity onPress={onIgnorerMouvement}>
-        <Layout style={styles.button}>
-          <Text style={styles.buttonTextRight}>Ignorer les mouvements</Text>
-        </Layout>
-      </TouchableOpacity>
-      <Layout style={styles.separator} />
-    </Layout>
+        </TouchableOpacity>
+        <Layout style={styles.separator} />
+      </Layout>
+    </MaxWidthContainer>
   );
 };
 

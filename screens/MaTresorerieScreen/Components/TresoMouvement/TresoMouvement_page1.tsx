@@ -9,14 +9,13 @@ import CompteHeader from '../../../../components/CompteHeader/CompteHeader';
 import comptesData from '../../../../mockData/comptesData';
 import MouvementAttente from './MouvementAttente';
 import MouvementValide from './MouvementValide';
+import MaxWidthContainer from '../../../../components/MaxWidthContainer';
 
 const TresoMouvementPage1 = ({ compte }) => {
   const [client, setClient] = useState(comptesData);
 
   return (
-    <ScrollView
-      showsVerticalScrollIndicator={false}
-    >
+    <MaxWidthContainer>
       <Layout style={styles.container}>
         <Layout style={{ backgroundColor: '#f6f6f6', padding: 26 }}>
           <Text style={{
@@ -83,7 +82,7 @@ const TresoMouvementPage1 = ({ compte }) => {
         </Layout>
 
       </Layout>
-    </ScrollView>
+    </MaxWidthContainer>
   );
 };
 

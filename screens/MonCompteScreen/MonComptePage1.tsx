@@ -8,8 +8,9 @@ import * as React from 'react';
 
 import { Layout, Text } from '@ui-kitten/components';
 import {
-  ScrollView, StyleSheet,
+  StyleSheet,
 } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import { useState } from 'react';
 import ManAvatar from '../../assets/Omedom_Icons_svg/Avatars/manAvatar.svg';
@@ -62,7 +63,8 @@ export default function MonComptePage1() {
 
   return (
 
-    <ScrollView
+    <KeyboardAwareScrollView
+      enableOnAndroid
       showsVerticalScrollIndicator={false}
       style={styles.container}
     >
@@ -89,7 +91,7 @@ export default function MonComptePage1() {
       <Informations clientData={clients} />
       <Abonnement />
 
-    </ScrollView>
+    </KeyboardAwareScrollView>
   );
 }
 

@@ -6,7 +6,7 @@
 
 import React, { useEffect } from 'react';
 import {
-  Button, Icon, Layout, Text,
+  Button, Icon as IconUIKitten, Layout, Text,
 } from '@ui-kitten/components';
 import {
   FlatList, StyleSheet, TouchableOpacity, View,
@@ -92,7 +92,7 @@ function TableauDeBord() {
         <Text
           category="h5"
           status="info"
-          style={{ marginVertical: 10 }}
+          style={{ marginVertical: 20 }}
           onPress={allerTresorie}
         >
           Accéder à la trésorerie
@@ -117,7 +117,7 @@ function TableauDeBord() {
             >
               <TouchableOpacity onPress={allerDetailsBien} style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                 <CompteHeader title={item.title} />
-                <Icon
+                <IconUIKitten
                   name="arrow-ios-forward"
                   fill="#b5b5b5"
                   style={{
@@ -139,12 +139,12 @@ function TableauDeBord() {
                   marginRight: 8,
                 }}
                 >
-                  <Icon
+                  <IconUIKitten
                     name="arrow-downward"
                     fill="#b5b5b5"
                     style={{ height: 16, width: 16 }}
                   />
-                  <Icon
+                  <IconUIKitten
                     name="arrow-upward"
                     fill="#b5b5b5"
                     style={{
@@ -163,7 +163,7 @@ function TableauDeBord() {
                 }}
                 >
                   <Layout style={{ alignItems: 'center', flexDirection: 'row', marginTop: 13 }}>
-                    <Icon
+                    <IconUIKitten
                       name="arrow-downward"
                       fill="#b5b5b5"
                       style={{ height: 16, width: 16, marginRight: 8 }}
@@ -179,7 +179,7 @@ function TableauDeBord() {
                 }}
                 >
                   <Layout style={{ marginTop: 14, alignItems: 'center', flexDirection: 'row' }}>
-                    <Icon
+                    <IconUIKitten
                       name="trending-up"
                       fill="#b5b5b5"
                       style={{ height: 18, width: 18, marginRight: 8 }}
@@ -237,7 +237,7 @@ function TableauDeBord() {
 
             </View>
 
-            <Icon
+            <IconUIKitten
               name="arrow-ios-forward"
               fill="#b5b5b5"
               style={{

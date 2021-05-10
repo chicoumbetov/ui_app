@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { Button, Layout, Text } from '@ui-kitten/components';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import {
-  ScrollView, StyleSheet, View,
+  StyleSheet, View,
 } from 'react-native';
 import MaisonVert from '../../../assets/Omedom_Icons_svg/Logement/maison_verte.svg';
 
@@ -13,7 +14,11 @@ const PartagerBien = () => {
     navigation.navigate('DetailsBien');
   };
   return (
-    <ScrollView style={{ backgroundColor: '#efefef' }}>
+    <KeyboardAwareScrollView
+      enableOnAndroid
+      showsVerticalScrollIndicator={false}
+      style={{ backgroundColor: '#efefef' }}
+    >
 
       {/**
       *  I part
@@ -52,7 +57,7 @@ const PartagerBien = () => {
           </Button>
         </View>
       </Layout>
-    </ScrollView>
+    </KeyboardAwareScrollView>
   );
 };
 

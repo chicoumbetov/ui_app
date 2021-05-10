@@ -5,18 +5,26 @@
  */
 
 import React from 'react';
-import { Layout, Text } from '@ui-kitten/components';
+import { Button, Layout, Text } from '@ui-kitten/components';
 
-import { ScrollView } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { useLinkTo } from '@react-navigation/native';
 import MonBien from './Components/MonBien';
 
 function MesBiens() {
+  const linkTo = useLinkTo();
+
+  const onAjoutBien = () => {
+    linkTo('/mes-biens/ajouter');
+  };
+
   return (
-    <ScrollView
+    <KeyboardAwareScrollView
+      enableOnAndroid
       showsVerticalScrollIndicator={false}
-      style={{ backgroundColor: '#efefef', marginTop: 12 }}
+      style={{ flex: 1, backgroundColor: '#efefef', marginTop: 12 }}
     >
-      <Layout style={{ backgroundColor: '#f6f6f6', padding: 26 }}>
+      <Layout style={{ flex: 1, backgroundColor: '#f6f6f6', padding: 26 }}>
         <Text
           category="h1"
           style={{
@@ -30,7 +38,15 @@ function MesBiens() {
         <MonBien />
 
       </Layout>
-    </ScrollView>
+
+      <Button
+        size="large"
+        onPress={() => { onAjoutBien(); }}
+        style={{ marginVertical: 10 }}
+      >
+        Ajouter un nouveau bien
+      </Button>
+    </KeyboardAwareScrollView>
   );
 }
 

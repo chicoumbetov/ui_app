@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import {
   StyleSheet, View,
 } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import {
   Button, Layout, Text,
 } from '@ui-kitten/components';
@@ -25,7 +26,11 @@ const ModifierInfo1 = () => {
   });
 
   return (
-    <Layout style={styles.container}>
+    <KeyboardAwareScrollView
+      enableOnAndroid
+      showsVerticalScrollIndicator={false}
+      style={styles.container}
+    >
       <View>
         <Text category="h1" style={styles.title}>Modifier vos informations</Text>
       </View>
@@ -69,7 +74,7 @@ const ModifierInfo1 = () => {
         </Button>
       </View>
 
-    </Layout>
+    </KeyboardAwareScrollView>
 
   );
 };

@@ -5,7 +5,7 @@ import {
 import {
   StyleSheet, View,
 } from 'react-native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+
 import { useForm } from 'react-hook-form';
 import MaisonVert from '../../../assets/Omedom_Icons_svg/Logement/maison_verte.svg';
 
@@ -15,6 +15,7 @@ import {
 } from '../../../mockData/ajoutRevenuData';
 import Form from '../../../components/Form/Form';
 import TextInputComp from '../../../components/Form/TextInput';
+import MaxWidthContainer from '../../../components/MaxWidthContainer';
 
 type ParamBudgetForm = {
   typeRevenu: string;
@@ -52,10 +53,11 @@ const ParametrerAjoutRevenu = () => {
   const [etape, setEtape] = useState(0);
 
   return (
-    <KeyboardAwareScrollView
-      enableOnAndroid
-      showsVerticalScrollIndicator={false}
-      style={{ backgroundColor: '#efefef' }}
+    <MaxWidthContainer outerViewProps={{
+      style: {
+        backgroundColor: '#efefef',
+      },
+    }}
     >
 
       {/**
@@ -155,7 +157,7 @@ const ParametrerAjoutRevenu = () => {
         </Form>
 
       </Layout>
-    </KeyboardAwareScrollView>
+    </MaxWidthContainer>
   );
 };
 

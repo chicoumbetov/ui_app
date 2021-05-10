@@ -10,6 +10,7 @@ import PartagerBien from '../screens/MesBiensScreen/Components/PartagerBien';
 import ModifierCharacteristiques
   from '../screens/MesBiensScreen/Components/ModifierCharacteristiques';
 import AjoutBienScreen from '../screens/AjoutBienScreen/AjoutBienScreen';
+import MesRapports from "../screens/MesBiensScreen/Components/MesRapports";
 
 const Stack = createStackNavigator<TabMesBiensParamList>();
 
@@ -51,6 +52,11 @@ export default function MesBiensStackNavigator() {
         name="ajout-bien-screen"
         component={AjoutBienScreen}
       />
+      <Stack.Screen
+          name="mes-rapports"
+          component={MesRapports}
+      />
+
     </Stack.Navigator>
   );
 }

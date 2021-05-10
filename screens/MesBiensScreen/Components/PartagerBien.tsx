@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { Button, Layout, Text } from '@ui-kitten/components';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+
 import {
   StyleSheet, View,
 } from 'react-native';
 import MaisonVert from '../../../assets/Omedom_Icons_svg/Logement/maison_verte.svg';
+import MaxWidthContainer from '../../../components/MaxWidthContainer';
 
 const PartagerBien = () => {
   const navigation = useNavigation();
@@ -13,11 +14,17 @@ const PartagerBien = () => {
   const allerDetailsBien = () => {
     navigation.navigate('DetailsBien');
   };
+
+  useEffect(() => {
+    console.log('useEffect of Partager Bien component');
+  }, []);
+
   return (
-    <KeyboardAwareScrollView
-      enableOnAndroid
-      showsVerticalScrollIndicator={false}
-      style={{ backgroundColor: '#efefef' }}
+    <MaxWidthContainer outerViewProps={{
+      style: {
+        backgroundColor: '#efefef',
+      },
+    }}
     >
 
       {/**
@@ -47,7 +54,7 @@ const PartagerBien = () => {
        *  II. Ajouter un utilisateur
        */}
       <Layout style={{ ...styles.container }}>
-        <Text style={{ fontSize: 25, fontFamily: 'HouschkaRoundedDemiBold' }}>
+        <Text category="h2">
           Ajouter un utilisateur
         </Text>
 
@@ -57,7 +64,7 @@ const PartagerBien = () => {
           </Button>
         </View>
       </Layout>
-    </KeyboardAwareScrollView>
+    </MaxWidthContainer>
   );
 };
 

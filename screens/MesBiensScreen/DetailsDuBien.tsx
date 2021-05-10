@@ -9,18 +9,18 @@ import {
   Layout, Text, Icon as IconUIKitten, useTheme,
 } from '@ui-kitten/components';
 import {
-  Image, ScrollView, StyleSheet, TouchableOpacity,
+  StyleSheet, TouchableOpacity,
 } from 'react-native';
 import { useLinkTo, useNavigation, useRoute } from '@react-navigation/native';
-import {
-  Entypo, SimpleLineIcons,
-} from '@expo/vector-icons';
 import { colors } from '../../assets/styles';
 
 import comptesData from '../../mockData/comptesData';
 import clientData from '../../mockData/clientDATA';
 import Icon from '../../components/Icon';
 import MaisonVert from '../../assets/Omedom_Icons_svg/Logement/maison_verte.svg';
+import ManAvatar from '../../assets/Omedom_Icons_svg/Avatars/manAvatar.svg';
+import WomanAvatar from '../../assets/Omedom_Icons_svg/Avatars/womanAvatar.svg';
+import MaxWidthContainer from '../../components/MaxWidthContainer';
 
 function DetailsBien() {
   const navigation = useNavigation();
@@ -36,6 +36,12 @@ function DetailsBien() {
   const allerTresorerie = () => {
     linkTo('/ma-tresorerie');
   };
+
+  const allerMesRapports = () => {
+    console.log('open Mes Rapports');
+    // linkTo('/mes-rapports');
+  };
+
   const allerMonAssistant = () => {
     linkTo('/mon-assistant');
   };
@@ -47,17 +53,25 @@ function DetailsBien() {
   };
 
   return (
-    <ScrollView style={{ backgroundColor: '#efefef' }}>
+    <MaxWidthContainer outerViewProps={{
+      style: {
+        backgroundColor: '#efefef',
+      },
+    }}
+    >
 
       {/**
        *  I. Details du bien
        */}
-      <Layout style={{ ...styles.container, backgroundColor: '#f6f6f6', marginTop: 0 }}>
-        <Text category="h1" status="basic" style={{ marginVertical: 30, marginHorizontal: 26 }}>
+      <Layout style={[
+        styles.container,
+        { backgroundColor: '#f6f6f6' }]}
+      >
+        <Text category="h1" status="basic">
           Détails du bien
           {route.params.id}
         </Text>
-        <Layout style={{ alignItems: 'center', backgroundColor: 'transparent', marginVertical: 30 }}>
+        <Layout style={{ alignItems: 'center', backgroundColor: 'transparent', marginTop: 30 }}>
           <MaisonVert
             height={100}
             width={100}
@@ -155,10 +169,7 @@ function DetailsBien() {
             }}
           >
             <Icon name="money" size={30} color={colors.green} style={{ marginRight: 10 }} />
-            <Text style={{
-              fontSize: 16, fontFamily: 'HouschkaRoundedDemiBold', letterSpacing: 0.2,
-            }}
-            >
+            <Text category="h5">
               Ma Trésorerie (Lier un compte bancaire)
             </Text>
 
@@ -173,9 +184,11 @@ function DetailsBien() {
         ]}
         >
 
-          <Layout style={{
-            flexDirection: 'row', alignItems: 'center',
-          }}
+          <TouchableOpacity
+            onPress={allerMesRapports}
+            style={{
+              flexDirection: 'row', alignItems: 'center',
+            }}
           >
 
             <IconUIKitten
@@ -188,7 +201,7 @@ function DetailsBien() {
             <Text category="h5">
               Mes Rapports
             </Text>
-          </Layout>
+          </TouchableOpacity>
 
         </Layout>
 
@@ -208,10 +221,7 @@ function DetailsBien() {
                 height: 30, width: 30, marginRight: 10,
               }}
             />
-            <Text style={{
-              fontSize: 16, fontFamily: 'HouschkaRoundedDemiBold', letterSpacing: 0.2,
-            }}
-            >
+            <Text category="h5">
               Mon Assistant
             </Text>
 
@@ -342,25 +352,13 @@ function DetailsBien() {
             flexDirection: 'row', backgroundColor: 'transparent', alignItems: 'center',
           }}
           >
-            <Image
-                /* eslint-disable-next-line global-require */
-              source={require('../../assets/Icones_omedom/avatars/womanAvatar.png')}
-              style={{
-                height: 50, width: 50, marginRight: 18,
-              }}
-            />
+            <WomanAvatar height={50} width={50} style={{ marginRight: 18 }} />
 
             <Layout style={{ flexDirection: 'column' }}>
-              <Text style={{
-                fontSize: 17, letterSpacing: 0.2, color: colors.noir, fontFamily: 'HouschkaRoundedMedium',
-              }}
-              >
+              <Text category="p1" status="basic">
                 Marie Dupont
               </Text>
-              <Text style={{
-                fontSize: 15, letterSpacing: 0.2, color: colors.gris, fontFamily: 'HouschkaRoundedMedium',
-              }}
-              >
+              <Text category="p2" appearance="hint">
                 Lecture Seule
               </Text>
             </Layout>
@@ -390,7 +388,7 @@ function DetailsBien() {
 
       </Layout>
 
-    </ScrollView>
+    </MaxWidthContainer>
 
   );
 }
@@ -398,7 +396,7 @@ function DetailsBien() {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#f6f6f6',
-    marginTop: 12,
+    marginBottom: 12,
     paddingVertical: 25,
     paddingHorizontal: 26,
   },

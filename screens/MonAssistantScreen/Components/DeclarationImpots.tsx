@@ -47,7 +47,15 @@ const DeclarationImpots = () => {
 
       <Layout style={styles.containerOut}>
 
-        <Text category="h1" style={styles.title}>Paramétrer mon aide à la déclaration d'impôts</Text>
+        <Text
+          category="h1"
+          style={{
+            marginTop: 19.7,
+            marginBottom: 14,
+          }}
+        >
+          Paramétrer mon aide à la déclaration d'impôts
+        </Text>
 
         <Form <DeclarationImpotsForm> {...declarationImpotsForm}>
           <SelectComp
@@ -86,10 +94,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#f6f6f6',
     padding: 25,
     paddingRight: 21,
-  },
-  title: {
-    marginTop: 19.7,
-    marginBottom: 14,
   },
   item: {
     borderBottomEndRadius: 20,

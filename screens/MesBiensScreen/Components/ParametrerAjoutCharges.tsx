@@ -1,28 +1,40 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { Layout, Text } from '@ui-kitten/components';
 import {
-  Image, ScrollView, StyleSheet, View,
+  StyleSheet, View,
 } from 'react-native';
+import MaxWidthContainer from '../../../components/MaxWidthContainer';
+import MaisonVert from '../../../assets/Omedom_Icons_svg/Logement/maison_verte.svg';
 
 const ParametrerAjoutCharges = () => {
   const navigation = useNavigation();
+
+  useEffect(() => {
+    console.log('useEffect of Parametrer Ajout Charges');
+  }, []);
+
   return (
-    <ScrollView style={{ backgroundColor: '#efefef' }}>
+    <MaxWidthContainer outerViewProps={{
+      style: {
+        backgroundColor: '#efefef',
+      },
+    }}
+    >
 
       {/**
          *  I. Mon Budget
          */}
-      <Layout style={{ ...styles.container, marginTop: 0 }}>
-        <Text style={{ fontSize: 25, fontFamily: 'HouschkaRoundedDemiBold' }}>
+      <Layout style={styles.container}>
+        <Text category="h1">
           Mon Budget
         </Text>
         <View style={{
           marginTop: 10, marginRight: 20, flexDirection: 'row', alignItems: 'center',
         }}
         >
-          <Image source={require('../../../assets/Icones_omedom/logements/maisonVert.png')} style={{ height: 40, width: 40, marginRight: 12 }} />
-          <Text style={{ fontSize: 19, fontFamily: 'HouschkaRoundedDemiBold' }}>
+          <MaisonVert height={40} width={40} style={{ marginRight: 12 }} />
+          <Text category="h3">
             {' '}
             {/* {compte.typeBien} */}
             La Maison
@@ -36,12 +48,12 @@ const ParametrerAjoutCharges = () => {
       {/**
        *  II. Ajouter charges
        */}
-      <Layout style={{ ...styles.container }}>
-        <Text style={{ fontSize: 25, fontFamily: 'HouschkaRoundedDemiBold' }}>
+      <Layout style={styles.container}>
+        <Text category="h2">
           Ajouter une charge
         </Text>
       </Layout>
-    </ScrollView>
+    </MaxWidthContainer>
   );
 };
 
@@ -50,7 +62,7 @@ export default ParametrerAjoutCharges;
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#f6f6f6',
-    marginTop: 12,
+    marginBottom: 12,
     paddingVertical: 25,
     paddingHorizontal: 26,
   },

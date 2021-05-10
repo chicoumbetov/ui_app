@@ -2,12 +2,12 @@ import React, { useEffect } from 'react';
 import {
   StyleSheet, View,
 } from 'react-native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import {
   Button, Layout, Text,
 } from '@ui-kitten/components';
 import { useNavigation } from '@react-navigation/native';
 import TextInputComp from '../../components/Form/TextInput';
+import MaxWidthContainer from '../../components/MaxWidthContainer';
 
 const ModifierInfo1 = () => {
   const [prenom, setPrenom] = React.useState('');
@@ -26,10 +26,15 @@ const ModifierInfo1 = () => {
   });
 
   return (
-    <KeyboardAwareScrollView
-      enableOnAndroid
-      showsVerticalScrollIndicator={false}
-      style={styles.container}
+
+    <MaxWidthContainer outerViewProps={{
+      style: {
+        flex: 1,
+        backgroundColor: '#efefef',
+        paddingHorizontal: 24,
+        paddingVertical: 34,
+      },
+    }}
     >
       <View>
         <Text category="h1" style={styles.title}>Modifier vos informations</Text>
@@ -74,7 +79,7 @@ const ModifierInfo1 = () => {
         </Button>
       </View>
 
-    </KeyboardAwareScrollView>
+    </MaxWidthContainer>
 
   );
 };

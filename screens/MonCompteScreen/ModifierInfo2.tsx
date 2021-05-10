@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import {
   Button, Layout, Text,
 } from '@ui-kitten/components';
 import { useNavigation } from '@react-navigation/native';
 import TextInputComp from '../../components/Form/TextInput';
+import MaxWidthContainer from '../../components/MaxWidthContainer';
 
 const ModifierInfo2 = () => {
   const navigation = useNavigation();
@@ -18,9 +19,14 @@ const ModifierInfo2 = () => {
   });
 
   return (
-    <ScrollView
-      showsVerticalScrollIndicator={false}
-      style={styles.container}
+    <MaxWidthContainer outerViewProps={{
+      style: {
+        flex: 1,
+        backgroundColor: '#efefef',
+        paddingHorizontal: 24,
+        paddingVertical: 34,
+      },
+    }}
     >
       <View>
         <Text category="h1" style={styles.title}>Modifier vos informations</Text>
@@ -82,7 +88,7 @@ const ModifierInfo2 = () => {
         </Button>
       </View>
 
-    </ScrollView>
+    </MaxWidthContainer>
 
   );
 };

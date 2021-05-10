@@ -5,6 +5,7 @@
 
     "text-label-font-family": "HouschkaRoundedMedium",
     "text-subtitle-2-font-family": "HouschkaRoundedDemiBold",
+    "size-small": 30,
     "size-large": 40,
     "border-radius": 7,
 

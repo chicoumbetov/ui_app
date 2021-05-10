@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 
 import {
-  Button, Layout, Text, useTheme,
+  Button, Datepicker, Icon, Layout, Text, useTheme,
 } from '@ui-kitten/components';
 
 import * as ImagePicker from 'expo-image-picker';
@@ -76,26 +76,23 @@ function AjoutBienScreen() {
   /**
    *Variable pour gérer la date
    * */
-  const [date, setDate] = useState(new Date(1598051730000));
-  const [show, setShow] = useState(false);
+  const [date, setDate] = useState(null);
   const [image, setImage] = useState('MaisonVerte');
 
-  const onChange = (event, selectedDate) => {
-    const currentDate = selectedDate || date;
-    setDate(currentDate);
-  };
-
-  const showMode = () => {
-    setShow(true);
-  };
   /**
    * For part III
    * Variable pour gérer l'affichage des données de modes de détention
    * */
 
+  const CalendarIcon = (props) => (
+    <Icon {...props} name="calendar-outline" />
+  );
+
   const [detentionShow, setDetentionShow] = useState(false);
 
   const [statutShow, setStatutShow] = useState(false);
+
+  const [pourcentageDetentionShow, setPourcentageDetentionShow] = useState(false);
 
   let SelectedIcon = MaisonVerte;
   switch (image) {
@@ -330,19 +327,20 @@ function AjoutBienScreen() {
           {etape === 2 && (
             <View style={{ marginHorizontal: 27, marginBottom: 20 }}>
               <View style={{
-                flexDirection: 'row', alignItems: 'center',
+                flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
               }}
               >
                 <Layout style={{ backgroundColor: 'transparent', marginRight: 20 }}>
-                  <Text category="h5">
+                  <Text category="h5" status="basic">
                     Date d'acquisition
                   </Text>
                 </Layout>
-                <TextInputComp
-                  placeholder="dd/mm/yyyy"
+                <Datepicker
                   name="dateAcquisition"
-                  value={date.toDateString()}
-                  icon="calendar-outline"
+                  placeholder="dd/mm/yyyy"
+                  date={date}
+                  onSelect={(nextDate) => setDate(nextDate)}
+                  accessoryRight={CalendarIcon}
                 />
 
               </View>
@@ -354,13 +352,13 @@ function AjoutBienScreen() {
                 </Layout>
 
                 <Layout>
-                  <SelectComp name="Detention" data={detention} placeholder="Détention" onChangeValue={(v) => { if (v === 'b1') { setDetentionShow(true); setStatutShow(false); } else { setDetentionShow(false); setStatutShow(true); } }} size="large" appearance="default" status="primary" />
+                  <SelectComp name="Detention" data={detention} placeholder="Détention" onChangeValue={(v) => { if (v === 'b1') { setDetentionShow(true); setStatutShow(false); setPourcentageDetentionShow(false); } else { setDetentionShow(false); setStatutShow(true); setPourcentageDetentionShow(true); } }} size="large" appearance="default" status="primary" />
 
                 </Layout>
                 {detentionShow
               && (
               <Layout>
-                <SelectComp name="typeDetention" data={typeDetention} placeholder="Type De Détention" size="large" appearance="default" status="primary" />
+                <SelectComp name="typeDetention" data={typeDetention} placeholder="Type De Détention" onChangeValue={(v) => { if (v === 'b2') { setPourcentageDetentionShow(true); } else { setPourcentageDetentionShow(false); } }} size="large" appearance="default" status="primary" />
 
               </Layout>
               )}
@@ -376,25 +374,38 @@ function AjoutBienScreen() {
                   <SelectComp name="typeBien" data={typeImpo} placeholder="Type d'imposition" size="large" appearance="default" status="primary" />
 
                 </Layout>
+
               </>
               )}
 
-              </Layout>
+                {pourcentageDetentionShow && (
+                <Layout style={{
+                  flexDirection: 'row', alignItems: 'center', backgroundColor: 'transparent',
+                }}
+                >
+                  <Text category="h5" style={{ flex: 1 }}>Pourcentage de détention</Text>
+                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <TextInputComp name="detention" size="small" style={{ width: 55, marginRight: 10 }} />
+                    <Text category="h5">%</Text>
+                  </View>
+                </Layout>
+                )}
 
+              </Layout>
+              <View style={{ alignItems: 'flex-end', marginBottom: 10 }}>
+                <Button
+                  onPress={ajoutBienForm.handleSubmit((e) => {
+                    console.log(e);
+                  })}
+                  size="large"
+                >
+                  Enregistrer
+                </Button>
+              </View>
             </View>
 
           )}
 
-          <Layout style={{ marginBottom: 10 }}>
-            <Button
-              onPress={ajoutBienForm.handleSubmit((e) => {
-                console.log(e);
-              })}
-              size="large"
-            >
-              Valider
-            </Button>
-          </Layout>
         </>
       </Form>
     </MaxWidthContainer>

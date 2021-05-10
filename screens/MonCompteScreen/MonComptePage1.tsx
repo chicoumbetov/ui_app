@@ -3,21 +3,16 @@
  *
  * @author: Shynggys UMBETOV
  */
-
 import * as React from 'react';
-
 import { Layout, Text } from '@ui-kitten/components';
-import {
-  StyleSheet,
-} from 'react-native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import { useState } from 'react';
-import ManAvatar from '../../assets/Omedom_Icons_svg/Avatars/manAvatar.svg';
-
 import Informations from './Components/Informations';
-import clientData from '../../mockData/clientDATA';
 import Abonnement from './Components/Abonnement';
+import MaxWidthContainer from '../../components/MaxWidthContainer';
+
+import ManAvatar from '../../assets/Omedom_Icons_svg/Avatars/manAvatar.svg';
+import clientData from '../../mockData/clientDATA';
 
 export default function MonComptePage1() {
   const [clients, updateClients] = useState(clientData);
@@ -63,14 +58,15 @@ export default function MonComptePage1() {
 
   return (
 
-    <KeyboardAwareScrollView
-      enableOnAndroid
-      showsVerticalScrollIndicator={false}
-      style={styles.container}
+    <MaxWidthContainer outerViewProps={{
+      style: {
+        backgroundColor: '#efefef',
+      },
+    }}
     >
 
       <Layout style={{
-        flex: 1, backgroundColor: '#f6f6f6', paddingHorizontal: 22, paddingTop: 37,
+        backgroundColor: '#f6f6f6', paddingHorizontal: 46, paddingTop: 37,
       }}
       >
         <Text category="h1">
@@ -91,12 +87,6 @@ export default function MonComptePage1() {
       <Informations clientData={clients} />
       <Abonnement />
 
-    </KeyboardAwareScrollView>
+    </MaxWidthContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1, backgroundColor: '#efefef',
-  },
-});

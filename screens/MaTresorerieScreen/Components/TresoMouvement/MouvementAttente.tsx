@@ -6,6 +6,19 @@ import { useNavigation } from '@react-navigation/native';
 import mouvementData from '../../../../mockData/mouvementData';
 import MaxWidthContainer from '../../../../components/MaxWidthContainer';
 
+function groupBy(list, keyGetter) {
+  const map = new Map();
+  list.forEach((item) => {
+    const key = keyGetter(item);
+    const collection = map.get(key);
+    if (!collection) {
+      map.set(key, [item]);
+    } else {
+      collection.push(item);
+    }
+  });
+  return map;
+}
 const MouvementAttente = () => {
   // Go to next page
   const navigation = useNavigation();
@@ -18,11 +31,13 @@ const MouvementAttente = () => {
     navigation.navigate('IgnorerMouvement');
   };
 
+  const grouped = groupBy(mouvementData, (mouvement) => mouvement.typeMouvement);
+
   return (
     <MaxWidthContainer>
       <Layout style={styles.windowOut}>
         <FlatList
-          data={mouvementData}
+          data={grouped.get('En attente')}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
 
@@ -76,10 +91,63 @@ const MouvementAttente = () => {
 
         <TouchableOpacity onPress={onIgnorerMouvement}>
           <Layout style={styles.button}>
-            <Text style={styles.buttonTextRight}>Ignorer les mouvements</Text>
+            <Text category="h3" status="info">Ignorer les mouvements</Text>
           </Layout>
         </TouchableOpacity>
         <Layout style={styles.separator} />
+
+        <FlatList
+          data={grouped.get('Validé')}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+
+            <Layout style={styles.window}>
+              <Layout style={{
+                flex: 1,
+                borderRightWidth: 1,
+                borderRightColor: '#b5b5b5',
+              }}
+              >
+
+                <Text
+                  style={{
+                    justifyContent: 'center',
+                  }}
+                  category="h5"
+                  status="success"
+                >
+                  {item.valeur}
+                </Text>
+
+                <Text category="h6" appearance="hint">{item.date}</Text>
+                <Text category="p1" appearance="hint">Libellé du mouvement</Text>
+              </Layout>
+
+              <Layout style={{
+                flex: 1,
+                alignItems: 'center',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                paddingLeft: 10,
+              }}
+              >
+                <Text
+                  style={{ justifyContent: 'center' }}
+                  category="h6"
+                  status={item.typeMouvement === 'Validé' ? ('success') : ('warning')}
+                >
+                  {item.typeMouvement}
+                </Text>
+                <TouchableOpacity onPress={onTresoMouvementPage2}>
+                  <AntDesign size={14} name="right" color="#b5b5b5" style={{ marginRight: 20 }} />
+                </TouchableOpacity>
+
+              </Layout>
+
+            </Layout>
+
+          )}
+        />
       </Layout>
     </MaxWidthContainer>
   );
@@ -120,10 +188,5 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     marginVertical: 30,
     backgroundColor: 'transparent',
-  },
-  buttonTextRight: {
-    color: '#0076c8',
-    fontSize: 17.5,
-    fontWeight: '600',
   },
 });

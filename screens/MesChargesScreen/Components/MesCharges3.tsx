@@ -1,11 +1,12 @@
 import React from 'react';
-import { Layout, Text } from '@ui-kitten/components';
+import { Layout, Text, useTheme } from '@ui-kitten/components';
 import { useNavigation } from '@react-navigation/native';
 import { FlatList, StyleSheet } from 'react-native';
 import { VictoryPie } from 'victory-native';
-import { colors } from '../../../assets/styles';
+
 import CompteHeader from '../../../components/CompteHeader';
 import comptesData from '../../../mockData/comptesData';
+import MaxWidthContainer from '../../../components/MaxWidthContainer';
 
 const data = [
   { x: '45%', y: 49 },
@@ -14,17 +15,36 @@ const data = [
 
 const MesCharges3 = () => {
   const navigation = useNavigation();
+  const theme = useTheme();
 
   const onMesCharges1 = () => {
     navigation.navigate('MesCharges1');
   };
 
   return (
-
-    <Layout style={styles.container}>
-      <Text style={styles.title}>Charge Eau</Text>
+    <MaxWidthContainer outerViewProps={{
+      style: {
+        paddingVertical: 24,
+        paddingHorizontal: 21,
+        backgroundColor: '#f6f6f6',
+      },
+    }}
+    >
+      <Text
+        category="h1"
+        style={{
+          marginTop: 13,
+          marginBottom: 27,
+        }}
+      >
+        Charge Eau
+      </Text>
       <Layout style={{
-        backgroundColor: colors.blanc, paddingLeft: 41, marginVertical: 12, paddingTop: 30, paddingBottom: 20,
+        backgroundColor: theme['color-basic-100'],
+        paddingLeft: 41,
+        marginVertical: 12,
+        paddingTop: 30,
+        paddingBottom: 20,
       }}
       >
         <VictoryPie
@@ -36,25 +56,26 @@ const MesCharges3 = () => {
           width={272}
           innerRadius={67}
           data={data}
-          colorScale={[colors.green, colors.bleu, colors.jaune, colors.rouge]}
+          colorScale={[theme['color-success-400'], theme['color-info-500'], theme['color-warning-500'], theme['color-danger-500']]}
         />
-        <Layout style={{ borderBottomWidth: 1, marginRight: 40, borderBottomColor: colors.gris }} />
+        <Layout style={{ borderBottomWidth: 1, marginRight: 40, borderBottomColor: theme['text-hint-color'] }} />
         <FlatList
           data={comptesData}
           keyExtractor={(item) => item.id}
           renderItem={(item) => (
             <Layout style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <Layout style={{ ...styles.circles, backgroundColor: colors.bleu }} />
-              {/**
-              *  Have to Pass text color and fontFamily
-              */}
+              <Layout style={[
+                styles.circles,
+                { backgroundColor: theme['color-info-500'] },
+              ]}
+              />
               <CompteHeader data={item} />
             </Layout>
           )}
         />
 
       </Layout>
-    </Layout>
+    </MaxWidthContainer>
 
   );
 };
@@ -62,22 +83,7 @@ const MesCharges3 = () => {
 export default MesCharges3;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingVertical: 24,
-    paddingHorizontal: 21,
-    marginVertical: 12,
-    backgroundColor: '#f6f6f6',
-  },
-  title: {
-    fontSize: 25,
-    marginTop: 13,
-    letterSpacing: 0.2,
-    fontFamily: 'HouschkaRoundedDemiBold',
-    marginBottom: 27,
-  },
   circles: {
-    backgroundColor: colors.rouge,
     marginTop: 10,
     height: 20,
     width: 20,

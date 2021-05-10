@@ -7,7 +7,7 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import {
-  ScrollView, StyleSheet, TouchableOpacity, View,
+  StyleSheet, TouchableOpacity, View,
 } from 'react-native';
 
 import {
@@ -34,6 +34,7 @@ import MaisonBleu from '../../assets/Omedom_Icons_svg/Logement/maison_bleu.svg';
 import Manoir from '../../assets/Omedom_Icons_svg/Logement/manoir.svg';
 import Riad from '../../assets/Omedom_Icons_svg/Logement/riad.svg';
 import Voiture from '../../assets/Omedom_Icons_svg/Logement/voiture.svg';
+import MaxWidthContainer from '../../components/MaxWidthContainer';
 
 type AjoutBienForm = {
   typeBien: string;
@@ -131,7 +132,12 @@ function AjoutBienScreen() {
   }
 
   return (
-    <ScrollView style={{ backgroundColor: '#f6f6f6' }}>
+    <MaxWidthContainer outerViewProps={{
+      style: {
+        backgroundColor: '#f6f6f6',
+      },
+    }}
+    >
       <Form<AjoutBienForm> {...ajoutBienForm}>
         <>
           <View>
@@ -155,109 +161,108 @@ function AjoutBienScreen() {
             >
               <Text
                 category="h6"
-
               >
                 Identité (1/3)
               </Text>
             </TouchableOpacity>
           </View>
           {etape === 0 && (
-          <View>
-            <Layout style={{
-              backgroundColor: colors.blanc,
-              paddingHorizontal: 16,
-              marginHorizontal: 23,
-              marginTop: 7,
-              paddingVertical: 11.5,
-              borderRadius: 7,
-            }}
-            >
+            <View>
+              <Layout style={{
+                backgroundColor: colors.blanc,
+                paddingHorizontal: 16,
+                marginHorizontal: 23,
+                marginTop: 7,
+                paddingVertical: 11.5,
+                borderRadius: 7,
+              }}
+              >
 
-              <TextInputComp style={{ marginBottom: 30, marginLeft: 23, marginRight: 22 }} name="nomDuBien" placeholder="Le nom du bien" />
-            </Layout>
+                <TextInputComp style={{ marginBottom: 30, marginLeft: 23, marginRight: 22 }} name="nomDuBien" placeholder="Le nom du bien" />
+              </Layout>
 
-            <Layout style={{ alignItems: 'center', backgroundColor: 'transparent', marginVertical: 34 }}>
-              <SelectedIcon height={146} width={146} />
-            </Layout>
-            <Layout style={{ marginLeft: 10, backgroundColor: 'transparent' }}>
-              <Text category="h5" appearance="hint">
-                Choisir une icone
-              </Text>
-            </Layout>
-            <Layout style={{
-              flexDirection: 'row', marginTop: 21, justifyContent: 'space-evenly', marginLeft: -6, backgroundColor: 'transparent',
-            }}
-            >
-              <TouchableOpacity onPress={() => { setImage('MaisonVerte'); }}>
-                <MaisonVerte height={53} width={53} />
-              </TouchableOpacity>
-
-              <TouchableOpacity onPress={() => { setImage('Immeuble'); }}>
-                <Immeuble height={53} width={53} />
-              </TouchableOpacity>
-
-              <TouchableOpacity onPress={() => { setImage('Cabane'); }}>
-                <Cabane height={53} width={53} />
-              </TouchableOpacity>
-
-              <TouchableOpacity onPress={() => { setImage('Bateau'); }}>
-                <Bateau height={53} width={53} />
-              </TouchableOpacity>
-
-              <TouchableOpacity onPress={() => { setImage('Boutique'); }}>
-                <Boutique height={53} width={53} />
-              </TouchableOpacity>
-
-            </Layout>
-            <Layout style={{
-              flexDirection: 'row', marginTop: 34, justifyContent: 'space-evenly', marginLeft: -6, backgroundColor: 'transparent',
-            }}
-            >
-              <TouchableOpacity onPress={() => { setImage('Chateau'); }}>
-                <Chateau height={53} width={53} />
-              </TouchableOpacity>
-
-              <TouchableOpacity onPress={() => { setImage('Manoir'); }}>
-                <Manoir height={53} width={53} />
-              </TouchableOpacity>
-
-              <TouchableOpacity onPress={() => { setImage('MaisonBleu'); }}>
-                <MaisonBleu height={53} width={53} />
-              </TouchableOpacity>
-
-              <TouchableOpacity onPress={() => { setImage('Riad'); }}>
-                <Riad height={53} width={53} />
-              </TouchableOpacity>
-
-              <TouchableOpacity onPress={() => { setImage('Voiture'); }}>
-                <Voiture height={53} width={53} />
-              </TouchableOpacity>
-
-            </Layout>
-
-            <Layout style={{ paddingHorizontal: 23, backgroundColor: 'transparent' }}>
-              <TouchableOpacity onPress={() => {}} style={{ marginVertical: 30.5 }}>
-                <Text category="h5" status="info">Prendre une photo</Text>
-              </TouchableOpacity>
-
-              <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: 7 }}>
-                <TouchableOpacity onPress={() => { pickImage(); }}>
-                  <Text category="h5" status="info">Ajouter une photo</Text>
+              <Layout style={{ alignItems: 'center', backgroundColor: 'transparent', marginVertical: 34 }}>
+                <SelectedIcon height={146} width={146} />
+              </Layout>
+              <Layout style={{ marginLeft: 10, backgroundColor: 'transparent' }}>
+                <Text category="h5" appearance="hint">
+                  Choisir une icone
+                </Text>
+              </Layout>
+              <Layout style={{
+                flexDirection: 'row', marginTop: 21, justifyContent: 'space-evenly', marginLeft: -6, backgroundColor: 'transparent',
+              }}
+              >
+                <TouchableOpacity onPress={() => { setImage('MaisonVerte'); }}>
+                  <MaisonVerte height={53} width={53} />
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => {}}>
-                  <Text
-                    category="h5"
-                    style={{
-                      marginRight: 6,
-                    }}
-                  >
-                    Supprimer la photo
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            </Layout>
 
-          </View>
+                <TouchableOpacity onPress={() => { setImage('Immeuble'); }}>
+                  <Immeuble height={53} width={53} />
+                </TouchableOpacity>
+
+                <TouchableOpacity onPress={() => { setImage('Cabane'); }}>
+                  <Cabane height={53} width={53} />
+                </TouchableOpacity>
+
+                <TouchableOpacity onPress={() => { setImage('Bateau'); }}>
+                  <Bateau height={53} width={53} />
+                </TouchableOpacity>
+
+                <TouchableOpacity onPress={() => { setImage('Boutique'); }}>
+                  <Boutique height={53} width={53} />
+                </TouchableOpacity>
+
+              </Layout>
+              <Layout style={{
+                flexDirection: 'row', marginTop: 34, justifyContent: 'space-evenly', marginLeft: -6, backgroundColor: 'transparent',
+              }}
+              >
+                <TouchableOpacity onPress={() => { setImage('Chateau'); }}>
+                  <Chateau height={53} width={53} />
+                </TouchableOpacity>
+
+                <TouchableOpacity onPress={() => { setImage('Manoir'); }}>
+                  <Manoir height={53} width={53} />
+                </TouchableOpacity>
+
+                <TouchableOpacity onPress={() => { setImage('MaisonBleu'); }}>
+                  <MaisonBleu height={53} width={53} />
+                </TouchableOpacity>
+
+                <TouchableOpacity onPress={() => { setImage('Riad'); }}>
+                  <Riad height={53} width={53} />
+                </TouchableOpacity>
+
+                <TouchableOpacity onPress={() => { setImage('Voiture'); }}>
+                  <Voiture height={53} width={53} />
+                </TouchableOpacity>
+
+              </Layout>
+
+              <Layout style={{ paddingHorizontal: 23, backgroundColor: 'transparent' }}>
+                <TouchableOpacity onPress={() => {}} style={{ marginVertical: 30.5 }}>
+                  <Text category="h5" status="info">Prendre une photo</Text>
+                </TouchableOpacity>
+
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: 7 }}>
+                  <TouchableOpacity onPress={() => { pickImage(); }}>
+                    <Text category="h5" status="info">Ajouter une photo</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={() => {}}>
+                    <Text
+                      category="h5"
+                      style={{
+                        marginRight: 6,
+                      }}
+                    >
+                      Supprimer la photo
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              </Layout>
+
+            </View>
           )}
 
           {/**
@@ -283,14 +288,20 @@ function AjoutBienScreen() {
               </Text>
             </TouchableOpacity>
           </View>
+
           {etape === 1 && (
-          <View style={{ marginBottom: 30, marginLeft: 23, marginRight: 22 }}>
-            <TextInputComp style={{ marginBottom: 30 }} name="adresse" placeholder="Adresse" />
-            <TextInputComp style={{ marginBottom: 30 }} name="complement" placeholder="Complément d'adresse" />
-            <TextInputComp style={{ marginBottom: 30 }} name="codePostal" placeholder="Code Postal" />
-            <TextInputComp style={{ marginBottom: 30 }} name="ville" placeholder="Ville" />
-            <TextInputComp name="pays" placeholder="Pays" />
-          </View>
+            <View style={{
+              marginBottom: 30,
+              marginLeft: 23,
+              marginRight: 22,
+            }}
+            >
+              <TextInputComp style={{ marginBottom: 30 }} name="adresse" placeholder="Adresse" />
+              <TextInputComp style={{ marginBottom: 30 }} name="complement" placeholder="Complément d'adresse" />
+              <TextInputComp style={{ marginBottom: 30 }} name="codePostal" placeholder="Code Postal" />
+              <TextInputComp style={{ marginBottom: 30 }} name="ville" placeholder="Ville" />
+              <TextInputComp name="pays" placeholder="Pays" />
+            </View>
           )}
 
           {/**
@@ -317,35 +328,43 @@ function AjoutBienScreen() {
             </TouchableOpacity>
           </View>
           {etape === 2 && (
-          <View>
-            <View style={{ flexDirection: 'row', marginLeft: 27, marginRight: 10 }}>
-              <Text category="h5" style={{ marginTop: 12 }}>
-                Date d'acquisition
-              </Text>
-              <TextInputComp
-                placeholder="dd/mm/yyyy"
-                value={date.toDateString()}
-              />
-            </View>
-            <Layout style={{ backgroundColor: 'transparent' }}>
+            <View style={{ marginHorizontal: 27, marginBottom: 20 }}>
+              <View style={{
+                flexDirection: 'row', alignItems: 'center',
+              }}
+              >
+                <Layout style={{ backgroundColor: 'transparent', marginRight: 20 }}>
+                  <Text category="h5">
+                    Date d'acquisition
+                  </Text>
+                </Layout>
+                <TextInputComp
+                  placeholder="dd/mm/yyyy"
+                  name="dateAcquisition"
+                  value={date.toDateString()}
+                  icon="calendar-outline"
+                />
 
-              <Layout>
-                <SelectComp name="typeBien" data={typeBien} placeholder="Type De Bien" size="large" appearance="default" status="primary" />
+              </View>
+              <Layout style={{ backgroundColor: 'transparent' }}>
 
-              </Layout>
+                <Layout>
+                  <SelectComp name="typeBien" data={typeBien} placeholder="Type De Bien" size="large" appearance="default" status="primary" />
 
-              <Layout>
-                <SelectComp name="Detention" data={detention} placeholder="Détention" onChangeValue={(v) => { if (v === 'b1') { setDetentionShow(true); setStatutShow(false); } else { setDetentionShow(false); setStatutShow(true); } }} size="large" appearance="default" status="primary" />
+                </Layout>
 
-              </Layout>
-              {detentionShow
+                <Layout>
+                  <SelectComp name="Detention" data={detention} placeholder="Détention" onChangeValue={(v) => { if (v === 'b1') { setDetentionShow(true); setStatutShow(false); } else { setDetentionShow(false); setStatutShow(true); } }} size="large" appearance="default" status="primary" />
+
+                </Layout>
+                {detentionShow
               && (
               <Layout>
                 <SelectComp name="typeDetention" data={typeDetention} placeholder="Type De Détention" size="large" appearance="default" status="primary" />
 
               </Layout>
               )}
-              {statutShow
+                {statutShow
               && (
               <>
                 <Layout>
@@ -360,9 +379,9 @@ function AjoutBienScreen() {
               </>
               )}
 
-            </Layout>
+              </Layout>
 
-          </View>
+            </View>
 
           )}
 
@@ -378,7 +397,7 @@ function AjoutBienScreen() {
           </Layout>
         </>
       </Form>
-    </ScrollView>
+    </MaxWidthContainer>
   );
 }
 

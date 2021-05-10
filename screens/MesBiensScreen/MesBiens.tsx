@@ -4,25 +4,30 @@
  * @author: Shynggys UMBETOV
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, Layout, Text } from '@ui-kitten/components';
 
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { useLinkTo } from '@react-navigation/native';
+import { FlatList } from 'react-native';
 import MonBien from './Components/MonBien';
+import MaxWidthContainer from '../../components/MaxWidthContainer';
+import comptesData from '../../mockData/comptesData';
 
 function MesBiens() {
   const linkTo = useLinkTo();
+  const [comptes, setComptes] = useState(comptesData);
 
   const onAjoutBien = () => {
     linkTo('/mes-biens/ajouter');
   };
 
   return (
-    <KeyboardAwareScrollView
-      enableOnAndroid
-      showsVerticalScrollIndicator={false}
-      style={{ flex: 1, backgroundColor: '#efefef', marginTop: 12 }}
+
+    <MaxWidthContainer outerViewProps={{
+      style: {
+        backgroundColor: '#efefef',
+      },
+    }}
     >
       <Layout style={{ flex: 1, backgroundColor: '#f6f6f6', padding: 26 }}>
         <Text
@@ -36,17 +41,25 @@ function MesBiens() {
 
         <MonBien />
         <MonBien />
+        {/**
+         *<FlatList
+         data={comptes}
+         renderItem={MonBien}
+         keyExtractor={(item) => item.id}
+         />
+         */}
+
+        <Button
+          size="large"
+          onPress={() => { onAjoutBien(); }}
+          style={{ marginVertical: 30 }}
+        >
+          Ajouter un nouveau bien
+        </Button>
 
       </Layout>
 
-      <Button
-        size="large"
-        onPress={() => { onAjoutBien(); }}
-        style={{ marginVertical: 10 }}
-      >
-        Ajouter un nouveau bien
-      </Button>
-    </KeyboardAwareScrollView>
+    </MaxWidthContainer>
   );
 }
 

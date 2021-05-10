@@ -6,18 +6,21 @@
 
 import React, { useState } from 'react';
 import { Layout, Text } from '@ui-kitten/components';
-import { ScrollView, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 
 import ComptesBancaires from './Components/ComptesBancaires';
 import comptesData from '../../mockData/comptesData';
+import MaxWidthContainer from '../../components/MaxWidthContainer';
 
 const MaTresorerie = () => {
   const [value, setValue] = useState('');
 
   return (
-    <ScrollView
-      showsVerticalScrollIndicator={false}
-      style={{ backgroundColor: '#efefef' }}
+    <MaxWidthContainer outerViewProps={{
+      style: {
+        backgroundColor: '#efefef',
+      },
+    }}
     >
       <Layout style={styles.container}>
         <Text
@@ -75,7 +78,7 @@ const MaTresorerie = () => {
 
       <ComptesBancaires client={comptesData} />
 
-    </ScrollView>
+    </MaxWidthContainer>
   );
 };
 

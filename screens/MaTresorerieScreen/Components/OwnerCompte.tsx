@@ -1,12 +1,13 @@
 import React from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
-import { Layout, Text } from '@ui-kitten/components';
+import { Layout, Text, useTheme } from '@ui-kitten/components';
 
 import { useNavigation } from '@react-navigation/native';
-import Icon from '../../../components/Icon';
+import { Icon as IconUIKitten } from '@ui-kitten/components/ui/icon/icon.component';
 
 const OwnerCompte = ({ compte }) => {
   const navigation = useNavigation();
+  const theme = useTheme();
   const onTresoMouvement = () => {
     navigation.navigate('TresoMouvement_page1');
   };
@@ -61,7 +62,13 @@ const OwnerCompte = ({ compte }) => {
           <Text status="control">3</Text>
         </Layout>
         <TouchableOpacity onPress={onTresoMouvement} style={{ marginRight: 2, marginTop: 17 }}>
-          <Icon name="arrow-ios-forward-outline" size={20} />
+          <IconUIKitten
+            name="arrow-ios-forward"
+            fill={theme['text-hint-color']}
+            style={{
+              height: 20, width: 20,
+            }}
+          />
         </TouchableOpacity>
 
       </Layout>

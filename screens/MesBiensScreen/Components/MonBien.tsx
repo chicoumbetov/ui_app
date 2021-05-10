@@ -18,6 +18,7 @@ import { colors } from '../../../assets/styles';
 import comptesData from '../../../mockData/comptesData';
 
 import RotatingIcon from '../../../components/Icon/RotatingIcon';
+import MaxWidthContainer from '../../../components/MaxWidthContainer';
 
 const mesBiensData = [
   { x: '35%', y: 35 },
@@ -36,11 +37,16 @@ function MonBien() {
   };
 
   return (
-    <>
+    <MaxWidthContainer>
       <Layout style={{
-        flexDirection: 'column', marginTop: 27, padding: 15, paddingBottom: 20, borderRadius: 10,
+        flexDirection: 'column',
+        marginTop: 27,
+        padding: 15,
+        paddingBottom: 20,
+        borderRadius: 10,
       }}
       >
+
         <TouchableOpacity onPress={() => setOpened(!opened)}>
           <Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
             <CompteHeader title={comptesData[0].title} />
@@ -169,7 +175,7 @@ function MonBien() {
           </>
         )}
       </Layout>
-    </>
+    </MaxWidthContainer>
   );
 }
 

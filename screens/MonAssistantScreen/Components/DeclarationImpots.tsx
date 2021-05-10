@@ -4,7 +4,6 @@ import {
 } from '@ui-kitten/components';
 import { useNavigation } from '@react-navigation/native';
 import {
-  ScrollView,
   StyleSheet, View,
 } from 'react-native';
 import { useForm } from 'react-hook-form';
@@ -51,11 +50,20 @@ const DeclarationImpots = () => {
         <Text category="h1" style={styles.title}>Paramétrer mon aide à la déclaration d'impôts</Text>
 
         <Form <DeclarationImpotsForm> {...declarationImpotsForm}>
-
-          <SelectComp name="bien" data={comptesData} placeholder="Choisissez le bien" size="large" appearance="default" status="primary" />
-
-          <TextInputComp label="Année de l'écheance" placeholder="aaaa" icon="calendar-outline" />
-
+          <SelectComp
+            name="bien"
+            data={comptesData}
+            placeholder="Choisissez le bien"
+            size="large"
+            appearance="default"
+            status="primary"
+          />
+          <TextInputComp
+            label="Année de l'écheance"
+            name="anneeEcheance"
+            placeholder="aaaa"
+            icon="calendar-outline"
+          />
         </Form>
 
         <View style={styles.buttonRight}>

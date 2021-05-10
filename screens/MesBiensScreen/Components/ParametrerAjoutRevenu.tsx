@@ -14,6 +14,7 @@ import {
   loyer, frequence, typeRevenu, typeMontant,
 } from '../../../mockData/ajoutRevenuData';
 import Form from '../../../components/Form/Form';
+import TextInputComp from '../../../components/Form/TextInput';
 
 type ParamBudgetForm = {
   typeRevenu: string;
@@ -31,9 +32,15 @@ const initialFormState = {
   typeDetention: 'Type de détention',
 };
 
+type ParamAjoutBienForm = {
+  bien: string;
+  anneeEcheance: string;
+};
+
 const ParametrerAjoutRevenu = () => {
   const theme = useTheme();
   const paramBudgetForm = useForm<ParamBudgetForm>();
+  const paramAjoutBienForm = useForm<ParamAjoutBienForm>();
 
   const [frequenceShow, setFrequenceShow] = useState(false);
   const [montantShow, setMontantShow] = useState(false);
@@ -116,8 +123,15 @@ const ParametrerAjoutRevenu = () => {
                 {frequenceShow
                   && (
                   <>
-                    <Layout>
+                    <Layout style={{ backgroundColor: 'transparent' }}>
                       <SelectComp name="typeRevenu" data={frequence} placeholder="Fréquence" size="large" appearance="default" status="primary" />
+                      <Form <ParamAjoutBienForm> {...paramAjoutBienForm}>
+                        <TextInputComp style={{ marginBottom: 30 }} name="adresse" placeholder="Adresse" />
+                        <TextInputComp style={{ marginBottom: 30 }} name="complement" placeholder="Complément d'adresse" />
+                        <TextInputComp style={{ marginBottom: 30 }} name="codePostal" placeholder="Code Postal" />
+                        <TextInputComp style={{ marginBottom: 30 }} name="ville" placeholder="Ville" />
+                        <TextInputComp name="pays" placeholder="Pays" />
+                      </Form>
 
                     </Layout>
                   </>

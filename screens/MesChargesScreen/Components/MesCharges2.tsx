@@ -3,15 +3,24 @@ import {
   Layout, RadioGroup, Radio, Text, Button,
 } from '@ui-kitten/components';
 import { useNavigation } from '@react-navigation/native';
-import { StyleSheet, TextInput, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import { useForm } from 'react-hook-form';
 import TextInputComp from '../../../components/Form/TextInput';
-import { colors } from '../../../assets/styles';
+
+import MaxWidthContainer from '../../../components/MaxWidthContainer';
+import Form from '../../../components/Form/Form';
+
+type DeclarationImpotsForm = {
+  bien: string;
+  anneeEcheance: string;
+};
 
 const MesCharges2 = ({ charges }) => {
   const [selectedIndex, setSelectedIndex] = React.useState(0);
   const [dateCharge, setDateCharge] = useState('');
 
   const navigation = useNavigation();
+  const declarationImpotsForm = useForm<DeclarationImpotsForm>();
 
   const onMesCharges3 = () => {
     navigation.navigate('MesCharges3');
@@ -22,64 +31,55 @@ const MesCharges2 = ({ charges }) => {
   });
 
   return (
-
-    <Layout style={styles.container}>
-      <Text style={styles.title}>
+    <MaxWidthContainer outerViewProps={{
+      style: {
+        padding: 22,
+        backgroundColor: '#f6f6f6',
+      },
+    }}
+    >
+      <Text category="h1" status="basic">
         Charge Eau
       </Text>
 
-      <RadioGroup
-        selectedIndex={selectedIndex}
-        onChange={(index) => setSelectedIndex(index)}
-        style={styles.containerRadio}
-      >
-        <Radio status="info" style={{ marginRight: 31 }}>
-          <Text style={{ fontSize: 17 }}>Année</Text>
-        </Radio>
-        <Radio style={{ marginRight: 20 }}>
-          <Text style={{ fontSize: 17 }}>Année - 1</Text>
-        </Radio>
-        <Radio>
-          <Text style={{ fontSize: 17 }}>Mois</Text>
-        </Radio>
-      </RadioGroup>
+      <Form <DeclarationImpotsForm> {...declarationImpotsForm}>
 
-      <Layout style={{
-        flexDirection: 'row', backgroundColor: 'transparent', marginTop: 10, justifyContent: 'space-between',
-      }}
-      >
-        <Text
-          style={{
-            flex: 1,
-            fontSize: 17,
-            letterSpacing: 0.017,
-            fontFamily: 'HouschkaRoundedMedium',
-            color: colors.gris,
-            paddingTop: 33,
-
-          }}
+        <RadioGroup
+          selectedIndex={selectedIndex}
+          onChange={(index) => setSelectedIndex(index)}
+          style={styles.containerRadio}
         >
-          Selectionner l'année
-        </Text>
-        <TextInput
+          <Radio>
+            <Text category="p1">Année</Text>
+          </Radio>
+          <Radio>
+            <Text category="p1">Année - 1</Text>
+          </Radio>
+          <Radio>
+            <Text category="p1">Mois</Text>
+          </Radio>
+        </RadioGroup>
+
+      </Form>
+      <Layout style={{ flexDirection: 'row', backgroundColor: 'transparent', alignItems: 'center' }}>
+        <View style={{ marginRight: 15 }}>
+          <Text category="h5">Selectionner l'année</Text>
+        </View>
+
+        <TextInputComp
+          name="selectionnerAnnee"
           placeholder="dd/mm/yyyy"
-          style={{
-            width: 173, borderRadius: 5, marginTop: 18, paddingHorizontal: 16, paddingVertical: 13, backgroundColor: colors.blanc, borderColor: 'transparent',
-          }}
+          icon="calendar-outline"
         />
       </Layout>
 
       <View style={styles.buttonRight}>
-        <Button onPress={() => { onMesCharges3(); }} style={{ width: 173, borderRadius: 9 }}>
-          <Text style={{ fontSize: 17, letterSpacing: 0.15, color: colors.blanc }}>Valider</Text>
+        <Button onPress={onMesCharges3} size="large" style={{ width: 173 }}>
+          Valider
         </Button>
       </View>
 
-      <Text category="h6">
-        {`Selected Option: ${selectedIndex + 1}`}
-      </Text>
-
-    </Layout>
+    </MaxWidthContainer>
 
   );
 };
@@ -94,15 +94,10 @@ const styles = StyleSheet.create({
   },
   containerRadio: {
     flexDirection: 'row',
-    flexWrap: 'wrap',
     marginTop: 30,
+    marginBottom: 15,
+    justifyContent: 'space-between',
     backgroundColor: 'transparent',
   },
-  buttonRight: { marginTop: 34, alignItems: 'flex-end' },
-  title: {
-    fontSize: 25,
-    marginTop: 13,
-    letterSpacing: 0.2,
-    fontFamily: 'HouschkaRoundedDemiBold',
-  },
+  buttonRight: { marginTop: 20, alignItems: 'flex-end' },
 });

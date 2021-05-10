@@ -9,6 +9,7 @@ import { AntDesign } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import CompteHeader from '../../../../components/CompteHeader/CompteHeader';
 import comptesData from '../../../../mockData/comptesData';
+import MaxWidthContainer from '../../../../components/MaxWidthContainer';
 
 const TresoMouvementPage2 = ({ compte }) => {
   const [client, setClient] = useState(comptesData);
@@ -20,9 +21,7 @@ const TresoMouvementPage2 = ({ compte }) => {
   };
 
   return (
-    <ScrollView
-      showsVerticalScrollIndicator={false}
-    >
+    <MaxWidthContainer>
       <Layout style={styles.container}>
         <Layout style={{ backgroundColor: '#f6f6f6', padding: 26 }}>
           <Text style={{
@@ -167,7 +166,7 @@ const TresoMouvementPage2 = ({ compte }) => {
         </Layout>
 
       </Layout>
-    </ScrollView>
+    </MaxWidthContainer>
   );
 };
 

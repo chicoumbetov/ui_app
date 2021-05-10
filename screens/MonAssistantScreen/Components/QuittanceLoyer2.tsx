@@ -4,10 +4,14 @@ import { StyleSheet, TouchableOpacity } from 'react-native';
 
 import CompteHeader from '../../../components/CompteHeader/CompteHeader';
 import clientData from '../../../mockData/clientDATA';
+import MaxWidthContainer from '../../../components/MaxWidthContainer';
 
 const QuittanceLoyer2 = () => (
   // const onPdf = () => { navigation.navigate('PdfScreen'); };
-  <Layout style={styles.containerOut}>
+  <MaxWidthContainer outerViewProps={{
+    style: { backgroundColor: '#efefef' },
+  }}
+  >
 
     <Layout style={styles.container}>
       <Text category="h1" style={{ marginBottom: 6 }}>Générer une quittance de loyer</Text>
@@ -33,7 +37,7 @@ const QuittanceLoyer2 = () => (
       </Layout>
     </Layout>
 
-  </Layout>
+  </MaxWidthContainer>
 
 );
 

@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import { Layout, Text } from '@ui-kitten/components';
 import { useNavigation } from '@react-navigation/native';
+import MaxWidthContainer from '../../../components/MaxWidthContainer';
 
 type DataProps = {
   clientData: {
@@ -66,8 +67,10 @@ const AbonnementComp = () => {
   // eslint-disable-next-line implicit-arrow-linebreak
   return (
 
-    <Layout style={{
-      flex: 1, backgroundColor: 'rgba(246, 246, 246, 0.5)', paddingTop: 32, paddingHorizontal: 28, marginVertical: 13,
+    <MaxWidthContainer outerViewProps={{
+      style: {
+        flex: 1, backgroundColor: 'rgba(246, 246, 246, 0.5)', paddingTop: 32, paddingHorizontal: 28, marginVertical: 13,
+      },
     }}
     >
       <Text
@@ -103,7 +106,7 @@ const AbonnementComp = () => {
         <Text category="h5" status="info" style={styles.buttonTextLeft}>Changer de mode de paimenent</Text>
       </TouchableOpacity>
 
-    </Layout>
+    </MaxWidthContainer>
 
   );
 };

@@ -4,10 +4,16 @@ import { StyleSheet, TouchableOpacity } from 'react-native';
 
 import CompteHeader from '../../../components/CompteHeader/CompteHeader';
 import clientData from '../../../mockData/clientDATA';
+import MaxWidthContainer from '../../../components/MaxWidthContainer';
 
 const DeclarationImpots = () => (
   // const onPdf = () => { navigation.navigate('PdfScreen'); };
-  <Layout style={styles.containerOut}>
+  <MaxWidthContainer outerViewProps={{
+    style: {
+      backgroundColor: '#efefef',
+    },
+  }}
+  >
 
     <Layout style={styles.container}>
       <Text style={{ marginBottom: 6 }}>Paramétrer mon aide à la déclaration d'impôts</Text>
@@ -33,7 +39,7 @@ const DeclarationImpots = () => (
       </Layout>
     </Layout>
 
-  </Layout>
+  </MaxWidthContainer>
 
 );
 export default DeclarationImpots;

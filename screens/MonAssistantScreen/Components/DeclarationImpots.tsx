@@ -11,6 +11,7 @@ import { useForm } from 'react-hook-form';
 import TextInputComp from '../../../components/Form/TextInput';
 import Form from '../../../components/Form/Form';
 import SelectComp from '../../../components/Form/Select';
+import MaxWidthContainer from '../../../components/MaxWidthContainer';
 
 type DeclarationImpotsForm = {
   bien: string;
@@ -38,7 +39,12 @@ const DeclarationImpots = () => {
   };
 
   return (
-    <ScrollView>
+    <MaxWidthContainer outerViewProps={{
+      style: {
+        backgroundColor: '#efefef',
+      },
+    }}
+    >
 
       <Layout style={styles.containerOut}>
 
@@ -60,7 +66,7 @@ const DeclarationImpots = () => {
 
       </Layout>
 
-    </ScrollView>
+    </MaxWidthContainer>
   );
 };
 

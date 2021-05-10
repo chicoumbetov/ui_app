@@ -3,6 +3,7 @@ import { StyleSheet, TouchableOpacity } from 'react-native';
 import { Layout, Text } from '@ui-kitten/components';
 import { AntDesign } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import MaxWidthContainer from '../../components/MaxWidthContainer';
 
 const MonAssistant = () => {
   const navigation = useNavigation();
@@ -16,7 +17,12 @@ const MonAssistant = () => {
   };
 
   return (
-    <Layout style={styles.containerOut}>
+    <MaxWidthContainer outerViewProps={{
+      style: {
+        backgroundColor: '#efefef',
+      },
+    }}
+    >
       <Layout style={styles.container}>
         <Text category="h1" style={styles.title}>Mon Assistant</Text>
         <Text category="h2" style={styles.subtitle}>Générer les documents</Text>
@@ -36,7 +42,7 @@ const MonAssistant = () => {
         </Layout>
 
       </Layout>
-    </Layout>
+    </MaxWidthContainer>
 
   );
 };

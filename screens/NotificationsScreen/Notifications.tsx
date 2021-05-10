@@ -113,7 +113,6 @@ const NotificationsPage = () => {
   }, []);
 
   return (
-
     <MaxWidthContainer outerViewProps={{
       style: {
         backgroundColor: '#efefef',

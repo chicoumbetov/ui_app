@@ -2,15 +2,18 @@ import React, { useState, useEffect, useRef } from 'react';
 import {
   Text, View, TouchableOpacity, StyleSheet,
 } from 'react-native';
-import * as ImagePicker from 'expo-image-picker';
-import { Camera } from 'expo-camera';
-// import styles from './styles';
 
 import { useNavigation } from '@react-navigation/native';
-import { Entypo, Ionicons } from '@expo/vector-icons';
+import { useTheme } from '@ui-kitten/components';
+
+import { Ionicons } from '@expo/vector-icons';
+import * as ImagePicker from 'expo-image-picker';
+import { Camera } from 'expo-camera';
+import { Icon as IconUIKitten } from '@ui-kitten/components/ui/icon/icon.component';
 
 export default function CameraDom() {
   const camera = useRef();
+  const theme = useTheme();
   const navigation = useNavigation();
 
   const [hasPermission, setHasPermission] = useState(null);
@@ -86,7 +89,13 @@ export default function CameraDom() {
               onPress={pickImage}
               style={styles.galleryIcon}
             >
-              <Entypo name="image" size={30} />
+              <IconUIKitten
+                name="image-outline"
+                fill={theme['color-info-900']}
+                style={{
+                  height: 30, width: 30,
+                }}
+              />
             </TouchableOpacity>
           </View>
 

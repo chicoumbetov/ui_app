@@ -346,15 +346,9 @@ function AjoutBienScreen() {
               </View>
               <Layout style={{ backgroundColor: 'transparent' }}>
 
-                <Layout>
-                  <SelectComp name="typeBien" data={typeBien} placeholder="Type De Bien" size="large" appearance="default" status="primary" />
+                <SelectComp name="typeBien" data={typeBien} placeholder="Type De Bien" size="large" appearance="default" status="primary" />
+                <SelectComp name="Detention" data={detention} placeholder="Détention" onChangeValue={(v) => { if (v === 'b1') { setDetentionShow(true); setStatutShow(false); setPourcentageDetentionShow(false); } else { setDetentionShow(false); setStatutShow(true); setPourcentageDetentionShow(true); } }} size="large" appearance="default" status="primary" />
 
-                </Layout>
-
-                <Layout>
-                  <SelectComp name="Detention" data={detention} placeholder="Détention" onChangeValue={(v) => { if (v === 'b1') { setDetentionShow(true); setStatutShow(false); setPourcentageDetentionShow(false); } else { setDetentionShow(false); setStatutShow(true); setPourcentageDetentionShow(true); } }} size="large" appearance="default" status="primary" />
-
-                </Layout>
                 {detentionShow
               && (
               <Layout>
@@ -365,15 +359,9 @@ function AjoutBienScreen() {
                 {statutShow
               && (
               <>
-                <Layout>
-                  <SelectComp name="typeBien" data={statut} placeholder="Status" size="large" appearance="default" status="primary" />
 
-                </Layout>
-
-                <Layout>
-                  <SelectComp name="typeBien" data={typeImpo} placeholder="Type d'imposition" size="large" appearance="default" status="primary" />
-
-                </Layout>
+                <SelectComp name="typeBien" data={statut} placeholder="Status" size="large" appearance="default" status="primary" />
+                <SelectComp name="typeBien" data={typeImpo} placeholder="Type d'imposition" size="large" appearance="default" status="primary" />
 
               </>
               )}

@@ -63,7 +63,6 @@ type Compte @model {
 ######  NOT PUSHED YET
 
 #type Bien
-
 type Bien @model
   @auth(rules: [
     {allow: owner, ownerField: "admins", operations: [ create, update, delete, read]]}
@@ -87,10 +86,9 @@ type Bien @model
 }
 
 #type LigneBudget
-
 type LigneBudget
 @key(name: "byBienId", fields: ["bienId"])
-@model(queries: null){
+@model(queries: null) {
   id: ID!
   bienId: ID!
   typeLigneBudget: String
@@ -98,13 +96,13 @@ type LigneBudget
   frequence: Frequence
   dateProchaineEcheance: Int
 
-  infoCredit: InfoCredit @connection(fields: ["infoCreditID"])
-  infoLocataire: InfoLocataire @connection(fields: ["infoLocataireID"])
+  infoCredit: InfoCredit @connection(keyName: "byLigneBudgetId", fields: ["infoCreditID"])
+  infoLocataire: InfoLocataire @connection(keyName: "byLigneBudgetId", fields: ["infoLocataireID"])
 }
 # type InfoLocataire
 type InfoLocataire
-@key(name: "infoLocataireID", fields: ["ligneBudgetId"])
-@model(queries: null){
+@key(name: "byLigneBudgetId", fields: ["ligneBudgetId"], queryField: "infoLocataireByLigneBudgetId")
+@model(queries: null) {
   id: ID!
   ligneBudgetId: ID!
   montant: Int!

@@ -206,7 +206,7 @@ const CustomDrawer = (props: DrawerContentComponentProps) => {
                   title={() => (
                       <Text category="h5" >Mes charges</Text>
                   )}
-                  style={{ width: 195, backgroundColor: 'transparent'}}
+                  style={{ width: 210, backgroundColor: 'transparent'}}
                   accessoryLeft={HomeIcon}
               /> : <></>}
               <DrawerItem

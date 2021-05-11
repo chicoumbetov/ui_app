@@ -9,11 +9,11 @@ import {
   Button, Icon as IconUIKitten, Layout, Text,
 } from '@ui-kitten/components';
 import {
-  FlatList, StyleSheet, TouchableOpacity, View,
+  FlatList, StyleSheet, View,
 } from 'react-native';
 
 import { useLinkTo } from '@react-navigation/native';
-import CompteHeader from '../../components/CompteHeader/CompteHeader';
+
 import comptesData from '../../mockData/comptesData';
 import MaisonVert from '../../assets/Omedom_Icons_svg/Logement/maison_verte.svg';
 import Immeuble from '../../assets/Omedom_Icons_svg/Logement/immeuble.svg';
@@ -121,7 +121,7 @@ function TableauDeBord() {
         <Button
           size="large"
           onPress={() => { onAjoutBien(); }}
-          style={{ marginVertical: 10 }}
+          style={{ marginVertical: 25 }}
         >
           Ajouter un nouveau bien
         </Button>

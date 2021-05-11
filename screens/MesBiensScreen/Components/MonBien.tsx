@@ -17,7 +17,7 @@ import { Icon as IconUIKitten } from '@ui-kitten/components/ui/icon/icon.compone
 import CompteHeader from '../../../components/CompteHeader/CompteHeader';
 import GraphicsII from '../../../components/Graphics/GraphicsII';
 import Graphics from '../../../components/Graphics/Graphics';
-import { colors } from '../../../assets/styles';
+
 import comptesData from '../../../mockData/comptesData';
 
 import RotatingIcon from '../../../components/Icon/RotatingIcon';

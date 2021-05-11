@@ -15,7 +15,7 @@ const OwnerCompte = ({ compte }) => {
 
   return (
     <MaxWidthContainer>
-      <Layout style={styles.container}>
+      <TouchableOpacity onPress={onTresoMouvement} style={styles.container}>
 
         <Layout style={{ paddingHorizontal: 14, width: 255, backgroundColor: 'transparent' }}>
           <Text
@@ -61,19 +61,17 @@ const OwnerCompte = ({ compte }) => {
           >
             <Text status="control">3</Text>
           </Layout>
-          <TouchableOpacity onPress={onTresoMouvement} style={{ marginRight: 2 }}>
+          <Layout style={{ marginRight: 2 }}>
             <IconUIKitten
               name="arrow-ios-forward"
               fill={theme['text-hint-color']}
-              style={{
-                height: 20, width: 20,
-              }}
+              style={{ height: 20, width: 20 }}
             />
-          </TouchableOpacity>
+          </Layout>
 
         </Layout>
 
-      </Layout>
+      </TouchableOpacity>
     </MaxWidthContainer>
   );
 };

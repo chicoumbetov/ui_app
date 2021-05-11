@@ -185,40 +185,76 @@ const CustomDrawer = (props: DrawerContentComponentProps) => {
               }}
             >
               <DrawerItem
-                title="Tableau de bord"
+                // title="Tableau de bord"
+                title={() => (
+                    <Text category="h5" >Tableau de bord</Text>
+                )}
+                style={{ width: 230, backgroundColor: 'transparent'}}
                 accessoryLeft={GridIcon}
               />
               <DrawerItem
-                title="Mon Compte"
+                // title="Mon Compte"
+                title={() => (
+                    <Text category="h5" >Mon Compte</Text>
+                )}
+                style={{ width: 215, backgroundColor: 'transparent'}}
                 accessoryLeft={PersonIcon}
               />
               {/* On utilise un fragment pour garder les mêmes index de row */}
               {window.width > 780 ? <DrawerItem
-                  title="Mes charges"
+                  // title="Mes charges"
+                  title={() => (
+                      <Text category="h5" >Mes charges</Text>
+                  )}
+                  style={{ width: 195, backgroundColor: 'transparent'}}
                   accessoryLeft={HomeIcon}
               /> : <></>}
               <DrawerItem
-                title="Mes Biens"
+                // title="Mes Biens"
+                title={() => (
+                    <Text category="h5" >Mes Biens</Text>
+                )}
+                style={{ width: 195, backgroundColor: 'transparent'}}
                 accessoryLeft={HomeIcon}
               />
               <DrawerItem
-                title="Ma Trésorerie"
+                // title="Ma Trésorerie"
+                title={() => (
+                    <Text category="h5" >Ma Trésorerie</Text>
+                )}
+                style={{ width: 225, backgroundColor: 'transparent'}}
                 accessoryLeft={MoneyIcon}
               />
               <DrawerItem
-                title="Mon Assistant"
+                // title="Mon Assistant"
+                title={() => (
+                    <Text category="h5" >Mon Assistant </Text>
+                )}
                 accessoryLeft={PaperIcon}
+                style={{ width: 230, backgroundColor: 'transparent'}}
               />
               <DrawerItem
-                title="Notifications"
+                // title="Notifications"
+                title={() => (
+                    <Text category="h5" >Notifications</Text>
+                )}
+                style={{ width: 215, backgroundColor: 'transparent'}}
                 accessoryLeft={BellIcon}
               />
               <DrawerItem
-                title="FAQ"
+                // title="FAQ"
+                title={() => (
+                    <Text category="h5" >FAQ</Text>
+                )}
+                style={{ width: 155, backgroundColor: 'transparent'}}
                 accessoryLeft={QuestionIcon}
               />
               <DrawerItem
-                title="Contact"
+                // title="Contact"
+                title={() => (
+                    <Text category="h5" >Contact</Text>
+                )}
+                style={{ width: 180, backgroundColor: 'transparent'}}
                 accessoryLeft={EmailIcon}
               />
             </Drawer>

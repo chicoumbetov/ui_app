@@ -10,9 +10,10 @@ import {
 } from '@ui-kitten/components';
 
 import {
-  StyleSheet, TouchableOpacity,
+  StyleSheet, TouchableOpacity, View,
 } from 'react-native';
 import { useLinkTo } from '@react-navigation/native';
+import { Icon as IconUIKitten } from '@ui-kitten/components/ui/icon/icon.component';
 import CompteHeader from '../../../components/CompteHeader/CompteHeader';
 import GraphicsII from '../../../components/Graphics/GraphicsII';
 import Graphics from '../../../components/Graphics/Graphics';
@@ -58,80 +59,76 @@ function MonBien() {
         </TouchableOpacity>
 
         {!opened ? (
-          <>
-            <Layout style={{
-              flexDirection: 'row',
-              marginTop: 8,
-              marginBottom: 5,
-              justifyContent: 'space-between',
-            }}
-            >
-              {/**
+          <Layout style={{
+            flexDirection: 'row',
+            marginTop: 22,
+            justifyContent: 'space-between',
+          }}
+          >
+            {/**
               *
               */}
+            <Layout>
               <Layout style={{
-                flex: 2,
                 alignItems: 'center',
                 flexDirection: 'row',
-                marginTop: 14,
-                marginRight: 8,
               }}
               >
-                <Icon
-                  name="arrow-downward"
-                  fill="#b5b5b5"
-                  style={{ height: 16, width: 16 }}
-                />
-                <Icon
-                  name="arrow-upward"
-                  fill="#b5b5b5"
-                  style={{
-                    height: 16, width: 16, marginRight: 8,
-                  }}
-                />
+                <Layout style={{ width: 22, flexDirection: 'row' }}>
+                  <Layout style={{ width: 7 }}>
+                    <IconUIKitten
+                      name="arrow-downward"
+                      fill="#b5b5b5"
+                      style={{ height: 16, width: 16 }}
+                    />
+                  </Layout>
+                  <IconUIKitten
+                    name="arrow-upward"
+                    fill="#b5b5b5"
+                    style={{
+                      height: 16, width: 16, marginRight: 8,
+                    }}
+                  />
+                </Layout>
 
                 <Text category="h5" status="success">+ 10 800 €</Text>
               </Layout>
-
-              {/**
-               *
-               */}
-              <Layout style={{
-                flex: 1,
-                alignItems: 'center',
-                marginRight: 8,
-                flexDirection: 'row',
-                marginTop: 13,
-              }}
-              >
-                <Icon
-                  name="arrow-downward"
-                  fill="#b5b5b5"
-                  style={{ height: 16, width: 16, marginRight: 8 }}
-                />
-                <Text category="h4" status="danger">- 160 €</Text>
-              </Layout>
-
-              {/**
-               *
-               */}
-              <Layout style={{
-                flex: 1,
-                alignItems: 'center',
-                marginTop: 14,
-                flexDirection: 'row',
-              }}
-              >
-                <Icon
-                  name="trending-up"
-                  fill="#b5b5b5"
-                  style={{ height: 18, width: 18, marginRight: 8 }}
-                />
-                <Text category="h4" status="warning">60 %</Text>
-              </Layout>
-
             </Layout>
-          </>
+
+            {/**
+               *
+               */}
+
+            <Layout style={{
+              alignItems: 'center',
+              marginRight: 20,
+              flexDirection: 'row',
+            }}
+            >
+              <Icon
+                name="arrow-downward"
+                fill="#b5b5b5"
+                style={{ height: 16, width: 16 }}
+              />
+              <Text category="h4" status="danger">- 160 €</Text>
+            </Layout>
+
+            {/**
+               *
+               */}
+            <View style={{
+              flexDirection: 'row',
+            }}
+            >
+              <Icon
+                name="trending-up"
+                fill="#b5b5b5"
+                style={{ height: 18, width: 18, marginRight: 2 }}
+              />
+              <Text category="h4" status="warning">60 %</Text>
+            </View>
+
+          </Layout>
         ) : (
           <Layout style={{ backgroundColor: 'transparent' }}>
             <Layout style={{

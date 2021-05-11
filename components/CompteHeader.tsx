@@ -1,6 +1,9 @@
 import React from 'react';
-import { Image, Text, View } from 'react-native';
+import { View } from 'react-native';
+import { Text } from '@ui-kitten/components';
 import { CompteType } from '../types';
+import MaxWidthContainer from './MaxWidthContainer';
+import MaisonVert from '../assets/Omedom_Icons_svg/Logement/maison_verte.svg';
 
 export type CompteProps = {
   title: string,
@@ -9,21 +12,25 @@ export type CompteProps = {
 };
 
 const CompteHeader = ({ data }: CompteProps) => (
-  <View style={{
-    marginTop: 10, marginRight: 20, flexDirection: 'row', alignItems: 'center',
-  }}
-  >
-    <Image source={require('../assets/Icones_omedom/logements/maisonVert.png')} style={{ height: 40, width: 40, marginRight: 12 }} />
-    <Text style={{ fontSize: 16, fontWeight: '600' }}>
-      {' '}
-      {/* {compte.typeBien} */}
-      La Maison
-      {' '}
-      de Mathieu
-      {' '}
-      {data.prenom}
-    </Text>
-  </View>
+  <MaxWidthContainer>
+    <View style={{
+      marginTop: 10, marginRight: 20, flexDirection: 'row', alignItems: 'center',
+    }}
+    >
+      <View style={{ marginRight: 12 }}>
+        <MaisonVert height={40} width={40} />
+      </View>
+      <Text category="h5" style={{ marginRight: 12 }}>
+        {' '}
+        {/* {compte.typeBien} */}
+        La Maison
+        {' '}
+        de Mathieu
+        {' '}
+        {data.prenom}
+      </Text>
+    </View>
+  </MaxWidthContainer>
 );
 
 export default CompteHeader;

@@ -7,6 +7,7 @@ import * as React from 'react';
 import { Layout, Text } from '@ui-kitten/components';
 
 import { useState } from 'react';
+import { DataStore } from 'aws-amplify';
 import Informations from './Components/Informations';
 import Abonnement from './Components/Abonnement';
 import MaxWidthContainer from '../../components/MaxWidthContainer';
@@ -20,15 +21,15 @@ export default function MonComptePage1() {
   // console.log('clients3:', clients);
 
   /*
-    // DataStore connexion
-    async function fetchClient() {
-      try {
-        const clients = await DataStore.query(Client);
-        console.log('clients: ', clients);
-      } catch (e) {
-        console.log('Error retrieving posts', e);
-      }
-    }
+// DataStore connexion
+async function fetchClient() {
+  try {
+    const clients = await DataStore.query(Client);
+    console.log('clients: ', clients);
+  } catch (e) {
+    console.log('Error retrieving posts', e);
+  }
+}
 
     useEffect(() => {
       fetchClient();

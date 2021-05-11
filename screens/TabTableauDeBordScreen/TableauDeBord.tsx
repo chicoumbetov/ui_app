@@ -18,6 +18,7 @@ import comptesData from '../../mockData/comptesData';
 import MaisonVert from '../../assets/Omedom_Icons_svg/Logement/maison_verte.svg';
 import Immeuble from '../../assets/Omedom_Icons_svg/Logement/immeuble.svg';
 import MaxWidthContainer from '../../components/MaxWidthContainer';
+import MonBienResume from '../../components/MonBienResume';
 
 function TableauDeBord() {
   const linkTo = useLinkTo();
@@ -111,85 +112,9 @@ function TableauDeBord() {
           data={comptesData}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
-            <Layout style={{
-              flexDirection: 'column', marginTop: 28, padding: 17, borderRadius: 10,
-            }}
-            >
-              <TouchableOpacity onPress={allerDetailsBien} style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                <CompteHeader title={item.title} />
-                <IconUIKitten
-                  name="arrow-ios-forward"
-                  fill="#b5b5b5"
-                  style={{
-                    height: 16, width: 16, marginRight: 5, marginTop: 8,
-                  }}
-                />
-              </TouchableOpacity>
-
-              <Layout style={{
-                flexDirection: 'row', alignItems: 'center', marginTop: 8, marginBottom: 5,
-              }}
-              >
-
-                <Layout style={{
-                  flex: 1,
-                  alignItems: 'center',
-                  flexDirection: 'row',
-                  marginTop: 14,
-                  marginRight: 8,
-                }}
-                >
-                  <IconUIKitten
-                    name="arrow-downward"
-                    fill="#b5b5b5"
-                    style={{ height: 16, width: 16 }}
-                  />
-                  <IconUIKitten
-                    name="arrow-upward"
-                    fill="#b5b5b5"
-                    style={{
-                      height: 16, width: 16, marginRight: 8,
-                    }}
-                  />
-
-                  <Text category="h5" status="success">+ 10 800 €</Text>
-                </Layout>
-
-                <Layout style={{
-                  flex: 1,
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  marginRight: 8,
-                }}
-                >
-                  <Layout style={{ alignItems: 'center', flexDirection: 'row', marginTop: 13 }}>
-                    <IconUIKitten
-                      name="arrow-downward"
-                      fill="#b5b5b5"
-                      style={{ height: 16, width: 16, marginRight: 8 }}
-                    />
-                    <Text category="h4" status="danger">- 160 €</Text>
-                  </Layout>
-                </Layout>
-
-                <Layout style={{
-                  flex: 1,
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                }}
-                >
-                  <Layout style={{ marginTop: 14, alignItems: 'center', flexDirection: 'row' }}>
-                    <IconUIKitten
-                      name="trending-up"
-                      fill="#b5b5b5"
-                      style={{ height: 18, width: 18, marginRight: 8 }}
-                    />
-                    <Text category="h4" status="warning">60 %</Text>
-                  </Layout>
-                </Layout>
-              </Layout>
-
-            </Layout>
+            <View>
+              <MonBienResume item={item} />
+            </View>
           )}
         />
 

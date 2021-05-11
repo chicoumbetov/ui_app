@@ -17,22 +17,27 @@ import MesChargesStackNavigator from './MesChargesStackNavigator';
 import { getStackInfos } from './Utils';
 import TableauDeBord from '../screens/TabTableauDeBordScreen/TableauDeBord';
 import {useDimensions} from "@react-native-community/hooks";
+
 import BellOutlineColor from '../assets/Icones_couleurs_2/bellOutlineIcon.svg'
+import TrendingUPColor from '../assets/Icones_couleurs_2/trendingUpIcon.svg'
+import GridColor from '../assets/Icones_couleurs_2/squareIcon.svg'
+import FileTextColor from '../assets/Icones_couleurs_2/fileTextIcon.svg'
+import HomeColor from '../assets/Icones_couleurs_2/homeIcon.svg'
 
 const HomeIcon = () => (
-    <BellOutlineColor height={20} width={20} />
+    <HomeColor height={20} width={20} />
 );
 
 const TrendingUpIcon = () => (
-    <Icon name="trending-up-outline" fill='#5eecb4' style={{ height: 20, width: 20 }} />
+    <TrendingUPColor height={20} width={20} />
 );
 
 const GridIcon = () => (
-    <Icon name="grid-outline" fill='#5eecb4' style={{ height: 20, width: 20 }} />
+    <GridColor height={20} width={20} />
 );
 
 const FileIcon = () => (
-    <Icon name="file-text-outline" fill='#5eecb4' style={{ height: 20, width: 20 }} />
+    <FileTextColor height={20} width={20} />
 );
 
 const BellIcon = () => (
@@ -52,7 +57,7 @@ const BottomTabBar = ({ navigation, state }: any) => (
       {/* eslint-disable-next-line @typescript-eslint/no-shadow */}
       <BottomNavigationTab title="Mes Biens" icon={HomeIcon} />
       <BottomNavigationTab title="Mes Charges" icon={TrendingUpIcon} />
-      <BottomNavigationTab title="Tableau de bord" icon={GridIcon} />
+      <BottomNavigationTab title="Accueil" icon={GridIcon} />
       <BottomNavigationTab title="Mon Assistant" icon={FileIcon} />
       <BottomNavigationTab title="Notifications" icon={BellIcon} />
     </BottomNavigation>

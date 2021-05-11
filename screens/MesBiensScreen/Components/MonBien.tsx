@@ -12,7 +12,7 @@ import {
 import {
   StyleSheet, TouchableOpacity, View,
 } from 'react-native';
-import { useLinkTo } from '@react-navigation/native';
+import { useLinkTo, useNavigation } from '@react-navigation/native';
 import { Icon as IconUIKitten } from '@ui-kitten/components/ui/icon/icon.component';
 import CompteHeader from '../../../components/CompteHeader/CompteHeader';
 import GraphicsII from '../../../components/Graphics/GraphicsII';
@@ -32,8 +32,16 @@ const mesBiensData = [
 
 function MonBien() {
   const linkTo = useLinkTo();
+  const navigation = useNavigation();
   const [opened, setOpened] = useState(false);
   const theme = useTheme();
+
+  const allerTresorerie = () => {
+    linkTo('/ma-tresorerie');
+  };
+  const allerMesRapports = () => {
+    navigation.navigate('mes-rapports');
+  };
 
   const onDetailsBiens = () => {
     const id = '10';
@@ -152,7 +160,7 @@ function MonBien() {
                   Prochaine dépense
                 </Text>
                 <Text category="h4" status="danger">- 160 €</Text>
-                <TouchableOpacity onPress={() => {}}>
+                <TouchableOpacity onPress={allerTresorerie}>
                   <Text category="h6" status="info">En savoir +</Text>
                 </TouchableOpacity>
               </Layout>
@@ -162,7 +170,7 @@ function MonBien() {
                   Réntabilité du bien
                 </Text>
                 <Text category="h4" status="warning" style={{ marginVertical: 14 }}>60 %</Text>
-                <TouchableOpacity onPress={() => {}}>
+                <TouchableOpacity onPress={allerMesRapports}>
                   <Text category="h6" status="info">Mes rapports</Text>
                 </TouchableOpacity>
               </Layout>

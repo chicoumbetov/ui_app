@@ -24,8 +24,6 @@ function MonBudget() {
   const theme = useTheme();
   const linkTo = useLinkTo();
 
-  const [compte, setCompte] = useState(comptesData);
-
   const allerTresorerie = () => {
     linkTo('/ma-tresorerie');
   };

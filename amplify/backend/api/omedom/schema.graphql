@@ -12,7 +12,7 @@
 # enum Frequence
 
 # type InfoLocataire
-# info Crédit   =>   type MensualiteCredit
+# info Crédit   =>   type infoCredit
 
 enum Abonnement {
  UnADeuxBiens
@@ -36,7 +36,7 @@ type AdresseType @model {
 # Client & AdresseType are connected by clientID
 type Client @model {
   id: ID!
-  userID: ID
+  userID: ID!
   nom: String!
   prenom: String!
   email: AWSEmail!
@@ -64,9 +64,10 @@ type Compte @model {
 
 #type Bien
 
-type Bien @model @auth(rules: [
-  {allow: owner, ownerField: "admins", operations: [ create, update, delete, read]]}
-  {allow: owner, ownerField: "shared", operations:[read]}
+type Bien @model
+  @auth(rules: [
+    {allow: owner, ownerField: "admins", operations: [ create, update, delete, read]]}
+    {allow: owner, ownerField: "shared", operations:[read]}
 ]) {
   id: ID!
   nom: String!
@@ -74,60 +75,38 @@ type Bien @model @auth(rules: [
   anneeAcquisition:  AWSDate
   typeBien: TypeBien
 
-  nomPropre: String    # ????
+  nomPropre: Boolean
 
   societe:TypeSociete
   detention: Int
 
-  lignesBudget: [LigneBudget]
+  lignesBudget: [LigneBudget] @connection(keyName: "byBienId", fields: ["id"])
   admins: [String!]!
   shared: [String!]
-  adresseID: ID!
   adresse: CLientAdresse @connection(fields: ["adresseID"])
 }
 
-enum TypeBien {
-  residencePrincipale
-  residenceSecondaire
-  investissementLocatifProfessionnelOuCommercial
-  investissementLocatifParticulier
-}
-
-enum TypeSociete {
-  SCI
-  SAS
-  SARLclassique
-  SARLfamille
-}
-
-
 #type LigneBudget
 
-type LigneBudget {
+type LigneBudget
+@key(name: "byBienId", fields: ["bienId"])
+@model(queries: null){
   id: ID!
+  bienId: ID!
   typeLigneBudget: String
   montant: Int
   frequence: Frequence
   dateProchaineEcheance: Int
 
-  infoLocataire: String  # ????
-  infoCredit: String   # ????
-
-  InfoLocataireID: ID!
-  infoLocataire: InfoLocataire @connection(fields:
-  ["InfoLocataireID"])
+  infoCredit: InfoCredit @connection(fields: ["infoCreditID"])
+  infoLocataire: InfoLocataire @connection(fields: ["infoLocataireID"])
 }
-
-enum Frequence {
- mensuelle
- bimensuelle
- trimestrielle
- annuelle
-}
-
 # type InfoLocataire
-type InfoLocataire {
+type InfoLocataire
+@key(name: "infoLocataireID", fields: ["ligneBudgetId"])
+@model(queries: null){
   id: ID!
+  ligneBudgetId: ID!
   montant: Int!
   charges: Int
   tauxGestion: Int
@@ -139,11 +118,34 @@ type InfoLocataire {
 }
 
 # info Crédit
-type MensualiteCredit {
+type InfoCredit
+@key(name: "infoCreditID", fields: ["ligneBudgetId"])
+@model(queries: null){
   id: ID!
+  ligneBudgetId: ID!
   capitalEmprunte: Int!
   dateDebutPret: AWSDate
   duree: String     # ???? Int
   tauxInteret: Int
   tauxAssurance: Int
+}
+
+enum TypeBien {
+  residencePrincipale
+  residenceSecondaire
+  investissementLocatifProfessionnelOuCommercial
+  investissementLocatifParticulier
+}
+enum TypeSociete {
+  SCI
+  SAS
+  SARLclassique
+  SARLfamille
+}
+
+enum Frequence {
+ mensuelle
+ bimensuelle
+ trimestrielle
+ annuelle
 }

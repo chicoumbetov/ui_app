@@ -30,7 +30,7 @@ const PartagerBien = () => {
       {/**
       *  I part
       */}
-      <Layout style={[styles.container, { marginTop: 0 }]}>
+      <Layout style={styles.container}>
         <Text category="h1" status="basic" style={{ marginBottom: 30 }}>
           Partager le bien
         </Text>
@@ -73,7 +73,7 @@ export default PartagerBien;
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#f6f6f6',
-    marginTop: 12,
+    marginBottom: 12,
     paddingVertical: 25,
     paddingHorizontal: 26,
   },

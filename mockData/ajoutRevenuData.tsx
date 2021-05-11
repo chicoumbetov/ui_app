@@ -13,9 +13,9 @@ export const typeRevenu = [
   },
 ];
 
-export const loyer = [
+export const montant = [
   {
-    label: 'Montant',
+    label: 'Loyer',
     key: 'b1',
   },
   {

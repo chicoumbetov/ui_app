@@ -11,7 +11,7 @@ import {
 import {
   FlatList, StyleSheet, TouchableOpacity, View,
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useLinkTo, useNavigation } from '@react-navigation/native';
 import MaxWidthContainer from '../../../components/MaxWidthContainer';
 
 import MaisonVert from '../../../assets/Omedom_Icons_svg/Logement/maison_verte.svg';
@@ -22,11 +22,12 @@ import comptesData from '../../../mockData/comptesData';
 function MonBudget() {
   const navigation = useNavigation();
   const theme = useTheme();
+  const linkTo = useLinkTo();
 
   const [compte, setCompte] = useState(comptesData);
 
   const allerTresorerie = () => {
-    navigation.navigate('MaTrésorerieDrawer');
+    linkTo('/ma-tresorerie');
   };
 
   const allerAjoutRevenu = () => {

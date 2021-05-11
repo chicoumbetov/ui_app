@@ -59,6 +59,8 @@ export type TabMesBiensParamList = {
   ModifierCharacteristiques: undefined;
   'ajout-bien-screen': undefined;
   'mes-rapports': undefined;
+  'mes-rapports-biens1': undefined;
+  'mes-rapports-biens2': undefined;
 };
 
 export type TabMaTresorerieParamList = {

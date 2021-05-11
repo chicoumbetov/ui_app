@@ -2,7 +2,6 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 import { Layout, Text, useTheme } from '@ui-kitten/components';
 import { VictoryChart, VictoryLine } from 'victory-native';
-import { colors } from '../../assets/styles';
 import MaxWidthContainer from '../MaxWidthContainer';
 
 const GraphicsII = () => {
@@ -10,7 +9,7 @@ const GraphicsII = () => {
   return (
     <MaxWidthContainer outerViewProps={{
       style: {
-        backgroundColor: '#efefef',
+        backgroundColor: '#f6f6f6',
       },
     }}
     >
@@ -72,7 +71,6 @@ const GraphicsII = () => {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 10,
     backgroundColor: 'transparent',
   },
   compteSection: {

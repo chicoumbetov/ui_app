@@ -15,9 +15,12 @@ export default {
                 screens: {
                   'mes-biens': '/',
                   'detail-bien': '/bien/:id',
-                  'mes-rapports': '/mes-rapports',
                   'ajout-revenu': '/bien/:id/ajout-revenu',
                   'ajout-bien-screen': '/ajouter',
+
+                  'mes-rapports': '/mes-rapports',
+                  'mes-rapports-biens1': '/mes-rapports-biens1',
+                  'mes-rapports-biens2': '/mes-rapports-biens2',
                 },
               },
               'mes-charges-nav': {

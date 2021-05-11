@@ -38,8 +38,7 @@ function DetailsBien() {
   };
 
   const allerMesRapports = () => {
-    console.log('open Mes Rapports');
-    // linkTo('/mes-rapports');
+    navigation.navigate('mes-rapports');
   };
 
   const allerMonAssistant = () => {

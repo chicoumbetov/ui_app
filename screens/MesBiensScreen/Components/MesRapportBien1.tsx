@@ -1,31 +1,31 @@
-import React, { useEffect, useState } from 'react';
-import {
-  Layout, RadioGroup, Radio, Text, Button,
-} from '@ui-kitten/components';
+import React, { useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
+import {
+  Button, Layout, Radio, RadioGroup, Text,
+} from '@ui-kitten/components';
+// import { useForm } from 'react-hook-form';
 import { StyleSheet, View } from 'react-native';
-import { useForm } from 'react-hook-form';
-import TextInputComp from '../../../components/Form/TextInput';
-
 import MaxWidthContainer from '../../../components/MaxWidthContainer';
+// import Form from '../../../components/Form/Form';
+import TextInputComp from '../../../components/Form/TextInput';
 
 type DeclarationImpotsForm = {
   bien: string;
   anneeEcheance: string;
 };
 
-const MesCharges2 = ({ charges }) => {
+const MesRapportBien1 = () => {
   const navigation = useNavigation();
-  const declarationImpotsForm = useForm<DeclarationImpotsForm>();
+  // const declarationImpotsForm = useForm<DeclarationImpotsForm>();
 
   const [selectedIndex, setSelectedIndex] = React.useState(0);
 
-  const onMesCharges3 = () => {
-    navigation.navigate('MesCharges3');
+  const allerMesRapportsBien2 = () => {
+    navigation.navigate('mes-rapports-biens2');
   };
 
   useEffect(() => {
-    console.log('useEffect test of MesCharges 2');
+    console.log('useEffect of Mes Rapport Bien 1');
   });
 
   return (
@@ -37,7 +37,7 @@ const MesCharges2 = ({ charges }) => {
     }}
     >
       <Text category="h1" status="basic">
-        Charge Eau
+        Mes rapports par bien
       </Text>
 
       <RadioGroup
@@ -46,7 +46,7 @@ const MesCharges2 = ({ charges }) => {
         style={styles.containerRadio}
       >
         <Radio>
-          <Text category="p1">Année</Text>
+          <Text category="p1" status="basic">Année</Text>
         </Radio>
         <Radio>
           <Text category="p1">Année - 1</Text>
@@ -69,17 +69,15 @@ const MesCharges2 = ({ charges }) => {
       </Layout>
 
       <View style={styles.buttonRight}>
-        <Button onPress={onMesCharges3} size="large" style={{ width: 173 }}>
+        <Button onPress={allerMesRapportsBien2} size="large" style={{ width: 173 }}>
           Valider
         </Button>
       </View>
-
     </MaxWidthContainer>
-
   );
 };
 
-export default MesCharges2;
+export default MesRapportBien1;
 
 const styles = StyleSheet.create({
   container: {

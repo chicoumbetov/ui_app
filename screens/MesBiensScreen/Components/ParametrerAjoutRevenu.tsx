@@ -11,7 +11,7 @@ import MaisonVert from '../../../assets/Omedom_Icons_svg/Logement/maison_verte.s
 
 import SelectComp from '../../../components/Form/Select';
 import {
-  loyer, frequence, typeRevenu, typeMontant,
+  loyer, frequence, typeRevenu, typeMontant, montant,
 } from '../../../mockData/ajoutRevenuData';
 import Form from '../../../components/Form/Form';
 import TextInputComp from '../../../components/Form/TextInput';
@@ -111,14 +111,14 @@ const ParametrerAjoutRevenu = () => {
                 </Layout>
 
                 <Layout>
-                  <SelectComp name="Loyer" data={loyer} placeholder="Détention" onChangeValue={(v) => { if (v === 'b1') { setMontantShow(true); } }} size="large" appearance="default" status="primary" />
+                  <SelectComp name="Loyer" data={montant} placeholder="Montant" onChangeValue={(v) => { if (v === 'b1') { setMontantShow(true); } }} size="large" appearance="default" status="primary" />
 
                 </Layout>
 
                 {montantShow
                   && (
                   <Layout>
-                    <SelectComp name="typeMontant" data={typeMontant} placeholder="Montant" size="large" onChangeValue={() => { setFrequenceShow(true); }} appearance="default" status="primary" />
+                    <SelectComp name="typeMontant" data={typeMontant} placeholder="Type de Montant" size="large" onChangeValue={() => { setFrequenceShow(true); }} appearance="default" status="primary" />
 
                   </Layout>
                   )}
@@ -127,14 +127,11 @@ const ParametrerAjoutRevenu = () => {
                   <>
                     <Layout style={{ backgroundColor: 'transparent' }}>
                       <SelectComp name="typeRevenu" data={frequence} placeholder="Fréquence" size="large" appearance="default" status="primary" />
-                      <Form <ParamAjoutBienForm> {...paramAjoutBienForm}>
-                        <TextInputComp style={{ marginBottom: 30 }} name="adresse" placeholder="Adresse" />
-                        <TextInputComp style={{ marginBottom: 30 }} name="complement" placeholder="Complément d'adresse" />
-                        <TextInputComp style={{ marginBottom: 30 }} name="codePostal" placeholder="Code Postal" />
-                        <TextInputComp style={{ marginBottom: 30 }} name="ville" placeholder="Ville" />
-                        <TextInputComp name="pays" placeholder="Pays" />
-                      </Form>
-
+                      <TextInputComp style={{ marginBottom: 30 }} name="adresse" placeholder="Adresse" />
+                      <TextInputComp style={{ marginBottom: 30 }} name="complement" placeholder="Complément d'adresse" />
+                      <TextInputComp style={{ marginBottom: 30 }} name="codePostal" placeholder="Code Postal" />
+                      <TextInputComp style={{ marginBottom: 30 }} name="ville" placeholder="Ville" />
+                      <TextInputComp name="pays" placeholder="Pays" />
                     </Layout>
                   </>
                   )}

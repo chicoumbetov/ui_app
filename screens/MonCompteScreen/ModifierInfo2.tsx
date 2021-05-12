@@ -19,14 +19,21 @@ const ModifierInfo2 = () => {
   });
 
   return (
-    <MaxWidthContainer outerViewProps={{
-      style: {
-        flex: 1,
-        backgroundColor: '#efefef',
-        paddingHorizontal: 24,
-        paddingVertical: 34,
-      },
-    }}
+    <MaxWidthContainer
+      withScrollView="keyboardAware"
+      outerViewProps={{
+        style: {
+          flex: 1,
+          backgroundColor: '#efefef',
+        },
+        showsVerticalScrollIndicator: false,
+      }}
+      innerViewProps={{
+        style: {
+          paddingHorizontal: 24,
+          paddingVertical: 34,
+        },
+      }}
     >
       <View>
         <Text category="h1" style={styles.title}>Modifier vos informations</Text>

@@ -23,11 +23,14 @@ function MesBiens() {
 
   return (
 
-    <MaxWidthContainer outerViewProps={{
-      style: {
-        backgroundColor: '#efefef',
-      },
-    }}
+    <MaxWidthContainer
+      withScrollView="keyboardAware"
+      outerViewProps={{
+        style: {
+          backgroundColor: '#efefef',
+        },
+        showsVerticalScrollIndicator: false,
+      }}
     >
       <Layout style={{ flex: 1, backgroundColor: '#f6f6f6', padding: 26 }}>
         <Text

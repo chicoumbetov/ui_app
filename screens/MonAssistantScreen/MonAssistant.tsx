@@ -1,8 +1,9 @@
 import React from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import { Layout, Text } from '@ui-kitten/components';
-import { AntDesign } from '@expo/vector-icons';
+
 import { useNavigation } from '@react-navigation/native';
+import { Icon as IconUIKitten } from '@ui-kitten/components/ui/icon/icon.component';
 import MaxWidthContainer from '../../components/MaxWidthContainer';
 
 const MonAssistant = () => {
@@ -17,29 +18,40 @@ const MonAssistant = () => {
   };
 
   return (
-    <MaxWidthContainer outerViewProps={{
-      style: {
-        backgroundColor: '#efefef',
-      },
-    }}
+    <MaxWidthContainer
+      withScrollView="keyboardAware"
+      outerViewProps={{
+        style: {
+          backgroundColor: '#efefef',
+        },
+        showsVerticalScrollIndicator: false,
+      }}
     >
       <Layout style={styles.container}>
         <Text category="h1" style={styles.title}>Mon Assistant</Text>
         <Text category="h2" style={styles.subtitle}>Générer les documents</Text>
 
-        <Layout style={styles.docs}>
-          <Text style={styles.aideText}>Aide à la déclaration d'impôts</Text>
-          <TouchableOpacity onPress={onDeclarationImpots}>
-            <AntDesign name="right" size={13} style={{ color: '#b5b5b5', fontWeight: '700' }} />
-          </TouchableOpacity>
-        </Layout>
+        <TouchableOpacity onPress={onDeclarationImpots} style={styles.docs}>
+          <Text category="h5" status="basic">Aide à la déclaration d'impôts</Text>
+          <IconUIKitten
+            name="arrow-ios-forward"
+            fill="#b5b5b5"
+            style={{
+              height: 16, width: 16, marginRight: 5, alignItems: 'center',
+            }}
+          />
+        </TouchableOpacity>
 
-        <Layout style={styles.docs}>
-          <Text style={styles.quittanceText}>Quittance de loyer</Text>
-          <TouchableOpacity onPress={onQuittanceLoyer}>
-            <AntDesign name="right" size={13} style={{ color: '#b5b5b5', fontWeight: '700' }} />
-          </TouchableOpacity>
-        </Layout>
+        <TouchableOpacity onPress={onQuittanceLoyer} style={styles.docs}>
+          <Text category="h5" status="basic">Quittance de loyer</Text>
+          <IconUIKitten
+            name="arrow-ios-forward"
+            fill="#b5b5b5"
+            style={{
+              height: 16, width: 16, marginRight: 5, alignItems: 'center',
+            }}
+          />
+        </TouchableOpacity>
 
       </Layout>
     </MaxWidthContainer>
@@ -83,19 +95,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 1,
 
     backgroundColor: '#fff',
-    fontWeight: 'normal',
     borderColor: 'transparent',
     shadowColor: '#dedede',
-  },
-  aideText: {
-    fontSize: 16,
-    letterSpacing: 0.4,
-    fontFamily: 'HouschkaRoundedDemiBold',
-  },
-  quittanceText: {
-    fontSize: 16,
-    letterSpacing: 0.4,
-    fontFamily: 'HouschkaRoundedDemiBold',
   },
 });
 

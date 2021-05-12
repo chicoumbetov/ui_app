@@ -6,7 +6,6 @@ import {
 } from 'react-native';
 
 import { Icon as IconUIKitten } from '@ui-kitten/components/ui/icon/icon.component';
-import { colors } from '../../assets/styles';
 import MaxWidthContainer from '../../components/MaxWidthContainer';
 
 const DATA = [
@@ -79,23 +78,24 @@ const MesCharges1 = () => {
         data={charges}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <Layout
+          <TouchableOpacity
+            onPress={() => { onMesCharges2(item); }}
             style={[
               styles.docs,
               { backgroundColor: theme['color-basic-100'] },
             ]}
           >
             <Text category="h5" status="basic">{item.title}</Text>
-            <TouchableOpacity onPress={() => { onMesCharges2(item); }}>
-              <IconUIKitten
-                name="arrow-ios-forward"
-                fill={theme['text-hint-color']}
-                style={{
-                  height: 17, width: 17,
-                }}
-              />
-            </TouchableOpacity>
-          </Layout>
+
+            <IconUIKitten
+              name="arrow-ios-forward"
+              fill={theme['text-hint-color']}
+              style={{
+                height: 17, width: 17,
+              }}
+            />
+
+          </TouchableOpacity>
         )}
       />
 
@@ -133,15 +133,7 @@ const styles = StyleSheet.create({
     },
     shadowRadius: 2,
     shadowOpacity: 1,
-
-    backgroundColor: colors.blanc,
-    fontWeight: 'normal',
     borderColor: 'transparent',
     shadowColor: '#dedede',
-  },
-  aideText: {
-    fontSize: 17.5,
-    letterSpacing: 0.1,
-    fontFamily: 'HouschkaRoundedDemiBold',
   },
 });

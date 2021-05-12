@@ -45,7 +45,13 @@ function TableauDeBord() {
   };
 
   return (
-    <MaxWidthContainer outerViewProps={{ style: { backgroundColor: '#efefef' } }}>
+    <MaxWidthContainer
+      withScrollView="keyboardAware"
+      outerViewProps={{
+        style: { backgroundColor: '#efefef' },
+        showsVerticalScrollIndicator: false,
+      }}
+    >
       {/**
        *  Trésorerie section
        */}
@@ -166,7 +172,7 @@ function TableauDeBord() {
               name="arrow-ios-forward"
               fill="#b5b5b5"
               style={{
-                height: 16, width: 16, marginRight: 5, alignItems: 'center',
+                height: 20, width: 20, marginRight: 5, alignItems: 'center',
               }}
             />
 

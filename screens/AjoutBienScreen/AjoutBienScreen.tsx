@@ -129,11 +129,12 @@ function AjoutBienScreen() {
   }
 
   return (
-    <MaxWidthContainer outerViewProps={{
-      style: {
-        backgroundColor: '#f6f6f6',
-      },
-    }}
+    <MaxWidthContainer
+      outerViewProps={{
+        style: {
+          backgroundColor: '#f6f6f6',
+        },
+      }}
     >
       <Form<AjoutBienForm> {...ajoutBienForm}>
         <>

@@ -63,7 +63,7 @@ const MesCharges3 = () => {
           data={mesCharges}
           keyExtractor={(item) => item.id}
           renderItem={(item) => (
-            <Layout style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <Layout style={{ flexDirection: 'row', alignItems: 'center', marginTop: 10 }}>
               <Layout style={[
                 styles.circles,
                 { backgroundColor: theme['color-info-500'] },

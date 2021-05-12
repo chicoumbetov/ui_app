@@ -64,19 +64,18 @@ const Faq = () => {
           // console.log('isChecked', isChecked);
           // eslint-disable-next-line implicit-arrow-linebreak
           (
-            <View style={isChecked ? (styles.headerUp) : (styles.headerDown)}>
+            <TouchableOpacity onPress={() => pressHandler(id)} key={index + isChecked} style={isChecked ? (styles.headerUp) : (styles.headerDown)}>
               <Text category="h6" status="control" key={index}>
                 {title}
               </Text>
-              <TouchableOpacity onPress={() => pressHandler(id)} key={index + isChecked}>
-                {
+
+              {
               isChecked
                 ? <Icon name="arrow-ios-upward-outline" fill={theme['color-basic-100']} style={{ height: 20, width: 20 }} />
                 : <Icon name="arrow-ios-downward-outline" fill={theme['color-basic-100']} style={{ height: 20, width: 20 }} />
               }
-              </TouchableOpacity>
 
-            </View>
+            </TouchableOpacity>
           )}
       />
     </MaxWidthContainer>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { SectionList, StyleSheet } from 'react-native';
+import { SectionList, StyleSheet, View } from 'react-native';
 import { Layout, Text } from '@ui-kitten/components';
 
 import OwnerCompte from './OwnerCompte';
@@ -32,9 +32,9 @@ const ComptesBancaires = (props: CompteType) => {
             </Layout>
           )}
           renderItem={({ item }) => (
-            <Layout style={{ backgroundColor: 'transparent' }}>
+            <View>
               <OwnerCompte compte={item} />
-            </Layout>
+            </View>
           )}
           renderSectionFooter={() => (
             <Layout style={styles.footer}>

@@ -56,11 +56,14 @@ function DetailsBien() {
   };
 
   return (
-    <MaxWidthContainer outerViewProps={{
-      style: {
-        backgroundColor: '#efefef',
-      },
-    }}
+    <MaxWidthContainer
+      withScrollView="keyboardAware"
+      outerViewProps={{
+        style: {
+          backgroundColor: '#efefef',
+        },
+        showsVerticalScrollIndicator: false,
+      }}
     >
 
       {/**
@@ -175,7 +178,7 @@ function DetailsBien() {
           >
             <Icon name="money" size={30} color={theme['color-success-400']} style={{ marginRight: 10 }} />
             <Text category="h5">
-              Ma Trésorerie (Lier un compte bancaire)
+              Ma Trésorerie
             </Text>
 
           </TouchableOpacity>

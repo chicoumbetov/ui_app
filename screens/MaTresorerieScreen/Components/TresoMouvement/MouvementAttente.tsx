@@ -1,8 +1,11 @@
 import React from 'react';
-import { FlatList, StyleSheet, TouchableOpacity } from 'react-native';
-import { Layout, Text } from '@ui-kitten/components';
-import { AntDesign } from '@expo/vector-icons';
+import {
+  FlatList, StyleSheet, TouchableOpacity, View,
+} from 'react-native';
+import { Layout, Text, useTheme } from '@ui-kitten/components';
+
 import { useNavigation } from '@react-navigation/native';
+import { Icon as IconUIKitten } from '@ui-kitten/components/ui/icon/icon.component';
 import mouvementData from '../../../../mockData/mouvementData';
 import MaxWidthContainer from '../../../../components/MaxWidthContainer';
 
@@ -19,7 +22,9 @@ function groupBy(list, keyGetter) {
   });
   return map;
 }
+
 const MouvementAttente = () => {
+  const theme = useTheme();
   // Go to next page
   const navigation = useNavigation();
 
@@ -34,14 +39,30 @@ const MouvementAttente = () => {
   const grouped = groupBy(mouvementData, (mouvement) => mouvement.typeMouvement);
 
   return (
-    <MaxWidthContainer>
+    <MaxWidthContainer
+      withScrollView="keyboardAware"
+      outerViewProps={{
+        showsVerticalScrollIndicator: false,
+      }}
+    >
       <Layout style={styles.windowOut}>
+        {/**
+           Change color according on type of mouvement:
+           make red if negative
+           make green if positive
+           */}
         <FlatList
           data={grouped.get('En attente')}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
 
-            <Layout style={styles.window}>
+            <TouchableOpacity
+              onPress={onTresoMouvementPage2}
+              style={[
+                styles.window,
+                { backgroundColor: theme['color-basic-100'] },
+              ]}
+            >
               <Layout style={{
                 flex: 1,
                 borderRightWidth: 1,
@@ -54,7 +75,7 @@ const MouvementAttente = () => {
                     justifyContent: 'center',
                   }}
                   category="h5"
-                  status="success"
+                  status={item.valeur.substring(0, 1) === '-' ? ('danger') : ('success')}
                 >
                   {item.valeur}
                 </Text>
@@ -63,13 +84,12 @@ const MouvementAttente = () => {
                 <Text category="p1" appearance="hint">Libellé du mouvement</Text>
               </Layout>
 
-              <TouchableOpacity
-                onPress={onTresoMouvementPage2}
+              <Layout
                 style={{
                   flex: 1,
                   alignItems: 'center',
                   flexDirection: 'row',
-                  justifyContent: 'space-between',
+                  justifyContent: 'space-evenly',
                   paddingLeft: 10,
                 }}
               >
@@ -80,10 +100,16 @@ const MouvementAttente = () => {
                 >
                   {item.typeMouvement}
                 </Text>
-                <AntDesign size={14} name="right" color="#b5b5b5" style={{ marginRight: 20 }} />
-              </TouchableOpacity>
+                <IconUIKitten
+                  name="arrow-ios-forward"
+                  fill="#b5b5b5"
+                  style={{
+                    height: 20, width: 20, marginRight: 5, alignItems: 'center',
+                  }}
+                />
+              </Layout>
 
-            </Layout>
+            </TouchableOpacity>
 
           )}
         />
@@ -100,7 +126,13 @@ const MouvementAttente = () => {
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
 
-            <Layout style={styles.window}>
+            <TouchableOpacity
+              onPress={onTresoMouvementPage2}
+              style={[
+                styles.window,
+                { backgroundColor: theme['color-basic-100'] },
+              ]}
+            >
               <Layout style={{
                 flex: 1,
                 borderRightWidth: 1,
@@ -126,7 +158,7 @@ const MouvementAttente = () => {
                 flex: 1,
                 alignItems: 'center',
                 flexDirection: 'row',
-                justifyContent: 'space-between',
+                justifyContent: 'space-evenly',
                 paddingLeft: 10,
               }}
               >
@@ -137,13 +169,18 @@ const MouvementAttente = () => {
                 >
                   {item.typeMouvement}
                 </Text>
-                <TouchableOpacity onPress={onTresoMouvementPage2}>
-                  <AntDesign size={14} name="right" color="#b5b5b5" style={{ marginRight: 20 }} />
-                </TouchableOpacity>
+
+                <IconUIKitten
+                  name="arrow-ios-forward"
+                  fill="#b5b5b5"
+                  style={{
+                    height: 20, width: 20, marginRight: 5, alignItems: 'center',
+                  }}
+                />
 
               </Layout>
 
-            </Layout>
+            </TouchableOpacity>
 
           )}
         />

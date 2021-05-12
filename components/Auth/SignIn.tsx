@@ -106,17 +106,6 @@ const MySigIn = ({
               flexDirection: 'row', justifyContent: 'space-between', backgroundColor: 'transparent',
             }}
             >
-              <Button
-                size="large"
-                style={{ width: 140 }}
-                appearance="outline"
-                onPress={loginForm.handleSubmit((data) => {
-                  AsyncStorage.setItem('stayConnected', data.stayConnected ? 'true' : 'false');
-                  login(data);
-                })}
-              >
-                Se connecter
-              </Button>
 
               <Button
                 size="large"
@@ -135,6 +124,19 @@ const MySigIn = ({
               >
                 S'inscrire
               </Button>
+
+              <Button
+                size="large"
+                style={{ width: 140 }}
+                appearance="outline"
+                onPress={loginForm.handleSubmit((data) => {
+                  AsyncStorage.setItem('stayConnected', data.stayConnected ? 'true' : 'false');
+                  login(data);
+                })}
+              >
+                Se connecter
+              </Button>
+
             </Layout>
 
           </Layout>

@@ -30,11 +30,15 @@ const MesRapportBien2 = () => {
   });
 
   return (
-    <MaxWidthContainer outerViewProps={{
-      style: {
-        backgroundColor: '#efefef',
-      },
-    }}
+    <MaxWidthContainer
+      withScrollView="keyboardAware"
+      outerViewProps={{
+        style: {
+          backgroundColor: '#efefef',
+        },
+        showsVerticalScrollIndicator: false,
+      }}
+
     >
       <Layout style={{
         padding: 22,
@@ -49,9 +53,7 @@ const MesRapportBien2 = () => {
 
       <Layout style={{ marginTop: 12, backgroundColor: '#f6f6f6', padding: 22 }}>
         <Graphics data={mesBiensData} />
-
         <Text category="s2" style={{ marginVertical: 15 }}>Réntabilité</Text>
-
         <GraphicsII />
       </Layout>
 

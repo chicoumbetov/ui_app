@@ -45,13 +45,21 @@ const Informations = () => {
   }
 
   return (
-    <MaxWidthContainer outerViewProps={{
-      style: {
-        backgroundColor: '#efefef',
-        paddingHorizontal: 24,
-        paddingVertical: 34,
-      },
-    }}
+    <MaxWidthContainer
+      withScrollView="keyboardAware"
+      outerViewProps={{
+        style: {
+          flex: 1,
+          backgroundColor: '#efefef',
+        },
+        showsVerticalScrollIndicator: false,
+      }}
+      innerViewProps={{
+        style: {
+          paddingHorizontal: 24,
+          paddingVertical: 34,
+        },
+      }}
     >
 
       <Text category="h1" style={styles.title}>Modifier vos informations</Text>
@@ -63,9 +71,7 @@ const Informations = () => {
         <SelectedAvatar height={140} width={140} />
       </Layout>
 
-      <TouchableOpacity onPress={() => {}}>
-        <Text category="h5" appearance="hint">Choisir une icone</Text>
-      </TouchableOpacity>
+      <Text category="h5" appearance="hint">Choisir une icone</Text>
 
       <Layout style={{
         flexDirection: 'row', marginTop: 21, justifyContent: 'space-around', alignItems: 'center', backgroundColor: 'transparent',
@@ -100,7 +106,7 @@ const Informations = () => {
         <TouchableOpacity onPress={() => {}}>
           <Text category="h5" status="basic">Ignorer</Text>
         </TouchableOpacity>
-        <Button onPress={onPress} size="large">
+        <Button onPress={onPress} size="large" style={{ width: 173 }}>
           Valider
         </Button>
       </View>
@@ -118,10 +124,6 @@ const styles = StyleSheet.create({
   title: {
     marginTop: 18,
     marginBottom: 27,
-  },
-  button: {
-    fontSize: 17,
-    color: '#0076c8',
   },
   buttonRight: {
     alignItems: 'flex-end',

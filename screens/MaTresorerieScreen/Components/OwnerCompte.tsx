@@ -79,7 +79,7 @@ const OwnerCompte = ({ compte }) => {
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    paddingVertical: 12,
+    padding: 15,
     justifyContent: 'space-between',
     backgroundColor: '#fff',
     marginTop: 25,

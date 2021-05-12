@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useLinkTo, useNavigation } from '@react-navigation/native';
-import { Layout, Text, useTheme } from '@ui-kitten/components';
+import { Text, useTheme } from '@ui-kitten/components';
 
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import { Icon as IconUIKitten } from '@ui-kitten/components/ui/icon/icon.component';
@@ -44,7 +44,6 @@ const MesRapports = () => {
         ]}
       >
         <Text category="h5" status="basic">Par charges</Text>
-
         <IconUIKitten
           name="arrow-ios-forward"
           fill={theme['text-hint-color']}
@@ -52,7 +51,6 @@ const MesRapports = () => {
             height: 17, width: 17,
           }}
         />
-
       </TouchableOpacity>
 
       {/**
@@ -66,7 +64,6 @@ const MesRapports = () => {
         ]}
       >
         <Text category="h5" status="basic">Par biens</Text>
-
         <IconUIKitten
           name="arrow-ios-forward"
           fill={theme['text-hint-color']}
@@ -76,7 +73,6 @@ const MesRapports = () => {
         />
 
       </TouchableOpacity>
-
     </MaxWidthContainer>
   );
 };

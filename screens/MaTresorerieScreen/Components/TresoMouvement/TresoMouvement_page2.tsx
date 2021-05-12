@@ -4,11 +4,13 @@ import {
   FlatList, StyleSheet, TouchableOpacity,
 } from 'react-native';
 
-import { AntDesign } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import { Icon as IconUIKitten } from '@ui-kitten/components/ui/icon/icon.component';
 import CompteHeader from '../../../../components/CompteHeader/CompteHeader';
-import comptesData from '../../../../mockData/comptesData';
 import MaxWidthContainer from '../../../../components/MaxWidthContainer';
+
+import comptesData from '../../../../mockData/comptesData';
+import mouvementData from '../../../../mockData/mouvementData';
 
 const TresoMouvementPage2 = () => {
   const [client] = useState(comptesData);
@@ -121,9 +123,9 @@ const TresoMouvementPage2 = () => {
           </Text>
 
           <FlatList
-            data={comptesData}
+            data={mouvementData}
             keyExtractor={(item) => item.id}
-            renderItem={() => (
+            renderItem={(item) => (
 
               <TouchableOpacity
                 onPress={onTresoMouvementPage1}
@@ -140,19 +142,17 @@ const TresoMouvementPage2 = () => {
                 >
 
                   <Text
-                    status="success"
+                    category="h5"
+                    status={item.item.valeur.substring(0, 1) === '-' ? ('danger') : ('success')}
                     style={{
-                      fontSize: 18,
-                      letterSpacing: 0.5,
-                      fontWeight: '600',
                       justifyContent: 'center',
                     }}
                   >
-                    + 500 €
+                    {item.item.valeur}
                   </Text>
 
-                  <Text appearance="hint" style={{ fontSize: 16 }}>10/03/2021</Text>
-                  <Text appearance="hint" style={{ fontSize: 14 }}>Libellé du mouvement</Text>
+                  <Text appearance="hint" category="h6">10/03/2021</Text>
+                  <Text appearance="hint" category="p1">Libellé du mouvement</Text>
                 </Layout>
 
                 <Layout style={{
@@ -170,7 +170,13 @@ const TresoMouvementPage2 = () => {
                   >
                     En attente
                   </Text>
-                  <AntDesign size={14} name="right" color="#b5b5b5" style={{ marginRight: 20 }} />
+                  <IconUIKitten
+                    name="arrow-ios-forward"
+                    fill="#b5b5b5"
+                    style={{
+                      height: 20, width: 20, marginRight: 15, alignItems: 'center',
+                    }}
+                  />
                 </Layout>
               </TouchableOpacity>
 

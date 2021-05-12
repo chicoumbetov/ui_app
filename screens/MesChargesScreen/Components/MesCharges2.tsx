@@ -1,27 +1,33 @@
-import React, { useEffect, useState } from 'react';
+import React, {
+  useEffect,
+  // useState
+} from 'react';
 import {
-  Layout, RadioGroup, Radio, Text, Button,
+  Layout, RadioGroup, Radio, Text, Button, Datepicker,
 } from '@ui-kitten/components';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { StyleSheet, View } from 'react-native';
-import { useForm } from 'react-hook-form';
+// import { useForm } from 'react-hook-form';
 import TextInputComp from '../../../components/Form/TextInput';
 
 import MaxWidthContainer from '../../../components/MaxWidthContainer';
 
-type DeclarationImpotsForm = {
-  bien: string;
-  anneeEcheance: string;
-};
+// type DeclarationImpotsForm = { bien: string; anneeEcheance: string; };
 
-const MesCharges2 = ({ charges }) => {
+const MesCharges2 = () => {
+  const route = useRoute();
+  const { params } = useRoute();
   const navigation = useNavigation();
-  const declarationImpotsForm = useForm<DeclarationImpotsForm>();
+  // const declarationImpotsForm = useForm<DeclarationImpotsForm>();
 
   const [selectedIndex, setSelectedIndex] = React.useState(0);
 
-  const onMesCharges3 = () => {
-    navigation.navigate('MesCharges3');
+  const titlePass = params;
+  console.log('titlePass', titlePass);
+
+  const onMesCharges3 = (titlePass) => {
+    navigation.navigate('MesCharges3', { ...titlePass });
+    console.log('insideMesCharges3', { ...titlePass });
   };
 
   useEffect(() => {
@@ -37,7 +43,9 @@ const MesCharges2 = ({ charges }) => {
     }}
     >
       <Text category="h1" status="basic">
-        Charge Eau
+        Charge
+        {' '}
+        {route.params.title}
       </Text>
 
       <RadioGroup
@@ -66,10 +74,13 @@ const MesCharges2 = ({ charges }) => {
           placeholder="dd/mm/yyyy"
           icon="calendar-outline"
         />
-      </Layout>
 
+      </Layout>
+      {/**
+      <Datepicker />
+      */}
       <View style={styles.buttonRight}>
-        <Button onPress={onMesCharges3} size="large" style={{ width: 173 }}>
+        <Button onPress={() => onMesCharges3(titlePass)} size="large" style={{ width: 173 }}>
           Valider
         </Button>
       </View>

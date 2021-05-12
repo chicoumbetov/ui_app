@@ -4,6 +4,7 @@ import { Layout, Text, useTheme } from '@ui-kitten/components';
 import { FlatList, StyleSheet } from 'react-native';
 import { VictoryPie } from 'victory-native';
 
+import { useRoute } from '@react-navigation/native';
 import CompteHeader from '../../../components/CompteHeader/CompteHeader';
 import comptesData from '../../../mockData/comptesData';
 import MaxWidthContainer from '../../../components/MaxWidthContainer';
@@ -15,6 +16,8 @@ const data = [
 
 const MesCharges3 = () => {
   const theme = useTheme();
+  const route = useRoute();
+  console.log('route dans MesCharges 3', route.params);
 
   const [mesCharges] = useState(comptesData);
 
@@ -37,7 +40,9 @@ const MesCharges3 = () => {
           marginBottom: 27,
         }}
       >
-        Charge Eau
+        Charge
+        {' '}
+        {route.params.title}
       </Text>
       <Layout style={{
         backgroundColor: theme['color-basic-100'],

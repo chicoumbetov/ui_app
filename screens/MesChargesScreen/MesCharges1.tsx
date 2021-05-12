@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Layout, Text, useTheme } from '@ui-kitten/components';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import {
   FlatList, StyleSheet, TouchableOpacity,
 } from 'react-native';
@@ -37,17 +37,7 @@ const MesCharges1 = () => {
   const [charges, setCharges] = useState(DATA);
 
   const onMesCharges2 = (item) => {
-    navigation.navigate('MesCharges2');
-    const temp = charges.map((charge) => {
-      // comparison of clicked index with taken index
-      if (item.id === charge.id) {
-        // on recupere charge et on fait copie,
-        // ensuite on change boolean de isChecked dans le assistantDATA
-        return { ...charge, isChecked: !charge.isChecked };
-      }
-      return charge;
-    });
-    setCharges(temp);
+    navigation.navigate('MesCharges2', { title: item.title });
   };
 
   useEffect(() => {

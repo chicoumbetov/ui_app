@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  FlatList, StyleSheet, TouchableOpacity, View,
+  FlatList, StyleSheet, TouchableOpacity,
 } from 'react-native';
 import { Layout, Text, useTheme } from '@ui-kitten/components';
 
@@ -104,7 +104,7 @@ const MouvementAttente = () => {
                   name="arrow-ios-forward"
                   fill="#b5b5b5"
                   style={{
-                    height: 20, width: 20, marginRight: 5, alignItems: 'center',
+                    height: 20, width: 20, alignItems: 'center',
                   }}
                 />
               </Layout>
@@ -139,17 +139,15 @@ const MouvementAttente = () => {
                 borderRightColor: '#b5b5b5',
               }}
               >
-
                 <Text
                   style={{
                     justifyContent: 'center',
                   }}
                   category="h5"
-                  status="success"
+                  status={item.valeur.substring(0, 1) === '-' ? ('danger') : ('success')}
                 >
                   {item.valeur}
                 </Text>
-
                 <Text category="h6" appearance="hint">{item.date}</Text>
                 <Text category="p1" appearance="hint">Libellé du mouvement</Text>
               </Layout>
@@ -169,15 +167,13 @@ const MouvementAttente = () => {
                 >
                   {item.typeMouvement}
                 </Text>
-
                 <IconUIKitten
                   name="arrow-ios-forward"
                   fill="#b5b5b5"
                   style={{
-                    height: 20, width: 20, marginRight: 5, alignItems: 'center',
+                    height: 20, width: 20, alignItems: 'center',
                   }}
                 />
-
               </Layout>
 
             </TouchableOpacity>

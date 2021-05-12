@@ -6,9 +6,11 @@ import OwnerCompte from './OwnerCompte';
 import CompteFooter from '../../../components/CompteFooter';
 import CompteHeader from '../../../components/CompteHeader/CompteHeader';
 import MaxWidthContainer from '../../../components/MaxWidthContainer';
+import { CompteType } from '../../../types';
 
-const ComptesBancaires = ({ client }) => {
-  const [compte, setCompte] = useState(client);
+const ComptesBancaires = (props: CompteType) => {
+  const { client } = props;
+  const [compte] = useState(client);
 
   // eslint-disable-next-line implicit-arrow-linebreak
   return (

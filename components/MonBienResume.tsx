@@ -1,15 +1,18 @@
 import React from 'react';
 import {
-  Icon, Layout, Text, useTheme,
+  Icon, Layout, Text,
+  // useTheme,
 } from '@ui-kitten/components';
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 import { Icon as IconUIKitten } from '@ui-kitten/components/ui/icon/icon.component';
 import { useLinkTo } from '@react-navigation/native';
 import CompteHeader from './CompteHeader/CompteHeader';
 import MaxWidthContainer from './MaxWidthContainer';
+import { CompteType } from '../types';
 
-const MonBienResume = ({ item }) => {
-  const theme = useTheme();
+const MonBienResume = (props: CompteType) => {
+  const { title } = props;
+  // const theme = useTheme();
   const linkTo = useLinkTo();
 
   const allerDetailsBien = () => {
@@ -23,7 +26,7 @@ const MonBienResume = ({ item }) => {
       }}
       >
         <TouchableOpacity onPress={allerDetailsBien} style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-          <CompteHeader title={item.title} />
+          <CompteHeader title={title} />
           <IconUIKitten
             name="arrow-ios-forward"
             fill="#b5b5b5"
@@ -111,8 +114,4 @@ const MonBienResume = ({ item }) => {
 
 export default MonBienResume;
 
-const styles = StyleSheet.create({
-  container: {
-
-  },
-});
+// const styles = StyleSheet.create({ container: { } });

@@ -13,7 +13,7 @@ import comptesData from '../../mockData/comptesData';
 import MaxWidthContainer from '../../components/MaxWidthContainer';
 
 const MaTresorerie = () => {
-  const [value, setValue] = useState('');
+  const [client] = useState(comptesData);
 
   return (
     <MaxWidthContainer outerViewProps={{
@@ -76,7 +76,7 @@ const MaTresorerie = () => {
 
       </Layout>
 
-      <ComptesBancaires client={comptesData} />
+      <ComptesBancaires client={client} />
 
     </MaxWidthContainer>
   );

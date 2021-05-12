@@ -9,7 +9,7 @@ import {
   Button, Icon as IconUIKitten, Layout, Text,
 } from '@ui-kitten/components';
 import {
-  FlatList, StyleSheet, View,
+  FlatList, StyleSheet, TouchableOpacity, View,
 } from 'react-native';
 
 import { useLinkTo } from '@react-navigation/native';
@@ -58,36 +58,36 @@ function TableauDeBord() {
         }}
         >
           <Layout style={{ flexDirection: 'row' }}>
+
             <Layout style={styles.oneThirdBlock}>
               <Text category="h6" appearance="hint" style={styles.text}>Dernier crédit</Text>
-              <Text category="h3" status="success" style={{ marginTop: 14 }}>+ 500 €</Text>
+
               <View style={styles.mouvementImage}>
+                <Text category="h3" status="success">+ 500 €</Text>
                 <MaisonVert height={42} width={44} />
               </View>
-
             </Layout>
 
             <Layout style={styles.oneThirdBlock}>
-              <Text category="h6" appearance="hint" style={styles.text}>
-                Dernier débit
-              </Text>
-              <Text category="h3" status="danger" style={{ marginTop: 14 }}>- 80 €</Text>
+              <Text category="h6" appearance="hint" style={styles.text}>Dernier débit</Text>
+
               <View style={styles.mouvementImage}>
+                <Text category="h3" status="danger">- 80 €</Text>
                 <Immeuble height={42} width={44} />
               </View>
-
             </Layout>
 
             <Layout style={styles.oneThirdBlock}>
               <Text category="h6" appearance="hint" style={styles.text}>
                 Prochain mouvement
               </Text>
-              <Text category="h3" status="danger" style={{ marginTop: 14 }}>- 160 €</Text>
+
               <View style={styles.mouvementImage}>
+                <Text category="h3" status="danger">- 160 €</Text>
                 <MaisonVert height={42} width={44} />
               </View>
-
             </Layout>
+
           </Layout>
         </Layout>
         <Text
@@ -113,7 +113,7 @@ function TableauDeBord() {
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <View>
-              <MonBienResume item={item} />
+              <MonBienResume title={item.title} id={item.id} />
             </View>
           )}
         />
@@ -139,16 +139,18 @@ function TableauDeBord() {
         }}
         >
 
-          <Layout style={{
-            marginRight: 20,
-            flexDirection: 'row',
-            backgroundColor: 'transparent',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-          }}
+          <TouchableOpacity
+            onPress={() => {}}
+            style={{
+              marginRight: 20,
+              flexDirection: 'row',
+              backgroundColor: 'transparent',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+            }}
           >
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
 
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <View style={{ marginRight: 18 }}>
                 <MaisonVert height={42} width={44} />
               </View>
@@ -159,9 +161,7 @@ function TableauDeBord() {
               >
                 Un mouvement négatif a été détécté
               </Text>
-
             </View>
-
             <IconUIKitten
               name="arrow-ios-forward"
               fill="#b5b5b5"
@@ -170,7 +170,7 @@ function TableauDeBord() {
               }}
             />
 
-          </Layout>
+          </TouchableOpacity>
 
         </Layout>
         <Text
@@ -202,7 +202,6 @@ const styles = StyleSheet.create({
   },
   oneThirdBlock: {
     flex: 1,
-    marginTop: 3,
     justifyContent: 'space-between',
     alignItems: 'center',
   },
@@ -214,6 +213,8 @@ const styles = StyleSheet.create({
   mouvementImage: {
     marginRight: 3,
     marginTop: 15,
+    flexDirection: 'column',
+    alignItems: 'center',
   },
 });
 

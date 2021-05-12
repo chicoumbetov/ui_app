@@ -1,34 +1,38 @@
 /**
- * Page 2 Mes Biens - DetailsBiens
+ * Page 2 Mes Biens -> DetailsBiens
  *
  * @author: Shynggys UMBETOV
  */
 
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Layout, Text, Icon as IconUIKitten, useTheme,
 } from '@ui-kitten/components';
 import {
   StyleSheet, TouchableOpacity,
 } from 'react-native';
-import { useLinkTo, useNavigation, useRoute } from '@react-navigation/native';
-import { colors } from '../../assets/styles';
+import {
+  useLinkTo, useNavigation,
+  // useRoute
+} from '@react-navigation/native';
 
-import comptesData from '../../mockData/comptesData';
-import clientData from '../../mockData/clientDATA';
 import Icon from '../../components/Icon';
-import MaisonVert from '../../assets/Omedom_Icons_svg/Logement/maison_verte.svg';
-import ManAvatar from '../../assets/Omedom_Icons_svg/Avatars/manAvatar.svg';
-import WomanAvatar from '../../assets/Omedom_Icons_svg/Avatars/womanAvatar.svg';
 import MaxWidthContainer from '../../components/MaxWidthContainer';
+
+import MaisonVert from '../../assets/Omedom_Icons_svg/Logement/maison_verte.svg';
+// import ManAvatar from '../../assets/Omedom_Icons_svg/Avatars/manAvatar.svg';
+import WomanAvatar from '../../assets/Omedom_Icons_svg/Avatars/womanAvatar.svg';
+
+// import comptesData from '../../mockData/comptesData';
+import clientData from '../../mockData/clientDATA';
 
 function DetailsBien() {
   const navigation = useNavigation();
-  const route = useRoute();
+  // const route = useRoute();
   const linkTo = useLinkTo();
   const theme = useTheme();
 
-  const [compte, setCompte] = useState(comptesData);
+  // const [compte, setCompte] = useState(comptesData);
 
   const allerMonBudget = () => {
     navigation.navigate('MonBudget');
@@ -68,7 +72,9 @@ function DetailsBien() {
       >
         <Text category="h1" status="basic">
           Détails du bien
+          {/**
           {route.params.id}
+           */}
         </Text>
         <Layout style={{ alignItems: 'center', backgroundColor: 'transparent', marginTop: 30 }}>
           <MaisonVert
@@ -167,7 +173,7 @@ function DetailsBien() {
               flexDirection: 'row', alignItems: 'center',
             }}
           >
-            <Icon name="money" size={30} color={colors.green} style={{ marginRight: 10 }} />
+            <Icon name="money" size={30} color={theme['color-success-400']} style={{ marginRight: 10 }} />
             <Text category="h5">
               Ma Trésorerie (Lier un compte bancaire)
             </Text>
@@ -239,11 +245,11 @@ function DetailsBien() {
         <Layout style={styles.compteSection}>
           {/* use SectionList to render several accounts with its types and details */}
           <Text category="h6" status="basic">Localisation</Text>
-          <Text style={{ marginTop: 6 }}>{clientData.AdresseType.fields[0].adresse}</Text>
+          <Text category="h6" appearance="hint" style={{ marginTop: 6 }}>{clientData.AdresseType.fields[0].adresse}</Text>
           <Layout style={{ borderBottomWidth: 0.5, borderBottomColor: '#b5b5b5', marginVertical: 15 }} />
 
-          <Text style={{ fontSize: 17, marginTop: 7 }}>Date d'acquisition</Text>
-          <Text category="h6" status="basic" style={{ marginTop: 5 }}>
+          <Text category="h6" status="basic" style={{ marginTop: 8 }}>Date d'acquisition</Text>
+          <Text category="h6" appearance="hint" style={{ marginTop: 5 }}>
             {clientData.Client.fields[0].email}
           </Text>
           <Layout style={{ borderBottomWidth: 0.3, borderBottomColor: '#b5b5b5', marginVertical: 15 }} />
@@ -300,7 +306,7 @@ function DetailsBien() {
           </TouchableOpacity>
 
           <TouchableOpacity onPress={() => {}}>
-            <Text style={{ ...styles.buttonText, color: colors.noir }}>Supprimer</Text>
+            <Text category="h5" status="basic" style={styles.buttonText}>Supprimer</Text>
           </TouchableOpacity>
         </Layout>
 

@@ -18,10 +18,9 @@ import CompteHeader from '../../../components/CompteHeader/CompteHeader';
 import GraphicsII from '../../../components/Graphics/GraphicsII';
 import Graphics from '../../../components/Graphics/Graphics';
 
-import comptesData from '../../../mockData/comptesData';
-
 import RotatingIcon from '../../../components/Icon/RotatingIcon';
 import MaxWidthContainer from '../../../components/MaxWidthContainer';
+import { CompteType } from '../../../types';
 
 const mesBiensData = [
   { x: '35%', y: 35 },
@@ -30,7 +29,8 @@ const mesBiensData = [
   { x: '35%', y: 35 },
 ];
 
-function MonBien() {
+const MonBien = (props: CompteType) => {
+  const { title } = props;
   const linkTo = useLinkTo();
   const navigation = useNavigation();
   const [opened, setOpened] = useState(false);
@@ -40,7 +40,7 @@ function MonBien() {
     linkTo('/ma-tresorerie');
   };
   const allerMesRapports = () => {
-    navigation.navigate('mes-rapports');
+    navigation.navigate('mes-rapports-biens1');
   };
 
   const onDetailsBiens = () => {
@@ -61,7 +61,7 @@ function MonBien() {
 
         <TouchableOpacity onPress={() => setOpened(!opened)}>
           <Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-            <CompteHeader title={comptesData[0].title} />
+            <CompteHeader title={title} />
             <RotatingIcon name="arrow-ios-upward-outline" uikitten state={opened} width={24} height={25} fill="#b5b5b5" />
           </Layout>
         </TouchableOpacity>
@@ -191,7 +191,7 @@ function MonBien() {
       </Layout>
     </MaxWidthContainer>
   );
-}
+};
 
 export default MonBien;
 

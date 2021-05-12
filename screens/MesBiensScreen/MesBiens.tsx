@@ -15,7 +15,7 @@ import comptesData from '../../mockData/comptesData';
 
 function MesBiens() {
   const linkTo = useLinkTo();
-  const [comptes, setComptes] = useState(comptesData);
+  const [compte] = useState(comptesData);
 
   const onAjoutBien = () => {
     linkTo('/mes-biens/ajouter');
@@ -39,15 +39,16 @@ function MesBiens() {
           Mes Biens
         </Text>
 
-        <MonBien />
-        <MonBien />
         {/**
-         *<FlatList
-         data={comptes}
-         renderItem={MonBien}
-         keyExtractor={(item) => item.id}
-         />
-         */}
+        <MonBien />
+        <MonBien />
+        */}
+
+        <FlatList
+          data={compte}
+          renderItem={(item) => <MonBien title={item.item.title} id={item.item.id} />}
+          keyExtractor={(item) => item.id}
+        />
 
         <Button
           size="large"

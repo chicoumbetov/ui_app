@@ -4,7 +4,7 @@
  * @author: Shynggys UMBETOV
  */
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import {
   Layout, Text, Icon as IconUIKitten, useTheme,
 } from '@ui-kitten/components';

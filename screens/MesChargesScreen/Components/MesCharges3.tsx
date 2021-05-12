@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Layout, Text, useTheme } from '@ui-kitten/components';
-import { useNavigation } from '@react-navigation/native';
+
 import { FlatList, StyleSheet } from 'react-native';
 import { VictoryPie } from 'victory-native';
 
-import CompteHeader from '../../../components/CompteHeader';
+import CompteHeader from '../../../components/CompteHeader/CompteHeader';
 import comptesData from '../../../mockData/comptesData';
 import MaxWidthContainer from '../../../components/MaxWidthContainer';
 
@@ -14,12 +14,12 @@ const data = [
 ];
 
 const MesCharges3 = () => {
-  const navigation = useNavigation();
   const theme = useTheme();
 
-  const onMesCharges1 = () => {
-    navigation.navigate('MesCharges1');
-  };
+  const [mesCharges] = useState(comptesData);
+
+  // const navigation = useNavigation();
+  // const onMesCharges1 = () => { navigation.navigate('MesCharges1'); };
 
   return (
     <MaxWidthContainer outerViewProps={{
@@ -60,7 +60,7 @@ const MesCharges3 = () => {
         />
         <Layout style={{ borderBottomWidth: 1, marginRight: 40, borderBottomColor: theme['text-hint-color'] }} />
         <FlatList
-          data={comptesData}
+          data={mesCharges}
           keyExtractor={(item) => item.id}
           renderItem={(item) => (
             <Layout style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -69,7 +69,7 @@ const MesCharges3 = () => {
                 { backgroundColor: theme['color-info-500'] },
               ]}
               />
-              <CompteHeader data={item} />
+              <CompteHeader title={item.item.title} />
             </Layout>
           )}
         />

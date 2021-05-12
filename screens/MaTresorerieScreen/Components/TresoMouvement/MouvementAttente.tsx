@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { FlatList, StyleSheet, TouchableOpacity } from 'react-native';
 import { Layout, Text } from '@ui-kitten/components';
 import { AntDesign } from '@expo/vector-icons';
@@ -63,13 +63,15 @@ const MouvementAttente = () => {
                 <Text category="p1" appearance="hint">Libellé du mouvement</Text>
               </Layout>
 
-              <Layout style={{
-                flex: 1,
-                alignItems: 'center',
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                paddingLeft: 10,
-              }}
+              <TouchableOpacity
+                onPress={onTresoMouvementPage2}
+                style={{
+                  flex: 1,
+                  alignItems: 'center',
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  paddingLeft: 10,
+                }}
               >
                 <Text
                   style={{ justifyContent: 'center' }}
@@ -78,11 +80,8 @@ const MouvementAttente = () => {
                 >
                   {item.typeMouvement}
                 </Text>
-                <TouchableOpacity onPress={onTresoMouvementPage2}>
-                  <AntDesign size={14} name="right" color="#b5b5b5" style={{ marginRight: 20 }} />
-                </TouchableOpacity>
-
-              </Layout>
+                <AntDesign size={14} name="right" color="#b5b5b5" style={{ marginRight: 20 }} />
+              </TouchableOpacity>
 
             </Layout>
 

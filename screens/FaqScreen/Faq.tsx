@@ -44,7 +44,7 @@ const Faq = () => {
       </View>
       <SectionList
         sections={questions}
-        keyExtractor={(item, index) => item.id + index + item.isChecked}
+        keyExtractor={(item, index) => item.id + index}
         renderItem={({ item, section: { index, isChecked } }) => (
 
           <View style={{ paddingBottom: 20 }} key={index}>

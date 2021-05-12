@@ -14,6 +14,8 @@ import Radio from '../Form/Radio';
 import { AvailableValidationRules } from '../Form/validation';
 import { ErrorMessage } from './components/ErrorMessage';
 
+import LogoImage from '../../assets/Icones_omedom/Logo_Omedom.png';
+
 interface SignInProps {
   signUp: () => void
   forgotPassword: () => void
@@ -69,15 +71,15 @@ const MySigIn = ({
             {/* eslint-disable-next-line global-require */}
             <Layout style={{ backgroundColor: 'transparent', marginTop: 34, alignItems: 'center' }}>
               {/* eslint-disable-next-line global-require */}
-              <Image source={require('../../assets/Icones_omedom/Logo_Omedom.png')} style={{ height: 230, width: 230 }} resizeMode="contain" />
+              <Image source={require('../../assets/Icones_omedom/Logo_Omedom.png')} style={{ height: 150, width: 150 }} resizeMode="contain" />
             </Layout>
 
-            <Layout style={{ backgroundColor: 'transparent', marginLeft: 0 }}>
-              <Text style={{
-                fontSize: 25, color: 'black', letterSpacing: 0.2, lineHeight: 32, fontFamily: 'HouschkaRoundedDemiBold',
-              }}
-              >
-                {lastUser !== '' ? `Très heureux de vous revoir, ${lastUser}` : 'Bienvenue'}
+            <Layout style={{ backgroundColor: 'transparent', alignItems: 'center' }}>
+              <Text category="h1" style={{ marginBottom: 30 }}>
+                Bienvenue
+                {/**
+                  {lastUser !== '' ? `Très heureux de vous revoir, ${lastUser}` : 'Bienvenue'}
+                */}
               </Text>
             </Layout>
 
@@ -98,12 +100,18 @@ const MySigIn = ({
                 AvailableValidationRules.required,
                 AvailableValidationRules.password,
               ]}
+              icon="eye-off-outline"
             />
 
-            <Radio name="stayConnected" label="Souhaitez-vous rester connecté ?" labelPosition="before" />
+            <Radio
+              name="stayConnected"
+              label="Souhaitez-vous rester connecté ?"
+              labelPosition="before"
+              status="info"
+            />
 
             <Layout style={{
-              flexDirection: 'row', justifyContent: 'space-between', backgroundColor: 'transparent',
+              flexDirection: 'row', marginTop: 15, justifyContent: 'space-between', backgroundColor: 'transparent',
             }}
             >
 

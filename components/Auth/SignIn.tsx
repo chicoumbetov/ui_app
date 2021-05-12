@@ -6,13 +6,12 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Button, Layout, Text } from '@ui-kitten/components';
 import { useForm } from 'react-hook-form';
-
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Form from '../Form/Form';
 import TextInputComp from '../Form/TextInput';
 import Radio from '../Form/Radio';
 import { AvailableValidationRules } from '../Form/validation';
 import { ErrorMessage } from './components/ErrorMessage';
+import MaxWidthContainer from '../MaxWidthContainer';
 
 interface SignInProps {
   signUp: () => void
@@ -52,7 +51,7 @@ const MySigIn = ({
   };
 
   return (
-    <KeyboardAwareScrollView enableOnAndroid>
+    <MaxWidthContainer withScrollView="keyboardAware" innerViewProps={{ style: { flex: 1, justifyContent: 'center', alignItems: 'center' } }}>
       <Layout style={{
         flex: 1,
         alignItems: 'center',
@@ -142,7 +141,7 @@ const MySigIn = ({
 
         <Button appearance="ghost" onPress={forgotPassword}>Mot de passe oublié ?</Button>
       </Layout>
-    </KeyboardAwareScrollView>
+    </MaxWidthContainer>
   );
 };
 

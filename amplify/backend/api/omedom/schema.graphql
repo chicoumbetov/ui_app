@@ -20,130 +20,63 @@ enum Abonnement {
  PlusDeCinqBiens
 }
 
-type AdresseType @model {
-  id: ID!
+type Adresse {
   adresse: String!
   complementAdresse: String
-  codePostal: Int!
+  codePostal: String!
   ville: String!
   pays: String!
-
-  clientID: ID!
-  client: Client @connection(fields: ["clientID"])
 }
 
 # Type Client  and Compte
-# Client & AdresseType are connected by clientID
-type Client @model {
+# Client & Adresse are connected by clientID
+type Utilisateur @model @auth(rules: [
+  {allow: owner, ownerField: "userID"}
+  {allow: private, operations: [read]}
+])
+@key(fields: ["userID"], name:"byUserID")
+{
   id: ID!
-  userID: ID
-  nom: String!
-  prenom: String!
-  email: AWSEmail!
-  motDePasse: String!
-  numeroTel: AWSPhone!
-  optIn: Boolean
-
-  avatarUri: String
-  dateNaissance: AWSDate
-  abonnement: Abonnement
-}
-
-type Compte @model {
-  id: ID!
-  IBAN: String!
-  bank: String!
-
-  clientID: ID!
-  client: Client @connection(fields: ["clientID"])
-}
-
-
-
-######  NOT PUSHED YET
-
-#type Bien
-
-type Bien @model @auth(rules: [
-  {allow: owner, ownerField: "admins", operations: [ create, update, delete, read]]}
-  {allow: owner, ownerField: "shared", operations:[read]}
-]) {
-  id: ID!
-  nom: String!
-  iconeUri: String!
-  anneeAcquisition:  AWSDate
-  typeBien: TypeBien
-
-  nomPropre: String    # ????
-
-  societe:TypeSociete
-  detention: Int
-
-  lignesBudget: [LigneBudget]
-  admins: [String!]!
-  shared: [String!]
-  adresseID: ID!
-  adresse: CLientAdresse @connection(fields: ["adresseID"])
-}
-
-enum TypeBien {
-  residencePrincipale
-  residenceSecondaire
-  investissementLocatifProfessionnelOuCommercial
-  investissementLocatifParticulier
-}
-
-enum TypeSociete {
-  SCI
-  SAS
-  SARLclassique
-  SARLfamille
-}
-
-
-#type LigneBudget
-
-type LigneBudget {
-  id: ID!
-  typeLigneBudget: String
-  montant: Int
-  frequence: Frequence
-  dateProchaineEcheance: Int
-
-  infoLocataire: String  # ????
-  infoCredit: String   # ????
-
-  InfoLocataireID: ID!
-  infoLocataire: InfoLocataire @connection(fields:
-  ["InfoLocataireID"])
-}
-
-enum Frequence {
- mensuelle
- bimensuelle
- trimestrielle
- annuelle
-}
-
-# type InfoLocataire
-type InfoLocataire {
-  id: ID!
-  montant: Int!
-  charges: Int
-  tauxGestion: Int
+  userID: String
   nom: String
   prenom: String
-  email: AWSEmail
-  dateDebut: AWSDate
-  dateFin: AWSDate
+  email: AWSEmail @auth (rules: [{allow: owner, ownerField: "userID"}])
+  numeroTel: AWSPhone @auth (rules: [{allow: owner, ownerField: "userID"}])
+  optIn: Boolean @auth (rules: [{allow: owner, ownerField: "userID"}])
+  adresse: Adresse @auth (rules: [{allow: owner, ownerField: "userID"}])
+
+  avatarUri: String
+  dateNaissance: AWSDate @auth (rules: [{allow: owner, ownerField: "userID"}])
+  abonnement: Abonnement @auth (rules: [{allow: owner, ownerField: "userID"}])
 }
 
-# info Crédit
-type MensualiteCredit {
-  id: ID!
-  capitalEmprunte: Int!
-  dateDebutPret: AWSDate
-  duree: String     # ???? Int
-  tauxInteret: Int
-  tauxAssurance: Int
-}
+
+#type RealEstate @model @auth(rules: [
+#  {allow: owner, ownerField: "owners"},
+#  {allow: owner, ownerField: "shared", operations: [read]}
+#])
+#{
+#  id: ID!
+#  owners: [String]
+#  shared: [String]
+#  name: String
+#
+#  bankAccounts: [BankAccount] @connection(
+#    fields: ["id"]
+#  )
+#}
+#
+#type BankAccount @model(queries: null) {
+#  id: ID!
+#  bankName: String!
+#  accountNumber: String!
+#  lines: [BankLine]
+#}
+#
+#
+#type BankLine @model(queries: null) {
+#  id: ID!
+#  description: String!
+#  amount: Float
+#  date: AWSDate
+#}

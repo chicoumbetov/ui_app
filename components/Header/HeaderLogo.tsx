@@ -4,7 +4,7 @@ import { TouchableOpacity } from 'react-native';
 import Logo from '../../assets/logo.svg';
 import debounce from '../../utils/debounce';
 
-const HeaderLogo = () => {
+const HeaderLogo = ({ withAction = true }: { withAction?:boolean }) => {
   const navigation = useNavigation();
   const openDrawer = React.useCallback(
     debounce(() => {
@@ -18,6 +18,7 @@ const HeaderLogo = () => {
       onPress={() => {
         openDrawer();
       }}
+      disabled={!withAction}
       style={{ justifyContent: 'center', alignItems: 'center', marginHorizontal: 28 }}
     >
       <Logo height={33} width={30} />

@@ -9,5 +9,8 @@ components/Icon/typegenerator.js
 amplify
 webpack.config.js
 /models
+navigation/BottomNavigation.tsx
+navigation/TabIndicator.tsx
+
 
 src/models

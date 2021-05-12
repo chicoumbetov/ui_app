@@ -82,8 +82,9 @@ export type RadioFormProps = {
   labelPosition?: 'before' | 'after';
   labelStyle?: StyleProp<TextStyle>;
   style?: StyleProp<ViewStyle>;
+  label?: string | ((props:any) => JSX.Element);
   value?: boolean;
-} & RadioProps & FormChildProp;
+} & RadioProps & Omit<FormChildProp, 'label'>;
 
 // PhoneNumberInput
 export type PhoneNumberInputFormProps = Exclude<TextInputProps, 'onChangeText'> & {

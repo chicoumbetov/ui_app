@@ -83,8 +83,9 @@ declare module 'aws-amplify-react-native' {
     key: string;
     required: boolean;
     displayOrder: number;
-    type: string;
+    type?: string;
     custom?: boolean;
+    testID?:string;
   }
   interface iSignUpConfig {
     header?: string;
@@ -130,7 +131,7 @@ declare module 'aws-amplify-react-native' {
   }
   export const Authenticator: React.ComponentClass<iAuthenticatorProps>;
 
-  interface iAuthPieceProps {
+  export interface iAuthPieceProps {
     usernameAttributes?: string;
     onStateChange?: (state: string, data: any) => void;
     errorMessage?: (message: string) => string;

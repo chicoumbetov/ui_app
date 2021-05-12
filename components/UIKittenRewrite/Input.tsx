@@ -264,6 +264,7 @@ export class Input extends React.Component<InputProps> implements WebEventRespon
       <TouchableWithoutFeedback
         style={evaStyle.container}
         onPress={this.focus}
+        accessible={false}
       >
         <FalsyText
           style={[evaStyle.label, styles.label]}

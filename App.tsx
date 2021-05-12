@@ -15,6 +15,7 @@ import { Authenticator } from 'aws-amplify-react-native';
 
 import { HubCapsule } from 'aws-amplify-react-native/types';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { CognitoUserAttribute } from 'amazon-cognito-identity-js';
 import omedomTheme from './custom-theme';
 import mapping from './mapping.json';
@@ -26,7 +27,9 @@ import useAssetLoader from './hooks/useAssetLoader';
 import ActivityIndicator from './components/ActivityIndicator';
 
 import awsExports from './src/aws-exports';
-import { ForgotPassword, SignIn } from './components/Auth';
+import {
+  ConfirmSignUp, ForgotPassword, SignIn, SignUp,
+} from './components/Auth';
 
 Amplify.configure({
   ...awsExports,
@@ -42,7 +45,7 @@ const listener = async (data: HubCapsule) => {
       user.getUserAttributes((error?: Error, result?: CognitoUserAttribute[]) => {
         if (result) {
           for (let i = 0; i < result.length; i++) {
-            if (result[i].getName() === 'email') {
+            if (result[i].getName() === 'given_name') {
               AsyncStorage.setItem('lastFirstname', result[i].getValue());
             }
           }
@@ -86,6 +89,7 @@ const fonts = {
 function App() {
   const colorScheme = useColorScheme();
   const [authState, setAuthState] = useState<string>();
+  const [tmpPasswd, setTmpPasswd] = useState<string>();
 
   const assetLoader = useAssetLoader({ fonts });
 
@@ -134,6 +138,10 @@ function App() {
           >
             <SignIn />
             <ForgotPassword />
+            {/* @ts-expect-error : Cannot change AWS prop types */}
+            <SignUp setTmpPasswd={setTmpPasswd} />
+            {/* @ts-expect-error : Cannot change AWS prop types */}
+            <ConfirmSignUp tmpPasswd={tmpPasswd} />
           </Authenticator>
         )}
       </ApplicationProvider>

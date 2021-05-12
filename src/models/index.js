@@ -8,11 +8,10 @@ const Abonnement = {
   "PLUS_DE_CINQ_BIENS": "PlusDeCinqBiens"
 };
 
-const { AdresseType, Client, Compte } = initSchema(schema);
+const { Utilisateur, Adresse } = initSchema(schema);
 
 export {
-  AdresseType,
-  Client,
-  Compte,
-  Abonnement
+  Utilisateur,
+  Abonnement,
+  Adresse
 };

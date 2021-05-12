@@ -10,16 +10,17 @@ import { useKeepAwake } from 'expo-keep-awake';
 import { useDimensions } from '@react-native-community/hooks';
 import { PinchGestureHandler, PinchGestureHandlerGestureEvent } from 'react-native-gesture-handler';
 import Constants from 'expo-constants';
+import { useTheme, Icon as UIKittenIcon } from '@ui-kitten/components';
 import Text from '../Text';
 
 import { durationToStr } from '../../utils/TimeHelper';
 import ActivityIndicator from '../ActivityIndicator';
 import SafeAreaView from '../SafeAreaView';
 import { colors, spacing } from '../../assets/styles';
-import IconButton from '../Icon/IconButton';
-import Icon, { IconName } from '../Icon/Icon';
+import { IconName } from '../Icon/Icon';
 import Image from '../Image';
 import NotImplementedScreen from '../../screens/NotImplementedScreen';
+import UIKittenIconButton from '../Icon/UIKittenIconButton';
 
 type RecordingMode = 'video' | 'image';
 
@@ -83,6 +84,7 @@ const DESIRED_RATIO = '16:9';
 export default function Camera(props: CameraProps): JSX.Element {
   const camera = useRef<OriginalCamera | null>(null);
   const video = useRef<Promise<{ uri: string }> | undefined>();
+  const theme = useTheme();
   const { screen } = useDimensions();
   const { recordingMode = 'image', withPreview = true } = props;
 
@@ -408,9 +410,8 @@ export default function Camera(props: CameraProps): JSX.Element {
           )}
         </View>
         <View style={styles.footer}>
-          <IconButton name="cross" color={colors.primary} onPress={cancelChoice} />
-          {/* @ts-ignore */}
-          <IconButton name="tick" color={colors.primary} onPress={acceptChoice} />
+          <UIKittenIconButton status="danger" onPress={cancelChoice} name="close-outline" />
+          <UIKittenIconButton status="primary" onPress={() => acceptChoice()} name="checkmark-outline" />
         </View>
       </SafeAreaView>
     );
@@ -451,8 +452,8 @@ export default function Camera(props: CameraProps): JSX.Element {
                 right: 0,
                 width: croper.newWidth + croper.x * 2,
                 height: croper.newHeight + croper.y * 2,
-                backgroundColor: colors.transparent,
-                borderColor: recordingMode === 'video' ? colors.transparent : 'rgba(0,0,0,0.6)',
+                backgroundColor: 'transparent',
+                borderColor: recordingMode === 'video' ? 'transparent' : 'rgba(0,0,0,0.6)',
                 borderLeftWidth: croper.x,
                 borderRightWidth: croper.x,
                 borderTopWidth: croper.y,
@@ -462,26 +463,25 @@ export default function Camera(props: CameraProps): JSX.Element {
             />
           </PinchGestureHandler>
           <View style={styles.header}>
-            <IconButton name="grid" onPress={toggleGrid} />
-            <IconButton
-              name="flash"
+            <UIKittenIconButton
+              appearance="ghost"
+              name="grid"
+              onPress={toggleGrid}
+              style={{ color: 'white' }}
+            />
+            <UIKittenIconButton
+              appearance="ghost"
+              name={flashMode === OriginalCamera.Constants.FlashMode.on
+            || flashMode === OriginalCamera.Constants.FlashMode.torch ? 'flash' : 'flash-off'}
               onPress={toggleFlash}
-              color={
-                flashMode === OriginalCamera.Constants.FlashMode.on
-                || flashMode === OriginalCamera.Constants.FlashMode.torch
-                  ? 'white'
-                  : 'rgba(255, 255, 255, 0.5)'
-              }
               disabled={isRecording || type === OriginalCamera.Constants.Type.front}
-              disabledOpacity={0}
+              style={{
+                opacity: isRecording || type === OriginalCamera.Constants.Type.front
+                  ? 0 : 1,
+                color: 'white',
+              }}
             />
-            <IconButton
-              name={wbIcons[whiteBalance]}
-              onPress={toggleWB}
-              color="white"
-              disabled={isRecording}
-              disabledOpacity={0}
-            />
+
           </View>
           {showGrid && (
             <View
@@ -517,7 +517,12 @@ export default function Camera(props: CameraProps): JSX.Element {
                         />
                     </View> */}
           <View style={styles.footer}>
-            <IconButton name="cross" onPress={() => goBack(true)} />
+            <UIKittenIconButton
+              appearance="ghost"
+              name="close"
+              style={{ color: 'white' }}
+              onPress={() => goBack(true)}
+            />
             <TouchableOpacity onPress={takePicture}>
               {duration > 0 && (
                 <View style={{ alignSelf: 'center', marginTop: -15 }}>
@@ -528,28 +533,37 @@ export default function Camera(props: CameraProps): JSX.Element {
                 {isSaving ? (
                   <ActivityIndicator />
                 ) : isRecording ? (
-                  <View style={[styles.innerSnapButton, { backgroundColor: colors.transparent }]}>
+                  <View style={[styles.innerSnapButton, { backgroundColor: 'transparent' }]}>
                     <View
                       style={{
                         width: 20,
                         height: 20,
                         borderRadius: 4,
-                        backgroundColor: colors.red,
+                        backgroundColor: 'red',
                       }}
                     />
                   </View>
                 ) : (
-                  <View style={[styles.innerSnapButton, { backgroundColor: colors.primary }]}>
-                    <Icon
-                      color="white"
-                      size={28}
-                      name={recordingMode === 'video' ? 'video-camera' : 'camera'}
+                  <View style={[styles.innerSnapButton, { backgroundColor: theme['color-primary-600'] }]}>
+                    <UIKittenIcon
+                      name={recordingMode === 'video' ? 'video' : 'camera'}
+                      style={{ color: 'white' }}
                     />
                   </View>
                 )}
               </View>
             </TouchableOpacity>
-            <IconButton name="reverse" onPress={toggleCamera} disabled={isRecording} disabledOpacity={0} />
+
+            <UIKittenIconButton
+              name="flip-2"
+              onPress={toggleCamera}
+              disabled={isRecording}
+              style={{
+                opacity: isRecording
+                  ? 0 : 1,
+                color: 'white',
+              }}
+            />
           </View>
         </SafeAreaView>
       </OriginalCamera>

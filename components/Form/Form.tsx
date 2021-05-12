@@ -11,7 +11,7 @@ import _ from 'lodash';
 import { UseFormRegister, UseFormSetValue } from 'react-hook-form/dist/types/form';
 import { composeValidationRules, ValidationRuleConfig } from './validation';
 import { useUpdateEffect } from '../../utils/CustomHooks';
-import { PossibleFields } from './types/Form';
+import { PossibleFields } from './types';
 
 interface Props<T> {
   children: React.ReactElement;

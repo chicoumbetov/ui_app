@@ -9,9 +9,9 @@ import {
   TouchableOpacity, View, ViewStyle, StyleSheet,
 } from 'react-native';
 
-import Icon, { IconName } from './Icon/Icon';
-import Text from './Text';
-import { colors } from '../assets/styles';
+import Icon, { IconName } from './Icon';
+import Text from '../Text';
+import { colors } from '../../assets/styles';
 
 type IconButtonProps = {
   style?: ViewStyle;

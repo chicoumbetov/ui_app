@@ -3,7 +3,7 @@ import { View, StyleSheet } from 'react-native';
 
 import { useEffect, useState } from 'react';
 import { Radio } from '@ui-kitten/components';
-import { FalsyText } from '@ui-kitten/components/devsupport';
+import { FalsyFC, FalsyText } from '@ui-kitten/components/devsupport';
 import { RadioFormProps } from './types';
 
 const RadioComp = React.forwardRef<Radio, RadioFormProps>(
@@ -25,28 +25,35 @@ const RadioComp = React.forwardRef<Radio, RadioFormProps>(
     }, [isEnabled]);
 
     return (
-      <View style={[styles.container, style]}>
-        {labelPosition === 'before' && (
-        <FalsyText
-          category="label"
-          style={[styles.labelBeforeMargin, labelStyle]}
-          component={label}
-        />
-        )}
-        <Radio {...switchProps} onChange={toggleSwitch} checked={isEnabled} ref={ref} />
+      <>
+        <View style={[styles.container, style]}>
+          {labelPosition === 'before' && (
+            typeof label === 'string' ? (
+              <FalsyText
+                category="label"
+                style={[styles.labelBeforeMargin, labelStyle]}
+                component={label}
+              />
+            ) : <FalsyFC component={label} />
+          )}
+          <Radio {...switchProps} onChange={toggleSwitch} checked={isEnabled} ref={ref} />
 
-        {labelPosition === 'after' && (
-        <FalsyText
-          category="label"
-          style={[styles.labelAfterMargin, labelStyle]}
-          component={label}
-        />
-        )}
+          {labelPosition === 'after' && (
+
+            typeof label === 'string' ? (
+              <FalsyText
+                category="label"
+                style={[styles.labelBeforeMargin, labelStyle]}
+                component={label}
+              />
+            ) : <FalsyFC component={label} />
+          )}
+        </View>
         <FalsyText
           status={error && error.message ? 'danger' : ''}
           component={error && error.message}
         />
-      </View>
+      </>
     );
   },
 );

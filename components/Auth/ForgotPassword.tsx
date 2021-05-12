@@ -11,6 +11,7 @@ import Form from '../Form/Form';
 import { AvailableValidationRules } from '../Form/validation';
 import TextInputComp from '../Form/TextInput';
 import DigitsInput from '../Form/DigitsInput';
+import MaxWidthContainer from '../MaxWidthContainer';
 
 type ResetForm = {
   email: string;
@@ -31,7 +32,7 @@ const MyForgotPassword = ({
   const reset = (data: ResetForm) => resetPassword(data.email);
 
   return (
-    <KeyboardAvoidingView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+    <MaxWidthContainer withScrollView="keyboardAware" innerViewProps={{ style: { flex: 1, justifyContent: 'center', alignItems: 'center' } }}>
       <Layout style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
 
         <Text category="h1" style={AuthStyles.header}>Mot de passe oublié</Text>
@@ -55,7 +56,7 @@ const MyForgotPassword = ({
 
         <Button appearance="ghost" style={AuthStyles.button} onPress={goBack}>Retour à la connexion</Button>
       </Layout>
-    </KeyboardAvoidingView>
+    </MaxWidthContainer>
   );
 };
 
@@ -117,15 +118,17 @@ interface NewPasswordProps {
 }
 
 export default class ForgotPassword extends AmplifyForgotPassword {
-  showComponent(theme: any) {
+  showComponent() {
     if (!this.state.delivery) {
       return (
         <MyForgotPassword
+          // @ts-expect-error : AWS does not expose Types
           goBack={() => this.changeState('signIn')}
           error={this.state.error}
           resetPassword={(email) => {
             this.setState({
               username: email, phone_number: email, email, error: null,
+              // @ts-expect-error : AWS does not expose Types
             }, this.send);
           }}
         />
@@ -133,9 +136,11 @@ export default class ForgotPassword extends AmplifyForgotPassword {
     }
     return (
       <MyNewPassword
+        // @ts-expect-error : AWS does not expose Types
         goBack={() => this.changeState('signIn')}
         error={this.state.error}
         setNewPassword={(code, password) => {
+          // @ts-expect-error : AWS does not expose Types
           this.setState({ code, password }, this.submit);
         }}
       />

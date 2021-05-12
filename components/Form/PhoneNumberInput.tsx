@@ -17,6 +17,7 @@ const PhoneNumberInputComp = React.forwardRef<PhoneInput, PhoneNumberInputFormPr
       style,
       defaultValue,
       containerStyle,
+      placeholder,
     } = props;
 
     const [inputColor, setInputColor] = useState<string>(colors.text);
@@ -82,7 +83,7 @@ const PhoneNumberInputComp = React.forwardRef<PhoneInput, PhoneNumberInputFormPr
             paddingRight: 10,
           }}
           renderDropdownImage={<Icon name="chevron" size={12} style={{ marginRight: 5 }} />}
-          placeholder=" "
+          placeholder={placeholder}
           countryPickerProps={{
             withEmoji: false,
             modalProps: {

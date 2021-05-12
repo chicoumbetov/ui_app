@@ -60,6 +60,9 @@ export type TabMesBiensParamList = {
   PartagerBien: undefined;
   ModifierCharacteristiques: undefined;
   'ajout-bien-screen': undefined;
+  'mes-rapports': undefined;
+  'mes-rapports-biens1': undefined;
+  'mes-rapports-biens2': undefined;
 };
 
 export type TabMaTresorerieParamList = {
@@ -95,12 +98,17 @@ export type AjoutBienParamList = {
  * 1.
  * 2.
  * */
-
 export type CompteType = {
+  title: string,
+  id?: string,
+  data?: ClientType
+};
+
+export type ClientType = {
   id: string,
-  nom: string,
+  nom?: string,
   prenom: string,
-  typeBien: string,
-  IBAN: string,
-  bank: string,
+  typeBien?: string,
+  IBAN?: string,
+  bank?: string,
 };

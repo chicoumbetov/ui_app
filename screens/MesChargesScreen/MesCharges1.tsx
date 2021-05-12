@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Layout, Text } from '@ui-kitten/components';
-import { useNavigation } from '@react-navigation/native';
+import { Layout, Text, useTheme } from '@ui-kitten/components';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import {
   FlatList, StyleSheet, TouchableOpacity,
 } from 'react-native';
-import { AntDesign } from '@expo/vector-icons';
-import { colors } from '../../assets/styles';
+
+import { Icon as IconUIKitten } from '@ui-kitten/components/ui/icon/icon.component';
+import MaxWidthContainer from '../../components/MaxWidthContainer';
 
 const DATA = [
   {
@@ -32,20 +33,11 @@ const DATA = [
 
 const MesCharges1 = () => {
   const navigation = useNavigation();
+  const theme = useTheme();
   const [charges, setCharges] = useState(DATA);
 
   const onMesCharges2 = (item) => {
-    navigation.navigate('MesCharges2');
-    const temp = charges.map((charge) => {
-      // comparison of clicked index with taken index
-      if (item.id === charge.id) {
-        // on recupere charge et on fait copie,
-        // ensuite on change boolean de isChecked dans le assistantDATA
-        return { ...charge, isChecked: !charge.isChecked };
-      }
-      return charge;
-    });
-    setCharges(temp);
+    navigation.navigate('MesCharges2', { title: item.title });
   };
 
   useEffect(() => {
@@ -53,15 +45,18 @@ const MesCharges1 = () => {
   });
 
   return (
-
-    <Layout style={styles.container}>
-      <Text style={styles.title}>Mes rapports par charges</Text>
+    <MaxWidthContainer outerViewProps={{
+      style: {
+        padding: 24,
+        backgroundColor: '#f6f6f6',
+      },
+    }}
+    >
+      <Text category="h1" status="basic" style={{ marginTop: 13 }}>Mes rapports par charges</Text>
       <Text
+        category="h5"
+        appearance="hint"
         style={{
-          fontSize: 16.5,
-          letterSpacing: 0.02,
-          fontFamily: 'HouschkaRoundedDemiBold',
-          color: '#b5b5b5',
           marginTop: 7,
           paddingVertical: 30,
         }}
@@ -73,17 +68,28 @@ const MesCharges1 = () => {
         data={charges}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <Layout style={styles.docs}>
-            <Text style={styles.aideText}>{item.title}</Text>
-            <TouchableOpacity onPress={() => { onMesCharges2(item); }}>
-              <AntDesign name="right" size={13} style={{ color: '#b5b5b5', fontWeight: '700' }} />
-            </TouchableOpacity>
-          </Layout>
-        )}
+          <TouchableOpacity
+            onPress={() => { onMesCharges2(item); }}
+            style={[
+              styles.docs,
+              { backgroundColor: theme['color-basic-100'] },
+            ]}
+          >
+            <Text category="h5" status="basic">{item.title}</Text>
 
+            <IconUIKitten
+              name="arrow-ios-forward"
+              fill={theme['text-hint-color']}
+              style={{
+                height: 17, width: 17,
+              }}
+            />
+
+          </TouchableOpacity>
+        )}
       />
 
-    </Layout>
+    </MaxWidthContainer>
 
   );
 };
@@ -117,15 +123,7 @@ const styles = StyleSheet.create({
     },
     shadowRadius: 2,
     shadowOpacity: 1,
-
-    backgroundColor: colors.blanc,
-    fontWeight: 'normal',
     borderColor: 'transparent',
     shadowColor: '#dedede',
-  },
-  aideText: {
-    fontSize: 17.5,
-    letterSpacing: 0.1,
-    fontFamily: 'HouschkaRoundedDemiBold',
   },
 });

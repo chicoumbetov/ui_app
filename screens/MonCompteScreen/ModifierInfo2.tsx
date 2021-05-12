@@ -49,7 +49,19 @@ const ModifierInfo2 = () => {
   return (
     <MaxWidthContainer
       withScrollView="keyboardAware"
-      outerViewProps={{ style: styles.container }}
+      outerViewProps={{
+        style: {
+          flex: 1,
+          backgroundColor: '#efefef',
+        },
+        showsVerticalScrollIndicator: false,
+      }}
+      innerViewProps={{
+        style: {
+          paddingHorizontal: 24,
+          paddingVertical: 34,
+        },
+      }}
     >
       <Form<ModifierInfo2Form> {...modifierInfo2Form}>
         <>

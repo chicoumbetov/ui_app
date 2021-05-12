@@ -3,20 +3,17 @@
  *
  * @author: Shynggys UMBETOV
  */
-
 import * as React from 'react';
-
 import { Layout, Text } from '@ui-kitten/components';
-import {
-  ScrollView, StyleSheet,
-} from 'react-native';
 
 import { useState } from 'react';
-import ManAvatar from '../../assets/Omedom_Icons_svg/Avatars/manAvatar.svg';
-
+import { DataStore } from 'aws-amplify';
 import Informations from './Components/Informations';
-import clientData from '../../mockData/clientDATA';
 import Abonnement from './Components/Abonnement';
+import MaxWidthContainer from '../../components/MaxWidthContainer';
+
+import ManAvatar from '../../assets/Omedom_Icons_svg/Avatars/manAvatar.svg';
+import clientData from '../../mockData/clientDATA';
 
 export default function MonComptePage1() {
   const [clients, updateClients] = useState(clientData);
@@ -24,15 +21,15 @@ export default function MonComptePage1() {
   // console.log('clients3:', clients);
 
   /*
-    // DataStore connexion
-    async function fetchClient() {
-      try {
-        const clients = await DataStore.query(Client);
-        console.log('clients: ', clients);
-      } catch (e) {
-        console.log('Error retrieving posts', e);
-      }
-    }
+// DataStore connexion
+async function fetchClient() {
+  try {
+    const clients = await DataStore.query(Client);
+    console.log('clients: ', clients);
+  } catch (e) {
+    console.log('Error retrieving posts', e);
+  }
+}
 
     useEffect(() => {
       fetchClient();
@@ -62,13 +59,15 @@ export default function MonComptePage1() {
 
   return (
 
-    <ScrollView
-      showsVerticalScrollIndicator={false}
-      style={styles.container}
+    <MaxWidthContainer outerViewProps={{
+      style: {
+        backgroundColor: '#efefef',
+      },
+    }}
     >
 
       <Layout style={{
-        flex: 1, backgroundColor: '#f6f6f6', paddingHorizontal: 22, paddingTop: 37,
+        backgroundColor: '#f6f6f6', paddingHorizontal: 46, paddingTop: 37,
       }}
       >
         <Text category="h1">
@@ -89,12 +88,6 @@ export default function MonComptePage1() {
       <Informations clientData={clients} />
       <Abonnement />
 
-    </ScrollView>
+    </MaxWidthContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1, backgroundColor: '#efefef',
-  },
-});

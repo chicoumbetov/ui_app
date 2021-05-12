@@ -1,16 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
 import {
-
-  SafeAreaView, SectionList, StyleSheet, View, Platform, TouchableOpacity,
+  SectionList, StyleSheet, View, Platform, TouchableOpacity,
 } from 'react-native';
 import Constants from 'expo-constants';
 import * as Notifications from 'expo-notifications';
 
-import { Text } from '@ui-kitten/components';
+import { Text, useTheme } from '@ui-kitten/components';
+import { Icon as IconUIKitten } from '@ui-kitten/components/ui/icon/icon.component';
 import notificationsDATA from '../../mockData/notificationsDATA';
 import MaisonVert from '../../assets/Omedom_Icons_svg/Logement/maison_verte.svg';
-import Icon from '../../components/Icon';
-import { colors } from '../../assets/styles';
+import MaxWidthContainer from '../../components/MaxWidthContainer';
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -21,6 +20,7 @@ Notifications.setNotificationHandler({
 });
 
 const NotificationsPage = () => {
+  const theme = useTheme();
   const [questions, setQuestions] = useState(notificationsDATA);
 
   // Taken from doc. Adopt on needs
@@ -113,7 +113,14 @@ const NotificationsPage = () => {
   }, []);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <MaxWidthContainer outerViewProps={{
+      style: {
+        backgroundColor: '#efefef',
+        paddingHorizontal: 24,
+        paddingTop: 34,
+      },
+    }}
+    >
       <View>
         <Text category="h1" style={styles.faq}>Notifications</Text>
       </View>
@@ -130,17 +137,18 @@ const NotificationsPage = () => {
               </Text>
             </View>
             <TouchableOpacity onPress={() => {}}>
-              <Icon
-                name="arrow-ios-forward-outline"
-                size={20}
-                color={colors.blanc}
+              <IconUIKitten
+                name="arrow-ios-forward"
+                fill={theme['color-success-100']}
+                style={{
+                  height: 16, width: 16, marginRight: 5, marginTop: 8,
+                }}
               />
             </TouchableOpacity>
           </View>
         )}
-
       />
-    </SafeAreaView>
+    </MaxWidthContainer>
   );
 };
 

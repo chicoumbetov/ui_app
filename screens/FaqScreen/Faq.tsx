@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import {
-  SafeAreaView, SectionList, StyleSheet, TouchableOpacity, View,
+  SectionList, StyleSheet, TouchableOpacity, View,
 } from 'react-native';
-import { AntDesign } from '@expo/vector-icons';
-import { Icon, Text } from '@ui-kitten/components';
+
+import { Icon, Text, useTheme } from '@ui-kitten/components';
 import faqDATA from '../../mockData/faqDATA';
+import MaxWidthContainer from '../../components/MaxWidthContainer';
 
 const Faq = () => {
+  const theme = useTheme();
   const [questions, setQuestions] = useState(faqDATA);
 
   const pressHandler = (id: number) => {
@@ -30,19 +32,25 @@ const Faq = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <MaxWidthContainer outerViewProps={{
+      style: {
+        backgroundColor: '#efefef',
+        margin: 30,
+      },
+    }}
+    >
       <View>
         <Text category="h1" style={styles.header}>FAQ</Text>
       </View>
       <SectionList
         sections={questions}
-        keyExtractor={(item, index) => item.id + index + item.isChecked}
+        keyExtractor={(item, index) => item.id + index}
         renderItem={({ item, section: { index, isChecked } }) => (
 
-          <View style={styles.item} key={index}>
+          <View style={{ paddingBottom: 20 }} key={index}>
             {isChecked
             && (
-            <Text category="H6">
+            <Text category="h6">
               {item}
             </Text>
             )}
@@ -53,25 +61,24 @@ const Faq = () => {
             title, id, index, isChecked,
           },
         }) =>
-        // console.log('isChecked', isChecked);
-        // eslint-disable-next-line implicit-arrow-linebreak
+          // console.log('isChecked', isChecked);
+          // eslint-disable-next-line implicit-arrow-linebreak
           (
-            <View style={isChecked ? (styles.headerUp) : (styles.headerDown)}>
+            <TouchableOpacity onPress={() => pressHandler(id)} key={index + isChecked} style={isChecked ? (styles.headerUp) : (styles.headerDown)}>
               <Text category="h6" status="control" key={index}>
                 {title}
               </Text>
-              <TouchableOpacity onPress={() => pressHandler(id)} key={index + isChecked}>
-                {
-              isChecked
-                ? <Icon name="arrow-ios-upward-outline" fill="#ffffff" style={{ height: 20, width: 20 }} />
-                : <Icon name="arrow-ios-downward-outline" fill="#ffffff" style={{ height: 20, width: 20 }} />
-              }
-              </TouchableOpacity>
 
-            </View>
+              {
+              isChecked
+                ? <Icon name="arrow-ios-upward-outline" fill={theme['color-basic-100']} style={{ height: 20, width: 20 }} />
+                : <Icon name="arrow-ios-downward-outline" fill={theme['color-basic-100']} style={{ height: 20, width: 20 }} />
+              }
+
+            </TouchableOpacity>
           )}
       />
-    </SafeAreaView>
+    </MaxWidthContainer>
   );
 };
 
@@ -83,9 +90,6 @@ const styles = StyleSheet.create({
   header: {
     marginTop: 12,
     marginBottom: 49,
-  },
-  item: {
-
   },
   headerDown: {
     padding: 22,

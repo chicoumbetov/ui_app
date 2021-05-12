@@ -1,7 +1,7 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import * as React from 'react';
 
-import {BottomNavigationTab, Icon} from '@ui-kitten/components';
+import {BottomNavigationTab, Icon, useTheme} from '@ui-kitten/components';
 
 import { SafeAreaView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
@@ -17,22 +17,27 @@ import MesChargesStackNavigator from './MesChargesStackNavigator';
 import { getStackInfos } from './Utils';
 import TableauDeBord from '../screens/TabTableauDeBordScreen/TableauDeBord';
 import {useDimensions} from "@react-native-community/hooks";
+
 import BellOutlineColor from '../assets/Icones_couleurs_2/bellOutlineIcon.svg'
+import TrendingUPColor from '../assets/Icones_couleurs_2/trendingUpIcon.svg'
+import GridColor from '../assets/Icones_couleurs_2/squareIcon.svg'
+import FileTextColor from '../assets/Icones_couleurs_2/fileTextIcon.svg'
+import HomeColor from '../assets/Icones_couleurs_2/homeIcon.svg'
 
 const HomeIcon = () => (
-    <BellOutlineColor height={20} width={20} />
+    <HomeColor height={20} width={20} />
 );
 
 const TrendingUpIcon = () => (
-    <Icon name="trending-up-outline" fill='#5eecb4' style={{ height: 20, width: 20 }} />
+    <TrendingUPColor height={20} width={20} />
 );
 
 const GridIcon = () => (
-    <Icon name="grid-outline" fill='#5eecb4' style={{ height: 20, width: 20 }} />
+    <GridColor height={20} width={20} />
 );
 
 const FileIcon = () => (
-    <Icon name="file-text-outline" fill='#5eecb4' style={{ height: 20, width: 20 }} />
+    <FileTextColor height={20} width={20} />
 );
 
 const BellIcon = () => (
@@ -41,23 +46,26 @@ const BellIcon = () => (
 
 // create type Props for props. Do Not leave any props
 
-const BottomTabBar = ({ navigation, state }: any) => (
+const BottomTabBar = ({ navigation, state }: any) => {
+  const theme = useTheme()
 
-  <SafeAreaView>
-    <BottomNavigation
-      style={{ marginHorizontal: 2 }}
-      selectedIndex={state.index}
-      onSelect={(index) => navigation.navigate(state.routeNames[index])}
-    >
-      {/* eslint-disable-next-line @typescript-eslint/no-shadow */}
-      <BottomNavigationTab title="Mes Biens" icon={HomeIcon} />
-      <BottomNavigationTab title="Mes Charges" icon={TrendingUpIcon} />
-      <BottomNavigationTab title="Tableau de bord" icon={GridIcon} />
-      <BottomNavigationTab title="Mon Assistant" icon={FileIcon} />
-      <BottomNavigationTab title="Notifications" icon={BellIcon} />
-    </BottomNavigation>
-  </SafeAreaView>
-);
+  return (
+      <SafeAreaView style={{backgroundColor: theme['color-basic-100']}}>
+        <BottomNavigation
+            style={{marginHorizontal: 2}}
+            selectedIndex={state.index}
+            onSelect={(index) => navigation.navigate(state.routeNames[index])}
+        >
+          {/* eslint-disable-next-line @typescript-eslint/no-shadow */}
+          <BottomNavigationTab title="Mes Biens" icon={HomeIcon}/>
+          <BottomNavigationTab title="Mes Charges" icon={TrendingUpIcon}/>
+          <BottomNavigationTab title="Accueil" icon={GridIcon}/>
+          <BottomNavigationTab title="Mon Assistant" icon={FileIcon}/>
+          <BottomNavigationTab title="Notifications" icon={BellIcon}/>
+        </BottomNavigation>
+      </SafeAreaView>
+  )
+};
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 

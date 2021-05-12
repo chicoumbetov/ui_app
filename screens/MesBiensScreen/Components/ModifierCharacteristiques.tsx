@@ -7,6 +7,7 @@ import {
 } from '@ui-kitten/components';
 import { useNavigation } from '@react-navigation/native';
 import TextInputComp from '../../../components/Form/TextInput';
+import MaxWidthContainer from '../../../components/MaxWidthContainer';
 
 const Informations = () => {
   const [prenom, setPrenom] = React.useState('');
@@ -21,37 +22,46 @@ const Informations = () => {
   };
 
   return (
-    <Layout style={styles.container}>
-      <View>
-        <Text style={styles.title}>Modifier vos informations</Text>
-      </View>
+    <MaxWidthContainer>
+      <Layout style={styles.container}>
+        <View>
+          <Text
+            category="h2"
+            style={{
+              marginTop: 12,
+              marginBottom: 39,
+            }}
+          >
+            Modifier vos informations
+          </Text>
+        </View>
 
-      <TextInputComp
-        name="localisation"
-        placeholder="Changer localisation"
-      />
-      <TextInputComp
-        name="dateAcquisition"
-        placeholder="Changer date d'acquisition"
-      />
-      <TextInputComp
-        name="typeDeBien"
-        placeholder="Changer type de bien"
-      />
+        <TextInputComp
+          name="localisation"
+          placeholder="Changer localisation"
+        />
+        <TextInputComp
+          name="dateAcquisition"
+          placeholder="Changer date d'acquisition"
+        />
+        <TextInputComp
+          name="typeDeBien"
+          placeholder="Changer type de bien"
+        />
 
-      <TextInputComp
-        name="nombreDeParts"
-        placeholder="Changer nombre de parts"
-      />
+        <TextInputComp
+          name="nombreDeParts"
+          placeholder="Changer nombre de parts"
+        />
 
-      <View style={styles.buttonRight}>
-        <Button onPress={onPress} style={{ width: 150 }}>
-          Valider
-        </Button>
-      </View>
+        <View style={styles.buttonRight}>
+          <Button onPress={onPress} style={{ width: 150 }}>
+            Valider
+          </Button>
+        </View>
 
-    </Layout>
-
+      </Layout>
+    </MaxWidthContainer>
   );
 };
 
@@ -79,11 +89,6 @@ const styles = StyleSheet.create({
   title: {
     marginTop: 12,
     marginBottom: 39,
-    fontSize: 25,
-    fontWeight: '300', // not working fix it
-    fontStyle: 'normal',
-    letterSpacing: 0,
-    color: '#000000',
   },
 });
 

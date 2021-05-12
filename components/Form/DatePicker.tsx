@@ -1,28 +1,24 @@
 import * as React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { useEffect, useState } from 'react';
-import { Icon, IconProps } from '@ui-kitten/components';
-import { Input } from '../UIKittenRewrite/Input';
-import { TextInputFormProps } from './types';
+import { Datepicker, Icon, IconProps } from '@ui-kitten/components';
+import { DatePickerFormProps } from './types';
 
-const TextInputComp = React.forwardRef<Input, TextInputFormProps>(
-  (props: TextInputFormProps, ref): React.ReactElement => {
+const TextInputComp = React.forwardRef<Datepicker, DatePickerFormProps>(
+  (props: DatePickerFormProps, ref): React.ReactElement => {
     const {
       label,
       icon,
-      labelStyle,
       error,
       onChangeValue,
-      style,
-      defaultValue,
-      containerStyle,
-      ...inputProps
+      placeholder,
+      ...DatePickerProps
     } = props;
 
-    const [inputValue, setInputValue] = useState<string | undefined>('');
+    const [inputValue, setInputValue] = useState<Date | null>(null);
 
     useEffect(() => {
-      if (inputValue === '') {
+      if (inputValue === null) {
         setInputValue(defaultValue);
       }
       if (onChangeValue && defaultValue) onChangeValue(inputValue);
@@ -34,15 +30,13 @@ const TextInputComp = React.forwardRef<Input, TextInputFormProps>(
 
     return (
       <View style={[styles.container, containerStyle]}>
-        <Input
-          autoCapitalize="none"
-          ref={ref}
+        <Datepicker
           label={label}
           accessoryRight={icon ? renderIcon : undefined}
           style={[styles.input, style]}
           caption={error && error.message}
           status={error && error.message ? 'danger' : ''}
-          {...inputProps}
+          {...DatePickerProps}
           size="medium"
           onChangeText={(text) => {
             setInputValue(text);

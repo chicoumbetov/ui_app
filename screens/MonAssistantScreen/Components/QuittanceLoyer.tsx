@@ -9,6 +9,7 @@ import { useForm } from 'react-hook-form';
 import Form from '../../../components/Form/Form';
 import SelectComp from '../../../components/Form/Select';
 import TextInputComp from '../../../components/Form/TextInput';
+import MaxWidthContainer from '../../../components/MaxWidthContainer';
 
 type QuittanceLoyerForm = {
   bien: string;
@@ -36,7 +37,10 @@ const QuittanceLoyer = () => {
   };
 
   return (
-    <ScrollView>
+    <MaxWidthContainer outerViewProps={{
+      style: { backgroundColor: '#efefef' },
+    }}
+    >
 
       <Layout style={styles.containerOut}>
 
@@ -56,7 +60,7 @@ const QuittanceLoyer = () => {
         </View>
 
       </Layout>
-    </ScrollView>
+    </MaxWidthContainer>
   );
 };
 

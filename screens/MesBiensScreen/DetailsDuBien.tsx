@@ -1,34 +1,38 @@
 /**
- * Page 2 Mes Biens - DetailsBiens
+ * Page 2 Mes Biens -> DetailsBiens
  *
  * @author: Shynggys UMBETOV
  */
 
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Layout, Text, Icon as IconUIKitten, useTheme,
 } from '@ui-kitten/components';
 import {
-  Image, ScrollView, StyleSheet, TouchableOpacity,
+  StyleSheet, TouchableOpacity,
 } from 'react-native';
-import { useLinkTo, useNavigation, useRoute } from '@react-navigation/native';
 import {
-  Entypo, SimpleLineIcons,
-} from '@expo/vector-icons';
-import { colors } from '../../assets/styles';
+  useLinkTo, useNavigation,
+  // useRoute
+} from '@react-navigation/native';
 
-import comptesData from '../../mockData/comptesData';
-import clientData from '../../mockData/clientDATA';
 import Icon from '../../components/Icon';
+import MaxWidthContainer from '../../components/MaxWidthContainer';
+
 import MaisonVert from '../../assets/Omedom_Icons_svg/Logement/maison_verte.svg';
+// import ManAvatar from '../../assets/Omedom_Icons_svg/Avatars/manAvatar.svg';
+import WomanAvatar from '../../assets/Omedom_Icons_svg/Avatars/womanAvatar.svg';
+
+// import comptesData from '../../mockData/comptesData';
+import clientData from '../../mockData/clientDATA';
 
 function DetailsBien() {
   const navigation = useNavigation();
-  const route = useRoute();
+  // const route = useRoute();
   const linkTo = useLinkTo();
   const theme = useTheme();
 
-  const [compte, setCompte] = useState(comptesData);
+  // const [compte, setCompte] = useState(comptesData);
 
   const allerMonBudget = () => {
     navigation.navigate('MonBudget');
@@ -36,6 +40,11 @@ function DetailsBien() {
   const allerTresorerie = () => {
     linkTo('/ma-tresorerie');
   };
+
+  const allerMesRapports = () => {
+    navigation.navigate('mes-rapports');
+  };
+
   const allerMonAssistant = () => {
     linkTo('/mon-assistant');
   };
@@ -47,17 +56,30 @@ function DetailsBien() {
   };
 
   return (
-    <ScrollView style={{ backgroundColor: '#efefef' }}>
+    <MaxWidthContainer
+      withScrollView="keyboardAware"
+      outerViewProps={{
+        style: {
+          backgroundColor: '#efefef',
+        },
+        showsVerticalScrollIndicator: false,
+      }}
+    >
 
       {/**
        *  I. Details du bien
        */}
-      <Layout style={{ ...styles.container, backgroundColor: '#f6f6f6', marginTop: 0 }}>
-        <Text category="h1" status="basic" style={{ marginVertical: 30, marginHorizontal: 26 }}>
+      <Layout style={[
+        styles.container,
+        { backgroundColor: '#f6f6f6' }]}
+      >
+        <Text category="h1" status="basic">
           Détails du bien
+          {/**
           {route.params.id}
+           */}
         </Text>
-        <Layout style={{ alignItems: 'center', backgroundColor: 'transparent', marginVertical: 30 }}>
+        <Layout style={{ alignItems: 'center', backgroundColor: 'transparent', marginTop: 30 }}>
           <MaisonVert
             height={100}
             width={100}
@@ -154,12 +176,9 @@ function DetailsBien() {
               flexDirection: 'row', alignItems: 'center',
             }}
           >
-            <Icon name="money" size={30} color={colors.green} style={{ marginRight: 10 }} />
-            <Text style={{
-              fontSize: 16, fontFamily: 'HouschkaRoundedDemiBold', letterSpacing: 0.2,
-            }}
-            >
-              Ma Trésorerie (Lier un compte bancaire)
+            <Icon name="money" size={30} color={theme['color-success-400']} style={{ marginRight: 10 }} />
+            <Text category="h5">
+              Ma Trésorerie
             </Text>
 
           </TouchableOpacity>
@@ -173,9 +192,11 @@ function DetailsBien() {
         ]}
         >
 
-          <Layout style={{
-            flexDirection: 'row', alignItems: 'center',
-          }}
+          <TouchableOpacity
+            onPress={allerMesRapports}
+            style={{
+              flexDirection: 'row', alignItems: 'center',
+            }}
           >
 
             <IconUIKitten
@@ -188,7 +209,7 @@ function DetailsBien() {
             <Text category="h5">
               Mes Rapports
             </Text>
-          </Layout>
+          </TouchableOpacity>
 
         </Layout>
 
@@ -208,10 +229,7 @@ function DetailsBien() {
                 height: 30, width: 30, marginRight: 10,
               }}
             />
-            <Text style={{
-              fontSize: 16, fontFamily: 'HouschkaRoundedDemiBold', letterSpacing: 0.2,
-            }}
-            >
+            <Text category="h5">
               Mon Assistant
             </Text>
 
@@ -230,11 +248,11 @@ function DetailsBien() {
         <Layout style={styles.compteSection}>
           {/* use SectionList to render several accounts with its types and details */}
           <Text category="h6" status="basic">Localisation</Text>
-          <Text style={{ marginTop: 6 }}>{clientData.AdresseType.fields[0].adresse}</Text>
+          <Text category="h6" appearance="hint" style={{ marginTop: 6 }}>{clientData.AdresseType.fields[0].adresse}</Text>
           <Layout style={{ borderBottomWidth: 0.5, borderBottomColor: '#b5b5b5', marginVertical: 15 }} />
 
-          <Text style={{ fontSize: 17, marginTop: 7 }}>Date d'acquisition</Text>
-          <Text category="h6" status="basic" style={{ marginTop: 5 }}>
+          <Text category="h6" status="basic" style={{ marginTop: 8 }}>Date d'acquisition</Text>
+          <Text category="h6" appearance="hint" style={{ marginTop: 5 }}>
             {clientData.Client.fields[0].email}
           </Text>
           <Layout style={{ borderBottomWidth: 0.3, borderBottomColor: '#b5b5b5', marginVertical: 15 }} />
@@ -291,7 +309,7 @@ function DetailsBien() {
           </TouchableOpacity>
 
           <TouchableOpacity onPress={() => {}}>
-            <Text style={{ ...styles.buttonText, color: colors.noir }}>Supprimer</Text>
+            <Text category="h5" status="basic" style={styles.buttonText}>Supprimer</Text>
           </TouchableOpacity>
         </Layout>
 
@@ -342,25 +360,13 @@ function DetailsBien() {
             flexDirection: 'row', backgroundColor: 'transparent', alignItems: 'center',
           }}
           >
-            <Image
-                /* eslint-disable-next-line global-require */
-              source={require('../../assets/Icones_omedom/avatars/womanAvatar.png')}
-              style={{
-                height: 50, width: 50, marginRight: 18,
-              }}
-            />
+            <WomanAvatar height={50} width={50} style={{ marginRight: 18 }} />
 
             <Layout style={{ flexDirection: 'column' }}>
-              <Text style={{
-                fontSize: 17, letterSpacing: 0.2, color: colors.noir, fontFamily: 'HouschkaRoundedMedium',
-              }}
-              >
+              <Text category="p1" status="basic">
                 Marie Dupont
               </Text>
-              <Text style={{
-                fontSize: 15, letterSpacing: 0.2, color: colors.gris, fontFamily: 'HouschkaRoundedMedium',
-              }}
-              >
+              <Text category="p2" appearance="hint">
                 Lecture Seule
               </Text>
             </Layout>
@@ -390,7 +396,7 @@ function DetailsBien() {
 
       </Layout>
 
-    </ScrollView>
+    </MaxWidthContainer>
 
   );
 }
@@ -398,7 +404,7 @@ function DetailsBien() {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#f6f6f6',
-    marginTop: 12,
+    marginBottom: 12,
     paddingVertical: 25,
     paddingHorizontal: 26,
   },

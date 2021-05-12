@@ -4,28 +4,28 @@
  * @author: Shynggys UMBETOV
  */
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import {
   Layout, Text, Icon as IconUIKitten, useTheme,
 } from '@ui-kitten/components';
 import {
-  FlatList, ScrollView, StyleSheet, TouchableOpacity, View,
+  FlatList, StyleSheet, TouchableOpacity, View,
 } from 'react-native';
-
-import { useNavigation } from '@react-navigation/native';
-import comptesData from '../../../mockData/comptesData';
+import { useLinkTo, useNavigation } from '@react-navigation/native';
+import MaxWidthContainer from '../../../components/MaxWidthContainer';
 
 import MaisonVert from '../../../assets/Omedom_Icons_svg/Logement/maison_verte.svg';
 import Icon from '../../../components/Icon';
 
+import comptesData from '../../../mockData/comptesData';
+
 function MonBudget() {
   const navigation = useNavigation();
   const theme = useTheme();
-
-  const [compte, setCompte] = useState(comptesData);
+  const linkTo = useLinkTo();
 
   const allerTresorerie = () => {
-    navigation.navigate('MaTrésorerieDrawer');
+    linkTo('/ma-tresorerie');
   };
 
   const allerAjoutRevenu = () => {
@@ -37,13 +37,18 @@ function MonBudget() {
   };
 
   return (
-    <ScrollView style={{ backgroundColor: '#efefef' }}>
+    <MaxWidthContainer outerViewProps={{
+      style: {
+        backgroundColor: '#efefef',
+      },
+    }}
+    >
 
       {/**
       *  I. Mon Budget
       */}
       <Layout style={styles.container}>
-        <Text category="h1" status="basic" style={{ marginVertical: 12 }}>
+        <Text category="h1" style={{ marginVertical: 12 }}>
           Mon Budget
         </Text>
         <View style={{
@@ -54,13 +59,9 @@ function MonBudget() {
             <MaisonVert height={40} width={40} />
           </View>
 
-          <Text category="h2" status="basic">
-            {' '}
+          <Text category="h2">
             {/* {compte.typeBien} */}
-            La Maison
-            {' '}
-            de Mathieu
-            {' '}
+            La Maison de Mathieu
           </Text>
         </View>
       </Layout>
@@ -81,7 +82,7 @@ function MonBudget() {
               height: 20, width: 20, marginRight: 5,
             }}
           />
-          <Text category="s2" status="success">
+          <Text category="h2" status="success">
             Revenus
           </Text>
         </Layout>
@@ -155,7 +156,7 @@ function MonBudget() {
               height: 20, width: 20, marginRight: 5,
             }}
           />
-          <Text category="s2" status="danger">
+          <Text category="h2" status="danger">
             Charges
           </Text>
         </Layout>
@@ -194,7 +195,7 @@ function MonBudget() {
                   Date d'échéance
                 </Text>
 
-                <Text category="p3" status="basic">03/03/2021</Text>
+                <Text category="c1">03/03/2021</Text>
                 <Text category="h6" status="success">Validé</Text>
 
               </Layout>
@@ -245,7 +246,7 @@ function MonBudget() {
         </Layout>
       </Layout>
 
-    </ScrollView>
+    </MaxWidthContainer>
   );
 }
 

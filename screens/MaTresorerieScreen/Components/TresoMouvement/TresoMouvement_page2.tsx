@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import { Layout, Text } from '@ui-kitten/components';
+import { Layout, Text, useTheme } from '@ui-kitten/components';
 import {
-  FlatList,
-  LogBox, ScrollView, StyleSheet, TouchableOpacity,
+  FlatList, StyleSheet, TouchableOpacity,
 } from 'react-native';
 
-import { AntDesign } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import { Icon as IconUIKitten } from '@ui-kitten/components/ui/icon/icon.component';
 import CompteHeader from '../../../../components/CompteHeader/CompteHeader';
-import comptesData from '../../../../mockData/comptesData';
+import MaxWidthContainer from '../../../../components/MaxWidthContainer';
 
-const TresoMouvementPage2 = ({ compte }) => {
-  const [client, setClient] = useState(comptesData);
+import comptesData from '../../../../mockData/comptesData';
+import mouvementData from '../../../../mockData/mouvementData';
+
+const TresoMouvementPage2 = () => {
+  const [client] = useState(comptesData);
+  const theme = useTheme();
 
   // Take data that chosen and back to previous page with new chosen data
   const navigation = useNavigation();
@@ -19,16 +22,20 @@ const TresoMouvementPage2 = ({ compte }) => {
     navigation.navigate('TresoMouvement_page1');
   };
 
+  useEffect(() => {
+    console.log('useEffect of TresoMouvementPage 2 ');
+  });
+
   return (
-    <ScrollView
-      showsVerticalScrollIndicator={false}
+    <MaxWidthContainer
+      withScrollView="keyboardAware"
+      outerViewProps={{
+        showsVerticalScrollIndicator: false,
+      }}
     >
       <Layout style={styles.container}>
         <Layout style={{ backgroundColor: '#f6f6f6', padding: 26 }}>
-          <Text style={{
-            fontSize: 26, letterSpacing: 0.2,
-          }}
-          >
+          <Text category="h1">
             Ma Trésorerie
           </Text>
           <Layout style={{ backgroundColor: 'transparent', marginTop: 20 }}>
@@ -56,13 +63,15 @@ const TresoMouvementPage2 = ({ compte }) => {
             {' '}
             {client[0].data[0].prenom}
           </Text>
-          <Text style={{ color: '#b5b5b5', paddingTop: 8 }}>
+          <Text appearance="hint" style={{ paddingTop: 8 }}>
             FR
             {client[0].data[0].IBAN}
           </Text>
-          <Text style={{
-            fontSize: 14.5, color: '#b5b5b5', marginTop: 4.3, letterSpacing: 0.2,
-          }}
+          <Text
+            appearance="hint"
+            style={{
+              fontSize: 14.5, marginTop: 4.3, letterSpacing: 0.2,
+            }}
           >
             {client[0].data[0].bank}
           </Text>
@@ -78,19 +87,20 @@ const TresoMouvementPage2 = ({ compte }) => {
               flex: 1,
             }}
             >
-              <Text style={{
-                fontSize: 18,
-                letterSpacing: 0.5,
-                fontWeight: '600',
-                color: '#00c29a',
-                justifyContent: 'center',
-              }}
+              <Text
+                status="success"
+                style={{
+                  fontSize: 18,
+                  letterSpacing: 0.5,
+                  fontWeight: '600',
+                  justifyContent: 'center',
+                }}
               >
                 + 500 €
               </Text>
 
-              <Text style={{ fontSize: 16, color: '#b5b5b5' }}>10/03/2021</Text>
-              <Text style={{ fontSize: 14, color: '#b5b5b5' }}>Libellé du mouvement</Text>
+              <Text appearance="hint" category="h6">10/03/2021</Text>
+              <Text appearance="hint" category="p1">Libellé du mouvement</Text>
             </Layout>
 
           </Layout>
@@ -101,24 +111,29 @@ const TresoMouvementPage2 = ({ compte }) => {
           flex: 1, marginBottom: 20, paddingVertical: 20, backgroundColor: '#f6f6f6', paddingHorizontal: 26,
         }}
         >
-          <Text style={{
-            // color: '#000',
-            fontSize: 18,
-            fontFamily: 'HouschkaRoundedMedium',
-            borderRadius: 10,
-            letterSpacing: 0.7,
-            paddingTop: 11,
-          }}
+          <Text
+            category="s2"
+            status="basic"
+            style={{
+              borderRadius: 10,
+              paddingVertical: 15,
+            }}
           >
             Revenus enregistés dans votre budget
           </Text>
 
           <FlatList
-            data={comptesData}
+            data={mouvementData}
             keyExtractor={(item) => item.id}
-            renderItem={() => (
+            renderItem={(item) => (
 
-              <Layout style={styles.window}>
+              <TouchableOpacity
+                onPress={onTresoMouvementPage1}
+                style={[
+                  styles.window,
+                  { backgroundColor: theme['color-basic-100'] },
+                ]}
+              >
                 <Layout style={{
                   flex: 1,
                   borderRightWidth: 1,
@@ -126,19 +141,18 @@ const TresoMouvementPage2 = ({ compte }) => {
                 }}
                 >
 
-                  <Text style={{
-                    fontSize: 18,
-                    letterSpacing: 0.5,
-                    fontWeight: '600',
-                    color: '#00c29a',
-                    justifyContent: 'center',
-                  }}
+                  <Text
+                    category="h5"
+                    status={item.item.valeur.substring(0, 1) === '-' ? ('danger') : ('success')}
+                    style={{
+                      justifyContent: 'center',
+                    }}
                   >
-                    + 500 €
+                    {item.item.valeur}
                   </Text>
 
-                  <Text style={{ fontSize: 16, color: '#b5b5b5' }}>10/03/2021</Text>
-                  <Text style={{ fontSize: 14, color: '#b5b5b5' }}>Libellé du mouvement</Text>
+                  <Text appearance="hint" category="h6">10/03/2021</Text>
+                  <Text appearance="hint" category="p1">Libellé du mouvement</Text>
                 </Layout>
 
                 <Layout style={{
@@ -148,18 +162,23 @@ const TresoMouvementPage2 = ({ compte }) => {
                   justifyContent: 'space-between',
                 }}
                 >
-                  <Text style={{
-                    fontSize: 18, letterSpacing: 0.4, marginLeft: 15, fontWeight: '800', color: 'orange',
-                  }}
+                  <Text
+                    status="warning"
+                    style={{
+                      fontSize: 18, letterSpacing: 0.4, marginLeft: 15, fontWeight: '800',
+                    }}
                   >
                     En attente
                   </Text>
-                  <TouchableOpacity onPress={onTresoMouvementPage1}>
-                    <AntDesign size={14} name="right" color="#b5b5b5" style={{ marginRight: 20 }} />
-                  </TouchableOpacity>
-
+                  <IconUIKitten
+                    name="arrow-ios-forward"
+                    fill="#b5b5b5"
+                    style={{
+                      height: 20, width: 20, marginRight: 15, alignItems: 'center',
+                    }}
+                  />
                 </Layout>
-              </Layout>
+              </TouchableOpacity>
 
             )}
           />
@@ -167,7 +186,7 @@ const TresoMouvementPage2 = ({ compte }) => {
         </Layout>
 
       </Layout>
-    </ScrollView>
+    </MaxWidthContainer>
   );
 };
 

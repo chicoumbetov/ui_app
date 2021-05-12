@@ -4,13 +4,13 @@ import {
 } from '@ui-kitten/components';
 import { useNavigation } from '@react-navigation/native';
 import {
-  ScrollView,
   StyleSheet, View,
 } from 'react-native';
 import { useForm } from 'react-hook-form';
 import TextInputComp from '../../../components/Form/TextInput';
 import Form from '../../../components/Form/Form';
 import SelectComp from '../../../components/Form/Select';
+import MaxWidthContainer from '../../../components/MaxWidthContainer';
 
 type DeclarationImpotsForm = {
   bien: string;
@@ -38,18 +38,40 @@ const DeclarationImpots = () => {
   };
 
   return (
-    <ScrollView>
+    <MaxWidthContainer outerViewProps={{
+      style: {
+        backgroundColor: '#efefef',
+      },
+    }}
+    >
 
       <Layout style={styles.containerOut}>
 
-        <Text category="h1" style={styles.title}>Paramétrer mon aide à la déclaration d'impôts</Text>
+        <Text
+          category="h1"
+          style={{
+            marginTop: 19.7,
+            marginBottom: 14,
+          }}
+        >
+          Paramétrer mon aide à la déclaration d'impôts
+        </Text>
 
         <Form <DeclarationImpotsForm> {...declarationImpotsForm}>
-
-          <SelectComp name="bien" data={comptesData} placeholder="Choisissez le bien" size="large" appearance="default" status="primary" />
-
-          <TextInputComp label="Année de l'écheance" placeholder="aaaa" icon="calendar-outline" />
-
+          <SelectComp
+            name="bien"
+            data={comptesData}
+            placeholder="Choisissez le bien"
+            size="large"
+            appearance="default"
+            status="primary"
+          />
+          <TextInputComp
+            label="Année de l'écheance"
+            name="anneeEcheance"
+            placeholder="aaaa"
+            icon="calendar-outline"
+          />
         </Form>
 
         <View style={styles.buttonRight}>
@@ -60,7 +82,7 @@ const DeclarationImpots = () => {
 
       </Layout>
 
-    </ScrollView>
+    </MaxWidthContainer>
   );
 };
 
@@ -72,10 +94,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#f6f6f6',
     padding: 25,
     paddingRight: 21,
-  },
-  title: {
-    marginTop: 19.7,
-    marginBottom: 14,
   },
   item: {
     borderBottomEndRadius: 20,

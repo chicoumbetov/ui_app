@@ -3,13 +3,13 @@ import {
   Button, Input, Layout, Text,
 } from '@ui-kitten/components';
 import {
-  LogBox,
-  ScrollView, StyleSheet, View,
+  StyleSheet, View,
 } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
 import CompteHeader from '../../../../components/CompteHeader/CompteHeader';
 import comptesData from '../../../../mockData/comptesData';
+import MaxWidthContainer from '../../../../components/MaxWidthContainer';
 
 const AjoutCompte = ({ compte }) => {
   // Take data that chosen and render previous page with new chosen data
@@ -23,9 +23,7 @@ const AjoutCompte = ({ compte }) => {
   const [iban, setIBAN] = useState('');
 
   return (
-    <ScrollView
-      showsVerticalScrollIndicator={false}
-    >
+    <MaxWidthContainer>
       <Layout style={styles.container}>
         <Layout style={{ backgroundColor: '#f6f6f6', padding: 26, marginBottom: 13 }}>
           <Text category="h1">
@@ -76,7 +74,7 @@ const AjoutCompte = ({ compte }) => {
 
       </Layout>
 
-    </ScrollView>
+    </MaxWidthContainer>
   );
 };
 

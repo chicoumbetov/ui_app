@@ -1,11 +1,30 @@
-import React, { useState } from 'react';
-import { FlatList, StyleSheet, TouchableOpacity } from 'react-native';
-import { Layout, Text } from '@ui-kitten/components';
-import { AntDesign } from '@expo/vector-icons';
+import React from 'react';
+import {
+  FlatList, StyleSheet, TouchableOpacity,
+} from 'react-native';
+import { Layout, Text, useTheme } from '@ui-kitten/components';
+
 import { useNavigation } from '@react-navigation/native';
+import { Icon as IconUIKitten } from '@ui-kitten/components/ui/icon/icon.component';
 import mouvementData from '../../../../mockData/mouvementData';
+import MaxWidthContainer from '../../../../components/MaxWidthContainer';
+
+function groupBy(list, keyGetter) {
+  const map = new Map();
+  list.forEach((item) => {
+    const key = keyGetter(item);
+    const collection = map.get(key);
+    if (!collection) {
+      map.set(key, [item]);
+    } else {
+      collection.push(item);
+    }
+  });
+  return map;
+}
 
 const MouvementAttente = () => {
+  const theme = useTheme();
   // Go to next page
   const navigation = useNavigation();
 
@@ -17,69 +36,152 @@ const MouvementAttente = () => {
     navigation.navigate('IgnorerMouvement');
   };
 
+  const grouped = groupBy(mouvementData, (mouvement) => mouvement.typeMouvement);
+
   return (
-    <Layout style={styles.windowOut}>
-      <FlatList
-        data={mouvementData}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
+    <MaxWidthContainer
+      withScrollView="keyboardAware"
+      outerViewProps={{
+        showsVerticalScrollIndicator: false,
+      }}
+    >
+      <Layout style={styles.windowOut}>
+        {/**
+           Change color according on type of mouvement:
+           make red if negative
+           make green if positive
+           */}
+        <FlatList
+          data={grouped.get('En attente')}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
 
-          <Layout style={styles.window}>
-            <Layout style={{
-              flex: 1,
-              borderRightWidth: 1,
-              borderRightColor: '#b5b5b5',
-            }}
+            <TouchableOpacity
+              onPress={onTresoMouvementPage2}
+              style={[
+                styles.window,
+                { backgroundColor: theme['color-basic-100'] },
+              ]}
             >
+              <Layout style={{
+                flex: 1,
+                borderRightWidth: 1,
+                borderRightColor: '#b5b5b5',
+              }}
+              >
 
-              <Text
+                <Text
+                  style={{
+                    justifyContent: 'center',
+                  }}
+                  category="h5"
+                  status={item.valeur.substring(0, 1) === '-' ? ('danger') : ('success')}
+                >
+                  {item.valeur}
+                </Text>
+
+                <Text category="h6" appearance="hint">{item.date}</Text>
+                <Text category="p1" appearance="hint">Libellé du mouvement</Text>
+              </Layout>
+
+              <Layout
                 style={{
-                  justifyContent: 'center',
+                  flex: 1,
+                  alignItems: 'center',
+                  flexDirection: 'row',
+                  justifyContent: 'space-evenly',
+                  paddingLeft: 10,
                 }}
-                category="h5"
-                status="success"
               >
-                {item.valeur}
-              </Text>
+                <Text
+                  style={{ justifyContent: 'center' }}
+                  category="h6"
+                  status={item.typeMouvement === 'Validé' ? ('success') : ('warning')}
+                >
+                  {item.typeMouvement}
+                </Text>
+                <IconUIKitten
+                  name="arrow-ios-forward"
+                  fill="#b5b5b5"
+                  style={{
+                    height: 20, width: 20, alignItems: 'center',
+                  }}
+                />
+              </Layout>
 
-              <Text category="h6" appearance="hint">{item.date}</Text>
-              <Text category="p1" appearance="hint">Libellé du mouvement</Text>
-            </Layout>
+            </TouchableOpacity>
 
-            <Layout style={{
-              flex: 1,
-              alignItems: 'center',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              paddingLeft: 10,
-            }}
-            >
-              <Text
-                style={{ justifyContent: 'center' }}
-                category="h6"
-                status={item.typeMouvement === 'Validé' ? ('success') : ('warning')}
+          )}
+        />
 
-              >
-                {item.typeMouvement}
-              </Text>
-              <TouchableOpacity onPress={onTresoMouvementPage2}>
-                <AntDesign size={14} name="right" color="#b5b5b5" style={{ marginRight: 20 }} />
-              </TouchableOpacity>
-
-            </Layout>
-
+        <TouchableOpacity onPress={onIgnorerMouvement}>
+          <Layout style={styles.button}>
+            <Text category="h3" status="info">Ignorer les mouvements</Text>
           </Layout>
+        </TouchableOpacity>
+        <Layout style={styles.separator} />
 
-        )}
-      />
+        <FlatList
+          data={grouped.get('Validé')}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
 
-      <TouchableOpacity onPress={onIgnorerMouvement}>
-        <Layout style={styles.button}>
-          <Text style={styles.buttonTextRight}>Ignorer les mouvements</Text>
-        </Layout>
-      </TouchableOpacity>
-      <Layout style={styles.separator} />
-    </Layout>
+            <TouchableOpacity
+              onPress={onTresoMouvementPage2}
+              style={[
+                styles.window,
+                { backgroundColor: theme['color-basic-100'] },
+              ]}
+            >
+              <Layout style={{
+                flex: 1,
+                borderRightWidth: 1,
+                borderRightColor: '#b5b5b5',
+              }}
+              >
+                <Text
+                  style={{
+                    justifyContent: 'center',
+                  }}
+                  category="h5"
+                  status={item.valeur.substring(0, 1) === '-' ? ('danger') : ('success')}
+                >
+                  {item.valeur}
+                </Text>
+                <Text category="h6" appearance="hint">{item.date}</Text>
+                <Text category="p1" appearance="hint">Libellé du mouvement</Text>
+              </Layout>
+
+              <Layout style={{
+                flex: 1,
+                alignItems: 'center',
+                flexDirection: 'row',
+                justifyContent: 'space-evenly',
+                paddingLeft: 10,
+              }}
+              >
+                <Text
+                  style={{ justifyContent: 'center' }}
+                  category="h6"
+                  status={item.typeMouvement === 'Validé' ? ('success') : ('warning')}
+                >
+                  {item.typeMouvement}
+                </Text>
+                <IconUIKitten
+                  name="arrow-ios-forward"
+                  fill="#b5b5b5"
+                  style={{
+                    height: 20, width: 20, alignItems: 'center',
+                  }}
+                />
+              </Layout>
+
+            </TouchableOpacity>
+
+          )}
+        />
+      </Layout>
+    </MaxWidthContainer>
   );
 };
 
@@ -118,10 +220,5 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     marginVertical: 30,
     backgroundColor: 'transparent',
-  },
-  buttonTextRight: {
-    color: '#0076c8',
-    fontSize: 17.5,
-    fontWeight: '600',
   },
 });

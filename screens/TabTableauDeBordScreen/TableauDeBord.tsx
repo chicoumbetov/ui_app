@@ -6,18 +6,19 @@
 
 import React, { useEffect } from 'react';
 import {
-  Button, Icon, Layout, Text,
+  Button, Icon as IconUIKitten, Layout, Text,
 } from '@ui-kitten/components';
 import {
   FlatList, StyleSheet, TouchableOpacity, View,
 } from 'react-native';
 
 import { useLinkTo } from '@react-navigation/native';
-import CompteHeader from '../../components/CompteHeader/CompteHeader';
+
 import comptesData from '../../mockData/comptesData';
 import MaisonVert from '../../assets/Omedom_Icons_svg/Logement/maison_verte.svg';
 import Immeuble from '../../assets/Omedom_Icons_svg/Logement/immeuble.svg';
 import MaxWidthContainer from '../../components/MaxWidthContainer';
+import MonBienResume from '../../components/MonBienResume';
 
 function TableauDeBord() {
   const linkTo = useLinkTo();
@@ -44,7 +45,13 @@ function TableauDeBord() {
   };
 
   return (
-    <MaxWidthContainer outerViewProps={{ style: { backgroundColor: '#efefef' } }}>
+    <MaxWidthContainer
+      withScrollView="keyboardAware"
+      outerViewProps={{
+        style: { backgroundColor: '#efefef' },
+        showsVerticalScrollIndicator: false,
+      }}
+    >
       {/**
        *  Trésorerie section
        */}
@@ -57,42 +64,42 @@ function TableauDeBord() {
         }}
         >
           <Layout style={{ flexDirection: 'row' }}>
+
             <Layout style={styles.oneThirdBlock}>
               <Text category="h6" appearance="hint" style={styles.text}>Dernier crédit</Text>
-              <Text category="h3" status="success" style={{ marginTop: 14 }}>+ 500 €</Text>
+
               <View style={styles.mouvementImage}>
+                <Text category="h3" status="success">+ 500 €</Text>
                 <MaisonVert height={42} width={44} />
               </View>
-
             </Layout>
 
             <Layout style={styles.oneThirdBlock}>
-              <Text category="h6" appearance="hint" style={styles.text}>
-                Dernier débit
-              </Text>
-              <Text category="h3" status="danger" style={{ marginTop: 14 }}>- 80 €</Text>
+              <Text category="h6" appearance="hint" style={styles.text}>Dernier débit</Text>
+
               <View style={styles.mouvementImage}>
+                <Text category="h3" status="danger">- 80 €</Text>
                 <Immeuble height={42} width={44} />
               </View>
-
             </Layout>
 
             <Layout style={styles.oneThirdBlock}>
               <Text category="h6" appearance="hint" style={styles.text}>
                 Prochain mouvement
               </Text>
-              <Text category="h3" status="danger" style={{ marginTop: 14 }}>- 160 €</Text>
+
               <View style={styles.mouvementImage}>
+                <Text category="h3" status="danger">- 160 €</Text>
                 <MaisonVert height={42} width={44} />
               </View>
-
             </Layout>
+
           </Layout>
         </Layout>
         <Text
           category="h5"
           status="info"
-          style={{ marginVertical: 10 }}
+          style={{ marginVertical: 20 }}
           onPress={allerTresorie}
         >
           Accéder à la trésorerie
@@ -111,92 +118,16 @@ function TableauDeBord() {
           data={comptesData}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
-            <Layout style={{
-              flexDirection: 'column', marginTop: 28, padding: 17, borderRadius: 10,
-            }}
-            >
-              <TouchableOpacity onPress={allerDetailsBien} style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                <CompteHeader title={item.title} />
-                <Icon
-                  name="arrow-ios-forward"
-                  fill="#b5b5b5"
-                  style={{
-                    height: 16, width: 16, marginRight: 5, marginTop: 8,
-                  }}
-                />
-              </TouchableOpacity>
-
-              <Layout style={{
-                flexDirection: 'row', alignItems: 'center', marginTop: 8, marginBottom: 5,
-              }}
-              >
-
-                <Layout style={{
-                  flex: 1,
-                  alignItems: 'center',
-                  flexDirection: 'row',
-                  marginTop: 14,
-                  marginRight: 8,
-                }}
-                >
-                  <Icon
-                    name="arrow-downward"
-                    fill="#b5b5b5"
-                    style={{ height: 16, width: 16 }}
-                  />
-                  <Icon
-                    name="arrow-upward"
-                    fill="#b5b5b5"
-                    style={{
-                      height: 16, width: 16, marginRight: 8,
-                    }}
-                  />
-
-                  <Text category="h5" status="success">+ 10 800 €</Text>
-                </Layout>
-
-                <Layout style={{
-                  flex: 1,
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  marginRight: 8,
-                }}
-                >
-                  <Layout style={{ alignItems: 'center', flexDirection: 'row', marginTop: 13 }}>
-                    <Icon
-                      name="arrow-downward"
-                      fill="#b5b5b5"
-                      style={{ height: 16, width: 16, marginRight: 8 }}
-                    />
-                    <Text category="h4" status="danger">- 160 €</Text>
-                  </Layout>
-                </Layout>
-
-                <Layout style={{
-                  flex: 1,
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                }}
-                >
-                  <Layout style={{ marginTop: 14, alignItems: 'center', flexDirection: 'row' }}>
-                    <Icon
-                      name="trending-up"
-                      fill="#b5b5b5"
-                      style={{ height: 18, width: 18, marginRight: 8 }}
-                    />
-                    <Text category="h4" status="warning">60 %</Text>
-                  </Layout>
-                </Layout>
-              </Layout>
-
-            </Layout>
+            <View>
+              <MonBienResume title={item.title} id={item.id} />
+            </View>
           )}
         />
 
         <Button
           size="large"
           onPress={() => { onAjoutBien(); }}
-          style={{ marginVertical: 10 }}
+          style={{ marginVertical: 25 }}
         >
           Ajouter un nouveau bien
         </Button>
@@ -214,16 +145,18 @@ function TableauDeBord() {
         }}
         >
 
-          <Layout style={{
-            marginRight: 20,
-            flexDirection: 'row',
-            backgroundColor: 'transparent',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-          }}
+          <TouchableOpacity
+            onPress={() => {}}
+            style={{
+              marginRight: 20,
+              flexDirection: 'row',
+              backgroundColor: 'transparent',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+            }}
           >
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
 
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <View style={{ marginRight: 18 }}>
                 <MaisonVert height={42} width={44} />
               </View>
@@ -234,18 +167,16 @@ function TableauDeBord() {
               >
                 Un mouvement négatif a été détécté
               </Text>
-
             </View>
-
-            <Icon
+            <IconUIKitten
               name="arrow-ios-forward"
               fill="#b5b5b5"
               style={{
-                height: 16, width: 16, marginRight: 5, alignItems: 'center',
+                height: 20, width: 20, marginRight: 5, alignItems: 'center',
               }}
             />
 
-          </Layout>
+          </TouchableOpacity>
 
         </Layout>
         <Text
@@ -277,7 +208,6 @@ const styles = StyleSheet.create({
   },
   oneThirdBlock: {
     flex: 1,
-    marginTop: 3,
     justifyContent: 'space-between',
     alignItems: 'center',
   },
@@ -289,6 +219,8 @@ const styles = StyleSheet.create({
   mouvementImage: {
     marginRight: 3,
     marginTop: 15,
+    flexDirection: 'column',
+    alignItems: 'center',
   },
 });
 

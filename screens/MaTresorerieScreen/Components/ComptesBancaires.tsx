@@ -1,47 +1,50 @@
 import React, { useState } from 'react';
-import { SectionList, StyleSheet } from 'react-native';
+import { SectionList, StyleSheet, View } from 'react-native';
 import { Layout, Text } from '@ui-kitten/components';
 
 import OwnerCompte from './OwnerCompte';
 import CompteFooter from '../../../components/CompteFooter';
 import CompteHeader from '../../../components/CompteHeader/CompteHeader';
+import MaxWidthContainer from '../../../components/MaxWidthContainer';
+import { CompteType } from '../../../types';
 
-const ComptesBancaires = ({ client }) => {
-  const [compte, setCompte] = useState(client);
+const ComptesBancaires = (props: CompteType) => {
+  const { client } = props;
+  const [compte] = useState(client);
 
   // eslint-disable-next-line implicit-arrow-linebreak
   return (
-    <Layout style={styles.container}>
+    <MaxWidthContainer>
+      <Layout style={styles.container}>
 
-      {/* use SectionList to render several accounts with its types and details */}
-      <Text category="h2" style={styles.compteHeader}>
-        Comptes Bancaires
-      </Text>
+        {/* use SectionList to render several accounts with its types and details */}
+        <Text category="h2" style={styles.compteHeader}>
+          Comptes Bancaires
+        </Text>
 
-      <SectionList
+        <SectionList
         /* sections data must be array */
-        sections={compte}
-        keyExtractor={(item) => item.id}
-        renderSectionHeader={({ section: { title } }) => (
-          <Layout style={{ backgroundColor: 'transparent', marginTop: 25, marginLeft: 7 }}>
-            <CompteHeader title={title} />
-          </Layout>
-        )}
-        renderItem={({ item }) => (
-          <Layout style={{ backgroundColor: 'transparent' }}>
-            <OwnerCompte compte={item} />
-          </Layout>
-        )}
-        renderSectionFooter={() => (
-          <Layout style={styles.footer}>
-            <CompteFooter />
-          </Layout>
-        )}
+          sections={compte}
+          keyExtractor={(item) => item.id}
+          renderSectionHeader={({ section: { title } }) => (
+            <Layout style={{ backgroundColor: 'transparent', marginTop: 25, marginLeft: 7 }}>
+              <CompteHeader title={title} />
+            </Layout>
+          )}
+          renderItem={({ item }) => (
+            <View>
+              <OwnerCompte compte={item} />
+            </View>
+          )}
+          renderSectionFooter={() => (
+            <Layout style={styles.footer}>
+              <CompteFooter />
+            </Layout>
+          )}
+        />
 
-      />
-
-    </Layout>
-
+      </Layout>
+    </MaxWidthContainer>
   );
 };
 

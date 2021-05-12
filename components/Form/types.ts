@@ -3,7 +3,7 @@ import {
   StyleProp, Switch, TextInput, TextInputProps, TextStyle, ViewStyle,
 } from 'react-native';
 import {
-  InputProps, RadioProps, SelectProps, ToggleProps,
+  InputProps, RadioProps, SelectProps, ToggleProps, DatepickerProps,
 } from '@ui-kitten/components';
 import { PersistentModel } from '@aws-amplify/datastore';
 import { AutoCompleteHandles, AutoCompleteProps } from '../AutoComplete/AutoComplete';
@@ -14,7 +14,7 @@ import { IconName } from '../Icon';
 export interface ErrorMap {
   [key: string]: FieldError | undefined;
 }
-export type PossibleFields = TextInput | SelectHandles | Switch | AutoCompleteHandles;
+export type PossibleFields = TextInput | SelectHandles | Switch | AutoCompleteHandles | DatepickerProps;
 export type ChangeValueCallbackType = (v?: string | boolean | number) => void;
 export type FormChildProp = {
   name: string;
@@ -90,4 +90,8 @@ export type RadioFormProps = {
 export type PhoneNumberInputFormProps = Exclude<TextInputProps, 'onChangeText'> & {
   labelStyle?: StyleProp<TextStyle>;
   containerStyle?: StyleProp<ViewStyle>;
+} & FormChildProp;
+
+export type DatePickerFormProps = {
+  icon?: string;
 } & FormChildProp;

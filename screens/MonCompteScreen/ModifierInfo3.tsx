@@ -1,15 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
-  ScrollView, StyleSheet, TouchableOpacity, View,
+  StyleSheet, TouchableOpacity, View,
 } from 'react-native';
 import { Button, Layout, Text } from '@ui-kitten/components';
 import { useLinkTo, useNavigation } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
+import MaxWidthContainer from '../../components/MaxWidthContainer';
+
 import ManAvatar from '../../assets/Omedom_Icons_svg/Avatars/manAvatar.svg';
 import WomanAvatar from '../../assets/Omedom_Icons_svg/Avatars/womanAvatar.svg';
 
 const Informations = () => {
   const [value, setValue] = React.useState('');
+  const [avatarImage, setAvatarImage] = useState('MaisonVerte');
+
   const navigation = useNavigation();
   const linkTo = useLinkTo();
 
@@ -29,31 +33,57 @@ const Informations = () => {
     }
   };
 
+  // Avatar changement
+  let SelectedAvatar = ManAvatar;
+  switch (avatarImage) {
+    case 'ManAvatar':
+      SelectedAvatar = ManAvatar;
+      break;
+    case 'WomanAvatar':
+      SelectedAvatar = WomanAvatar;
+      break;
+  }
+
   return (
-    <ScrollView
-      showsVerticalScrollIndicator={false}
-      style={styles.container}
+    <MaxWidthContainer
+      withScrollView="keyboardAware"
+      outerViewProps={{
+        style: {
+          flex: 1,
+          backgroundColor: '#efefef',
+        },
+        showsVerticalScrollIndicator: false,
+      }}
+      innerViewProps={{
+        style: {
+          paddingHorizontal: 24,
+          paddingVertical: 34,
+        },
+      }}
     >
 
       <Text category="h1" style={styles.title}>Modifier vos informations</Text>
       <Text category="h2">Changer votre photo de profil</Text>
       <Layout style={{
-        alignItems: 'center', backgroundColor: 'transparent', marginVertical: 45,
+        alignItems: 'center', backgroundColor: 'transparent', marginVertical: 45, marginTop: 8,
       }}
       >
-        <ManAvatar height={140} width={140} style={{ marginTop: 8 }} />
+        <SelectedAvatar height={140} width={140} />
       </Layout>
 
-      <TouchableOpacity onPress={() => {}}>
-        <Text category="h5" appearance="hint">Choisir une icone</Text>
-      </TouchableOpacity>
+      <Text category="h5" appearance="hint">Choisir une icone</Text>
 
       <Layout style={{
         flexDirection: 'row', marginTop: 21, justifyContent: 'space-around', alignItems: 'center', backgroundColor: 'transparent',
       }}
       >
-        <ManAvatar height={50} width={50} />
-        <WomanAvatar height={50} width={50} />
+        <TouchableOpacity onPress={() => { setAvatarImage('ManAvatar'); }}>
+          <ManAvatar height={50} width={50} />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => { setAvatarImage('WomanAvatar'); }}>
+          <WomanAvatar height={50} width={50} />
+        </TouchableOpacity>
+
       </Layout>
 
       <TouchableOpacity onPress={() => { onTakePicture(); }} style={{ marginVertical: 39 }}>
@@ -76,12 +106,12 @@ const Informations = () => {
         <TouchableOpacity onPress={() => {}}>
           <Text category="h5" status="basic">Ignorer</Text>
         </TouchableOpacity>
-        <Button onPress={onPress} size="large">
+        <Button onPress={onPress} size="large" style={{ width: 173 }}>
           Valider
         </Button>
       </View>
 
-    </ScrollView>
+    </MaxWidthContainer>
 
   );
 };
@@ -94,10 +124,6 @@ const styles = StyleSheet.create({
   title: {
     marginTop: 18,
     marginBottom: 27,
-  },
-  button: {
-    fontSize: 17,
-    color: '#0076c8',
   },
   buttonRight: {
     alignItems: 'flex-end',

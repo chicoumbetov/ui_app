@@ -1,37 +1,31 @@
-import React, {
-  useEffect,
-  // useState
-} from 'react';
+import React, { useEffect } from 'react';
+import { useNavigation } from '@react-navigation/native';
 import {
-  Layout, RadioGroup, Radio, Text, Button, Datepicker,
+  Button, Layout, Radio, RadioGroup, Text,
 } from '@ui-kitten/components';
-import { useNavigation, useRoute } from '@react-navigation/native';
-import { StyleSheet, View } from 'react-native';
 // import { useForm } from 'react-hook-form';
+import { StyleSheet, View } from 'react-native';
+import MaxWidthContainer from '../../../components/MaxWidthContainer';
+// import Form from '../../../components/Form/Form';
 import TextInputComp from '../../../components/Form/TextInput';
 
-import MaxWidthContainer from '../../../components/MaxWidthContainer';
+type DeclarationImpotsForm = {
+  bien: string;
+  anneeEcheance: string;
+};
 
-// type DeclarationImpotsForm = { bien: string; anneeEcheance: string; };
-
-const MesCharges2 = () => {
-  const route = useRoute();
-  const { params } = useRoute();
+const MesRapportBien1 = () => {
   const navigation = useNavigation();
   // const declarationImpotsForm = useForm<DeclarationImpotsForm>();
 
   const [selectedIndex, setSelectedIndex] = React.useState(0);
 
-  const titlePass = params;
-  console.log('titlePass', titlePass);
-
-  const onMesCharges3 = (titlePass) => {
-    navigation.navigate('MesCharges3', { ...titlePass });
-    console.log('insideMesCharges3', { ...titlePass });
+  const allerMesRapportsBien2 = () => {
+    navigation.navigate('mes-rapports-biens2');
   };
 
   useEffect(() => {
-    console.log('useEffect test of MesCharges 2');
+    console.log('useEffect of Mes Rapport Bien 1');
   });
 
   return (
@@ -43,9 +37,7 @@ const MesCharges2 = () => {
     }}
     >
       <Text category="h1" status="basic">
-        Charge
-        {' '}
-        {route.params.title}
+        Mes rapports par bien
       </Text>
 
       <RadioGroup
@@ -54,7 +46,7 @@ const MesCharges2 = () => {
         style={styles.containerRadio}
       >
         <Radio>
-          <Text category="p1">Année</Text>
+          <Text category="p1" status="basic">Année</Text>
         </Radio>
         <Radio>
           <Text category="p1">Année - 1</Text>
@@ -74,23 +66,18 @@ const MesCharges2 = () => {
           placeholder="dd/mm/yyyy"
           icon="calendar-outline"
         />
-
       </Layout>
-      {/**
-      <Datepicker />
-      */}
+
       <View style={styles.buttonRight}>
-        <Button onPress={() => onMesCharges3(titlePass)} size="large" style={{ width: 173 }}>
+        <Button onPress={allerMesRapportsBien2} size="large" style={{ width: 173 }}>
           Valider
         </Button>
       </View>
-
     </MaxWidthContainer>
-
   );
 };
 
-export default MesCharges2;
+export default MesRapportBien1;
 
 const styles = StyleSheet.create({
   container: {

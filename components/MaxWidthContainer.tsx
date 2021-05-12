@@ -1,5 +1,5 @@
 /**
- *
+ * Container component to cover dummy components
  *
  * @author: David-Julian Buch
  */
@@ -31,15 +31,27 @@ export default function MaxWidthContainer(props: MaxWidthContainerProps): JSX.El
   const {
     withScrollView, outerViewProps, innerViewProps, children,
   } = props;
+  /**
+   First option around dummy data - View
+   */
   let OuterView: OuterViewType = View;
   let finalOuterProps: OuterViewPros = {};
+  /**
+   Second and third options around dummy data - ScrollView or KeyboardAwareScrollView
+   */
   if (withScrollView === undefined || withScrollView === 'simple') {
     OuterView = ScrollView;
   } else if (withScrollView === 'keyboardAware') {
     OuterView = KeyboardAwareScrollView;
   }
 
+  /**
+   Applied style depending on boolean of withScrollView
+   */
   if (withScrollView === false) {
+    /**
+    ____
+     */
     const { style: outerViewStyle, ...otherOuterViewProps } = outerViewProps || {};
     const finalOuterViewStyle = StyleSheet.flatten([
       styles.outerBaseStyle,
@@ -59,6 +71,9 @@ export default function MaxWidthContainer(props: MaxWidthContainerProps): JSX.El
     finalOuterProps = { contentContainerStyle: finalOuterViewStyle, ...otherOuterViewProps };
   }
 
+  /**
+   Apply styles anyway
+   */
   const { style: innerViewStyle, ...otherInnerViewProps } = innerViewProps || {};
 
   const finalInnerViewStyle = StyleSheet.flatten([

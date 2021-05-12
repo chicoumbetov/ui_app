@@ -5,19 +5,22 @@
  */
 
 import React, { useState } from 'react';
-import { Layout, Text, Icon } from '@ui-kitten/components';
+import {
+  Layout, Text, Icon, useTheme,
+} from '@ui-kitten/components';
 
 import {
-  StyleSheet, TouchableOpacity,
+  StyleSheet, TouchableOpacity, View,
 } from 'react-native';
-import { useLinkTo } from '@react-navigation/native';
+import { useLinkTo, useNavigation } from '@react-navigation/native';
+import { Icon as IconUIKitten } from '@ui-kitten/components/ui/icon/icon.component';
 import CompteHeader from '../../../components/CompteHeader/CompteHeader';
 import GraphicsII from '../../../components/Graphics/GraphicsII';
 import Graphics from '../../../components/Graphics/Graphics';
-import { colors } from '../../../assets/styles';
-import comptesData from '../../../mockData/comptesData';
 
 import RotatingIcon from '../../../components/Icon/RotatingIcon';
+import MaxWidthContainer from '../../../components/MaxWidthContainer';
+import { CompteType } from '../../../types';
 
 const mesBiensData = [
   { x: '35%', y: 35 },
@@ -26,9 +29,19 @@ const mesBiensData = [
   { x: '35%', y: 35 },
 ];
 
-function MonBien() {
+const MonBien = (props: CompteType) => {
+  const { title } = props;
   const linkTo = useLinkTo();
+  const navigation = useNavigation();
   const [opened, setOpened] = useState(false);
+  const theme = useTheme();
+
+  const allerTresorerie = () => {
+    linkTo('/ma-tresorerie');
+  };
+  const allerMesRapports = () => {
+    navigation.navigate('mes-rapports-biens1');
+  };
 
   const onDetailsBiens = () => {
     const id = '10';
@@ -36,91 +49,103 @@ function MonBien() {
   };
 
   return (
-    <>
+    <MaxWidthContainer
+      withScrollView="keyboardAware"
+      outerViewProps={{
+        showsVerticalScrollIndicator: false,
+      }}
+    >
       <Layout style={{
-        flexDirection: 'column', marginTop: 27, padding: 15, paddingBottom: 20, borderRadius: 10,
+        flexDirection: 'column',
+        marginTop: 27,
+        padding: 15,
+        paddingBottom: 20,
+        borderRadius: 10,
       }}
       >
+
         <TouchableOpacity onPress={() => setOpened(!opened)}>
           <Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-            <CompteHeader title={comptesData[0].title} />
-            <RotatingIcon name="arrow-ios-upward-outline" uikitten state={opened} width={24} height={25} fill="#b5b5b5" />
+            <CompteHeader title={title} />
+            <RotatingIcon name="arrow-ios-downward-outline" uikitten state={opened} width={24} height={25} fill="#b5b5b5" />
           </Layout>
         </TouchableOpacity>
 
         {!opened ? (
-          <>
-            <Layout style={{
-              flexDirection: 'row',
-              marginTop: 8,
-              marginBottom: 5,
-            }}
-            >
+          <Layout style={{
+            flexDirection: 'row',
+            marginTop: 22,
+            justifyContent: 'space-between',
+          }}
+          >
+            {/**
+              *
+              */}
+            <Layout>
               <Layout style={{
-                flex: 1,
                 alignItems: 'center',
                 flexDirection: 'row',
-                marginTop: 14,
-                marginRight: 8,
               }}
               >
-                <Icon
-                  name="arrow-downward"
-                  fill="#b5b5b5"
-                  style={{ height: 16, width: 16 }}
-                />
-                <Icon
-                  name="arrow-upward"
-                  fill="#b5b5b5"
-                  style={{
-                    height: 16, width: 16, marginRight: 8,
-                  }}
-                />
+                <Layout style={{ width: 22, flexDirection: 'row' }}>
+                  <Layout style={{ width: 7 }}>
+                    <IconUIKitten
+                      name="arrow-downward"
+                      fill="#b5b5b5"
+                      style={{ height: 16, width: 16 }}
+                    />
+                  </Layout>
+                  <IconUIKitten
+                    name="arrow-upward"
+                    fill="#b5b5b5"
+                    style={{
+                      height: 16, width: 16, marginRight: 8,
+                    }}
+                  />
+                </Layout>
 
                 <Text category="h5" status="success">+ 10 800 €</Text>
               </Layout>
-
-              <Layout style={{
-                flex: 1,
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                marginRight: 8,
-              }}
-              >
-                <Layout style={{ alignItems: 'center', flexDirection: 'row', marginTop: 13 }}>
-                  <Icon
-                    name="arrow-downward"
-                    fill="#b5b5b5"
-                    style={{ height: 16, width: 16, marginRight: 8 }}
-                  />
-                  <Text category="h4" status="danger">- 160 €</Text>
-                </Layout>
-              </Layout>
-
-              <Layout style={{
-                flex: 1,
-                alignItems: 'center',
-                justifyContent: 'space-between',
-              }}
-              >
-                <Layout style={{ marginTop: 14, alignItems: 'center', flexDirection: 'row' }}>
-                  <Icon
-                    name="trending-up"
-                    fill="#b5b5b5"
-                    style={{ height: 18, width: 18, marginRight: 8 }}
-                  />
-                  <Text category="h4" status="warning">60 %</Text>
-                </Layout>
-
-              </Layout>
             </Layout>
-          </>
-        ) : (
-          <>
+
+            {/**
+               *
+               */}
+
             <Layout style={{
-              borderWidth: 0.5,
-              borderColor: colors.gris,
-              marginVertical: 20,
+              alignItems: 'center',
+              marginRight: 20,
+              flexDirection: 'row',
+            }}
+            >
+              <Icon
+                name="arrow-downward"
+                fill="#b5b5b5"
+                style={{ height: 16, width: 16 }}
+              />
+              <Text category="h4" status="danger">- 160 €</Text>
+            </Layout>
+
+            {/**
+               *
+               */}
+            <View style={{
+              flexDirection: 'row',
+            }}
+            >
+              <Icon
+                name="trending-up"
+                fill="#b5b5b5"
+                style={{ height: 18, width: 18, marginRight: 2 }}
+              />
+              <Text category="h4" status="warning">60 %</Text>
+            </View>
+
+          </Layout>
+        ) : (
+          <Layout style={{ backgroundColor: 'transparent' }}>
+            <Layout style={{
+              borderBottomWidth: 1, marginVertical: 20, borderBottomColor: theme['text-hint-color'],
             }}
             />
             <Layout style={{
@@ -140,7 +165,7 @@ function MonBien() {
                   Prochaine dépense
                 </Text>
                 <Text category="h4" status="danger">- 160 €</Text>
-                <TouchableOpacity onPress={() => {}}>
+                <TouchableOpacity onPress={allerTresorerie}>
                   <Text category="h6" status="info">En savoir +</Text>
                 </TouchableOpacity>
               </Layout>
@@ -150,7 +175,7 @@ function MonBien() {
                   Réntabilité du bien
                 </Text>
                 <Text category="h4" status="warning" style={{ marginVertical: 14 }}>60 %</Text>
-                <TouchableOpacity onPress={() => {}}>
+                <TouchableOpacity onPress={allerMesRapports}>
                   <Text category="h6" status="info">Mes rapports</Text>
                 </TouchableOpacity>
               </Layout>
@@ -166,12 +191,12 @@ function MonBien() {
             </TouchableOpacity>
             <Graphics data={mesBiensData} />
             <GraphicsII />
-          </>
+          </Layout>
         )}
       </Layout>
-    </>
+    </MaxWidthContainer>
   );
-}
+};
 
 export default MonBien;
 

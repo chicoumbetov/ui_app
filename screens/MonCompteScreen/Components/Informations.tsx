@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import { Layout, Text } from '@ui-kitten/components';
 import { useNavigation } from '@react-navigation/native';
+import MaxWidthContainer from '../../../components/MaxWidthContainer';
 
 type DataProps = {
   clientData: {
@@ -59,9 +60,10 @@ const Informations = ({ clientData }: DataProps) => {
   };
   // eslint-disable-next-line implicit-arrow-linebreak
   return (
-
-    <Layout style={{
-      flex: 1, backgroundColor: '#f6f6f6', paddingTop: 32, paddingHorizontal: 22, marginTop: 11,
+    <MaxWidthContainer outerViewProps={{
+      style: {
+        flex: 1, backgroundColor: '#f6f6f6', paddingTop: 32, paddingHorizontal: 22, marginTop: 11,
+      },
     }}
     >
       <Text
@@ -94,7 +96,7 @@ const Informations = ({ clientData }: DataProps) => {
       <TouchableOpacity onPress={onPress}>
         <Text category="h5" status="info" style={styles.buttonTextLeft}>Modifier les informations</Text>
       </TouchableOpacity>
-    </Layout>
+    </MaxWidthContainer>
 
   );
 };

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Layout, Text } from '@ui-kitten/components';
+import { Layout, Radio, Text } from '@ui-kitten/components';
 import {
   FlatList,
   LogBox,
@@ -9,6 +9,7 @@ import {
 import { useNavigation } from '@react-navigation/native';
 import CompteHeader from '../../../../components/CompteHeader/CompteHeader';
 import comptesData from '../../../../mockData/comptesData';
+import MaxWidthContainer from '../../../../components/MaxWidthContainer';
 
 const IgnorerMouvement = ({ compte }) => {
   // Back to previous page and delete chosen data
@@ -20,9 +21,7 @@ const IgnorerMouvement = ({ compte }) => {
   const [client, setClient] = useState(comptesData);
 
   return (
-    <ScrollView
-      showsVerticalScrollIndicator={false}
-    >
+    <MaxWidthContainer>
       <Layout style={styles.container}>
         <Layout style={{ backgroundColor: '#f6f6f6', padding: 26 }}>
           <Text style={{
@@ -90,6 +89,7 @@ const IgnorerMouvement = ({ compte }) => {
             renderItem={() => (
 
               <Layout style={styles.window}>
+                <Radio status="danger" style={{ marginRight: 20 }} />
                 <Layout style={{
                   flex: 1,
                 }}
@@ -125,7 +125,7 @@ const IgnorerMouvement = ({ compte }) => {
         </Layout>
 
       </Layout>
-    </ScrollView>
+    </MaxWidthContainer>
   );
 };
 

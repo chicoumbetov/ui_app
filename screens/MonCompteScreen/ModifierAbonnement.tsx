@@ -9,7 +9,7 @@ import { useNavigation } from '@react-navigation/native';
 import TextInputComp from '../../components/Form/TextInput';
 import MaxWidthContainer from '../../components/MaxWidthContainer';
 
-const ModifierInfo1 = () => {
+const ModifierAbonnement = () => {
   const navigation = useNavigation();
   const onPress = () => {
     navigation.navigate('ModifierInfo2');
@@ -37,7 +37,7 @@ const ModifierInfo1 = () => {
       }}
     >
       <View>
-        <Text category="h1" style={styles.title}>Modifier vos informations</Text>
+        <Text category="h1" style={styles.title}>Modifier vos abonnements</Text>
       </View>
 
       <TextInputComp
@@ -49,27 +49,6 @@ const ModifierInfo1 = () => {
         <TextInputComp
           name="nom"
           placeholder="Changer nom"
-        />
-      </Layout>
-
-      <Layout style={{ marginTop: 20, backgroundColor: 'transparent' }}>
-        <TextInputComp
-          name="email"
-          placeholder="Changer email"
-        />
-      </Layout>
-
-      <Layout style={{ marginTop: 20, backgroundColor: 'transparent' }}>
-        <TextInputComp
-          name="motDePasse"
-          placeholder="Changer mot de Passe"
-        />
-      </Layout>
-
-      <Layout style={{ marginTop: 20, backgroundColor: 'transparent' }}>
-        <TextInputComp
-          name="numeroTel"
-          placeholder="Changer numéro télephone"
         />
       </Layout>
 
@@ -97,4 +76,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ModifierInfo1;
+export default ModifierAbonnement;

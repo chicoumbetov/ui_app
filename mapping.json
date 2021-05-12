@@ -5,7 +5,8 @@
 
     "text-label-font-family": "HouschkaRoundedMedium",
     "text-subtitle-2-font-family": "HouschkaRoundedDemiBold",
-    "size-large": 40,
+    "size-small": 30,
+    "size-large": 55,
     "border-radius": 7,
 
     "text-heading-1-font-size": 25,
@@ -48,9 +49,9 @@
 
     "text-paragraph-2-font-family": "HouschkaRoundedMedium",
 
-    "text-paragraph-3-font-size": 15,
+    "text-caption-1-font-size": 15,
 
-    "text-paragraph-3-font-family": "HouschkaRoundedDemiBold",
+    "text-caption-1-font-family": "HouschkaRoundedDemiBold",
 
 
     "border-radius": 7
@@ -923,6 +924,192 @@
             "captionFontFamily": "text-caption-1-font-family"
           },
           "variantGroups": {
+            "status": {
+              "basic": {
+                "borderColor": "color-basic-default-border",
+                "backgroundColor": "color-basic-default",
+                "textColor": "color-basic-800",
+                "iconTintColor": "color-basic-800",
+                "state": {
+                  "focused": {
+                    "borderColor": "color-basic-focus-border",
+                    "backgroundColor": "color-basic-focus"
+                  },
+                  "hover": {
+                    "borderColor": "color-basic-hover-border",
+                    "backgroundColor": "color-basic-hover"
+                  },
+                  "active": {
+                    "borderColor": "color-basic-active-border",
+                    "backgroundColor": "color-basic-active"
+                  },
+                  "disabled": {
+                    "borderColor": "color-basic-disabled-border",
+                    "backgroundColor": "color-basic-disabled",
+                    "textColor": "text-disabled-color",
+                    "iconTintColor": "text-disabled-color"
+                  }
+                }
+              },
+              "primary": {
+                "borderColor": "color-primary-default-border",
+                "backgroundColor": "color-primary-default",
+                "textColor": "text-control-color",
+                "iconTintColor": "text-control-color",
+                "state": {
+                  "focused": {
+                    "borderColor": "color-primary-focus-border",
+                    "backgroundColor": "color-primary-focus"
+                  },
+                  "hover": {
+                    "borderColor": "color-primary-hover-border",
+                    "backgroundColor": "color-primary-hover"
+                  },
+                  "active": {
+                    "borderColor": "color-primary-active-border",
+                    "backgroundColor": "color-primary-active"
+                  },
+                  "disabled": {
+                    "borderColor": "color-primary-disabled-border",
+                    "backgroundColor": "color-primary-disabled",
+                    "textColor": "text-disabled-color",
+                    "iconTintColor": "text-disabled-color"
+                  }
+                }
+              },
+              "success": {
+                "borderColor": "color-success-default-border",
+                "backgroundColor": "color-success-default",
+                "textColor": "text-control-color",
+                "iconTintColor": "text-control-color",
+                "state": {
+                  "focused": {
+                    "borderColor": "color-success-focus-border",
+                    "backgroundColor": "color-success-focus"
+                  },
+                  "hover": {
+                    "borderColor": "color-success-hover-border",
+                    "backgroundColor": "color-success-hover"
+                  },
+                  "active": {
+                    "borderColor": "color-success-active-border",
+                    "backgroundColor": "color-success-active"
+                  },
+                  "disabled": {
+                    "borderColor": "color-success-disabled-border",
+                    "backgroundColor": "color-success-disabled",
+                    "textColor": "text-disabled-color",
+                    "iconTintColor": "text-disabled-color"
+                  }
+                }
+              },
+              "info": {
+                
+                "borderColor": "color-info-400",
+                "backgroundColor": "color-info-400",
+                "textColor": "text-alternate-color",
+                "iconTintColor": "text-alternate-color",
+
+                "state": {
+                  "focused": {
+                    "borderColor": "color-info-focus-border",
+                    "backgroundColor": "color-info-focus"
+                  },
+                  "hover": {
+                    "borderColor": "color-info-hover-border",
+                    "backgroundColor": "color-info-hover"
+                  },
+                  "active": {
+                    "borderColor": "color-info-active-border",
+                    "backgroundColor": "color-info-active"
+                  },
+                  "disabled": {
+                    "borderColor": "color-info-disabled-border",
+                    "backgroundColor": "color-info-disabled",
+                    "textColor": "text-disabled-color",
+                    "iconTintColor": "text-disabled-color"
+                  }
+                }
+              },
+              "warning": {
+                "borderColor": "color-warning-default-border",
+                "backgroundColor": "color-warning-default",
+                "textColor": "text-control-color",
+                "iconTintColor": "text-control-color",
+                "state": {
+                  "focused": {
+                    "borderColor": "color-warning-focus-border",
+                    "backgroundColor": "color-warning-focus"
+                  },
+                  "hover": {
+                    "borderColor": "color-warning-hover-border",
+                    "backgroundColor": "color-warning-hover"
+                  },
+                  "active": {
+                    "borderColor": "color-warning-active-border",
+                    "backgroundColor": "color-warning-active"
+                  },
+                  "disabled": {
+                    "borderColor": "color-warning-disabled-border",
+                    "backgroundColor": "color-warning-disabled",
+                    "textColor": "text-disabled-color",
+                    "iconTintColor": "text-disabled-color"
+                  }
+                }
+              },
+              "danger": {
+                "borderColor": "color-danger-default-border",
+                "backgroundColor": "color-danger-default",
+                "textColor": "text-control-color",
+                "iconTintColor": "text-control-color",
+                "state": {
+                  "focused": {
+                    "borderColor": "color-danger-focus-border",
+                    "backgroundColor": "color-danger-focus"
+                  },
+                  "hover": {
+                    "borderColor": "color-danger-hover-border",
+                    "backgroundColor": "color-danger-hover"
+                  },
+                  "active": {
+                    "borderColor": "color-danger-active-border",
+                    "backgroundColor": "color-danger-active"
+                  },
+                  "disabled": {
+                    "borderColor": "color-danger-disabled-border",
+                    "backgroundColor": "color-danger-disabled",
+                    "textColor": "text-disabled-color",
+                    "iconTintColor": "text-disabled-color"
+                  }
+                }
+              },
+              "control": {
+                "borderColor": "color-control-default-border",
+                "backgroundColor": "color-control-default",
+                "textColor": "color-basic-800",
+                "iconTintColor": "color-basic-800",
+                "state": {
+                  "focused": {
+                    "borderColor": "color-control-focus-border",
+                    "backgroundColor": "color-control-focus"
+                  },
+                  "hover": {
+                    "borderColor": "color-control-hover-border",
+                    "backgroundColor": "color-control-hover"
+                  },
+                  "active": {
+                    "borderColor": "color-control-active-border",
+                    "backgroundColor": "color-control-active"
+                  },
+                  "disabled": {
+                    "borderColor": "color-control-disabled-border",
+                    "backgroundColor": "color-control-disabled",
+                    "textColor": "text-disabled-color",
+                    "iconTintColor": "text-disabled-color"
+                  }
+                }
+              }
+            },
             "size": {
               "large": {
                 "minHeight": "size-large",

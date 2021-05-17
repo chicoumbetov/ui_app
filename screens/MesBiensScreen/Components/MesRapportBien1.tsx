@@ -7,7 +7,7 @@ import {
 import { StyleSheet, View } from 'react-native';
 import MaxWidthContainer from '../../../components/MaxWidthContainer';
 // import Form from '../../../components/Form/Form';
-import TextInputComp from '../../../components/Form/TextInput';
+import TextInput from '../../../components/Form/TextInput';
 
 type DeclarationImpotsForm = {
   bien: string;
@@ -61,7 +61,7 @@ const MesRapportBien1 = () => {
           <Text category="h5">Selectionner l'année</Text>
         </View>
 
-        <TextInputComp
+        <TextInput
           name="selectionnerAnnee"
           placeholder="dd/mm/yyyy"
           icon="calendar-outline"

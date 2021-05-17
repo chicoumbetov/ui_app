@@ -17,7 +17,6 @@ export default {
                   'detail-bien': '/bien/:id',
                   'ajout-revenu': '/bien/:id/ajout-revenu',
                   'ajout-bien-screen': '/ajouter',
-
                   'mes-rapports': '/mes-rapports',
                   'mes-rapports-biens1': '/mes-rapports-biens1',
                   'mes-rapports-biens2': '/mes-rapports-biens2',
@@ -47,9 +46,13 @@ export default {
             },
           },
           'mon-compte-nav': {
+            initialRouteName: 'mon-compte',
             path: 'mon-compte',
             screens: {
               'mon-compte': '/',
+              'modifier-info-1': '/modifier',
+              'modifier-info-2': '/modifier/etape-2',
+              'modifier-info-3': '/modifier/etape-3',
             },
           },
           'ma-tresorerie-nav': {

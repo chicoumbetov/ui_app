@@ -43,6 +43,7 @@ type IconProps = {
   name: string, uikitten: true
 };
 
+// eslint-disable-next-line max-len
 const IconGenerator = ({ name, uikitten }: IconProps): RenderProp<Partial<ImageProps>> => (props?: Partial<ImageProps>) => {
   let width;
   let color;
@@ -56,11 +57,18 @@ const IconGenerator = ({ name, uikitten }: IconProps): RenderProp<Partial<ImageP
     }
   }
   if (uikitten) {
-    return <IconUIKitten name={name} fill={color} style={{ width, height: props?.style?.height }} />;
+    return (
+      <IconUIKitten
+        name={name}
+        fill={color}
+              // @ts-ignore : Dans le cas de UI KItten ce sera une ImageProps
+        style={{ width, height: props?.style?.height }}
+      />
+    );
   }
 
-  { /* Dans le cas de Icomoon on à uikitten === false ou undefined (cf. type)
-      @ts-expect-error */ }
+  /* Dans le cas de Icomoon on à uikitten === false ou undefined (cf. type)
+        @ts-expect-error */
   return <Icon name={name} size={width} color={color} />;
 };
 
@@ -75,6 +83,8 @@ const BellIcon = IconGenerator({ name: 'bell-outline', uikitten: true });
 const PersonIcon = IconGenerator({ name: 'person-outline', uikitten: true });
 
 const HomeIcon = IconGenerator({ name: 'home-outline', uikitten: true });
+
+const ChargeIcon = IconGenerator({ name: 'trending-up-outline', uikitten: true });
 
 const PaperIcon = IconGenerator({ name: 'file-text-outline', uikitten: true });
 
@@ -128,7 +138,7 @@ function findFocusedDrawerItem(state: InitialState) {
  * 3. Custom Drawer itself
  */
 const CustomDrawer = (props: DrawerContentComponentProps) => {
-  const { state, navigation } = props;
+  const { state } = props;
   const inset = useSafeAreaInsets();
   const linkTo = useLinkTo();
   const { window } = useDimensions();
@@ -196,7 +206,7 @@ const CustomDrawer = (props: DrawerContentComponentProps) => {
             {window.width > 780 ? (
               <DrawerItem
                 title="Mes charges"
-                accessoryLeft={HomeIcon}
+                accessoryLeft={ChargeIcon}
               />
             ) : <></>}
             <DrawerItem

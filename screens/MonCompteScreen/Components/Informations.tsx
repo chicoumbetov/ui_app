@@ -3,60 +3,16 @@ import { StyleSheet, TouchableOpacity } from 'react-native';
 import { Layout, Text } from '@ui-kitten/components';
 import { useNavigation } from '@react-navigation/native';
 import MaxWidthContainer from '../../../components/MaxWidthContainer';
+import { UserItem } from '../../../src/API/User';
 
-type DataProps = {
-  clientData: {
-    Client: ClientProps,
-    AdresseType: AdresseProps,
-  }
+type InformationProps = {
+  utilisateur: UserItem | null
 };
 
-type ClientProps = {
-  id: string,
-  fields: [{
-    id: string,
-    nom: string,
-    prenom: string,
-    email: string,
-    motDePasse: string,
-    numeroTel: string,
-    dateDeNaissance: string,
-  }, {
-    id: string,
-    nom: string,
-    prenom: string,
-    email: string,
-    motDePasse: string,
-    numeroTel: string,
-    dateDeNaissance: string,
-  }]
-};
-
-type AdresseProps = {
-  id: string,
-  fields: [{
-    id: string,
-    adresse: string,
-    complementAdresse: string,
-    codePostal: string,
-    ville: string,
-    pays: string,
-  }, {
-    id: string,
-    adresse: string,
-    complementAdresse: string,
-    codePostal: string,
-    ville: string,
-    pays: string,
-  }]
-};
-
-const Informations = ({ clientData }: DataProps) => {
-  // console.log('info props', clientData.Client.fields[0]);
-  // console.log('AdresseType props', clientData.AdresseType);
+const Informations = ({ utilisateur } : InformationProps) => {
   const navigation = useNavigation();
   const onPress = () => {
-    navigation.navigate('ModifierInfo1');
+    navigation.navigate('modifier-info-1');
   };
   // eslint-disable-next-line implicit-arrow-linebreak
   return (
@@ -77,21 +33,21 @@ const Informations = ({ clientData }: DataProps) => {
       <Layout style={styles.compteSection}>
         {/* use SectionList to render several accounts with its types and details */}
         <Text category="h6" status="basic">Date de naissance</Text>
-        <Text appearance="hint" style={{ marginTop: 6 }}>{clientData.Client.fields[0].dateDeNaissance}</Text>
+        <Text appearance="hint" style={{ marginTop: 6 }}>{utilisateur?.birthDate || undefined}</Text>
         <Layout style={{ borderBottomWidth: 0.5, borderBottomColor: '#b5b5b5', marginVertical: 15 }} />
 
-        <Text category="h6" status="basic" style={{ marginTop: 7 }}>Adresse mail : </Text>
+        <Text category="h6" status="basic" style={{ marginTop: 7 }}>Adresse e-mail : </Text>
         <Text appearance="hint" style={{ marginTop: 5 }}>
-          {clientData.Client.fields[0].email}
+          {utilisateur?.email || undefined}
         </Text>
         <Layout style={{ borderBottomWidth: 0.3, borderBottomColor: '#b5b5b5', marginVertical: 15 }} />
 
         <Text category="h6" status="basic" style={{ marginTop: 8 }}>Ville</Text>
-        <Text appearance="hint" style={{ marginTop: 5 }}>{clientData.AdresseType.fields[0].ville}</Text>
+        <Text appearance="hint" style={{ marginTop: 5 }}>{utilisateur?.address?.city || undefined}</Text>
         <Layout style={{ borderBottomWidth: 0.5, borderBottomColor: '#b5b5b5', marginVertical: 15 }} />
 
         <Text category="h6" status="basic" style={{ marginTop: 10 }}>Numéro de téléphone</Text>
-        <Text appearance="hint" style={{ marginTop: 5 }}>{clientData.Client.fields[0].numeroTel}</Text>
+        <Text appearance="hint" style={{ marginTop: 5 }}>{utilisateur?.phoneNumber || undefined}</Text>
       </Layout>
       <TouchableOpacity onPress={onPress}>
         <Text category="h5" status="info" style={styles.buttonTextLeft}>Modifier les informations</Text>

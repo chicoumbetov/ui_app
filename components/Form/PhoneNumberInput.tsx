@@ -1,11 +1,10 @@
 import * as React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Platform } from 'react-native';
 import { useEffect, useState } from 'react';
-import PhoneInput from 'react-native-phone-number-input';
-import { colors, fontSize, size } from '../../assets/styles';
+import { StyleService, useStyleSheet, useTheme } from '@ui-kitten/components';
 import Text from '../Text';
-import Icon from '../Icon';
 import { PhoneNumberInputFormProps } from './types';
+import PhoneInput from '../PhoneInput';
 
 const PhoneNumberInputComp = React.forwardRef<PhoneInput, PhoneNumberInputFormProps>(
   (props: PhoneNumberInputFormProps, ref): React.ReactElement => {
@@ -20,15 +19,18 @@ const PhoneNumberInputComp = React.forwardRef<PhoneInput, PhoneNumberInputFormPr
       placeholder,
     } = props;
 
-    const [inputColor, setInputColor] = useState<string>(colors.text);
+    const styles = useStyleSheet(themedStyles);
+    const theme = useTheme();
+
+    const [inputColor, setInputColor] = useState<string>(theme['border-basic-color-1']);
     const [inputValue, setInputValue] = useState<string | undefined>('');
 
     useEffect(() => {
-      if (inputValue === '') {
+      if (inputValue === '' || !inputValue) {
         setInputValue(defaultValue);
       }
       if (onChangeValue && defaultValue) onChangeValue(inputValue);
-    }, [inputValue]);
+    }, [defaultValue, inputValue]);
 
     return (
       <View style={[styles.container, containerStyle]}>
@@ -48,7 +50,7 @@ const PhoneNumberInputComp = React.forwardRef<PhoneInput, PhoneNumberInputFormPr
         )}
         <PhoneInput
           ref={ref}
-          defaultValue={inputValue}
+          value={inputValue}
           defaultCode="FR"
           layout="first"
           onChangeFormattedText={(text) => {
@@ -58,7 +60,7 @@ const PhoneNumberInputComp = React.forwardRef<PhoneInput, PhoneNumberInputFormPr
           }}
           containerStyle={StyleSheet.flatten([
             styles.input,
-            { borderColor: error ? colors.error : inputColor },
+            { borderColor: error ? theme['color-danger-default'] : inputColor },
             style,
           ])}
           textContainerStyle={{
@@ -66,23 +68,22 @@ const PhoneNumberInputComp = React.forwardRef<PhoneInput, PhoneNumberInputFormPr
             backgroundColor: 'none',
             paddingHorizontal: 10,
             paddingVertical: 0,
-            borderLeftColor: error ? colors.error : inputColor,
+            borderLeftColor: error ? theme['color-danger-default'] : inputColor,
             borderLeftWidth: 1,
           }}
           textInputProps={{
             onFocus: () => {
-              setInputColor(colors.green);
+              setInputColor(theme['color-primary-default']);
             },
             onBlur: () => {
-              setInputColor(colors.text);
+              setInputColor(theme['border-basic-color-1']);
             },
-            placeholderTextColor: inputColor,
+            placeholderTextColor: theme['text-hint-color'],
           }}
           countryPickerButtonStyle={{
             width: 65,
             paddingRight: 10,
           }}
-          renderDropdownImage={<Icon name="chevron" size={12} style={{ marginRight: 5 }} />}
           placeholder={placeholder}
           countryPickerProps={{
             withEmoji: false,
@@ -92,7 +93,43 @@ const PhoneNumberInputComp = React.forwardRef<PhoneInput, PhoneNumberInputFormPr
             },
             filterProps: {
               placeholder: "Entrez le nom d'un pays",
+              style: {
+                width: '100%',
+                fontSize: parseInt(theme['text-paragraph-1-font-size'], 10),
+                fontFamily: theme['text-font-family'],
+                color: theme['text-basic-color'],
+                paddingHorizontal: 10,
+                minHeight: parseInt(theme['size-medium'], 10),
+                borderBottomColor: theme['border-basic-color-4'],
+                borderBottomWidth: parseInt(theme['border-width'], 10),
+                ...Platform.select({
+                  default: null,
+                  android: {
+                    paddingVertical: 0,
+                    marginVertical: -2,
+                  },
+                  web: {
+                    outlineWidth: 0,
+                  },
+                }),
+              },
             },
+          }}
+          textInputStyle={{
+            fontSize: parseInt(theme['text-paragraph-1-font-size'], 10),
+            fontFamily: theme['text-font-family'],
+            color: theme['text-basic-color'],
+          }}
+          codeTextStyle={{
+            fontSize: parseInt(theme['text-paragraph-1-font-size'], 10),
+            fontFamily: theme['text-font-family'],
+            color: theme['text-basic-color'],
+          }}
+          popoverStyle={{
+            borderRadius: parseInt(theme['border-radius'], 10),
+            borderWidth: parseInt(theme['border-width'], 10),
+            borderColor: theme['border-basic-color-4'],
+            overflow: 'hidden',
           }}
           flagButtonStyle={{
             // @ts-ignore
@@ -109,19 +146,18 @@ PhoneNumberInputComp.displayName = 'PhoneNumberInput';
 
 export default PhoneNumberInputComp;
 
-const styles = StyleSheet.create({
+const themedStyles = StyleService.create({
   container: {
     marginVertical: 8,
   },
   input: {
-    borderStyle: 'solid',
-    borderWidth: 1,
     paddingVertical: 5,
     paddingLeft: 10,
-    fontSize: fontSize.input,
-    height: 40,
-    color: colors.text,
-    borderRadius: size.borderRadius,
+    height: 'size-medium',
+    // @ts-ignore
+    borderRadius: 'border-radius',
     width: 'auto',
+    // @ts-ignore
+    borderWidth: 'border-width',
   },
 });

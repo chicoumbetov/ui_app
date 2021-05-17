@@ -1,82 +1,224 @@
-# enum Abonnement
-# type AdresseType
 
-# type Client
-# type Compte
-
-# type Bien
-# enum TypeBien {
-#enum TypeSociete
-
-#type LigneBudget
-# enum Frequence
-
-# type InfoLocataire
-# info Crédit   =>   type MensualiteCredit
-
-enum Abonnement {
- UnADeuxBiens
- TroisACinqbiens
- PlusDeCinqBiens
-}
-
-type Adresse {
-  adresse: String!
-  complementAdresse: String
-  codePostal: String!
-  ville: String!
-  pays: String!
-}
-
-# Type Client  and Compte
-# Client & Adresse are connected by clientID
-type Utilisateur @model @auth(rules: [
-  {allow: owner, ownerField: "userID"}
+type User @model @auth(rules: [
+  {allow: owner, ownerField: "owner"}
   {allow: private, operations: [read]}
 ])
-@key(fields: ["userID"], name:"byUserID")
+@key(fields: ["owner"], name:"userByOwner")
 {
   id: ID!
-  userID: String
-  nom: String
-  prenom: String
-  email: AWSEmail @auth (rules: [{allow: owner, ownerField: "userID"}])
-  numeroTel: AWSPhone @auth (rules: [{allow: owner, ownerField: "userID"}])
-  optIn: Boolean @auth (rules: [{allow: owner, ownerField: "userID"}])
-  adresse: Adresse @auth (rules: [{allow: owner, ownerField: "userID"}])
+  owner: String
+  lastname: String
+  firstname: String
+  email: AWSEmail @auth (rules: [{allow: owner, ownerField: "owner"}])
+  phoneNumber: AWSPhone @auth (rules: [{allow: owner, ownerField: "owner"}])
+  optIn: Boolean @auth (rules: [{allow: owner, ownerField: "owner"}])
+  address: Address @auth (rules: [{allow: owner, ownerField: "owner"}])
 
   avatarUri: String
-  dateNaissance: AWSDate @auth (rules: [{allow: owner, ownerField: "userID"}])
-  abonnement: Abonnement @auth (rules: [{allow: owner, ownerField: "userID"}])
+  birthDate: AWSDate @auth (rules: [{allow: owner, ownerField: "owner"}])
+  subscription: SubscriptionType @auth (rules: [{allow: owner, ownerField: "owner"}])
+}
+
+type RealEstate @model
+@auth(rules: [
+  {allow: owner, ownerField: "admins", operations: [ create, update, delete, read]}
+  {allow: owner, ownerField: "shared", operations:[read]}
+]) {
+  id: ID!
+  name: String!
+  iconUri: String!
+  purchaseYear:  Int
+  type: RealEstateType
+  ownName: Boolean
+  company: CompanyType
+  detentionPart: Float
+  budgetLines: [BudgetLine] @connection(fields: ["id"])
+  documents: [Document] @connection(fields: ["id"])
+  admins: [String!]!
+  shared: [String!]
+  pendingInvitations: [String!]
+  address: Address
+  tenants: [TenantInfo]
+  bankAccounts: [RealEstateBankAccount] @connection(fields: ["id"])
+}
+
+type PendingInvitation {
+  email: String!
+  type: InvitationType!
+}
+
+enum InvitationType {
+  Admin
+  ReadOnly
+}
+
+#should only be available for all operations to users in the admins field of RealEstate model and for read operation to users in the shared field of RealEstate model
+type Document
+@key(name: "documentByRealEstate", fields: ["realEstateId"])
+@model {
+  id: ID!
+  realEstateId: ID!
+  realEstate: RealEstate @connection (fields: ["realEstateId"])
+  name: String!
+  s3file: String!
+}
+
+#should only be available for all operations to users in the admins field of RealEstate model and for read operation to users in the shared field of RealEstate model
+type BudgetLine
+@key(name: "budgetLineByRealEstate", fields: ["realEstateId"])
+@model {
+  id: ID!
+  realEstateId: ID!
+  realEstate: RealEstate @connection (fields: ["realEstateId"])
+  type: BudgetLineType!
+  category: String!
+  amount: Float!
+  frequency: Frequency!
+  nextDueDate: AWSDate
+  infoCredit: MortgageLoanInfo
+}
+
+enum BudgetLineType {
+  Expense
+  Income
+}
+
+# type TenantInfo
+type TenantInfo {
+  amount: Float!
+  rentalCharges: Float
+  managementFees: Float
+  lastname: String!
+  firstname: String!
+  email: AWSEmail!
+  startDate: AWSDate!
+  endDate: AWSDate
+}
+
+type MortgageLoanInfo {
+  borrowedCapital: Float!
+  loadStartDate: AWSDate
+  duration: Int
+  interestRate: Float
+  assuranceRate: Float
+  amortizationTable: [AmortizationTable]
+}
+
+type AmortizationTable {
+  dueDate: AWSDate
+  amount: Float
+  interest: Float
+  assurance: Float
+  amortizedCapital: Float
+}
+
+enum RealEstateType {
+  mainHome
+  secondHome
+  professionnalRentalInvestment
+  privateRentalInvestment
+}
+enum CompanyType { #French company types
+  SCI
+  SAS
+  SARLclassique
+  SARLfamille
+}
+enum Frequency {
+  monthly
+  fortnightly
+  quarterly
+  annual
+}
+
+enum SubscriptionType {
+  OneToTwo
+  TreeToFive
+  MoreThanFive
+}
+
+type Address {
+  address: String!
+  additionalAddress: String
+  postalCode: String!
+  city: String!
+  country: String!
 }
 
 
-#type RealEstate @model @auth(rules: [
-#  {allow: owner, ownerField: "owners"},
-#  {allow: owner, ownerField: "shared", operations: [read]}
-#])
-#{
-#  id: ID!
-#  owners: [String]
-#  shared: [String]
-#  name: String
-#
-#  bankAccounts: [BankAccount] @connection(
-#    fields: ["id"]
-#  )
-#}
-#
-#type BankAccount @model(queries: null) {
-#  id: ID!
-#  bankName: String!
-#  accountNumber: String!
-#  lines: [BankLine]
-#}
-#
-#
-#type BankLine @model(queries: null) {
-#  id: ID!
-#  description: String!
-#  amount: Float
-#  date: AWSDate
-#}
+#should only be available for all operations to users in the admins field of RealEstate model and for read operation to users in the shared field of RealEstate model
+type RealEstateBankAccount
+@model(queries: null)
+@key(name: "bankAccountByRealEstate", fields: ["realEstateId", "bankAccountId"])
+@key(name: "realEstateByBankAccount", fields: ["bankAccountId", "realEstateId"]) {
+  id: ID!
+  realEstateId: ID!
+  realEstate: RealEstate @connection (fields: ["realEstateId"])
+  bankAccountId: ID!
+  bankAccount: BankAccount! @connection(fields: ["bankAccountId"])
+}
+
+#should only be available for all operations to users in the admins field of RealEstate (linked by RealEstateBankAccount) model
+# and for read operation to users in the shared field of RealEstate (linked by RealEstateBankAccount) model
+type BankAccount @model {
+  id: ID!
+  realEstates: [RealEstateBankAccount] @connection(fields: ["id"])
+  bank: String!
+  accountOwner: String!
+  iban: String!
+  bic: String!
+  balance: Float!
+  bridgetApiAccountId: String!
+  movements: [BankMovement] @connection(fields: ["id"])
+}
+
+#should only be available for all operations to users in the admins field of RealEstate (linked by BankAccount and RealEstateBankAccount) model
+# and for read operation to users in the shared field of RealEstate (linked by BankAccount and RealEstateBankAccount) model
+type BankMovement @model
+@key(name: "bankMovementByByBankAccount", fields: ["bankAccountId"])
+@key(name: "bankMovementByBudgetLine", fields: ["budgetLineId"])
+{
+  id: ID!
+  bankAccountId: ID!
+  bankAccount: BankAccount! @connection(fields: ["bankAccountId"])
+  bridgetApiId: String!
+  description: String!
+  amount: Float!
+  budgetLineId: ID!
+  budgetLine: BudgetLine @connection (fields: ["budgetLineId"])
+  ignored: Boolean
+  date: AWSDate
+}
+
+#should only be available for all operations to user linked through utilisateur connection
+type Notification @model
+@auth(rules: [
+  {allow: owner, ownerField: "owner"}
+])
+@key(name: "notificationByUser", fields: ["userId"])
+{
+  id: ID!
+  owner: String
+  userId: ID!
+  user: User @connection (fields: ["userId"])
+  category: String!
+  text: String!
+  params: AWSJSON
+}
+
+type BillingHistory @model
+@auth(rules: [
+  {allow: owner, ownerField: "owner"}
+])
+@key(name: "billingHistoryByUser", fields: ["userId"])
+{
+  id: ID!
+  owner: String
+  userId: ID!
+  user: User @connection (fields: ["userId"])
+  date: AWSDateTime!
+  nextRenewDate: AWSDate
+  subscription: SubscriptionType
+  amount: Float!
+  paid: Boolean
+}

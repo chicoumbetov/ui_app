@@ -7,6 +7,7 @@
 import * as _ from 'lodash';
 import * as React from 'react';
 import {
+  Animated,
   Image as RNImage,
   ImageProps as RNImageProps,
   ImageStyle,
@@ -16,13 +17,12 @@ import {
   ViewStyle,
 } from 'react-native';
 
-import { useEffect, useState, useRef } from 'react';
-import { useTimingTransition } from 'react-native-redash';
+import { useEffect, useState } from 'react';
 import CacheManager from './CacheManager';
 import BlurView from './BlurView';
 import { useHasChanged } from '../utils/CustomHooks';
 
-type ImageProps = Omit<RNImageProps, 'source' | 'style'> & {
+export type ImageProps = Omit<RNImageProps, 'source' | 'style'> & {
   style: ViewStyle;
   preview?: string;
   uri: string;
@@ -33,8 +33,7 @@ export default function Image(props: ImageProps): JSX.Element {
     preview, style, defaultSource, uri, ...otherProps
   } = props;
   const [uriState, setUriState] = useState<string | undefined>();
-  const [active, setActive] = useState(false);
-  const intensity = useRef(useTimingTransition(active, { duration: 300 })).current;
+  const [intensity] = useState(new Animated.Value(100));
   const previousState = useHasChanged(uriState);
 
   useEffect(() => {
@@ -59,7 +58,11 @@ export default function Image(props: ImageProps): JSX.Element {
 
   useEffect(() => {
     if (preview && previousState === undefined) {
-      setActive(true);
+      Animated.timing(intensity, {
+        duration: 300,
+        toValue: 0,
+        useNativeDriver: Platform.OS === 'android',
+      }).start();
     }
   }, [uriState]);
 
@@ -74,9 +77,7 @@ export default function Image(props: ImageProps): JSX.Element {
       }),
     ),
   ]);
-  console.log(isImageReady);
-  console.log(uriState);
-  console.log(otherProps);
+
   return (
     <View style={style}>
       {defaultSource && !hasPreview && !isImageReady && (
@@ -93,12 +94,12 @@ export default function Image(props: ImageProps): JSX.Element {
         />
       )}
       {hasPreview && (
-          <RNImage
-            source={{ uri: preview }}
-            resizeMode="cover"
-            style={computedStyle}
-            blurRadius={Platform.OS === 'android' ? 0.5 : 0}
-          />
+      <RNImage
+        source={{ uri: preview }}
+        resizeMode="cover"
+        style={computedStyle}
+        blurRadius={Platform.OS === 'android' ? 0.5 : 0}
+      />
       )}
       {isImageReady && <RNImage {...otherProps} source={{ uri: uriState }} style={computedStyle} />}
       {hasPreview && <BlurView style={computedStyle} {...{ intensity }} />}

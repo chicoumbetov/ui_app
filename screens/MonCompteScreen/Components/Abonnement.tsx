@@ -57,7 +57,7 @@ const AbonnementComp = () => {
   // console.log('AdresseType props', clientData.AdresseType);
 
   const onPress = () => {
-    navigation.navigate('ModifierInfo1');
+    navigation.navigate('modifier-info-1');
   };
 
   useEffect(() => {

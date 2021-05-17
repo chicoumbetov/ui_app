@@ -55,6 +55,7 @@ export type TextInputFormProps = Exclude<InputProps, 'onChangeText'> & {
   icon?: string;
   labelStyle?: StyleProp<TextStyle>;
   containerStyle?: StyleProp<ViewStyle>;
+  withEyeToggle?: boolean;
 } & FormChildProp;
 
 // Switch Types
@@ -92,6 +93,10 @@ export type PhoneNumberInputFormProps = Exclude<TextInputProps, 'onChangeText'> 
   containerStyle?: StyleProp<ViewStyle>;
 } & FormChildProp;
 
-export type DatePickerFormProps = {
+export type DatePickerFormProps = Exclude<DatepickerProps, 'onChangeText'> & {
   icon?: string;
+  labelStyle?: StyleProp<TextStyle>;
+  containerStyle?: StyleProp<ViewStyle>;
+  defaultValue?: Date;
+  labelBefore?: boolean;
 } & FormChildProp;

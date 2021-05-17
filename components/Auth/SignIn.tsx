@@ -95,6 +95,7 @@ const MySigIn = ({
               name="password"
               placeholder="Votre mot de passe"
               secureTextEntry
+              withEyeToggle
               validators={[
                 AvailableValidationRules.required,
                 AvailableValidationRules.password,

@@ -5,24 +5,17 @@
  */
 
 import * as React from 'react';
-import { Button, ButtonProps, Icon } from '@ui-kitten/components';
+import {
+  Icon, IconProps,
+} from '@ui-kitten/components';
+import { TouchableOpacity, TouchableOpacityProps } from 'react-native';
 
-type IconButtonProps = {
-  name: string;
-} & ButtonProps;
+type IconButtonProps = IconProps & TouchableOpacityProps;
 
 export default function UIKittenIconButton(props: IconButtonProps): JSX.Element {
-  const {
-    name,
-    ...otherProps
-  } = props;
-
   return (
-    <Button
-      {...otherProps}
-      accessoryLeft={(iconProps) => (
-        <Icon {...iconProps} name={name} />
-      )}
-    />
+    <TouchableOpacity {...props}>
+      <Icon {...props} />
+    </TouchableOpacity>
   );
 }

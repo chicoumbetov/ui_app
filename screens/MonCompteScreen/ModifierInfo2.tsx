@@ -1,49 +1,63 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import {
-  Button, Layout, Text,
+  Button, CalendarViewModes, Modal, Text,
 } from '@ui-kitten/components';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { Auth, DataStore } from 'aws-amplify';
 import { RouteProp } from '@react-navigation/core/lib/typescript/src/types';
 import { useForm } from 'react-hook-form';
+import { useMutation } from 'react-apollo';
+import gql from 'graphql-tag';
 import TextInput from '../../components/Form/TextInput';
-import { Utilisateur } from '../../src/models';
 import MaxWidthContainer from '../../components/MaxWidthContainer';
 import { TabMonCompteParamList } from '../../types';
 import Form from '../../components/Form/Form';
+import DatePicker from '../../components/Form/DatePicker';
+import { AvailableValidationRules } from '../../components/Form/validation';
+import Camera from '../../components/Camera';
+import { CreateUserMutation, CreateUserMutationVariables } from '../../src/API';
+import * as mutations from '../../src/graphql/mutations';
+import { useAuth } from '../../utils/CustomHooks';
 
 type ModifierInfo2Form = {
-  adresse:string;
-  complementAdresse: string;
-  codePostal: string;
-  ville: string;
-  pays: string;
-  dateNaissance: string;
+  address:string;
+  additionalAddress: string;
+  postalCode: string;
+  city: string;
+  country: string;
+  birthDate: string;
 };
 
 const ModifierInfo2 = () => {
   const navigation = useNavigation();
-  const route = useRoute<RouteProp<TabMonCompteParamList, 'ModifierInfo2'>>();
+  const route = useRoute<RouteProp<TabMonCompteParamList, 'modifier-info-2'>>();
 
   const modifierInfo2Form = useForm<ModifierInfo2Form>();
+  const { user } = useAuth();
+
+  const [createUser] = useMutation<
+  CreateUserMutation,
+  CreateUserMutationVariables
+  >(gql(mutations.createUser));
 
   const onPress = async (data: ModifierInfo2Form) => {
-    const authUser = await Auth.currentAuthenticatedUser();
+    const { birthDate, ...adresseProps } = data;
 
-    const { dateNaissance, ...adresseProps } = data;
+    await createUser({
+      variables: {
+        input: {
+          email: user?.attributes.email,
+          lastname: user?.attributes.family_name,
+          firstname: user?.attributes.given_name,
+          phoneNumber: user?.attributes.phone_number,
+          optIn: user?.attributes['custom:optIn'],
+          address: adresseProps,
+          birthDate,
+        },
+      },
+    });
 
-    await DataStore.save(new Utilisateur({
-      userID: authUser.username,
-      email: authUser.attributes.email,
-      nom: authUser.attributes.family_name,
-      prenom: authUser.attributes.given_name,
-      numeroTel: authUser.attributes.phone_number,
-      dateNaissance,
-      adresse: adresseProps,
-    }));
-
-    navigation.navigate('ModifierInfo3');
+    navigation.navigate('modifier-info-3');
   };
 
   return (
@@ -69,68 +83,74 @@ const ModifierInfo2 = () => {
             <Text category="h1" style={styles.title}>{route.params?.signUp ? 'Finalisez votre inscription' : 'Modifier vos informations'}</Text>
           </View>
 
-          <View style={{
-            flexDirection: 'row', marginBottom: 20, alignItems: 'center',
-          }}
-          >
-            <View style={{ marginRight: 20 }}>
-              <Text category="p1">Votre date de naissance</Text>
-            </View>
-
-            <Layout style={{ flex: 1, backgroundColor: 'transparent' }}>
-              <TextInput
-                name="dateNaissance"
-                placeholder="dd/mm/yyyy"
-                icon="calendar-outline"
-              />
-            </Layout>
-          </View>
-
-          <TextInput
-            name="adresse"
-            placeholder="Adresse"
+          <DatePicker
+            name="birthDate"
+            placeholder="dd/mm/yyyy"
+            label="Votre date de naissance"
+            labelBefore
+            icon="calendar-outline"
+            startView={CalendarViewModes.YEAR}
           />
 
-          <Layout style={{ marginTop: 20, backgroundColor: 'transparent' }}>
-            <TextInput
-              name="complementAdresse"
-              placeholder="Complément d'adresse"
-            />
-          </Layout>
+          <TextInput
+            name="address"
+            placeholder="Adresse"
+            containerStyle={{ marginTop: 20 }}
+            validators={[
+              AvailableValidationRules.required,
+            ]}
+          />
 
-          <Layout style={{ marginTop: 20, backgroundColor: 'transparent' }}>
-            <TextInput
-              name="codePostal"
-              placeholder="Code postale"
-            />
-          </Layout>
+          <TextInput
+            name="additionalAddress"
+            placeholder="Complément d'adresse"
+            containerStyle={{ marginTop: 20 }}
+          />
 
-          <Layout style={{ marginTop: 20, backgroundColor: 'transparent' }}>
-            <TextInput
-              name="ville"
-              placeholder="Ville"
-            />
-          </Layout>
+          <TextInput
+            name="postalCode"
+            placeholder="Code postal"
+            containerStyle={{ marginTop: 20 }}
+            validators={[
+              AvailableValidationRules.required,
+            ]}
+          />
 
-          <Layout style={{ marginTop: 20, backgroundColor: 'transparent' }}>
-            <TextInput
-              name="pays"
-              placeholder="Pays"
-            />
-          </Layout>
+          <TextInput
+            name="city"
+            placeholder="Ville"
+            containerStyle={{ marginTop: 20 }}
+            validators={[
+              AvailableValidationRules.required,
+            ]}
+          />
+
+          <TextInput
+            name="country"
+            placeholder="Pays"
+            containerStyle={{ marginTop: 20 }}
+            validators={[
+              AvailableValidationRules.required,
+            ]}
+          />
 
           <View style={styles.buttonRight}>
             <Button onPress={modifierInfo2Form.handleSubmit((data) => onPress(data))} size="large" style={{ width: 139 }}>
               Valider
             </Button>
           </View>
-          {/* <Modal visible style={{ overflow: 'hidden', alignItems: 'center', margin: 0 }}>
-        <Camera
-          onClose={() => {}}
-          onChoose={() => {}}
-          withPreview
-        />
-      </Modal> */}
+          {/* <Modal
+            visible
+            style={{
+              overflow: 'hidden', alignItems: 'center', margin: 0, height: '100%',
+            }}
+          >
+            <Camera
+              onClose={() => {}}
+              onChoose={() => {}}
+              withPreview
+            />
+          </Modal> */}
         </>
       </Form>
 

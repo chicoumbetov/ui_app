@@ -4,11 +4,13 @@
  * @author: David Buch
  */
 import {
-  DependencyList, EffectCallback, ForwardedRef, useEffect, useRef, useState,
+  DependencyList, EffectCallback, ForwardedRef, useCallback, useEffect, useRef, useState,
 } from 'react';
 import { useDimensions } from '@react-native-community/hooks';
 import { Platform, ScaledSize } from 'react-native';
 import NetInfo from '@react-native-community/netinfo';
+import { Auth } from 'aws-amplify';
+import { CognitoUser } from 'amazon-cognito-identity-js';
 
 export const usePrevious = <T extends unknown>(value: T): T | undefined => {
   const ref = useRef<T>();
@@ -79,3 +81,33 @@ export const useForwardedRef = <T>(ref: ForwardedRef<T>) => {
 
   return innerRef;
 };
+
+export function useAuth() {
+  const [user, setUser] = useState<any | null>(null);
+
+  useEffect(() => {
+    let active = true;
+
+    const check = async () => {
+      try {
+        const currentUser = await Auth.currentAuthenticatedUser();
+        if (active) setUser(currentUser);
+      } catch (error) {
+        if (active) setUser(null);
+      }
+    };
+
+    check();
+
+    return () => { active = false; };
+  }, [setUser]);
+
+  const signOut = useCallback(async () => {
+    await Auth.signOut();
+    setUser(null);
+  }, [setUser]);
+
+  return {
+    user, signOut,
+  };
+}

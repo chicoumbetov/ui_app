@@ -43,11 +43,11 @@ export type TabTableauDeBordParamList = {
 
 export type TabMonCompteParamList = {
   'mon-compte': undefined;
-  ModifierInfo1: undefined;
-  ModifierInfo2: {
+  'modifier-info-1': undefined;
+  'modifier-info-2': {
     signUp?:boolean
   };
-  ModifierInfo3: undefined;
+  'modifier-info-3': undefined;
   CameraDom: undefined;
 };
 

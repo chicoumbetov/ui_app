@@ -6,13 +6,13 @@ import {
   Button, Layout, Text,
 } from '@ui-kitten/components';
 import { useNavigation } from '@react-navigation/native';
-import TextInputComp from '../../components/Form/TextInput';
+import TextInput from '../../components/Form/TextInput';
 import MaxWidthContainer from '../../components/MaxWidthContainer';
 
 const ModifierAbonnement = () => {
   const navigation = useNavigation();
   const onPress = () => {
-    navigation.navigate('ModifierInfo2');
+    navigation.navigate('modifier-info-2');
   };
 
   useEffect(() => {
@@ -40,17 +40,16 @@ const ModifierAbonnement = () => {
         <Text category="h1" style={styles.title}>Modifier vos abonnements</Text>
       </View>
 
-      <TextInputComp
+      <TextInput
         name="prenom"
-        placeholder="Changer prènom"
+        placeholder="Prénom"
       />
 
-      <Layout style={{ marginTop: 20, backgroundColor: 'transparent' }}>
-        <TextInputComp
-          name="nom"
-          placeholder="Changer nom"
-        />
-      </Layout>
+      <TextInput
+        name="nom"
+        placeholder="Changer nom"
+        containerStyle={{ marginTop: 20 }}
+      />
 
       <View style={styles.buttonRight}>
         <Button onPress={onPress} size="large" style={{ width: 139 }}>

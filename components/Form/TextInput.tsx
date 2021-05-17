@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { useEffect, useState } from 'react';
 import { Icon, IconProps } from '@ui-kitten/components';
 import { Input } from '../UIKittenRewrite/Input';
@@ -16,21 +16,34 @@ const TextInputComp = React.forwardRef<Input, TextInputFormProps>(
       style,
       defaultValue,
       containerStyle,
+      withEyeToggle,
+      secureTextEntry,
       ...inputProps
     } = props;
 
-    const [inputValue, setInputValue] = useState<string | undefined>('');
+    const [inputValue, setInputValue] = useState<string | undefined>(defaultValue);
+    const [passwdShown, setPasswdShown] = useState(!secureTextEntry);
 
     useEffect(() => {
-      if (inputValue === '') {
+      if (inputValue === '' || !inputValue) {
         setInputValue(defaultValue);
       }
       if (onChangeValue && defaultValue) onChangeValue(inputValue);
-    }, [inputValue]);
+    }, [defaultValue, inputValue]);
 
     const renderIcon = (iconProps: IconProps) => (
       <Icon {...iconProps} name={icon} />
     );
+    const renderEyeIcon = (iconProps: IconProps) => (
+      <TouchableOpacity accessible={false} onPress={() => setPasswdShown(!passwdShown)}><Icon {...iconProps} name={passwdShown ? 'eye-off-outline' : 'eye-outline'} /></TouchableOpacity>
+    );
+
+    let finalIcon;
+    if (withEyeToggle && secureTextEntry) {
+      finalIcon = renderEyeIcon;
+    } else if (icon) {
+      finalIcon = renderIcon;
+    }
 
     return (
       <View style={[styles.container, containerStyle]}>
@@ -38,11 +51,12 @@ const TextInputComp = React.forwardRef<Input, TextInputFormProps>(
           autoCapitalize="none"
           ref={ref}
           label={label}
-          accessoryRight={icon ? renderIcon : undefined}
+          accessoryRight={finalIcon}
           style={[styles.input, style]}
           caption={error && error.message}
           status={error && error.message ? 'danger' : ''}
           {...inputProps}
+          secureTextEntry={!passwdShown}
           size="medium"
           onChangeText={(text) => {
             setInputValue(text);

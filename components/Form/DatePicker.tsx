@@ -1,27 +1,61 @@
 import * as React from 'react';
-import { View, StyleSheet } from 'react-native';
+import {
+  View, StyleSheet,
+} from 'react-native';
 import { useEffect, useState } from 'react';
-import { Datepicker, Icon, IconProps } from '@ui-kitten/components';
+import {
+  Datepicker, I18nConfig, Icon, IconProps, NativeDateService, Text,
+} from '@ui-kitten/components';
 import { DatePickerFormProps } from './types';
 
-const TextInputComp = React.forwardRef<Datepicker, DatePickerFormProps>(
+const i18n : I18nConfig = {
+  dayNames: {
+    short: ['Di', 'Lu', 'Ma', 'Me', 'Je', 'Ve', 'Sa'],
+    long: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
+  },
+  monthNames: {
+    short: ['Janv.', 'Févr.', 'Mars', 'Avr.', 'Mai', 'Juin', 'Juil.', 'Août', 'Sept.', 'Oct.', 'Nov.', 'Déc.'],
+    long: [
+      'Janvier',
+      'Février',
+      'Mars',
+      'Avril',
+      'Mai',
+      'Juin',
+      'Juillet',
+      'Août',
+      'Septembre',
+      'October',
+      'Novembre',
+      'Décembre',
+    ],
+  },
+};
+const localeDateService = new NativeDateService('ru', { i18n, startDayOfWeek: 1 });
+
+const DatepickerComp = React.forwardRef<Datepicker, DatePickerFormProps>(
   (props: DatePickerFormProps, ref): React.ReactElement => {
     const {
       label,
+      labelBefore,
       icon,
       error,
       onChangeValue,
       placeholder,
+      labelStyle,
+      containerStyle,
+      defaultValue,
+      style,
       ...DatePickerProps
     } = props;
 
-    const [inputValue, setInputValue] = useState<Date | null>(null);
+    const [inputValue, setInputValue] = useState<Date>();
 
     useEffect(() => {
       if (inputValue === null) {
         setInputValue(defaultValue);
       }
-      if (onChangeValue && defaultValue) onChangeValue(inputValue);
+      if (onChangeValue && defaultValue) onChangeValue(inputValue?.toISOString());
     }, [inputValue]);
 
     const renderIcon = (iconProps: IconProps) => (
@@ -29,31 +63,49 @@ const TextInputComp = React.forwardRef<Datepicker, DatePickerFormProps>(
     );
 
     return (
-      <View style={[styles.container, containerStyle]}>
+      <View style={[styles.container, containerStyle, labelBefore ? { flexDirection: 'row', alignItems: 'center' } : {}]}>
+        {labelBefore && (
+        <View style={{ marginRight: 20 }}>
+          <Text category="label">{label}</Text>
+        </View>
+        )}
         <Datepicker
-          label={label}
+          label={labelBefore ? undefined : label}
+          ref={ref}
           accessoryRight={icon ? renderIcon : undefined}
           style={[styles.input, style]}
           caption={error && error.message}
           status={error && error.message ? 'danger' : ''}
-          {...DatePickerProps}
+          dateService={localeDateService}
+          controlStyle={{
+            shadowColor: 'rgba(190, 190, 190, 0.5)',
+            shadowOffset: {
+              width: 0,
+              height: 1,
+            },
+            shadowRadius: 2,
+            shadowOpacity: 1,
+            elevation: 2,
+          }}
+          min={new Date(1900, 0, 1)}
           size="medium"
-          onChangeText={(text) => {
-            setInputValue(text);
+          {...DatePickerProps}
+          onSelect={(date) => {
+            setInputValue(date);
             if (onChangeValue) {
-              onChangeValue(text);
+              onChangeValue(date.toISOString().substr(0, 10));
             }
           }}
-          value={inputValue}
+          date={inputValue}
         />
       </View>
     );
   },
 );
 
-TextInputComp.displayName = 'TextInput';
+DatepickerComp.displayName = 'Datepicker';
 
-export default TextInputComp;
+export default DatepickerComp;
 
 const styles = StyleSheet.create({
   container: {

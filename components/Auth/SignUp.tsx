@@ -46,6 +46,7 @@ const MySignUp = ({
       phone_number: data.phone_number,
       family_name: data.lastname,
       given_name: data.firstname,
+      'custom:optIn': data.optIn,
     });
   };
 
@@ -89,6 +90,7 @@ const MySignUp = ({
               name="password"
               placeholder="Votre mot de passe"
               secureTextEntry
+              withEyeToggle
               validators={[
                 AvailableValidationRules.required,
                 AvailableValidationRules.password,
@@ -176,7 +178,8 @@ interface SignUpProps {
     phone_number: string,
     password: string,
     given_name: string,
-    family_name: string
+    family_name: string,
+    'custom:optIn': boolean
   }) => void
   goBack: () => void
   goConfirmCode: () => void

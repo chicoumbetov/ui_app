@@ -94,9 +94,11 @@ const omedomTheme = {
   'border-radius': 4,
   'border-width': 1,
   'text-subtitle-1-font-size': 15,
+  'text-paragraph-1-font-size': 17,
   'size-medium': 40,
   'size-small': 32,
   'icon-size-default': 24,
+  'spacing-small': 7,
 };
 
 export default omedomTheme;

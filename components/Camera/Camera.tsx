@@ -16,11 +16,16 @@ import Text from '../Text';
 import { durationToStr } from '../../utils/TimeHelper';
 import ActivityIndicator from '../ActivityIndicator';
 import SafeAreaView from '../SafeAreaView';
-import { colors, spacing } from '../../assets/styles';
-import { IconName } from '../Icon/Icon';
 import Image from '../Image';
 import NotImplementedScreen from '../../screens/NotImplementedScreen';
 import UIKittenIconButton from '../Icon/UIKittenIconButton';
+
+import WbAuto from './WbIcons/WbAuto.svg';
+import WbCloudy from './WbIcons/WbCloudy.svg';
+import WbIncandescent from './WbIcons/WbIncandescent.svg';
+import WbIridescent from './WbIcons/WbIridescent.svg';
+import WbShadow from './WbIcons/WbShadow.svg';
+import WbSunny from './WbIcons/WbSunny.svg';
 
 type RecordingMode = 'video' | 'image';
 
@@ -44,12 +49,12 @@ type CameraProps = {
 };
 
 type WhiteBalanceList = {
-  auto: IconName;
-  sunny: IconName;
-  cloudy: IconName;
-  shadow: IconName;
-  fluorescent: IconName;
-  incandescent: IconName;
+  auto: string;
+  sunny: string;
+  cloudy: string;
+  shadow: string;
+  fluorescent: string;
+  incandescent: string;
 };
 
 type WhiteBalanceKeyList = {
@@ -68,15 +73,6 @@ const wbOrder: WhiteBalanceKeyList = {
   shadow: 'fluorescent',
   fluorescent: 'incandescent',
   incandescent: 'auto',
-};
-
-const wbIcons: WhiteBalanceList = {
-  auto: 'wb_auto',
-  sunny: 'wb_sunny',
-  cloudy: 'wb_cloudy',
-  shadow: 'beach_access',
-  fluorescent: 'wb_iridescent',
-  incandescent: 'wb_incandescent',
 };
 
 const DESIRED_RATIO = '16:9';
@@ -137,7 +133,39 @@ export default function Camera(props: CameraProps): JSX.Element {
     }
   };
 
-  const setClampedZoom = (v: number) => setZoom(v < 0 ? 0 : v > 1 ? 1 : v);
+  const setClampedZoom = (v: number) => {
+    let value = v;
+    if (v < 0) {
+      value = 0;
+    } else if (v > 1) {
+      value = 1;
+    }
+    setZoom(value);
+  };
+
+  const renderWBIcon = (name: keyof WhiteBalanceList) => {
+    switch (name) {
+      case 'cloudy':
+        return <WbCloudy fill="white" width={25} />;
+        break;
+      case 'fluorescent':
+        return <WbIridescent fill="white" width={25} />;
+        break;
+      case 'incandescent':
+        return <WbIncandescent fill="white" width={25} />;
+        break;
+      case 'shadow':
+        return <WbShadow fill="white" width={25} />;
+        break;
+      case 'sunny':
+        return <WbSunny fill="white" width={25} />;
+        break;
+      case 'auto':
+      default:
+        return <WbAuto fill="white" width={25} />;
+        break;
+    }
+  };
 
   const takePicture = async () => {
     if (camera.current) {
@@ -289,7 +317,7 @@ export default function Camera(props: CameraProps): JSX.Element {
   };
 
   // eslint-disable-next-line @typescript-eslint/naming-convention
-  const _onPinchGestureEvent = (event: PinchGestureHandlerGestureEvent) => {
+  const onPinchGestureEvent = (event: PinchGestureHandlerGestureEvent) => {
     const { scale } = event.nativeEvent;
 
     if (Math.abs(lastDistance - scale) > 0.01) {
@@ -371,24 +399,25 @@ export default function Camera(props: CameraProps): JSX.Element {
   }
   const gridWidth = croper.newWidth;
 
+  const spacingSmall = parseInt(theme['spacing-small'], 10);
   const calculatedStyles = {
     grid: StyleSheet.flatten<ViewStyle>({
-      borderColor: colors.darkGray,
+      borderColor: theme['color-basic-600'],
       borderWidth: 1,
       borderBottomWidth: 0,
-      width: gridWidth - spacing.small * 2,
-      height: gridHeight - spacing.small * 2,
+      width: gridWidth - spacingSmall * 2,
+      height: gridHeight - spacingSmall * 2,
     }),
     row: StyleSheet.flatten<ViewStyle>({
-      height: (gridHeight - spacing.small * 2) / 3,
-      borderColor: colors.darkGray,
+      height: (gridHeight - spacingSmall * 2) / 3,
+      borderColor: theme['color-basic-600'],
       borderBottomWidth: 1,
       flexDirection: 'row',
     }),
     cell: StyleSheet.flatten<ViewStyle>({
-      width: (gridWidth - spacing.small * 2) / 3,
-      height: (gridHeight - spacing.small * 2) / 3,
-      borderColor: colors.darkGray,
+      width: (gridWidth - spacingSmall * 2) / 3,
+      height: (gridHeight - spacingSmall * 2) / 3,
+      borderColor: theme['color-basic-600'],
       borderRightWidth: 1,
     }),
   };
@@ -417,6 +446,34 @@ export default function Camera(props: CameraProps): JSX.Element {
     );
   }
 
+  let snapButton = (
+    <View style={[styles.innerSnapButton, { backgroundColor: theme['color-primary-600'] }]}>
+      <UIKittenIcon
+        name={recordingMode === 'video' ? 'video' : 'camera'}
+        fill="white"
+        width={25}
+      />
+    </View>
+  );
+  if (isSaving) {
+    snapButton = (
+      <ActivityIndicator />
+    );
+  } else if (isRecording) {
+    snapButton = (
+      <View style={[styles.innerSnapButton, { backgroundColor: 'transparent' }]}>
+        <View
+          style={{
+            width: 20,
+            height: 20,
+            borderRadius: 4,
+            backgroundColor: 'red',
+          }}
+        />
+      </View>
+    );
+  }
+
   return (
     <View
       style={[
@@ -442,7 +499,7 @@ export default function Camera(props: CameraProps): JSX.Element {
         onCameraReady={prepareRatio} // You can only get the supported ratios when the camera is mounted
       >
         <SafeAreaView style={styles.cameraSafeArea} top>
-          <PinchGestureHandler onGestureEvent={_onPinchGestureEvent}>
+          <PinchGestureHandler onGestureEvent={onPinchGestureEvent}>
             <Animated.View
               style={{
                 position: 'absolute',
@@ -462,55 +519,64 @@ export default function Camera(props: CameraProps): JSX.Element {
               }}
             />
           </PinchGestureHandler>
+          {showGrid && (
+          <View
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <View style={calculatedStyles.grid}>
+              <View style={calculatedStyles.row}>
+                <View style={calculatedStyles.cell} />
+                <View style={calculatedStyles.cell} />
+              </View>
+              <View style={calculatedStyles.row}>
+                <View style={calculatedStyles.cell} />
+                <View style={calculatedStyles.cell} />
+              </View>
+              <View style={calculatedStyles.row}>
+                <View style={calculatedStyles.cell} />
+                <View style={calculatedStyles.cell} />
+              </View>
+            </View>
+          </View>
+          )}
           <View style={styles.header}>
             <UIKittenIconButton
-              appearance="ghost"
               name="grid"
               onPress={toggleGrid}
-              style={{ color: 'white' }}
+              fill="white"
+              width={25}
             />
             <UIKittenIconButton
-              appearance="ghost"
               name={flashMode === OriginalCamera.Constants.FlashMode.on
             || flashMode === OriginalCamera.Constants.FlashMode.torch ? 'flash' : 'flash-off'}
               onPress={toggleFlash}
               disabled={isRecording || type === OriginalCamera.Constants.Type.front}
+              fill="white"
+              width={25}
               style={{
                 opacity: isRecording || type === OriginalCamera.Constants.Type.front
                   ? 0 : 1,
-                color: 'white',
               }}
             />
-
-          </View>
-          {showGrid && (
-            <View
+            <TouchableOpacity
+              onPress={toggleWB}
+              disabled={isRecording}
               style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                alignItems: 'center',
-                justifyContent: 'center',
+                opacity: isRecording ? 0 : 1,
               }}
             >
-              <View style={calculatedStyles.grid}>
-                <View style={calculatedStyles.row}>
-                  <View style={calculatedStyles.cell} />
-                  <View style={calculatedStyles.cell} />
-                </View>
-                <View style={calculatedStyles.row}>
-                  <View style={calculatedStyles.cell} />
-                  <View style={calculatedStyles.cell} />
-                </View>
-                <View style={calculatedStyles.row}>
-                  <View style={calculatedStyles.cell} />
-                  <View style={calculatedStyles.cell} />
-                </View>
-              </View>
-            </View>
-          )}
+              {renderWBIcon(whiteBalance)}
+            </TouchableOpacity>
+          </View>
+
           {/* <View style={styles.zoom}>
                         <SliderVertical
                             onValueChange={setClampedZoom}
@@ -520,7 +586,8 @@ export default function Camera(props: CameraProps): JSX.Element {
             <UIKittenIconButton
               appearance="ghost"
               name="close"
-              style={{ color: 'white' }}
+              fill="white"
+              width={25}
               onPress={() => goBack(true)}
             />
             <TouchableOpacity onPress={takePicture}>
@@ -530,27 +597,7 @@ export default function Camera(props: CameraProps): JSX.Element {
                 </View>
               )}
               <View style={styles.snapButton}>
-                {isSaving ? (
-                  <ActivityIndicator />
-                ) : isRecording ? (
-                  <View style={[styles.innerSnapButton, { backgroundColor: 'transparent' }]}>
-                    <View
-                      style={{
-                        width: 20,
-                        height: 20,
-                        borderRadius: 4,
-                        backgroundColor: 'red',
-                      }}
-                    />
-                  </View>
-                ) : (
-                  <View style={[styles.innerSnapButton, { backgroundColor: theme['color-primary-600'] }]}>
-                    <UIKittenIcon
-                      name={recordingMode === 'video' ? 'video' : 'camera'}
-                      style={{ color: 'white' }}
-                    />
-                  </View>
-                )}
+                {snapButton}
               </View>
             </TouchableOpacity>
 
@@ -558,10 +605,11 @@ export default function Camera(props: CameraProps): JSX.Element {
               name="flip-2"
               onPress={toggleCamera}
               disabled={isRecording}
+              fill="white"
+              width={25}
               style={{
                 opacity: isRecording
                   ? 0 : 1,
-                color: 'white',
               }}
             />
           </View>
@@ -583,26 +631,27 @@ const styles = StyleSheet.create({
   cameraSafeArea: {
     flex: 1,
     justifyContent: 'space-between',
-    backgroundColor: colors.transparent,
+    backgroundColor: 'transparent',
   },
   header: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    padding: spacing.small,
+    justifyContent: 'space-around',
+    padding: 10,
+    height: 50,
   },
   footer: {
     backgroundColor: 'black',
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
-    padding: spacing.small,
+    padding: 10,
   },
   snapButton: {
     width: 64,
     height: 64,
     borderRadius: 32,
     borderWidth: 4,
-    borderColor: colors.white,
+    borderColor: 'white',
     justifyContent: 'center',
     alignItems: 'center',
   },

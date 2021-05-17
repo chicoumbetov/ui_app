@@ -17,6 +17,7 @@ import { HubCapsule } from 'aws-amplify-react-native/types';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { CognitoUserAttribute } from 'amazon-cognito-identity-js';
+import { ApolloProvider } from 'react-apollo';
 import omedomTheme from './custom-theme';
 import mapping from './mapping.json';
 
@@ -30,6 +31,7 @@ import awsExports from './src/aws-exports';
 import {
   ConfirmSignUp, ForgotPassword, SignIn, SignUp,
 } from './components/Auth';
+import client, { Rehydration } from './src/Apollo';
 
 Amplify.configure({
   ...awsExports,
@@ -44,7 +46,7 @@ const listener = async (data: HubCapsule) => {
       const user = await Auth.currentAuthenticatedUser();
       user.getUserAttributes((error?: Error, result?: CognitoUserAttribute[]) => {
         if (result) {
-          for (let i = 0; i < result.length; i++) {
+          for (let i = 0; i < result.length; i += 1) {
             if (result[i].getName() === 'given_name') {
               AsyncStorage.setItem('lastFirstname', result[i].getValue());
             }
@@ -130,7 +132,13 @@ function App() {
         customMapping={mapping}
         theme={{ ...eva.light, ...omedomTheme }}
       >
-        {authState === 'signedIn' ? (<Navigation colorScheme={colorScheme} />) : (
+        {authState === 'signedIn' ? (
+          <ApolloProvider client={client}>
+            <Rehydration>
+              <Navigation colorScheme={colorScheme} />
+            </Rehydration>
+          </ApolloProvider>
+        ) : (
           <Authenticator
             onStateChange={setAuthState}
             hideDefault

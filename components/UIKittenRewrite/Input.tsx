@@ -1,3 +1,4 @@
+// @ts-nocheck Code venant de UI Kitten directement
 /**
  * @license
  * Copyright Akveo. All Rights Reserved.

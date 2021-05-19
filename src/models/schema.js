@@ -641,6 +641,19 @@ export const schema = {
                         "targetName": "bankAccountId"
                     }
                 },
+                "realEstate": {
+                    "name": "realEstate",
+                    "isArray": false,
+                    "type": {
+                        "model": "BankAccount"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "association": {
+                        "connectionType": "BELONGS_TO",
+                        "targetName": "realEstateId"
+                    }
+                },
                 "bridgetApiId": {
                     "name": "bridgetApiId",
                     "isArray": false,
@@ -720,6 +733,15 @@ export const schema = {
                         "name": "bankMovementByBudgetLine",
                         "fields": [
                             "budgetLineId"
+                        ]
+                    }
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "name": "bankMovementByRealEstate",
+                        "fields": [
+                            "realEstateId"
                         ]
                     }
                 }
@@ -1201,5 +1223,5 @@ export const schema = {
             }
         }
     },
-    "version": "b649e7dff35735cdc27338758697f9de"
+    "version": "e1b69d1a180e2ec382333597c3b18d95"
 };

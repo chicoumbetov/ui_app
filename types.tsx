@@ -1,5 +1,3 @@
-import { InputProps } from '@ui-kitten/components';
-
 /**
  * 1. Navigation Stack Param List types
  * 2. ... types
@@ -49,11 +47,12 @@ export type TabMonCompteParamList = {
   };
   'modifier-info-3': undefined;
   CameraDom: undefined;
+  ModifierAbonnement: undefined;
 };
 
 export type TabMesBiensParamList = {
   'mes-biens': undefined;
-  'detail-bien': { id: number };
+  'detail-bien': { id: string };
   MonBudget: undefined;
   'ajout-revenu': undefined;
   ParametrerAjoutCharges: undefined;

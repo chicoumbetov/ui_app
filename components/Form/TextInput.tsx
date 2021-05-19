@@ -1,7 +1,10 @@
 import * as React from 'react';
-import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import {
+  View, StyleSheet, TouchableOpacity, ScrollView,
+} from 'react-native';
 import { useEffect, useState } from 'react';
 import { Icon, IconProps } from '@ui-kitten/components';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Input } from '../UIKittenRewrite/Input';
 import { TextInputFormProps } from './types';
 
@@ -18,6 +21,7 @@ const TextInputComp = React.forwardRef<Input, TextInputFormProps>(
       containerStyle,
       withEyeToggle,
       secureTextEntry,
+      keyboardType,
       ...inputProps
     } = props;
 
@@ -39,6 +43,7 @@ const TextInputComp = React.forwardRef<Input, TextInputFormProps>(
     );
 
     let finalIcon;
+
     if (withEyeToggle && secureTextEntry) {
       finalIcon = renderEyeIcon;
     } else if (icon) {
@@ -51,6 +56,7 @@ const TextInputComp = React.forwardRef<Input, TextInputFormProps>(
           autoCapitalize="none"
           ref={ref}
           label={label}
+          keyboardType={keyboardType || 'default'}
           accessoryRight={finalIcon}
           style={[styles.input, style]}
           caption={error && error.message}

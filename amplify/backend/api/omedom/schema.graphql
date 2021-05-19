@@ -177,10 +177,13 @@ type BankAccount @model {
 type BankMovement @model
 @key(name: "bankMovementByByBankAccount", fields: ["bankAccountId"])
 @key(name: "bankMovementByBudgetLine", fields: ["budgetLineId"])
+@key(name: "bankMovementByRealEstate", fields: ["realEstateId"])
 {
   id: ID!
   bankAccountId: ID!
   bankAccount: BankAccount! @connection(fields: ["bankAccountId"])
+  realEstateId: ID
+  realEstate: BankAccount @connection(fields: ["realEstateId"])
   bridgetApiId: String!
   description: String!
   amount: Float!

@@ -13,9 +13,15 @@ import MonBien from './Components/MonBien';
 import MaxWidthContainer from '../../components/MaxWidthContainer';
 import comptesData from '../../mockData/comptesData';
 
+import { RealEstateItem, useRealEstateList } from '../../src/API/RealEstate';
+import ActivityIndicator from '../../components/ActivityIndicator';
+
 function MesBiens() {
   const linkTo = useLinkTo();
   const [compte] = useState(comptesData);
+  const { loading, refetch, data } = useRealEstateList();
+
+  console.log('biens', data);
 
   const onAjoutBien = () => {
     linkTo('/mes-biens/ajouter');
@@ -46,12 +52,15 @@ function MesBiens() {
         <MonBien />
         <MonBien />
         */}
-
-        <FlatList
-          data={compte}
-          renderItem={(item) => <MonBien title={item.item.title} id={item.item.id} />}
-          keyExtractor={(item) => item.id}
-        />
+        {loading
+          ? <ActivityIndicator />
+          : (
+            <FlatList<RealEstateItem>
+              data={data?.listRealEstates?.items}
+              renderItem={({ item }) => <MonBien bien={item} />}
+              keyExtractor={(item) => item.id}
+            />
+          )}
 
         <Button
           size="large"

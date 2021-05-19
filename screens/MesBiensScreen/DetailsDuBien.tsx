@@ -12,10 +12,12 @@ import {
   StyleSheet, TouchableOpacity,
 } from 'react-native';
 import {
-  useLinkTo, useNavigation,
+  useLinkTo, useNavigation, useRoute,
   // useRoute
 } from '@react-navigation/native';
 
+import { RouteProp } from '@react-navigation/core/lib/typescript/src/types';
+import * as DocumentPicker from 'expo-document-picker';
 import Icon from '../../components/Icon';
 import MaxWidthContainer from '../../components/MaxWidthContainer';
 
@@ -25,8 +27,14 @@ import WomanAvatar from '../../assets/Omedom_Icons_svg/Avatars/womanAvatar.svg';
 
 // import comptesData from '../../mockData/comptesData';
 import clientData from '../../mockData/clientDATA';
+import { useGetRealEstate } from '../../src/API/RealEstate';
+import { TabMesBiensParamList } from '../../types';
+import { Upload } from '../../utils/S3FileStorage';
 
 function DetailsBien() {
+  const route = useRoute<RouteProp<TabMesBiensParamList, 'detail-bien'>>();
+  const { loading, refetch, data } = useGetRealEstate(route.params.id);
+
   const navigation = useNavigation();
   // const route = useRoute();
   const linkTo = useLinkTo();
@@ -86,7 +94,7 @@ function DetailsBien() {
             style={{ marginRight: 12, marginBottom: 10 }}
           />
           <Text category="h2" status="basic">
-            La Maison de JP
+            {data?.getRealEstate?.name}
           </Text>
         </Layout>
 
@@ -248,25 +256,31 @@ function DetailsBien() {
         <Layout style={styles.compteSection}>
           {/* use SectionList to render several accounts with its types and details */}
           <Text category="h6" status="basic">Localisation</Text>
-          <Text category="h6" appearance="hint" style={{ marginTop: 6 }}>{clientData.AdresseType.fields[0].adresse}</Text>
+          <Text category="h6" appearance="hint" style={{ marginTop: 6 }}>
+            {`${data?.getRealEstate?.address?.address} ${data?.getRealEstate?.address?.city}`}
+          </Text>
           <Layout style={{ borderBottomWidth: 0.5, borderBottomColor: '#b5b5b5', marginVertical: 15 }} />
 
           <Text category="h6" status="basic" style={{ marginTop: 8 }}>Date d'acquisition</Text>
           <Text category="h6" appearance="hint" style={{ marginTop: 5 }}>
-            {clientData.Client.fields[0].email}
+            {data?.getRealEstate?.purchaseYear || undefined}
           </Text>
           <Layout style={{ borderBottomWidth: 0.3, borderBottomColor: '#b5b5b5', marginVertical: 15 }} />
 
           <Text category="h6" status="basic" style={{ marginTop: 8 }}>Type de bien</Text>
-          <Text category="h6" appearance="hint" style={{ marginTop: 5 }}>{clientData.AdresseType.fields[0].ville}</Text>
+          <Text category="h6" appearance="hint" style={{ marginTop: 5 }}>
+            {data?.getRealEstate?.address?.city || undefined}
+          </Text>
           <Layout style={{ borderBottomWidth: 0.5, borderBottomColor: '#b5b5b5', marginVertical: 15 }} />
 
           <Text category="h6" status="basic" style={{ marginTop: 10 }}>Mode de détention</Text>
-          <Text category="h6" appearance="hint" style={{ marginTop: 5 }}>{clientData.Client.fields[0].numeroTel}</Text>
+          <Text category="h6" appearance="hint" style={{ marginTop: 5 }}>
+            {clientData.numeroTel}
+          </Text>
           <Layout style={{ borderBottomWidth: 0.5, borderBottomColor: '#b5b5b5', marginVertical: 15 }} />
 
           <Text category="h6" status="basic" style={{ marginTop: 8 }}>Nombre de parts</Text>
-          <Text category="h6" appearance="hint" style={{ marginTop: 5 }}>{clientData.AdresseType.fields[0].ville}</Text>
+          <Text category="h6" appearance="hint" style={{ marginTop: 5 }}>{clientData.adresse.ville}</Text>
         </Layout>
 
         <TouchableOpacity onPress={allerModifierCharacteristics}>
@@ -284,11 +298,11 @@ function DetailsBien() {
         <Layout style={styles.compteSection}>
           {/* use SectionList to render several accounts with its types and details */}
           <Text category="h6" status="basic">
-            {clientData.Client.fields[0].prenom}
+            {clientData.prenom}
             {' '}
-            {clientData.Client.fields[0].nom}
+            {clientData.nom}
           </Text>
-          <Text category="h6" appearance="hint" style={{ marginTop: 6 }}>{clientData.AdresseType.fields[0].adresse}</Text>
+          <Text category="h6" appearance="hint" style={{ marginTop: 6 }} />
           <Layout style={{ borderBottomWidth: 0.5, borderBottomColor: '#b5b5b5', marginVertical: 15 }} />
 
           <Text category="h6" status="basic" style={{ marginTop: 7 }}>Date de fin de bail</Text>
@@ -299,7 +313,7 @@ function DetailsBien() {
               marginTop: 5,
             }}
           >
-            {clientData.Client.fields[0].dateDeNaissance}
+            {clientData.dateNaissance}
           </Text>
         </Layout>
 
@@ -326,7 +340,13 @@ function DetailsBien() {
           <Text category="p2">Aide_Déclaration_Impôts_2021</Text>
 
           <Layout style={{ flexDirection: 'row' }}>
-            <TouchableOpacity onPress={() => {}}>
+            <TouchableOpacity onPress={async () => {
+              console.log('should');
+              const doc = await DocumentPicker.getDocumentAsync();
+              const key = Upload(doc, `biens/${route.params.id}/documents/`);
+              console.log(key);
+            }}
+            >
               <IconUIKitten name="cloud-download" fill="#b5b5b5" style={{ height: 14, width: 14, marginRight: 24 }} />
             </TouchableOpacity>
 
@@ -337,7 +357,13 @@ function DetailsBien() {
         </Layout>
 
         <Layout style={styles.button}>
-          <TouchableOpacity onPress={() => {}}>
+          <TouchableOpacity onPress={async () => {
+            console.log('should');
+            const doc = await DocumentPicker.getDocumentAsync();
+            const key = await Upload(doc, `biens/${route.params.id}/documents/`);
+            console.log(key);
+          }}
+          >
             <Text category="h5" status="info" style={styles.buttonText}>Ajouter</Text>
           </TouchableOpacity>
 

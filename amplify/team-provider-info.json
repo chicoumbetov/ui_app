@@ -14,6 +14,12 @@
     "categories": {
       "auth": {
         "omedomfee3bfe0": {}
+      },
+      "function": {
+        "S3Trigger9d22396d": {
+          "deploymentBucketName": "amplify-omedom-dev-175444-deployment",
+          "s3Key": "amplify-builds/S3Trigger9d22396d-366e6d5a4c6b6a7a4e37-build.zip"
+        }
       }
     }
   }

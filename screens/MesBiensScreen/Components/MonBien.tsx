@@ -20,7 +20,7 @@ import Graphics from '../../../components/Graphics/Graphics';
 
 import RotatingIcon from '../../../components/Icon/RotatingIcon';
 import MaxWidthContainer from '../../../components/MaxWidthContainer';
-import { CompteType } from '../../../types';
+import { RealEstateItem } from '../../../src/API/RealEstate';
 
 const mesBiensData = [
   { x: '35%', y: 35 },
@@ -29,8 +29,11 @@ const mesBiensData = [
   { x: '35%', y: 35 },
 ];
 
-const MonBien = (props: CompteType) => {
-  const { title } = props;
+type MonBienProps = { bien: RealEstateItem };
+
+const MonBien = (props: MonBienProps) => {
+  const { bien } = props;
+  console.log('Mon Bien', bien);
   const linkTo = useLinkTo();
   const navigation = useNavigation();
   const [opened, setOpened] = useState(false);
@@ -43,8 +46,7 @@ const MonBien = (props: CompteType) => {
     navigation.navigate('mes-rapports-biens1');
   };
 
-  const onDetailsBiens = () => {
-    const id = '10';
+  const onDetailsBiens = (id: string) => {
     linkTo(`/mes-biens/bien/${id}`);
   };
 
@@ -66,7 +68,7 @@ const MonBien = (props: CompteType) => {
 
         <TouchableOpacity onPress={() => setOpened(!opened)}>
           <Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-            <CompteHeader title={title} />
+            <CompteHeader title={bien.name} />
             <RotatingIcon name="arrow-ios-downward-outline" uikitten state={opened} width={24} height={25} fill="#b5b5b5" />
           </Layout>
         </TouchableOpacity>
@@ -181,7 +183,7 @@ const MonBien = (props: CompteType) => {
               </Layout>
             </Layout>
 
-            <TouchableOpacity onPress={onDetailsBiens} style={styles.button}>
+            <TouchableOpacity onPress={() => onDetailsBiens(bien.id)} style={styles.button}>
               <Text category="h6" status="basic">Accéder au bien</Text>
               <Icon
                 name="chevron-right-outline"

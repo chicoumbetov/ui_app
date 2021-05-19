@@ -4,24 +4,25 @@
  * @author: Amaury, Shynggys UMBETOV
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import {
   StyleSheet, TouchableOpacity, View,
 } from 'react-native';
 
 import {
-  Button, Datepicker, Icon, Layout, Text, useTheme,
+  Button, Icon, Layout, Text, useTheme,
 } from '@ui-kitten/components';
 
 import * as ImagePicker from 'expo-image-picker';
+import { Auth } from 'aws-amplify';
+import { View as MotiView } from 'moti';
 import { colors } from '../../assets/styles';
 import Form from '../../components/Form/Form';
 import SelectComp from '../../components/Form/Select';
 
-import TextInputComp from '../../components/Form/TextInput';
 import {
-  detention, statut, typeBien, typeDetention, typeImpo,
+  detention, statut, typeBien, typeDetention, typeImpot,
 } from '../../mockData/ajoutBienData';
 
 import MaisonVerte from '../../assets/Omedom_Icons_svg/Logement/maison_verte.svg';
@@ -35,26 +36,30 @@ import Manoir from '../../assets/Omedom_Icons_svg/Logement/manoir.svg';
 import Riad from '../../assets/Omedom_Icons_svg/Logement/riad.svg';
 import Voiture from '../../assets/Omedom_Icons_svg/Logement/voiture.svg';
 import MaxWidthContainer from '../../components/MaxWidthContainer';
+import TextInput from '../../components/Form/TextInput';
+import { AvailableValidationRules } from '../../components/Form/validation';
+import { createRealEstateMutation } from '../../src/API/RealEstate';
+import { CompanyType, RealEstateType, TaxType } from '../../src/API';
 
 type AjoutBienForm = {
-  typeBien: string;
-  detention: string;
-  statut: string;
-  typeImpo: string;
-  typeDetention: string;
-};
-
-const initialFormState = {
-  typeBien: 'Type de bien',
-  detention: 'Détention',
-  statut: 'Statut',
-  typeImpo: 'Type d\'imposition',
-  typeDetention: 'Type de détention',
+  name: string,
+  purchaseYear?: number | null,
+  address: string,
+  additionalAddress?: string | null,
+  postalCode: string,
+  city: string,
+  country: string,
+  type?: RealEstateType | null,
+  ownName?: boolean | null,
+  detentionPart?: number | null,
+  company?: CompanyType | null,
+  typeImpot?: TaxType | null,
 };
 
 function AjoutBienScreen() {
   const theme = useTheme();
-  const [formState, updateFormState] = useState(initialFormState);
+
+  const createRealEstate = createRealEstateMutation();
 
   const ajoutBienForm = useForm<AjoutBienForm>();
 
@@ -68,6 +73,36 @@ function AjoutBienScreen() {
     }
   };
 
+  const onAjoutBien = async (data: AjoutBienForm) => {
+    console.log(data);
+
+    const {
+      address, additionalAddress, city, postalCode, country, detentionPart, ...rest
+    } = data;
+
+    const user = await Auth.currentAuthenticatedUser();
+
+    await createRealEstate({
+      variables: {
+        input: {
+          ...rest,
+          detentionPart: detentionParte,
+          iconUri: 'default::mainHouse',
+          admins: [
+            user.id,
+          ],
+          address: {
+            address,
+            additionalAddress,
+            city,
+            postalCode,
+            country,
+          },
+        },
+      },
+    });
+  };
+
   /**
    *Variable pour gérer l'affichage des trois grandes partie
    * */
@@ -76,7 +111,6 @@ function AjoutBienScreen() {
   /**
    *Variable pour gérer la date
    * */
-  const [date, setDate] = useState(null);
   const [image, setImage] = useState('MaisonVerte');
 
   /**
@@ -87,7 +121,7 @@ function AjoutBienScreen() {
   const CalendarIcon = (props) => (
     <Icon {...props} name="calendar-outline" />
   );
-
+  const [detentionParte, setDetentionPart] = useState<number | null>(null);
   const [detentionShow, setDetentionShow] = useState(false);
 
   const [statutShow, setStatutShow] = useState(false);
@@ -142,14 +176,14 @@ function AjoutBienScreen() {
             <Text style={styles.faq} category="h1">Création de votre bien</Text>
           </View>
           {/**
-       *  Identité
+       *  Identité 1/3 title part
        */}
           <View
             style={[
               styles.item,
               {
                 backgroundColor: ((etape === 0)
-                  ? colors.blanc
+                  ? (theme['color-basic-100'])
                   : (theme['color-success-100'])),
               },
             ]}
@@ -164,109 +198,106 @@ function AjoutBienScreen() {
               </Text>
             </TouchableOpacity>
           </View>
-          {etape === 0 && (
-            <View>
-              <Layout style={{
-                backgroundColor: colors.blanc,
-                paddingHorizontal: 16,
-                marginHorizontal: 23,
-                marginTop: 7,
-                paddingVertical: 11.5,
-                borderRadius: 7,
-              }}
-              >
-
-                <TextInputComp style={{ marginBottom: 30, marginLeft: 23, marginRight: 22 }} name="nomDuBien" placeholder="Le nom du bien" />
-              </Layout>
-
-              <Layout style={{ alignItems: 'center', backgroundColor: 'transparent', marginVertical: 34 }}>
-                <SelectedIcon height={146} width={146} />
-              </Layout>
-              <Layout style={{ marginLeft: 10, backgroundColor: 'transparent' }}>
-                <Text category="h5" appearance="hint">
-                  Choisir une icone
-                </Text>
-              </Layout>
-              <Layout style={{
-                flexDirection: 'row', marginTop: 21, justifyContent: 'space-evenly', marginLeft: -6, backgroundColor: 'transparent',
-              }}
-              >
-                <TouchableOpacity onPress={() => { setImage('MaisonVerte'); }}>
-                  <MaisonVerte height={53} width={53} />
-                </TouchableOpacity>
-
-                <TouchableOpacity onPress={() => { setImage('Immeuble'); }}>
-                  <Immeuble height={53} width={53} />
-                </TouchableOpacity>
-
-                <TouchableOpacity onPress={() => { setImage('Cabane'); }}>
-                  <Cabane height={53} width={53} />
-                </TouchableOpacity>
-
-                <TouchableOpacity onPress={() => { setImage('Bateau'); }}>
-                  <Bateau height={53} width={53} />
-                </TouchableOpacity>
-
-                <TouchableOpacity onPress={() => { setImage('Boutique'); }}>
-                  <Boutique height={53} width={53} />
-                </TouchableOpacity>
-
-              </Layout>
-              <Layout style={{
-                flexDirection: 'row', marginTop: 34, justifyContent: 'space-evenly', marginLeft: -6, backgroundColor: 'transparent',
-              }}
-              >
-                <TouchableOpacity onPress={() => { setImage('Chateau'); }}>
-                  <Chateau height={53} width={53} />
-                </TouchableOpacity>
-
-                <TouchableOpacity onPress={() => { setImage('Manoir'); }}>
-                  <Manoir height={53} width={53} />
-                </TouchableOpacity>
-
-                <TouchableOpacity onPress={() => { setImage('MaisonBleu'); }}>
-                  <MaisonBleu height={53} width={53} />
-                </TouchableOpacity>
-
-                <TouchableOpacity onPress={() => { setImage('Riad'); }}>
-                  <Riad height={53} width={53} />
-                </TouchableOpacity>
-
-                <TouchableOpacity onPress={() => { setImage('Voiture'); }}>
-                  <Voiture height={53} width={53} />
-                </TouchableOpacity>
-
-              </Layout>
-
-              <Layout style={{ paddingHorizontal: 23, backgroundColor: 'transparent' }}>
-                <TouchableOpacity onPress={() => {}} style={{ marginVertical: 30.5 }}>
-                  <Text category="h5" status="info">Prendre une photo</Text>
-                </TouchableOpacity>
-
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: 7 }}>
-                  <TouchableOpacity onPress={() => { pickImage(); }}>
-                    <Text category="h5" status="info">Ajouter une photo</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity onPress={() => {}}>
-                    <Text
-                      category="h5"
-                      style={{
-                        marginRight: 6,
-                      }}
-                    >
-                      Supprimer la photo
-                    </Text>
-                  </TouchableOpacity>
-                </View>
-              </Layout>
-
-            </View>
-          )}
-
           {/**
-       *  Localisation
-       */}
+           Identité 1/3  ( etape1 )
+           * */}
+          <MotiView animate={{ height: (etape === 0 ? 540 : 0) }} style={{ overflow: 'hidden' }} transition={{ type: 'timing', duration: 2000 }}>
 
+            <TextInput
+              style={{ marginBottom: 30, marginLeft: 23, marginRight: 22 }}
+              name="name"
+              placeholder="Le nom du bien"
+
+            />
+
+            <Layout style={{
+              alignItems: 'center', backgroundColor: 'transparent', marginVertical: 34,
+            }}
+            >
+              <SelectedIcon height={146} width={146} />
+            </Layout>
+            <Layout style={{ marginLeft: 10, backgroundColor: 'transparent' }}>
+              <Text category="h5" appearance="hint">
+                Choisir une icone
+              </Text>
+            </Layout>
+            <Layout style={{
+              flexDirection: 'row', marginTop: 21, justifyContent: 'space-evenly', marginLeft: -6, backgroundColor: 'transparent',
+            }}
+            >
+              <TouchableOpacity onPress={() => { setImage('MaisonVerte'); }}>
+                <MaisonVerte height={53} width={53} />
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={() => { setImage('Immeuble'); }}>
+                <Immeuble height={53} width={53} />
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={() => { setImage('Cabane'); }}>
+                <Cabane height={53} width={53} />
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={() => { setImage('Bateau'); }}>
+                <Bateau height={53} width={53} />
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={() => { setImage('Boutique'); }}>
+                <Boutique height={53} width={53} />
+              </TouchableOpacity>
+
+            </Layout>
+            <Layout style={{
+              flexDirection: 'row', marginTop: 34, justifyContent: 'space-evenly', marginLeft: -6, backgroundColor: 'transparent',
+            }}
+            >
+              <TouchableOpacity onPress={() => { setImage('Chateau'); }}>
+                <Chateau height={53} width={53} />
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={() => { setImage('Manoir'); }}>
+                <Manoir height={53} width={53} />
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={() => { setImage('MaisonBleu'); }}>
+                <MaisonBleu height={53} width={53} />
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={() => { setImage('Riad'); }}>
+                <Riad height={53} width={53} />
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={() => { setImage('Voiture'); }}>
+                <Voiture height={53} width={53} />
+              </TouchableOpacity>
+
+            </Layout>
+
+            <Layout style={{ paddingHorizontal: 23, backgroundColor: 'transparent' }}>
+              <TouchableOpacity onPress={() => {}} style={{ marginVertical: 30.5 }}>
+                <Text category="h5" status="info">Prendre une photo</Text>
+              </TouchableOpacity>
+
+              <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: 7 }}>
+                <TouchableOpacity onPress={() => { pickImage(); }}>
+                  <Text category="h5" status="info">Ajouter une photo</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => {}}>
+                  <Text
+                    category="h5"
+                    style={{
+                      marginRight: 6,
+                    }}
+                  >
+                    Supprimer la photo
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </Layout>
+
+          </MotiView>
+          {/**
+          *  Identité 2/3 title
+          */}
           <View style={[
             styles.item,
             {
@@ -286,26 +317,59 @@ function AjoutBienScreen() {
               </Text>
             </TouchableOpacity>
           </View>
-
-          {etape === 1 && (
-            <View style={{
-              marginBottom: 30,
+          {/**
+           Identité 2/3  ( etape2 )
+           * */}
+          <MotiView
+            animate={{ height: (etape === 1 ? 400 : 0) }}
+            style={{
+              overflow: 'hidden',
+              flexDirection: 'column',
               marginLeft: 23,
               marginRight: 22,
+              justifyContent: 'space-between',
             }}
-            >
-              <TextInputComp style={{ marginBottom: 30 }} name="adresse" placeholder="Adresse" />
-              <TextInputComp style={{ marginBottom: 30 }} name="complement" placeholder="Complément d'adresse" />
-              <TextInputComp style={{ marginBottom: 30 }} name="codePostal" placeholder="Code Postal" />
-              <TextInputComp style={{ marginBottom: 30 }} name="ville" placeholder="Ville" />
-              <TextInputComp name="pays" placeholder="Pays" />
-            </View>
-          )}
+            transition={{ type: 'timing', duration: 2000 }}
+          >
 
+            <TextInput
+              name="address"
+              placeholder="Adresse"
+              validators={[
+                AvailableValidationRules.required,
+              ]}
+            />
+            <TextInput
+              name="additionalAddress"
+              placeholder="Complément d'adresse"
+            />
+            <TextInput
+              name="postalCode"
+              placeholder="Code Postal"
+              validators={[
+                AvailableValidationRules.required,
+              ]}
+            />
+            <TextInput
+              name="city"
+              placeholder="Ville"
+              validators={[
+                AvailableValidationRules.required,
+              ]}
+            />
+            <TextInput
+              name="country"
+              placeholder="Pays"
+              validators={[
+                AvailableValidationRules.required,
+              ]}
+            />
+
+          </MotiView>
           {/**
-       *  Mode de détention
-       */}
-
+          *  Mode de détention
+          *  Identité 3/3 (etape 3) title
+          */}
           <View style={[
             styles.item,
             {
@@ -325,75 +389,139 @@ function AjoutBienScreen() {
               </Text>
             </TouchableOpacity>
           </View>
-          {etape === 2 && (
-            <View style={{ marginHorizontal: 27, marginBottom: 20 }}>
-              <View style={{
-                flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
-              }}
-              >
-                <Layout style={{ backgroundColor: 'transparent', marginRight: 20 }}>
-                  <Text category="h5" status="basic">
-                    Date d'acquisition
-                  </Text>
-                </Layout>
-                <Datepicker
-                  name="dateAcquisition"
-                  placeholder="dd/mm/yyyy"
-                  date={date}
-                  onSelect={(nextDate) => setDate(nextDate)}
-                  accessoryRight={CalendarIcon}
-                />
-
-              </View>
-              <Layout style={{ backgroundColor: 'transparent' }}>
-
-                <SelectComp name="typeBien" data={typeBien} placeholder="Type De Bien" size="large" appearance="default" status="primary" />
-                <SelectComp name="Detention" data={detention} placeholder="Détention" onChangeValue={(v) => { if (v === 'b1') { setDetentionShow(true); setStatutShow(false); setPourcentageDetentionShow(false); } else { setDetentionShow(false); setStatutShow(true); setPourcentageDetentionShow(true); } }} size="large" appearance="default" status="primary" />
-
-                {detentionShow
-              && (
-              <Layout>
-                <SelectComp name="typeDetention" data={typeDetention} placeholder="Type De Détention" onChangeValue={(v) => { if (v === 'b2') { setPourcentageDetentionShow(true); } else { setPourcentageDetentionShow(false); } }} size="large" appearance="default" status="primary" />
-
-              </Layout>
-              )}
-                {statutShow
-              && (
-              <>
-
-                <SelectComp name="typeBien" data={statut} placeholder="Status" size="large" appearance="default" status="primary" />
-                <SelectComp name="typeBien" data={typeImpo} placeholder="Type d'imposition" size="large" appearance="default" status="primary" />
-
-              </>
-              )}
-
-                {pourcentageDetentionShow && (
-                <Layout style={{
-                  flexDirection: 'row', alignItems: 'center', backgroundColor: 'transparent',
-                }}
-                >
-                  <Text category="h5" style={{ flex: 1 }}>Pourcentage de détention</Text>
-                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                    <TextInputComp name="detention" size="small" style={{ width: 55, marginRight: 10 }} />
-                    <Text category="h5">%</Text>
-                  </View>
-                </Layout>
-                )}
-
-              </Layout>
-              <View style={{ alignItems: 'flex-end', marginBottom: 10 }}>
-                <Button
-                  onPress={ajoutBienForm.handleSubmit((e) => {
-                    console.log(e);
-                  })}
-                  size="large"
-                >
-                  Enregistrer
-                </Button>
-              </View>
+          {/**
+           *  Mode de détention
+           *  Identité 3/3 (etape 3)
+           */}
+          <MotiView
+            animate={{ maxHeight: (etape === 2 ? 500 : 0) }}
+            style={{
+              overflow: 'hidden',
+              flexDirection: 'column',
+              marginHorizontal: 23,
+              justifyContent: 'space-between',
+            }}
+            transition={{ type: 'timing', duration: 500 }}
+          >
+            <View style={{
+              flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8,
+            }}
+            >
+              <Text category="h5" status="basic" style={{ flex: 1, marginRight: 20 }}>
+                Année d'acquisition
+              </Text>
+              <TextInput
+                name="purchaseYear"
+                placeholder="yyyy"
+                maxLength={4}
+                icon="calendar-outline"
+              />
             </View>
 
-          )}
+            <View style={{ height: 140 }}>
+              <SelectComp
+                name="type"
+                data={typeBien}
+                placeholder="Type De Bien"
+                size="large"
+                appearance="default"
+                status="primary"
+              />
+              <SelectComp
+                name="ownName"
+                data={detention}
+                placeholder="Détention"
+                onChangeValue={(v) => {
+                  if (v === true) {
+                    setDetentionShow(true);
+                    setStatutShow(false);
+                    setPourcentageDetentionShow(false);
+                  } else {
+                    setDetentionShow(false); setStatutShow(true); setPourcentageDetentionShow(true);
+                  }
+                }}
+                size="large"
+                appearance="default"
+                status="primary"
+              />
+            </View>
+
+            {detentionShow
+              && (
+              <View style={{ height: 75 }}>
+                <>
+                  <SelectComp
+                    name="detentionPart"
+                    data={typeDetention}
+                    placeholder="Type De Détention"
+                    onChangeValue={(v) => {
+                      if (v === 'Indivision') {
+                        setPourcentageDetentionShow(true);
+                      } else {
+                        setDetentionPart(100);
+                        setPourcentageDetentionShow(false);
+                      }
+                    }}
+                    size="large"
+                    appearance="default"
+                    status="primary"
+                  />
+                </>
+
+              </View>
+              )}
+
+            {statutShow
+              && (
+              <View style={{ height: 125 }}>
+                <SelectComp name="company" data={statut} placeholder="Status" size="large" appearance="default" status="primary" />
+                <SelectComp name="typeImpo" data={typeImpot} placeholder="Type d'imposition" size="large" appearance="default" status="primary" />
+              </View>
+              )}
+
+            <MotiView
+              animate={{ maxHeight: (pourcentageDetentionShow ? 500 : 0) }}
+              style={{
+                overflow: 'hidden',
+                flexDirection: 'row',
+                marginHorizontal: 23,
+                justifyContent: 'space-between',
+                height: 60,
+                alignItems: 'center',
+              }}
+              transition={{ type: 'timing' }}
+            >
+
+              {/**
+                  if Intégrale then 100%
+                  else write number in text input
+                  */}
+              <Text category="h5" style={{ flex: 1 }}>Pourcentage de détention</Text>
+              <View style={{ flexDirection: 'row', alignItems: 'center', width: 80 }}>
+                <TextInput
+                  name="detentionPart"
+                  size="small"
+                  min={0}
+                  max={100}
+                  maxLength={4}
+                  keyboardType="numeric"
+                  style={{ marginRight: 10 }}
+                  defaultValue={detentionParte}
+                />
+                <Text category="h5">%</Text>
+              </View>
+
+            </MotiView>
+
+            <View style={{ alignItems: 'flex-end', marginBottom: 10 }}>
+              <Button
+                onPress={ajoutBienForm.handleSubmit((data) => onAjoutBien(data))}
+                size="large"
+              >
+                Enregistrer
+              </Button>
+            </View>
+          </MotiView>
 
         </>
       </Form>
@@ -415,96 +543,9 @@ const styles = StyleSheet.create({
   item: {
     padding: 20,
     marginBottom: 30,
-    fontSize: 16,
-    fontWeight: '600',
-    fontStyle: 'normal',
     lineHeight: 24,
     letterSpacing: 0,
     color: colors.noir,
-  },
-
-  // Mode de detention part
-  headerDown: {
-    padding: 22,
-    marginHorizontal: 24,
-    marginBottom: 36,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    borderRadius: 7,
-    backgroundColor: '#37a3de',
-    shadowColor: 'rgba(199, 199, 199, 0.5)',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowRadius: 4,
-    shadowOpacity: 1,
-  },
-  headerUp: {
-    paddingHorizontal: 23,
-    paddingTop: 24,
-    paddingBottom: 23.5,
-    marginHorizontal: 24,
-    marginBottom: 15,
-    flexDirection: 'row',
-    // alignItems: 'center',
-    justifyContent: 'space-between',
-    borderRadius: 7,
-    backgroundColor: '#5fc4ee',
-    shadowColor: 'rgba(199, 199, 199, 0.5)',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowRadius: 4,
-    shadowOpacity: 1,
-  },
-  headerText: {
-    fontSize: 16,
-    color: '#fff',
-  },
-  title: {
-    fontSize: 24,
-  },
-  inputText: {
-    marginLeft: 39,
-    marginTop: 30,
-    marginRight: 22,
-  },
-  text: {
-    fontSize: 16,
-    fontFamily: 'HouschkaRoundedDemiBold',
-    lineHeight: 24,
-    letterSpacing: 0,
-    color: colors.noir,
-  },
-
-  // Localisation input style
-  inputStyle: {
-    fontSize: 16,
-    marginTop: 6,
-    borderRadius: 7,
-    paddingVertical: 14,
-    paddingHorizontal: 21,
-    marginHorizontal: 20,
-    backgroundColor: '#fff',
-    fontWeight: 'normal',
-    borderColor: 'transparent',
-    marginBottom: 32,
-    shadowColor: '#dedede',
-    shadowOffset: {
-      width: 0,
-      height: 0.5,
-    },
-    shadowRadius: 4,
-    shadowOpacity: 1,
-  },
-
-  // bouton ajouter supprimer
-  button: {
-    fontSize: 17,
-    color: '#0076c8',
   },
 });
 

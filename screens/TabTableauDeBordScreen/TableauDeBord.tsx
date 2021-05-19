@@ -19,9 +19,11 @@ import MaisonVert from '../../assets/Omedom_Icons_svg/Logement/maison_verte.svg'
 import Immeuble from '../../assets/Omedom_Icons_svg/Logement/immeuble.svg';
 import MaxWidthContainer from '../../components/MaxWidthContainer';
 import MonBienResume from '../../components/MonBienResume';
+import { useRealEstateList } from '../../src/API/RealEstate';
 
 function TableauDeBord() {
   const linkTo = useLinkTo();
+  const { loading, refetch, data } = useRealEstateList();
 
   // const [compte, setCompte] = useState(comptesData);
 

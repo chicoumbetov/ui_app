@@ -30,11 +30,10 @@ import clientData from '../../mockData/clientDATA';
 import { useGetRealEstate } from '../../src/API/RealEstate';
 import { TabMesBiensParamList } from '../../types';
 import { Upload } from '../../utils/S3FileStorage';
-import { detention } from '../../mockData/ajoutBienData';
 
 function DetailsBien() {
   const route = useRoute<RouteProp<TabMesBiensParamList, 'detail-bien'>>();
-  const { loading, refetch, data } = useGetRealEstate(route.params.id);
+  const { data } = useGetRealEstate(route.params.id);
 
   const navigation = useNavigation();
   // const route = useRoute();
@@ -302,22 +301,28 @@ function DetailsBien() {
           {/* use SectionList to render several accounts with its types and details */}
           <Text category="h6" status="basic">
             {clientData.prenom}
-            {' '}
-            {clientData.nom}
           </Text>
+          {data?.getRealEstate?.tenants?.map((tenant) => (
+            <Text category="h6" status="basic">{`${tenant?.firstname} ${tenant?.lastname}`}</Text>
+          )) || undefined}
+          {data?.getRealEstate?.tenants?.map((tenant) => (
+            <Text category="h6" appearance="hint">{`${tenant?.firstname} ${tenant?.amount}`}</Text>
+          )) || undefined}
           <Text category="h6" appearance="hint" style={{ marginTop: 6 }} />
           <Layout style={{ borderBottomWidth: 0.5, borderBottomColor: '#b5b5b5', marginVertical: 15 }} />
 
           <Text category="h6" status="basic" style={{ marginTop: 7 }}>Date de fin de bail</Text>
-          <Text
-            category="h6"
-            appearance="hint"
-            style={{
-              marginTop: 5,
-            }}
-          >
-            {clientData.dateNaissance}
-          </Text>
+          {data?.getRealEstate?.tenants?.map((tenant) => (
+            <Text
+              category="h6"
+              appearance="hint"
+              style={{
+                marginTop: 5,
+              }}
+            >
+              {`${tenant?.firstname} ${tenant?.endDate}`}
+            </Text>
+          )) || undefined}
         </Layout>
 
         <Layout style={styles.button}>
@@ -344,7 +349,7 @@ function DetailsBien() {
 
           <Layout style={{ flexDirection: 'row' }}>
             <TouchableOpacity onPress={async () => {
-              console.log('should');
+              // console.log('should');
               const doc = await DocumentPicker.getDocumentAsync();
               const key = Upload(doc, `biens/${route.params.id}/documents/`);
               console.log(key);

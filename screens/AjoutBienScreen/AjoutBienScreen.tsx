@@ -346,6 +346,7 @@ function AjoutBienScreen() {
             <TextInput
               name="postalCode"
               placeholder="Code Postal"
+              maxLength={5}
               validators={[
                 AvailableValidationRules.required,
               ]}
@@ -475,7 +476,7 @@ function AjoutBienScreen() {
               && (
               <View style={{ height: 125 }}>
                 <SelectComp name="company" data={statut} placeholder="Status" size="large" appearance="default" status="primary" />
-                <SelectComp name="typeImpo" data={typeImpot} placeholder="Type d'imposition" size="large" appearance="default" status="primary" />
+                <SelectComp name="typeImpot" data={typeImpot} placeholder="Type d'imposition" size="large" appearance="default" status="primary" />
               </View>
               )}
 

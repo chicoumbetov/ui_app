@@ -172,7 +172,6 @@ export enum RealEstateType {
   privateRentalInvestment = "privateRentalInvestment",
 }
 
-
 export enum CompanyType {
   SCI = "SCI",
   SAS = "SAS",
@@ -184,7 +183,6 @@ export enum TaxType {
   RevenueTax = "RevenueTax",
   SocialTax = "SocialTax",
 }
-
 
 export type TenantInfoInput = {
   amount: number,

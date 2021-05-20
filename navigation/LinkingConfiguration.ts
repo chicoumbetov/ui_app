@@ -20,6 +20,7 @@ export default {
                   'mes-rapports': '/mes-rapports',
                   'mes-rapports-biens1': '/mes-rapports-biens1',
                   'mes-rapports-biens2': '/mes-rapports-biens2',
+                  'modifier-characteristique': '/bien/:id//modifier-characteristique',
                 },
               },
               'mes-charges-nav': {

@@ -30,6 +30,7 @@ import clientData from '../../mockData/clientDATA';
 import { useGetRealEstate } from '../../src/API/RealEstate';
 import { TabMesBiensParamList } from '../../types';
 import { Upload } from '../../utils/S3FileStorage';
+import { detention } from '../../mockData/ajoutBienData';
 
 function DetailsBien() {
   const route = useRoute<RouteProp<TabMesBiensParamList, 'detail-bien'>>();
@@ -60,7 +61,7 @@ function DetailsBien() {
     navigation.navigate('PartagerBien');
   };
   const allerModifierCharacteristics = () => {
-    navigation.navigate('ModifierCharacteristiques');
+    navigation.navigate('modifier-characteristique', { id: route.params.id });
   };
 
   return (
@@ -257,7 +258,7 @@ function DetailsBien() {
           {/* use SectionList to render several accounts with its types and details */}
           <Text category="h6" status="basic">Localisation</Text>
           <Text category="h6" appearance="hint" style={{ marginTop: 6 }}>
-            {`${data?.getRealEstate?.address?.address} ${data?.getRealEstate?.address?.city}`}
+            {`${data?.getRealEstate?.address?.address} ${data?.getRealEstate?.address?.postalCode} ${data?.getRealEstate?.address?.city}`}
           </Text>
           <Layout style={{ borderBottomWidth: 0.5, borderBottomColor: '#b5b5b5', marginVertical: 15 }} />
 
@@ -269,18 +270,20 @@ function DetailsBien() {
 
           <Text category="h6" status="basic" style={{ marginTop: 8 }}>Type de bien</Text>
           <Text category="h6" appearance="hint" style={{ marginTop: 5 }}>
-            {data?.getRealEstate?.address?.city || undefined}
+            {data?.getRealEstate?.type || undefined}
           </Text>
           <Layout style={{ borderBottomWidth: 0.5, borderBottomColor: '#b5b5b5', marginVertical: 15 }} />
 
           <Text category="h6" status="basic" style={{ marginTop: 10 }}>Mode de détention</Text>
           <Text category="h6" appearance="hint" style={{ marginTop: 5 }}>
-            {clientData.numeroTel}
+            {data?.getRealEstate?.ownName ? 'Nom propre' : 'Société'}
           </Text>
           <Layout style={{ borderBottomWidth: 0.5, borderBottomColor: '#b5b5b5', marginVertical: 15 }} />
 
           <Text category="h6" status="basic" style={{ marginTop: 8 }}>Nombre de parts</Text>
-          <Text category="h6" appearance="hint" style={{ marginTop: 5 }}>{clientData.adresse.ville}</Text>
+          <Text category="h6" appearance="hint" style={{ marginTop: 5 }}>
+            {data?.getRealEstate?.detentionPart || undefined}
+          </Text>
         </Layout>
 
         <TouchableOpacity onPress={allerModifierCharacteristics}>

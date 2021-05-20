@@ -37,11 +37,14 @@ function MonBudget() {
   };
 
   return (
-    <MaxWidthContainer outerViewProps={{
-      style: {
-        backgroundColor: '#efefef',
-      },
-    }}
+    <MaxWidthContainer
+      withScrollView="keyboardAware"
+      outerViewProps={{
+        style: {
+          backgroundColor: '#efefef',
+        },
+        showsVerticalScrollIndicator: false,
+      }}
     >
 
       {/**

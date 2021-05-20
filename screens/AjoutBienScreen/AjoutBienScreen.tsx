@@ -164,10 +164,12 @@ function AjoutBienScreen() {
 
   return (
     <MaxWidthContainer
+      withScrollView="keyboardAware"
       outerViewProps={{
         style: {
           backgroundColor: '#f6f6f6',
         },
+        showsVerticalScrollIndicator: false,
       }}
     >
       <Form<AjoutBienForm> {...ajoutBienForm}>

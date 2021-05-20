@@ -10,9 +10,9 @@ import PartagerBien from '../screens/MesBiensScreen/Components/PartagerBien';
 import ModifierCharacteristiques
   from '../screens/MesBiensScreen/Components/ModifierCharacteristiques';
 import AjoutBienScreen from '../screens/AjoutBienScreen/AjoutBienScreen';
-import MesRapports from "../screens/MesBiensScreen/Components/MesRapports";
-import MesRapportBien1 from "../screens/MesBiensScreen/Components/MesRapportBien1";
-import MesRapportBien2 from "../screens/MesBiensScreen/Components/MesRapportBien2";
+import MesRapports from '../screens/MesBiensScreen/Components/MesRapports';
+import MesRapportBien1 from '../screens/MesBiensScreen/Components/MesRapportBien1';
+import MesRapportBien2 from '../screens/MesBiensScreen/Components/MesRapportBien2';
 
 const Stack = createStackNavigator<TabMesBiensParamList>();
 
@@ -47,7 +47,7 @@ export default function MesBiensStackNavigator() {
         component={PartagerBien}
       />
       <Stack.Screen
-        name="ModifierCharacteristiques"
+        name="modifier-characteristique"
         component={ModifierCharacteristiques}
       />
       <Stack.Screen
@@ -55,16 +55,16 @@ export default function MesBiensStackNavigator() {
         component={AjoutBienScreen}
       />
       <Stack.Screen
-          name="mes-rapports"
-          component={MesRapports}
+        name="mes-rapports"
+        component={MesRapports}
       />
       <Stack.Screen
-          name="mes-rapports-biens1"
-          component={MesRapportBien1}
+        name="mes-rapports-biens1"
+        component={MesRapportBien1}
       />
       <Stack.Screen
-          name="mes-rapports-biens2"
-          component={MesRapportBien2}
+        name="mes-rapports-biens2"
+        component={MesRapportBien2}
       />
 
     </Stack.Navigator>

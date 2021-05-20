@@ -57,7 +57,7 @@ export type TabMesBiensParamList = {
   'ajout-revenu': undefined;
   ParametrerAjoutCharges: undefined;
   PartagerBien: undefined;
-  ModifierCharacteristiques: undefined;
+  'modifier-characteristique': undefined;
   'ajout-bien-screen': undefined;
   'mes-rapports': undefined;
   'mes-rapports-biens1': undefined;

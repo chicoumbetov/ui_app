@@ -110,6 +110,7 @@ const ModifierInfo2 = () => {
           <TextInput
             name="postalCode"
             placeholder="Code postal"
+            maxLength={5}
             containerStyle={{ marginTop: 20 }}
             validators={[
               AvailableValidationRules.required,

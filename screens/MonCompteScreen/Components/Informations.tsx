@@ -16,11 +16,14 @@ const Informations = ({ utilisateur } : InformationProps) => {
   };
   // eslint-disable-next-line implicit-arrow-linebreak
   return (
-    <MaxWidthContainer outerViewProps={{
-      style: {
-        flex: 1, backgroundColor: '#f6f6f6', paddingTop: 32, paddingHorizontal: 22, marginTop: 11,
-      },
-    }}
+    <MaxWidthContainer
+      withScrollView="keyboardAware"
+      outerViewProps={{
+        style: {
+          flex: 1, backgroundColor: '#f6f6f6', paddingTop: 32, paddingHorizontal: 22, marginTop: 11,
+        },
+        showsVerticalScrollIndicator: false,
+      }}
     >
       <Text
         category="h2"

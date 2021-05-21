@@ -9,7 +9,7 @@ export const typeRevenu = [
   },
   {
     label: 'Revenu Divers',
-    key: 'varousRevenue',
+    key: 'variousRevenue',
   },
 ];
 
@@ -24,7 +24,7 @@ export const montant = [
   },
   {
     label: 'TauxFrais',
-    key: 'b3',
+    key: 'Rate Fee',
   },
 ];
 
@@ -50,15 +50,15 @@ export const typeMontant = [
 export const frequence = [
   {
     label: 'Mensuelle',
-    key: 'mmm',
+    key: 'Mensuelle',
   },
   {
     label: 'Trimestrielle',
-    key: 'b2',
+    key: 'Trimestrielle',
   },
   {
     label: 'Annuelle',
-    key: 'b3',
+    key: 'Annuelle',
   },
 ];
 

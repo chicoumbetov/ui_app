@@ -7,8 +7,9 @@ import {
 } from 'react-native';
 
 import { useForm } from 'react-hook-form';
-import { Auth } from 'aws-amplify';
-import MaisonVert from '../../../assets/Omedom_Icons_svg/Logement/maison_verte.svg';
+
+import { useRoute } from '@react-navigation/native';
+import { RouteProp } from '@react-navigation/core/lib/typescript/src/types';
 
 import SelectComp from '../../../components/Form/Select';
 import {
@@ -19,6 +20,9 @@ import MaxWidthContainer from '../../../components/MaxWidthContainer';
 import { Frequency } from '../../../src/API';
 import DatepickerComp from '../../../components/Form/DatePicker';
 import TextInput from '../../../components/Form/TextInput';
+import { TabMesBiensParamList } from '../../../types';
+import { useGetRealEstate } from '../../../src/API/RealEstate';
+import CompteHeader from '../../../components/CompteHeader/CompteHeader';
 
 type ParamBudgetForm = {
   category: string,
@@ -29,6 +33,10 @@ type ParamBudgetForm = {
 
 const ParametrerAjoutRevenu = () => {
   const paramBudgetForm = useForm<ParamBudgetForm>();
+  const route = useRoute<RouteProp<TabMesBiensParamList, 'ajout-revenu'>>();
+  console.log('route ajout revenu', route);
+  const { data } = useGetRealEstate(route.params.id);
+  // console.log('data ajout revenu: ', data);
 
   const [frequenceShow, setFrequenceShow] = useState(false);
   const [montantShow, setMontantShow] = useState(false);
@@ -58,33 +66,17 @@ const ParametrerAjoutRevenu = () => {
          *  I. Mon Budget
          */}
       <Layout style={styles.container}>
-        <Text category="h1">
+        <Text category="h1" style={{ marginBottom: 20 }}>
           Paramétrer votre budget
         </Text>
-        <View style={{
-          marginTop: 10, marginRight: 20, flexDirection: 'row', alignItems: 'center',
-        }}
-        >
-          <View style={{ marginRight: 12 }}>
-            <MaisonVert height={40} width={40} />
-          </View>
-
-          <Text category="h3">
-            {' '}
-            {/* {compte.typeRevenu} */}
-            La Maison
-            {' '}
-            de Mathieu
-            {' '}
-          </Text>
-        </View>
+        <CompteHeader title={data?.getRealEstate?.name} />
       </Layout>
 
       {/**
        *  II. Ajouter revenu
        */}
       <Layout style={styles.container}>
-        <Text category="s2" status="basic">
+        <Text category="s2" status="basic" style={{ marginBottom: 20 }}>
           Ajouter un revenu
         </Text>
 

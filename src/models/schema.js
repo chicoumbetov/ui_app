@@ -175,6 +175,15 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
+                "typeImpot": {
+                    "name": "typeImpot",
+                    "isArray": false,
+                    "type": {
+                        "enum": "TaxType"
+                    },
+                    "isRequired": false,
+                    "attributes": []
+                },
                 "budgetLines": {
                     "name": "budgetLines",
                     "isArray": true,
@@ -969,6 +978,13 @@ export const schema = {
                 "SARLfamille"
             ]
         },
+        "TaxType": {
+            "name": "TaxType",
+            "values": [
+                "RevenueTax",
+                "SocialTax"
+            ]
+        },
         "BudgetLineType": {
             "name": "BudgetLineType",
             "values": [
@@ -1207,5 +1223,5 @@ export const schema = {
             }
         }
     },
-    "version": "74c5f401dc042518a36550a3a542c267"
+    "version": "4295f587d20897bfb4e2c5f8fca12ceb"
 };

@@ -22,6 +22,11 @@ const CompanyType = {
   "SAR_LFAMILLE": "SARLfamille"
 };
 
+const TaxType = {
+  "REVENUE_TAX": "RevenueTax",
+  "SOCIAL_TAX": "SocialTax"
+};
+
 const BudgetLineType = {
   "EXPENSE": "Expense",
   "INCOME": "Income"
@@ -54,6 +59,7 @@ export {
   SubscriptionType,
   RealEstateType,
   CompanyType,
+  TaxType,
   BudgetLineType,
   Frequency,
   InvitationType,

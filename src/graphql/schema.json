@@ -1294,6 +1294,17 @@
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
+          "name" : "typeImpot",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "ENUM",
+            "name" : "TaxType",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
           "name" : "budgetLines",
           "description" : null,
           "args" : [ {
@@ -1663,6 +1674,25 @@
         "inputFields" : null,
         "interfaces" : null,
         "enumValues" : null,
+        "possibleTypes" : null
+      }, {
+        "kind" : "ENUM",
+        "name" : "TaxType",
+        "description" : null,
+        "fields" : null,
+        "inputFields" : null,
+        "interfaces" : null,
+        "enumValues" : [ {
+          "name" : "RevenueTax",
+          "description" : null,
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "SocialTax",
+          "description" : null,
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        } ],
         "possibleTypes" : null
       }, {
         "kind" : "OBJECT",
@@ -3715,6 +3745,28 @@
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
+          "name" : "realEstateId",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "ID",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "realEstate",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "OBJECT",
+            "name" : "BankAccount",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
           "name" : "bridgetApiId",
           "description" : null,
           "args" : [ ],
@@ -3899,6 +3951,15 @@
           "defaultValue" : null
         }, {
           "name" : "bankAccountId",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "ModelIDInput",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "realEstateId",
           "description" : null,
           "type" : {
             "kind" : "INPUT_OBJECT",
@@ -4746,6 +4807,15 @@
           },
           "defaultValue" : null
         }, {
+          "name" : "typeImpot",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "ModelTaxTypeInput",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
           "name" : "admins",
           "description" : null,
           "type" : {
@@ -4952,6 +5022,33 @@
           "type" : {
             "kind" : "ENUM",
             "name" : "CompanyType",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        } ],
+        "interfaces" : null,
+        "enumValues" : null,
+        "possibleTypes" : null
+      }, {
+        "kind" : "INPUT_OBJECT",
+        "name" : "ModelTaxTypeInput",
+        "description" : null,
+        "fields" : null,
+        "inputFields" : [ {
+          "name" : "eq",
+          "description" : null,
+          "type" : {
+            "kind" : "ENUM",
+            "name" : "TaxType",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "ne",
+          "description" : null,
+          "type" : {
+            "kind" : "ENUM",
+            "name" : "TaxType",
             "ofType" : null
           },
           "defaultValue" : null
@@ -7752,6 +7849,15 @@
           },
           "defaultValue" : null
         }, {
+          "name" : "realEstateId",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "ID",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
           "name" : "bridgetApiId",
           "description" : null,
           "type" : {
@@ -7841,6 +7947,15 @@
         "fields" : null,
         "inputFields" : [ {
           "name" : "bankAccountId",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "ModelIDInput",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "realEstateId",
           "description" : null,
           "type" : {
             "kind" : "INPUT_OBJECT",
@@ -7961,6 +8076,15 @@
           "defaultValue" : null
         }, {
           "name" : "bankAccountId",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "ID",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "realEstateId",
           "description" : null,
           "type" : {
             "kind" : "SCALAR",
@@ -8581,6 +8705,15 @@
           },
           "defaultValue" : null
         }, {
+          "name" : "typeImpot",
+          "description" : null,
+          "type" : {
+            "kind" : "ENUM",
+            "name" : "TaxType",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
           "name" : "admins",
           "description" : null,
           "type" : {
@@ -8840,6 +8973,15 @@
           },
           "defaultValue" : null
         }, {
+          "name" : "typeImpot",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "ModelTaxTypeInput",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
           "name" : "pendingInvitations",
           "description" : null,
           "type" : {
@@ -8965,6 +9107,15 @@
           "type" : {
             "kind" : "SCALAR",
             "name" : "Float",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "typeImpot",
+          "description" : null,
+          "type" : {
+            "kind" : "ENUM",
+            "name" : "TaxType",
             "ofType" : null
           },
           "defaultValue" : null
@@ -10084,25 +10235,6 @@
         "enumValues" : null,
         "possibleTypes" : null
       }, {
-        "kind" : "ENUM",
-        "name" : "InvitationType",
-        "description" : null,
-        "fields" : null,
-        "inputFields" : null,
-        "interfaces" : null,
-        "enumValues" : [ {
-          "name" : "Admin",
-          "description" : null,
-          "isDeprecated" : false,
-          "deprecationReason" : null
-        }, {
-          "name" : "ReadOnly",
-          "description" : null,
-          "isDeprecated" : false,
-          "deprecationReason" : null
-        } ],
-        "possibleTypes" : null
-      }, {
         "kind" : "INPUT_OBJECT",
         "name" : "ModelIDKeyConditionInput",
         "description" : null,
@@ -10177,6 +10309,25 @@
         } ],
         "interfaces" : null,
         "enumValues" : null,
+        "possibleTypes" : null
+      }, {
+        "kind" : "ENUM",
+        "name" : "InvitationType",
+        "description" : null,
+        "fields" : null,
+        "inputFields" : null,
+        "interfaces" : null,
+        "enumValues" : [ {
+          "name" : "Admin",
+          "description" : null,
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "ReadOnly",
+          "description" : null,
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        } ],
         "possibleTypes" : null
       }, {
         "kind" : "OBJECT",

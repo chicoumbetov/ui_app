@@ -20,6 +20,11 @@ export enum CompanyType {
   SAR_LFAMILLE = "SARLfamille"
 }
 
+export enum TaxType {
+  REVENUE_TAX = "RevenueTax",
+  SOCIAL_TAX = "SocialTax"
+}
+
 export enum BudgetLineType {
   EXPENSE = "Expense",
   INCOME = "Income"
@@ -107,6 +112,7 @@ export declare class RealEstate {
   readonly ownName?: boolean;
   readonly company?: CompanyType | keyof typeof CompanyType;
   readonly detentionPart?: number;
+  readonly typeImpot?: TaxType | keyof typeof TaxType;
   readonly budgetLines?: (BudgetLine | null)[];
   readonly documents?: (Document | null)[];
   readonly admins: string[];

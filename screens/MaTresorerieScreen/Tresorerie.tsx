@@ -6,30 +6,49 @@
 
 import React, { useState } from 'react';
 import { Layout, Text } from '@ui-kitten/components';
-import { StyleSheet } from 'react-native';
+import {
+  FlatList, StyleSheet, TouchableOpacity, View,
+} from 'react-native';
 
-import ComptesBancaires from './Components/ComptesBancaires';
+import { Icon as IconUIKitten } from '@ui-kitten/components/ui/icon/icon.component';
+import { useNavigation } from '@react-navigation/native';
+
 import comptesData from '../../mockData/comptesData';
 import MaxWidthContainer from '../../components/MaxWidthContainer';
+// import MonBienResume from '../../components/MonBienResume';
+import CompteHeader from '../../components/CompteHeader/CompteHeader';
+import { RealEstateItem, useRealEstateList } from '../../src/API/RealEstate';
 
 const MaTresorerie = () => {
   const [client] = useState(comptesData);
+  const { data } = useRealEstateList();
+  const navigation = useNavigation();
+
+  const onMaTresorerie2 = () => {
+    navigation.navigate('ma-tresorerie-2');
+  };
 
   return (
-    <MaxWidthContainer outerViewProps={{
-      style: {
-        backgroundColor: '#efefef',
-      },
-    }}
+    <MaxWidthContainer
+      withScrollView="keyboardAware"
+      outerViewProps={{
+        style: {
+          backgroundColor: '#efefef',
+        },
+        showsVerticalScrollIndicator: false,
+      }}
     >
       <Layout style={styles.container}>
         <Text
           category="h1"
-          style={{
-            marginLeft: 26, marginTop: 33,
-          }}
+          status="basic"
+          style={{ marginVertical: 20 }}
         >
           Ma Trésorerie
+        </Text>
+
+        <Text category="h2" status="basic" style={styles.compteHeader}>
+          Derniers mouvements
         </Text>
 
         <Layout style={styles.window}>
@@ -76,7 +95,44 @@ const MaTresorerie = () => {
 
       </Layout>
 
-      <ComptesBancaires client={client} />
+      <Layout style={styles.container}>
+        <Text category="h2" style={styles.compteHeader}>
+          Consulter votre trésorerie
+        </Text>
+        <Text category="h6" appearance="hint" style={{ marginTop: 15 }}>Sélectionner le bien</Text>
+
+        <FlatList<RealEstateItem>
+          data={data?.listRealEstates?.items}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <View>
+              {/**
+              <MonBienResume title={item.title} id={item.id} />
+              */}
+              <Layout style={{
+                flexDirection: 'column', marginTop: 28, padding: 17, borderRadius: 10,
+              }}
+              >
+                <TouchableOpacity
+                  onPress={() => {
+                    onMaTresorerie2();
+                  }}
+                  style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}
+                >
+                  <CompteHeader title={item.name} />
+                  <IconUIKitten
+                    name="arrow-ios-forward"
+                    fill="#b5b5b5"
+                    style={{
+                      height: 16, width: 16, marginRight: 5, marginTop: 8,
+                    }}
+                  />
+                </TouchableOpacity>
+              </Layout>
+            </View>
+          )}
+        />
+      </Layout>
 
     </MaxWidthContainer>
   );
@@ -85,12 +141,13 @@ const MaTresorerie = () => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#f6f6f6',
-    paddingBottom: 9,
+    paddingVertical: 25,
+    marginBottom: 12,
+    paddingHorizontal: 26,
   },
   window: {
     flexDirection: 'row',
-    margin: 24,
-    marginTop: 39,
+    marginTop: 30,
     paddingTop: 31,
     paddingBottom: 28,
     paddingHorizontal: 37,
@@ -103,6 +160,10 @@ const styles = StyleSheet.create({
     },
     shadowRadius: 0.5,
     shadowOpacity: 1,
+  },
+  compteHeader: {
+    // marginTop: 12,
+    // marginBottom: 10,
   },
 });
 

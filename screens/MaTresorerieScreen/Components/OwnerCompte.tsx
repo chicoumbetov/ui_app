@@ -48,6 +48,7 @@ const OwnerCompte = ({ compte }) => {
         </Layout>
 
         <Layout style={{ flexDirection: 'row', backgroundColor: 'transparent', alignItems: 'center' }}>
+          {/**
           <Layout style={{
             backgroundColor: theme['color-warning-500'],
             marginRight: 5,
@@ -61,6 +62,7 @@ const OwnerCompte = ({ compte }) => {
           >
             <Text status="control">3</Text>
           </Layout>
+          */}
           <Layout style={{ marginRight: 2 }}>
             <IconUIKitten
               name="arrow-ios-forward"

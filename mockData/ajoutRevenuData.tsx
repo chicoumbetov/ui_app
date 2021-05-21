@@ -1,26 +1,26 @@
 export const typeRevenu = [
   {
     label: 'Loyer',
-    key: 'b1',
+    key: 'rent',
   },
   {
     label: 'CAF',
-    key: 'b2',
+    key: 'caf',
   },
   {
     label: 'Revenu Divers',
-    key: 'b3',
+    key: 'varousRevenue',
   },
 ];
 
 export const montant = [
   {
     label: 'Loyer',
-    key: 'b1',
+    key: 'rent',
   },
   {
     label: 'Charges',
-    key: 'b2',
+    key: 'expense',
   },
   {
     label: 'TauxFrais',

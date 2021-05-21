@@ -158,8 +158,6 @@ const Informations = () => {
             <TextInput
               name="detentionPart"
               placeholder="Changer nombre de parts"
-              min={0}
-              max={100}
             />
 
             <View style={styles.buttonRight}>

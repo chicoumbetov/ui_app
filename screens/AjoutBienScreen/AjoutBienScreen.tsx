@@ -412,8 +412,6 @@ function AjoutBienScreen() {
                 <TextInput
                   name="detentionPart"
                   size="small"
-                  min={0}
-                  max={100}
                   maxLength={4}
                   keyboardType="numeric"
                   style={{ marginRight: 10 }}

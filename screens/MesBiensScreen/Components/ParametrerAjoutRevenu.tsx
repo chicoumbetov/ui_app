@@ -15,7 +15,6 @@ import {
   frequence, typeRevenu,
 } from '../../../mockData/ajoutRevenuData';
 import Form from '../../../components/Form/Form';
-import TextInputComp from '../../../components/Form/TextInput';
 import MaxWidthContainer from '../../../components/MaxWidthContainer';
 import { BudgetLineType, Frequency, MortgageLoanInfoInput } from '../../../src/API';
 import DatepickerComp from '../../../components/Form/DatePicker';
@@ -42,7 +41,7 @@ const ParametrerAjoutRevenu = () => {
    * */
 
   const validateBudget = async (data: ParamBudgetForm) => {
-    console.log('aaa', data);
+    console.log('ParametrerAjoutRevenu data:', data);
   };
 
   return (
@@ -105,7 +104,7 @@ const ParametrerAjoutRevenu = () => {
                   <SelectComp
                     name="category"
                     data={typeRevenu}
-                    onChangeValue={(v) => { if (v === 'b1') { setRevenuLoyer(true); } else { setRevenuLoyer(false); } setMontantShow(true); setFrequenceShow(true); }}
+                    onChangeValue={(v) => { if (v === 'rent') { setRevenuLoyer(true); } else { setRevenuLoyer(false); } setMontantShow(true); setFrequenceShow(true); }}
                     placeholder="Type De Revenu"
                     size="large"
                     appearance="default"
@@ -116,48 +115,48 @@ const ParametrerAjoutRevenu = () => {
 
                 <View>
 
-                  {montantShow && (
-                  <View>
-                    <TextInput name="amount" placeholder="Saisissez votre montant ici" />
-
-                    {revenuLoyer && (
+                  {montantShow ? (
                     <View>
-                      <TextInputComp name="charges" placeholder="Montant des charges" />
-                      <TextInputComp name="gestion" placeholder="Taux de frais de gestion" />
+                      <TextInput name="amount" placeholder="Saisissez votre montant ici" />
+
+                      {revenuLoyer ? (
+                        <View>
+                          <TextInput name="charges" placeholder="Montant des charges" />
+                          <TextInput name="gestion" placeholder="Taux de frais de gestion" />
+                        </View>
+                      ) : <></>}
                     </View>
-                    )}
-                  </View>
-                  )}
+                  ) : <></>}
 
                 </View>
                 <View>
 
                   {frequenceShow
-                    && (
+                    ? (
                       <Layout style={{ backgroundColor: 'transparent' }}>
                         <SelectComp name="frequency" data={frequence} onChangeValue={() => setDateDerniereEcheanceShow(true)} placeholder="Fréquence" size="large" appearance="default" status="primary" />
-                        {dateDerniereEcheanceShow && (
+                        {dateDerniereEcheanceShow ? (
                           <DatepickerComp name="nextDueDate" placeholder="Date de dernière échéance" />
-                        )}
+                        ) : <></>}
                       </Layout>
 
-                    )}
+                    ) : <></>}
                 </View>
 
               </Layout>
 
-              {revenuLoyer && (
-              <View>
-                <Text style={{ paddingBottom: 30 }} category="h5">Ajouter un locataire</Text>
-                <TextInputComp style={{ paddingBottom: 30 }} name="charges" placeholder="Montant des charges" />
-                <TextInputComp style={{ paddingBottom: 30 }} name="charges" placeholder="Montant des charges" />
-                <TextInputComp style={{ paddingBottom: 30 }} name="charges" placeholder="Montant des charges" />
-                <Text style={{ paddingBottom: 30 }} category="h5">Date de début de bail</Text>
-                <Datepicker style={{ paddingBottom: 30 }} />
-                <Text style={{ paddingBottom: 30 }} category="h5">Date de fin de bail</Text>
-                <Datepicker style={{ paddingBottom: 30 }} />
-              </View>
-              )}
+              {revenuLoyer ? (
+                <View>
+                  <Text style={{ paddingBottom: 30 }} category="h5">Ajouter un locataire</Text>
+                  <TextInput style={{ paddingBottom: 30 }} name="firstname" placeholder="Saisissez le prénom" />
+                  <TextInput style={{ paddingBottom: 30 }} name="lastname" placeholder="Saisissez le nom" />
+                  <TextInput style={{ paddingBottom: 30 }} name="email" placeholder="Saisissez le mail" />
+                  <Text style={{ paddingBottom: 30 }} category="h5">Date de début de bail</Text>
+                  <Datepicker style={{ paddingBottom: 30 }} />
+                  <Text style={{ paddingBottom: 30 }} category="h5">Date de fin de bail</Text>
+                  <Datepicker style={{ paddingBottom: 30 }} />
+                </View>
+              ) : <></>}
 
             </View>
 

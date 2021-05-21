@@ -13,8 +13,6 @@ import { AvailableValidationRules } from '../Form/validation';
 import { ErrorMessage } from './components/ErrorMessage';
 import MaxWidthContainer from '../MaxWidthContainer';
 
-import LogoImage from '../../assets/Icones_omedom/Logo_Omedom.png';
-
 interface SignInProps {
   signUp: () => void
   forgotPassword: () => void

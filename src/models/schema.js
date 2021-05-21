@@ -10,13 +10,6 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "owner": {
-                    "name": "owner",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                },
                 "lastname": {
                     "name": "lastname",
                     "isArray": false,
@@ -93,21 +86,12 @@ export const schema = {
                     "properties": {}
                 },
                 {
-                    "type": "key",
-                    "properties": {
-                        "fields": [
-                            "owner"
-                        ],
-                        "name": "userByOwner"
-                    }
-                },
-                {
                     "type": "auth",
                     "properties": {
                         "rules": [
                             {
                                 "provider": "userPools",
-                                "ownerField": "owner",
+                                "ownerField": "id",
                                 "allow": "owner",
                                 "identityClaim": "cognito:username",
                                 "operations": [
@@ -188,6 +172,15 @@ export const schema = {
                     "name": "detentionPart",
                     "isArray": false,
                     "type": "Float",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "typeImpot": {
+                    "name": "typeImpot",
+                    "isArray": false,
+                    "type": {
+                        "enum": "TaxType"
+                    },
                     "isRequired": false,
                     "attributes": []
                 },
@@ -985,6 +978,13 @@ export const schema = {
                 "SARLfamille"
             ]
         },
+        "TaxType": {
+            "name": "TaxType",
+            "values": [
+                "RevenueTax",
+                "SocialTax"
+            ]
+        },
         "BudgetLineType": {
             "name": "BudgetLineType",
             "values": [
@@ -1223,5 +1223,5 @@ export const schema = {
             }
         }
     },
-    "version": "e1b69d1a180e2ec382333597c3b18d95"
+    "version": "4295f587d20897bfb4e2c5f8fca12ceb"
 };

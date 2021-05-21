@@ -46,7 +46,7 @@ const MySignUp = ({
       phone_number: data.phone_number,
       family_name: data.lastname,
       given_name: data.firstname,
-      'custom:optIn': data.optIn,
+      'custom:optIn': data.optIn ? 'true' : 'flse',
     });
   };
 
@@ -179,7 +179,7 @@ interface SignUpProps {
     password: string,
     given_name: string,
     family_name: string,
-    'custom:optIn': boolean
+    'custom:optIn': string
   }) => void
   goBack: () => void
   goConfirmCode: () => void

@@ -24,18 +24,8 @@ import SelectComp from '../../components/Form/Select';
 import {
   detention, statut, typeBien, typeDetention, typeImpot,
 } from '../../mockData/ajoutBienData';
-
-import MaisonVerte from '../../assets/Omedom_Icons_svg/Logement/maison_verte.svg';
-import Bateau from '../../assets/Omedom_Icons_svg/Logement/bateau.svg';
-import Boutique from '../../assets/Omedom_Icons_svg/Logement/boutique.svg';
-import Cabane from '../../assets/Omedom_Icons_svg/Logement/cabane.svg';
-import Chateau from '../../assets/Omedom_Icons_svg/Logement/chateau.svg';
-import Immeuble from '../../assets/Omedom_Icons_svg/Logement/immeuble.svg';
-import MaisonBleu from '../../assets/Omedom_Icons_svg/Logement/maison_bleu.svg';
-import Manoir from '../../assets/Omedom_Icons_svg/Logement/manoir.svg';
-import Riad from '../../assets/Omedom_Icons_svg/Logement/riad.svg';
-import Voiture from '../../assets/Omedom_Icons_svg/Logement/voiture.svg';
 import MaxWidthContainer from '../../components/MaxWidthContainer';
+import AutoAvatar from '../../components/AutoAvatar';
 import TextInput from '../../components/Form/TextInput';
 import { AvailableValidationRules } from '../../components/Form/validation';
 import { createRealEstateMutation } from '../../src/API/RealEstate';
@@ -128,40 +118,6 @@ function AjoutBienScreen() {
 
   const [pourcentageDetentionShow, setPourcentageDetentionShow] = useState(false);
 
-  let SelectedIcon = MaisonVerte;
-  switch (image) {
-    case 'Immeuble':
-      SelectedIcon = Immeuble;
-      break;
-    case 'MaisonVerte':
-      SelectedIcon = MaisonVerte;
-      break;
-    case 'Cabane':
-      SelectedIcon = Cabane;
-      break;
-    case 'Bateau':
-      SelectedIcon = Bateau;
-      break;
-    case 'Boutique':
-      SelectedIcon = Boutique;
-      break;
-    case 'Chateau':
-      SelectedIcon = Chateau;
-      break;
-    case 'Manoir':
-      SelectedIcon = Manoir;
-      break;
-    case 'MaisonBleu':
-      SelectedIcon = MaisonBleu;
-      break;
-    case 'Riad':
-      SelectedIcon = Riad;
-      break;
-    case 'Voiture':
-      SelectedIcon = Voiture;
-      break;
-  }
-
   return (
     <MaxWidthContainer
       withScrollView="keyboardAware"
@@ -216,7 +172,7 @@ function AjoutBienScreen() {
               alignItems: 'center', backgroundColor: 'transparent', marginVertical: 34,
             }}
             >
-              <SelectedIcon height={146} width={146} />
+              <AutoAvatar avatarInfo={image} style={{ height: 146, width: 146 }} />
             </Layout>
             <Layout style={{ marginLeft: 10, backgroundColor: 'transparent' }}>
               <Text category="h5" appearance="hint">
@@ -227,51 +183,21 @@ function AjoutBienScreen() {
               flexDirection: 'row', marginTop: 21, justifyContent: 'space-evenly', marginLeft: -6, backgroundColor: 'transparent',
             }}
             >
-              <TouchableOpacity onPress={() => { setImage('MaisonVerte'); }}>
-                <MaisonVerte height={53} width={53} />
-              </TouchableOpacity>
-
-              <TouchableOpacity onPress={() => { setImage('Immeuble'); }}>
-                <Immeuble height={53} width={53} />
-              </TouchableOpacity>
-
-              <TouchableOpacity onPress={() => { setImage('Cabane'); }}>
-                <Cabane height={53} width={53} />
-              </TouchableOpacity>
-
-              <TouchableOpacity onPress={() => { setImage('Bateau'); }}>
-                <Bateau height={53} width={53} />
-              </TouchableOpacity>
-
-              <TouchableOpacity onPress={() => { setImage('Boutique'); }}>
-                <Boutique height={53} width={53} />
-              </TouchableOpacity>
-
+                {['MaisonVerte', 'Immeuble', 'Cabane', 'Bateau', 'Boutique'].map((icon) => (
+                  <TouchableOpacity onPress={() => { setImage(`default::${icon}`); }}>
+                    <AutoAvatar avatarInfo={`default::${icon}`} style={{ height: 53, width: 53 }} />
+                  </TouchableOpacity>
+                ))}
             </Layout>
             <Layout style={{
               flexDirection: 'row', marginTop: 34, justifyContent: 'space-evenly', marginLeft: -6, backgroundColor: 'transparent',
             }}
             >
-              <TouchableOpacity onPress={() => { setImage('Chateau'); }}>
-                <Chateau height={53} width={53} />
-              </TouchableOpacity>
-
-              <TouchableOpacity onPress={() => { setImage('Manoir'); }}>
-                <Manoir height={53} width={53} />
-              </TouchableOpacity>
-
-              <TouchableOpacity onPress={() => { setImage('MaisonBleu'); }}>
-                <MaisonBleu height={53} width={53} />
-              </TouchableOpacity>
-
-              <TouchableOpacity onPress={() => { setImage('Riad'); }}>
-                <Riad height={53} width={53} />
-              </TouchableOpacity>
-
-              <TouchableOpacity onPress={() => { setImage('Voiture'); }}>
-                <Voiture height={53} width={53} />
-              </TouchableOpacity>
-
+                {['Chateau', 'Manoir', 'MaisonBleu', 'Riad', 'Voiture'].map((icon) => (
+                  <TouchableOpacity onPress={() => { setImage(`default::${icon}`); }}>
+                    <AutoAvatar avatarInfo={`default::${icon}`} style={{ height: 53, width: 53 }} />
+                  </TouchableOpacity>
+                ))}
             </Layout>
 
             <Layout style={{ paddingHorizontal: 23, backgroundColor: 'transparent' }}>

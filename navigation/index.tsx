@@ -14,15 +14,15 @@ import LinkingConfiguration from './LinkingConfiguration';
 import ActivityIndicator from '../components/ActivityIndicator';
 import InitialNavigator from './InitialNavigator';
 import FinalSignUpStackNavigator from './FinalSignUpStackNavigator';
-import useCurrentUser from '../src/API/User';
+import { useUser } from '../src/API/UserContext';
 import { useAutoFileStorage } from '../utils/S3FileStorage';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
-  const { user, loading } = useCurrentUser();
-  useAutoFileStorage();
+  const { user, userIsLoading } = useUser();
+    useAutoFileStorage();
 
   return (
-    loading
+    userIsLoading
       ? (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
           <Text category="h4" status="primary">Chargement des données</Text>

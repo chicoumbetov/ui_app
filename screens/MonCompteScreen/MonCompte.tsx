@@ -11,10 +11,11 @@ import Abonnement from './Components/Abonnement';
 import MaxWidthContainer from '../../components/MaxWidthContainer';
 
 import ManAvatar from '../../assets/Omedom_Icons_svg/Avatars/manAvatar.svg';
-import useCurrentUser from '../../src/API/User';
+import { useUser } from '../../src/API/UserContext';
+import AutoAvatar from '../../components/AutoAvatar';
 
 export default function MonCompte() {
-  const { user } = useCurrentUser();
+  const { user } = useUser();
 
   return (
 
@@ -39,7 +40,12 @@ export default function MonCompte() {
           alignItems: 'center', backgroundColor: 'transparent', marginTop: 41, marginBottom: 34,
         }}
         >
-          <ManAvatar height={109} width={108} />
+          <AutoAvatar
+            style={{
+              height: 108, width: 108, borderRadius: 54, overflow: 'hidden',
+            }}
+            avatarInfo={user?.avatarUri || 'default::ManAvatar'}
+          />
           <Text category="h2" style={{ marginTop: 15 }}>
             {user?.firstname || undefined}
           </Text>

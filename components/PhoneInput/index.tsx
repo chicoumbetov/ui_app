@@ -71,11 +71,15 @@ export default class PhoneInput extends PureComponent<PhoneInputProps, PhoneInpu
         ? props.defaultValue
         : '';
     let countryCode = props.defaultCode ? props.defaultCode : 'IN';
-    try {
-      const parsedNumber = phoneUtil.parseAndKeepRawInput(number, props.defaultCode);
-      countryCode = phoneUtil.getRegionCodeForNumber(parsedNumber) as CountryCode;
-      number = phoneUtil.format(parsedNumber, PhoneNumberFormat.NATIONAL);
-    } catch (e) {}
+    if (number !== '') {
+      try {
+        const parsedNumber = phoneUtil.parseAndKeepRawInput(number, props.defaultCode);
+        countryCode = phoneUtil.getRegionCodeForNumber(parsedNumber) as CountryCode;
+        number = phoneUtil.format(parsedNumber, PhoneNumberFormat.NATIONAL);
+      } catch (err) {
+        // console.log(err);
+      }
+    }
 
     this.state = {
       code: props.defaultCode ? undefined : '91',
@@ -101,11 +105,15 @@ export default class PhoneInput extends PureComponent<PhoneInputProps, PhoneInpu
           ? nextProps.defaultValue
           : '';
       let countryCode = nextProps.defaultCode ? nextProps.defaultCode : 'IN';
-      try {
-        const parsedNumber = phoneUtil.parseAndKeepRawInput(number, nextProps.defaultCode);
-        countryCode = phoneUtil.getRegionCodeForNumber(parsedNumber) as CountryCode;
-        number = phoneUtil.format(parsedNumber, PhoneNumberFormat.NATIONAL);
-      } catch (e) {}
+      if (number !== '') {
+        try {
+          const parsedNumber = phoneUtil.parseAndKeepRawInput(number, nextProps.defaultCode);
+          countryCode = phoneUtil.getRegionCodeForNumber(parsedNumber) as CountryCode;
+          number = phoneUtil.format(parsedNumber, PhoneNumberFormat.NATIONAL);
+        } catch (err) {
+          // console.log(err);
+        }
+      }
 
       return {
         // eslint-disable-next-line no-nested-ternary
@@ -174,6 +182,7 @@ export default class PhoneInput extends PureComponent<PhoneInputProps, PhoneInpu
           const parsedNumber = phoneUtil.parseAndKeepRawInput(text.length > 0 ? `+${code}${text}` : text, code);
           formated = phoneUtil.format(parsedNumber, PhoneNumberFormat.E164);
         } catch (err) {
+          console.log(err);
         }
         onChangeFormattedText(formated);
       } else {
@@ -247,7 +256,6 @@ export default class PhoneInput extends PureComponent<PhoneInputProps, PhoneInpu
         <TouchableOpacity
           style={[
             styles.flagButtonView,
-            layout === 'second' ? styles.flagButtonExtraWidth : {},
             flagButtonStyle || {},
             countryPickerButtonStyle || {},
           ]}
@@ -298,7 +306,6 @@ export default class PhoneInput extends PureComponent<PhoneInputProps, PhoneInpu
 
   render() {
     const {
-      withDarkTheme,
       countryPickerProps = {},
       filterProps = {},
       popoverStyle,

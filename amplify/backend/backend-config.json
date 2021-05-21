@@ -28,28 +28,10 @@
       }
     }
   },
-  "function": {
-    "S3Trigger9d22396d": {
-      "service": "Lambda",
-      "providerPlugin": "awscloudformation",
-      "build": true
-    }
-  },
   "storage": {
-    "omedom": {
+    "omedomdoc": {
       "service": "S3",
-      "providerPlugin": "awscloudformation",
-      "dependsOn": [
-        {
-          "category": "function",
-          "resourceName": "S3Trigger9d22396d",
-          "attributes": [
-            "Name",
-            "Arn",
-            "LambdaExecutionRole"
-          ]
-        }
-      ]
+      "providerPlugin": "awscloudformation"
     }
   }
 }

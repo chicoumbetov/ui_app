@@ -2,322 +2,6 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const syncUsers = /* GraphQL */ `
-  query SyncUsers(
-    $filter: ModelUserFilterInput
-    $limit: Int
-    $nextToken: String
-    $lastSync: AWSTimestamp
-  ) {
-    syncUsers(
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-      lastSync: $lastSync
-    ) {
-      items {
-        id
-        owner
-        lastname
-        firstname
-        email
-        phoneNumber
-        optIn
-        address {
-          address
-          additionalAddress
-          postalCode
-          city
-          country
-        }
-        avatarUri
-        birthDate
-        subscription
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-      }
-      nextToken
-      startedAt
-    }
-  }
-`;
-export const getUser = /* GraphQL */ `
-  query GetUser($id: ID!) {
-    getUser(id: $id) {
-      id
-      owner
-      lastname
-      firstname
-      email
-      phoneNumber
-      optIn
-      address {
-        address
-        additionalAddress
-        postalCode
-        city
-        country
-      }
-      avatarUri
-      birthDate
-      subscription
-      _version
-      _deleted
-      _lastChangedAt
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const listUsers = /* GraphQL */ `
-  query ListUsers(
-    $filter: ModelUserFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        owner
-        lastname
-        firstname
-        email
-        phoneNumber
-        optIn
-        address {
-          address
-          additionalAddress
-          postalCode
-          city
-          country
-        }
-        avatarUri
-        birthDate
-        subscription
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-      }
-      nextToken
-      startedAt
-    }
-  }
-`;
-export const syncRealEstates = /* GraphQL */ `
-  query SyncRealEstates(
-    $filter: ModelRealEstateFilterInput
-    $limit: Int
-    $nextToken: String
-    $lastSync: AWSTimestamp
-  ) {
-    syncRealEstates(
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-      lastSync: $lastSync
-    ) {
-      items {
-        id
-        name
-        iconUri
-        purchaseYear
-        type
-        ownName
-        company
-        detentionPart
-        budgetLines {
-          nextToken
-          startedAt
-        }
-        documents {
-          nextToken
-          startedAt
-        }
-        admins
-        shared
-        pendingInvitations
-        address {
-          address
-          additionalAddress
-          postalCode
-          city
-          country
-        }
-        tenants {
-          amount
-          rentalCharges
-          managementFees
-          lastname
-          firstname
-          email
-          startDate
-          endDate
-        }
-        bankAccounts {
-          nextToken
-          startedAt
-        }
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-      }
-      nextToken
-      startedAt
-    }
-  }
-`;
-export const getRealEstate = /* GraphQL */ `
-  query GetRealEstate($id: ID!) {
-    getRealEstate(id: $id) {
-      id
-      name
-      iconUri
-      purchaseYear
-      type
-      ownName
-      company
-      detentionPart
-      budgetLines {
-        items {
-          id
-          realEstateId
-          type
-          category
-          amount
-          frequency
-          nextDueDate
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-        }
-        nextToken
-        startedAt
-      }
-      documents {
-        items {
-          id
-          realEstateId
-          name
-          s3file
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-        }
-        nextToken
-        startedAt
-      }
-      admins
-      shared
-      pendingInvitations
-      address {
-        address
-        additionalAddress
-        postalCode
-        city
-        country
-      }
-      tenants {
-        amount
-        rentalCharges
-        managementFees
-        lastname
-        firstname
-        email
-        startDate
-        endDate
-      }
-      bankAccounts {
-        items {
-          id
-          realEstateId
-          bankAccountId
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-        }
-        nextToken
-        startedAt
-      }
-      _version
-      _deleted
-      _lastChangedAt
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const listRealEstates = /* GraphQL */ `
-  query ListRealEstates(
-    $filter: ModelRealEstateFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listRealEstates(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        name
-        iconUri
-        purchaseYear
-        type
-        ownName
-        company
-        detentionPart
-        budgetLines {
-          nextToken
-          startedAt
-        }
-        documents {
-          nextToken
-          startedAt
-        }
-        admins
-        shared
-        pendingInvitations
-        address {
-          address
-          additionalAddress
-          postalCode
-          city
-          country
-        }
-        tenants {
-          amount
-          rentalCharges
-          managementFees
-          lastname
-          firstname
-          email
-          startDate
-          endDate
-        }
-        bankAccounts {
-          nextToken
-          startedAt
-        }
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-      }
-      nextToken
-      startedAt
-    }
-  }
-`;
 export const syncDocuments = /* GraphQL */ `
   query SyncDocuments(
     $filter: ModelDocumentFilterInput
@@ -334,6 +18,13 @@ export const syncDocuments = /* GraphQL */ `
       items {
         id
         realEstateId
+        name
+        s3file
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
         realEstate {
           id
           name
@@ -343,6 +34,7 @@ export const syncDocuments = /* GraphQL */ `
           ownName
           company
           detentionPart
+          typeImpot
           admins
           shared
           pendingInvitations
@@ -352,13 +44,6 @@ export const syncDocuments = /* GraphQL */ `
           createdAt
           updatedAt
         }
-        name
-        s3file
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
       }
       nextToken
       startedAt
@@ -370,6 +55,13 @@ export const getDocument = /* GraphQL */ `
     getDocument(id: $id) {
       id
       realEstateId
+      name
+      s3file
+      _version
+      _deleted
+      _lastChangedAt
+      createdAt
+      updatedAt
       realEstate {
         id
         name
@@ -379,6 +71,7 @@ export const getDocument = /* GraphQL */ `
         ownName
         company
         detentionPart
+        typeImpot
         budgetLines {
           nextToken
           startedAt
@@ -417,13 +110,6 @@ export const getDocument = /* GraphQL */ `
         createdAt
         updatedAt
       }
-      name
-      s3file
-      _version
-      _deleted
-      _lastChangedAt
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -437,6 +123,13 @@ export const listDocuments = /* GraphQL */ `
       items {
         id
         realEstateId
+        name
+        s3file
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
         realEstate {
           id
           name
@@ -446,6 +139,7 @@ export const listDocuments = /* GraphQL */ `
           ownName
           company
           detentionPart
+          typeImpot
           admins
           shared
           pendingInvitations
@@ -455,13 +149,6 @@ export const listDocuments = /* GraphQL */ `
           createdAt
           updatedAt
         }
-        name
-        s3file
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
       }
       nextToken
       startedAt
@@ -484,24 +171,6 @@ export const syncBudgetLines = /* GraphQL */ `
       items {
         id
         realEstateId
-        realEstate {
-          id
-          name
-          iconUri
-          purchaseYear
-          type
-          ownName
-          company
-          detentionPart
-          admins
-          shared
-          pendingInvitations
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-        }
         type
         category
         amount
@@ -519,6 +188,25 @@ export const syncBudgetLines = /* GraphQL */ `
         _lastChangedAt
         createdAt
         updatedAt
+        realEstate {
+          id
+          name
+          iconUri
+          purchaseYear
+          type
+          ownName
+          company
+          detentionPart
+          typeImpot
+          admins
+          shared
+          pendingInvitations
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
       }
       nextToken
       startedAt
@@ -530,53 +218,6 @@ export const getBudgetLine = /* GraphQL */ `
     getBudgetLine(id: $id) {
       id
       realEstateId
-      realEstate {
-        id
-        name
-        iconUri
-        purchaseYear
-        type
-        ownName
-        company
-        detentionPart
-        budgetLines {
-          nextToken
-          startedAt
-        }
-        documents {
-          nextToken
-          startedAt
-        }
-        admins
-        shared
-        pendingInvitations
-        address {
-          address
-          additionalAddress
-          postalCode
-          city
-          country
-        }
-        tenants {
-          amount
-          rentalCharges
-          managementFees
-          lastname
-          firstname
-          email
-          startDate
-          endDate
-        }
-        bankAccounts {
-          nextToken
-          startedAt
-        }
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-      }
       type
       category
       amount
@@ -601,6 +242,54 @@ export const getBudgetLine = /* GraphQL */ `
       _lastChangedAt
       createdAt
       updatedAt
+      realEstate {
+        id
+        name
+        iconUri
+        purchaseYear
+        type
+        ownName
+        company
+        detentionPart
+        typeImpot
+        budgetLines {
+          nextToken
+          startedAt
+        }
+        documents {
+          nextToken
+          startedAt
+        }
+        admins
+        shared
+        pendingInvitations
+        address {
+          address
+          additionalAddress
+          postalCode
+          city
+          country
+        }
+        tenants {
+          amount
+          rentalCharges
+          managementFees
+          lastname
+          firstname
+          email
+          startDate
+          endDate
+        }
+        bankAccounts {
+          nextToken
+          startedAt
+        }
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+      }
     }
   }
 `;
@@ -614,24 +303,6 @@ export const listBudgetLines = /* GraphQL */ `
       items {
         id
         realEstateId
-        realEstate {
-          id
-          name
-          iconUri
-          purchaseYear
-          type
-          ownName
-          company
-          detentionPart
-          admins
-          shared
-          pendingInvitations
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-        }
         type
         category
         amount
@@ -649,6 +320,25 @@ export const listBudgetLines = /* GraphQL */ `
         _lastChangedAt
         createdAt
         updatedAt
+        realEstate {
+          id
+          name
+          iconUri
+          purchaseYear
+          type
+          ownName
+          company
+          detentionPart
+          typeImpot
+          admins
+          shared
+          pendingInvitations
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
       }
       nextToken
       startedAt
@@ -671,24 +361,6 @@ export const syncRealEstateBankAccounts = /* GraphQL */ `
       items {
         id
         realEstateId
-        realEstate {
-          id
-          name
-          iconUri
-          purchaseYear
-          type
-          ownName
-          company
-          detentionPart
-          admins
-          shared
-          pendingInvitations
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-        }
         bankAccountId
         bankAccount {
           id
@@ -709,6 +381,25 @@ export const syncRealEstateBankAccounts = /* GraphQL */ `
         _lastChangedAt
         createdAt
         updatedAt
+        realEstate {
+          id
+          name
+          iconUri
+          purchaseYear
+          type
+          ownName
+          company
+          detentionPart
+          typeImpot
+          admins
+          shared
+          pendingInvitations
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
       }
       nextToken
       startedAt
@@ -974,24 +665,6 @@ export const getBankMovement = /* GraphQL */ `
       budgetLine {
         id
         realEstateId
-        realEstate {
-          id
-          name
-          iconUri
-          purchaseYear
-          type
-          ownName
-          company
-          detentionPart
-          admins
-          shared
-          pendingInvitations
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-        }
         type
         category
         amount
@@ -1009,6 +682,25 @@ export const getBankMovement = /* GraphQL */ `
         _lastChangedAt
         createdAt
         updatedAt
+        realEstate {
+          id
+          name
+          iconUri
+          purchaseYear
+          type
+          ownName
+          company
+          detentionPart
+          typeImpot
+          admins
+          shared
+          pendingInvitations
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
       }
       ignored
       date
@@ -1090,14 +782,14 @@ export const listBankMovements = /* GraphQL */ `
     }
   }
 `;
-export const syncNotifications = /* GraphQL */ `
-  query SyncNotifications(
-    $filter: ModelNotificationFilterInput
+export const syncUsers = /* GraphQL */ `
+  query SyncUsers(
+    $filter: ModelUserFilterInput
     $limit: Int
     $nextToken: String
     $lastSync: AWSTimestamp
   ) {
-    syncNotifications(
+    syncUsers(
       filter: $filter
       limit: $limit
       nextToken: $nextToken
@@ -1105,28 +797,296 @@ export const syncNotifications = /* GraphQL */ `
     ) {
       items {
         id
-        owner
-        userId
-        user {
-          id
-          owner
+        lastname
+        firstname
+        avatarUri
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+        email
+        phoneNumber
+        optIn
+        address {
+          address
+          additionalAddress
+          postalCode
+          city
+          country
+        }
+        birthDate
+        subscription
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const getUser = /* GraphQL */ `
+  query GetUser($id: ID!) {
+    getUser(id: $id) {
+      id
+      lastname
+      firstname
+      avatarUri
+      _version
+      _deleted
+      _lastChangedAt
+      createdAt
+      updatedAt
+      email
+      phoneNumber
+      optIn
+      address {
+        address
+        additionalAddress
+        postalCode
+        city
+        country
+      }
+      birthDate
+      subscription
+    }
+  }
+`;
+export const listUsers = /* GraphQL */ `
+  query ListUsers(
+    $filter: ModelUserFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        lastname
+        firstname
+        avatarUri
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+        email
+        phoneNumber
+        optIn
+        address {
+          address
+          additionalAddress
+          postalCode
+          city
+          country
+        }
+        birthDate
+        subscription
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const listRealEstates = /* GraphQL */ `
+  query ListRealEstates(
+    $filter: ModelRealEstateFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listRealEstates(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        name
+        iconUri
+        purchaseYear
+        type
+        ownName
+        company
+        detentionPart
+        typeImpot
+        budgetLines {
+          nextToken
+          startedAt
+        }
+        documents {
+          nextToken
+          startedAt
+        }
+        admins
+        shared
+        pendingInvitations
+        address {
+          address
+          additionalAddress
+          postalCode
+          city
+          country
+        }
+        tenants {
+          amount
+          rentalCharges
+          managementFees
           lastname
           firstname
           email
-          phoneNumber
-          optIn
-          avatarUri
-          birthDate
-          subscription
+          startDate
+          endDate
+        }
+        bankAccounts {
+          nextToken
+          startedAt
+        }
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const getRealEstate = /* GraphQL */ `
+  query GetRealEstate($id: ID!) {
+    getRealEstate(id: $id) {
+      id
+      name
+      iconUri
+      purchaseYear
+      type
+      ownName
+      company
+      detentionPart
+      typeImpot
+      budgetLines {
+        items {
+          id
+          realEstateId
+          type
+          category
+          amount
+          frequency
+          nextDueDate
           _version
           _deleted
           _lastChangedAt
           createdAt
           updatedAt
         }
-        category
-        text
-        params
+        nextToken
+        startedAt
+      }
+      documents {
+        items {
+          id
+          realEstateId
+          name
+          s3file
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+        nextToken
+        startedAt
+      }
+      admins
+      shared
+      pendingInvitations
+      address {
+        address
+        additionalAddress
+        postalCode
+        city
+        country
+      }
+      tenants {
+        amount
+        rentalCharges
+        managementFees
+        lastname
+        firstname
+        email
+        startDate
+        endDate
+      }
+      bankAccounts {
+        items {
+          id
+          realEstateId
+          bankAccountId
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+        nextToken
+        startedAt
+      }
+      _version
+      _deleted
+      _lastChangedAt
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const syncRealEstates = /* GraphQL */ `
+  query SyncRealEstates(
+    $filter: ModelRealEstateFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncRealEstates(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        name
+        iconUri
+        purchaseYear
+        type
+        ownName
+        company
+        detentionPart
+        typeImpot
+        budgetLines {
+          nextToken
+          startedAt
+        }
+        documents {
+          nextToken
+          startedAt
+        }
+        admins
+        shared
+        pendingInvitations
+        address {
+          address
+          additionalAddress
+          postalCode
+          city
+          country
+        }
+        tenants {
+          amount
+          rentalCharges
+          managementFees
+          lastname
+          firstname
+          email
+          startDate
+          endDate
+        }
+        bankAccounts {
+          nextToken
+          startedAt
+        }
         _version
         _deleted
         _lastChangedAt
@@ -1144,11 +1104,24 @@ export const getNotification = /* GraphQL */ `
       id
       owner
       userId
+      category
+      text
+      params
+      _version
+      _deleted
+      _lastChangedAt
+      createdAt
+      updatedAt
       user {
         id
-        owner
         lastname
         firstname
+        avatarUri
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
         email
         phoneNumber
         optIn
@@ -1159,23 +1132,9 @@ export const getNotification = /* GraphQL */ `
           city
           country
         }
-        avatarUri
         birthDate
         subscription
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
       }
-      category
-      text
-      params
-      _version
-      _deleted
-      _lastChangedAt
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -1190,23 +1149,6 @@ export const listNotifications = /* GraphQL */ `
         id
         owner
         userId
-        user {
-          id
-          owner
-          lastname
-          firstname
-          email
-          phoneNumber
-          optIn
-          avatarUri
-          birthDate
-          subscription
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-        }
         category
         text
         params
@@ -1215,6 +1157,154 @@ export const listNotifications = /* GraphQL */ `
         _lastChangedAt
         createdAt
         updatedAt
+        user {
+          id
+          lastname
+          firstname
+          avatarUri
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+          email
+          phoneNumber
+          optIn
+          birthDate
+          subscription
+        }
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const syncNotifications = /* GraphQL */ `
+  query SyncNotifications(
+    $filter: ModelNotificationFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncNotifications(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        owner
+        userId
+        category
+        text
+        params
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+        user {
+          id
+          lastname
+          firstname
+          avatarUri
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+          email
+          phoneNumber
+          optIn
+          birthDate
+          subscription
+        }
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const getBillingHistory = /* GraphQL */ `
+  query GetBillingHistory($id: ID!) {
+    getBillingHistory(id: $id) {
+      id
+      owner
+      userId
+      date
+      nextRenewDate
+      subscription
+      amount
+      paid
+      _version
+      _deleted
+      _lastChangedAt
+      createdAt
+      updatedAt
+      user {
+        id
+        lastname
+        firstname
+        avatarUri
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+        email
+        phoneNumber
+        optIn
+        address {
+          address
+          additionalAddress
+          postalCode
+          city
+          country
+        }
+        birthDate
+        subscription
+      }
+    }
+  }
+`;
+export const listBillingHistorys = /* GraphQL */ `
+  query ListBillingHistorys(
+    $filter: ModelBillingHistoryFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listBillingHistorys(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        owner
+        userId
+        date
+        nextRenewDate
+        subscription
+        amount
+        paid
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+        user {
+          id
+          lastname
+          firstname
+          avatarUri
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+          email
+          phoneNumber
+          optIn
+          birthDate
+          subscription
+        }
       }
       nextToken
       startedAt
@@ -1238,23 +1328,6 @@ export const syncBillingHistories = /* GraphQL */ `
         id
         owner
         userId
-        user {
-          id
-          owner
-          lastname
-          firstname
-          email
-          phoneNumber
-          optIn
-          avatarUri
-          birthDate
-          subscription
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-        }
         date
         nextRenewDate
         subscription
@@ -1265,93 +1338,22 @@ export const syncBillingHistories = /* GraphQL */ `
         _lastChangedAt
         createdAt
         updatedAt
-      }
-      nextToken
-      startedAt
-    }
-  }
-`;
-export const getBillingHistory = /* GraphQL */ `
-  query GetBillingHistory($id: ID!) {
-    getBillingHistory(id: $id) {
-      id
-      owner
-      userId
-      user {
-        id
-        owner
-        lastname
-        firstname
-        email
-        phoneNumber
-        optIn
-        address {
-          address
-          additionalAddress
-          postalCode
-          city
-          country
-        }
-        avatarUri
-        birthDate
-        subscription
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-      }
-      date
-      nextRenewDate
-      subscription
-      amount
-      paid
-      _version
-      _deleted
-      _lastChangedAt
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const listBillingHistorys = /* GraphQL */ `
-  query ListBillingHistorys(
-    $filter: ModelBillingHistoryFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listBillingHistorys(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        owner
-        userId
         user {
           id
-          owner
           lastname
           firstname
-          email
-          phoneNumber
-          optIn
           avatarUri
-          birthDate
-          subscription
           _version
           _deleted
           _lastChangedAt
           createdAt
           updatedAt
+          email
+          phoneNumber
+          optIn
+          birthDate
+          subscription
         }
-        date
-        nextRenewDate
-        subscription
-        amount
-        paid
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
       }
       nextToken
       startedAt

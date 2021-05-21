@@ -9,10 +9,10 @@ import { RadioFormProps } from './types';
 const RadioComp = React.forwardRef<Radio, RadioFormProps>(
   (props: RadioFormProps, ref): React.ReactElement => {
     const {
-      label, labelStyle, error, style, onChangeValue, value = false, labelPosition = 'before', ...switchProps
+      label, labelStyle, error, style, onChangeValue, defaultValue = false, labelPosition = 'before', ...switchProps
     } = props;
 
-    const [isEnabled, setIsEnabled] = useState(value);
+    const [isEnabled, setIsEnabled] = useState(defaultValue);
 
     const toggleSwitch = () => {
       setIsEnabled((previousState) => !previousState);

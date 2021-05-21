@@ -8,10 +8,10 @@ import { SwitchFormProps } from './types';
 const Switch = React.forwardRef<Toggle, SwitchFormProps>(
   (props: SwitchFormProps, ref): React.ReactElement => {
     const {
-      label, labelStyle, error, style, onChangeValue, value = false, labelPosition = 'before', ...switchProps
+      label, labelStyle, error, style, onChangeValue, defaultValue = false, labelPosition = 'before', ...switchProps
     } = props;
 
-    const [isEnabled, setIsEnabled] = useState(value);
+    const [isEnabled, setIsEnabled] = useState(defaultValue);
 
     const toggleSwitch = () => {
       setIsEnabled((previousState) => !previousState);

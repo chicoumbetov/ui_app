@@ -32,13 +32,6 @@ const DigitsInput = React.forwardRef<TextInput, DigitsInputFormProps>(
     const [inputValue, setInputValue] = useState<string>('');
     const [containerIsFocused, setContainerIsFocused] = useState(false);
 
-    useEffect(() => {
-      if (inputValue === '') {
-        setInputValue(defaultValue || '');
-      }
-      if (onChangeValue && defaultValue) onChangeValue(inputValue);
-    }, [inputValue]);
-
     const safeRef = useForwardedRef<TextInput>(ref);
 
     const codeDigitsArray = new Array(numberOfDigits).fill(0);

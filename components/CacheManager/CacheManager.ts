@@ -47,7 +47,8 @@ export default class CacheManager {
   }
 }
 
-const getCacheEntry = async (uri: string): Promise<{ exists: boolean; path: string; tmpPath: string }> => {
+const getCacheEntry = async (uri: string):
+Promise<{ exists: boolean; path: string; tmpPath: string }> => {
   const filename = uri.substring(
     uri.lastIndexOf('/'),
     uri.indexOf('?') === -1 ? uri.length : uri.indexOf('?'),

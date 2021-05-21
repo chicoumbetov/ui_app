@@ -45,7 +45,9 @@ export type TabMonCompteParamList = {
   'modifier-info-2': {
     signUp?:boolean
   };
-  'modifier-info-3': undefined;
+  'modifier-info-3': {
+    signUp?:boolean
+  };
   CameraDom: undefined;
   ModifierAbonnement: undefined;
 };

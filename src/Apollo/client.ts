@@ -4,7 +4,6 @@ import { ApolloClient } from '@wora/apollo-offline';
 import { ApolloCache } from '@wora/apollo-cache';
 import { Auth } from 'aws-amplify';
 import { ApolloLink } from 'apollo-link';
-import { createHttpLink } from 'apollo-link-http';
 import { AUTH_TYPE, createAuthLink } from 'aws-appsync-auth-link';
 import { createSubscriptionHandshakeLink } from 'aws-appsync-subscription-link';
 
@@ -19,7 +18,7 @@ const auth = {
 
 const link = ApolloLink.from([
   createAuthLink({ url, region, auth }),
-  createSubscriptionHandshakeLink(url, createHttpLink({ uri: url })),
+  createSubscriptionHandshakeLink({ url, region, auth }),
 ]);
 
 const client = new ApolloClient(

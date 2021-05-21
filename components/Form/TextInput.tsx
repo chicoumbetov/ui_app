@@ -1,10 +1,7 @@
 import * as React from 'react';
-import {
-  View, StyleSheet, TouchableOpacity, ScrollView,
-} from 'react-native';
-import { useEffect, useState } from 'react';
+import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import { useState } from 'react';
 import { Icon, IconProps } from '@ui-kitten/components';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Input } from '../UIKittenRewrite/Input';
 import { TextInputFormProps } from './types';
 
@@ -27,13 +24,6 @@ const TextInputComp = React.forwardRef<Input, TextInputFormProps>(
 
     const [inputValue, setInputValue] = useState<string | undefined>(defaultValue);
     const [passwdShown, setPasswdShown] = useState(!secureTextEntry);
-
-    useEffect(() => {
-      if (inputValue === '' || !inputValue) {
-        setInputValue(defaultValue);
-      }
-      if (onChangeValue && defaultValue) onChangeValue(inputValue);
-    }, [defaultValue, inputValue]);
 
     const renderIcon = (iconProps: IconProps) => (
       <Icon {...iconProps} name={icon} />
@@ -70,7 +60,7 @@ const TextInputComp = React.forwardRef<Input, TextInputFormProps>(
               onChangeValue(text);
             }
           }}
-          value={inputValue}
+          value={inputValue || undefined}
         />
       </View>
     );

@@ -1,9 +1,9 @@
 import React, {
-  useEffect,
+  useEffect, useState,
   // useState
 } from 'react';
 import {
-  Layout, RadioGroup, Radio, Text, Button, Datepicker,
+  Layout, RadioGroup, Radio, Text, Button, Datepicker, RangeDatepicker,
 } from '@ui-kitten/components';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { StyleSheet, View } from 'react-native';
@@ -30,6 +30,23 @@ const MesCharges2 = () => {
     console.log('insideMesCharges3', { ...titlePass });
   };
 
+  const [radioText, setRadioText] = useState("l'année");
+
+  const checkRadio = (i) => {
+    switch (i) {
+      case 0:
+        setRadioText("l'année");
+        setRange({});
+        break;
+      case 1:
+        setRadioText("l'année -1");
+        break;
+      case 2:
+        setRadioText('le mois');
+        break;
+    }
+  };
+  const [range, setRange] = React.useState({});
   useEffect(() => {
     console.log('useEffect test of MesCharges 2');
   });
@@ -50,7 +67,10 @@ const MesCharges2 = () => {
 
       <RadioGroup
         selectedIndex={selectedIndex}
-        onChange={(index) => setSelectedIndex(index)}
+        onChange={(index) => {
+          setSelectedIndex(index); checkRadio(index);
+          console.log(range);
+        }}
         style={styles.containerRadio}
       >
         <Radio>
@@ -66,13 +86,16 @@ const MesCharges2 = () => {
 
       <Layout style={{ flexDirection: 'row', backgroundColor: 'transparent', alignItems: 'center' }}>
         <View style={{ marginRight: 15 }}>
-          <Text category="h5">Selectionner l'année</Text>
+          <Text category="h5">
+            Selectionner
+            {' '}
+            {radioText}
+          </Text>
         </View>
 
-        <TextInputComp
-          name="selectionnerAnnee"
-          placeholder="dd/mm/yyyy"
-          icon="calendar-outline"
+        <RangeDatepicker
+          range={range}
+          onSelect={(nextRange) => setRange(nextRange)}
         />
 
       </Layout>

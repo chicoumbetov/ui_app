@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 
 import { useForm } from 'react-hook-form';
+import { Auth } from 'aws-amplify';
 import MaisonVert from '../../../assets/Omedom_Icons_svg/Logement/maison_verte.svg';
 
 import SelectComp from '../../../components/Form/Select';
@@ -16,22 +17,19 @@ import {
 import Form from '../../../components/Form/Form';
 import TextInputComp from '../../../components/Form/TextInput';
 import MaxWidthContainer from '../../../components/MaxWidthContainer';
+import { BudgetLineType, Frequency, MortgageLoanInfoInput } from '../../../src/API';
+import DatepickerComp from '../../../components/Form/DatePicker';
+import { createBudgetLine } from '../../../src/graphql/mutations';
+import TextInput from '../../../components/Form/TextInput';
 
 type ParamBudgetForm = {
-  typeRevenu: string;
-  montant: string;
-  frequence: string;
-  derniereEcheance: string;
-  typemontant: string;
-};
-
-type ParamAjoutBienForm = {
-  bien: string;
-  anneeEcheance: string;
+  category: string,
+  amount: number,
+  frequency: Frequency,
+  nextDueDate?: string | null,
 };
 
 const ParametrerAjoutRevenu = () => {
-  const theme = useTheme();
   const paramBudgetForm = useForm<ParamBudgetForm>();
 
   const [frequenceShow, setFrequenceShow] = useState(false);
@@ -42,6 +40,10 @@ const ParametrerAjoutRevenu = () => {
   /**
    *Variable pour gérer l'affichage des trois grandes partie
    * */
+
+  const validateBudget = async (data: ParamBudgetForm) => {
+    console.log('aaa', data);
+  };
 
   return (
     <MaxWidthContainer
@@ -101,7 +103,7 @@ const ParametrerAjoutRevenu = () => {
 
                 <View>
                   <SelectComp
-                    name="typeRevenu"
+                    name="category"
                     data={typeRevenu}
                     onChangeValue={(v) => { if (v === 'b1') { setRevenuLoyer(true); } else { setRevenuLoyer(false); } setMontantShow(true); setFrequenceShow(true); }}
                     placeholder="Type De Revenu"
@@ -116,7 +118,7 @@ const ParametrerAjoutRevenu = () => {
 
                   {montantShow && (
                   <View>
-                    <TextInputComp name="montant" placeholder="Saisissez votre montant ici" />
+                    <TextInput name="amount" placeholder="Saisissez votre montant ici" />
 
                     {revenuLoyer && (
                     <View>
@@ -133,9 +135,9 @@ const ParametrerAjoutRevenu = () => {
                   {frequenceShow
                     && (
                       <Layout style={{ backgroundColor: 'transparent' }}>
-                        <SelectComp name="typeRevenu" data={frequence} onChangeValue={() => setDateDerniereEcheanceShow(true)} placeholder="Fréquence" size="large" appearance="default" status="primary" />
+                        <SelectComp name="frequency" data={frequence} onChangeValue={() => setDateDerniereEcheanceShow(true)} placeholder="Fréquence" size="large" appearance="default" status="primary" />
                         {dateDerniereEcheanceShow && (
-                          <Datepicker placeholder="Date de dernière échéance" />
+                          <DatepickerComp name="nextDueDate" placeholder="Date de dernière échéance" />
                         )}
                       </Layout>
 
@@ -161,8 +163,8 @@ const ParametrerAjoutRevenu = () => {
 
             <Layout style={{ marginBottom: 10 }}>
               <Button
-                onPress={paramBudgetForm.handleSubmit((e) => {
-                  console.log(e);
+                onPress={paramBudgetForm.handleSubmit((data) => {
+                  validateBudget(data);
                 })}
                 size="large"
               >

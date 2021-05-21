@@ -14,7 +14,6 @@ import { gql } from 'graphql-tag';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { FetchResult } from 'apollo-link';
 import _ from 'lodash';
-import { Platform } from 'react-native';
 import {
   CreateUserInput,
   CreateUserMutation,
@@ -28,7 +27,6 @@ import * as mutations from '../graphql/mutations';
 import { removeNull } from '../../utils/ObjectHelper';
 import { getUser } from '../graphql/queries';
 import { onUpdateUser } from '../graphql/subscriptions';
-import { webSocketLink } from '../Apollo/client';
 
 type SimpleCreateUserInput = Omit<CreateUserInput, 'email' | 'lastname' | 'firstname' | 'phoneNumber' | 'optIn'>;
 type SimpleUpdateUserInput = Omit<UpdateUserInput, 'id'> & {

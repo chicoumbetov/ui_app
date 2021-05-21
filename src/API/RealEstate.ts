@@ -69,8 +69,9 @@ export type RealEstateItem = {
   updatedAt: string,
 };
 
+const listRealEstatesQuery = <DocumentNode>gql(listRealEstates);
+
 export function useRealEstateList() {
-  const listRealEstatesQuery = <DocumentNode>gql(listRealEstates);
   const {
     loading, data, fetchMore, refetch,
   } = useQuery<ListRealEstatesQuery, ListRealEstatesQueryVariables>(listRealEstatesQuery);
@@ -84,7 +85,31 @@ export function createRealEstateMutation() {
   const [createRealEstate] = useMutation<
   CreateRealEstateMutation,
   CreateRealEstateMutationVariables
-  >(gql(mutations.createRealEstate));
+  >(gql(mutations.createRealEstate), {
+    update: (cache, { data: mutationData }) => {
+      console.log(mutationData);
+      if (mutationData) {
+        const { createRealEstate: newData } = mutationData;
+        if (newData) {
+          // Read query from cache
+          const cacheData = cache.readQuery<ListRealEstatesQuery, ListRealEstatesQueryVariables>({
+            query: listRealEstatesQuery,
+          });
+
+          // Add newly created item to the cache copy
+          if (cacheData && cacheData.listRealEstates?.items) {
+            cacheData.listRealEstates?.items.push(newData);
+
+            // Overwrite the cache with the new results
+            cache.writeQuery<ListRealEstatesQuery, ListRealEstatesQueryVariables>({
+              query: listRealEstatesQuery,
+              data: cacheData,
+            });
+          }
+        }
+      }
+    },
+  });
   return createRealEstate;
 }
 

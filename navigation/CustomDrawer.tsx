@@ -255,7 +255,6 @@ const CustomDrawer = (props: DrawerContentComponentProps) => {
         >
           <TouchableOpacity onPress={() => {
             Auth.signOut();
-            DataStore.clear();
           }}
           >
             <Text style={{ fontSize: 17, letterSpacing: 0 }}>Déconnexion</Text>

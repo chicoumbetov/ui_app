@@ -2,7 +2,7 @@ import React, {
   createContext,
   useContext,
   useEffect,
-  useMemo,
+  useMemo, useRef,
   useState,
 } from 'react';
 
@@ -14,6 +14,7 @@ import { gql } from 'graphql-tag';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { FetchResult } from 'apollo-link';
 import _ from 'lodash';
+import { Platform } from 'react-native';
 import {
   CreateUserInput,
   CreateUserMutation,
@@ -27,6 +28,7 @@ import * as mutations from '../graphql/mutations';
 import { removeNull } from '../../utils/ObjectHelper';
 import { getUser } from '../graphql/queries';
 import { onUpdateUser } from '../graphql/subscriptions';
+import { webSocketLink } from '../Apollo/client';
 
 type SimpleCreateUserInput = Omit<CreateUserInput, 'email' | 'lastname' | 'firstname' | 'phoneNumber' | 'optIn'>;
 type SimpleUpdateUserInput = Omit<UpdateUserInput, 'id'> & {
@@ -102,6 +104,7 @@ const getUserAuthenticatedAST = gql(getUser);
 
 const UserProvider: React.FC = ({ children }) => {
   const [user, setUser] = useState<UserItem | undefined>();
+  const unsubscribe = useRef(() => {});
   const [getUserFromDataBase, { subscribeToMore, refetch }] = useLazyQuery<
   GetUserQuery,
   GetUserQueryVariables
@@ -110,6 +113,10 @@ const UserProvider: React.FC = ({ children }) => {
     {
       onCompleted: (data) => {
         setUser(data?.getUser || undefined);
+        if (loading) {
+          // on vient de se reconnecter, donc il faut relancer la souscription
+          setRefresh(!refresh);
+        }
         setLoading(false);
       },
       fetchPolicy: 'cache-and-network',
@@ -125,6 +132,7 @@ const UserProvider: React.FC = ({ children }) => {
       const authUser = await Auth.currentAuthenticatedUser();
       setCognitoUser(authUser);
       getUserFromDataBase({ variables: { id: authUser.attributes.sub } });
+      setRefresh(!refresh);
       AsyncStorage.setItem('lastFirstname', authUser?.attributes.given_name);
       authUser.getCachedDeviceKeyAndPassword();
       const stayConnected = await AsyncStorage.getItem('stayConnected');
@@ -152,8 +160,16 @@ const UserProvider: React.FC = ({ children }) => {
         currentUser();
         break;
       case 'signOut':
+        setLoading(true);
         setUser(undefined);
         setCognitoUser(undefined);
+        unsubscribe.current();
+        client.clearStore();
+        /* if (Platform.OS === 'web') {
+          // hack pour couper le websocket car je n'ai rien trouvé d'autre
+          document.location.reload();
+        } */
+        setLoading(false);
         break;
       default:
         break;
@@ -169,9 +185,9 @@ const UserProvider: React.FC = ({ children }) => {
   const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
-    let unsubscribe = () => {};
+    let unsubscribeLocaly = () => {};
     if (user?.id) {
-      unsubscribe = subscribeToMore({
+      unsubscribeLocaly = subscribeToMore({
         document: gql(onUpdateUser),
         variables: { id: user.id },
         updateQuery: (prev) => {
@@ -180,18 +196,20 @@ const UserProvider: React.FC = ({ children }) => {
           refetch({ id: cognitoUser?.attributes.sub });
           return prev;
         },
-        onError: () => {
+        onError: (e) => {
+          console.log(e);
           setRefresh(!refresh);
         },
       });
+      unsubscribe.current = unsubscribeLocaly;
     }
 
     return () => {
-      if (unsubscribe) {
-        unsubscribe();
+      if (unsubscribeLocaly) {
+        unsubscribeLocaly();
       }
     };
-  }, [refresh, user]);
+  }, [refresh]);
 
   const values = useMemo(() => {
     const createUser = (inputVars: SimpleCreateUserInput) => client.mutate<

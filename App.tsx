@@ -53,7 +53,6 @@ const fonts = {
 
 function App() {
   const colorScheme = useColorScheme();
-  const [authState, setAuthState] = useState<string>();
   const [tmpPasswd, setTmpPasswd] = useState<string>();
 
   const assetLoader = useAssetLoader({ fonts });
@@ -107,7 +106,6 @@ function App() {
                       <Navigation colorScheme={colorScheme} />
                     ) : (
                       <Authenticator
-                        onStateChange={setAuthState}
                         hideDefault
                         usernameAttributes="email"
                       >

@@ -16,9 +16,11 @@ const auth = {
   jwtToken: async () => (await Auth.currentSession()).getIdToken().getJwtToken(),
 };
 
+export const webSocketLink = createSubscriptionHandshakeLink({ url, region, auth });
+
 const link = ApolloLink.from([
   createAuthLink({ url, region, auth }),
-  createSubscriptionHandshakeLink({ url, region, auth }),
+  webSocketLink,
 ]);
 
 const client = new ApolloClient(

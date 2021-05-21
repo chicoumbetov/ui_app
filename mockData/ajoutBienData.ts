@@ -1,19 +1,19 @@
 export const typeBien = [
   {
     label: 'Résidence Principale',
-    key: 'b1',
+    key: 'mainHome',
   },
   {
     label: 'Résidence Secondaire',
-    key: 'b2',
+    key: 'secondHome',
   },
   {
     label: 'Investissement Locatif Professionnel ou Commercial',
-    key: 'b3',
+    key: 'professionnalRentalInvestment',
   },
   {
     label: 'Investissement Locatif Particulier',
-    key: 'b4',
+    key: 'privateRentalInvestment',
   },
 ];
 
@@ -21,49 +21,51 @@ export const detention = [
   {
     label: 'Nom Propre',
     key: 'b1',
+    section: true,
   },
   {
     label: 'Société',
     key: 'b2',
+    section: false,
   },
 ];
 
 export const typeDetention = [
   {
     label: 'Propriétaire Intégral',
-    key: 'b1',
+    key: 'Propriétaire Intégral',
   },
   {
     label: 'Indivision',
-    key: 'b2',
+    key: 'Indivision',
   },
 ];
 
 export const statut = [
   {
     label: 'SCI',
-    key: 'b1',
+    key: 'SCI',
   },
   {
     label: 'SAS',
-    key: 'b2',
+    key: 'SAS',
   },
   {
     label: 'SARL Classique',
-    key: 'b3',
+    key: 'SARLclassique',
   },
   {
     label: 'SARL Famille',
-    key: 'b4',
+    key: 'SARLfamille',
   },
 ];
-export const typeImpo = [
+export const typeImpot = [
   {
     label: 'Impôt sur les revenus',
-    key: 'b1',
+    key: 'RevenueTax',
   },
   {
     label: 'Impôt sur les sociétés',
-    key: 'b2',
+    key: 'SocialTax',
   },
 ];

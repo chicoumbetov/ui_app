@@ -625,6 +625,19 @@ export const schema = {
                         "targetName": "bankAccountId"
                     }
                 },
+                "realEstate": {
+                    "name": "realEstate",
+                    "isArray": false,
+                    "type": {
+                        "model": "BankAccount"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "association": {
+                        "connectionType": "BELONGS_TO",
+                        "targetName": "realEstateId"
+                    }
+                },
                 "bridgetApiId": {
                     "name": "bridgetApiId",
                     "isArray": false,
@@ -704,6 +717,15 @@ export const schema = {
                         "name": "bankMovementByBudgetLine",
                         "fields": [
                             "budgetLineId"
+                        ]
+                    }
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "name": "bankMovementByRealEstate",
+                        "fields": [
+                            "realEstateId"
                         ]
                     }
                 }

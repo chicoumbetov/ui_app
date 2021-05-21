@@ -20,7 +20,9 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "backgroundColor": "#ffffff"
+      "requireFullScreen": true,
+      "backgroundColor": "#ffffff",
+      "usesIcloudStorage": true
     },
     "android": {
       "adaptiveIcon": {

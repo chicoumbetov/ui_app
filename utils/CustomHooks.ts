@@ -4,13 +4,15 @@
  * @author: David Buch
  */
 import {
-  DependencyList, EffectCallback, ForwardedRef, useCallback, useEffect, useRef, useState,
+  ComponentProps,
+  DependencyList, EffectCallback, ForwardedRef, useEffect, useRef, useState,
 } from 'react';
 import { useDimensions } from '@react-native-community/hooks';
-import { Platform, ScaledSize } from 'react-native';
+import {
+  Platform, ScaledSize, View,
+} from 'react-native';
 import NetInfo from '@react-native-community/netinfo';
-import { Auth } from 'aws-amplify';
-import { CognitoUser } from 'amazon-cognito-identity-js';
+
 
 export const usePrevious = <T extends unknown>(value: T): T | undefined => {
   const ref = useRef<T>();
@@ -81,3 +83,16 @@ export const useForwardedRef = <T>(ref: ForwardedRef<T>) => {
 
   return innerRef;
 };
+
+export function useLayout() {
+  const [layout, setLayout] = useState({
+    height: 0,
+  });
+  const onLayout: ComponentProps<typeof View>['onLayout'] = ({
+                                                               nativeEvent,
+                                                             }) => {
+    setLayout(nativeEvent.layout);
+  };
+
+  return [layout, onLayout] as const;
+}

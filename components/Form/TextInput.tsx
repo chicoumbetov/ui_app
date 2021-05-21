@@ -18,6 +18,7 @@ const TextInputComp = React.forwardRef<Input, TextInputFormProps>(
       containerStyle,
       withEyeToggle,
       secureTextEntry,
+      keyboardType,
       ...inputProps
     } = props;
 
@@ -32,6 +33,7 @@ const TextInputComp = React.forwardRef<Input, TextInputFormProps>(
     );
 
     let finalIcon;
+
     if (withEyeToggle && secureTextEntry) {
       finalIcon = renderEyeIcon;
     } else if (icon) {
@@ -44,6 +46,7 @@ const TextInputComp = React.forwardRef<Input, TextInputFormProps>(
           autoCapitalize="none"
           ref={ref}
           label={label}
+          keyboardType={keyboardType || 'default'}
           accessoryRight={finalIcon}
           style={[styles.input, style]}
           caption={error && error.message}

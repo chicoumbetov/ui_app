@@ -34,6 +34,7 @@ export default function S3Image(props: S3ImageProps): JSX.Element {
       setUri(false);
     }
     (async () => {
+      let found = false;
       if (Platform.OS !== 'web') {
         // on regarde s'il existe encore le fichier dans le cache d'upload
         const uuid = extractUUID(s3key);
@@ -43,13 +44,15 @@ export default function S3Image(props: S3ImageProps): JSX.Element {
         if (stored) {
           const infos = JSON.parse(stored);
           if (isMounted) {
+            found = true;
             setUri(FileSystem.documentDirectory + waitingDirectory + infos.key);
           }
-        } else {
-          const url = await Storage.get(s3key);
-          if (isMounted) {
-            setUri(url as string);
-          }
+        }
+      }
+      if (!found) {
+        const url = await Storage.get(s3key);
+        if (isMounted) {
+          setUri(url as string);
         }
       } else {
         const url = await Storage.get(s3key);

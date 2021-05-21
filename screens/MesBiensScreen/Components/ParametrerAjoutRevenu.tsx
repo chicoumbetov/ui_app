@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import {
-  Button, Datepicker, Icon, Layout, Text, useTheme,
+  Button, Datepicker, Layout, Text, useTheme,
 } from '@ui-kitten/components';
 import {
-  StyleSheet, TouchableOpacity, View,
+  StyleSheet, View,
 } from 'react-native';
 
 import { useForm } from 'react-hook-form';
@@ -11,7 +11,7 @@ import MaisonVert from '../../../assets/Omedom_Icons_svg/Logement/maison_verte.s
 
 import SelectComp from '../../../components/Form/Select';
 import {
-  loyer, frequence, typeRevenu, typeMontant, montant,
+  frequence, typeRevenu,
 } from '../../../mockData/ajoutRevenuData';
 import Form from '../../../components/Form/Form';
 import TextInputComp from '../../../components/Form/TextInput';
@@ -25,14 +25,6 @@ type ParamBudgetForm = {
   typemontant: string;
 };
 
-const initialFormState = {
-  typeRevenu: 'Type de Revenu',
-  montant: 'Montant',
-  frequence: 'Fréquence',
-  typeImpo: 'Type d\'imposition',
-  typeDetention: 'Type de détention',
-};
-
 type ParamAjoutBienForm = {
   bien: string;
   anneeEcheance: string;
@@ -41,26 +33,25 @@ type ParamAjoutBienForm = {
 const ParametrerAjoutRevenu = () => {
   const theme = useTheme();
   const paramBudgetForm = useForm<ParamBudgetForm>();
-  const paramAjoutBienForm = useForm<ParamAjoutBienForm>();
 
   const [frequenceShow, setFrequenceShow] = useState(false);
   const [montantShow, setMontantShow] = useState(false);
   const [revenuLoyer, setRevenuLoyer] = useState(false);
   const [dateDerniereEcheanceShow, setDateDerniereEcheanceShow] = useState(false);
 
-  const [montantValue, setMontantValue] = useState('Montant');
-
   /**
    *Variable pour gérer l'affichage des trois grandes partie
    * */
-  const [etape, setEtape] = useState(0);
 
   return (
-    <MaxWidthContainer outerViewProps={{
-      style: {
-        backgroundColor: '#efefef',
-      },
-    }}
+    <MaxWidthContainer
+      withScrollView="keyboardAware"
+      outerViewProps={{
+        style: {
+          backgroundColor: '#efefef',
+        },
+        showsVerticalScrollIndicator: false,
+      }}
     >
 
       {/**
@@ -109,7 +100,15 @@ const ParametrerAjoutRevenu = () => {
               <Layout style={{ backgroundColor: 'transparent', paddingBottom: 33 }}>
 
                 <View>
-                  <SelectComp name="typeRevenu" data={typeRevenu} onChangeValue={(v) => { if (v === 'b1') { setRevenuLoyer(true); } else { setRevenuLoyer(false); } setMontantShow(true); setFrequenceShow(true); }} placeholder="Type De Revenu" size="large" appearance="default" status="primary" />
+                  <SelectComp
+                    name="typeRevenu"
+                    data={typeRevenu}
+                    onChangeValue={(v) => { if (v === 'b1') { setRevenuLoyer(true); } else { setRevenuLoyer(false); } setMontantShow(true); setFrequenceShow(true); }}
+                    placeholder="Type De Revenu"
+                    size="large"
+                    appearance="default"
+                    status="primary"
+                  />
 
                 </View>
 

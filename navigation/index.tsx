@@ -15,9 +15,11 @@ import ActivityIndicator from '../components/ActivityIndicator';
 import InitialNavigator from './InitialNavigator';
 import FinalSignUpStackNavigator from './FinalSignUpStackNavigator';
 import { useUser } from '../src/API/UserContext';
+import { useAutoFileStorage } from '../utils/S3FileStorage';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   const { user, userIsLoading } = useUser();
+    useAutoFileStorage();
 
   return (
     userIsLoading

@@ -19,11 +19,14 @@ export default function MonCompte() {
 
   return (
 
-    <MaxWidthContainer outerViewProps={{
-      style: {
-        backgroundColor: '#efefef',
-      },
-    }}
+    <MaxWidthContainer
+      withScrollView="keyboardAware"
+      outerViewProps={{
+        style: {
+          backgroundColor: '#efefef',
+        },
+        showsVerticalScrollIndicator: false,
+      }}
     >
 
       <Layout style={{

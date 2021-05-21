@@ -12,9 +12,8 @@ import { useEffect } from 'react';
 import { ImagePickerResult } from 'expo-image-picker';
 import { DocumentResult } from 'expo-document-picker';
 import { v4 as uuid } from 'uuid';
+import * as mime from 'react-native-mime-types';
 import { useNetworkInfo } from './CustomHooks';
-
-const MimeType = require('mime-type/with-db');
 
 export const waitingDirectory = 'waitingFile/';
 
@@ -54,9 +53,7 @@ const UploadInternal = async (
       exists = true;
     } else {
       const fileInfo = await FileSystem.getInfoAsync(uri);
-      if (fileInfo.exists) {
-        exists = true;
-      }
+      exists = fileInfo.exists;
     }
     if (exists) {
       await Storage.put(key, blob, {
@@ -67,7 +64,7 @@ const UploadInternal = async (
         },
       });
     }
-    if (deleteTempFile) {
+    if (deleteTempFile && Platform.OS !== 'web') {
       await FileSystem.deleteAsync(uri);
     }
     if (storageKey) {
@@ -202,7 +199,7 @@ export const Delete = async (
 
 const getFilename = (filePath: string) => {
   if (filePath.indexOf('data:') > -1) {
-    const ext = MimeType.extension(filePath.split(';')[0].replace('data:', ''));
+    const ext = mime.extension(filePath.split(';')[0].replace('data:', ''));
     return `${Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)}.${ext}`;
   }
   return filePath.replace(/^.*[\\/]/, '');

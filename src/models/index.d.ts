@@ -166,6 +166,7 @@ export declare class BankAccount {
 export declare class BankMovement {
   readonly id: string;
   readonly bankAccount: BankAccount;
+  readonly realEstate?: BankAccount;
   readonly bridgetApiId: string;
   readonly description: string;
   readonly amount: number;

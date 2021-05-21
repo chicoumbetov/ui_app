@@ -218,7 +218,7 @@ const CustomDrawer = (props: DrawerContentComponentProps) => {
             {/* On utilise un fragment pour garder les mêmes index de row */}
             {window.width > 780 ? (
               <DrawerItem
-                title="Mes charges"
+                title="Mes Charges"
                 accessoryLeft={ChargeIcon}
               />
             ) : <></>}

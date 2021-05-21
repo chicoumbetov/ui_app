@@ -1,5 +1,3 @@
-import { InputProps } from '@ui-kitten/components';
-
 /**
  * 1. Navigation Stack Param List types
  * 2. ... types
@@ -51,16 +49,17 @@ export type TabMonCompteParamList = {
     signUp?:boolean
   };
   CameraDom: undefined;
+  ModifierAbonnement: undefined;
 };
 
 export type TabMesBiensParamList = {
   'mes-biens': undefined;
-  'detail-bien': { id: number };
+  'detail-bien': { id: string };
   MonBudget: undefined;
   'ajout-revenu': undefined;
   ParametrerAjoutCharges: undefined;
   PartagerBien: undefined;
-  ModifierCharacteristiques: undefined;
+  'modifier-characteristique': undefined;
   'ajout-bien-screen': undefined;
   'mes-rapports': undefined;
   'mes-rapports-biens1': undefined;

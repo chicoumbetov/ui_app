@@ -30,6 +30,7 @@ type RealEstate @model
   ownName: Boolean
   company: CompanyType
   detentionPart: Float
+  typeImpot: TaxType
   budgetLines: [BudgetLine] @connection(fields: ["id"])
   documents: [Document] @connection(fields: ["id"])
   admins: [String!]!
@@ -122,6 +123,12 @@ enum CompanyType { #French company types
   SARLclassique
   SARLfamille
 }
+
+enum TaxType {
+RevenueTax
+SocialTax
+}
+
 enum Frequency {
   monthly
   fortnightly
@@ -175,10 +182,13 @@ type BankAccount @model {
 type BankMovement @model
 @key(name: "bankMovementByByBankAccount", fields: ["bankAccountId"])
 @key(name: "bankMovementByBudgetLine", fields: ["budgetLineId"])
+@key(name: "bankMovementByRealEstate", fields: ["realEstateId"])
 {
   id: ID!
   bankAccountId: ID!
   bankAccount: BankAccount! @connection(fields: ["bankAccountId"])
+  realEstateId: ID
+  realEstate: BankAccount @connection(fields: ["realEstateId"])
   bridgetApiId: String!
   description: String!
   amount: Float!

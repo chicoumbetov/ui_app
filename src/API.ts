@@ -491,7 +491,6 @@ export type DeleteBankMovementInput = {
 
 export type CreateUserInput = {
   id?: string | null,
-  owner?: string | null,
   lastname?: string | null,
   firstname?: string | null,
   email?: string | null,
@@ -541,7 +540,6 @@ export type ModelSubscriptionTypeInput = {
 export type User = {
   __typename: "User",
   id?: string,
-  owner?: string | null,
   lastname?: string | null,
   firstname?: string | null,
   avatarUri?: string | null,
@@ -560,7 +558,6 @@ export type User = {
 
 export type UpdateUserInput = {
   id: string,
-  owner?: string | null,
   lastname?: string | null,
   firstname?: string | null,
   email?: string | null,
@@ -842,7 +839,6 @@ export type ModelBankMovementFilterInput = {
 
 export type ModelUserFilterInput = {
   id?: ModelIDInput | null,
-  owner?: ModelStringInput | null,
   lastname?: ModelStringInput | null,
   firstname?: ModelStringInput | null,
   email?: ModelStringInput | null,
@@ -2175,7 +2171,6 @@ export type CreateUserMutation = {
   createUser?:  {
     __typename: "User",
     id: string,
-    owner?: string | null,
     lastname?: string | null,
     firstname?: string | null,
     avatarUri?: string | null,
@@ -2209,7 +2204,6 @@ export type UpdateUserMutation = {
   updateUser?:  {
     __typename: "User",
     id: string,
-    owner?: string | null,
     lastname?: string | null,
     firstname?: string | null,
     avatarUri?: string | null,
@@ -2243,7 +2237,6 @@ export type DeleteUserMutation = {
   deleteUser?:  {
     __typename: "User",
     id: string,
-    owner?: string | null,
     lastname?: string | null,
     firstname?: string | null,
     avatarUri?: string | null,
@@ -2587,7 +2580,6 @@ export type CreateNotificationMutation = {
     user?:  {
       __typename: "User",
       id: string,
-      owner?: string | null,
       lastname?: string | null,
       firstname?: string | null,
       avatarUri?: string | null,
@@ -2635,7 +2627,6 @@ export type UpdateNotificationMutation = {
     user?:  {
       __typename: "User",
       id: string,
-      owner?: string | null,
       lastname?: string | null,
       firstname?: string | null,
       avatarUri?: string | null,
@@ -2683,7 +2674,6 @@ export type DeleteNotificationMutation = {
     user?:  {
       __typename: "User",
       id: string,
-      owner?: string | null,
       lastname?: string | null,
       firstname?: string | null,
       avatarUri?: string | null,
@@ -2733,7 +2723,6 @@ export type CreateBillingHistoryMutation = {
     user?:  {
       __typename: "User",
       id: string,
-      owner?: string | null,
       lastname?: string | null,
       firstname?: string | null,
       avatarUri?: string | null,
@@ -2783,7 +2772,6 @@ export type UpdateBillingHistoryMutation = {
     user?:  {
       __typename: "User",
       id: string,
-      owner?: string | null,
       lastname?: string | null,
       firstname?: string | null,
       avatarUri?: string | null,
@@ -2833,7 +2821,6 @@ export type DeleteBillingHistoryMutation = {
     user?:  {
       __typename: "User",
       id: string,
-      owner?: string | null,
       lastname?: string | null,
       firstname?: string | null,
       avatarUri?: string | null,
@@ -3648,7 +3635,6 @@ export type SyncUsersQuery = {
     items?:  Array< {
       __typename: "User",
       id: string,
-      owner?: string | null,
       lastname?: string | null,
       firstname?: string | null,
       avatarUri?: string | null,
@@ -3684,7 +3670,6 @@ export type GetUserQuery = {
   getUser?:  {
     __typename: "User",
     id: string,
-    owner?: string | null,
     lastname?: string | null,
     firstname?: string | null,
     avatarUri?: string | null,
@@ -3721,7 +3706,6 @@ export type ListUsersQuery = {
     items?:  Array< {
       __typename: "User",
       id: string,
-      owner?: string | null,
       lastname?: string | null,
       firstname?: string | null,
       avatarUri?: string | null,
@@ -4003,7 +3987,6 @@ export type GetNotificationQuery = {
     user?:  {
       __typename: "User",
       id: string,
-      owner?: string | null,
       lastname?: string | null,
       firstname?: string | null,
       avatarUri?: string | null,
@@ -4054,7 +4037,6 @@ export type ListNotificationsQuery = {
       user?:  {
         __typename: "User",
         id: string,
-        owner?: string | null,
         lastname?: string | null,
         firstname?: string | null,
         avatarUri?: string | null,
@@ -4101,7 +4083,6 @@ export type SyncNotificationsQuery = {
       user?:  {
         __typename: "User",
         id: string,
-        owner?: string | null,
         lastname?: string | null,
         firstname?: string | null,
         avatarUri?: string | null,
@@ -4145,7 +4126,6 @@ export type GetBillingHistoryQuery = {
     user?:  {
       __typename: "User",
       id: string,
-      owner?: string | null,
       lastname?: string | null,
       firstname?: string | null,
       avatarUri?: string | null,
@@ -4198,7 +4178,6 @@ export type ListBillingHistorysQuery = {
       user?:  {
         __typename: "User",
         id: string,
-        owner?: string | null,
         lastname?: string | null,
         firstname?: string | null,
         avatarUri?: string | null,
@@ -4247,7 +4226,6 @@ export type SyncBillingHistoriesQuery = {
       user?:  {
         __typename: "User",
         id: string,
-        owner?: string | null,
         lastname?: string | null,
         firstname?: string | null,
         avatarUri?: string | null,
@@ -5436,7 +5414,6 @@ export type OnCreateUserSubscription = {
   onCreateUser?:  {
     __typename: "User",
     id: string,
-    owner?: string | null,
     lastname?: string | null,
     firstname?: string | null,
     avatarUri?: string | null,
@@ -5465,7 +5442,6 @@ export type OnUpdateUserSubscription = {
   onUpdateUser?:  {
     __typename: "User",
     id: string,
-    owner?: string | null,
     lastname?: string | null,
     firstname?: string | null,
     avatarUri?: string | null,
@@ -5494,7 +5470,6 @@ export type OnDeleteUserSubscription = {
   onDeleteUser?:  {
     __typename: "User",
     id: string,
-    owner?: string | null,
     lastname?: string | null,
     firstname?: string | null,
     avatarUri?: string | null,
@@ -5837,7 +5812,6 @@ export type OnCreateNotificationSubscription = {
     user?:  {
       __typename: "User",
       id: string,
-      owner?: string | null,
       lastname?: string | null,
       firstname?: string | null,
       avatarUri?: string | null,
@@ -5884,7 +5858,6 @@ export type OnUpdateNotificationSubscription = {
     user?:  {
       __typename: "User",
       id: string,
-      owner?: string | null,
       lastname?: string | null,
       firstname?: string | null,
       avatarUri?: string | null,
@@ -5931,7 +5904,6 @@ export type OnDeleteNotificationSubscription = {
     user?:  {
       __typename: "User",
       id: string,
-      owner?: string | null,
       lastname?: string | null,
       firstname?: string | null,
       avatarUri?: string | null,
@@ -5980,7 +5952,6 @@ export type OnCreateBillingHistorySubscription = {
     user?:  {
       __typename: "User",
       id: string,
-      owner?: string | null,
       lastname?: string | null,
       firstname?: string | null,
       avatarUri?: string | null,
@@ -6029,7 +6000,6 @@ export type OnUpdateBillingHistorySubscription = {
     user?:  {
       __typename: "User",
       id: string,
-      owner?: string | null,
       lastname?: string | null,
       firstname?: string | null,
       avatarUri?: string | null,
@@ -6078,7 +6048,6 @@ export type OnDeleteBillingHistorySubscription = {
     user?:  {
       __typename: "User",
       id: string,
-      owner?: string | null,
       lastname?: string | null,
       firstname?: string | null,
       avatarUri?: string | null,

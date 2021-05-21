@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet, View,
 } from 'react-native';
@@ -13,37 +13,26 @@ import { AvailableValidationRules } from '../../components/Form/validation';
 import Radio from '../../components/Form/Radio';
 import PhoneNumberInput from '../../components/Form/PhoneNumberInput';
 import Form from '../../components/Form/Form';
-import useCurrentUser from '../../src/API/User';
-import { useAuth } from '../../utils/CustomHooks';
+import { useUser } from '../../src/API/UserContext';
 
 type ModifierInfo1Form = {
   firstname:string;
   lastname: string;
   email: string;
   password: string;
+  oldPassword: string;
   phoneNumber: string;
   optIn: boolean;
 };
 
 const ModifierInfo1 = () => {
   const navigation = useNavigation();
-  const { user: authUser } = useAuth();
-  const { updateUser, user } = useCurrentUser();
+  const { updateUser, user, cognitoUser } = useUser();
 
   const onPress = async (data: ModifierInfo1Form) => {
-    const { password, ...otherProps } = data;
-
-    if (user && authUser) {
-      await updateUser({
-        variables: {
-          input: {
-            id: user.id,
-            ...otherProps,
-            // eslint-disable-next-line no-underscore-dangle
-            _version: user._version,
-          },
-        },
-      });
+    console.log(data);
+    if (user && updateUser && cognitoUser) {
+      await updateUser(data);
 
       navigation.navigate('modifier-info-2');
     }
@@ -71,7 +60,10 @@ const ModifierInfo1 = () => {
       <View>
         <Text category="h1" style={styles.title}>Modifier vos informations</Text>
       </View>
-      <Form<ModifierInfo1Form> {...modifierInfo1Form}>
+      <Form
+        {...modifierInfo1Form}
+        defaultValues={user}
+      >
         <>
           <TextInput
             name="firstname"
@@ -79,7 +71,6 @@ const ModifierInfo1 = () => {
             validators={[
               AvailableValidationRules.required,
             ]}
-            defaultValue={user?.firstname || undefined}
           />
 
           <TextInput
@@ -89,7 +80,6 @@ const ModifierInfo1 = () => {
             validators={[
               AvailableValidationRules.required,
             ]}
-            defaultValue={user?.lastname || undefined}
           />
 
           <TextInput
@@ -99,15 +89,33 @@ const ModifierInfo1 = () => {
             validators={[
               AvailableValidationRules.required,
             ]}
-            defaultValue={user?.email || undefined}
+          />
+
+          <TextInput
+            name="oldPassword"
+            placeholder="Votre mot de passe actuel"
+            secureTextEntry
+            withEyeToggle
+            containerStyle={{ marginTop: 20 }}
+            validators={[
+              {
+                rule: AvailableValidationRules.requiredIfNotEmpty,
+                errorMessage: 'Vous devez renseigner votre mot de passe actuel pour changer de mot de passe',
+                ifNotEmpty: ['password'],
+              },
+              AvailableValidationRules.password,
+            ]}
           />
 
           <TextInput
             name="password"
-            placeholder="Votre mot de passe"
+            placeholder="Votre nouveau mot de passe"
             secureTextEntry
             withEyeToggle
             containerStyle={{ marginTop: 20 }}
+            validators={[
+              AvailableValidationRules.password,
+            ]}
           />
 
           <PhoneNumberInput
@@ -118,18 +126,16 @@ const ModifierInfo1 = () => {
               AvailableValidationRules.numeroTel,
               AvailableValidationRules.required,
             ]}
-            defaultValue={user?.phoneNumber || undefined}
           />
           <Radio
             name="optIn"
             label="Souhaitez-vous rester informé de nos actualités ? "
             labelPosition="before"
             style={{ marginTop: 20 }}
-            value={user?.optIn || false}
           />
 
           <View style={styles.buttonRight}>
-            <Button onPress={modifierInfo1Form.handleSubmit((data) => onPress(data))} disabled={user === null} size="large" style={{ width: 139 }}>
+            <Button onPress={modifierInfo1Form.handleSubmit((data) => onPress(data), (data) => console.log(data))} disabled={user === null} size="large" style={{ width: 139 }}>
               Valider
             </Button>
           </View>

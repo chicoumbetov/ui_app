@@ -3,7 +3,7 @@ import { StyleSheet, TouchableOpacity } from 'react-native';
 import { Layout, Text } from '@ui-kitten/components';
 import { useNavigation } from '@react-navigation/native';
 import MaxWidthContainer from '../../../components/MaxWidthContainer';
-import { UserItem } from '../../../src/API/User';
+import { UserItem } from '../../../src/API/UserContext';
 
 type InformationProps = {
   utilisateur: UserItem | null

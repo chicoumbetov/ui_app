@@ -7,6 +7,7 @@ import {
   Datepicker, I18nConfig, Icon, IconProps, NativeDateService, Text,
 } from '@ui-kitten/components';
 import { DatePickerFormProps } from './types';
+import DateUtils from '../../utils/DateUtils';
 
 const i18n : I18nConfig = {
   dayNames: {
@@ -52,10 +53,9 @@ const DatepickerComp = React.forwardRef<Datepicker, DatePickerFormProps>(
     const [inputValue, setInputValue] = useState<Date>();
 
     useEffect(() => {
-      if (inputValue === null) {
-        setInputValue(defaultValue);
+      if (inputValue === undefined && defaultValue) {
+        setInputValue(DateUtils.parseToDateObj(defaultValue));
       }
-      if (onChangeValue && defaultValue) onChangeValue(inputValue?.toISOString());
     }, [inputValue]);
 
     const renderIcon = (iconProps: IconProps) => (
@@ -93,7 +93,9 @@ const DatepickerComp = React.forwardRef<Datepicker, DatePickerFormProps>(
           onSelect={(date) => {
             setInputValue(date);
             if (onChangeValue) {
-              onChangeValue(date.toISOString().substr(0, 10));
+              const newDate = date;
+              newDate.setHours(12);
+              onChangeValue(newDate.toISOString().substr(0, 10));
             }
           }}
           date={inputValue}

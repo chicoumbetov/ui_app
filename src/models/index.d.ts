@@ -85,7 +85,6 @@ export declare class PendingInvitation {
 
 export declare class User {
   readonly id: string;
-  readonly owner?: string;
   readonly lastname?: string;
   readonly firstname?: string;
   readonly email?: string;

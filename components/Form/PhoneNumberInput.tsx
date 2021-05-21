@@ -25,13 +25,6 @@ const PhoneNumberInputComp = React.forwardRef<PhoneInput, PhoneNumberInputFormPr
     const [inputColor, setInputColor] = useState<string>(theme['border-basic-color-1']);
     const [inputValue, setInputValue] = useState<string | undefined>('');
 
-    useEffect(() => {
-      if (inputValue === '' || !inputValue) {
-        setInputValue(defaultValue);
-      }
-      if (onChangeValue && defaultValue) onChangeValue(inputValue);
-    }, [defaultValue, inputValue]);
-
     return (
       <View style={[styles.container, containerStyle]}>
         {label && (
@@ -135,6 +128,7 @@ const PhoneNumberInputComp = React.forwardRef<PhoneInput, PhoneNumberInputFormPr
             // @ts-ignore
             withEmoji: false,
           }}
+          defaultValue={defaultValue}
         />
         <Text type="error">{error && error.message}</Text>
       </View>

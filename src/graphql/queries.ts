@@ -735,7 +735,6 @@ export const syncUsers = /* GraphQL */ `
     ) {
       items {
         id
-        owner
         lastname
         firstname
         avatarUri
@@ -766,7 +765,6 @@ export const getUser = /* GraphQL */ `
   query GetUser($id: ID!) {
     getUser(id: $id) {
       id
-      owner
       lastname
       firstname
       avatarUri
@@ -799,7 +797,6 @@ export const listUsers = /* GraphQL */ `
     listUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        owner
         lastname
         firstname
         avatarUri
@@ -1052,7 +1049,6 @@ export const getNotification = /* GraphQL */ `
       updatedAt
       user {
         id
-        owner
         lastname
         firstname
         avatarUri
@@ -1098,7 +1094,6 @@ export const listNotifications = /* GraphQL */ `
         updatedAt
         user {
           id
-          owner
           lastname
           firstname
           avatarUri
@@ -1146,7 +1141,6 @@ export const syncNotifications = /* GraphQL */ `
         updatedAt
         user {
           id
-          owner
           lastname
           firstname
           avatarUri
@@ -1185,7 +1179,6 @@ export const getBillingHistory = /* GraphQL */ `
       updatedAt
       user {
         id
-        owner
         lastname
         firstname
         avatarUri
@@ -1233,7 +1226,6 @@ export const listBillingHistorys = /* GraphQL */ `
         updatedAt
         user {
           id
-          owner
           lastname
           firstname
           avatarUri
@@ -1283,7 +1275,6 @@ export const syncBillingHistories = /* GraphQL */ `
         updatedAt
         user {
           id
-          owner
           lastname
           firstname
           avatarUri

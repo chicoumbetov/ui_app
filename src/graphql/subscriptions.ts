@@ -1071,7 +1071,6 @@ export const onCreateUser = /* GraphQL */ `
   subscription OnCreateUser {
     onCreateUser {
       id
-      owner
       lastname
       firstname
       avatarUri
@@ -1099,7 +1098,6 @@ export const onUpdateUser = /* GraphQL */ `
   subscription OnUpdateUser {
     onUpdateUser {
       id
-      owner
       lastname
       firstname
       avatarUri
@@ -1127,7 +1125,6 @@ export const onDeleteUser = /* GraphQL */ `
   subscription OnDeleteUser {
     onDeleteUser {
       id
-      owner
       lastname
       firstname
       avatarUri
@@ -1425,7 +1422,6 @@ export const onCreateNotification = /* GraphQL */ `
       updatedAt
       user {
         id
-        owner
         lastname
         firstname
         avatarUri
@@ -1466,7 +1462,6 @@ export const onUpdateNotification = /* GraphQL */ `
       updatedAt
       user {
         id
-        owner
         lastname
         firstname
         avatarUri
@@ -1507,7 +1502,6 @@ export const onDeleteNotification = /* GraphQL */ `
       updatedAt
       user {
         id
-        owner
         lastname
         firstname
         avatarUri
@@ -1550,7 +1544,6 @@ export const onCreateBillingHistory = /* GraphQL */ `
       updatedAt
       user {
         id
-        owner
         lastname
         firstname
         avatarUri
@@ -1593,7 +1586,6 @@ export const onUpdateBillingHistory = /* GraphQL */ `
       updatedAt
       user {
         id
-        owner
         lastname
         firstname
         avatarUri
@@ -1636,7 +1628,6 @@ export const onDeleteBillingHistory = /* GraphQL */ `
       updatedAt
       user {
         id
-        owner
         lastname
         firstname
         avatarUri

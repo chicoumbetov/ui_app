@@ -1,63 +1,50 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import {
-  Button, CalendarViewModes, Modal, Text,
+  Button, CalendarViewModes, Text,
 } from '@ui-kitten/components';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { RouteProp } from '@react-navigation/core/lib/typescript/src/types';
 import { useForm } from 'react-hook-form';
-import { useMutation } from 'react-apollo';
-import gql from 'graphql-tag';
 import TextInput from '../../components/Form/TextInput';
 import MaxWidthContainer from '../../components/MaxWidthContainer';
 import { TabMonCompteParamList } from '../../types';
 import Form from '../../components/Form/Form';
 import DatePicker from '../../components/Form/DatePicker';
 import { AvailableValidationRules } from '../../components/Form/validation';
-import Camera from '../../components/Camera';
-import { CreateUserMutation, CreateUserMutationVariables } from '../../src/API';
-import * as mutations from '../../src/graphql/mutations';
-import { useAuth } from '../../utils/CustomHooks';
+import { useUser } from '../../src/API/UserContext';
 
 type ModifierInfo2Form = {
-  address:string;
-  additionalAddress: string;
-  postalCode: string;
-  city: string;
-  country: string;
+  address: {
+    address:string;
+    additionalAddress?: string | null;
+    postalCode: string;
+    city: string;
+    country: string;
+  };
   birthDate: string;
 };
 
 const ModifierInfo2 = () => {
   const navigation = useNavigation();
   const route = useRoute<RouteProp<TabMonCompteParamList, 'modifier-info-2'>>();
+  const { createUser, updateUser, user } = useUser();
 
   const modifierInfo2Form = useForm<ModifierInfo2Form>();
-  const { user } = useAuth();
-
-  const [createUser] = useMutation<
-  CreateUserMutation,
-  CreateUserMutationVariables
-  >(gql(mutations.createUser));
-
   const onPress = async (data: ModifierInfo2Form) => {
-    const { birthDate, ...adresseProps } = data;
+    if (route.params?.signUp) {
+      if (createUser) {
+        await createUser(data);
 
-    await createUser({
-      variables: {
-        input: {
-          email: user?.attributes.email,
-          lastname: user?.attributes.family_name,
-          firstname: user?.attributes.given_name,
-          phoneNumber: user?.attributes.phone_number,
-          optIn: user?.attributes['custom:optIn'],
-          address: adresseProps,
-          birthDate,
-        },
-      },
-    });
+        navigation.navigate('modifier-info-3', {
+          signUp: true,
+        });
+      }
+    } else if (updateUser) {
+      await updateUser(data);
 
-    navigation.navigate('modifier-info-3');
+      navigation.navigate('modifier-info-3');
+    }
   };
 
   return (
@@ -77,7 +64,10 @@ const ModifierInfo2 = () => {
         },
       }}
     >
-      <Form<ModifierInfo2Form> {...modifierInfo2Form}>
+      <Form<ModifierInfo2Form>
+        {...modifierInfo2Form}
+        defaultValues={user}
+      >
         <>
           <View>
             <Text category="h1" style={styles.title}>{route.params?.signUp ? 'Finalisez votre inscription' : 'Modifier vos informations'}</Text>
@@ -93,7 +83,7 @@ const ModifierInfo2 = () => {
           />
 
           <TextInput
-            name="address"
+            name="address.address"
             placeholder="Adresse"
             containerStyle={{ marginTop: 20 }}
             validators={[
@@ -102,13 +92,13 @@ const ModifierInfo2 = () => {
           />
 
           <TextInput
-            name="additionalAddress"
+            name="address.additionalAddress"
             placeholder="Complément d'adresse"
             containerStyle={{ marginTop: 20 }}
           />
 
           <TextInput
-            name="postalCode"
+            name="address.postalCode"
             placeholder="Code postal"
             containerStyle={{ marginTop: 20 }}
             validators={[
@@ -117,7 +107,7 @@ const ModifierInfo2 = () => {
           />
 
           <TextInput
-            name="city"
+            name="address.city"
             placeholder="Ville"
             containerStyle={{ marginTop: 20 }}
             validators={[
@@ -126,7 +116,7 @@ const ModifierInfo2 = () => {
           />
 
           <TextInput
-            name="country"
+            name="address.country"
             placeholder="Pays"
             containerStyle={{ marginTop: 20 }}
             validators={[
@@ -139,18 +129,6 @@ const ModifierInfo2 = () => {
               Valider
             </Button>
           </View>
-          {/* <Modal
-            visible
-            style={{
-              overflow: 'hidden', alignItems: 'center', margin: 0, height: '100%',
-            }}
-          >
-            <Camera
-              onClose={() => {}}
-              onChoose={() => {}}
-              withPreview
-            />
-          </Modal> */}
         </>
       </Form>
 

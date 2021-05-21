@@ -14,13 +14,13 @@ import LinkingConfiguration from './LinkingConfiguration';
 import ActivityIndicator from '../components/ActivityIndicator';
 import InitialNavigator from './InitialNavigator';
 import FinalSignUpStackNavigator from './FinalSignUpStackNavigator';
-import useCurrentUser from '../src/API/User';
+import { useUser } from '../src/API/UserContext';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
-  const { user, loading } = useCurrentUser();
+  const { user, userIsLoading } = useUser();
 
   return (
-    loading
+    userIsLoading
       ? (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
           <Text category="h4" status="primary">Chargement des données</Text>

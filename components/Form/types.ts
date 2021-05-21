@@ -3,18 +3,18 @@ import {
   StyleProp, Switch, TextInput, TextInputProps, TextStyle, ViewStyle,
 } from 'react-native';
 import {
-  InputProps, RadioProps, SelectProps, ToggleProps, DatepickerProps,
+  InputProps, RadioProps, SelectProps, ToggleProps, DatepickerProps, Datepicker,
 } from '@ui-kitten/components';
 import { PersistentModel } from '@aws-amplify/datastore';
 import { AutoCompleteHandles, AutoCompleteProps } from '../AutoComplete/AutoComplete';
 import { ValidationRuleConfig } from './validation';
-import { IconName } from '../Icon';
+import { IconName } from '../Icon/Icon';
 
 // Form Types
 export interface ErrorMap {
   [key: string]: FieldError | undefined;
 }
-export type PossibleFields = TextInput | SelectHandles | Switch | AutoCompleteHandles | DatepickerProps;
+export type PossibleFields = TextInput | SelectHandles | Switch | AutoCompleteHandles | Datepicker;
 export type ChangeValueCallbackType = (v?: string | boolean | number) => void;
 export type FormChildProp = {
   name: string;
@@ -28,7 +28,7 @@ export type FormChildProp = {
 // Select Types
 export type SelectFormProps<KT> = {
   label?: string;
-  size?: string
+  defaultValue?: string
   value?: KT;
   labelStyle?: StyleProp<TextStyle>;
   containerStyle?: StyleProp<ViewStyle>;
@@ -63,7 +63,7 @@ export type SwitchFormProps = {
   labelPosition?: 'before' | 'after';
   labelStyle?: StyleProp<TextStyle>;
   style?: StyleProp<ViewStyle>;
-  value?: boolean;
+  defaultValue?: boolean;
 } & ToggleProps & FormChildProp;
 
 // AutoComplete Types
@@ -84,7 +84,7 @@ export type RadioFormProps = {
   labelStyle?: StyleProp<TextStyle>;
   style?: StyleProp<ViewStyle>;
   label?: string | ((props:any) => JSX.Element);
-  value?: boolean;
+  defaultValue?: boolean;
 } & RadioProps & Omit<FormChildProp, 'label'>;
 
 // PhoneNumberInput
@@ -97,6 +97,6 @@ export type DatePickerFormProps = Exclude<DatepickerProps, 'onChangeText'> & {
   icon?: string;
   labelStyle?: StyleProp<TextStyle>;
   containerStyle?: StyleProp<ViewStyle>;
-  defaultValue?: Date;
+  defaultValue?: string;
   labelBefore?: boolean;
 } & FormChildProp;

@@ -1,22 +1,20 @@
 
 type User @model @auth(rules: [
-  {allow: owner, ownerField: "owner"}
+  {allow: owner, ownerField: "id"}
   {allow: private, operations: [read]}
 ])
-@key(fields: ["owner"], name:"userByOwner")
 {
   id: ID!
-  owner: String
   lastname: String
   firstname: String
-  email: AWSEmail @auth (rules: [{allow: owner, ownerField: "owner"}])
-  phoneNumber: AWSPhone @auth (rules: [{allow: owner, ownerField: "owner"}])
-  optIn: Boolean @auth (rules: [{allow: owner, ownerField: "owner"}])
-  address: Address @auth (rules: [{allow: owner, ownerField: "owner"}])
+  email: AWSEmail @auth (rules: [{allow: owner, ownerField: "id"}])
+  phoneNumber: AWSPhone @auth (rules: [{allow: owner, ownerField: "id"}])
+  optIn: Boolean @auth (rules: [{allow: owner, ownerField: "id"}])
+  address: Address @auth (rules: [{allow: owner, ownerField: "id"}])
 
   avatarUri: String
-  birthDate: AWSDate @auth (rules: [{allow: owner, ownerField: "owner"}])
-  subscription: SubscriptionType @auth (rules: [{allow: owner, ownerField: "owner"}])
+  birthDate: AWSDate @auth (rules: [{allow: owner, ownerField: "id"}])
+  subscription: SubscriptionType @auth (rules: [{allow: owner, ownerField: "id"}])
 }
 
 type RealEstate @model

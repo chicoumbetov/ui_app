@@ -81,33 +81,3 @@ export const useForwardedRef = <T>(ref: ForwardedRef<T>) => {
 
   return innerRef;
 };
-
-export function useAuth() {
-  const [user, setUser] = useState<any | null>(null);
-
-  useEffect(() => {
-    let active = true;
-
-    const check = async () => {
-      try {
-        const currentUser = await Auth.currentAuthenticatedUser();
-        if (active) setUser(currentUser);
-      } catch (error) {
-        if (active) setUser(null);
-      }
-    };
-
-    check();
-
-    return () => { active = false; };
-  }, [setUser]);
-
-  const signOut = useCallback(async () => {
-    await Auth.signOut();
-    setUser(null);
-  }, [setUser]);
-
-  return {
-    user, signOut,
-  };
-}

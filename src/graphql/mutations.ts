@@ -1119,7 +1119,6 @@ export const createUser = /* GraphQL */ `
   ) {
     createUser(input: $input, condition: $condition) {
       id
-      owner
       lastname
       firstname
       avatarUri
@@ -1150,7 +1149,6 @@ export const updateUser = /* GraphQL */ `
   ) {
     updateUser(input: $input, condition: $condition) {
       id
-      owner
       lastname
       firstname
       avatarUri
@@ -1181,7 +1179,6 @@ export const deleteUser = /* GraphQL */ `
   ) {
     deleteUser(input: $input, condition: $condition) {
       id
-      owner
       lastname
       firstname
       avatarUri
@@ -1491,7 +1488,6 @@ export const createNotification = /* GraphQL */ `
       updatedAt
       user {
         id
-        owner
         lastname
         firstname
         avatarUri
@@ -1535,7 +1531,6 @@ export const updateNotification = /* GraphQL */ `
       updatedAt
       user {
         id
-        owner
         lastname
         firstname
         avatarUri
@@ -1579,7 +1574,6 @@ export const deleteNotification = /* GraphQL */ `
       updatedAt
       user {
         id
-        owner
         lastname
         firstname
         avatarUri
@@ -1625,7 +1619,6 @@ export const createBillingHistory = /* GraphQL */ `
       updatedAt
       user {
         id
-        owner
         lastname
         firstname
         avatarUri
@@ -1671,7 +1664,6 @@ export const updateBillingHistory = /* GraphQL */ `
       updatedAt
       user {
         id
-        owner
         lastname
         firstname
         avatarUri
@@ -1717,7 +1709,6 @@ export const deleteBillingHistory = /* GraphQL */ `
       updatedAt
       user {
         id
-        owner
         lastname
         firstname
         avatarUri

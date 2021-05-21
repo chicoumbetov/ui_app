@@ -31,6 +31,8 @@ import { useDimensions } from '@react-native-community/hooks';
 import comptesData from '../mockData/comptesData';
 import Icon, { IconName } from '../components/Icon/Icon';
 import ManAvatar from '../assets/Omedom_Icons_svg/Avatars/manAvatar.svg';
+import AutoAvatar from '../components/AutoAvatar';
+import { useUser } from '../src/API/UserContext';
 
 /**
  * 2. Icons
@@ -139,6 +141,7 @@ function findFocusedDrawerItem(state: InitialState) {
  */
 const CustomDrawer = (props: DrawerContentComponentProps) => {
   const { state } = props;
+  const { user } = useUser();
   const inset = useSafeAreaInsets();
   const linkTo = useLinkTo();
   const { window } = useDimensions();
@@ -153,9 +156,19 @@ const CustomDrawer = (props: DrawerContentComponentProps) => {
             flexDirection: 'row',
           }}
           >
-            <ManAvatar height={41} width={41} style={{ marginRight: 18, marginLeft: 9 }} />
+            <AutoAvatar
+              style={{
+                height: 41,
+                width: 41,
+                borderRadius: 21,
+                overflow: 'hidden',
+                marginRight: 18,
+                marginLeft: 9,
+              }}
+              avatarInfo={user?.avatarUri || 'default::ManAvatar'}
+            />
             <Text category="h2" appearance="hint" style={{ marginTop: 11 }}>
-              {comptesData[0].title}
+              {user?.firstname || undefined}
             </Text>
           </Layout>
           <Drawer

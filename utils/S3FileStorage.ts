@@ -34,6 +34,7 @@ const UploadPendingDocs = async () => {
     await UploadInternal(
       FileSystem.documentDirectory + waitingDirectory + JsonObject.key,
       JsonObject.key, value as string,
+      true,
     );
   });
 };
@@ -48,10 +49,19 @@ const UploadInternal = async (
   try {
     const response = await fetch(uri);
     const blob = await response.blob();
-    const fileInfo = await FileSystem.getInfoAsync(uri);
-    if (fileInfo.exists) {
+    let exists = false;
+    if (Platform.OS === 'web') {
+      exists = true;
+    } else {
+      const fileInfo = await FileSystem.getInfoAsync(uri);
+      if (fileInfo.exists) {
+        exists = true;
+      }
+    }
+    if (exists) {
       await Storage.put(key, blob, {
         contentType: blob.type,
+        cacheControl: blob.type.indexOf('image') > -1 ? 'max-age=2592000, public' : 'no-cache',
         progressCallback(progress: any) {
           console.log(`Uploaded: ${progress.loaded}/${progress.total}`);
         },
@@ -76,11 +86,15 @@ export function useAutoFileStorage() {
   useEffect(() => {
     if (networkinfo === true && Platform.OS !== 'web') {
       UploadPendingDocs();
+      DeletePendingDocs();
     }
   }, [networkinfo]);
 }
 
-export const Upload = async (file: ImagePickerResult | DocumentResult, path?: string) => {
+export const Upload = async (
+  file: ImagePickerResult | DocumentResult,
+  path?: string,
+) => {
   // on normalise l'objet en fonction du cas
   let found = false;
   let finalFile: { name: string, uri: string } = { name: '', uri: '' };
@@ -103,7 +117,7 @@ export const Upload = async (file: ImagePickerResult | DocumentResult, path?: st
     return false;
   }
 
-  const extension = finalFile.name.split('.');
+  const extension = finalFile.name.split('.').pop();
   const uuidKey = uuid();
   const key = `${path}${uuidKey}.${extension}`;
   const inputData = {
@@ -111,7 +125,7 @@ export const Upload = async (file: ImagePickerResult | DocumentResult, path?: st
     ...finalFile,
   };
   if (Platform.OS === 'web') {
-    const success = await UploadInternal(finalFile.uri, key);
+    const success = await UploadInternal(finalFile.uri, key, '', false);
     if (success) {
       return inputData;
     }
@@ -123,13 +137,66 @@ export const Upload = async (file: ImagePickerResult | DocumentResult, path?: st
         from: finalFile.uri,
         to: uri,
       });
-      await AsyncStorage.setItem(`@S3Object_${uuidKey}`, JSON.stringify(inputData));
+      await AsyncStorage.setItem(storageKey, JSON.stringify(inputData));
       UploadInternal(uri, key, storageKey, true);
       return inputData;
     } catch (err) {
       console.log('error: ', err);
     }
   }
+  return false;
+};
+
+const DeletePendingDocs = async () => {
+  const allKey = await AsyncStorage.getAllKeys();
+  const goodKey: (number | string)[] = [];
+  allKey.forEach((value) => {
+    if (value.includes('@S3ObjectDelete_')) {
+      goodKey.push(value);
+    }
+  });
+  goodKey.forEach(async (value) => {
+    let JsonObject;
+    if (typeof value === 'string') {
+      JsonObject = JSON.parse((await AsyncStorage.getItem(value)) as string);
+    }
+    await DeleteInternal(JsonObject.key);
+  });
+};
+
+// envoie les fichier sur le cloud 1 par 1
+const DeleteInternal = async (
+  key: string,
+) => {
+  try {
+    await Storage.remove(key);
+    return true;
+  } catch (err) {
+    console.log(`error:${err}`);
+  }
+  return false;
+};
+
+export const Delete = async (
+  key: string,
+) => {
+  const inputData = {
+    key,
+  };
+  if (Platform.OS === 'web') {
+    const success = await DeleteInternal(key);
+    return success;
+  }
+  const uuidKey = uuid();
+  const storageKey = `@S3ObjectDelete_${uuidKey}`;
+  try {
+    await AsyncStorage.setItem(storageKey, JSON.stringify(inputData));
+    DeleteInternal(key);
+    return true;
+  } catch (err) {
+    console.log('error: ', err);
+  }
+
   return false;
 };
 

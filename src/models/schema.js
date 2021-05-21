@@ -10,13 +10,6 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "owner": {
-                    "name": "owner",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                },
                 "lastname": {
                     "name": "lastname",
                     "isArray": false,
@@ -93,21 +86,12 @@ export const schema = {
                     "properties": {}
                 },
                 {
-                    "type": "key",
-                    "properties": {
-                        "fields": [
-                            "owner"
-                        ],
-                        "name": "userByOwner"
-                    }
-                },
-                {
                     "type": "auth",
                     "properties": {
                         "rules": [
                             {
                                 "provider": "userPools",
-                                "ownerField": "owner",
+                                "ownerField": "id",
                                 "allow": "owner",
                                 "identityClaim": "cognito:username",
                                 "operations": [
@@ -1201,5 +1185,5 @@ export const schema = {
             }
         }
     },
-    "version": "b649e7dff35735cdc27338758697f9de"
+    "version": "74c5f401dc042518a36550a3a542c267"
 };

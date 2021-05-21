@@ -9,14 +9,10 @@ import * as eva from '@eva-design/eva';
 
 import { EvaIconsPack } from '@ui-kitten/eva-icons';
 
-import Amplify, { Auth, Hub } from 'aws-amplify';
+import Amplify from 'aws-amplify';
 
 import { Authenticator } from 'aws-amplify-react-native';
 
-import { HubCapsule } from 'aws-amplify-react-native/types';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { CognitoUserAttribute } from 'amazon-cognito-identity-js';
 import { ApolloProvider } from 'react-apollo';
 import omedomTheme from './custom-theme';
 import mapping from './mapping.json';
@@ -31,7 +27,9 @@ import awsExports from './src/aws-exports';
 import {
   ConfirmSignUp, ForgotPassword, SignIn, SignUp,
 } from './components/Auth';
+
 import client, { Rehydration } from './src/Apollo';
+import { UserContext, UserProvider } from './src/API/UserContext';
 
 Amplify.configure({
   ...awsExports,
@@ -39,41 +37,6 @@ Amplify.configure({
     disabled: true,
   },
 });
-
-const listener = async (data: HubCapsule) => {
-  switch (data.payload.event) {
-    case 'signIn': {
-      const user = await Auth.currentAuthenticatedUser();
-      user.getUserAttributes((error?: Error, result?: CognitoUserAttribute[]) => {
-        if (result) {
-          for (let i = 0; i < result.length; i += 1) {
-            if (result[i].getName() === 'given_name') {
-              AsyncStorage.setItem('lastFirstname', result[i].getValue());
-            }
-          }
-        }
-      });
-      user.getCachedDeviceKeyAndPassword();
-      const stayConnected = await AsyncStorage.getItem('stayConnected');
-      if (stayConnected === 'true') {
-        user.setDeviceStatusRemembered({
-          onSuccess: () => {},
-          onFailure: () => {},
-        });
-      } else {
-        user.setDeviceStatusNotRemembered({
-          onSuccess: () => {},
-          onFailure: () => {},
-        });
-      }
-      break;
-    }
-    default:
-      break;
-  }
-};
-
-Hub.listen('auth', listener);
 
 const fonts = {
   // eslint-disable-next-line global-require
@@ -114,6 +77,7 @@ function App() {
     return (
       <ApplicationProvider
         {...eva}
+        // @ts-ignore
         customMapping={mapping}
         theme={{ ...eva.light, ...omedomTheme }}
       >
@@ -129,29 +93,38 @@ function App() {
       <IconRegistry icons={[EvaIconsPack]} />
       <ApplicationProvider
         {...eva}
+        // @ts-ignore
         customMapping={mapping}
         theme={{ ...eva.light, ...omedomTheme }}
       >
-        {authState === 'signedIn' ? (
-          <ApolloProvider client={client}>
-            <Rehydration>
-              <Navigation colorScheme={colorScheme} />
-            </Rehydration>
-          </ApolloProvider>
-        ) : (
-          <Authenticator
-            onStateChange={setAuthState}
-            hideDefault
-            usernameAttributes="email"
-          >
-            <SignIn />
-            <ForgotPassword />
-            {/* @ts-expect-error : Cannot change AWS prop types */}
-            <SignUp setTmpPasswd={setTmpPasswd} />
-            {/* @ts-expect-error : Cannot change AWS prop types */}
-            <ConfirmSignUp tmpPasswd={tmpPasswd} />
-          </Authenticator>
-        )}
+        <ApolloProvider client={client}>
+          <Rehydration>
+            <UserProvider>
+              <UserContext.Consumer>
+                {
+                  ({ cognitoUser }) => (
+                    cognitoUser ? (
+                      <Navigation colorScheme={colorScheme} />
+                    ) : (
+                      <Authenticator
+                        onStateChange={setAuthState}
+                        hideDefault
+                        usernameAttributes="email"
+                      >
+                        <SignIn />
+                        <ForgotPassword />
+                        {/* @ts-expect-error : Cannot change AWS prop types */}
+                        <SignUp setTmpPasswd={setTmpPasswd} />
+                        {/* @ts-expect-error : Cannot change AWS prop types */}
+                        <ConfirmSignUp tmpPasswd={tmpPasswd} />
+                      </Authenticator>
+                    )
+                  )
+                }
+              </UserContext.Consumer>
+            </UserProvider>
+          </Rehydration>
+        </ApolloProvider>
       </ApplicationProvider>
     </SafeAreaProvider>
 

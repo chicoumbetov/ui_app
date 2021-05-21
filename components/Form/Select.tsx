@@ -14,7 +14,7 @@ import { SelectFormProps, SelectHandles } from './types';
 const SelectComp = React.forwardRef<SelectHandles, SelectFormProps<string | number>>(
   (props: SelectFormProps<string | number>, ref): React.ReactElement => {
     const {
-      value,
+      defaultValue,
       labelStyle,
       error,
       style,
@@ -42,9 +42,9 @@ const SelectComp = React.forwardRef<SelectHandles, SelectFormProps<string | numb
     const [selectedIndex, setSelectedIndex] = useState<number>(0);
 
     useEffect(() => {
-      const selectedIndexValue = data.findIndex((item) => item.key === value);
+      const selectedIndexValue = data.findIndex((item) => item.key === defaultValue);
       setSelectedIndex(selectedIndexValue);
-    }, []);
+    }, [defaultValue]);
 
     return (
       <View style={[styles.container, containerStyle]}>

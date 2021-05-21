@@ -5,30 +5,40 @@
  */
 import * as React from 'react';
 import {
-  FormState,
+  FormState, UseFormGetValues,
 } from 'react-hook-form';
 import _ from 'lodash';
 import { UseFormRegister, UseFormSetValue } from 'react-hook-form/dist/types/form';
+import isDeepEqual from 'fast-deep-equal/react';
 import { composeValidationRules, ValidationRuleConfig } from './validation';
 import { useUpdateEffect } from '../../utils/CustomHooks';
 import { PossibleFields } from './types';
+import { Nullable } from '../../utils/typeHelpers';
 
 interface Props<T> {
   children: React.ReactElement;
   register: UseFormRegister<T>;
   formState: FormState<T>;
   setValue: UseFormSetValue<T>;
-  defaultValues?: Partial<T>;
+  getValues: UseFormGetValues<T>;
+  defaultValues?: Nullable<T>;
 }
 
 export default function Form<T>({
   register,
   formState,
   setValue,
+  getValues,
   children,
   defaultValues,
 }: Props<T>): JSX.Element {
   const Inputs = React.useRef<PossibleFields[]>([]);
+  const defaultValuesRef = React.useRef(defaultValues);
+
+  if (!isDeepEqual(defaultValuesRef.current, defaultValues)) {
+    defaultValuesRef.current = defaultValues;
+  }
+
   const registerMyInput = (
     name: string,
     label: string,
@@ -36,10 +46,10 @@ export default function Form<T>({
     setInitialValue = false,
   ) => {
     if (name) {
-      register(name, validators ? composeValidationRules(validators, label) : undefined);
+      register(name, validators ? composeValidationRules(validators, getValues, label) : undefined);
       const initialValue = _.get(defaultValues, name);
       // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-      setInitialValue && setValue(name, initialValue);
+      initialValue && setInitialValue && setValue(name, initialValue);
     }
   };
   /**
@@ -77,10 +87,12 @@ export default function Form<T>({
     registerChildren(children);
   }, [register]);
   React.useEffect(() => {
-    // lors du premier render on met les valeurs, sinon elles manques
+    // lors du premier render on met les valeurs, sinon elles manquent
     registerChildren(children, true);
-  }, []);
+  }, [defaultValuesRef.current]);
   let index = -1;
+  let keys = 1;
+
   /**
    * Function rendering all children in a recursive manner, allowing Form to have as many nested
    * components as required by the desired layout.
@@ -89,9 +101,9 @@ export default function Form<T>({
    * form
    */
   const renderInput = (child: JSX.Element): React.ReactNode => {
+    keys += 1;
     if (child?.props?.name && child?.props?.name !== '') {
-      // eslint-disable-next-line no-plusplus
-      index++;
+      index += 1;
       const i = index;
       return React.createElement(child.type, {
         ...{
@@ -100,6 +112,7 @@ export default function Form<T>({
             Inputs.current[i] = e;
           },
           key: child.props.name,
+          defaultValue: _.get(defaultValues, child.props.name),
           onChangeValue: (v?: string | number) => {
             setValue(child.props.name, v, {
               shouldValidate: true,
@@ -130,6 +143,7 @@ export default function Form<T>({
       return React.createElement(child.type, {
         ...{
           ...child.props,
+          key: keys,
           children: renderInputs(child.props.children),
         },
       });
@@ -143,14 +157,20 @@ export default function Form<T>({
       return React.createElement(child.type, {
         ...{
           ...child.props,
+          key: keys,
           children: renderInputs(child),
         },
       });
     }
-    return child;
+    return React.createElement(child.type, {
+      ...{
+        ...child.props,
+        key: keys,
+      },
+    });
   };
   // eslint-disable-next-line max-len,@typescript-eslint/no-shadow
   const renderInputs = (children: React.ReactElement) => (Array.isArray(children) ? [...children] : [children])
     .map((child) => renderInput(child));
-  return <>{renderInputs(children)}</>;
+  return <React.Fragment key="root-form">{renderInputs(children)}</React.Fragment>;
 }

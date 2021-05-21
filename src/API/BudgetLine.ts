@@ -3,10 +3,9 @@ import gql from 'graphql-tag';
 import { useMutation, useQuery } from 'react-apollo';
 import { getBudgetLine } from '../graphql/queries';
 import {
+  CreateBudgetLineMutation, CreateBudgetLineMutationVariables,
   GetBudgetLineQuery,
   GetBudgetLineQueryVariables, UpdateBudgetLineMutation, UpdateBudgetLineMutationVariables,
-  UpdateRealEstateMutation,
-  UpdateRealEstateMutationVariables,
 } from '../API';
 import * as mutations from '../graphql/mutations';
 
@@ -30,4 +29,9 @@ export function updateBudgetLineMutation() {
   const [updateBudgetLine] = useMutation<UpdateBudgetLineMutation,
   UpdateBudgetLineMutationVariables>(gql(mutations.updateBudgetLine));
   return updateBudgetLine;
+}
+export function createBudgetLineMutation() {
+  const [createBudgetLine] = useMutation<CreateBudgetLineMutation,
+  CreateBudgetLineMutationVariables>(gql(mutations.createBudgetLine));
+  return createBudgetLine;
 }

@@ -50,7 +50,7 @@ export const typeMontant = [
 export const frequence = [
   {
     label: 'Mensuelle',
-    key: 'b1',
+    key: 'mmm',
   },
   {
     label: 'Trimestrielle',

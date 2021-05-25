@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Icon, Layout, Text,
+  Icon, Text,
   // useTheme,
 } from '@ui-kitten/components';
 import { TouchableOpacity, View } from 'react-native';
@@ -8,22 +8,25 @@ import { Icon as IconUIKitten } from '@ui-kitten/components/ui/icon/icon.compone
 import { useLinkTo } from '@react-navigation/native';
 import CompteHeader from './CompteHeader/CompteHeader';
 import MaxWidthContainer from './MaxWidthContainer';
-import { CompteType } from '../types';
+import { MonBienProps, TabMesBiensParamList } from '../types';
 import Card from './Card';
 
-const MonBienResume = (props: CompteType) => {
-  const { title } = props;
+const MonBienResume = (props: MonBienProps) => {
+  const { bien } = props;
   // const theme = useTheme();
   const linkTo = useLinkTo();
 
-  const allerDetailsBien = () => {
-    linkTo('/mes-biens/bien/:id');
+  const allerDetailsBien = (id: string) => {
+    linkTo(`/mes-biens/bien/${id}`);
   };
 
   return (
     <Card style={{ marginTop: 27 }}>
-      <TouchableOpacity onPress={allerDetailsBien} style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-        <CompteHeader title={title} />
+      <TouchableOpacity
+        onPress={() => allerDetailsBien(bien.id)}
+        style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}
+      >
+        <CompteHeader title={bien.name} />
         <IconUIKitten
           name="arrow-ios-forward"
           fill="#b5b5b5"

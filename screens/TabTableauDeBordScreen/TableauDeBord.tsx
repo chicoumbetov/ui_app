@@ -7,6 +7,7 @@
 import React, { useEffect } from 'react';
 import { Icon as IconUIKitten, Text } from '@ui-kitten/components';
 import {
+  FlatList,
   StyleSheet, TouchableOpacity, View,
 } from 'react-native';
 
@@ -17,14 +18,16 @@ import MaisonVert from '../../assets/Omedom_Icons_svg/Logement/maison_verte.svg'
 import Immeuble from '../../assets/Omedom_Icons_svg/Logement/immeuble.svg';
 import MaxWidthContainer from '../../components/MaxWidthContainer';
 import MonBienResume from '../../components/MonBienResume';
-import { useRealEstateList } from '../../src/API/RealEstate';
+import { RealEstateItem, useRealEstateList } from '../../src/API/RealEstate';
 import Separator from '../../components/Separator';
 import Card from '../../components/Card';
 import Button from '../../components/Button';
+import ActivityIndicator from '../../components/ActivityIndicator';
+import MonBien from '../MesBiensScreen/Components/MonBien';
 
 function TableauDeBord() {
   const linkTo = useLinkTo();
-  const { loading, refetch, data } = useRealEstateList();
+  const { loading, data } = useRealEstateList();
 
   // const [compte, setCompte] = useState(comptesData);
 
@@ -42,10 +45,6 @@ function TableauDeBord() {
   useEffect(() => {
     console.log('useEffect test of Tableau de bord');
   });
-
-  const allerDetailsBien = () => {
-    linkTo('/mes-biens/bien/:id');
-  };
 
   return (
     <MaxWidthContainer
@@ -116,9 +115,22 @@ function TableauDeBord() {
         <Text category="h1">
           Mes Biens
         </Text>
+        {/**
         {
           comptesData.map((item) => <MonBienResume title={item.title} id={item.id} key={item.id} />)
         }
+        */}
+        {loading
+          ? <ActivityIndicator />
+          : (
+            <FlatList<RealEstateItem>
+              data={data?.listRealEstates?.items}
+              renderItem={
+                ({ item }) => <MonBienResume bien={item} />
+              }
+              keyExtractor={(item) => item.id}
+            />
+          )}
         <Button
           size="large"
           onPress={() => { onAjoutBien(); }}

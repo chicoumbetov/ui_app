@@ -1,8 +1,12 @@
+import { RealEstateItem } from './src/API/RealEstate';
+
 /**
  * 1. Navigation Stack Param List types
  * 2. ... types
  * 3. ... types
  * */
+
+export type MonBienProps = { bien: RealEstateItem };
 
 export type RootStackParamList = {
   Root: undefined;

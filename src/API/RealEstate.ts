@@ -9,7 +9,7 @@ import {
   CreateRealEstateMutationVariables, GetRealEstateQuery, GetRealEstateQueryVariables,
   ListRealEstatesQuery,
   ListRealEstatesQueryVariables,
-  OnCreateRealEstateSubscription, OnCreateRealEstateSubscriptionVariables,
+  OnCreateRealEstateSubscription, OnCreateRealEstateSubscriptionVariables, RealEstate,
   RealEstateType,
   UpdateRealEstateMutation,
   UpdateRealEstateMutationVariables,

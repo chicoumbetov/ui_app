@@ -154,6 +154,7 @@ export type BudgetLine = {
   frequency?: Frequency,
   nextDueDate?: string | null,
   infoCredit?: MortgageLoanInfo,
+  tenantId?: string | null,
   _version?: number,
   _deleted?: boolean | null,
   _lastChangedAt?: number,
@@ -213,6 +214,7 @@ export type Address = {
 
 export type TenantInfo = {
   __typename: "TenantInfo",
+  id?: string,
   amount?: number,
   rentalCharges?: number | null,
   managementFees?: number | null,
@@ -312,6 +314,7 @@ export type CreateBudgetLineInput = {
   frequency: Frequency,
   nextDueDate?: string | null,
   infoCredit?: MortgageLoanInfoInput | null,
+  tenantId?: string | null,
   _version?: number | null,
 };
 
@@ -339,6 +342,7 @@ export type ModelBudgetLineConditionInput = {
   amount?: ModelFloatInput | null,
   frequency?: ModelFrequencyInput | null,
   nextDueDate?: ModelStringInput | null,
+  tenantId?: ModelStringInput | null,
   and?: Array< ModelBudgetLineConditionInput | null > | null,
   or?: Array< ModelBudgetLineConditionInput | null > | null,
   not?: ModelBudgetLineConditionInput | null,
@@ -375,6 +379,7 @@ export type UpdateBudgetLineInput = {
   frequency?: Frequency | null,
   nextDueDate?: string | null,
   infoCredit?: MortgageLoanInfoInput | null,
+  tenantId?: string | null,
   _version?: number | null,
 };
 
@@ -606,6 +611,7 @@ export type CreateRealEstateInput = {
 };
 
 export type TenantInfoInput = {
+  id: string,
   amount: number,
   rentalCharges?: number | null,
   managementFees?: number | null,
@@ -809,6 +815,7 @@ export type ModelBudgetLineFilterInput = {
   amount?: ModelFloatInput | null,
   frequency?: ModelFrequencyInput | null,
   nextDueDate?: ModelStringInput | null,
+  tenantId?: ModelStringInput | null,
   and?: Array< ModelBudgetLineFilterInput | null > | null,
   or?: Array< ModelBudgetLineFilterInput | null > | null,
   not?: ModelBudgetLineFilterInput | null,
@@ -996,6 +1003,7 @@ export type CreateDocumentMutation = {
       } | null,
       tenants?:  Array< {
         __typename: "TenantInfo",
+        id: string,
         amount: number,
         rentalCharges?: number | null,
         managementFees?: number | null,
@@ -1070,6 +1078,7 @@ export type UpdateDocumentMutation = {
       } | null,
       tenants?:  Array< {
         __typename: "TenantInfo",
+        id: string,
         amount: number,
         rentalCharges?: number | null,
         managementFees?: number | null,
@@ -1144,6 +1153,7 @@ export type DeleteDocumentMutation = {
       } | null,
       tenants?:  Array< {
         __typename: "TenantInfo",
+        id: string,
         amount: number,
         rentalCharges?: number | null,
         managementFees?: number | null,
@@ -1198,6 +1208,7 @@ export type CreateBudgetLineMutation = {
         amortizedCapital?: number | null,
       } | null > | null,
     } | null,
+    tenantId?: string | null,
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
@@ -1237,6 +1248,7 @@ export type CreateBudgetLineMutation = {
       } | null,
       tenants?:  Array< {
         __typename: "TenantInfo",
+        id: string,
         amount: number,
         rentalCharges?: number | null,
         managementFees?: number | null,
@@ -1291,6 +1303,7 @@ export type UpdateBudgetLineMutation = {
         amortizedCapital?: number | null,
       } | null > | null,
     } | null,
+    tenantId?: string | null,
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
@@ -1330,6 +1343,7 @@ export type UpdateBudgetLineMutation = {
       } | null,
       tenants?:  Array< {
         __typename: "TenantInfo",
+        id: string,
         amount: number,
         rentalCharges?: number | null,
         managementFees?: number | null,
@@ -1384,6 +1398,7 @@ export type DeleteBudgetLineMutation = {
         amortizedCapital?: number | null,
       } | null > | null,
     } | null,
+    tenantId?: string | null,
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
@@ -1423,6 +1438,7 @@ export type DeleteBudgetLineMutation = {
       } | null,
       tenants?:  Array< {
         __typename: "TenantInfo",
+        id: string,
         amount: number,
         rentalCharges?: number | null,
         managementFees?: number | null,
@@ -1521,6 +1537,7 @@ export type CreateRealEstateBankAccountMutation = {
       } | null,
       tenants?:  Array< {
         __typename: "TenantInfo",
+        id: string,
         amount: number,
         rentalCharges?: number | null,
         managementFees?: number | null,
@@ -1619,6 +1636,7 @@ export type UpdateRealEstateBankAccountMutation = {
       } | null,
       tenants?:  Array< {
         __typename: "TenantInfo",
+        id: string,
         amount: number,
         rentalCharges?: number | null,
         managementFees?: number | null,
@@ -1717,6 +1735,7 @@ export type DeleteRealEstateBankAccountMutation = {
       } | null,
       tenants?:  Array< {
         __typename: "TenantInfo",
+        id: string,
         amount: number,
         rentalCharges?: number | null,
         managementFees?: number | null,
@@ -2005,6 +2024,7 @@ export type CreateBankMovementMutation = {
         interestRate?: number | null,
         assuranceRate?: number | null,
       } | null,
+      tenantId?: string | null,
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
@@ -2123,6 +2143,7 @@ export type UpdateBankMovementMutation = {
         interestRate?: number | null,
         assuranceRate?: number | null,
       } | null,
+      tenantId?: string | null,
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
@@ -2241,6 +2262,7 @@ export type DeleteBankMovementMutation = {
         interestRate?: number | null,
         assuranceRate?: number | null,
       } | null,
+      tenantId?: string | null,
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
@@ -2404,6 +2426,7 @@ export type CreateRealEstateMutation = {
         amount: number,
         frequency: Frequency,
         nextDueDate?: string | null,
+        tenantId?: string | null,
         _version: number,
         _deleted?: boolean | null,
         _lastChangedAt: number,
@@ -2443,6 +2466,7 @@ export type CreateRealEstateMutation = {
     } | null,
     tenants?:  Array< {
       __typename: "TenantInfo",
+      id: string,
       amount: number,
       rentalCharges?: number | null,
       managementFees?: number | null,
@@ -2504,6 +2528,7 @@ export type UpdateRealEstateMutation = {
         amount: number,
         frequency: Frequency,
         nextDueDate?: string | null,
+        tenantId?: string | null,
         _version: number,
         _deleted?: boolean | null,
         _lastChangedAt: number,
@@ -2543,6 +2568,7 @@ export type UpdateRealEstateMutation = {
     } | null,
     tenants?:  Array< {
       __typename: "TenantInfo",
+      id: string,
       amount: number,
       rentalCharges?: number | null,
       managementFees?: number | null,
@@ -2604,6 +2630,7 @@ export type DeleteRealEstateMutation = {
         amount: number,
         frequency: Frequency,
         nextDueDate?: string | null,
+        tenantId?: string | null,
         _version: number,
         _deleted?: boolean | null,
         _lastChangedAt: number,
@@ -2643,6 +2670,7 @@ export type DeleteRealEstateMutation = {
     } | null,
     tenants?:  Array< {
       __typename: "TenantInfo",
+      id: string,
       amount: number,
       rentalCharges?: number | null,
       managementFees?: number | null,
@@ -3061,6 +3089,7 @@ export type GetDocumentQuery = {
       } | null,
       tenants?:  Array< {
         __typename: "TenantInfo",
+        id: string,
         amount: number,
         rentalCharges?: number | null,
         managementFees?: number | null,
@@ -3157,6 +3186,7 @@ export type SyncBudgetLinesQuery = {
         interestRate?: number | null,
         assuranceRate?: number | null,
       } | null,
+      tenantId?: string | null,
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
@@ -3218,6 +3248,7 @@ export type GetBudgetLineQuery = {
         amortizedCapital?: number | null,
       } | null > | null,
     } | null,
+    tenantId?: string | null,
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
@@ -3257,6 +3288,7 @@ export type GetBudgetLineQuery = {
       } | null,
       tenants?:  Array< {
         __typename: "TenantInfo",
+        id: string,
         amount: number,
         rentalCharges?: number | null,
         managementFees?: number | null,
@@ -3306,6 +3338,7 @@ export type ListBudgetLinesQuery = {
         interestRate?: number | null,
         assuranceRate?: number | null,
       } | null,
+      tenantId?: string | null,
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
@@ -3595,6 +3628,7 @@ export type SyncBankMovementsQuery = {
         amount: number,
         frequency: Frequency,
         nextDueDate?: string | null,
+        tenantId?: string | null,
         _version: number,
         _deleted?: boolean | null,
         _lastChangedAt: number,
@@ -3695,6 +3729,7 @@ export type GetBankMovementQuery = {
         interestRate?: number | null,
         assuranceRate?: number | null,
       } | null,
+      tenantId?: string | null,
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
@@ -3788,6 +3823,7 @@ export type ListBankMovementsQuery = {
         amount: number,
         frequency: Frequency,
         nextDueDate?: string | null,
+        tenantId?: string | null,
         _version: number,
         _deleted?: boolean | null,
         _lastChangedAt: number,
@@ -3961,6 +3997,7 @@ export type ListRealEstatesQuery = {
       } | null,
       tenants?:  Array< {
         __typename: "TenantInfo",
+        id: string,
         amount: number,
         rentalCharges?: number | null,
         managementFees?: number | null,
@@ -4013,6 +4050,7 @@ export type GetRealEstateQuery = {
         amount: number,
         frequency: Frequency,
         nextDueDate?: string | null,
+        tenantId?: string | null,
         _version: number,
         _deleted?: boolean | null,
         _lastChangedAt: number,
@@ -4052,6 +4090,7 @@ export type GetRealEstateQuery = {
     } | null,
     tenants?:  Array< {
       __typename: "TenantInfo",
+      id: string,
       amount: number,
       rentalCharges?: number | null,
       managementFees?: number | null,
@@ -4129,6 +4168,7 @@ export type SyncRealEstatesQuery = {
       } | null,
       tenants?:  Array< {
         __typename: "TenantInfo",
+        id: string,
         amount: number,
         rentalCharges?: number | null,
         managementFees?: number | null,
@@ -4480,6 +4520,7 @@ export type OnCreateDocumentSubscription = {
       } | null,
       tenants?:  Array< {
         __typename: "TenantInfo",
+        id: string,
         amount: number,
         rentalCharges?: number | null,
         managementFees?: number | null,
@@ -4549,6 +4590,7 @@ export type OnUpdateDocumentSubscription = {
       } | null,
       tenants?:  Array< {
         __typename: "TenantInfo",
+        id: string,
         amount: number,
         rentalCharges?: number | null,
         managementFees?: number | null,
@@ -4618,6 +4660,7 @@ export type OnDeleteDocumentSubscription = {
       } | null,
       tenants?:  Array< {
         __typename: "TenantInfo",
+        id: string,
         amount: number,
         rentalCharges?: number | null,
         managementFees?: number | null,
@@ -4667,6 +4710,7 @@ export type OnCreateBudgetLineSubscription = {
         amortizedCapital?: number | null,
       } | null > | null,
     } | null,
+    tenantId?: string | null,
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
@@ -4706,6 +4750,7 @@ export type OnCreateBudgetLineSubscription = {
       } | null,
       tenants?:  Array< {
         __typename: "TenantInfo",
+        id: string,
         amount: number,
         rentalCharges?: number | null,
         managementFees?: number | null,
@@ -4755,6 +4800,7 @@ export type OnUpdateBudgetLineSubscription = {
         amortizedCapital?: number | null,
       } | null > | null,
     } | null,
+    tenantId?: string | null,
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
@@ -4794,6 +4840,7 @@ export type OnUpdateBudgetLineSubscription = {
       } | null,
       tenants?:  Array< {
         __typename: "TenantInfo",
+        id: string,
         amount: number,
         rentalCharges?: number | null,
         managementFees?: number | null,
@@ -4843,6 +4890,7 @@ export type OnDeleteBudgetLineSubscription = {
         amortizedCapital?: number | null,
       } | null > | null,
     } | null,
+    tenantId?: string | null,
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
@@ -4882,6 +4930,7 @@ export type OnDeleteBudgetLineSubscription = {
       } | null,
       tenants?:  Array< {
         __typename: "TenantInfo",
+        id: string,
         amount: number,
         rentalCharges?: number | null,
         managementFees?: number | null,
@@ -4975,6 +5024,7 @@ export type OnCreateRealEstateBankAccountSubscription = {
       } | null,
       tenants?:  Array< {
         __typename: "TenantInfo",
+        id: string,
         amount: number,
         rentalCharges?: number | null,
         managementFees?: number | null,
@@ -5068,6 +5118,7 @@ export type OnUpdateRealEstateBankAccountSubscription = {
       } | null,
       tenants?:  Array< {
         __typename: "TenantInfo",
+        id: string,
         amount: number,
         rentalCharges?: number | null,
         managementFees?: number | null,
@@ -5161,6 +5212,7 @@ export type OnDeleteRealEstateBankAccountSubscription = {
       } | null,
       tenants?:  Array< {
         __typename: "TenantInfo",
+        id: string,
         amount: number,
         rentalCharges?: number | null,
         managementFees?: number | null,
@@ -5429,6 +5481,7 @@ export type OnCreateBankMovementSubscription = {
         interestRate?: number | null,
         assuranceRate?: number | null,
       } | null,
+      tenantId?: string | null,
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
@@ -5542,6 +5595,7 @@ export type OnUpdateBankMovementSubscription = {
         interestRate?: number | null,
         assuranceRate?: number | null,
       } | null,
+      tenantId?: string | null,
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
@@ -5655,6 +5709,7 @@ export type OnDeleteBankMovementSubscription = {
         interestRate?: number | null,
         assuranceRate?: number | null,
       } | null,
+      tenantId?: string | null,
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
@@ -5803,6 +5858,7 @@ export type OnCreateRealEstateSubscription = {
         amount: number,
         frequency: Frequency,
         nextDueDate?: string | null,
+        tenantId?: string | null,
         _version: number,
         _deleted?: boolean | null,
         _lastChangedAt: number,
@@ -5842,6 +5898,7 @@ export type OnCreateRealEstateSubscription = {
     } | null,
     tenants?:  Array< {
       __typename: "TenantInfo",
+      id: string,
       amount: number,
       rentalCharges?: number | null,
       managementFees?: number | null,
@@ -5903,6 +5960,7 @@ export type OnUpdateRealEstateSubscription = {
         amount: number,
         frequency: Frequency,
         nextDueDate?: string | null,
+        tenantId?: string | null,
         _version: number,
         _deleted?: boolean | null,
         _lastChangedAt: number,
@@ -5942,6 +6000,7 @@ export type OnUpdateRealEstateSubscription = {
     } | null,
     tenants?:  Array< {
       __typename: "TenantInfo",
+      id: string,
       amount: number,
       rentalCharges?: number | null,
       managementFees?: number | null,
@@ -6003,6 +6062,7 @@ export type OnDeleteRealEstateSubscription = {
         amount: number,
         frequency: Frequency,
         nextDueDate?: string | null,
+        tenantId?: string | null,
         _version: number,
         _deleted?: boolean | null,
         _lastChangedAt: number,
@@ -6042,6 +6102,7 @@ export type OnDeleteRealEstateSubscription = {
     } | null,
     tenants?:  Array< {
       __typename: "TenantInfo",
+      id: string,
       amount: number,
       rentalCharges?: number | null,
       managementFees?: number | null,

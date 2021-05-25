@@ -91,6 +91,7 @@ export const getDocument = /* GraphQL */ `
           country
         }
         tenants {
+          id
           amount
           rentalCharges
           managementFees
@@ -183,6 +184,7 @@ export const syncBudgetLines = /* GraphQL */ `
           interestRate
           assuranceRate
         }
+        tenantId
         _version
         _deleted
         _lastChangedAt
@@ -237,6 +239,7 @@ export const getBudgetLine = /* GraphQL */ `
           amortizedCapital
         }
       }
+      tenantId
       _version
       _deleted
       _lastChangedAt
@@ -271,6 +274,7 @@ export const getBudgetLine = /* GraphQL */ `
           country
         }
         tenants {
+          id
           amount
           rentalCharges
           managementFees
@@ -315,6 +319,7 @@ export const listBudgetLines = /* GraphQL */ `
           interestRate
           assuranceRate
         }
+        tenantId
         _version
         _deleted
         _lastChangedAt
@@ -589,6 +594,7 @@ export const syncBankMovements = /* GraphQL */ `
           amount
           frequency
           nextDueDate
+          tenantId
           _version
           _deleted
           _lastChangedAt
@@ -677,6 +683,7 @@ export const getBankMovement = /* GraphQL */ `
           interestRate
           assuranceRate
         }
+        tenantId
         _version
         _deleted
         _lastChangedAt
@@ -763,6 +770,7 @@ export const listBankMovements = /* GraphQL */ `
           amount
           frequency
           nextDueDate
+          tenantId
           _version
           _deleted
           _lastChangedAt
@@ -921,6 +929,7 @@ export const listRealEstates = /* GraphQL */ `
           country
         }
         tenants {
+          id
           amount
           rentalCharges
           managementFees
@@ -966,6 +975,7 @@ export const getRealEstate = /* GraphQL */ `
           amount
           frequency
           nextDueDate
+          tenantId
           _version
           _deleted
           _lastChangedAt
@@ -1001,6 +1011,7 @@ export const getRealEstate = /* GraphQL */ `
         country
       }
       tenants {
+        id
         amount
         rentalCharges
         managementFees
@@ -1074,6 +1085,7 @@ export const syncRealEstates = /* GraphQL */ `
           country
         }
         tenants {
+          id
           amount
           rentalCharges
           managementFees

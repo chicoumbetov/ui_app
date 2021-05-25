@@ -19,30 +19,43 @@ import {
 } from '../../../mockData/ajoutRevenuData';
 import Form from '../../../components/Form/Form';
 import MaxWidthContainer from '../../../components/MaxWidthContainer';
-import { Frequency, TenantInfo } from '../../../src/API';
+import {
+  BudgetLineType, Frequency, TenantInfo, TenantInfoInput,
+} from '../../../src/API';
 import DatepickerComp from '../../../components/Form/DatePicker';
 import TextInput from '../../../components/Form/TextInput';
 import { TabMesBiensParamList } from '../../../types';
 import CompteHeader from '../../../components/CompteHeader/CompteHeader';
 import { createBudgetLineMutation, useGetBudgetLine } from '../../../src/API/BudgetLine';
-import { useGetRealEstate } from '../../../src/API/RealEstate';
+import { updateRealEstateMutation, useGetRealEstate } from '../../../src/API/RealEstate';
+import { updateRealEstate } from '../../../src/graphql/mutations';
+import { addTenant } from '../../../src/API/Tenant';
 
 type ParamBudgetForm = {
   category: string,
-  amount?: number | null,
-  frequency?: Frequency | null,
-  nextDueDate?: string | null,
-  tenants: TenantInfo | null,
-  Expense?: string,
-  Income?: string,
+  amount: number,
+  frequency: Frequency,
+  nextDueDate: string,
+  tenant?: {
+    rentalCharges: number,
+    managementFees: number,
+    lastname: string,
+    firstname: string,
+    email: string,
+    startDate: string,
+    endDate: string,
+  }
 };
 
 const ParametrerAjoutRevenu = () => {
   const theme = useTheme();
   const paramBudgetForm = useForm<ParamBudgetForm>();
+  const updateRealEstate = updateRealEstateMutation();
+  const createBudgetLine = createBudgetLineMutation();
+
   const route = useRoute<RouteProp<TabMesBiensParamList, 'ajout-revenu'>>();
   console.log('route ajout revenu', route);
-  const { data } = useGetRealEstate(route.params.id);
+  const { bien } = useGetRealEstate(route.params.id);
   // console.log('data ajout revenu: ', data);
 
   const [frequenceShow, setFrequenceShow] = useState(false);
@@ -55,8 +68,95 @@ const ParametrerAjoutRevenu = () => {
    * */
   const [etape, setEtape] = useState(0);
 
-  const validateBudget = (data: ParamBudgetForm) => {
+  const validateBudget = async (data: ParamBudgetForm) => {
     console.log('ParametrerAjoutRevenu data:', data);
+    const {
+      category, amount, frequency, nextDueDate, tenant,
+    } = data;
+
+    if (data.category === 'rent') {
+      /**
+
+      await updateRealEstate({
+        variables: {
+          input: {
+            id: route.params.id,
+            tenants: bien?.getRealEstate?.tenants?.filter((item) => item?.id !== 'ID à supprimer'),
+          },
+        },
+      });
+
+      await updateRealEstate({
+        variables: {
+          input: {
+            id: route.params.id,
+            tenants: bien?.getRealEstate?.tenants?.map((item) => {
+              if (item?.id === 'ID à modifier') {
+                return tenant;
+              }
+              return item;
+            }),
+          },
+        },
+      });
+       */
+
+      /**
+      if (tenant) {
+        addTenant(bien, {
+          ...tenant,
+          amount,
+        });
+      }
+       */
+
+      /**
+      const tenantInfo: TenantInfoInput = {
+        ...tenant,
+        id: uuid(),
+      };
+
+      const tenants = (<TenantInfoInput[]>bien?.tenants || []);
+    tenants.push(tenantInfo);
+
+    if (bien.id) {
+        await updateRealEstate({
+          variables: {
+            input: {
+              id: bien.id,
+              tenants,
+            },
+          },
+        });
+      }
+      */
+
+      await createBudgetLine({
+        variables: {
+          input: {
+            realEstateId: route.params.id,
+            category,
+            amount,
+            frequency,
+            nextDueDate,
+            type: BudgetLineType.Income,
+          },
+        },
+      });
+    } else {
+      await createBudgetLine({
+        variables: {
+          input: {
+            realEstateId: route.params.id,
+            category,
+            amount,
+            frequency,
+            nextDueDate,
+            type: BudgetLineType.Income,
+          },
+        },
+      });
+    }
   };
 
   return (
@@ -74,7 +174,7 @@ const ParametrerAjoutRevenu = () => {
         <Text category="h1" style={{ marginBottom: 20 }}>
           Paramétrer votre budget
         </Text>
-        <CompteHeader title={data?.getRealEstate?.name} />
+        <CompteHeader title={bien?.name} />
       </Layout>
 
       {/**
@@ -119,8 +219,16 @@ const ParametrerAjoutRevenu = () => {
               </Text>
               {
                 etape === 0
-                  ? <Icon name="arrow-ios-downward-outline" fill={theme['color-basic-100']} style={{ height: 20, width: 20 }} />
-                  : <Icon name="arrow-ios-upward-outline" fill={theme['color-basic-100']} style={{ height: 20, width: 20 }} />
+                  ? <Icon
+                  name="arrow-ios-downward-outline"
+                  fill={theme['color-basic-100']}
+                  style={{ height: 20, width: 20 }}
+                  />
+                  : <Icon
+                  name="arrow-ios-upward-outline"
+                  fill={theme['color-basic-100']}
+                  style={{ height: 20, width: 20 }}
+                  />
               }
             </TouchableOpacity>
             */}
@@ -133,8 +241,8 @@ const ParametrerAjoutRevenu = () => {
               <TextInput name="amount" placeholder="Saisissez votre montant ici" />
             </MotiView>
             <MotiView animate={{ height: (revenuLoyer ? 120 : 0) }} style={{ overflow: 'hidden' }} transition={{ type: 'timing', duration: 500 }}>
-              <TextInput name="amount" placeholder="Montant des charges" />
-              <TextInput name="amount" placeholder="Taux de frais de gestion" />
+              <TextInput name="tenant.rentalCharges" placeholder="Dont charges" />
+              <TextInput name="tenant.managementFees" placeholder="Dont frais de gestion" />
             </MotiView>
 
             <MotiView
@@ -174,13 +282,13 @@ const ParametrerAjoutRevenu = () => {
               transition={{ type: 'timing', duration: 500 }}
             >
               <Text category="h5">Ajouter un locataire</Text>
-              <TextInput style={{ height: 80, paddingBottom: 15 }} name="tenants.firstname" placeholder="Saisissez le prénom" />
-              <TextInput style={{ height: 80, paddingBottom: 15 }} name="tenants.lastname" placeholder="Saisissez le nom" />
-              <TextInput style={{ height: 80, paddingBottom: 15 }} name="tenants.email" placeholder="Saisissez le mail" />
+              <TextInput style={{ height: 80, paddingBottom: 15 }} name="tenant.firstname" placeholder="Saisissez le prénom" />
+              <TextInput style={{ height: 80, paddingBottom: 15 }} name="tenant.lastname" placeholder="Saisissez le nom" />
+              <TextInput style={{ height: 80, paddingBottom: 15 }} name="tenant.email" placeholder="Saisissez le mail" />
               <Text style={{ paddingBottom: 15 }} category="h5">Date de début de bail</Text>
-              <DatepickerComp name="tenants.startDate" placeholder="Date de début de bail" style={{ height: 80, paddingBottom: 15 }} />
+              <DatepickerComp name="tenant.startDate" placeholder="Date de début de bail" style={{ height: 80, paddingBottom: 15 }} />
               <Text style={{ paddingBottom: 15 }} category="h5">Date de fin de bail</Text>
-              <DatepickerComp name="tenants.endDate" placeholder="Date de fin de bail" style={{ paddingBottom: 15 }} />
+              <DatepickerComp name="tenant.endDate" placeholder="Date de fin de bail" style={{ paddingBottom: 15 }} />
             </MotiView>
 
             <View style={{ alignItems: 'flex-end', marginTop: 10 }}>
@@ -191,6 +299,7 @@ const ParametrerAjoutRevenu = () => {
                 Enregistrer
               </Button>
             </View>
+
           </>
         </Form>
 

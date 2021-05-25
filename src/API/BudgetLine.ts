@@ -16,7 +16,7 @@ import {
 } from '../API';
 import * as mutations from '../graphql/mutations';
 
-export type BudgetLine = {
+export type BudgetLineItem = {
   __typename: 'BudgetLine',
   id?: string,
   realEstateId?: string,
@@ -35,13 +35,13 @@ export type BudgetLine = {
   tenants: TenantInfo
 };
 
-export function useGetBudgetLine(id: string) {
+export function useGetBudgetLine(realEstateId: string) {
   const getBudgetLineQuery = <DocumentNode>gql(getBudgetLine);
   const {
     loading, data, fetchMore, refetch,
   } = useQuery<GetBudgetLineQuery, GetBudgetLineQueryVariables>(getBudgetLineQuery, {
     variables: {
-      id,
+      realEstateId,
     },
   });
 

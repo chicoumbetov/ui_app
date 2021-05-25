@@ -10,7 +10,7 @@ import {
   GetBudgetLineQuery,
   GetBudgetLineQueryVariables,
   MortgageLoanInfo,
-  RealEstate,
+  RealEstate, TenantInfo,
   UpdateBudgetLineMutation,
   UpdateBudgetLineMutationVariables,
 } from '../API';
@@ -32,6 +32,7 @@ export type BudgetLine = {
   createdAt?: string,
   updatedAt?: string,
   realEstate?: RealEstate,
+  tenants: TenantInfo
 };
 
 export function useGetBudgetLine(id: string) {

@@ -13,7 +13,7 @@ const DeclarationImpots = () => (
     <Layout style={styles.container}>
       <Text category="h1" style={{ marginBottom: 6 }}>Paramétrer mon aide à la déclaration d'impôts</Text>
       <Layout style={{ marginTop: 20, backgroundColor: 'transparent' }}>
-        <CompteHeader title={clientData.Client.fields[1].prenom} />
+        <CompteHeader />
       </Layout>
     </Layout>
 

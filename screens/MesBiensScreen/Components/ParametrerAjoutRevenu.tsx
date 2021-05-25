@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import {
-  Button, Datepicker, Layout, Text, useTheme,
+  Button, Icon, Layout, Text, useTheme,
 } from '@ui-kitten/components';
 import {
-  StyleSheet, View,
+  StyleSheet, TouchableOpacity, View,
 } from 'react-native';
 
 import { useForm } from 'react-hook-form';
@@ -11,27 +11,33 @@ import { useForm } from 'react-hook-form';
 import { useRoute } from '@react-navigation/native';
 import { RouteProp } from '@react-navigation/core/lib/typescript/src/types';
 
+import { MotiView } from 'moti';
 import SelectComp from '../../../components/Form/Select';
 import {
   frequence, typeRevenu,
 } from '../../../mockData/ajoutRevenuData';
 import Form from '../../../components/Form/Form';
 import MaxWidthContainer from '../../../components/MaxWidthContainer';
-import { Frequency } from '../../../src/API';
+import { Frequency, TenantInfo } from '../../../src/API';
 import DatepickerComp from '../../../components/Form/DatePicker';
 import TextInput from '../../../components/Form/TextInput';
 import { TabMesBiensParamList } from '../../../types';
-import { useGetRealEstate } from '../../../src/API/RealEstate';
 import CompteHeader from '../../../components/CompteHeader/CompteHeader';
+import { createBudgetLineMutation, useGetBudgetLine } from '../../../src/API/BudgetLine';
+import { useGetRealEstate } from '../../../src/API/RealEstate';
 
 type ParamBudgetForm = {
   category: string,
   amount?: number | null,
-  frequency?: Frequency,
+  frequency?: Frequency | null,
   nextDueDate?: string | null,
+  tenants: TenantInfo | null,
+  Expense?: string,
+  Income?: string,
 };
 
 const ParametrerAjoutRevenu = () => {
+  const theme = useTheme();
   const paramBudgetForm = useForm<ParamBudgetForm>();
   const route = useRoute<RouteProp<TabMesBiensParamList, 'ajout-revenu'>>();
   console.log('route ajout revenu', route);
@@ -46,8 +52,9 @@ const ParametrerAjoutRevenu = () => {
   /**
    *Variable pour gérer l'affichage des trois grandes partie
    * */
+  const [etape, setEtape] = useState(0);
 
-  const validateBudget = async (data: ParamBudgetForm) => {
+  const validateBudget = (data: ParamBudgetForm) => {
     console.log('ParametrerAjoutRevenu data:', data);
   };
 
@@ -81,71 +88,108 @@ const ParametrerAjoutRevenu = () => {
           <>
 
             {/**
-           *  Mode de détention
+           *  Type de revenu
            */}
 
-            <View>
+            <SelectComp
+              name="category"
+              data={typeRevenu}
+              onChangeValue={(v) => {
+                if (v === 'rent') {
+                  setRevenuLoyer(true);
+                } else {
+                  setRevenuLoyer(false);
+                } setMontantShow(true); setFrequenceShow(true);
+              }}
+              placeholder="Type De Revenu"
+              size="large"
+              appearance="default"
+              status="primary"
+              onPress={() => setEtape(1)}
+            />
 
-              <Layout style={{ backgroundColor: 'transparent', paddingBottom: 33 }}>
+            {/**
+            <TouchableOpacity
+              onPress={() => { setEtape(1); }}
+              style={etape === 0 ? (styles.headerDown) : (styles.headerUp)}
+            >
+              <Text category="h6" status="control">
+                Montant
+              </Text>
+              {
+                etape === 0
+                  ? <Icon name="arrow-ios-downward-outline" fill={theme['color-basic-100']} style={{ height: 20, width: 20 }} />
+                  : <Icon name="arrow-ios-upward-outline" fill={theme['color-basic-100']} style={{ height: 20, width: 20 }} />
+              }
+            </TouchableOpacity>
+            */}
 
-                <SelectComp
-                  name="category"
-                  data={typeRevenu}
-                  onChangeValue={(v) => { if (v === 'rent') { setRevenuLoyer(true); } else { setRevenuLoyer(false); } setMontantShow(true); setFrequenceShow(true); }}
-                  placeholder="Type De Revenu"
-                  size="large"
-                  appearance="default"
-                  status="primary"
-                />
+            <MotiView
+              animate={{ height: (etape === 0 && montantShow ? 70 : 0) }}
+              style={{ overflow: 'hidden' }}
+              transition={{ type: 'timing', duration: 500 }}
+            >
+              <TextInput name="amount" placeholder="Saisissez votre montant ici" />
+            </MotiView>
+            <MotiView animate={{ height: (revenuLoyer ? 120 : 0) }} style={{ overflow: 'hidden' }} transition={{ type: 'timing', duration: 500 }}>
+              <TextInput name="amount" placeholder="Montant des charges" />
+              <TextInput name="amount" placeholder="Taux de frais de gestion" />
+            </MotiView>
 
-                {montantShow ? (
-                  <View>
-                    <TextInput name="amount" placeholder="Saisissez votre montant ici" />
+            <MotiView
+              animate={{
+                height: (frequenceShow
+                  ? 150 : 0),
+              }}
+              style={{
+                overflow: 'hidden',
+              }}
+              transition={{ type: 'timing', duration: 500 }}
+            >
+              <SelectComp name="frequency" data={frequence} onChangeValue={() => setDateDerniereEcheanceShow(true)} placeholder="Fréquence" size="large" appearance="default" status="primary" />
 
-                    {revenuLoyer ? (
-                      <View>
-                        <TextInput name="charges" placeholder="Montant des charges" />
-                        <TextInput name="gestion" placeholder="Taux de frais de gestion" />
-                      </View>
-                    ) : <></>}
-                  </View>
-                ) : <></>}
+              <MotiView
+                animate={{ maxHeight: (dateDerniereEcheanceShow ? 200 : 0) }}
+                style={{
+                  overflow: 'hidden',
+                  flexDirection: 'row',
+                  marginHorizontal: 23,
+                  justifyContent: 'space-between',
+                  height: 60,
+                  alignItems: 'center',
+                }}
+                transition={{ type: 'timing', duration: 500 }}
+              >
+                <DatepickerComp name="nextDueDate" placeholder="Date de dernière échéance" />
+              </MotiView>
 
-                {frequenceShow
-                  ? (
-                    <Layout style={{ backgroundColor: 'transparent' }}>
-                      <SelectComp name="frequency" data={frequence} onChangeValue={() => setDateDerniereEcheanceShow(true)} placeholder="Fréquence" size="large" appearance="default" status="primary" />
-                      {dateDerniereEcheanceShow ? (
-                        <DatepickerComp name="nextDueDate" placeholder="Date de dernière échéance" />
-                      ) : <></>}
-                    </Layout>
-                  ) : <></>}
+            </MotiView>
 
-              </Layout>
+            <MotiView
+              animate={{ maxHeight: (revenuLoyer ? 400 : 0) }}
+              style={{
+                overflow: 'hidden',
+              }}
+              transition={{ type: 'timing', duration: 500 }}
+            >
+              <Text category="h5">Ajouter un locataire</Text>
+              <TextInput style={{ height: 80, paddingBottom: 15 }} name="tenants.firstname" placeholder="Saisissez le prénom" />
+              <TextInput style={{ height: 80, paddingBottom: 15 }} name="tenants.lastname" placeholder="Saisissez le nom" />
+              <TextInput style={{ height: 80, paddingBottom: 15 }} name="tenants.email" placeholder="Saisissez le mail" />
+              <Text style={{ paddingBottom: 15 }} category="h5">Date de début de bail</Text>
+              <DatepickerComp name="tenants.startDate" placeholder="Date de début de bail" style={{ height: 80, paddingBottom: 15 }} />
+              <Text style={{ paddingBottom: 15 }} category="h5">Date de fin de bail</Text>
+              <DatepickerComp name="tenants.endDate" placeholder="Date de fin de bail" style={{ paddingBottom: 15 }} />
+            </MotiView>
 
-              {revenuLoyer ? (
-                <View>
-                  <Text style={{ paddingBottom: 30 }} category="h5">Ajouter un locataire</Text>
-                  <TextInput style={{ paddingBottom: 30 }} name="firstname" placeholder="Saisissez le prénom" />
-                  <TextInput style={{ paddingBottom: 30 }} name="lastname" placeholder="Saisissez le nom" />
-                  <TextInput style={{ paddingBottom: 30 }} name="email" placeholder="Saisissez le mail" />
-                  <Text style={{ paddingBottom: 30 }} category="h5">Date de début de bail</Text>
-                  <Datepicker style={{ paddingBottom: 30 }} />
-                  <Text style={{ paddingBottom: 30 }} category="h5">Date de fin de bail</Text>
-                  <Datepicker style={{ paddingBottom: 30 }} />
-                </View>
-              ) : <></>}
-
-            </View>
-
-            <Layout style={{ marginBottom: 10 }}>
+            <View style={{ alignItems: 'flex-end', marginTop: 10 }}>
               <Button
                 onPress={paramBudgetForm.handleSubmit((data) => validateBudget(data))}
                 size="large"
               >
-                Valider
+                Enregistrer
               </Button>
-            </Layout>
+            </View>
           </>
         </Form>
 
@@ -165,7 +209,7 @@ const styles = StyleSheet.create({
   },
   headerDown: {
     padding: 22,
-    marginBottom: 36,
+    // marginBottom: 36,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',

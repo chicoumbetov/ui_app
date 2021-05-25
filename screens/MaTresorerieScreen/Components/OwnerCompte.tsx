@@ -10,7 +10,7 @@ const OwnerCompte = ({ compte }) => {
   const navigation = useNavigation();
   const theme = useTheme();
   const onTresoMouvement = () => {
-    navigation.navigate('TresoMouvement_page1');
+    navigation.navigate('mouv-bancaires');
   };
 
   return (

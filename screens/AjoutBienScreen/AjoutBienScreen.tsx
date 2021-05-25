@@ -141,7 +141,11 @@ function AjoutBienScreen() {
           {/**
            Identité 1/3  ( etape1 )
            * */}
-          <MotiView animate={{ height: (etape === 0 ? 540 : 0) }} style={{ overflow: 'hidden' }} transition={{ type: 'timing', duration: 500 }}>
+          <MotiView
+            animate={{ height: (etape === 0 ? 540 : 0) }}
+            style={{ overflow: 'hidden' }}
+            transition={{ type: 'timing', duration: 500 }}
+          >
 
             <TextInput
               style={{ marginBottom: 30, marginLeft: 23, marginRight: 22 }}
@@ -211,8 +215,11 @@ function AjoutBienScreen() {
           <View style={[
             styles.item,
             {
-              backgroundColor: ((etape === 1)
-                ? colors.blanc : ((etape === 0) ? theme['color-warning-100'] : theme['color-success-100'])),
+              backgroundColor: (
+                (etape === 1)
+                  ? colors.blanc
+                  : ((etape === 0) ? theme['color-warning-100'] : theme['color-success-100'])
+              ),
               marginTop: 29,
             },
           ]}
@@ -418,7 +425,7 @@ function AjoutBienScreen() {
 
             </MotiView>
 
-            <View style={{ alignItems: 'flex-end', marginBottom: 10 }}>
+            <View style={{ marginBottom: 10 }}>
               <Button
                 onPress={ajoutBienForm.handleSubmit((data) => onAjoutBien(data))}
                 size="large"

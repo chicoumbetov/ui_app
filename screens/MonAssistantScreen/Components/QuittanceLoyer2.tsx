@@ -13,7 +13,7 @@ const QuittanceLoyer2 = () => (
     <Layout style={styles.container}>
       <Text category="h1" style={{ marginBottom: 6 }}>Générer une quittance de loyer</Text>
       <Layout style={{ marginTop: 20, backgroundColor: 'transparent' }}>
-        <CompteHeader title={clientData.Client.fields[1].prenom} />
+        <CompteHeader />
       </Layout>
     </Layout>
 

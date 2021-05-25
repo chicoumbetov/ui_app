@@ -1,19 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import { Layout, Radio, Text } from '@ui-kitten/components';
+import {
+  Layout, Radio, Text, useTheme,
+} from '@ui-kitten/components';
 import {
   FlatList,
   LogBox,
-  ScrollView, StyleSheet, TouchableOpacity,
+  ScrollView, StyleSheet, TouchableOpacity, View,
 } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
 import CompteHeader from '../../../../components/CompteHeader/CompteHeader';
 import comptesData from '../../../../mockData/comptesData';
 import MaxWidthContainer from '../../../../components/MaxWidthContainer';
+import mouvementData from '../../../../mockData/mouvementData';
 
 const IgnorerMouvement = ({ compte }) => {
   // Back to previous page and delete chosen data
   const navigation = useNavigation();
+  const theme = useTheme();
   const onTresoMouvementPage1 = () => {
     navigation.navigate('TresoMouvement_page1');
   };
@@ -24,9 +28,9 @@ const IgnorerMouvement = ({ compte }) => {
     <MaxWidthContainer>
       <Layout style={styles.container}>
         <Layout style={{ backgroundColor: '#f6f6f6', padding: 26 }}>
-          <Text style={{
-            fontSize: 26, letterSpacing: 0.2,
-          }}
+          <Text
+            category="h1"
+            status="basic"
           >
             Ma Trésorerie
           </Text>
@@ -34,13 +38,87 @@ const IgnorerMouvement = ({ compte }) => {
             <CompteHeader title={client[0].title} />
           </Layout>
 
+          <View style={{ marginVertical: 20, alignItems: 'center' }}>
+            <Text category="h6" status="basic">Monsieur Dupont Matthieu</Text>
+            <Text category="h6" appearance="hint">FR76**************583</Text>
+            <Text category="h6" status="basic">Société Générale</Text>
+          </View>
+
+          <Text
+            category="h2"
+            style={{
+              marginVertical: 20, paddingTop: 30, borderTopWidth: 1, borderTopColor: '#b5b5b5',
+            }}
+          >
+            Mouvements ignorés
+          </Text>
+
+          <FlatList
+              // data={grouped.get('En attente')}
+            data={mouvementData}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => (
+
+              <TouchableOpacity
+                onPress={() => {}}
+                style={[
+                  styles.window,
+                  { backgroundColor: theme['color-basic-100'] },
+                ]}
+              >
+                <Layout style={{
+                  flex: 1,
+                }}
+                >
+
+                  <Text
+                    style={{
+                      justifyContent: 'center',
+                    }}
+                    category="h5"
+                    status="basic"
+                  >
+                    {item.valeur}
+                  </Text>
+                  <Text
+                    style={{ justifyContent: 'center' }}
+                    category="h6"
+                    status="basic"
+                  >
+                    {item.typeMouvement}
+                  </Text>
+
+                </Layout>
+
+                <Layout
+                  style={{
+                    flex: 1,
+                    alignItems: 'center',
+                    flexDirection: 'column',
+                    justifyContent: 'space-evenly',
+                    paddingLeft: 10,
+                  }}
+                >
+                  <Text category="h6" status="basic">{item.date}</Text>
+                  <Text category="p1" appearance="hint">Libellé du mouvement</Text>
+
+                </Layout>
+
+              </TouchableOpacity>
+
+            )}
+          />
+
         </Layout>
 
-        <Layout style={{
+        {/**
+        Version 1
+
+         <Layout style={{
           marginVertical: 20, paddingVertical: 20, backgroundColor: '#f6f6f6', paddingHorizontal: 26,
         }}
-        >
-          <Text style={{
+         >
+         <Text style={{
             // color: '#000',
             fontSize: 16,
             fontFamily: 'HouschkaRoundedDemiBold',
@@ -48,25 +126,30 @@ const IgnorerMouvement = ({ compte }) => {
             letterSpacing: 0.7,
             paddingTop: 11,
           }}
-          >
-            Monsieur
-            {' '}
-            {client[0].data[0].nom}
-            {' '}
-            {client[0].data[0].prenom}
-          </Text>
-          <Text style={{ color: '#b5b5b5', paddingTop: 8 }}>
-            FR
-            {client[0].data[0].IBAN}
-          </Text>
-          <Text style={{
+         >
+         Monsieur
+         {' '}
+         {client[0].data[0].nom}
+         {' '}
+         {client[0].data[0].prenom}
+         </Text>
+         <Text style={{ color: '#b5b5b5', paddingTop: 8 }}>
+         FR
+         {client[0].data[0].IBAN}
+         </Text>
+         <Text style={{
             fontSize: 14.5, color: '#b5b5b5', marginTop: 4.3, letterSpacing: 0.2,
           }}
-          >
-            {client[0].data[0].bank}
-          </Text>
-        </Layout>
+         >
+         {client[0].data[0].bank}
+         </Text>
+         </Layout>
 
+         <Layout style={{
+          marginBottom: 20, paddingVertical: 20, backgroundColor: '#f6f6f6', paddingHorizontal: 26,
+        }}
+         >
+         <Text style={{
         <Layout
           level={2}
           style={{
@@ -81,14 +164,14 @@ const IgnorerMouvement = ({ compte }) => {
             letterSpacing: 0.7,
             paddingTop: 11,
           }}
-          >
-            Mouvements sur le compte
-          </Text>
+         >
+         Mouvements sur le compte
+         </Text>
 
-          <FlatList
-            data={comptesData}
-            keyExtractor={(item) => item.id}
-            renderItem={() => (
+         <FlatList
+         data={comptesData}
+         keyExtractor={(item) => item.id}
+         renderItem={() => (
 
               <Layout style={styles.window}>
                 <Radio status="danger" style={{ marginRight: 20 }} />
@@ -115,16 +198,17 @@ const IgnorerMouvement = ({ compte }) => {
               </Layout>
 
             )}
-          />
-          <Layout style={styles.button}>
-            <TouchableOpacity onPress={onTresoMouvementPage1}>
-              <Layout style={styles.button}>
-                <Text style={styles.buttonTextRight}>Ignorer les mouvements</Text>
-              </Layout>
-            </TouchableOpacity>
-          </Layout>
+         />
+         <Layout style={styles.button}>
+         <TouchableOpacity onPress={onTresoMouvementPage1}>
+         <Layout style={styles.button}>
+         <Text style={styles.buttonTextRight}>Ignorer les mouvements</Text>
+         </Layout>
+         </TouchableOpacity>
+         </Layout>
 
-        </Layout>
+         </Layout>
+ */}
 
       </Layout>
     </MaxWidthContainer>
@@ -165,10 +249,5 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     marginVertical: 15,
     backgroundColor: 'transparent',
-  },
-  buttonTextRight: {
-    color: 'red',
-    fontSize: 17.5,
-    fontWeight: '600',
   },
 });

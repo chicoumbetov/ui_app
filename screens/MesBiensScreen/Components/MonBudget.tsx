@@ -20,8 +20,11 @@ import Icon from '../../../components/Icon';
 import comptesData from '../../../mockData/comptesData';
 
 import { TabMesBiensParamList } from '../../../types';
-import { useGetRealEstate } from '../../../src/API/RealEstate';
+import { RealEstateItem, useGetRealEstate } from '../../../src/API/RealEstate';
 import CompteHeader from '../../../components/CompteHeader/CompteHeader';
+import { BudgetLineItem } from '../../../src/API/BudgetLine';
+import MonBudgetCard from './MonBudgetCard';
+import MonBien from './MonBien';
 
 function MonBudget() {
   const navigation = useNavigation();
@@ -29,7 +32,7 @@ function MonBudget() {
   const linkTo = useLinkTo();
   const route = useRoute<RouteProp<TabMesBiensParamList, 'mon-bugdet'>>();
   // console.log('mon-budget data', route.params);
-  const { data } = useGetRealEstate(route.params.id);
+  const { bien } = useGetRealEstate(route.params.id);
   // console.log('data mon-budget: ', data?.getRealEstate);
 
   const allerTresorerie = () => {
@@ -44,6 +47,7 @@ function MonBudget() {
     navigation.navigate('ParametrerAjoutCharges');
   };
 
+  console.log('mon budget :', bien);
   return (
     <MaxWidthContainer
       withScrollView="keyboardAware"
@@ -59,7 +63,7 @@ function MonBudget() {
         <Text category="h1" style={{ marginVertical: 20 }}>
           Mon Budget
         </Text>
-        <CompteHeader title={data?.getRealEstate?.name} />
+        <CompteHeader title={bien.name} />
       </Layout>
 
       {/**
@@ -82,43 +86,17 @@ function MonBudget() {
             Revenus
           </Text>
         </Layout>
-
-        <FlatList
+        {/**
+         <FlatList<RealEstateItem>
+         data={bien?.budgetLines?.items}
+         renderItem={({ item }) => <MonBudgetCard budget={item} />}
+         keyExtractor={(item) => item.id}
+         />
+        */}
+        <FlatList<RealEstateItem>
           data={comptesData}
+          renderItem={({ item }) => <MonBudgetCard budget={item} />}
           keyExtractor={(item) => item.id}
-          renderItem={() => (
-
-            <Layout style={styles.window}>
-              <Layout style={{
-                flex: 1,
-                borderRightWidth: 1,
-                borderRightColor: '#b5b5b5',
-              }}
-              >
-
-                <Text category="h6" status="success" style={{ justifyContent: 'center' }}>
-                  + 500 €
-                </Text>
-
-                <Text category="h6" appearance="hint">10/03/2021</Text>
-                <Text category="p2" appearance="hint">Mensuel</Text>
-              </Layout>
-
-              <Layout style={{
-                flex: 1,
-                alignItems: 'center',
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-              }}
-              >
-                <Text category="h6" status="warning" style={{ marginLeft: 15 }}>
-                  En attente
-                </Text>
-
-              </Layout>
-            </Layout>
-
-          )}
         />
 
         <Layout style={styles.button}>

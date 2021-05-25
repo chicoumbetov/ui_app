@@ -1,3 +1,5 @@
+import { Frequency } from '../src/API';
+
 export const typeRevenu = [
   {
     label: 'Loyer',
@@ -20,11 +22,11 @@ export const montant = [
   },
   {
     label: 'Charges',
-    key: 'expense',
+    key: 'rentalCharges',
   },
   {
     label: 'TauxFrais',
-    key: 'Rate Fee',
+    key: 'managementFees',
   },
 ];
 
@@ -50,15 +52,15 @@ export const typeMontant = [
 export const frequence = [
   {
     label: 'Mensuelle',
-    key: 'Mensuelle',
+    key: Frequency.monthly,
   },
   {
     label: 'Trimestrielle',
-    key: 'Trimestrielle',
+    key: Frequency.quarterly,
   },
   {
     label: 'Annuelle',
-    key: 'Annuelle',
+    key: Frequency.annual,
   },
 ];
 

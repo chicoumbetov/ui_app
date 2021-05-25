@@ -45,6 +45,7 @@ function DetailsBien() {
   const allerMonBudget = () => {
     navigation.navigate('mon-budget', { id: route.params.id });
   };
+  console.log('Detail Bien: ', data);
   const allerTresorerie = () => {
     linkTo('/ma-tresorerie');
   };
@@ -87,7 +88,7 @@ function DetailsBien() {
             width={100}
             style={{ marginRight: 12, marginBottom: 10 }}
           />
-          <Text category="h2" status="basic">
+          <Text category="h2" status="basic" style={{ height: 20 }}>
             {data?.getRealEstate?.name}
           </Text>
         </Layout>

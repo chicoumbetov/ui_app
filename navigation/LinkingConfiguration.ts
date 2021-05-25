@@ -34,6 +34,7 @@ export default {
                 path: 'tableau-de-bord',
                 screens: {
                   'mes-charges': '/',
+                  'tableau-de-bord': 'tableau-de-bord/',
                 },
               },
               'mon-assistant-nav': {

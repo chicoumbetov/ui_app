@@ -71,6 +71,7 @@ export declare class AmortizationTable {
 }
 
 export declare class TenantInfo {
+  readonly id: string;
   readonly amount: number;
   readonly rentalCharges?: number;
   readonly managementFees?: number;
@@ -134,6 +135,7 @@ export declare class BudgetLine {
   readonly frequency: Frequency | keyof typeof Frequency;
   readonly nextDueDate?: string;
   readonly infoCredit?: MortgageLoanInfo;
+  readonly tenantId?: string;
   constructor(init: ModelInit<BudgetLine>);
   static copyOf(source: BudgetLine, mutator: (draft: MutableModel<BudgetLine>) => MutableModel<BudgetLine> | void): BudgetLine;
 }

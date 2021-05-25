@@ -46,6 +46,7 @@ export const createDocument = /* GraphQL */ `
           country
         }
         tenants {
+          id
           amount
           rentalCharges
           managementFees
@@ -112,6 +113,7 @@ export const updateDocument = /* GraphQL */ `
           country
         }
         tenants {
+          id
           amount
           rentalCharges
           managementFees
@@ -178,6 +180,7 @@ export const deleteDocument = /* GraphQL */ `
           country
         }
         tenants {
+          id
           amount
           rentalCharges
           managementFees
@@ -227,6 +230,7 @@ export const createBudgetLine = /* GraphQL */ `
           amortizedCapital
         }
       }
+      tenantId
       _version
       _deleted
       _lastChangedAt
@@ -261,6 +265,7 @@ export const createBudgetLine = /* GraphQL */ `
           country
         }
         tenants {
+          id
           amount
           rentalCharges
           managementFees
@@ -310,6 +315,7 @@ export const updateBudgetLine = /* GraphQL */ `
           amortizedCapital
         }
       }
+      tenantId
       _version
       _deleted
       _lastChangedAt
@@ -344,6 +350,7 @@ export const updateBudgetLine = /* GraphQL */ `
           country
         }
         tenants {
+          id
           amount
           rentalCharges
           managementFees
@@ -393,6 +400,7 @@ export const deleteBudgetLine = /* GraphQL */ `
           amortizedCapital
         }
       }
+      tenantId
       _version
       _deleted
       _lastChangedAt
@@ -427,6 +435,7 @@ export const deleteBudgetLine = /* GraphQL */ `
           country
         }
         tenants {
+          id
           amount
           rentalCharges
           managementFees
@@ -514,6 +523,7 @@ export const createRealEstateBankAccount = /* GraphQL */ `
           country
         }
         tenants {
+          id
           amount
           rentalCharges
           managementFees
@@ -601,6 +611,7 @@ export const updateRealEstateBankAccount = /* GraphQL */ `
           country
         }
         tenants {
+          id
           amount
           rentalCharges
           managementFees
@@ -688,6 +699,7 @@ export const deleteRealEstateBankAccount = /* GraphQL */ `
           country
         }
         tenants {
+          id
           amount
           rentalCharges
           managementFees
@@ -947,6 +959,7 @@ export const createBankMovement = /* GraphQL */ `
           interestRate
           assuranceRate
         }
+        tenantId
         _version
         _deleted
         _lastChangedAt
@@ -1054,6 +1067,7 @@ export const updateBankMovement = /* GraphQL */ `
           interestRate
           assuranceRate
         }
+        tenantId
         _version
         _deleted
         _lastChangedAt
@@ -1161,6 +1175,7 @@ export const deleteBankMovement = /* GraphQL */ `
           interestRate
           assuranceRate
         }
+        tenantId
         _version
         _deleted
         _lastChangedAt
@@ -1310,6 +1325,7 @@ export const createRealEstate = /* GraphQL */ `
           amount
           frequency
           nextDueDate
+          tenantId
           _version
           _deleted
           _lastChangedAt
@@ -1345,6 +1361,7 @@ export const createRealEstate = /* GraphQL */ `
         country
       }
       tenants {
+        id
         amount
         rentalCharges
         managementFees
@@ -1400,6 +1417,7 @@ export const updateRealEstate = /* GraphQL */ `
           amount
           frequency
           nextDueDate
+          tenantId
           _version
           _deleted
           _lastChangedAt
@@ -1435,6 +1453,7 @@ export const updateRealEstate = /* GraphQL */ `
         country
       }
       tenants {
+        id
         amount
         rentalCharges
         managementFees
@@ -1490,6 +1509,7 @@ export const deleteRealEstate = /* GraphQL */ `
           amount
           frequency
           nextDueDate
+          tenantId
           _version
           _deleted
           _lastChangedAt
@@ -1525,6 +1545,7 @@ export const deleteRealEstate = /* GraphQL */ `
         country
       }
       tenants {
+        id
         amount
         rentalCharges
         managementFees

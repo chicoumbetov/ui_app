@@ -377,6 +377,13 @@ export const schema = {
                     },
                     "isRequired": false,
                     "attributes": []
+                },
+                "tenantId": {
+                    "name": "tenantId",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
                 }
             },
             "syncable": true,
@@ -1143,6 +1150,13 @@ export const schema = {
         "TenantInfo": {
             "name": "TenantInfo",
             "fields": {
+                "id": {
+                    "name": "id",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": []
+                },
                 "amount": {
                     "name": "amount",
                     "isArray": false,
@@ -1223,5 +1237,5 @@ export const schema = {
             }
         }
     },
-    "version": "4295f587d20897bfb4e2c5f8fca12ceb"
+    "version": "d65047549a5183ea523cc321d4c80ac5"
 };

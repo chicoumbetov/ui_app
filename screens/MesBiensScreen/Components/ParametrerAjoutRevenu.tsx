@@ -5,6 +5,7 @@ import {
 import {
   StyleSheet, TouchableOpacity, View,
 } from 'react-native';
+import { v4 as uuid } from 'uuid';
 
 import { useForm } from 'react-hook-form';
 

@@ -157,6 +157,6 @@ export function useGetRealEstate(id: string) {
   });
 
   return {
-    loading, data, fetchMore, refetch,
+    loading, bien: <RealEstate>data?.getRealEstate, fetchMore, refetch,
   };
 }

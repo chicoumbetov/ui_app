@@ -75,6 +75,7 @@ type BudgetLine
   frequency: Frequency!
   nextDueDate: AWSDate
   infoCredit: MortgageLoanInfo
+  tenantId: String
 }
 
 enum BudgetLineType {
@@ -84,6 +85,7 @@ enum BudgetLineType {
 
 # type TenantInfo
 type TenantInfo {
+  id: String!
   amount: Float!
   rentalCharges: Float
   managementFees: Float

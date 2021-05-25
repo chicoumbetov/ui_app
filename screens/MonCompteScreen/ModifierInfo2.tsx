@@ -51,10 +51,6 @@ const ModifierInfo2 = () => {
     <MaxWidthContainer
       withScrollView="keyboardAware"
       outerViewProps={{
-        style: {
-          flex: 1,
-          backgroundColor: '#efefef',
-        },
         showsVerticalScrollIndicator: false,
       }}
       innerViewProps={{
@@ -85,7 +81,7 @@ const ModifierInfo2 = () => {
           <TextInput
             name="address.address"
             placeholder="Adresse"
-            containerStyle={{ marginTop: 20 }}
+
             validators={[
               AvailableValidationRules.required,
             ]}
@@ -94,14 +90,14 @@ const ModifierInfo2 = () => {
           <TextInput
             name="address.additionalAddress"
             placeholder="Complément d'adresse"
-            containerStyle={{ marginTop: 20 }}
+
           />
 
           <TextInput
             name="address.postalCode"
             placeholder="Code postal"
             maxLength={5}
-            containerStyle={{ marginTop: 20 }}
+
             validators={[
               AvailableValidationRules.required,
             ]}
@@ -110,7 +106,6 @@ const ModifierInfo2 = () => {
           <TextInput
             name="address.city"
             placeholder="Ville"
-            containerStyle={{ marginTop: 20 }}
             validators={[
               AvailableValidationRules.required,
             ]}
@@ -119,7 +114,6 @@ const ModifierInfo2 = () => {
           <TextInput
             name="address.country"
             placeholder="Pays"
-            containerStyle={{ marginTop: 20 }}
             validators={[
               AvailableValidationRules.required,
             ]}

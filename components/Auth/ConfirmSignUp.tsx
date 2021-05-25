@@ -5,6 +5,7 @@ import {
 } from '@ui-kitten/components';
 import { useForm } from 'react-hook-form';
 import { Auth } from 'aws-amplify';
+import { View } from 'react-native';
 import { AuthStyles } from './styles';
 import { ErrorMessage } from './components/ErrorMessage';
 import { AvailableValidationRules } from '../Form/validation';
@@ -12,6 +13,7 @@ import DigitsInput from '../Form/DigitsInput';
 import Form from '../Form/Form';
 import MaxWidthContainer from '../MaxWidthContainer';
 import TextInputComp from '../Form/TextInput';
+import Header from './Header';
 
 type ConfirmForm = {
   code: string;
@@ -19,7 +21,7 @@ type ConfirmForm = {
 };
 
 const MyConfirmSignUp = ({
-  error, goBack, confirmSignUp, isUserNameNeeded,
+  error, goBack, confirmSignUp, isUserNameNeeded, resend,
 }: ConfirmSignUpProps) => {
   const [errorMessage, setErrorMessage] = useState<string>();
 
@@ -32,13 +34,26 @@ const MyConfirmSignUp = ({
   };
 
   return (
-    <MaxWidthContainer withScrollView="keyboardAware" innerViewProps={{ style: { flex: 1, justifyContent: 'center', alignItems: 'center' } }}>
-      <Layout style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+    <>
+      <Header onPress={goBack} />
+      <MaxWidthContainer
+        withScrollView="keyboardAware"
+        outerViewProps={{
+          showsVerticalScrollIndicator: false,
+        }}
+        innerViewProps={{ style: { flex: 1 } }}
+        maxWidth={450}
+      >
+        <Layout style={{
+          marginHorizontal: 25,
+          backgroundColor: 'transparent',
 
-        <Text category="h1" style={AuthStyles.header}>Confirmez votre inscription</Text>
-        <Form<ConfirmForm> {...confirmForm}>
-          <>
-            {isUserNameNeeded
+        }}
+        >
+          <Text category="h1" style={AuthStyles.header}>Un code de confirmation vous a été envoyé par mail </Text>
+          <Form<ConfirmForm> {...confirmForm}>
+            <>
+              {isUserNameNeeded
             && (
             <TextInputComp
               name="email"
@@ -49,23 +64,42 @@ const MyConfirmSignUp = ({
               ]}
             />
             )}
-            <DigitsInput
-              name="code"
-              numberOfDigits={6}
-              label="Code de vérification"
-              validators={[
-                AvailableValidationRules.required,
-              ]}
-            />
+              <DigitsInput
+                name="code"
+                numberOfDigits={6}
+                label="Veuillez saisir ci-dessous le code à 6 chiffres"
+                labelStyle={{
+                  marginBottom: 30,
+                }}
+                validators={[
+                  AvailableValidationRules.required,
+                ]}
+              />
 
-            {errorMessage && <ErrorMessage message={errorMessage} />}
+              {errorMessage && <ErrorMessage message={errorMessage} />}
 
-            <Button size="large" appearance="outline" style={AuthStyles.button} onPress={confirmForm.handleSubmit((data) => confirm(data))}>Confirmer</Button>
-          </>
-        </Form>
-        <Button appearance="ghost" style={AuthStyles.button} onPress={goBack}>Retour vers à la connexion</Button>
-      </Layout>
-    </MaxWidthContainer>
+              <View style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                marginTop: 45,
+              }}
+              >
+                <Button appearance="ghost" onPress={resend}>Renvoyer le code</Button>
+                <Button
+                  size="medium"
+                  style={{
+                    width: 140,
+                  }}
+                  onPress={confirmForm.handleSubmit((data) => confirm(data))}
+                >
+                  Valider
+                </Button>
+              </View>
+            </>
+          </Form>
+        </Layout>
+      </MaxWidthContainer>
+    </>
   );
 };
 
@@ -73,20 +107,22 @@ interface ConfirmSignUpProps {
   error?: string
   goBack: () => void
   confirmSignUp: (code: string, username?: string) => void
+  resend: () => void
   isUserNameNeeded: boolean
 }
 
 export default class ConfirmSignUp extends AmplifyConfirmSignUp {
   confirm() {
     // @ts-expect-error : Cannot change AWS prop types
-    const { tmpPasswd } = this.props;
+    const { getTmpPasswd } = this.props;
     const { code } = this.state;
     // @ts-expect-error : AWS does not expose Types
     const username = this.getUsernameFromInput();
     Auth.confirmSignUp(username, code)
       .then(async () => {
-        if (tmpPasswd) {
-          Auth.signIn(username, tmpPasswd)
+        const passwd = getTmpPasswd();
+        if (passwd) {
+          Auth.signIn(username, passwd)
             .then(() => {
               // @ts-expect-error : AWS does not expose Types
               this.changeState('signedIn');
@@ -124,6 +160,11 @@ export default class ConfirmSignUp extends AmplifyConfirmSignUp {
             finalUsername = email;
           }
           this.setState({ code, email: finalUsername, error: null }, this.confirm);
+        }}
+        resend={() => {
+          // @ts-expect-error : AWS does not expose Types
+          const username = this.getUsernameFromInput();
+          Auth.resendSignUp(username);
         }}
         isUserNameNeeded={
           // @ts-expect-error : AWS does not expose Types

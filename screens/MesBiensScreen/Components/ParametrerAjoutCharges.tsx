@@ -56,12 +56,7 @@ const ParametrerAjoutCharges = () => {
   const [etape, setEtape] = useState(0);
 
   return (
-    <MaxWidthContainer outerViewProps={{
-      style: {
-        backgroundColor: '#efefef',
-      },
-    }}
-    >
+    <MaxWidthContainer>
 
       {/**
          *  I. Mon Budget

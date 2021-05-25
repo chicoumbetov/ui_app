@@ -143,6 +143,7 @@ export default PhoneNumberInputComp;
 const themedStyles = StyleService.create({
   container: {
     marginVertical: 8,
+    marginBottom: 20,
   },
   input: {
     paddingVertical: 5,

@@ -8,10 +8,7 @@ import MaxWidthContainer from '../../../components/MaxWidthContainer';
 
 const QuittanceLoyer2 = () => (
   // const onPdf = () => { navigation.navigate('PdfScreen'); };
-  <MaxWidthContainer outerViewProps={{
-    style: { backgroundColor: '#efefef' },
-  }}
-  >
+  <MaxWidthContainer>
 
     <Layout style={styles.container}>
       <Text category="h1" style={{ marginBottom: 6 }}>Générer une quittance de loyer</Text>

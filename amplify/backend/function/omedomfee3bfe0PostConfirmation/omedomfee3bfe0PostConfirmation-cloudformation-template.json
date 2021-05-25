@@ -2,6 +2,39 @@
   "AWSTemplateFormatVersion": "2010-09-09",
   "Description": "Lambda resource stack creation using Amplify CLI",
   "Parameters": {
+    "GROUP": {
+      "Type": "String",
+      "Default": ""
+    },
+    "modules": {
+      "Type": "String",
+      "Default": "",
+      "Description": "Comma-delimmited list of modules to be executed by a lambda trigger. Sent to resource as an env variable."
+    },
+    "resourceName": {
+      "Type": "String",
+      "Default": ""
+    },
+    "trigger": {
+      "Type": "String",
+      "Default": "true"
+    },
+    "functionName": {
+      "Type": "String",
+      "Default": ""
+    },
+    "roleName": {
+      "Type": "String",
+      "Default": ""
+    },
+    "parentResource": {
+      "Type": "String",
+      "Default": ""
+    },
+    "parentStack": {
+      "Type": "String",
+      "Default": ""
+    },
     "env": {
       "Type": "String"
     },
@@ -20,6 +53,14 @@
         },
         "NONE"
       ]
+    },
+    "IsProductionEnv": {
+      "Fn::Equals": [
+        {
+          "Ref": "env"
+        },
+        "prod"
+      ]
     }
   },
   "Resources": {
@@ -34,12 +75,12 @@
         "FunctionName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "S3Trigger9d22396d",
+            "omedomfee3bfe0PostConfirmation",
             {
               "Fn::Join": [
                 "",
                 [
-                  "S3Trigger9d22396d",
+                  "omedomfee3bfe0PostConfirmation",
                   "-",
                   {
                     "Ref": "env"
@@ -53,6 +94,26 @@
           "Variables": {
             "ENV": {
               "Ref": "env"
+            },
+            "MODULES": {
+              "Ref": "modules"
+            },
+            "REGION": {
+              "Ref": "AWS::Region"
+            },
+            "BRIDGE_API_CLIENT_ID": {
+              "Fn::If": [
+                "IsProductionEnv",
+                "pk_live_...",
+                "1d2ec5fd8cc64db580f33d2d09279535"
+              ]
+            },
+            "BRIDGE_API_CLIENT_SECRET": {
+              "Fn::If": [
+                "IsProductionEnv",
+                "pk_live_...",
+                "LGDTbzWMYntvuHGz0OPlqjMdpTJdUln9MXNKpSXKMu1wHe5tDbhhje7hPDh7EPgh"
+              ]
             }
           }
         },
@@ -80,12 +141,12 @@
         "RoleName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "S3Trigger9d22396dLambdaRole9d22396d",
+            "omedomfee3bfe0PostConfirmation",
             {
               "Fn::Join": [
                 "",
                 [
-                  "S3Trigger9d22396dLambdaRole9d22396d",
+                  "omedomfee3bfe0PostConfirmation",
                   "-",
                   {
                     "Ref": "env"
@@ -171,14 +232,14 @@
         ]
       }
     },
-    "Region": {
-      "Value": {
-        "Ref": "AWS::Region"
-      }
-    },
     "LambdaExecutionRole": {
       "Value": {
         "Ref": "LambdaExecutionRole"
+      }
+    },
+    "Region": {
+      "Value": {
+        "Ref": "AWS::Region"
       }
     }
   }

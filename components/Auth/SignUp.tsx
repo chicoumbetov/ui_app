@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { SignUp as AmplifySignUp } from 'aws-amplify-react-native';
 import {
-  Button, Card, Layout, Modal, Text,
+  Card, Layout, Modal, Text,
 } from '@ui-kitten/components';
 import { useForm } from 'react-hook-form';
 // @ts-ignore
 import TEST_ID from 'aws-amplify-react-native/dist/AmplifyTestIDs';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { View } from 'react-native';
 import { AuthStyles } from './styles';
 import { ErrorMessage } from './components/ErrorMessage';
 import TextInputComp from '../Form/TextInput';
@@ -16,6 +17,8 @@ import Form from '../Form/Form';
 import PhoneNumberInput from '../Form/PhoneNumberInput';
 import MaxWidthContainer from '../MaxWidthContainer';
 import WebView from '../WebView';
+import Header from './Header';
+import Button from '../Button';
 
 type SignUpForm = {
   firstname: string;
@@ -51,8 +54,16 @@ const MySignUp = ({
   };
 
   return (
-    <MaxWidthContainer withScrollView="keyboardAware" innerViewProps={{ style: { flex: 1, justifyContent: 'center', alignItems: 'center' } }}>
-      <Layout style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+    <>
+      <Header onPress={goBack} />
+      <MaxWidthContainer
+        withScrollView="keyboardAware"
+        outerViewProps={{
+          showsVerticalScrollIndicator: false,
+        }}
+        innerViewProps={{ style: { flex: 1 } }}
+        maxWidth={450}
+      >
 
         <Form<SignUpForm> {...signUpForm}>
           <Layout style={{
@@ -62,6 +73,7 @@ const MySignUp = ({
           }}
           >
             <Text category="h1" style={AuthStyles.header}>Créer votre compte</Text>
+            <Text category="s2" style={{ color: '#cecece', marginBottom: 20, marginTop: 10 }}>Tous les champs sont obligatoires</Text>
 
             <ErrorMessage message={errorMessage} />
             <TextInputComp
@@ -131,43 +143,32 @@ const MySignUp = ({
               </Card>
             </Modal>
 
-            <Layout style={{
-              flexDirection: 'row', justifyContent: 'space-between', backgroundColor: 'transparent',
+            <View style={{
+              flexDirection: 'row', justifyContent: 'space-between',
             }}
             >
+              <Button appearance="ghost" onPress={goConfirmCode}>Confirmez avec un code</Button>
               <Button
-                size="large"
+                size="medium"
                 style={{
                   width: 140,
-                  shadowColor: 'rgba(190, 190, 190, 0.5)',
-                  shadowOffset: {
-                    width: 0,
-                    height: 2,
-                  },
-                  shadowRadius: 2,
-                  shadowOpacity: 1,
-                  elevation: 2,
                 }}
                 onPress={
-                  signUpForm.handleSubmit((data) => {
-                    AsyncStorage.setItem('lastFirstname', data.firstname);
+                  signUpForm.handleSubmit(async (data) => {
                     submit(data);
                   })
                 }
               >
                 Valider
               </Button>
-            </Layout>
+            </View>
 
           </Layout>
         </Form>
 
-        <Layout style={{ flexDirection: 'row' }}>
-          <Button appearance="ghost" style={AuthStyles.button} onPress={goBack}>Back to Sign In</Button>
-          <Button appearance="ghost" style={AuthStyles.button} onPress={goConfirmCode}>Confirmez avec un code</Button>
-        </Layout>
-      </Layout>
-    </MaxWidthContainer>
+        <Layout style={{ flexDirection: 'row' }} />
+      </MaxWidthContainer>
+    </>
   );
 };
 
@@ -228,14 +229,19 @@ export default class SignUp extends AmplifySignUp {
         displayOrder: 5,
         testID: TEST_ID.AUTH.PHONE_INPUT,
       },
+      {
+        label: 'Opt In',
+        key: 'custom:optIn',
+        displayOrder: 6,
+      },
     ];
     return (
       <MySignUp
         error={this.state.error}
         signUp={(userInfo) => {
-          setTmpPasswd(userInfo.password);
           // @ts-expect-error : AWS does not expose Types
           this.setState({ ...userInfo, error: null }, this.signUp);
+          setTmpPasswd(userInfo.password);
         }}
         // @ts-expect-error : AWS does not expose Types
         goBack={() => this.changeState('signIn')}

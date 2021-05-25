@@ -1,5 +1,7 @@
+// Obligatoire pour UUID en React Native
+import 'react-native-get-random-values';
 import { StatusBar } from 'expo-status-bar';
-import React, { useState } from 'react';
+import React, { FC, useRef } from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Platform } from 'react-native';
 import AppLoading from 'expo-app-loading';
@@ -9,7 +11,7 @@ import * as eva from '@eva-design/eva';
 
 import { EvaIconsPack } from '@ui-kitten/eva-icons';
 
-import Amplify from 'aws-amplify';
+import Amplify, { I18n } from 'aws-amplify';
 
 import { Authenticator } from 'aws-amplify-react-native';
 
@@ -30,6 +32,7 @@ import {
 
 import client, { Rehydration } from './src/Apollo';
 import { UserContext, UserProvider } from './src/API/UserContext';
+import ErrorMap from './components/Auth/ErrorMap';
 
 Amplify.configure({
   ...awsExports,
@@ -51,9 +54,16 @@ const fonts = {
   Houschka_Rounded_Alt_Bold_Regular: require('./assets/fonts/Houschka_Rounded_Alt_Bold_Regular.ttf'),
 };
 
+I18n.setLanguage('fr');
+I18n.putVocabularies({
+  'An account with the given email already exists.': 'Un compte avec une adresse e-mail identique existe déjà.',
+});
+
 function App() {
   const colorScheme = useColorScheme();
-  const [tmpPasswd, setTmpPasswd] = useState<string>();
+  const tmpPasswd = useRef<string>();
+  const setTmpPasswd = (passwd: string) => tmpPasswd.current = passwd;
+  const getTmpPasswd = () => tmpPasswd.current;
 
   const assetLoader = useAssetLoader({ fonts });
 
@@ -87,6 +97,8 @@ function App() {
     );
   }
 
+  const AuthContainer: FC<{}> = ({ children }) => <Layout style={{ flex: 1 }}>{children}</Layout>;
+
   return (
     <SafeAreaProvider>
       <IconRegistry icons={[EvaIconsPack]} />
@@ -99,8 +111,9 @@ function App() {
         <ApolloProvider client={client}>
           <Rehydration>
             <UserProvider>
-              <UserContext.Consumer>
-                {
+              <Layout style={{ flex: 1 }}>
+                <UserContext.Consumer>
+                  {
                   ({ cognitoUser }) => (
                     cognitoUser ? (
                       <Navigation colorScheme={colorScheme} />
@@ -108,18 +121,22 @@ function App() {
                       <Authenticator
                         hideDefault
                         usernameAttributes="email"
+                        container={AuthContainer}
+                        onStateChange={(e) => console.log(e)}
+                        errorMessage={ErrorMap}
                       >
                         <SignIn />
                         <ForgotPassword />
                         {/* @ts-expect-error : Cannot change AWS prop types */}
                         <SignUp setTmpPasswd={setTmpPasswd} />
                         {/* @ts-expect-error : Cannot change AWS prop types */}
-                        <ConfirmSignUp tmpPasswd={tmpPasswd} />
+                        <ConfirmSignUp getTmpPasswd={getTmpPasswd} />
                       </Authenticator>
                     )
                   )
                 }
-              </UserContext.Consumer>
+                </UserContext.Consumer>
+              </Layout>
             </UserProvider>
           </Rehydration>
         </ApolloProvider>

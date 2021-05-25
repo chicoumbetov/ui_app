@@ -1,10 +1,11 @@
 import React from 'react';
-import { StyleSheet, TouchableOpacity } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { Layout, Text } from '@ui-kitten/components';
 
 import { useNavigation } from '@react-navigation/native';
 import { Icon as IconUIKitten } from '@ui-kitten/components/ui/icon/icon.component';
 import MaxWidthContainer from '../../components/MaxWidthContainer';
+import Card from '../../components/Card';
 
 const MonAssistant = () => {
   const navigation = useNavigation();
@@ -21,9 +22,6 @@ const MonAssistant = () => {
     <MaxWidthContainer
       withScrollView="keyboardAware"
       outerViewProps={{
-        style: {
-          backgroundColor: '#efefef',
-        },
         showsVerticalScrollIndicator: false,
       }}
     >
@@ -31,7 +29,7 @@ const MonAssistant = () => {
         <Text category="h1" style={styles.title}>Mon Assistant</Text>
         <Text category="h2" style={styles.subtitle}>Générer les documents</Text>
 
-        <TouchableOpacity onPress={onDeclarationImpots} style={styles.docs}>
+        <Card onPress={onDeclarationImpots} style={styles.docs}>
           <Text category="h5" status="basic">Aide à la déclaration d'impôts</Text>
           <IconUIKitten
             name="arrow-ios-forward"
@@ -40,9 +38,9 @@ const MonAssistant = () => {
               height: 16, width: 16, marginRight: 5, alignItems: 'center',
             }}
           />
-        </TouchableOpacity>
+        </Card>
 
-        <TouchableOpacity onPress={onQuittanceLoyer} style={styles.docs}>
+        <Card onPress={onQuittanceLoyer} style={styles.docs}>
           <Text category="h5" status="basic">Quittance de loyer</Text>
           <IconUIKitten
             name="arrow-ios-forward"
@@ -51,7 +49,7 @@ const MonAssistant = () => {
               height: 16, width: 16, marginRight: 5, alignItems: 'center',
             }}
           />
-        </TouchableOpacity>
+        </Card>
 
       </Layout>
     </MaxWidthContainer>
@@ -60,14 +58,8 @@ const MonAssistant = () => {
 };
 
 const styles = StyleSheet.create({
-  containerOut: {
-    flex: 1,
-    backgroundColor: 'rgba(246, 246, 246, 0.5)',
-  },
   container: {
     padding: 24,
-    // marginVertical: 13,
-    backgroundColor: 'rgba(246, 246, 246, 0.5)',
   },
   title: {
     marginTop: 13,
@@ -81,22 +73,9 @@ const styles = StyleSheet.create({
   docs: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-
     paddingHorizontal: 25,
     paddingVertical: 30,
-    borderWidth: 1,
-    borderRadius: 10,
     marginBottom: 29,
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowRadius: 2,
-    shadowOpacity: 1,
-
-    backgroundColor: '#fff',
-    borderColor: 'transparent',
-    shadowColor: '#dedede',
   },
 });
 

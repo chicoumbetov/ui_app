@@ -162,12 +162,15 @@ export default function Form<T>({
         },
       });
     }
-    return React.createElement(child.type, {
-      ...{
-        ...child.props,
-        key: keys,
-      },
-    });
+    // @ts-ignore
+    if (child) {
+      return React.createElement(child.type, {
+        ...{
+          ...child.props,
+          key: keys,
+        },
+      });
+    }
   };
   // eslint-disable-next-line max-len,@typescript-eslint/no-shadow
   const renderInputs = (children: React.ReactElement) => (Array.isArray(children) ? [...children] : [children])

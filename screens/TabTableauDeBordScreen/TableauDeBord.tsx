@@ -5,11 +5,9 @@
  */
 
 import React, { useEffect } from 'react';
+import { Icon as IconUIKitten, Text } from '@ui-kitten/components';
 import {
-  Button, Icon as IconUIKitten, Layout, Text,
-} from '@ui-kitten/components';
-import {
-  FlatList, StyleSheet, TouchableOpacity, View,
+  StyleSheet, TouchableOpacity, View,
 } from 'react-native';
 
 import { useLinkTo } from '@react-navigation/native';
@@ -20,6 +18,9 @@ import Immeuble from '../../assets/Omedom_Icons_svg/Logement/immeuble.svg';
 import MaxWidthContainer from '../../components/MaxWidthContainer';
 import MonBienResume from '../../components/MonBienResume';
 import { useRealEstateList } from '../../src/API/RealEstate';
+import Separator from '../../components/Separator';
+import Card from '../../components/Card';
+import Button from '../../components/Button';
 
 function TableauDeBord() {
   const linkTo = useLinkTo();
@@ -50,54 +51,53 @@ function TableauDeBord() {
     <MaxWidthContainer
       withScrollView="keyboardAware"
       outerViewProps={{
-        style: { backgroundColor: '#efefef' },
         showsVerticalScrollIndicator: false,
       }}
     >
+      <Separator />
       {/**
        *  Trésorerie section
        */}
-      <Layout style={styles.container}>
+      <View style={styles.container}>
         <Text category="h1">
           Trésorerie
         </Text>
-        <Layout style={{
-          flexDirection: 'column', marginTop: 27, padding: 15, paddingBottom: 20, borderRadius: 10,
+        <Card style={{
+          flexDirection: 'row',
+          marginTop: 27,
         }}
         >
-          <Layout style={{ flexDirection: 'row' }}>
 
-            <Layout style={styles.oneThirdBlock}>
-              <Text category="h6" appearance="hint" style={styles.text}>Dernier crédit</Text>
+          <View style={styles.oneThirdBlock}>
+            <Text category="h6" appearance="hint" style={styles.text}>Dernier crédit</Text>
 
-              <View style={styles.mouvementImage}>
-                <Text category="h3" status="success">+ 500 €</Text>
-                <MaisonVert height={42} width={44} />
-              </View>
-            </Layout>
+            <View style={styles.mouvementImage}>
+              <Text category="h3" status="success">+ 500 €</Text>
+              <MaisonVert height={42} width={44} />
+            </View>
+          </View>
 
-            <Layout style={styles.oneThirdBlock}>
-              <Text category="h6" appearance="hint" style={styles.text}>Dernier débit</Text>
+          <View style={styles.oneThirdBlock}>
+            <Text category="h6" appearance="hint" style={styles.text}>Dernier débit</Text>
 
-              <View style={styles.mouvementImage}>
-                <Text category="h3" status="danger">- 80 €</Text>
-                <Immeuble height={42} width={44} />
-              </View>
-            </Layout>
+            <View style={styles.mouvementImage}>
+              <Text category="h3" status="danger">- 80 €</Text>
+              <Immeuble height={42} width={44} />
+            </View>
+          </View>
 
-            <Layout style={styles.oneThirdBlock}>
-              <Text category="h6" appearance="hint" style={styles.text}>
-                Prochain mouvement
-              </Text>
+          <View style={styles.oneThirdBlock}>
+            <Text category="h6" appearance="hint" style={styles.text}>
+              Prochain mouvement
+            </Text>
 
-              <View style={styles.mouvementImage}>
-                <Text category="h3" status="danger">- 160 €</Text>
-                <MaisonVert height={42} width={44} />
-              </View>
-            </Layout>
+            <View style={styles.mouvementImage}>
+              <Text category="h3" status="danger">- 160 €</Text>
+              <MaisonVert height={42} width={44} />
+            </View>
+          </View>
 
-          </Layout>
-        </Layout>
+        </Card>
         <Text
           category="h5"
           status="info"
@@ -106,26 +106,19 @@ function TableauDeBord() {
         >
           Accéder à la trésorerie
         </Text>
-      </Layout>
+      </View>
+      <Separator />
 
       {/**
       *  Mes Biens section
       */}
-      <Layout style={styles.containerBiens}>
+      <View style={styles.containerBiens}>
         <Text category="h1">
           Mes Biens
         </Text>
-
-        <FlatList
-          data={comptesData}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <View>
-              <MonBienResume title={item.title} id={item.id} />
-            </View>
-          )}
-        />
-
+        {
+          comptesData.map((item) => <MonBienResume title={item.title} id={item.id} key={item.id} />)
+        }
         <Button
           size="large"
           onPress={() => { onAjoutBien(); }}
@@ -133,19 +126,16 @@ function TableauDeBord() {
         >
           Ajouter un nouveau bien
         </Button>
-      </Layout>
-
+      </View>
+      <Separator />
       {/**
        *  Notifications
        */}
-      <Layout style={styles.container}>
+      <View style={styles.container}>
         <Text category="h1" style={{ marginTop: -5 }}>
           Notifications
         </Text>
-        <Layout style={{
-          flexDirection: 'column', marginTop: 27, padding: 15, paddingBottom: 20, borderRadius: 10,
-        }}
-        >
+        <Card style={{ marginTop: 27 }}>
 
           <TouchableOpacity
             onPress={() => {}}
@@ -180,7 +170,7 @@ function TableauDeBord() {
 
           </TouchableOpacity>
 
-        </Layout>
+        </Card>
         <Text
           category="h5"
           status="info"
@@ -189,7 +179,7 @@ function TableauDeBord() {
         >
           Consulter les notifications
         </Text>
-      </Layout>
+      </View>
     </MaxWidthContainer>
 
   );
@@ -197,14 +187,10 @@ function TableauDeBord() {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#f6f6f6',
-    marginTop: 12,
     paddingTop: 38,
     paddingHorizontal: 26,
   },
   containerBiens: {
-    backgroundColor: '#f6f6f6',
-    marginTop: 12,
     paddingTop: 38,
     paddingHorizontal: 23,
   },

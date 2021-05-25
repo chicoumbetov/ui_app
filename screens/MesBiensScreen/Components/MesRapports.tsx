@@ -2,9 +2,10 @@ import React, { useEffect } from 'react';
 import { useLinkTo, useNavigation } from '@react-navigation/native';
 import { Text, useTheme } from '@ui-kitten/components';
 
-import { StyleSheet, TouchableOpacity } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { Icon as IconUIKitten } from '@ui-kitten/components/ui/icon/icon.component';
 import MaxWidthContainer from '../../../components/MaxWidthContainer';
+import Card from '../../../components/Card';
 
 const MesRapports = () => {
   const navigation = useNavigation();
@@ -36,12 +37,11 @@ const MesRapports = () => {
       {/**
        * Par charges
        * */}
-      <TouchableOpacity
+      <Card
         onPress={() => { allerMesCharges(); }}
-        style={[
-          styles.docs,
-          { backgroundColor: theme['color-basic-100'] },
-        ]}
+        style={
+            styles.docs
+          }
       >
         <Text category="h5" status="basic">Par charges</Text>
         <IconUIKitten
@@ -51,17 +51,16 @@ const MesRapports = () => {
             height: 17, width: 17,
           }}
         />
-      </TouchableOpacity>
+      </Card>
 
       {/**
        * Par biens
        * */}
-      <TouchableOpacity
+      <Card
         onPress={() => { allerMesRapportBiens1(); }}
-        style={[
-          styles.docs,
-          { backgroundColor: theme['color-basic-100'] },
-        ]}
+        style={
+          styles.docs
+}
       >
         <Text category="h5" status="basic">Par biens</Text>
         <IconUIKitten
@@ -72,7 +71,7 @@ const MesRapports = () => {
           }}
         />
 
-      </TouchableOpacity>
+      </Card>
     </MaxWidthContainer>
   );
 };
@@ -86,17 +85,6 @@ const styles = StyleSheet.create({
 
     paddingHorizontal: 23,
     paddingVertical: 29.5,
-    borderWidth: 1,
-    borderRadius: 10,
     marginBottom: 29,
-
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowRadius: 2,
-    shadowOpacity: 1,
-    borderColor: 'transparent',
-    shadowColor: '#dedede',
   },
 });

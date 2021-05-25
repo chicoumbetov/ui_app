@@ -49,9 +49,6 @@ const ParametrerAjoutRevenu = () => {
     <MaxWidthContainer
       withScrollView="keyboardAware"
       outerViewProps={{
-        style: {
-          backgroundColor: '#efefef',
-        },
         showsVerticalScrollIndicator: false,
       }}
     >

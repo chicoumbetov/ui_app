@@ -8,12 +8,7 @@ import MaxWidthContainer from '../../../components/MaxWidthContainer';
 
 const DeclarationImpots = () => (
   // const onPdf = () => { navigation.navigate('PdfScreen'); };
-  <MaxWidthContainer outerViewProps={{
-    style: {
-      backgroundColor: '#efefef',
-    },
-  }}
-  >
+  <MaxWidthContainer>
 
     <Layout style={styles.container}>
       <Text category="h1" style={{ marginBottom: 6 }}>Paramétrer mon aide à la déclaration d'impôts</Text>

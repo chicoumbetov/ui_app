@@ -9,7 +9,7 @@ import {
   Layout, Text, Icon as IconUIKitten, useTheme,
 } from '@ui-kitten/components';
 import {
-  StyleSheet, TouchableOpacity,
+  StyleSheet, TouchableOpacity, View,
 } from 'react-native';
 import {
   useLinkTo, useNavigation, useRoute,
@@ -30,6 +30,8 @@ import clientData from '../../mockData/clientDATA';
 import { useGetRealEstate } from '../../src/API/RealEstate';
 import { TabMesBiensParamList } from '../../types';
 import { Upload } from '../../utils/S3FileStorage';
+import Card from '../../components/Card';
+import Separator from '../../components/Separator';
 
 function DetailsBien() {
   const route = useRoute<RouteProp<TabMesBiensParamList, 'detail-bien'>>();
@@ -67,9 +69,6 @@ function DetailsBien() {
     <MaxWidthContainer
       withScrollView="keyboardAware"
       outerViewProps={{
-        style: {
-          backgroundColor: '#efefef',
-        },
         showsVerticalScrollIndicator: false,
       }}
     >
@@ -77,17 +76,14 @@ function DetailsBien() {
       {/**
        *  I. Details du bien
        */}
-      <Layout style={[
-        styles.container,
-        { backgroundColor: '#f6f6f6' }]}
-      >
+      <Layout style={styles.container}>
         <Text category="h1" status="basic">
           Détails du bien
           {/**
           {route.params.id}
            */}
         </Text>
-        <Layout style={{ alignItems: 'center', backgroundColor: 'transparent', marginTop: 30 }}>
+        <Layout style={{ alignItems: 'center', marginTop: 30 }}>
           <MaisonVert
             height={100}
             width={100}
@@ -103,157 +99,139 @@ function DetailsBien() {
       {/**
        *  II. Compteurs
        */}
+      <Separator />
       <Layout style={styles.container}>
         <Text category="s2" style={{ marginBottom: 30 }}>
           Compteurs
         </Text>
 
-        <Layout style={{
-          flexDirection: 'row', borderRadius: 10, paddingVertical: 20,
-        }}
-        >
-          <Layout style={styles.oneThirdBlock}>
+        <Card style={{ flexDirection: 'row' }}>
+          <View style={styles.oneThirdBlock}>
             <Text category="h6" appearance="hint" style={styles.text}>Dernier mouvement</Text>
             <Text category="h3" status="success" style={{ marginTop: 14 }}>+ 500 €</Text>
-          </Layout>
+          </View>
 
-          <Layout style={styles.oneThirdBlock}>
+          <View style={styles.oneThirdBlock}>
             <Text category="h6" appearance="hint" style={styles.text}>
               Prochaine dépense
             </Text>
             <Text category="h3" status="danger" style={{ marginTop: 14 }}>- 160 €</Text>
-          </Layout>
+          </View>
 
-          <Layout style={styles.oneThirdBlock}>
+          <View style={styles.oneThirdBlock}>
             <Text category="h6" appearance="hint" style={styles.text}>
               Réntabilité du bien
             </Text>
             <Text category="h3" status="warning" style={{ marginTop: 14 }}>60 %</Text>
-          </Layout>
-        </Layout>
+          </View>
+        </Card>
 
       </Layout>
 
       {/**
        *  III. Budget
        */}
+      <Separator />
       <Layout style={styles.container}>
 
         <Text category="s2" style={{ marginBottom: 30 }}>
           Budget
         </Text>
         {/**   1   */}
-        <Layout style={styles.docs}>
-          <TouchableOpacity
-            onPress={allerMonBudget}
-            style={{
-              flexDirection: 'row', alignItems: 'center',
-            }}
+        <Card
+          onPress={allerMonBudget}
+          style={[styles.docs, {
+            alignItems: 'center',
+            justifyContent: 'center',
+          }]}
+        >
+          <Icon name="calculator" size={33} color={theme['color-success-400']} style={{ marginRight: 10 }} />
+          <Text style={{
+            fontSize: 17, fontFamily: 'HouschkaRoundedDemiBold', letterSpacing: 0.2,
+          }}
           >
-            <Icon name="calculator" size={33} color={theme['color-success-400']} style={{ marginRight: 10 }} />
-            <Text style={{
-              fontSize: 17, fontFamily: 'HouschkaRoundedDemiBold', letterSpacing: 0.2,
-            }}
-            >
-              Mon Budget
-            </Text>
-          </TouchableOpacity>
-        </Layout>
+            Mon Budget
+          </Text>
+        </Card>
 
       </Layout>
 
       {/**
        *  IV. Nos Services
        */}
+      <Separator />
       <Layout style={styles.container}>
 
         <Text category="s2" style={{ marginBottom: 30 }}>
           Nos Services
         </Text>
         {/**   1   */}
-        <Layout
-          style={[
-            styles.docs,
-            { marginBottom: 10 },
-          ]}
+        <Card
+          onPress={allerTresorerie}
+          style={[styles.docs, {
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginBottom: 10,
+          }]}
         >
-
-          <TouchableOpacity
-            onPress={allerTresorerie}
-            style={{
-              flexDirection: 'row', alignItems: 'center',
-            }}
-          >
-            <Icon name="money" size={30} color={theme['color-success-400']} style={{ marginRight: 10 }} />
-            <Text category="h5">
-              Ma Trésorerie
-            </Text>
-
-          </TouchableOpacity>
-
-        </Layout>
+          <Icon name="money" size={30} color={theme['color-success-400']} style={{ marginRight: 10 }} />
+          <Text category="h5">
+            Ma Trésorerie
+          </Text>
+        </Card>
 
         {/**   2   */}
-        <Layout style={[
-          styles.docs,
-          { marginBottom: 10 },
-        ]}
+        <Card
+          onPress={allerMesRapports}
+          style={[styles.docs, {
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginBottom: 10,
+          }]}
         >
-
-          <TouchableOpacity
-            onPress={allerMesRapports}
+          <IconUIKitten
+            name="trending-up-outline"
+            fill={theme['color-primary-400']}
             style={{
-              flexDirection: 'row', alignItems: 'center',
+              height: 30, width: 30, marginRight: 10,
             }}
-          >
-
-            <IconUIKitten
-              name="trending-up-outline"
-              fill={theme['color-primary-400']}
-              style={{
-                height: 30, width: 30, marginRight: 10,
-              }}
-            />
-            <Text category="h5">
-              Mes Rapports
-            </Text>
-          </TouchableOpacity>
-
-        </Layout>
+          />
+          <Text category="h5">
+            Mes Rapports
+          </Text>
+        </Card>
 
         {/**   3   */}
-        <Layout style={styles.docs}>
-
-          <TouchableOpacity
-            onPress={allerMonAssistant}
+        <Card
+          onPress={allerMonAssistant}
+          style={[styles.docs, {
+            alignItems: 'center',
+            justifyContent: 'center',
+          }]}
+        >
+          <IconUIKitten
+            name="file-text-outline"
+            fill={theme['color-primary-400']}
             style={{
-              flexDirection: 'row', alignItems: 'center',
+              height: 30, width: 30, marginRight: 10,
             }}
-          >
-            <IconUIKitten
-              name="file-text-outline"
-              fill={theme['color-primary-400']}
-              style={{
-                height: 30, width: 30, marginRight: 10,
-              }}
-            />
-            <Text category="h5">
-              Mon Assistant
-            </Text>
-
-          </TouchableOpacity>
-        </Layout>
+          />
+          <Text category="h5">
+            Mon Assistant
+          </Text>
+        </Card>
 
       </Layout>
 
       {/**
        *  V. Characteristiques
        */}
+      <Separator />
       <Layout style={styles.container}>
         <Text category="s2" style={{ marginBottom: 30 }}>
           Charactéristiques
         </Text>
-        <Layout style={styles.compteSection}>
+        <Card style={styles.compteSection}>
           {/* use SectionList to render several accounts with its types and details */}
           <Text category="h6" status="basic">Localisation</Text>
           <Text category="h6" appearance="hint" style={{ marginTop: 6 }}>
@@ -283,7 +261,7 @@ function DetailsBien() {
           <Text category="h6" appearance="hint" style={{ marginTop: 5 }}>
             {data?.getRealEstate?.detentionPart || undefined}
           </Text>
-        </Layout>
+        </Card>
 
         <TouchableOpacity onPress={allerModifierCharacteristics}>
           <Text category="h5" status="info" style={styles.buttonText}>Modifier le bien</Text>
@@ -293,11 +271,12 @@ function DetailsBien() {
       {/**
        *  VI. Géstion des locataires
        */}
+      <Separator />
       <Layout style={styles.container}>
         <Text category="s2" style={{ marginBottom: 30 }}>
           Géstion des locataires
         </Text>
-        <Layout style={styles.compteSection}>
+        <Card style={styles.compteSection}>
           {/* use SectionList to render several accounts with its types and details */}
           <Text category="h6" status="basic">
             {clientData.prenom}
@@ -323,7 +302,7 @@ function DetailsBien() {
               {`${tenant?.firstname} ${tenant?.endDate}`}
             </Text>
           )) || undefined}
-        </Layout>
+        </Card>
 
         <Layout style={styles.button}>
           <TouchableOpacity onPress={() => {}}>
@@ -340,29 +319,16 @@ function DetailsBien() {
       {/**
        *  VII. Documents
        */}
+      <Separator />
       <Layout style={styles.container}>
         <Text category="s2" style={{ marginBottom: 30 }}>
           Documents
         </Text>
-        <Layout style={styles.docs}>
+        <Card style={styles.docs}>
           <Text category="p2">Aide_Déclaration_Impôts_2021</Text>
 
-          <Layout style={{ flexDirection: 'row' }}>
-            <TouchableOpacity onPress={async () => {
-              // console.log('should');
-              const doc = await DocumentPicker.getDocumentAsync();
-              const key = Upload(doc, `biens/${route.params.id}/documents/`);
-              console.log(key);
-            }}
-            >
-              <IconUIKitten name="cloud-download" fill="#b5b5b5" style={{ height: 14, width: 14, marginRight: 24 }} />
-            </TouchableOpacity>
-
-            <TouchableOpacity onPress={() => {}}>
-              <IconUIKitten name="eye" fill="#b5b5b5" style={{ height: 16.5, width: 16.5, paddingRight: 3.5 }} />
-            </TouchableOpacity>
-          </Layout>
-        </Layout>
+          <IconUIKitten name="cloud-download" fill="#b5b5b5" style={{ height: 17, width: 17 }} />
+        </Card>
 
         <Layout style={styles.button}>
           <TouchableOpacity onPress={async () => {
@@ -384,30 +350,28 @@ function DetailsBien() {
       {/**
        *  VIII. Partager votre bien
        */}
+      <Separator />
       <Layout style={styles.container}>
         <Text category="s2" style={{ marginBottom: 30 }}>
           Partager votre bien
         </Text>
-        <Layout style={styles.docs}>
 
-          <Layout style={{
-            flexDirection: 'row', backgroundColor: 'transparent', alignItems: 'center',
-          }}
-          >
-            <WomanAvatar height={50} width={50} style={{ marginRight: 18 }} />
+        <Card style={[styles.docs, {
+          justifyContent: 'flex-start',
+        }]}
+        >
+          <WomanAvatar height={50} width={50} style={{ marginRight: 18 }} />
 
-            <Layout style={{ flexDirection: 'column' }}>
-              <Text category="p1" status="basic">
-                Marie Dupont
-              </Text>
-              <Text category="p2" appearance="hint">
-                Lecture Seule
-              </Text>
-            </Layout>
+          <View style={{ flexDirection: 'column' }}>
+            <Text category="p1" status="basic">
+              Marie Dupont
+            </Text>
+            <Text category="p2" appearance="hint">
+              Lecture Seule
+            </Text>
+          </View>
 
-          </Layout>
-
-        </Layout>
+        </Card>
 
         <Layout style={styles.button}>
           <TouchableOpacity onPress={allerPartagerBien}>
@@ -423,6 +387,7 @@ function DetailsBien() {
       {/**
        *  Supprimer le bien
        */}
+      <Separator />
       <Layout style={[styles.container, { alignItems: 'center' }]}>
         <Text category="h5" status="danger" style={{ marginVertical: 20 }}>
           Supprimer le bien
@@ -437,8 +402,6 @@ function DetailsBien() {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#f6f6f6',
-    marginBottom: 12,
     paddingVertical: 25,
     paddingHorizontal: 26,
   },
@@ -460,30 +423,14 @@ const styles = StyleSheet.create({
   compteSection: {
     paddingVertical: 24,
     paddingHorizontal: 26.5,
-    borderRadius: 10,
   },
 
   // Aide Declaration Impots
   docs: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-
     paddingHorizontal: 22,
     paddingTop: 28,
-    paddingBottom: 20,
-    borderWidth: 1,
-    borderRadius: 10,
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowRadius: 2,
-    shadowOpacity: 1,
-
-    backgroundColor: '#fff',
-    fontWeight: 'normal',
-    borderColor: 'transparent',
-    shadowColor: '#dedede',
   },
 
   // Ajouter Supprimer buttons

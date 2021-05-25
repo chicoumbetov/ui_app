@@ -21,7 +21,8 @@ type MaxWidthContainerProps = ({
   withScrollView: false;
   outerViewProps?: ViewProps; }) & {
   innerViewProps?: ViewProps;
-  children?: React.ReactNode
+  children?: React.ReactNode;
+  maxWidth?: number;
 };
 
 type OuterViewType = typeof View | typeof ScrollView | typeof KeyboardAwareScrollView;
@@ -29,7 +30,7 @@ type OuterViewPros = ViewProps | ScrollViewProps | KeyboardAwareScrollViewProps;
 
 export default function MaxWidthContainer(props: MaxWidthContainerProps): JSX.Element {
   const {
-    withScrollView, outerViewProps, innerViewProps, children,
+    withScrollView, outerViewProps, innerViewProps, children, maxWidth = 780,
   } = props;
   /**
    First option around dummy data - View
@@ -61,6 +62,7 @@ export default function MaxWidthContainer(props: MaxWidthContainerProps): JSX.El
     finalOuterProps = { style: finalOuterViewStyle, ...otherOuterViewProps };
   } else {
     const {
+      style: scrollViewStyle,
       contentContainerStyle: outerViewStyle,
       ...otherOuterViewProps
     } = outerViewProps as ScrollViewProps || {};
@@ -68,7 +70,12 @@ export default function MaxWidthContainer(props: MaxWidthContainerProps): JSX.El
       styles.outerBaseStyle,
       outerViewStyle,
     ]);
-    finalOuterProps = { contentContainerStyle: finalOuterViewStyle, ...otherOuterViewProps };
+    const finalScrollViewStyle = StyleSheet.flatten([
+      { width: '100%' },
+      scrollViewStyle,
+    ]);
+
+    finalOuterProps = { style: finalScrollViewStyle, contentContainerStyle: finalOuterViewStyle, ...otherOuterViewProps };
   }
 
   /**
@@ -78,6 +85,9 @@ export default function MaxWidthContainer(props: MaxWidthContainerProps): JSX.El
 
   const finalInnerViewStyle = StyleSheet.flatten([
     styles.innerBaseStyle,
+    {
+      maxWidth,
+    },
     innerViewStyle,
   ]);
 
@@ -100,9 +110,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
+    width: '100%',
   },
   innerBaseStyle: {
-    maxWidth: 780,
+    width: '100%',
     flex: 1,
   },
 });

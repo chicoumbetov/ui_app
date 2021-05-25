@@ -34,7 +34,6 @@ const Faq = () => {
   return (
     <MaxWidthContainer outerViewProps={{
       style: {
-        backgroundColor: '#efefef',
         margin: 30,
       },
     }}

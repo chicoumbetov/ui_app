@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { ForgotPassword as AmplifyForgotPassword } from 'aws-amplify-react-native';
-import { KeyboardAvoidingView, Platform } from 'react-native';
+import { KeyboardAvoidingView, Platform, View } from 'react-native';
 import {
   Layout, Button, Text,
 } from '@ui-kitten/components';
@@ -12,6 +12,7 @@ import { AvailableValidationRules } from '../Form/validation';
 import TextInputComp from '../Form/TextInput';
 import DigitsInput from '../Form/DigitsInput';
 import MaxWidthContainer from '../MaxWidthContainer';
+import Header from './Header';
 
 type ResetForm = {
   email: string;
@@ -32,31 +33,57 @@ const MyForgotPassword = ({
   const reset = (data: ResetForm) => resetPassword(data.email);
 
   return (
-    <MaxWidthContainer withScrollView="keyboardAware" innerViewProps={{ style: { flex: 1, justifyContent: 'center', alignItems: 'center' } }}>
-      <Layout style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+    <>
+      <Header onPress={goBack} />
+      <MaxWidthContainer
+        withScrollView="keyboardAware"
+        outerViewProps={{
+          showsVerticalScrollIndicator: false,
+        }}
+        innerViewProps={{ style: { flex: 1 } }}
+        maxWidth={450}
+      >
+        <Layout style={{
+          marginHorizontal: 25,
+          backgroundColor: 'transparent',
 
-        <Text category="h1" style={AuthStyles.header}>Mot de passe oublié</Text>
+        }}
+        >
 
-        <Form<ResetForm> {...resetForm}>
-          <>
-            <TextInputComp
-              name="email"
-              placeholder="Votre e-mail"
-              validators={[
-                AvailableValidationRules.required,
-                AvailableValidationRules.email,
-              ]}
-            />
+          <Text category="h1" style={AuthStyles.header}>Mot de passe oublié</Text>
 
-            {errorMessage && <ErrorMessage message={errorMessage} />}
+          <Form<ResetForm> {...resetForm}>
+            <>
+              <TextInputComp
+                name="email"
+                placeholder="Votre e-mail"
+                validators={[
+                  AvailableValidationRules.required,
+                  AvailableValidationRules.email,
+                ]}
+              />
 
-            <Button size="large" appearance="outline" style={AuthStyles.button} onPress={resetForm.handleSubmit((data) => reset(data))}>Envoyer</Button>
-          </>
-        </Form>
-
-        <Button appearance="ghost" style={AuthStyles.button} onPress={goBack}>Retour à la connexion</Button>
-      </Layout>
-    </MaxWidthContainer>
+              {errorMessage && <ErrorMessage message={errorMessage} />}
+              <View style={{
+                flexDirection: 'row',
+                justifyContent: 'flex-end',
+              }}
+              >
+                <Button
+                  size="medium"
+                  style={{
+                    width: 140,
+                  }}
+                  onPress={resetForm.handleSubmit((data) => reset(data))}
+                >
+                  Envoyer
+                </Button>
+              </View>
+            </>
+          </Form>
+        </Layout>
+      </MaxWidthContainer>
+    </>
   );
 };
 
@@ -96,7 +123,7 @@ const MyNewPassword = ({ error, goBack, setNewPassword }: NewPasswordProps) => {
 
             {errorMessage && <ErrorMessage message={errorMessage} />}
 
-            <Button size="large" style={AuthStyles.button} onPress={newPasswordForm.handleSubmit((data) => submit(data))}>Enregistrer</Button>
+            <Button size="medium" style={AuthStyles.button} onPress={newPasswordForm.handleSubmit((data) => submit(data))}>Enregistrer</Button>
           </>
         </Form>
         <Button appearance="ghost" style={AuthStyles.button} onPress={goBack}>Retour à la connexion</Button>

@@ -11,12 +11,7 @@ const TresoMouvementPage1 = ({ compte }) => {
   const [client, setClient] = useState(comptesData);
 
   return (
-    <MaxWidthContainer outerViewProps={{
-      style: {
-        backgroundColor: '#efefef',
-      },
-    }}
-    >
+    <MaxWidthContainer>
       <Layout style={{ backgroundColor: '#f6f6f6', padding: 26 }}>
         <Text category="h1" status="basic">
           Ma Trésorerie

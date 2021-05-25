@@ -76,6 +76,7 @@ const styles = StyleSheet.create({
     flex: 1,
     marginVertical: 8,
     flexDirection: 'row',
+    marginBottom: 20,
   },
   input: {
     flex: 1,

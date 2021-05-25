@@ -2,7 +2,7 @@ import * as React from 'react';
 import {
   View, TextInput, Pressable,
 } from 'react-native';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import {
   StyleService, Text, useStyleSheet, Modal,
 } from '@ui-kitten/components';
@@ -18,7 +18,6 @@ const DigitsInput = React.forwardRef<TextInput, DigitsInputFormProps>(
   (props: DigitsInputFormProps, ref): React.ReactElement => {
     const {
       onChangeValue,
-      defaultValue,
       containerStyle,
       numberOfDigits,
       onSubmitEditing,
@@ -52,7 +51,7 @@ const DigitsInput = React.forwardRef<TextInput, DigitsInputFormProps>(
 
       return (
         <View key={idx} style={[inputContainerStyle]}>
-          <Text category="s1" style={styles.inputText}>{digit}</Text>
+          <Text category="p1" style={styles.inputText}>{digit}</Text>
         </View>
       );
     };
@@ -73,13 +72,20 @@ const DigitsInput = React.forwardRef<TextInput, DigitsInputFormProps>(
           component={label}
         />
         <Modal
-          visible={containerIsFocused}
+          visible={containerIsFocused && inputValue.length < numberOfDigits}
           backdropStyle={{ backgroundColor: 'transparent' }}
           onBackdropPress={handleOnBlur}
         />
-        <Pressable style={styles.inputsContainer} onPress={handleOnPress}>
-          {codeDigitsArray.map(toDigitInput)}
-        </Pressable>
+        <View style={{ alignItems: 'center' }}>
+          <Pressable
+            style={[
+              styles.inputsContainer,
+            ]}
+            onPress={handleOnPress}
+          >
+            {codeDigitsArray.map(toDigitInput)}
+          </Pressable>
+        </View>
         <TextInput
           ref={safeRef}
           value={inputValue}
@@ -130,8 +136,8 @@ const themedStyles = StyleService.create({
     justifyContent: 'space-between',
   },
   inputContainer: {
-    borderColor: 'border-basic-color-4',
-    backgroundColor: 'background-basic-color-2',
+    borderColor: 'border-basic-color-1',
+    backgroundColor: 'background-basic-color-1',
     paddingHorizontal: 8,
     minHeight: 'size-medium',
     // @ts-ignore
@@ -142,8 +148,16 @@ const themedStyles = StyleService.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    minWidth: 'size-small',
-    marginHorizontal: 3,
+    minWidth: 'size-medium',
+    marginHorizontal: 7,
+    shadowColor: 'rgba(190, 190, 190, 0.5)',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowRadius: 2,
+    shadowOpacity: 1,
+    elevation: 2,
   },
   inputContainerFocused: {
     borderColor: 'color-primary-default',

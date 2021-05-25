@@ -1,0 +1,10 @@
+{
+    "request": {
+        "userPoolId": "testID",
+        "userName": "testUser",
+        "userAttributes": {
+            "sub": "aaa-bbb-cce"
+        }
+    },
+    "response": {}
+}

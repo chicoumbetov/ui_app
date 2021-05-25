@@ -38,12 +38,7 @@ const DeclarationImpots = () => {
   };
 
   return (
-    <MaxWidthContainer outerViewProps={{
-      style: {
-        backgroundColor: '#efefef',
-      },
-    }}
-    >
+    <MaxWidthContainer>
 
       <Layout style={styles.containerOut}>
 

@@ -7,6 +7,7 @@ import {
 } from '@ui-kitten/components';
 import { useNavigation } from '@react-navigation/native';
 import { useForm } from 'react-hook-form';
+import { Auth } from 'aws-amplify';
 import TextInput from '../../components/Form/TextInput';
 import MaxWidthContainer from '../../components/MaxWidthContainer';
 import { AvailableValidationRules } from '../../components/Form/validation';
@@ -14,6 +15,7 @@ import Radio from '../../components/Form/Radio';
 import PhoneNumberInput from '../../components/Form/PhoneNumberInput';
 import Form from '../../components/Form/Form';
 import { useUser } from '../../src/API/UserContext';
+import { removeNull } from '../../utils/ObjectHelper';
 
 type ModifierInfo1Form = {
   firstname:string;
@@ -28,13 +30,48 @@ type ModifierInfo1Form = {
 const ModifierInfo1 = () => {
   const navigation = useNavigation();
   const { updateUser, user, cognitoUser } = useUser();
+  const [passwordError, setPasswordError] = useState(false);
 
   const onPress = async (data: ModifierInfo1Form) => {
     console.log(data);
     if (user && updateUser && cognitoUser) {
-      await updateUser(data);
+      const { password, oldPassword, ...otherProps } = data;
+      let nextScreen = 'modifier-info-2';
+      setPasswordError(false);
 
-      navigation.navigate('modifier-info-2');
+      if (oldPassword && password) {
+        try {
+          const passwordChanged = await Auth.changePassword(cognitoUser, oldPassword, password);
+          if (passwordChanged !== 'SUCCESS') {
+            setPasswordError(true);
+            return;
+          }
+        } catch (e) {
+          setPasswordError(true);
+          return;
+        }
+      }
+
+      const newCognitoAttr = removeNull({
+        email: otherProps.email,
+        family_name: otherProps.lastname,
+        given_name: otherProps.firstname,
+        phone_number: otherProps.phoneNumber,
+        'custom:optIn': otherProps.optIn ? 'true' : 'flse',
+        // false => flse sur 4 caractères seulement car le custom attribute a
+        // été créer sur max 4 et ne peut plus être modifié
+      });
+      if (Object.keys(newCognitoAttr).length > 0) {
+        await Auth.updateUserAttributes(cognitoUser, newCognitoAttr);
+        const currentAttr = await Auth.currentUserInfo();
+        if (!currentAttr.attributes.email_verified) {
+          nextScreen = 'verification';
+        }
+      }
+
+      await updateUser(otherProps);
+
+      navigation.navigate(nextScreen);
     }
   };
 
@@ -45,9 +82,6 @@ const ModifierInfo1 = () => {
     <MaxWidthContainer
       withScrollView="keyboardAware"
       outerViewProps={{
-        style: {
-          backgroundColor: '#efefef',
-        },
         showsVerticalScrollIndicator: false,
       }}
       innerViewProps={{
@@ -76,7 +110,6 @@ const ModifierInfo1 = () => {
           <TextInput
             name="lastname"
             placeholder="Votre nom"
-            containerStyle={{ marginTop: 20 }}
             validators={[
               AvailableValidationRules.required,
             ]}
@@ -85,18 +118,18 @@ const ModifierInfo1 = () => {
           <TextInput
             name="email"
             placeholder="Votre  e-mail"
-            containerStyle={{ marginTop: 20 }}
             validators={[
               AvailableValidationRules.required,
             ]}
           />
+
+          {passwordError && <Text status="danger">Une erreur à eu lieu lors du changement de mot de passe merci de vérifier votre mot de passe.</Text> }
 
           <TextInput
             name="oldPassword"
             placeholder="Votre mot de passe actuel"
             secureTextEntry
             withEyeToggle
-            containerStyle={{ marginTop: 20 }}
             validators={[
               {
                 rule: AvailableValidationRules.requiredIfNotEmpty,
@@ -112,7 +145,6 @@ const ModifierInfo1 = () => {
             placeholder="Votre nouveau mot de passe"
             secureTextEntry
             withEyeToggle
-            containerStyle={{ marginTop: 20 }}
             validators={[
               AvailableValidationRules.password,
             ]}
@@ -121,7 +153,6 @@ const ModifierInfo1 = () => {
           <PhoneNumberInput
             name="phoneNumber"
             placeholder="Votre numéro de téléphone"
-            containerStyle={{ marginTop: 20 }}
             validators={[
               AvailableValidationRules.numeroTel,
               AvailableValidationRules.required,
@@ -131,7 +162,6 @@ const ModifierInfo1 = () => {
             name="optIn"
             label="Souhaitez-vous rester informé de nos actualités ? "
             labelPosition="before"
-            style={{ marginTop: 20 }}
           />
 
           <View style={styles.buttonRight}>

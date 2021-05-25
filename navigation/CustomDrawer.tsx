@@ -147,121 +147,120 @@ const CustomDrawer = (props: DrawerContentComponentProps) => {
   const { window } = useDimensions();
   return (
     <DrawerContentScrollView style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
-      <Layout style={{ flex: 1, justifyContent: 'space-between' }}>
+      <Layout level="4" style={{ flex: 1, justifyContent: 'space-between' }}>
 
-        <Layout>
-          <Layout style={{
+        <Layout
+          level="4"
+          style={{
             margin: 24,
             marginHorizontal: 21,
             flexDirection: 'row',
           }}
-          >
-            <AutoAvatar
-              style={{
-                height: 41,
-                width: 41,
-                borderRadius: 21,
-                overflow: 'hidden',
-                marginRight: 18,
-                marginLeft: 9,
-              }}
-              avatarInfo={user?.avatarUri || 'default::ManAvatar'}
-            />
-            <Text category="h2" appearance="hint" style={{ marginTop: 11 }}>
-              {user?.firstname || undefined}
-            </Text>
-          </Layout>
-          <Drawer
-            selectedIndex={new IndexPath(findFocusedDrawerItem(state))}
-            onSelect={(index) => {
-              console.log(index);
-              // eslint-disable-next-line default-case
-              switch (index.row) {
-                case 0:
-                  linkTo('/tableau-de-bord');
-                  break;
-                case 1:
-                  linkTo('/mon-compte');
-                  break;
-                case 2:
-                  linkTo('/mes-charges');
-                  break;
-                case 3:
-                  linkTo('/mes-biens');
-                  break;
-                case 4:
-                  linkTo('/ma-tresorerie');
-                  break;
-                case 5:
-                  linkTo('/mon-assistant');
-                  break;
-                case 6:
-                  linkTo('/notifications');
-                  break;
-                case 7:
-                  linkTo('/faq');
-                  break;
-                case 8:
-                  linkTo('/contact');
-                  break;
-              }
-            }}
-          >
-            <DrawerItem
-              title="Tableau de bord"
-              accessoryLeft={GridIcon}
-            />
-            <DrawerItem
-              title="Mon Compte"
-              accessoryLeft={PersonIcon}
-            />
-            {/* On utilise un fragment pour garder les mêmes index de row */}
-            {window.width > 780 ? (
-              <DrawerItem
-                title="Mes Charges"
-                accessoryLeft={ChargeIcon}
-              />
-            ) : <></>}
-            <DrawerItem
-              title="Mes Biens"
-              accessoryLeft={HomeIcon}
-            />
-            <DrawerItem
-              title="Ma Trésorerie"
-              accessoryLeft={MoneyIcon}
-            />
-            <DrawerItem
-              title="Mon Assistant"
-              accessoryLeft={PaperIcon}
-            />
-            <DrawerItem
-              title="Notifications"
-              accessoryLeft={BellIcon}
-            />
-            <DrawerItem
-              title="FAQ"
-              accessoryLeft={QuestionIcon}
-            />
-            <DrawerItem
-              title="Contact"
-              accessoryLeft={EmailIcon}
-            />
-          </Drawer>
-        </Layout>
-
-        <Layout style={{
-          paddingHorizontal: 29, marginBottom: 10 + inset.bottom,
-        }}
         >
-          <TouchableOpacity onPress={() => {
-            Auth.signOut();
-          }}
-          >
-            <Text style={{ fontSize: 17, letterSpacing: 0 }}>Déconnexion</Text>
-          </TouchableOpacity>
+          <AutoAvatar
+            style={{
+              height: 41,
+              width: 41,
+              borderRadius: 21,
+              overflow: 'hidden',
+              marginRight: 18,
+              marginLeft: 9,
+            }}
+            avatarInfo={user?.avatarUri || 'default::ManAvatar'}
+          />
+          <Text category="h2" appearance="hint" style={{ marginTop: 11 }}>
+            {user?.firstname || undefined}
+          </Text>
         </Layout>
-
+        <Drawer
+          selectedIndex={new IndexPath(findFocusedDrawerItem(state))}
+          onSelect={(index) => {
+            console.log(index);
+            // eslint-disable-next-line default-case
+            switch (index.row) {
+              case 0:
+                linkTo('/tableau-de-bord');
+                break;
+              case 1:
+                linkTo('/mon-compte');
+                break;
+              case 2:
+                linkTo('/mes-charges');
+                break;
+              case 3:
+                linkTo('/mes-biens');
+                break;
+              case 4:
+                linkTo('/ma-tresorerie');
+                break;
+              case 5:
+                linkTo('/mon-assistant');
+                break;
+              case 6:
+                linkTo('/notifications');
+                break;
+              case 7:
+                linkTo('/faq');
+                break;
+              case 8:
+                linkTo('/contact');
+                break;
+            }
+          }}
+        >
+          <DrawerItem
+            title="Tableau de bord"
+            accessoryLeft={GridIcon}
+          />
+          <DrawerItem
+            title="Mon Compte"
+            accessoryLeft={PersonIcon}
+          />
+          {/* On utilise un fragment pour garder les mêmes index de row */}
+          {window.width > 780 ? (
+            <DrawerItem
+              title="Mes Charges"
+              accessoryLeft={ChargeIcon}
+            />
+          ) : <></>}
+          <DrawerItem
+            title="Mes Biens"
+            accessoryLeft={HomeIcon}
+          />
+          <DrawerItem
+            title="Ma Trésorerie"
+            accessoryLeft={MoneyIcon}
+          />
+          <DrawerItem
+            title="Mon Assistant"
+            accessoryLeft={PaperIcon}
+          />
+          <DrawerItem
+            title="Notifications"
+            accessoryLeft={BellIcon}
+          />
+          <DrawerItem
+            title="FAQ"
+            accessoryLeft={QuestionIcon}
+          />
+          <DrawerItem
+            title="Contact"
+            accessoryLeft={EmailIcon}
+          />
+        </Drawer>
       </Layout>
+
+      <TouchableOpacity
+        onPress={() => {
+          Auth.signOut();
+        }}
+        style={{
+          paddingHorizontal: 26, marginBottom: 18 + inset.bottom,
+        }}
+      >
+        <Text category="h5" style={{ textDecorationLine: 'underline' }}>Déconnexion</Text>
+      </TouchableOpacity>
+
     </DrawerContentScrollView>
   );
 };

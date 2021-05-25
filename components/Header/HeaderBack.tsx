@@ -4,27 +4,35 @@ import { TouchableOpacity } from 'react-native';
 import { Icon } from '@ui-kitten/components';
 import debounce from '../../utils/debounce';
 
-const HeaderBack = () => {
-  const navigation = useNavigation();
-  const route = useRoute();
+type HeaderBackProps = {
+  onPress?: () => void;
+  withNavigation?:boolean;
+};
 
-  const goBack = React.useCallback(
-    debounce(() => {
-      if (navigation.isFocused()) {
-        navigation.dispatch({
-          ...StackActions.pop(),
-          source: route.key,
-        });
-      }
-    }, 50),
-    [navigation, route.key],
-  );
+const HeaderBack = ({ withNavigation, onPress }: HeaderBackProps) => {
+  let goBack = () => {};
+  if (withNavigation) {
+    const navigation = useNavigation();
+    const route = useRoute();
+
+    goBack = React.useCallback(
+      debounce(() => {
+        if (navigation.isFocused()) {
+          navigation.dispatch({
+            ...StackActions.pop(),
+            source: route.key,
+          });
+        }
+      }, 50),
+      [navigation, route.key],
+    );
+  }
 
   return (
     <TouchableOpacity
-      onPress={() => {
+      onPress={onPress || (() => {
         goBack();
-      }}
+      })}
       style={{
         marginHorizontal: 20,
       }}

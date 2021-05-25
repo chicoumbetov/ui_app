@@ -122,9 +122,6 @@ function AjoutBienScreen() {
     <MaxWidthContainer
       withScrollView="keyboardAware"
       outerViewProps={{
-        style: {
-          backgroundColor: '#f6f6f6',
-        },
         showsVerticalScrollIndicator: false,
       }}
     >
@@ -159,7 +156,7 @@ function AjoutBienScreen() {
           {/**
            Identité 1/3  ( etape1 )
            * */}
-          <MotiView animate={{ height: (etape === 0 ? 540 : 0) }} style={{ overflow: 'hidden' }} transition={{ type: 'timing', duration: 2000 }}>
+          <MotiView animate={{ height: (etape === 0 ? 540 : 0) }} style={{ overflow: 'hidden' }} transition={{ type: 'timing', duration: 500 }}>
 
             <TextInput
               style={{ marginBottom: 30, marginLeft: 23, marginRight: 22 }}
@@ -183,21 +180,21 @@ function AjoutBienScreen() {
               flexDirection: 'row', marginTop: 21, justifyContent: 'space-evenly', marginLeft: -6, backgroundColor: 'transparent',
             }}
             >
-                {['MaisonVerte', 'Immeuble', 'Cabane', 'Bateau', 'Boutique'].map((icon) => (
-                  <TouchableOpacity onPress={() => { setImage(`default::${icon}`); }}>
-                    <AutoAvatar avatarInfo={`default::${icon}`} style={{ height: 53, width: 53 }} />
-                  </TouchableOpacity>
-                ))}
+              {['MaisonVerte', 'Immeuble', 'Cabane', 'Bateau', 'Boutique'].map((icon) => (
+                <TouchableOpacity onPress={() => { setImage(`default::${icon}`); }}>
+                  <AutoAvatar avatarInfo={`default::${icon}`} style={{ height: 53, width: 53 }} />
+                </TouchableOpacity>
+              ))}
             </Layout>
             <Layout style={{
               flexDirection: 'row', marginTop: 34, justifyContent: 'space-evenly', marginLeft: -6, backgroundColor: 'transparent',
             }}
             >
-                {['Chateau', 'Manoir', 'MaisonBleu', 'Riad', 'Voiture'].map((icon) => (
-                  <TouchableOpacity onPress={() => { setImage(`default::${icon}`); }}>
-                    <AutoAvatar avatarInfo={`default::${icon}`} style={{ height: 53, width: 53 }} />
-                  </TouchableOpacity>
-                ))}
+              {['Chateau', 'Manoir', 'MaisonBleu', 'Riad', 'Voiture'].map((icon) => (
+                <TouchableOpacity onPress={() => { setImage(`default::${icon}`); }}>
+                  <AutoAvatar avatarInfo={`default::${icon}`} style={{ height: 53, width: 53 }} />
+                </TouchableOpacity>
+              ))}
             </Layout>
 
             <Layout style={{ paddingHorizontal: 23, backgroundColor: 'transparent' }}>
@@ -257,7 +254,7 @@ function AjoutBienScreen() {
               marginRight: 22,
               justifyContent: 'space-between',
             }}
-            transition={{ type: 'timing', duration: 2000 }}
+            transition={{ type: 'timing', duration: 500 }}
           >
 
             <TextInput

@@ -14,7 +14,6 @@ import { gql } from 'graphql-tag';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { FetchResult } from 'apollo-link';
 import _ from 'lodash';
-import { Platform } from 'react-native';
 import {
   CreateUserInput,
   CreateUserMutation,
@@ -28,13 +27,9 @@ import * as mutations from '../graphql/mutations';
 import { removeNull } from '../../utils/ObjectHelper';
 import { getUser } from '../graphql/queries';
 import { onUpdateUser } from '../graphql/subscriptions';
-import { webSocketLink } from '../Apollo/client';
 
 type SimpleCreateUserInput = Omit<CreateUserInput, 'email' | 'lastname' | 'firstname' | 'phoneNumber' | 'optIn'>;
-type SimpleUpdateUserInput = Omit<UpdateUserInput, 'id'> & {
-  oldPassword?: string;
-  password?: string;
-};
+type SimpleUpdateUserInput = Omit<UpdateUserInput, 'id'>;
 
 export type UserItem = {
   __typename: 'User',
@@ -92,6 +87,7 @@ type UserContextProps = {
   user: UserItem;
   cognitoUser: CognitoUserInterface;
   userIsLoading: boolean;
+  userIsCreating: boolean;
   updateUser: (inputVars: SimpleUpdateUserInput) =>
   Promise<FetchResult<UpdateUserMutation>>;
   createUser: (inputVars: SimpleCreateUserInput) =>
@@ -124,6 +120,7 @@ const UserProvider: React.FC = ({ children }) => {
   );
   const [cognitoUser, setCognitoUser] = useState<CognitoUserInterface | undefined>();
   const [loading, setLoading] = useState(true);
+  const [userIsCreating, setUserIsCreating] = useState(false);
   const client = useApolloClient();
 
   const currentUser = async () => {
@@ -212,56 +209,43 @@ const UserProvider: React.FC = ({ children }) => {
   }, [refresh]);
 
   const values = useMemo(() => {
-    const createUser = (inputVars: SimpleCreateUserInput) => client.mutate<
-    CreateUserMutation,
-    CreateUserMutationVariables
-    >({
-      mutation: gql(mutations.createUser),
-      // @ts-ignore
-      optimisticResponse: (vars) => ({
-        createUser: {
-          __typename: 'User',
-          id: cognitoUser?.attributes.sub,
-          ...user,
-          ...vars.input,
-          // eslint-disable-next-line no-underscore-dangle
-          _version: (vars.input?._version ?? 0) + 1,
+    const createUser = (inputVars: SimpleCreateUserInput) => {
+      setUserIsCreating(true);
+      return client.mutate<
+      CreateUserMutation,
+      CreateUserMutationVariables
+      >({
+        mutation: gql(mutations.createUser),
+        // @ts-ignore
+        optimisticResponse: (vars) => ({
+          createUser: {
+            __typename: 'User',
+            id: cognitoUser?.attributes.sub,
+            ...user,
+            ...vars.input,
+            // eslint-disable-next-line no-underscore-dangle
+            _version: (vars.input?._version ?? 0) + 1,
+          },
+        }),
+        variables: {
+          input: {
+            id: cognitoUser?.attributes.sub,
+            email: cognitoUser?.attributes.email,
+            lastname: cognitoUser?.attributes.family_name,
+            firstname: cognitoUser?.attributes.given_name,
+            phoneNumber: cognitoUser?.attributes.phone_number,
+            optIn: cognitoUser?.attributes['custom:optIn'] === 'true',
+            ...inputVars,
+          },
         },
-      }),
-      variables: {
-        input: {
-          id: cognitoUser?.attributes.sub,
-          email: cognitoUser?.attributes.email,
-          lastname: cognitoUser?.attributes.family_name,
-          firstname: cognitoUser?.attributes.given_name,
-          phoneNumber: cognitoUser?.attributes.phone_number,
-          optIn: cognitoUser?.attributes['custom:optIn'] === 'true',
-          ...inputVars,
+        update: () => {
+          getUserFromDataBase({ variables: { id: cognitoUser?.attributes.sub } });
         },
-      },
-    });
+      });
+    };
 
     const updateUser = (inputVars: SimpleUpdateUserInput) => {
       if (user) {
-        const { password, oldPassword, ...otherProps } = inputVars;
-
-        const newCognitoAttr = removeNull({
-          email: otherProps.email,
-          family_name: otherProps.lastname,
-          given_name: otherProps.firstname,
-          phone_number: otherProps.phoneNumber,
-          'custom:optIn': otherProps.optIn ? 'true' : 'flse',
-          // false => flse sur 4 caractères seulement car le custom attribute a
-          // été créer sur max 4 et ne peut plus être modifié
-        });
-        if (Object.keys(newCognitoAttr).length > 0) {
-          Auth.updateUserAttributes(cognitoUser, newCognitoAttr);
-        }
-
-        if (oldPassword && password) {
-          Auth.changePassword(cognitoUser, oldPassword, password);
-        }
-
         return client.mutate<
         UpdateUserMutation,
         UpdateUserMutationVariables
@@ -278,13 +262,14 @@ const UserProvider: React.FC = ({ children }) => {
           variables: {
             input: {
               id: user.id,
-              ...otherProps,
+              ...inputVars,
               // eslint-disable-next-line no-underscore-dangle
               _version: user._version,
             },
           },
           update: (cache, { data: mutationData }) => {
             console.log(mutationData);
+            setUserIsCreating(false);
             if (mutationData) {
               const { updateUser: mutationUpdateUser } = mutationData;
               if (mutationUpdateUser) {
@@ -299,12 +284,11 @@ const UserProvider: React.FC = ({ children }) => {
 
                 // Add newly created item to the cache copy
                 if (cacheData && cacheData.getUser) {
-                  cacheData.getUser = {
-                    ...user,
+                  cacheData.getUser = _.merge(user, {
                     // eslint-disable-next-line no-underscore-dangle
                     _version: mutationUpdateUser._version + 1,
                     ...(removeNull(mutationUpdateUser) as UpdateUserMutation),
-                  };
+                  });
 
                   // Overwrite the cache with the new results
                   cache.writeQuery({
@@ -329,8 +313,9 @@ const UserProvider: React.FC = ({ children }) => {
       userIsLoading: loading,
       updateUser,
       createUser,
+      userIsCreating,
     };
-  }, [user, loading, cognitoUser]);
+  }, [user, loading, cognitoUser, userIsCreating]);
 
   return (
     <UserContext.Provider

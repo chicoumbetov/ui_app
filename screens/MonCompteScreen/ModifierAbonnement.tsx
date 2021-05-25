@@ -24,9 +24,6 @@ const ModifierAbonnement = () => {
     <MaxWidthContainer
       withScrollView="keyboardAware"
       outerViewProps={{
-        style: {
-          backgroundColor: '#efefef',
-        },
         showsVerticalScrollIndicator: false,
       }}
       innerViewProps={{
@@ -48,7 +45,7 @@ const ModifierAbonnement = () => {
       <TextInput
         name="nom"
         placeholder="Changer nom"
-        containerStyle={{ marginTop: 20 }}
+
       />
 
       <View style={styles.buttonRight}>

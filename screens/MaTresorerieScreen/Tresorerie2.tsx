@@ -27,12 +27,7 @@ const MaTresorerie2 = () => {
   const [compte] = useState(comptesData);
 
   return (
-    <MaxWidthContainer outerViewProps={{
-      style: {
-        backgroundColor: '#efefef',
-      },
-    }}
-    >
+    <MaxWidthContainer>
       <Layout style={styles.container}>
         <Text
           category="h1"

@@ -37,10 +37,7 @@ const QuittanceLoyer = () => {
   };
 
   return (
-    <MaxWidthContainer outerViewProps={{
-      style: { backgroundColor: '#efefef' },
-    }}
-    >
+    <MaxWidthContainer>
 
       <Layout style={styles.containerOut}>
 

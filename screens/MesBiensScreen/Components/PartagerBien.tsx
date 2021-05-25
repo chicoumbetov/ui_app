@@ -33,12 +33,7 @@ const PartagerBien = () => {
   }, []);
 
   return (
-    <MaxWidthContainer outerViewProps={{
-      style: {
-        backgroundColor: '#efefef',
-      },
-    }}
-    >
+    <MaxWidthContainer>
 
       {/**
       *  I part

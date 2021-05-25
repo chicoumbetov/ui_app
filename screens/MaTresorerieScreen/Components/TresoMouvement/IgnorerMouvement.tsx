@@ -67,9 +67,11 @@ const IgnorerMouvement = ({ compte }) => {
           </Text>
         </Layout>
 
-        <Layout style={{
-          marginBottom: 20, paddingVertical: 20, backgroundColor: '#f6f6f6', paddingHorizontal: 26,
-        }}
+        <Layout
+          level={2}
+          style={{
+            marginBottom: 20, paddingVertical: 20, paddingHorizontal: 26,
+          }}
         >
           <Text style={{
             // color: '#000',
@@ -134,7 +136,6 @@ export default IgnorerMouvement;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#efefef',
   },
   windowOut: {
     backgroundColor: '#f6f6f6',

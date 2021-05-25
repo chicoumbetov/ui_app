@@ -52,6 +52,7 @@ export default {
             screens: {
               'mon-compte': '/',
               'modifier-info-1': '/modifier',
+              verification: '/modifier/verification',
               'modifier-info-2': '/modifier/etape-2',
               'modifier-info-3': '/modifier/etape-3',
             },

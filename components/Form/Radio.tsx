@@ -30,7 +30,7 @@ const RadioComp = React.forwardRef<Radio, RadioFormProps>(
           {labelPosition === 'before' && (
             typeof label === 'string' ? (
               <FalsyText
-                category="label"
+                category="p1"
                 style={[styles.labelBeforeMargin, labelStyle]}
                 component={label}
               />
@@ -42,7 +42,7 @@ const RadioComp = React.forwardRef<Radio, RadioFormProps>(
 
             typeof label === 'string' ? (
               <FalsyText
-                category="label"
+                category="p1"
                 style={[styles.labelBeforeMargin, labelStyle]}
                 component={label}
               />
@@ -66,6 +66,7 @@ const styles = StyleSheet.create({
   container: {
     marginVertical: 8,
     flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   labelBeforeMargin: {
     marginRight: 10,

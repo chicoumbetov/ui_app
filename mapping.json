@@ -3,8 +3,7 @@
     "text-font-family": "HouschkaRoundedMedium",
     "text-label-font-size": 20,
 
-    "text-label-font-family": "HouschkaRoundedMedium",
-    "text-subtitle-2-font-family": "HouschkaRoundedDemiBold",
+    "text-label-font-family": "Houschka_Rounded_Alt_Light_Regular",
     "size-small": 30,
     "size-large": 55,
     "border-radius": 7,
@@ -51,10 +50,8 @@
 
     "text-caption-1-font-size": 15,
 
-    "text-caption-1-font-family": "HouschkaRoundedDemiBold",
+    "text-caption-1-font-family": "HouschkaRoundedDemiBold"
 
-
-    "border-radius": 7
 
   },
   "components": {
@@ -645,6 +642,29 @@
               "selected": {
                 "textColor": "text-primary-color",
                 "iconTintColor": "text-primary-color"
+              }
+            }
+          }
+        }
+      }
+    },
+    "Layout": {
+      "appearances": {
+        "default": {
+          "mapping": {},
+          "variantGroups": {
+            "level": {
+              "1": {
+                "backgroundColor": "#fbfbfb"
+              },
+              "2": {
+                "backgroundColor": "#EFEFEF"
+              },
+              "3": {
+                "backgroundColor": "#FFFFFF"
+              },
+              "4": {
+                "backgroundColor": "#FFFFFF"
               }
             }
           }

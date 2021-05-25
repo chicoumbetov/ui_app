@@ -9,12 +9,7 @@ import SelectComp from '../../components/Form/Select';
 import MaxWidthContainer from '../../components/MaxWidthContainer';
 
 const Contact = () => (
-  <MaxWidthContainer outerViewProps={{
-    style: {
-      backgroundColor: '#efefef',
-    },
-  }}
-  >
+  <MaxWidthContainer>
 
     <Layout style={styles.container}>
       <Text category="h1" style={styles.title}>Contact</Text>

@@ -77,10 +77,6 @@ const Informations = () => {
     <MaxWidthContainer
       withScrollView="keyboardAware"
       outerViewProps={{
-        style: {
-          flex: 1,
-          backgroundColor: '#efefef',
-        },
         showsVerticalScrollIndicator: false,
       }}
       innerViewProps={{

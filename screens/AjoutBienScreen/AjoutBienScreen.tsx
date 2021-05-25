@@ -11,11 +11,10 @@ import {
 } from 'react-native';
 
 import {
-  Button, Icon, Layout, Text, useTheme,
+  Button, Layout, Text, useTheme,
 } from '@ui-kitten/components';
 
 import * as ImagePicker from 'expo-image-picker';
-import { Auth } from 'aws-amplify';
 import { View as MotiView } from 'moti';
 import { colors } from '../../assets/styles';
 import Form from '../../components/Form/Form';
@@ -30,15 +29,18 @@ import TextInput from '../../components/Form/TextInput';
 import { AvailableValidationRules } from '../../components/Form/validation';
 import { createRealEstateMutation } from '../../src/API/RealEstate';
 import { CompanyType, RealEstateType, TaxType } from '../../src/API';
+import { useUser } from '../../src/API/UserContext';
 
 type AjoutBienForm = {
   name: string,
   purchaseYear?: number | null,
-  address: string,
-  additionalAddress?: string | null,
-  postalCode: string,
-  city: string,
-  country: string,
+  address: {
+    address: string,
+    additionalAddress?: string | null,
+    postalCode: string,
+    city: string,
+    country: string,
+  }
   type?: RealEstateType | null,
   ownName?: boolean | null,
   detentionPart?: number | null,
@@ -48,6 +50,7 @@ type AjoutBienForm = {
 
 function AjoutBienScreen() {
   const theme = useTheme();
+  const { user } = useUser();
 
   const createRealEstate = createRealEstateMutation();
 
@@ -66,28 +69,14 @@ function AjoutBienScreen() {
   const onAjoutBien = async (data: AjoutBienForm) => {
     console.log(data);
 
-    const {
-      address, additionalAddress, city, postalCode, country, detentionPart, ...rest
-    } = data;
-
-    const user = await Auth.currentAuthenticatedUser();
-
     await createRealEstate({
       variables: {
         input: {
-          ...rest,
-          detentionPart: detentionParte,
+          ...data,
           iconUri: 'default::mainHouse',
           admins: [
             user.id,
           ],
-          address: {
-            address,
-            additionalAddress,
-            city,
-            postalCode,
-            country,
-          },
         },
       },
     });
@@ -101,17 +90,13 @@ function AjoutBienScreen() {
   /**
    *Variable pour gérer la date
    * */
-  const [image, setImage] = useState('MaisonVerte');
+  const [image, setImage] = useState('default::MaisonVerte');
 
   /**
    * For part III
    * Variable pour gérer l'affichage des données de modes de détention
    * */
 
-  const CalendarIcon = (props) => (
-    <Icon {...props} name="calendar-outline" />
-  );
-  const [detentionParte, setDetentionPart] = useState<number | null>(null);
   const [detentionShow, setDetentionShow] = useState(false);
 
   const [statutShow, setStatutShow] = useState(false);
@@ -181,7 +166,7 @@ function AjoutBienScreen() {
             }}
             >
               {['MaisonVerte', 'Immeuble', 'Cabane', 'Bateau', 'Boutique'].map((icon) => (
-                <TouchableOpacity onPress={() => { setImage(`default::${icon}`); }}>
+                <TouchableOpacity key={icon} onPress={() => { setImage(`default::${icon}`); }}>
                   <AutoAvatar avatarInfo={`default::${icon}`} style={{ height: 53, width: 53 }} />
                 </TouchableOpacity>
               ))}
@@ -191,7 +176,7 @@ function AjoutBienScreen() {
             }}
             >
               {['Chateau', 'Manoir', 'MaisonBleu', 'Riad', 'Voiture'].map((icon) => (
-                <TouchableOpacity onPress={() => { setImage(`default::${icon}`); }}>
+                <TouchableOpacity key={icon} onPress={() => { setImage(`default::${icon}`); }}>
                   <AutoAvatar avatarInfo={`default::${icon}`} style={{ height: 53, width: 53 }} />
                 </TouchableOpacity>
               ))}
@@ -258,18 +243,18 @@ function AjoutBienScreen() {
           >
 
             <TextInput
-              name="address"
+              name="address.address"
               placeholder="Adresse"
               validators={[
                 AvailableValidationRules.required,
               ]}
             />
             <TextInput
-              name="additionalAddress"
+              name="address.additionalAddress"
               placeholder="Complément d'adresse"
             />
             <TextInput
-              name="postalCode"
+              name="address.postalCode"
               placeholder="Code Postal"
               maxLength={5}
               validators={[
@@ -277,14 +262,14 @@ function AjoutBienScreen() {
               ]}
             />
             <TextInput
-              name="city"
+              name="address.city"
               placeholder="Ville"
               validators={[
                 AvailableValidationRules.required,
               ]}
             />
             <TextInput
-              name="country"
+              name="address.country"
               placeholder="Pays"
               validators={[
                 AvailableValidationRules.required,
@@ -375,7 +360,6 @@ function AjoutBienScreen() {
             {detentionShow
               && (
               <View style={{ height: 75 }}>
-                <>
                   <SelectComp
                     name="detentionPart"
                     data={typeDetention}
@@ -384,7 +368,7 @@ function AjoutBienScreen() {
                       if (v === 'Indivision') {
                         setPourcentageDetentionShow(true);
                       } else {
-                        setDetentionPart(100);
+                        ajoutBienForm.setValue('detentionPart', '100');
                         setPourcentageDetentionShow(false);
                       }
                     }}
@@ -392,8 +376,6 @@ function AjoutBienScreen() {
                     appearance="default"
                     status="primary"
                   />
-                </>
-
               </View>
               )}
 
@@ -427,12 +409,9 @@ function AjoutBienScreen() {
                 <TextInput
                   name="detentionPart"
                   size="small"
-                  min={0}
-                  max={100}
                   maxLength={4}
                   keyboardType="numeric"
                   style={{ marginRight: 10 }}
-                  defaultValue={detentionParte}
                 />
                 <Text category="h5">%</Text>
               </View>

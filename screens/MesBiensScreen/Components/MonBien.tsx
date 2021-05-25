@@ -33,7 +33,7 @@ type MonBienProps = { bien: RealEstateItem };
 
 const MonBien = (props: MonBienProps) => {
   const { bien } = props;
-  console.log('Mon Bien', bien);
+  // console.log('Mon Bien', bien);
   const linkTo = useLinkTo();
   const navigation = useNavigation();
   const [opened, setOpened] = useState(false);

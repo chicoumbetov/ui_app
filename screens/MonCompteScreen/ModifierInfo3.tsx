@@ -19,12 +19,17 @@ import AutoAvatar from '../../components/AutoAvatar';
 import Camera from '../../components/Camera';
 import { useUser } from '../../src/API/UserContext';
 import { Delete, Upload } from '../../utils/S3FileStorage';
+import { CameraOutput } from '../../components/Camera/Camera';
 
 const Informations = () => {
   const [camera, setCamera] = React.useState(false);
   const { updateUser, user } = useUser();
   const [avatarImage, setAvatarImage] = useState(user?.avatarUri || 'default::ManAvatar');
-  const [selectedNewImage, setSelectedNewImage] = useState<ImagePickerResult | undefined>();
+  const [selectedNewImage, setSelectedNewImage] = useState<
+  ImagePickerResult |
+  CameraOutput |
+  undefined
+  >();
 
   const route = useRoute<RouteProp<TabMonCompteParamList, 'modifier-info-3'>>();
 
@@ -181,6 +186,7 @@ const Informations = () => {
           onChoose={(result) => {
             if (result) {
               setAvatarImage(result.uri);
+              setSelectedNewImage(result);
             }
             setCamera(false);
           }}

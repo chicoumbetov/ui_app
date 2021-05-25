@@ -31,7 +31,7 @@ export default function MesBiensStackNavigator() {
         component={DetailsBien}
       />
       <Stack.Screen
-        name="MonBudget"
+        name="mon-budget"
         component={MonBudget}
       />
       <Stack.Screen

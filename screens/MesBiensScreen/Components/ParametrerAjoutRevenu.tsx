@@ -7,30 +7,36 @@ import {
 } from 'react-native';
 
 import { useForm } from 'react-hook-form';
-import { Auth } from 'aws-amplify';
-import MaisonVert from '../../../assets/Omedom_Icons_svg/Logement/maison_verte.svg';
+
+import { useRoute } from '@react-navigation/native';
+import { RouteProp } from '@react-navigation/core/lib/typescript/src/types';
 
 import SelectComp from '../../../components/Form/Select';
 import {
   frequence, typeRevenu,
 } from '../../../mockData/ajoutRevenuData';
 import Form from '../../../components/Form/Form';
-import TextInputComp from '../../../components/Form/TextInput';
 import MaxWidthContainer from '../../../components/MaxWidthContainer';
-import { BudgetLineType, Frequency, MortgageLoanInfoInput } from '../../../src/API';
+import { Frequency } from '../../../src/API';
 import DatepickerComp from '../../../components/Form/DatePicker';
-import { createBudgetLine } from '../../../src/graphql/mutations';
 import TextInput from '../../../components/Form/TextInput';
+import { TabMesBiensParamList } from '../../../types';
+import { useGetRealEstate } from '../../../src/API/RealEstate';
+import CompteHeader from '../../../components/CompteHeader/CompteHeader';
 
 type ParamBudgetForm = {
   category: string,
-  amount: number,
-  frequency: Frequency,
+  amount?: number | null,
+  frequency?: Frequency,
   nextDueDate?: string | null,
 };
 
 const ParametrerAjoutRevenu = () => {
   const paramBudgetForm = useForm<ParamBudgetForm>();
+  const route = useRoute<RouteProp<TabMesBiensParamList, 'ajout-revenu'>>();
+  console.log('route ajout revenu', route);
+  const { data } = useGetRealEstate(route.params.id);
+  // console.log('data ajout revenu: ', data);
 
   const [frequenceShow, setFrequenceShow] = useState(false);
   const [montantShow, setMontantShow] = useState(false);
@@ -42,7 +48,7 @@ const ParametrerAjoutRevenu = () => {
    * */
 
   const validateBudget = async (data: ParamBudgetForm) => {
-    console.log('aaa', data);
+    console.log('ParametrerAjoutRevenu data:', data);
   };
 
   return (
@@ -57,33 +63,17 @@ const ParametrerAjoutRevenu = () => {
          *  I. Mon Budget
          */}
       <Layout style={styles.container}>
-        <Text category="h1">
+        <Text category="h1" style={{ marginBottom: 20 }}>
           Paramétrer votre budget
         </Text>
-        <View style={{
-          marginTop: 10, marginRight: 20, flexDirection: 'row', alignItems: 'center',
-        }}
-        >
-          <View style={{ marginRight: 12 }}>
-            <MaisonVert height={40} width={40} />
-          </View>
-
-          <Text category="h3">
-            {' '}
-            {/* {compte.typeRevenu} */}
-            La Maison
-            {' '}
-            de Mathieu
-            {' '}
-          </Text>
-        </View>
+        <CompteHeader title={data?.getRealEstate?.name} />
       </Layout>
 
       {/**
        *  II. Ajouter revenu
        */}
       <Layout style={styles.container}>
-        <Text category="s2" status="basic">
+        <Text category="s2" status="basic" style={{ marginBottom: 20 }}>
           Ajouter un revenu
         </Text>
 
@@ -98,71 +88,59 @@ const ParametrerAjoutRevenu = () => {
 
               <Layout style={{ backgroundColor: 'transparent', paddingBottom: 33 }}>
 
-                <View>
-                  <SelectComp
-                    name="category"
-                    data={typeRevenu}
-                    onChangeValue={(v) => { if (v === 'b1') { setRevenuLoyer(true); } else { setRevenuLoyer(false); } setMontantShow(true); setFrequenceShow(true); }}
-                    placeholder="Type De Revenu"
-                    size="large"
-                    appearance="default"
-                    status="primary"
-                  />
+                <SelectComp
+                  name="category"
+                  data={typeRevenu}
+                  onChangeValue={(v) => { if (v === 'rent') { setRevenuLoyer(true); } else { setRevenuLoyer(false); } setMontantShow(true); setFrequenceShow(true); }}
+                  placeholder="Type De Revenu"
+                  size="large"
+                  appearance="default"
+                  status="primary"
+                />
 
-                </View>
-
-                <View>
-
-                  {montantShow && (
+                {montantShow ? (
                   <View>
                     <TextInput name="amount" placeholder="Saisissez votre montant ici" />
 
-                    {revenuLoyer && (
-                    <View>
-                      <TextInputComp name="charges" placeholder="Montant des charges" />
-                      <TextInputComp name="gestion" placeholder="Taux de frais de gestion" />
-                    </View>
-                    )}
+                    {revenuLoyer ? (
+                      <View>
+                        <TextInput name="charges" placeholder="Montant des charges" />
+                        <TextInput name="gestion" placeholder="Taux de frais de gestion" />
+                      </View>
+                    ) : <></>}
                   </View>
-                  )}
+                ) : <></>}
 
-                </View>
-                <View>
-
-                  {frequenceShow
-                    && (
-                      <Layout style={{ backgroundColor: 'transparent' }}>
-                        <SelectComp name="frequency" data={frequence} onChangeValue={() => setDateDerniereEcheanceShow(true)} placeholder="Fréquence" size="large" appearance="default" status="primary" />
-                        {dateDerniereEcheanceShow && (
-                          <DatepickerComp name="nextDueDate" placeholder="Date de dernière échéance" />
-                        )}
-                      </Layout>
-
-                    )}
-                </View>
+                {frequenceShow
+                  ? (
+                    <Layout style={{ backgroundColor: 'transparent' }}>
+                      <SelectComp name="frequency" data={frequence} onChangeValue={() => setDateDerniereEcheanceShow(true)} placeholder="Fréquence" size="large" appearance="default" status="primary" />
+                      {dateDerniereEcheanceShow ? (
+                        <DatepickerComp name="nextDueDate" placeholder="Date de dernière échéance" />
+                      ) : <></>}
+                    </Layout>
+                  ) : <></>}
 
               </Layout>
 
-              {revenuLoyer && (
-              <View>
-                <Text style={{ paddingBottom: 30 }} category="h5">Ajouter un locataire</Text>
-                <TextInputComp style={{ paddingBottom: 30 }} name="charges" placeholder="Montant des charges" />
-                <TextInputComp style={{ paddingBottom: 30 }} name="charges" placeholder="Montant des charges" />
-                <TextInputComp style={{ paddingBottom: 30 }} name="charges" placeholder="Montant des charges" />
-                <Text style={{ paddingBottom: 30 }} category="h5">Date de début de bail</Text>
-                <Datepicker style={{ paddingBottom: 30 }} />
-                <Text style={{ paddingBottom: 30 }} category="h5">Date de fin de bail</Text>
-                <Datepicker style={{ paddingBottom: 30 }} />
-              </View>
-              )}
+              {revenuLoyer ? (
+                <View>
+                  <Text style={{ paddingBottom: 30 }} category="h5">Ajouter un locataire</Text>
+                  <TextInput style={{ paddingBottom: 30 }} name="firstname" placeholder="Saisissez le prénom" />
+                  <TextInput style={{ paddingBottom: 30 }} name="lastname" placeholder="Saisissez le nom" />
+                  <TextInput style={{ paddingBottom: 30 }} name="email" placeholder="Saisissez le mail" />
+                  <Text style={{ paddingBottom: 30 }} category="h5">Date de début de bail</Text>
+                  <Datepicker style={{ paddingBottom: 30 }} />
+                  <Text style={{ paddingBottom: 30 }} category="h5">Date de fin de bail</Text>
+                  <Datepicker style={{ paddingBottom: 30 }} />
+                </View>
+              ) : <></>}
 
             </View>
 
             <Layout style={{ marginBottom: 10 }}>
               <Button
-                onPress={paramBudgetForm.handleSubmit((data) => {
-                  validateBudget(data);
-                })}
+                onPress={paramBudgetForm.handleSubmit((data) => validateBudget(data))}
                 size="large"
               >
                 Valider

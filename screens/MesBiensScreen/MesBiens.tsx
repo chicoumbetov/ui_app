@@ -4,24 +4,24 @@
  * @author: Shynggys UMBETOV
  */
 
-import React, { useState } from 'react';
+import React from 'react';
 import { Button, Layout, Text } from '@ui-kitten/components';
 
 import { useLinkTo } from '@react-navigation/native';
 import { FlatList } from 'react-native';
 import MonBien from './Components/MonBien';
 import MaxWidthContainer from '../../components/MaxWidthContainer';
-import comptesData from '../../mockData/comptesData';
+//  import comptesData from '../../mockData/comptesData';
 
 import { RealEstateItem, useRealEstateList } from '../../src/API/RealEstate';
 import ActivityIndicator from '../../components/ActivityIndicator';
 
 function MesBiens() {
   const linkTo = useLinkTo();
-  const [compte] = useState(comptesData);
-  const { loading, refetch, data } = useRealEstateList();
+  // const [compte] = useState(comptesData);
+  const { loading, data } = useRealEstateList();
 
-  console.log('biens', data);
+  // console.log('biens', data);
 
   const onAjoutBien = () => {
     linkTo('/mes-biens/ajouter');

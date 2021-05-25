@@ -34,18 +34,16 @@ import Card from '../../components/Card';
 import Separator from '../../components/Separator';
 
 function DetailsBien() {
-  const route = useRoute<RouteProp<TabMesBiensParamList, 'detail-bien'>>();
-  const { data } = useGetRealEstate(route.params.id);
-
   const navigation = useNavigation();
-  // const route = useRoute();
   const linkTo = useLinkTo();
   const theme = useTheme();
+  const route = useRoute<RouteProp<TabMesBiensParamList, 'detail-bien'>>();
+  const { data } = useGetRealEstate(route.params.id);
 
   // const [compte, setCompte] = useState(comptesData);
 
   const allerMonBudget = () => {
-    navigation.navigate('MonBudget');
+    navigation.navigate('mon-budget', { id: route.params.id });
   };
   const allerTresorerie = () => {
     linkTo('/ma-tresorerie');

@@ -11,25 +11,33 @@ import {
 import {
   FlatList, StyleSheet, TouchableOpacity, View,
 } from 'react-native';
-import { useLinkTo, useNavigation } from '@react-navigation/native';
+import { useLinkTo, useNavigation, useRoute } from '@react-navigation/native';
+import { RouteProp } from '@react-navigation/core/lib/typescript/src/types';
 import MaxWidthContainer from '../../../components/MaxWidthContainer';
 
-import MaisonVert from '../../../assets/Omedom_Icons_svg/Logement/maison_verte.svg';
 import Icon from '../../../components/Icon';
 
 import comptesData from '../../../mockData/comptesData';
+
+import { TabMesBiensParamList } from '../../../types';
+import { useGetRealEstate } from '../../../src/API/RealEstate';
+import CompteHeader from '../../../components/CompteHeader/CompteHeader';
 
 function MonBudget() {
   const navigation = useNavigation();
   const theme = useTheme();
   const linkTo = useLinkTo();
+  const route = useRoute<RouteProp<TabMesBiensParamList, 'mon-bugdet'>>();
+  // console.log('mon-budget data', route.params);
+  const { data } = useGetRealEstate(route.params.id);
+  // console.log('data mon-budget: ', data?.getRealEstate);
 
   const allerTresorerie = () => {
     linkTo('/ma-tresorerie');
   };
 
   const allerAjoutRevenu = () => {
-    navigation.navigate('ajout-revenu', { id: 11 });
+    navigation.navigate('ajout-revenu', { id: route.params.id });
   };
 
   const allerAjoutCharge = () => {
@@ -48,22 +56,10 @@ function MonBudget() {
       *  I. Mon Budget
       */}
       <Layout style={styles.container}>
-        <Text category="h1" style={{ marginVertical: 12 }}>
+        <Text category="h1" style={{ marginVertical: 20 }}>
           Mon Budget
         </Text>
-        <View style={{
-          marginTop: 10, marginRight: 20, flexDirection: 'row', alignItems: 'center',
-        }}
-        >
-          <View style={{ marginRight: 12 }}>
-            <MaisonVert height={40} width={40} />
-          </View>
-
-          <Text category="h2">
-            {/* {compte.typeBien} */}
-            La Maison de Mathieu
-          </Text>
-        </View>
+        <CompteHeader title={data?.getRealEstate?.name} />
       </Layout>
 
       {/**

@@ -175,5 +175,6 @@ export default function Form<T>({
   // eslint-disable-next-line max-len,@typescript-eslint/no-shadow
   const renderInputs = (children: React.ReactElement) => (Array.isArray(children) ? [...children] : [children])
     .map((child) => renderInput(child));
+
   return <React.Fragment key="root-form">{renderInputs(children)}</React.Fragment>;
 }

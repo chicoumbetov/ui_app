@@ -14,6 +14,7 @@ import { DocumentResult } from 'expo-document-picker';
 import { v4 as uuid } from 'uuid';
 import * as mime from 'react-native-mime-types';
 import { useNetworkInfo } from './CustomHooks';
+import { CameraOutput } from '../components/Camera/Camera';
 
 export const waitingDirectory = 'waitingFile/';
 
@@ -89,24 +90,30 @@ export function useAutoFileStorage() {
 }
 
 export const Upload = async (
-  file: ImagePickerResult | DocumentResult,
+  file: ImagePickerResult | DocumentResult | CameraOutput,
   path?: string,
 ) => {
   // on normalise l'objet en fonction du cas
   let found = false;
   let finalFile: { name: string, uri: string } = { name: '', uri: '' };
-  if ('cancelled' in file && !file.cancelled) {
+  if (file && 'cancelled' in file && !file.cancelled) {
     found = true;
     finalFile = {
       name: getFilename(file.uri),
       uri: file.uri,
     };
     // on est dans le cas d'un resultat de ImagePicker
-  } else if ('type' in file && file.type === 'success') {
+  } else if (file && 'type' in file && file.type === 'success') {
     found = true;
     // on est dans le cas d'un resultat de DocumentPicker
     finalFile = {
       name: file.name,
+      uri: file.uri,
+    };
+  } else if (file && !('cancelled' in file) && !('type' in file) && file.uri) {
+    // on est dans le cas d'une photo de la caméra
+    finalFile = {
+      name: getFilename(file.uri),
       uri: file.uri,
     };
   }

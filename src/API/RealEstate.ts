@@ -2,18 +2,22 @@ import gql from 'graphql-tag';
 import { useMutation, useQuery } from 'react-apollo';
 import { DocumentNode } from 'apollo-link';
 
+import { useEffect } from 'react';
 import {
   CompanyType,
   CreateRealEstateMutation,
   CreateRealEstateMutationVariables, GetRealEstateQuery, GetRealEstateQueryVariables,
   ListRealEstatesQuery,
   ListRealEstatesQueryVariables,
+  OnCreateRealEstateSubscription, OnCreateRealEstateSubscriptionVariables,
   RealEstateType,
   UpdateRealEstateMutation,
   UpdateRealEstateMutationVariables,
 } from '../API';
 import { getRealEstate, listRealEstates } from '../graphql/queries';
 import * as mutations from '../graphql/mutations';
+import * as subscriptions from '../graphql/subscriptions';
+import { useUser } from './UserContext';
 
 export type RealEstateItem = {
   __typename: 'RealEstate',
@@ -69,22 +73,69 @@ export type RealEstateItem = {
   updatedAt: string,
 };
 
+const listRealEstatesQuery = <DocumentNode>gql(listRealEstates);
+
 export function useRealEstateList() {
-  const listRealEstatesQuery = <DocumentNode>gql(listRealEstates);
   const {
-    loading, data, fetchMore, refetch,
+    loading, data, fetchMore, refetch, subscribeToMore,
   } = useQuery<ListRealEstatesQuery, ListRealEstatesQueryVariables>(listRealEstatesQuery);
+  const { user } = useUser();
+
+  useEffect(() => {
+    let unsubscribe = () => {};
+    if (user?.id) {
+      unsubscribe = subscribeToMore<OnCreateRealEstateSubscription,
+      OnCreateRealEstateSubscriptionVariables>({
+        document: gql(subscriptions.onCreateRealEstate),
+        variables: {
+          admins: user?.id,
+        },
+        updateQuery: (prev, { subscriptionData }) => {
+          console.log(prev);
+          console.log(subscriptionData);
+        },
+      });
+    }
+    return () => {
+      unsubscribe();
+    };
+  }, [user]);
 
   return {
     loading, data, fetchMore, refetch,
   };
 }
+
 export function createRealEstateMutation() {
   // eslint-disable-next-line @typescript-eslint/no-shadow
   const [createRealEstate] = useMutation<
   CreateRealEstateMutation,
   CreateRealEstateMutationVariables
-  >(gql(mutations.createRealEstate));
+  >(gql(mutations.createRealEstate), {
+    update: (cache, { data: mutationData }) => {
+      console.log(mutationData);
+      if (mutationData) {
+        const { createRealEstate: newData } = mutationData;
+        if (newData) {
+          // Read query from cache
+          const cacheData = cache.readQuery<ListRealEstatesQuery, ListRealEstatesQueryVariables>({
+            query: listRealEstatesQuery,
+          });
+
+          // Add newly created item to the cache copy
+          if (cacheData && cacheData.listRealEstates?.items) {
+            cacheData.listRealEstates?.items.push(newData);
+
+            // Overwrite the cache with the new results
+            cache.writeQuery<ListRealEstatesQuery, ListRealEstatesQueryVariables>({
+              query: listRealEstatesQuery,
+              data: cacheData,
+            });
+          }
+        }
+      }
+    },
+  });
   return createRealEstate;
 }
 

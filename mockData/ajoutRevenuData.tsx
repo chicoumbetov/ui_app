@@ -1,30 +1,30 @@
 export const typeRevenu = [
   {
     label: 'Loyer',
-    key: 'b1',
+    key: 'rent',
   },
   {
     label: 'CAF',
-    key: 'b2',
+    key: 'caf',
   },
   {
     label: 'Revenu Divers',
-    key: 'b3',
+    key: 'variousRevenue',
   },
 ];
 
 export const montant = [
   {
     label: 'Loyer',
-    key: 'b1',
+    key: 'rent',
   },
   {
     label: 'Charges',
-    key: 'b2',
+    key: 'expense',
   },
   {
     label: 'TauxFrais',
-    key: 'b3',
+    key: 'Rate Fee',
   },
 ];
 
@@ -50,15 +50,15 @@ export const typeMontant = [
 export const frequence = [
   {
     label: 'Mensuelle',
-    key: 'mmm',
+    key: 'Mensuelle',
   },
   {
     label: 'Trimestrielle',
-    key: 'b2',
+    key: 'Trimestrielle',
   },
   {
     label: 'Annuelle',
-    key: 'b3',
+    key: 'Annuelle',
   },
 ];
 

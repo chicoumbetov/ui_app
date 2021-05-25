@@ -11,6 +11,7 @@ type User @model @auth(rules: [
   phoneNumber: AWSPhone @auth (rules: [{allow: owner, ownerField: "id"}])
   optIn: Boolean @auth (rules: [{allow: owner, ownerField: "id"}])
   address: Address @auth (rules: [{allow: owner, ownerField: "id"}])
+  expoToken: [String!] @auth (rules: [{allow: owner, ownerField: "id"}])
 
   avatarUri: String
   birthDate: AWSDate @auth (rules: [{allow: owner, ownerField: "id"}])

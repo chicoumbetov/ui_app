@@ -7,22 +7,40 @@ import {
 } from 'react-native';
 
 import { useForm } from 'react-hook-form';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import { RouteProp } from '@react-navigation/core/lib/typescript/src/types';
 import MaisonVert from '../../../assets/Omedom_Icons_svg/Logement/maison_verte.svg';
 
 import SelectComp from '../../../components/Form/Select';
 import {
-  loyer, frequence, typeRevenu, typeMontant, montant,
+  loyer, frequence, typeRevenu, typeMontant, montant, typeCharge, typeImpots,
 } from '../../../mockData/ajoutRevenuData';
 import Form from '../../../components/Form/Form';
 import TextInputComp from '../../../components/Form/TextInput';
 import MaxWidthContainer from '../../../components/MaxWidthContainer';
+import { Frequency } from '../../../src/API';
+import { useAddTenant } from '../../../src/API/Tenant';
+import { useCreateBudgetLineMutation } from '../../../src/API/BudgetLine';
+import { TabMesBiensParamList } from '../../../types';
+import { useGetRealEstate } from '../../../src/API/RealEstate';
+import CompteHeader from '../../../components/CompteHeader/CompteHeader';
+import Separator from '../../../components/Separator';
 
 type ParamBudgetForm = {
-  typeRevenu: string;
-  montant: string;
-  frequence: string;
-  derniereEcheance: string;
-  typemontant: string;
+  category: string,
+  amount: number,
+  frequency: Frequency,
+  nextDueDate?: string | null,
+  tenantId?: string | null,
+  tenant?: {
+    rentalCharges: number,
+    managementFees: number,
+    lastname: string,
+    firstname: string,
+    email: string,
+    startDate: string,
+    endDate: string,
+  }
 };
 
 type ParamAjoutBienForm = {
@@ -33,7 +51,14 @@ type ParamAjoutBienForm = {
 const ParametrerAjoutCharges = () => {
   const theme = useTheme();
   const paramBudgetForm = useForm<ParamBudgetForm>();
-  const paramAjoutBienForm = useForm<ParamAjoutBienForm>();
+
+  // const addTenant = useAddTenant();
+  const createBudgetLine = useCreateBudgetLineMutation();
+
+  const route = useRoute<RouteProp<TabMesBiensParamList, 'ajout-revenu'> | RouteProp<TabMesBiensParamList, 'modifier-revenu'>>();
+  const navigation = useNavigation();
+  console.log('route ajout charge', route.params);
+  const { bien } = useGetRealEstate(route.params.id);
 
   const [frequenceShow, setFrequenceShow] = useState(false);
   const [montantShow, setMontantShow] = useState(false);
@@ -48,39 +73,29 @@ const ParametrerAjoutCharges = () => {
   const [etape, setEtape] = useState(0);
 
   return (
-    <MaxWidthContainer>
+    <MaxWidthContainer
+      withScrollView="keyboardAware"
+      outerViewProps={{
+        showsVerticalScrollIndicator: false,
+      }}
+    >
 
       {/**
          *  I. Mon Budget
          */}
       <Layout style={styles.container}>
-        <Text category="h1">
+        <Text category="h1" style={{ marginBottom: 20 }}>
           Paramétrer votre budget
         </Text>
-        <View style={{
-          marginTop: 10, marginRight: 20, flexDirection: 'row', alignItems: 'center',
-        }}
-        >
-          <View style={{ marginRight: 12 }}>
-            <MaisonVert height={40} width={40} />
-          </View>
-
-          <Text category="h3">
-            {' '}
-            {/* {compte.typeRevenu} */}
-            La Maison
-            {' '}
-            de Mathieu
-            {' '}
-          </Text>
-        </View>
+        <CompteHeader title={bien?.name} />
       </Layout>
+      <Separator />
 
       {/**
          *  II. Ajouter revenu
          */}
       <Layout style={styles.container}>
-        <Text category="s2" status="basic">
+        <Text category="s2" status="basic" style={{ marginBottom: 20 }}>
           Ajouter un revenu
         </Text>
 
@@ -96,26 +111,41 @@ const ParametrerAjoutCharges = () => {
               <Layout style={{ backgroundColor: 'transparent', paddingBottom: 33 }}>
 
                 <View>
-                  <SelectComp name="typeRevenu" data={typeRevenu} onChangeValue={(v) => { if (v === 'b1') { setRevenuLoyer(true); } else { setRevenuLoyer(false); } setMontantShow(true); setFrequenceShow(true); }} placeholder="Type De Revenu" size="large" appearance="default" status="primary" />
-
+                  <SelectComp
+                    name="typeCharge"
+                    data={typeCharge}
+                    onChangeValue={(v) => {
+                      if (v === 'Impôts') {
+                        setRevenuLoyer(true);
+                      } else {
+                        setRevenuLoyer(false);
+                      } setMontantShow(true); setFrequenceShow(true);
+                    }}
+                    placeholder="Type De Revenu"
+                    size="large"
+                    appearance="default"
+                    status="primary"
+                  />
                 </View>
 
                 <View>
-
-                  {montantShow && (
-                    <View>
-                      <TextInputComp name="montant" placeholder="Saisissez votre montant ici" />
-
-                      {revenuLoyer && (
-                      <View>
-                        <TextInputComp name="charges" placeholder="Montant des charges" />
-                        <TextInputComp name="gestion" placeholder="Taux de frais de gestion" />
-                      </View>
-                      )}
-                    </View>
-                  )}
-
+                  <SelectComp
+                    name="typeImpots"
+                    data={typeImpots}
+                    onChangeValue={() => {}}
+                    placeholder="Type d'Impôts"
+                    size="large"
+                    appearance="default"
+                    status="primary"
+                  />
                 </View>
+
+                {montantShow && (
+                <View>
+                  <TextInputComp name="montant" placeholder="Saisissez votre montant ici" />
+                </View>
+                )}
+
                 <View>
 
                   {frequenceShow
@@ -131,19 +161,6 @@ const ParametrerAjoutCharges = () => {
                 </View>
 
               </Layout>
-
-              {revenuLoyer && (
-                <View>
-                  <Text style={{ paddingBottom: 30 }} category="h5">Ajouter un locataire</Text>
-                  <TextInputComp style={{ paddingBottom: 30 }} name="charges" placeholder="Montant des charges" />
-                  <TextInputComp style={{ paddingBottom: 30 }} name="charges" placeholder="Montant des charges" />
-                  <TextInputComp style={{ paddingBottom: 30 }} name="charges" placeholder="Montant des charges" />
-                  <Text style={{ paddingBottom: 30 }} category="h5">Date de début de bail</Text>
-                  <Datepicker style={{ paddingBottom: 30 }} />
-                  <Text style={{ paddingBottom: 30 }} category="h5">Date de fin de bail</Text>
-                  <Datepicker style={{ paddingBottom: 30 }} />
-                </View>
-              )}
 
             </View>
 
@@ -169,8 +186,6 @@ export default ParametrerAjoutCharges;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#f6f6f6',
-    marginTop: 12,
     paddingVertical: 25,
     paddingHorizontal: 26,
   },

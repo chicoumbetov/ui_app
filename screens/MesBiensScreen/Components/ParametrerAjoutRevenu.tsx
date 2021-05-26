@@ -21,6 +21,7 @@ import { useGetRealEstate } from '../../../src/API/RealEstate';
 import { useAddTenant } from '../../../src/API/Tenant';
 import DatePicker from '../../../components/Form/DatePicker';
 import { AvailableValidationRules } from '../../../components/Form/validation';
+import Separator from '../../../components/Separator';
 
 type ParamBudgetForm = {
   category: string,
@@ -204,6 +205,7 @@ const ParametrerAjoutRevenu = () => {
         </Text>
         <CompteHeader title={bien?.name} />
       </Layout>
+      <Separator />
 
       {/**
        *  II. Ajouter revenu
@@ -375,8 +377,6 @@ export default ParametrerAjoutRevenu;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#f6f6f6',
-    marginTop: 12,
     paddingVertical: 25,
     paddingHorizontal: 26,
   },

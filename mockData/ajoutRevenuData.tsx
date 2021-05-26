@@ -15,6 +15,60 @@ export const typeRevenu = [
   },
 ];
 
+export const typeCharge = [
+  {
+    label: 'Impôts',
+    key: 'Impôts',
+  },
+  {
+    label: 'Eau',
+    key: 'Eau',
+  },
+  {
+    label: 'Electricité',
+    key: 'Electricité',
+  },
+  {
+    label: 'Assurance',
+    key: 'Assurance',
+  },
+  {
+    label: 'Banque',
+    key: 'Banque',
+  },
+  {
+    label: 'Charges de copropriété',
+    key: 'Charges de copropriété',
+  },
+  {
+    label: 'Frais Comptables',
+    key: 'Frais Comptables',
+  },
+  {
+    label: 'Frais de Gestion',
+    key: 'Frais de Gestion',
+  },
+  {
+    label: 'Frais divers',
+    key: 'Frais divers',
+  },
+];
+
+export const typeImpots = [
+  {
+    label: 'Taxes Foncières',
+    key: 'Taxes Foncières',
+  },
+  {
+    label: "Taxes d'Habitation",
+    key: "Taxes d'Habitation",
+  },
+  {
+    label: 'Contribution Sociales',
+    key: 'Contribution Sociales',
+  },
+];
+
 export const montant = [
   {
     label: 'Loyer',

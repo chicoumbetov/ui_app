@@ -45,7 +45,7 @@ function MonBudget() {
   };
 
   const allerAjoutCharge = () => {
-    navigation.navigate('ParametrerAjoutCharges');
+    navigation.navigate('ajout-charge', { id: route.params.id });
   };
 
   console.log('mon budget :', bien);

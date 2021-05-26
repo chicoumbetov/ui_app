@@ -61,6 +61,11 @@ export type TabMesBiensParamList = {
   'detail-bien': { id: string };
   'mon-budget': { id: string };
   'ajout-revenu': { id: string };
+  'modifier-revenu': { id: string, idBudgetLine: string };
+
+  'ajout-charge': { id: string };
+  'modifier-charge': { id: string, idBudgetLine: string };
+
   ParametrerAjoutCharges: { id: string };
   PartagerBien: undefined;
   'modifier-characteristique': undefined;

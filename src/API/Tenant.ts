@@ -26,8 +26,9 @@ export const useAddTenant = () => {
           },
         },
       });
+      return tenantInfo.id;
     }
-    return updateRealEstate;
+    return null;
   };
 };
 

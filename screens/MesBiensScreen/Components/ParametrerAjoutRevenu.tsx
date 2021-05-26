@@ -116,7 +116,7 @@ const ParametrerAjoutRevenu = () => {
         },
       });
        */
-
+      let tenantId: string | null = null;
       if (tenant) {
         tenantId = await addTenant(bien, {
           ...tenant,
@@ -154,6 +154,7 @@ const ParametrerAjoutRevenu = () => {
             frequency,
             nextDueDate,
             type: BudgetLineType.Income,
+            tenantId,
           },
         },
       });
@@ -204,7 +205,10 @@ const ParametrerAjoutRevenu = () => {
           Ajouter un revenu
         </Text>
 
-        <Form<ParamBudgetForm> {...paramBudgetForm}>
+        <Form
+          {...paramBudgetForm}
+          defaultValues={currentBudgetLine}
+        >
           <>
 
             {/**

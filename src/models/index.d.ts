@@ -97,6 +97,7 @@ export declare class User {
   readonly phoneNumber?: string;
   readonly optIn?: boolean;
   readonly address?: Address;
+  readonly expoToken?: string[];
   readonly avatarUri?: string;
   readonly birthDate?: string;
   readonly subscription?: SubscriptionType | keyof typeof SubscriptionType;

@@ -19,7 +19,7 @@ import { AvailableValidationRules } from '../../../components/Form/validation';
 import SelectComp from '../../../components/Form/Select';
 import { detention, typeBien } from '../../../mockData/ajoutBienData';
 
-import { updateRealEstateMutation } from '../../../src/API/RealEstate';
+import { useUpdateRealEstateMutation } from '../../../src/API/RealEstate';
 import { TabMesBiensParamList } from '../../../types';
 
 type ModifierCharacteristiquesForm = {
@@ -40,7 +40,7 @@ const Informations = () => {
   const route = useRoute<RouteProp<TabMesBiensParamList, 'detail-bien'>>();
   const navigation = useNavigation();
 
-  const updateRealEstate = updateRealEstateMutation();
+  const updateRealEstate = useUpdateRealEstateMutation();
   const onPress = async (data: ModifierCharacteristiquesForm) => {
     console.log('characteristiques data: ', data);
 

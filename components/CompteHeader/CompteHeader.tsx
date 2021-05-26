@@ -4,7 +4,7 @@ import MaisonVerte from '../../assets/Omedom_Icons_svg/Logement/maison_verte.svg
 import MaxWidthContainer from '../MaxWidthContainer';
 
 type TitleProps = {
-  title: string
+  title?: string
 };
 
 const CompteHeader = ({ title }: TitleProps) => (

@@ -9,7 +9,7 @@ type HeaderBackProps = {
   withNavigation?:boolean;
 };
 
-const HeaderBack = ({ withNavigation, onPress }: HeaderBackProps) => {
+const HeaderBack = ({ withNavigation = true, onPress }: HeaderBackProps) => {
   let goBack = () => {};
   if (withNavigation) {
     const navigation = useNavigation();

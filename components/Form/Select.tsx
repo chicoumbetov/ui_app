@@ -86,6 +86,7 @@ const styles = StyleSheet.create({
   container: {
     marginVertical: 8,
     flex: 1,
+    marginBottom: 20,
   },
   input: {
     height: 40,

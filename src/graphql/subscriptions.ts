@@ -1188,6 +1188,7 @@ export const onCreateUser = /* GraphQL */ `
         city
         country
       }
+      expoToken
       birthDate
       subscription
     }
@@ -1215,6 +1216,7 @@ export const onUpdateUser = /* GraphQL */ `
         city
         country
       }
+      expoToken
       birthDate
       subscription
     }
@@ -1242,6 +1244,7 @@ export const onDeleteUser = /* GraphQL */ `
         city
         country
       }
+      expoToken
       birthDate
       subscription
     }
@@ -1548,6 +1551,7 @@ export const onCreateNotification = /* GraphQL */ `
           city
           country
         }
+        expoToken
         birthDate
         subscription
       }
@@ -1588,6 +1592,7 @@ export const onUpdateNotification = /* GraphQL */ `
           city
           country
         }
+        expoToken
         birthDate
         subscription
       }
@@ -1628,6 +1633,7 @@ export const onDeleteNotification = /* GraphQL */ `
           city
           country
         }
+        expoToken
         birthDate
         subscription
       }
@@ -1670,6 +1676,7 @@ export const onCreateBillingHistory = /* GraphQL */ `
           city
           country
         }
+        expoToken
         birthDate
         subscription
       }
@@ -1712,6 +1719,7 @@ export const onUpdateBillingHistory = /* GraphQL */ `
           city
           country
         }
+        expoToken
         birthDate
         subscription
       }
@@ -1754,6 +1762,7 @@ export const onDeleteBillingHistory = /* GraphQL */ `
           city
           country
         }
+        expoToken
         birthDate
         subscription
       }

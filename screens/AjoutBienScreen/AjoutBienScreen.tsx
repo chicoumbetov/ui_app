@@ -27,7 +27,7 @@ import MaxWidthContainer from '../../components/MaxWidthContainer';
 import AutoAvatar from '../../components/AutoAvatar';
 import TextInput from '../../components/Form/TextInput';
 import { AvailableValidationRules } from '../../components/Form/validation';
-import { createRealEstateMutation } from '../../src/API/RealEstate';
+import { useCreateRealEstateMutation } from '../../src/API/RealEstate';
 import { CompanyType, RealEstateType, TaxType } from '../../src/API';
 import { useUser } from '../../src/API/UserContext';
 
@@ -52,7 +52,7 @@ function AjoutBienScreen() {
   const theme = useTheme();
   const { user } = useUser();
 
-  const createRealEstate = createRealEstateMutation();
+  const createRealEstate = useCreateRealEstateMutation();
 
   const ajoutBienForm = useForm<AjoutBienForm>();
 
@@ -367,22 +367,22 @@ function AjoutBienScreen() {
             {detentionShow
               && (
               <View style={{ height: 75 }}>
-                  <SelectComp
-                    name="detentionPart"
-                    data={typeDetention}
-                    placeholder="Type De Détention"
-                    onChangeValue={(v) => {
-                      if (v === 'Indivision') {
-                        setPourcentageDetentionShow(true);
-                      } else {
-                        ajoutBienForm.setValue('detentionPart', '100');
-                        setPourcentageDetentionShow(false);
-                      }
-                    }}
-                    size="large"
-                    appearance="default"
-                    status="primary"
-                  />
+                <SelectComp
+                  name="detentionPart"
+                  data={typeDetention}
+                  placeholder="Type De Détention"
+                  onChangeValue={(v) => {
+                    if (v === 'Indivision') {
+                      setPourcentageDetentionShow(true);
+                    } else {
+                      ajoutBienForm.setValue('detentionPart', '100');
+                      setPourcentageDetentionShow(false);
+                    }
+                  }}
+                  size="large"
+                  appearance="default"
+                  status="primary"
+                />
               </View>
               )}
 

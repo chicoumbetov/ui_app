@@ -823,6 +823,7 @@ export const syncUsers = /* GraphQL */ `
           city
           country
         }
+        expoToken
         birthDate
         subscription
       }
@@ -853,6 +854,7 @@ export const getUser = /* GraphQL */ `
         city
         country
       }
+      expoToken
       birthDate
       subscription
     }
@@ -885,6 +887,7 @@ export const listUsers = /* GraphQL */ `
           city
           country
         }
+        expoToken
         birthDate
         subscription
       }
@@ -1144,6 +1147,7 @@ export const getNotification = /* GraphQL */ `
           city
           country
         }
+        expoToken
         birthDate
         subscription
       }
@@ -1182,6 +1186,7 @@ export const listNotifications = /* GraphQL */ `
           email
           phoneNumber
           optIn
+          expoToken
           birthDate
           subscription
         }
@@ -1229,6 +1234,7 @@ export const syncNotifications = /* GraphQL */ `
           email
           phoneNumber
           optIn
+          expoToken
           birthDate
           subscription
         }
@@ -1274,6 +1280,7 @@ export const getBillingHistory = /* GraphQL */ `
           city
           country
         }
+        expoToken
         birthDate
         subscription
       }
@@ -1314,6 +1321,7 @@ export const listBillingHistorys = /* GraphQL */ `
           email
           phoneNumber
           optIn
+          expoToken
           birthDate
           subscription
         }
@@ -1363,6 +1371,7 @@ export const syncBillingHistories = /* GraphQL */ `
           email
           phoneNumber
           optIn
+          expoToken
           birthDate
           subscription
         }

@@ -54,6 +54,14 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
+                "expoToken": {
+                    "name": "expoToken",
+                    "isArray": true,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": [],
+                    "isArrayNullable": true
+                },
                 "avatarUri": {
                     "name": "avatarUri",
                     "isArray": false,
@@ -195,7 +203,7 @@ export const schema = {
                     "isArrayNullable": true,
                     "association": {
                         "connectionType": "HAS_MANY",
-                        "associatedWith": "id"
+                        "associatedWith": "realEstate"
                     }
                 },
                 "documents": {
@@ -209,7 +217,7 @@ export const schema = {
                     "isArrayNullable": true,
                     "association": {
                         "connectionType": "HAS_MANY",
-                        "associatedWith": "id"
+                        "associatedWith": "realEstate"
                     }
                 },
                 "admins": {
@@ -1237,5 +1245,5 @@ export const schema = {
             }
         }
     },
-    "version": "d65047549a5183ea523cc321d4c80ac5"
+    "version": "51440d0b5867246eb91e4c811a8943ab"
 };

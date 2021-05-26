@@ -1,11 +1,10 @@
 import { Layout, Text } from '@ui-kitten/components';
 import React from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
-import { RealEstateItem } from '../../../src/API/RealEstate';
-import { BudgetLineItem } from '../../../src/API/BudgetLine';
 import Card from '../../../components/Card';
+import { BudgetLine } from '../../../src/API';
 
-type MonBudgetProps = { budget: BudgetLineItem };
+type MonBudgetProps = { budget: BudgetLine };
 
 const MonBudgetCard = (props: MonBudgetProps) => {
   const { budget } = props;
@@ -18,7 +17,7 @@ const MonBudgetCard = (props: MonBudgetProps) => {
             Loyer
           </Text>
 
-          <Text category="h6" status="success">+ 500 €</Text>
+          <Text category="h6" status="success">{`+ ${budget.amount} €`}</Text>
         </View>
 
         <View style={{

@@ -1,0 +1,21 @@
+diff --git a/node_modules/@ui-kitten/components/ui/datepicker/baseDatepicker.component.js b/node_modules/@ui-kitten/components/ui/datepicker/baseDatepicker.component.js
+index 1092c33..93ab4d6 100644
+--- a/node_modules/@ui-kitten/components/ui/datepicker/baseDatepicker.component.js
++++ b/node_modules/@ui-kitten/components/ui/datepicker/baseDatepicker.component.js
+@@ -51,6 +51,7 @@ class BaseDatepickerComponent extends react_1.default.Component {
+                 placeholder: {
+                     marginHorizontal: textMarginHorizontal,
+                     color: placeholderColor,
++                    fontSize: textFontSize,
+                 },
+                 icon: {
+                     width: iconWidth,
+@@ -106,7 +107,7 @@ class BaseDatepickerComponent extends react_1.default.Component {
+         this.renderInputElement = (props, evaStyle) => {
+             return (react_1.default.createElement(devsupport_1.TouchableWithoutFeedback, Object.assign({}, props, { style: [evaStyle.control, styles.control, this.props.controlStyle], onPress: this.onPress, onPressIn: this.onPressIn, onPressOut: this.onPressOut }),
+                 react_1.default.createElement(devsupport_1.FalsyFC, { style: evaStyle.icon, component: this.props.accessoryLeft }),
+-                react_1.default.createElement(devsupport_1.FalsyText, { style: evaStyle.text, numberOfLines: 1, ellipsizeMode: 'tail', component: this.getComponentTitle() }),
++                react_1.default.createElement(devsupport_1.FalsyText, { style: this.props.date ? evaStyle.text : evaStyle.placeholder, numberOfLines: 1, ellipsizeMode: 'tail', component: this.getComponentTitle() }),
+                 react_1.default.createElement(devsupport_1.FalsyFC, { style: evaStyle.icon, component: this.props.accessoryRight })));
+         };
+     }

@@ -32,8 +32,8 @@ type RealEstate @model
   company: CompanyType
   detentionPart: Float
   typeImpot: TaxType
-  budgetLines: [BudgetLine] @connection(fields: ["id"])
-  documents: [Document] @connection(fields: ["id"])
+  budgetLines: [BudgetLine] @connection(keyName: "budgetLineByRealEstate", fields: ["id"])
+  documents: [Document] @connection(keyName: "documentByRealEstate", fields: ["id"])
   admins: [String!]!
   shared: [String!]
   pendingInvitations: [String!]

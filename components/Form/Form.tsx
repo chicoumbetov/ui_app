@@ -73,7 +73,7 @@ export default function Form<T>({
           const myUniqueChild = child.props.children;
           registerMyInput(
             myUniqueChild.props.name,
-            myUniqueChild.props.label,
+            myUniqueChild.props.label ? myUniqueChild.props.label : myUniqueChild.props.placeholder,
             myUniqueChild.props.validators,
             setValues,
           );
@@ -151,7 +151,13 @@ export default function Form<T>({
     if (child?.props?.children?.props?.name && child?.props?.children?.props?.name !== ''
     ) {
       const myUniqueChild = child.props.children;
-      return renderInput(myUniqueChild);
+      return React.createElement(child.type, {
+        ...{
+          ...child.props,
+          key: keys,
+          children: renderInput(myUniqueChild),
+        },
+      });
     }
     if (Array.isArray(child)) {
       return React.createElement(child.type, {

@@ -106,7 +106,7 @@ export function useRealEstateList() {
   };
 }
 
-export function createRealEstateMutation() {
+export function useCreateRealEstateMutation() {
   // eslint-disable-next-line @typescript-eslint/no-shadow
   const [createRealEstate] = useMutation<
   CreateRealEstateMutation,
@@ -139,7 +139,7 @@ export function createRealEstateMutation() {
   return createRealEstate;
 }
 
-export function updateRealEstateMutation() {
+export function useUpdateRealEstateMutation() {
   // eslint-disable-next-line @typescript-eslint/no-shadow
   const [updateRealEstate] = useMutation<UpdateRealEstateMutation,
   UpdateRealEstateMutationVariables>(gql(mutations.updateRealEstate));
@@ -154,6 +154,8 @@ export function useGetRealEstate(id: string) {
     variables: {
       id,
     },
+    fetchPolicy: 'cache-and-network',
+    nextFetchPolicy: 'cache-first',
   });
 
   return {

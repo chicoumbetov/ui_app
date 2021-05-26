@@ -77,6 +77,7 @@ const DatepickerComp = React.forwardRef<Datepicker, DatePickerFormProps>(
           caption={error && error.message}
           status={error && error.message ? 'danger' : ''}
           dateService={localeDateService}
+          placeholder={placeholder}
           controlStyle={{
             shadowColor: 'rgba(190, 190, 190, 0.5)',
             shadowOffset: {
@@ -114,6 +115,7 @@ const styles = StyleSheet.create({
     flex: 1,
     marginVertical: 8,
     flexDirection: 'row',
+    marginBottom: 20,
   },
   input: {
     flex: 1,

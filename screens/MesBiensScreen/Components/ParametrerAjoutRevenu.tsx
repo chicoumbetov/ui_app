@@ -1,35 +1,26 @@
 import React, { useState } from 'react';
-import {
-  Button, Icon, Layout, Text, useTheme,
-} from '@ui-kitten/components';
-import {
-  StyleSheet, TouchableOpacity, View,
-} from 'react-native';
-import { v4 as uuid } from 'uuid';
+import { Button, Layout, Text } from '@ui-kitten/components';
+import { StyleSheet, View } from 'react-native';
 
 import { useForm } from 'react-hook-form';
 
-import { useRoute } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { RouteProp } from '@react-navigation/core/lib/typescript/src/types';
 
 import { MotiView } from 'moti';
-import SelectComp from '../../../components/Form/Select';
-import {
-  frequence, typeRevenu,
-} from '../../../mockData/ajoutRevenuData';
+import Select from '../../../components/Form/Select';
+import { frequence, typeRevenu } from '../../../mockData/ajoutRevenuData';
 import Form from '../../../components/Form/Form';
 import MaxWidthContainer from '../../../components/MaxWidthContainer';
-import {
-  BudgetLineType, Frequency, TenantInfo, TenantInfoInput,
-} from '../../../src/API';
-import DatepickerComp from '../../../components/Form/DatePicker';
+import { BudgetLineType, Frequency } from '../../../src/API';
 import TextInput from '../../../components/Form/TextInput';
 import { TabMesBiensParamList } from '../../../types';
 import CompteHeader from '../../../components/CompteHeader/CompteHeader';
-import { createBudgetLineMutation, useGetBudgetLine } from '../../../src/API/BudgetLine';
-import { updateRealEstateMutation, useGetRealEstate } from '../../../src/API/RealEstate';
-import { updateRealEstate } from '../../../src/graphql/mutations';
-import { addTenant } from '../../../src/API/Tenant';
+import { useCreateBudgetLineMutation } from '../../../src/API/BudgetLine';
+import { useGetRealEstate } from '../../../src/API/RealEstate';
+import { useAddTenant } from '../../../src/API/Tenant';
+import DatePicker from '../../../components/Form/DatePicker';
+import { AvailableValidationRules } from '../../../components/Form/validation';
 
 type ParamBudgetForm = {
   category: string,
@@ -48,12 +39,12 @@ type ParamBudgetForm = {
 };
 
 const ParametrerAjoutRevenu = () => {
-  const theme = useTheme();
   const paramBudgetForm = useForm<ParamBudgetForm>();
-  const updateRealEstate = updateRealEstateMutation();
-  const createBudgetLine = createBudgetLineMutation();
+  const addTenant = useAddTenant();
+  const createBudgetLine = useCreateBudgetLineMutation();
 
   const route = useRoute<RouteProp<TabMesBiensParamList, 'ajout-revenu'>>();
+  const navigation = useNavigation();
   console.log('route ajout revenu', route);
   const { bien } = useGetRealEstate(route.params.id);
   // console.log('data ajout revenu: ', data);
@@ -101,14 +92,12 @@ const ParametrerAjoutRevenu = () => {
       });
        */
 
-      /**
       if (tenant) {
         addTenant(bien, {
           ...tenant,
           amount,
         });
       }
-       */
 
       /**
       const tenantInfo: TenantInfoInput = {
@@ -157,6 +146,8 @@ const ParametrerAjoutRevenu = () => {
         },
       });
     }
+
+    navigation.pop();
   };
 
   return (
@@ -192,7 +183,7 @@ const ParametrerAjoutRevenu = () => {
            *  Type de revenu
            */}
 
-            <SelectComp
+            <Select
               name="category"
               data={typeRevenu}
               onChangeValue={(v) => {
@@ -206,6 +197,7 @@ const ParametrerAjoutRevenu = () => {
               size="large"
               appearance="default"
               status="primary"
+              validators={[AvailableValidationRules.required]}
               onPress={() => setEtape(1)}
             />
 
@@ -232,63 +224,94 @@ const ParametrerAjoutRevenu = () => {
               }
             </TouchableOpacity>
             */}
-
             <MotiView
-              animate={{ height: (etape === 0 && montantShow ? 70 : 0) }}
+              animate={{ height: (etape === 0 && montantShow ? 68 : 0) }}
               style={{ overflow: 'hidden' }}
               transition={{ type: 'timing', duration: 500 }}
             >
-              <TextInput name="amount" placeholder="Saisissez votre montant ici" />
+              <TextInput
+                name="amount"
+                placeholder="Saisissez votre montant ici"
+                validators={[{ rule: AvailableValidationRules.required, errorMessage: 'Un montant est requis' }]}
+              />
             </MotiView>
-            <MotiView animate={{ height: (revenuLoyer ? 120 : 0) }} style={{ overflow: 'hidden' }} transition={{ type: 'timing', duration: 500 }}>
+            <MotiView
+              animate={{ height: (revenuLoyer ? 136 : 0) }}
+              style={{
+                overflow: 'hidden',
+                // hack pour éviter que le overflow 'hidden' ne cache l'ombre
+                marginHorizontal: -5,
+                paddingHorizontal: 5,
+              }}
+              transition={{ type: 'timing', duration: 500 }}
+            >
               <TextInput name="tenant.rentalCharges" placeholder="Dont charges" />
               <TextInput name="tenant.managementFees" placeholder="Dont frais de gestion" />
             </MotiView>
 
             <MotiView
               animate={{
-                height: (frequenceShow
-                  ? 150 : 0),
+                height: (frequenceShow ? (dateDerniereEcheanceShow ? 151 : 87) : 0),
               }}
               style={{
                 overflow: 'hidden',
+                // hack pour éviter que le overflow 'hidden' ne cache l'ombre
+                marginHorizontal: -5,
+                paddingHorizontal: 5,
               }}
               transition={{ type: 'timing', duration: 500 }}
             >
-              <SelectComp name="frequency" data={frequence} onChangeValue={() => setDateDerniereEcheanceShow(true)} placeholder="Fréquence" size="large" appearance="default" status="primary" />
+              <Select
+                name="frequency"
+                data={frequence}
+                onChangeValue={() => setDateDerniereEcheanceShow(true)}
+                placeholder="Fréquence"
+                size="large"
+                appearance="default"
+                status="primary"
+                validators={[AvailableValidationRules.required]}
+              />
 
               <MotiView
-                animate={{ maxHeight: (dateDerniereEcheanceShow ? 200 : 0) }}
+                animate={{ maxHeight: (dateDerniereEcheanceShow ? 68 : 0) }}
                 style={{
                   overflow: 'hidden',
-                  flexDirection: 'row',
-                  marginHorizontal: 23,
-                  justifyContent: 'space-between',
-                  height: 60,
-                  alignItems: 'center',
+                  // hack pour éviter que le overflow 'hidden' ne cache l'ombre
+                  marginHorizontal: -5,
+                  paddingHorizontal: 5,
                 }}
                 transition={{ type: 'timing', duration: 500 }}
               >
-                <DatepickerComp name="nextDueDate" placeholder="Date de dernière échéance" />
+                <DatePicker
+                  name="nextDueDate"
+                  placeholder="Date de dernière échéance"
+                  validators={[AvailableValidationRules.required]}
+                />
               </MotiView>
 
             </MotiView>
 
             <MotiView
-              animate={{ maxHeight: (revenuLoyer ? 400 : 0) }}
+              animate={{ maxHeight: (revenuLoyer ? 365 : 0) }}
               style={{
                 overflow: 'hidden',
+                // hack pour éviter que le overflow 'hidden' ne cache l'ombre
+                marginHorizontal: -5,
+                paddingHorizontal: 5,
+                paddingTop: 8,
               }}
               transition={{ type: 'timing', duration: 500 }}
             >
               <Text category="h5">Ajouter un locataire</Text>
-              <TextInput style={{ height: 80, paddingBottom: 15 }} name="tenant.firstname" placeholder="Saisissez le prénom" />
-              <TextInput style={{ height: 80, paddingBottom: 15 }} name="tenant.lastname" placeholder="Saisissez le nom" />
-              <TextInput style={{ height: 80, paddingBottom: 15 }} name="tenant.email" placeholder="Saisissez le mail" />
-              <Text style={{ paddingBottom: 15 }} category="h5">Date de début de bail</Text>
-              <DatepickerComp name="tenant.startDate" placeholder="Date de début de bail" style={{ height: 80, paddingBottom: 15 }} />
-              <Text style={{ paddingBottom: 15 }} category="h5">Date de fin de bail</Text>
-              <DatepickerComp name="tenant.endDate" placeholder="Date de fin de bail" style={{ paddingBottom: 15 }} />
+              <TextInput name="tenant.firstname" placeholder="Saisissez le prénom" />
+              <TextInput name="tenant.lastname" placeholder="Saisissez le nom" />
+              <TextInput
+                name="tenant.email"
+                placeholder="Saisissez le mail"
+                validators={[AvailableValidationRules.email]}
+              />
+              <DatePicker name="tenant.startDate" placeholder="Date de début de bail" />
+              <DatePicker name="tenant.endDate" placeholder="Date de fin de bail" />
             </MotiView>
 
             <View style={{ alignItems: 'flex-end', marginTop: 10 }}>

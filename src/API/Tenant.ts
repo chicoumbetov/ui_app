@@ -1,43 +1,58 @@
 import { v4 as uuid } from 'uuid';
-import gql from 'graphql-tag';
-import { useMutation } from 'react-apollo';
 import {
-  RealEstate, TenantInfoInput, UpdateRealEstateMutation, UpdateRealEstateMutationVariables,
+  RealEstate, TenantInfoInput,
 } from '../API';
 
-import * as mutations from '../graphql/mutations';
-import { updateRealEstateMutation } from './RealEstate';
+import { useUpdateRealEstateMutation } from './RealEstate';
 
-const updateRealEstate = updateRealEstateMutation();
+export const useAddTenant = () => {
+  const updateRealEstate = useUpdateRealEstateMutation();
 
-export const addTenant = async (bien: RealEstate, newTenant: Omit<TenantInfoInput, 'id'>) => {
-  /** *
-   * const [updateRealEstate] = useMutation<UpdateRealEstateMutation,
-   UpdateRealEstateMutationVariables>(gql(mutations.updateRealEstate), {
-    update: (cache, { data: mutationData }) => {
-      console.log(mutationData);
-    },
-  });
-   */
-  const tenantInfo: TenantInfoInput = {
-    ...newTenant,
-    id: uuid(),
-  };
+  return async (bien: RealEstate, newTenant: Omit<TenantInfoInput, 'id'>) => {
+    const tenantInfo: TenantInfoInput = {
+      ...newTenant,
+      id: uuid(),
+    };
 
-  const tenants = (<TenantInfoInput[]>bien?.tenants || []);
-  tenants.push(tenantInfo);
+    const tenants = (<TenantInfoInput[]>bien?.tenants || []);
+    tenants.push(tenantInfo);
 
-  if (bien.id) {
-    await updateRealEstate({
-      variables: {
-        input: {
-          id: bien.id,
-          tenants,
+    if (bien.id) {
+      await updateRealEstate({
+        variables: {
+          input: {
+            id: bien.id,
+            tenants,
+          },
         },
-      },
-    });
-  }
-  return updateRealEstate;
+      });
+    }
+    return updateRealEstate;
+  };
 };
 
-export const modifyTenant = () => {};
+export const useUpdateTenant = () => {
+  const updateRealEstate = useUpdateRealEstateMutation();
+
+  return async (bien: RealEstate, updatedTenant: TenantInfoInput) => {
+    const tenants = (<TenantInfoInput[]>bien?.tenants || []);
+    tenants.map((tenant) => {
+      if (tenant.id === updatedTenant.id) {
+        return updatedTenant;
+      }
+      return tenant;
+    });
+
+    if (bien.id) {
+      await updateRealEstate({
+        variables: {
+          input: {
+            id: bien.id,
+            tenants,
+          },
+        },
+      });
+    }
+    return updateRealEstate;
+  };
+};

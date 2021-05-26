@@ -25,12 +25,13 @@ import CompteHeader from '../../../components/CompteHeader/CompteHeader';
 import { BudgetLineItem } from '../../../src/API/BudgetLine';
 import MonBudgetCard from './MonBudgetCard';
 import MonBien from './MonBien';
+import { BudgetLine } from '../../../src/API';
 
 function MonBudget() {
   const navigation = useNavigation();
   const theme = useTheme();
   const linkTo = useLinkTo();
-  const route = useRoute<RouteProp<TabMesBiensParamList, 'mon-bugdet'>>();
+  const route = useRoute<RouteProp<TabMesBiensParamList, 'mon-budget'>>();
   // console.log('mon-budget data', route.params);
   const { bien } = useGetRealEstate(route.params.id);
   // console.log('data mon-budget: ', data?.getRealEstate);
@@ -93,21 +94,21 @@ function MonBudget() {
          keyExtractor={(item) => item.id}
          />
         */}
-        <FlatList<RealEstateItem>
-          data={comptesData}
-          renderItem={({ item }) => <MonBudgetCard budget={item} />}
+        <FlatList<BudgetLine | null>
+          data={bien?.budgetLines?.items}
+          renderItem={({ item }) => item && <MonBudgetCard budget={item} />}
           keyExtractor={(item) => item.id}
         />
 
         <Layout style={styles.button}>
           <TouchableOpacity onPress={allerAjoutRevenu}>
             <Layout style={styles.button}>
-              <Text category="h6" status="info" style={styles.buttonTextLeft}>Ajouter un compte</Text>
+              <Text category="h6" status="info" style={styles.buttonTextLeft}>Ajouter un revenu</Text>
             </Layout>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => {}}>
             <Layout style={styles.button}>
-              <Text category="h6" status="basic">Supprimer un compte</Text>
+              <Text category="h6" status="basic">Supprimer un revenu</Text>
             </Layout>
           </TouchableOpacity>
         </Layout>
@@ -181,12 +182,12 @@ function MonBudget() {
         <Layout style={styles.button}>
           <TouchableOpacity onPress={allerAjoutCharge}>
             <Layout style={styles.button}>
-              <Text category="h6" status="info" style={{ marginLeft: 6 }}>Ajouter un compte</Text>
+              <Text category="h6" status="info" style={{ marginLeft: 6 }}>Ajouter une charge</Text>
             </Layout>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => {}}>
             <Layout style={styles.button}>
-              <Text category="h6" status="basic">Supprimer un compte</Text>
+              <Text category="h6" status="basic">Supprimer une charge</Text>
             </Layout>
           </TouchableOpacity>
         </Layout>

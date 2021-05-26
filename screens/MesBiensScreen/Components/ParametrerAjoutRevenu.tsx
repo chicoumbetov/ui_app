@@ -62,14 +62,22 @@ const ParametrerAjoutRevenu = () => {
     currentBudgetLine = bien.budgetLines?.items?.filter(
       (item) => item?.id === route.params.idBudgetLine,
     ).pop();
+    useEffect(() => {
+      setMontantShow(true);
+      setFrequenceShow(true);
+      setDateDerniereEcheanceShow(true);
+    }, []);
     if (currentBudgetLine?.category === 'Loyer') {
       // on cherche le locataire
       // get tenant by his tenantId for current budgetLine
       const tenant = bien.tenants?.filter(
         (item) => item?.id === currentBudgetLine.tenantId,
       ).pop();
-        // both values are put back to current budgetLine
-        // then we show in Form as defaultValue
+      useEffect(() => {
+        setRevenuLoyer(true);
+      }, []);
+      // both values are put back to current budgetLine
+      // then we show in Form as defaultValue
       currentBudgetLine = {
         ...currentBudgetLine,
         tenant,

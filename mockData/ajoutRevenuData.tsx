@@ -69,6 +69,21 @@ export const typeImpots = [
   },
 ];
 
+export const typeAssurance = [
+  {
+    label: 'Assurance du bien',
+    key: 'Assurance du bien',
+  },
+  {
+    label: 'Loyer impayé',
+    key: 'Loyer impayé',
+  },
+  {
+    label: 'Vacances locatives',
+    key: 'Vacances locatives',
+  },
+];
+
 export const montant = [
   {
     label: 'Loyer',

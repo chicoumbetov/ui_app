@@ -13,7 +13,7 @@ import MaisonVert from '../../../assets/Omedom_Icons_svg/Logement/maison_verte.s
 
 import SelectComp from '../../../components/Form/Select';
 import {
-  loyer, frequence, typeRevenu, typeMontant, montant, typeCharge, typeImpots,
+  loyer, frequence, typeRevenu, typeMontant, montant, typeCharge, typeImpots, typeAssurance,
 } from '../../../mockData/ajoutRevenuData';
 import Form from '../../../components/Form/Form';
 import TextInputComp from '../../../components/Form/TextInput';
@@ -32,15 +32,7 @@ type ParamBudgetForm = {
   frequency: Frequency,
   nextDueDate?: string | null,
   tenantId?: string | null,
-  tenant?: {
-    rentalCharges: number,
-    managementFees: number,
-    lastname: string,
-    firstname: string,
-    email: string,
-    startDate: string,
-    endDate: string,
-  }
+
 };
 
 type ParamAjoutBienForm = {
@@ -62,7 +54,8 @@ const ParametrerAjoutCharges = () => {
 
   const [frequenceShow, setFrequenceShow] = useState(false);
   const [montantShow, setMontantShow] = useState(false);
-  const [revenuLoyer, setRevenuLoyer] = useState(false);
+  const [taxShow, setTaxShow] = useState(false);
+  const [assuranceShow, setAssuranceShow] = useState(false);
   const [dateDerniereEcheanceShow, setDateDerniereEcheanceShow] = useState(false);
 
   const [montantValue, setMontantValue] = useState('Montant');
@@ -115,31 +108,48 @@ const ParametrerAjoutCharges = () => {
                     name="typeCharge"
                     data={typeCharge}
                     onChangeValue={(v) => {
+                      console.log(v);
                       if (v === 'Impôts') {
-                        setRevenuLoyer(true);
-                      } else {
-                        setRevenuLoyer(false);
-                      } setMontantShow(true); setFrequenceShow(true);
+                        setTaxShow(true);
+                        setAssuranceShow(false);
+                      } else if (v === 'Assurance') {
+                        setTaxShow(false);
+                        setAssuranceShow(true);
+                      }
+                      setMontantShow(true); setFrequenceShow(true);
                     }}
-                    placeholder="Type De Revenu"
+                    placeholder="Type De Charges"
                     size="large"
                     appearance="default"
                     status="primary"
                   />
                 </View>
-
-                <View>
-                  <SelectComp
-                    name="typeImpots"
-                    data={typeImpots}
-                    onChangeValue={() => {}}
-                    placeholder="Type d'Impôts"
-                    size="large"
-                    appearance="default"
-                    status="primary"
-                  />
-                </View>
-
+                {taxShow ? (
+                  <View>
+                    <SelectComp
+                      name="typeImpots"
+                      data={typeImpots}
+                      onChangeValue={() => {}}
+                      placeholder="Type d'Impôts"
+                      size="large"
+                      appearance="default"
+                      status="primary"
+                    />
+                  </View>
+                ) : (<></>)}
+                {assuranceShow ? (
+                  <View>
+                    <SelectComp
+                      name="typeAssurance"
+                      data={typeAssurance}
+                      onChangeValue={() => {}}
+                      placeholder="Type d'Assurance"
+                      size="large"
+                      appearance="default"
+                      status="primary"
+                    />
+                  </View>
+                ) : (<></>)}
                 {montantShow && (
                 <View>
                   <TextInputComp name="montant" placeholder="Saisissez votre montant ici" />

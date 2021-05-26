@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Layout, Text } from '@ui-kitten/components';
 import { StyleSheet, View } from 'react-native';
 
@@ -26,7 +26,8 @@ type ParamBudgetForm = {
   category: string,
   amount: number,
   frequency: Frequency,
-  nextDueDate: string,
+  nextDueDate?: string | null,
+  tenantId?: string | null,
   tenant?: {
     rentalCharges: number,
     managementFees: number,
@@ -43,16 +44,40 @@ const ParametrerAjoutRevenu = () => {
   const addTenant = useAddTenant();
   const createBudgetLine = useCreateBudgetLineMutation();
 
-  const route = useRoute<RouteProp<TabMesBiensParamList, 'ajout-revenu'>>();
+  const route = useRoute<RouteProp<TabMesBiensParamList, 'ajout-revenu'> | RouteProp<TabMesBiensParamList, 'modifier-revenu'>>();
   const navigation = useNavigation();
-  console.log('route ajout revenu', route);
+  console.log('route ajout revenu', route.params);
   const { bien } = useGetRealEstate(route.params.id);
-  // console.log('data ajout revenu: ', data);
 
   const [frequenceShow, setFrequenceShow] = useState(false);
   const [montantShow, setMontantShow] = useState(false);
   const [revenuLoyer, setRevenuLoyer] = useState(false);
   const [dateDerniereEcheanceShow, setDateDerniereEcheanceShow] = useState(false);
+
+  let currentBudgetLine: ParamBudgetForm | undefined;
+  // const [currentBudgetLine] = useState(CurrentBudgetLine);
+
+  if (route.params.idBudgetLine) {
+    // get budgetLine that is clicked
+    currentBudgetLine = bien.budgetLines?.items?.filter(
+      (item) => item?.id === route.params.idBudgetLine,
+    ).pop();
+    if (currentBudgetLine?.category === 'Loyer') {
+      // on cherche le locataire
+      // get tenant by his tenantId for current budgetLine
+      const tenant = bien.tenants?.filter(
+        (item) => item?.id === currentBudgetLine.tenantId,
+      ).pop();
+        // both values are put back to current budgetLine
+        // then we show in Form as defaultValue
+      currentBudgetLine = {
+        ...currentBudgetLine,
+        tenant,
+      };
+    }
+  }
+
+  // console.log('data ajout revenu: ', data);
 
   /**
    *Variable pour gérer l'affichage des trois grandes partie
@@ -65,7 +90,7 @@ const ParametrerAjoutRevenu = () => {
       category, amount, frequency, nextDueDate, tenant,
     } = data;
 
-    if (data.category === 'rent') {
+    if (data.category === 'Loyer') {
       /**
 
       await updateRealEstate({
@@ -93,7 +118,7 @@ const ParametrerAjoutRevenu = () => {
        */
 
       if (tenant) {
-        addTenant(bien, {
+        tenantId = await addTenant(bien, {
           ...tenant,
           amount,
         });
@@ -147,6 +172,9 @@ const ParametrerAjoutRevenu = () => {
       });
     }
 
+    /**
+     ?
+     */
     navigation.pop();
   };
 
@@ -187,7 +215,7 @@ const ParametrerAjoutRevenu = () => {
               name="category"
               data={typeRevenu}
               onChangeValue={(v) => {
-                if (v === 'rent') {
+                if (v === 'Loyer') {
                   setRevenuLoyer(true);
                 } else {
                   setRevenuLoyer(false);

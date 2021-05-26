@@ -17,7 +17,12 @@ export default {
                   'detail-bien': '/bien/:id',
                   'mon-budget': '/bien/:id/budget',
                   'ajout-revenu': '/bien/:id/budget/ajout-revenu',
+                  'modifier-revenu': '/bien/:id/budget/modifier-revenu/:idBudgetLine',
                   'ajout-bien-screen': '/ajouter',
+
+                  'ajout-charge': '/bien/:id/budget/ajout-charge',
+                  'modifier-charge': '/bien/:id/budget/modifier-charge/:idBudgetLine',
+
                   'mes-rapports': '/mes-rapports',
                   'mes-rapports-biens1': '/mes-rapports-biens1',
                   'mes-rapports-biens2': '/mes-rapports-biens2',

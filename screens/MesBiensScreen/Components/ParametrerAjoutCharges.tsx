@@ -25,14 +25,6 @@ type ParamBudgetForm = {
   typemontant: string;
 };
 
-const initialFormState = {
-  typeRevenu: 'Type de Revenu',
-  montant: 'Montant',
-  frequence: 'Fréquence',
-  typeImpo: 'Type d\'imposition',
-  typeDetention: 'Type de détention',
-};
-
 type ParamAjoutBienForm = {
   bien: string;
   anneeEcheance: string;

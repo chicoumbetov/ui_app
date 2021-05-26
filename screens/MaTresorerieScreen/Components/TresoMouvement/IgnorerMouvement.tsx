@@ -66,7 +66,7 @@ const IgnorerMouvement = ({ compte }) => {
                   { backgroundColor: theme['color-basic-100'] },
                 ]}
               >
-                <Layout style={{
+                <View style={{
                   flex: 1,
                 }}
                 >
@@ -88,9 +88,9 @@ const IgnorerMouvement = ({ compte }) => {
                     {item.typeMouvement}
                   </Text>
 
-                </Layout>
+                </View>
 
-                <Layout
+                <View
                   style={{
                     flex: 1,
                     alignItems: 'center',
@@ -102,7 +102,7 @@ const IgnorerMouvement = ({ compte }) => {
                   <Text category="h6" status="basic">{item.date}</Text>
                   <Text category="p1" appearance="hint">Libellé du mouvement</Text>
 
-                </Layout>
+                </View>
 
               </TouchableOpacity>
 

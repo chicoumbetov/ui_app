@@ -39,7 +39,11 @@ export default function MesBiensStackNavigator() {
         component={ParametrerAjoutRevenu}
       />
       <Stack.Screen
-        name="ParametrerAjoutCharges"
+        name="ajout-charge"
+        component={ParametrerAjoutCharges}
+      />
+      <Stack.Screen
+        name="modifier-charge"
         component={ParametrerAjoutCharges}
       />
       <Stack.Screen

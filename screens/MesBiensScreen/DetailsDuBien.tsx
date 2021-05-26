@@ -38,14 +38,14 @@ function DetailsBien() {
   const linkTo = useLinkTo();
   const theme = useTheme();
   const route = useRoute<RouteProp<TabMesBiensParamList, 'detail-bien'>>();
-  const { data } = useGetRealEstate(route.params.id);
+  const { bien } = useGetRealEstate(route.params.id);
 
   // const [compte, setCompte] = useState(comptesData);
 
   const allerMonBudget = () => {
     navigation.navigate('mon-budget', { id: route.params.id });
   };
-  console.log('Detail Bien: ', data);
+  console.log('Detail Bien: ', bien);
   const allerTresorerie = () => {
     linkTo('/ma-tresorerie');
   };
@@ -75,7 +75,7 @@ function DetailsBien() {
       {/**
        *  I. Details du bien
        */}
-      <Layout style={styles.container}>
+      <View style={styles.container}>
         <Text category="h1" status="basic">
           Détails du bien
           {/**
@@ -89,11 +89,11 @@ function DetailsBien() {
             style={{ marginRight: 12, marginBottom: 10 }}
           />
           <Text category="h2" status="basic" style={{ height: 20 }}>
-            {data?.getRealEstate?.name}
+            {bien?.name}
           </Text>
         </Layout>
 
-      </Layout>
+      </View>
 
       {/**
        *  II. Compteurs
@@ -228,37 +228,37 @@ function DetailsBien() {
       <Separator />
       <Layout style={styles.container}>
         <Text category="s2" style={{ marginBottom: 30 }}>
-          Charactéristiques
+          Caractéristiques
         </Text>
         <Card style={styles.compteSection}>
           {/* use SectionList to render several accounts with its types and details */}
           <Text category="h6" status="basic">Localisation</Text>
           <Text category="h6" appearance="hint" style={{ marginTop: 6 }}>
-            {`${data?.getRealEstate?.address?.address} ${data?.getRealEstate?.address?.postalCode} ${data?.getRealEstate?.address?.city}`}
+            {`${bien?.address?.address} ${bien?.address?.postalCode} ${bien?.address?.city}`}
           </Text>
           <Layout style={{ borderBottomWidth: 0.5, borderBottomColor: '#b5b5b5', marginVertical: 15 }} />
 
           <Text category="h6" status="basic" style={{ marginTop: 8 }}>Date d'acquisition</Text>
           <Text category="h6" appearance="hint" style={{ marginTop: 5 }}>
-            {data?.getRealEstate?.purchaseYear || undefined}
+            {bien?.purchaseYear || undefined}
           </Text>
           <Layout style={{ borderBottomWidth: 0.3, borderBottomColor: '#b5b5b5', marginVertical: 15 }} />
 
           <Text category="h6" status="basic" style={{ marginTop: 8 }}>Type de bien</Text>
           <Text category="h6" appearance="hint" style={{ marginTop: 5 }}>
-            {data?.getRealEstate?.type || undefined}
+            {bien?.type || undefined}
           </Text>
           <Layout style={{ borderBottomWidth: 0.5, borderBottomColor: '#b5b5b5', marginVertical: 15 }} />
 
           <Text category="h6" status="basic" style={{ marginTop: 10 }}>Mode de détention</Text>
           <Text category="h6" appearance="hint" style={{ marginTop: 5 }}>
-            {data?.getRealEstate?.ownName ? 'Nom propre' : 'Société'}
+            {bien?.ownName ? 'Nom propre' : 'Société'}
           </Text>
           <Layout style={{ borderBottomWidth: 0.5, borderBottomColor: '#b5b5b5', marginVertical: 15 }} />
 
           <Text category="h6" status="basic" style={{ marginTop: 8 }}>Nombre de parts</Text>
           <Text category="h6" appearance="hint" style={{ marginTop: 5 }}>
-            {data?.getRealEstate?.detentionPart || undefined}
+            {bien?.detentionPart || undefined}
           </Text>
         </Card>
 
@@ -277,20 +277,22 @@ function DetailsBien() {
         </Text>
         <Card style={styles.compteSection}>
           {/* use SectionList to render several accounts with its types and details */}
+          {/**
           <Text category="h6" status="basic">
             {clientData.prenom}
           </Text>
-          {data?.getRealEstate?.tenants?.map((tenant) => (
+           */}
+          {bien?.tenants?.map((tenant) => (
             <Text category="h6" status="basic">{`${tenant?.firstname} ${tenant?.lastname}`}</Text>
           )) || undefined}
-          {data?.getRealEstate?.tenants?.map((tenant) => (
+          {bien?.tenants?.map((tenant) => (
             <Text category="h6" appearance="hint">{`${tenant?.firstname} ${tenant?.amount}`}</Text>
           )) || undefined}
           <Text category="h6" appearance="hint" style={{ marginTop: 6 }} />
           <Layout style={{ borderBottomWidth: 0.5, borderBottomColor: '#b5b5b5', marginVertical: 15 }} />
 
           <Text category="h6" status="basic" style={{ marginTop: 7 }}>Date de fin de bail</Text>
-          {data?.getRealEstate?.tenants?.map((tenant) => (
+          {bien?.tenants?.map((tenant) => (
             <Text
               category="h6"
               appearance="hint"

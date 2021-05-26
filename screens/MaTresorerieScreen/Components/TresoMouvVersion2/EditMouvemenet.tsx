@@ -38,7 +38,9 @@ const EditMouvement = () => {
         >
           Affecter le mouvement
         </Text>
-        <Text category="p1" style={{ marginVertical: 10 }}>Revenus enregistés dans votre budget</Text>
+        <Text category="p1" style={{ marginVertical: 10 }}>
+          Revenus enregistés dans votre budget
+        </Text>
         <Text category="p1" appearance="hint">
           Sélectionner le revenu correspondant
         </Text>
@@ -61,7 +63,7 @@ const EditMouvement = () => {
                   onChange={(nextChecked) => setChecked(nextChecked)}
                   style={{ marginRight: 15 }}
                 />
-                <Layout style={{
+                <View style={{
                   flex: 1,
                   borderRightWidth: 1,
                   borderRightColor: '#b5b5b5',
@@ -83,9 +85,9 @@ const EditMouvement = () => {
                     {item.valeur}
                   </Text>
 
-                </Layout>
+                </View>
 
-                <Layout
+                <View
                   style={{
                     flex: 1,
                     alignItems: 'center',
@@ -98,7 +100,7 @@ const EditMouvement = () => {
                   <Text category="p1" appearance="hint">Echéance</Text>
                   <Text category="h6" status="basic">{item.date}</Text>
 
-                </Layout>
+                </View>
               </View>
               <View style={{
                 backgroundColor: '#efefef',

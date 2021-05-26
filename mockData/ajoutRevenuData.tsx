@@ -3,15 +3,15 @@ import { Frequency } from '../src/API';
 export const typeRevenu = [
   {
     label: 'Loyer',
-    key: 'rent',
+    key: 'Loyer',
   },
   {
     label: 'CAF',
-    key: 'caf',
+    key: 'CAF',
   },
   {
     label: 'Revenu Divers',
-    key: 'variousRevenue',
+    key: 'Revenu Divers',
   },
 ];
 
@@ -53,6 +53,10 @@ export const frequence = [
   {
     label: 'Mensuelle',
     key: Frequency.monthly,
+  },
+  {
+    label: 'Bimensuel',
+    key: Frequency.fortnightly,
   },
   {
     label: 'Trimestrielle',

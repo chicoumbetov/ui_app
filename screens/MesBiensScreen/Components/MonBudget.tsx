@@ -20,12 +20,12 @@ import Icon from '../../../components/Icon';
 import comptesData from '../../../mockData/comptesData';
 
 import { TabMesBiensParamList } from '../../../types';
-import { RealEstateItem, useGetRealEstate } from '../../../src/API/RealEstate';
+import { useGetRealEstate } from '../../../src/API/RealEstate';
 import CompteHeader from '../../../components/CompteHeader/CompteHeader';
-import { BudgetLineItem } from '../../../src/API/BudgetLine';
+
 import MonBudgetCard from './MonBudgetCard';
-import MonBien from './MonBien';
 import { BudgetLine } from '../../../src/API';
+import Separator from '../../../components/Separator';
 
 function MonBudget() {
   const navigation = useNavigation();
@@ -60,20 +60,22 @@ function MonBudget() {
       {/**
       *  I. Mon Budget
       */}
-      <Layout style={styles.container}>
+      <View style={styles.container}>
         <Text category="h1" style={{ marginVertical: 20 }}>
           Mon Budget
         </Text>
         <CompteHeader title={bien.name} />
-      </Layout>
+      </View>
+
+      <Separator />
 
       {/**
       *     Revenus
       */}
-      <Layout style={styles.container}>
+      <View style={styles.container}>
 
-        <Layout style={{
-          backgroundColor: 'transparent', flexDirection: 'row', alignItems: 'center', marginBottom: 10,
+        <View style={{
+          flexDirection: 'row', alignItems: 'center', marginBottom: 10,
         }}
         >
           <IconUIKitten
@@ -86,7 +88,7 @@ function MonBudget() {
           <Text category="h2" status="success">
             Revenus
           </Text>
-        </Layout>
+        </View>
         {/**
          <FlatList<RealEstateItem>
          data={bien?.budgetLines?.items}
@@ -113,7 +115,9 @@ function MonBudget() {
           </TouchableOpacity>
         </Layout>
 
-      </Layout>
+      </View>
+
+      <Separator />
 
       {/**
        *     Charges
@@ -194,6 +198,8 @@ function MonBudget() {
 
       </Layout>
 
+      <Separator />
+
       {/**
       *       Aller Tresorerie
       */}
@@ -229,8 +235,6 @@ export default MonBudget;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#f6f6f6',
-    marginTop: 12,
     paddingVertical: 25,
     paddingHorizontal: 26,
   },

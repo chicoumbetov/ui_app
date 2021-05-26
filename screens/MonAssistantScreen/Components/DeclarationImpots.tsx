@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
-  Button, Layout, Text,
+  Button, Text,
 } from '@ui-kitten/components';
 import { useNavigation } from '@react-navigation/native';
 import {
@@ -11,15 +11,55 @@ import TextInputComp from '../../../components/Form/TextInput';
 import Form from '../../../components/Form/Form';
 import SelectComp from '../../../components/Form/Select';
 import MaxWidthContainer from '../../../components/MaxWidthContainer';
+import { useRealEstateList } from '../../../src/API/RealEstate';
+import { IconName } from '../../../components/Icon/Icon';
 
 type DeclarationImpotsForm = {
-  bien: string;
-  anneeEcheance: string;
+  key: number;
+  label: string;
+  section?: boolean;
+  icon?: IconName;
+  // to be as configurable as possible allow any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  onPress?: (row?: any) => void;
 };
+const selectHouse = [];
 
 const DeclarationImpots = () => {
   const navigation = useNavigation();
+  const { data } = useRealEstateList();
 
+  /**
+  function checkValue(house: string, selectForm) {
+    const status = 'Not exist';
+
+    for (let i = 0; i < selectForm.length; i += 1) {
+      const name = selectForm[i];
+      if (name !== house) {
+        selectForm.push({ label: house?.name, key: house?.id });
+        break;
+      }
+    }
+    return status;
+  }
+  */
+
+  data?.listRealEstates?.items?.forEach((house) => {
+    /**
+    for (let i = 0; i < selectHouse.length; i += 1) {
+      if (house === selectHouse[i]) {
+        return selectHouse;
+      }
+      selectHouse.push({ label: house?.name, key: house?.id });
+    }
+     */
+
+    selectHouse.push({ label: house?.name, key: house?.id });
+    // checkValue(house, selectForm);
+  });
+
+  console.log(selectHouse);
+  /**
   const comptesData = [
     {
       label: 'La Maison de Matthieu',
@@ -30,6 +70,7 @@ const DeclarationImpots = () => {
       key: 'b2',
     },
   ];
+ */
 
   const declarationImpotsForm = useForm<DeclarationImpotsForm>();
 
@@ -40,7 +81,7 @@ const DeclarationImpots = () => {
   return (
     <MaxWidthContainer>
 
-      <Layout style={styles.containerOut}>
+      <View style={styles.containerOut}>
 
         <Text
           category="h1"
@@ -55,7 +96,7 @@ const DeclarationImpots = () => {
         <Form <DeclarationImpotsForm> {...declarationImpotsForm}>
           <SelectComp
             name="bien"
-            data={comptesData}
+            data={selectHouse}
             placeholder="Choisissez le bien"
             size="large"
             appearance="default"
@@ -75,7 +116,7 @@ const DeclarationImpots = () => {
           </Button>
         </View>
 
-      </Layout>
+      </View>
 
     </MaxWidthContainer>
   );
@@ -86,7 +127,6 @@ export default DeclarationImpots;
 const styles = StyleSheet.create({
   containerOut: {
     flex: 1,
-    backgroundColor: '#f6f6f6',
     padding: 25,
     paddingRight: 21,
   },

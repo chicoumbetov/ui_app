@@ -13,7 +13,7 @@ import {
 
 import { useLinkTo } from '@react-navigation/native';
 
-import comptesData from '../../mockData/comptesData';
+// import comptesData from '../../mockData/comptesData';
 import MaisonVert from '../../assets/Omedom_Icons_svg/Logement/maison_verte.svg';
 import Immeuble from '../../assets/Omedom_Icons_svg/Logement/immeuble.svg';
 import MaxWidthContainer from '../../components/MaxWidthContainer';
@@ -23,7 +23,7 @@ import Separator from '../../components/Separator';
 import Card from '../../components/Card';
 import Button from '../../components/Button';
 import ActivityIndicator from '../../components/ActivityIndicator';
-import MonBien from '../MesBiensScreen/Components/MonBien';
+// import MonBien from '../MesBiensScreen/Components/MonBien';
 
 function TableauDeBord() {
   const linkTo = useLinkTo();
@@ -125,6 +125,7 @@ function TableauDeBord() {
           : (
             <FlatList<RealEstateItem>
               data={data?.listRealEstates?.items}
+              scrollEnabled={false}
               renderItem={
                 ({ item }) => <MonBienResume bien={item} />
               }
@@ -147,8 +148,8 @@ function TableauDeBord() {
         <Text category="h1" style={{ marginTop: -5 }}>
           Notifications
         </Text>
-        <Card style={{ marginTop: 27 }}>
 
+        <Card style={{ marginTop: 27 }}>
           <TouchableOpacity
             onPress={() => {}}
             style={{
@@ -181,8 +182,8 @@ function TableauDeBord() {
             />
 
           </TouchableOpacity>
-
         </Card>
+
         <Text
           category="h5"
           status="info"

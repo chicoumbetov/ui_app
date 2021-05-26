@@ -1,40 +1,94 @@
-import { Layout, Text } from '@ui-kitten/components';
-import React from 'react';
+import { Layout, Text, useTheme } from '@ui-kitten/components';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { Icon as IconUIKitten } from '@ui-kitten/components/ui/icon/icon.component';
+import moment from 'moment';
+
+import { useLinkTo, useNavigation, useRoute } from '@react-navigation/native';
+import { RouteProp } from '@react-navigation/core/lib/typescript/src/types';
 import Card from '../../../components/Card';
 import { BudgetLine } from '../../../src/API';
+import MaxWidthContainer from '../../../components/MaxWidthContainer';
+import { TabMesBiensParamList } from '../../../types';
 
 type MonBudgetProps = { budget: BudgetLine };
 
 const MonBudgetCard = (props: MonBudgetProps) => {
   const { budget } = props;
+  const theme = useTheme();
+  const linkTo = useLinkTo();
+
+  const allerTresorie = () => {
+    linkTo('/ma-tresorerie');
+  };
+
+  const [frequence, setFrequence] = useState<string>();
+  useEffect(() => {
+    switch (budget.frequency) {
+      default:
+        setFrequence('Frequence');
+        break;
+      case 'monthly':
+        setFrequence('Mensuel');
+        break;
+      case 'fortnightly':
+        setFrequence('Bimensuel');
+        break;
+      case 'quarterly':
+        setFrequence('Trimestrielle');
+        break;
+      case 'annual':
+        setFrequence('Annuelle');
+        break;
+    }
+  }, []);
+
+  const navigation = useNavigation();
+  const route = useRoute<RouteProp<TabMesBiensParamList, 'mon-budget'>>();
+  const allerModifierRevenu = (idBudgetLine: string) => {
+    navigation.navigate('modifier-revenu', { idBudgetLine, id: route.params.id });
+  };
+
   return (
-    <View>
-      <Card style={{ flexDirection: 'row' }}>
-        <View>
-
-          <Text category="h6" style={{ justifyContent: 'center' }}>
-            Loyer
+    <MaxWidthContainer
+      withScrollView="keyboardAware"
+      outerViewProps={{
+        showsVerticalScrollIndicator: false,
+      }}
+    >
+      <Card
+        style={{ flexDirection: 'row' }}
+        onPress={() => { allerTresorie(); }}
+      >
+        <View style={{
+          justifyContent: 'space-evenly',
+          width: 93,
+          paddingRight: 20,
+          borderRightColor: theme['text-hint-color'],
+          borderRightWidth: 1,
+        }}
+        >
+          <Text category="h3" style={{ justifyContent: 'center', flexWrap: 'wrap' }}>
+            {`${budget.category}`}
           </Text>
-
-          <Text category="h6" status="success">{`+ ${budget.amount} €`}</Text>
+          <Text category="c1" status="success">{`+ ${budget.amount} €`}</Text>
         </View>
 
         <View style={{
           flex: 1,
           alignItems: 'flex-start',
           flexDirection: 'column',
-          justifyContent: 'space-between',
+          justifyContent: 'space-evenly',
         }}
         >
-          <Text category="s1" status="basic" style={{ marginLeft: 15 }}>
-            Mensuel
+          <Text category="c1" status="basic" style={{ marginLeft: 15 }}>
+            {`${frequence}`}
           </Text>
-          <Text category="h6" style={{ marginLeft: 15 }}>
+          <Text category="c1" appearance="hint" style={{ marginLeft: 15 }}>
             Echéance
           </Text>
-          <Text category="h6" status="basic" style={{ marginLeft: 15 }}>
-            03/03/2021
+          <Text category="c1" status="basic" style={{ marginLeft: 15 }}>
+            {`${moment(budget.nextDueDate).format('l')}`}
           </Text>
         </View>
         <View style={{
@@ -44,15 +98,21 @@ const MonBudgetCard = (props: MonBudgetProps) => {
           justifyContent: 'space-between',
         }}
         >
-          <Text category="h6" status="warning" style={{ marginLeft: 15 }}>
+          <Text category="c1" status="warning" style={{ marginLeft: 15 }}>
             En attente
           </Text>
-
+          <IconUIKitten
+            name="arrow-ios-forward"
+            fill="#000"
+            style={{
+              height: 20, width: 20, marginRight: 5, alignItems: 'center',
+            }}
+          />
         </View>
       </Card>
 
-      <Layout style={styles.button}>
-        <TouchableOpacity onPress={() => {}}>
+      <View style={styles.button}>
+        <TouchableOpacity onPress={() => allerModifierRevenu(budget.id)}>
           <Layout style={styles.button}>
             <Text category="h6" status="info" style={styles.buttonTextLeft}>Modifier</Text>
           </Layout>
@@ -62,8 +122,8 @@ const MonBudgetCard = (props: MonBudgetProps) => {
             <Text category="h6" status="basic">Supprimer</Text>
           </Layout>
         </TouchableOpacity>
-      </Layout>
-    </View>
+      </View>
+    </MaxWidthContainer>
   );
 };
 
@@ -73,7 +133,7 @@ const styles = StyleSheet.create({
 
   // Footer
   button: {
-    flexDirection: 'row', marginTop: 10, justifyContent: 'space-between', backgroundColor: 'transparent',
+    flexDirection: 'row', marginVertical: 10, justifyContent: 'space-between', backgroundColor: 'transparent',
   },
   buttonTextLeft: {
     marginLeft: 6,

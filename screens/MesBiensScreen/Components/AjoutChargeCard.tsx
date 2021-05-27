@@ -1,6 +1,8 @@
 import { Text, useTheme } from '@ui-kitten/components';
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import {
+  Alert, StyleSheet, TouchableOpacity, View,
+} from 'react-native';
 import { Icon as IconUIKitten } from '@ui-kitten/components/ui/icon/icon.component';
 import moment from 'moment';
 
@@ -10,6 +12,7 @@ import Card from '../../../components/Card';
 import { BudgetLine } from '../../../src/API';
 import MaxWidthContainer from '../../../components/MaxWidthContainer';
 import { TabMesBiensParamList } from '../../../types';
+import { deleteBudgetLine } from '../../../src/graphql/mutations';
 
 type MonBudgetProps = { budget: BudgetLine };
 
@@ -47,6 +50,30 @@ const AjoutChargeCard = (props: MonBudgetProps) => {
   const route = useRoute<RouteProp<TabMesBiensParamList, 'mon-budget'>>();
   const allerModifierCharge = (idBudgetLine: string) => {
     navigation.navigate('modifier-charge', { idBudgetLine, id: route.params.id });
+  };
+
+  const supprimerCharge = async () => {
+    Alert.alert(
+      'Suppression de revenue',
+      '',
+      [{
+        text: 'Annuler',
+        style: 'cancel',
+      },
+      {
+        text: 'Valider',
+        onPress: async () => {
+          await deleteBudgetLine({
+            variables: {
+              input: {
+                id: budget.id,
+                _version: budget._version,
+              },
+            },
+          });
+        },
+      }],
+    );
   };
 
   return (
@@ -118,7 +145,7 @@ const AjoutChargeCard = (props: MonBudgetProps) => {
             <Text category="h6" status="info" style={styles.buttonTextLeft}>Modifier</Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => {}}>
+        <TouchableOpacity onPress={() => supprimerCharge()}>
           <View style={styles.button}>
             <Text category="h6" status="basic">Supprimer</Text>
           </View>

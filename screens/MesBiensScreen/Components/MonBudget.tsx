@@ -147,7 +147,12 @@ function MonBudget() {
         </Layout>
 
         <FlatList<BudgetLine | null>
-          data={bien?.budgetLines?.items}
+          data={bien?.budgetLines?.items.filter((item) => {
+            if (item?.type === BudgetLineType.Expense && !item?._deleted) {
+              return item;
+            }
+            return false;
+          })}
           renderItem={({ item }) => item && <AjoutChargeCard budget={item} />}
           keyExtractor={(item) => item?.id}
         />

@@ -24,6 +24,7 @@ export const useAddTenant = () => {
           input: {
             id: bien.id,
             tenants,
+            _version: bien._version,
           },
         },
       });
@@ -37,8 +38,8 @@ export const useUpdateTenant = () => {
   const updateRealEstate = useUpdateRealEstateMutation();
 
   return async (bien: RealEstate, updatedTenant: TenantInfoInput) => {
-    const tenants = removeKey((<TenantInfoInput[]>bien?.tenants || []), '__typename');
-    tenants.map((tenant) => {
+    const tenants = removeKeyArray<TenantInfoInput>((<TenantInfoInput[]>bien?.tenants || []), '__typename');
+    const finalTenants = tenants.map((tenant) => {
       if (tenant.id === updatedTenant.id) {
         return updatedTenant;
       }
@@ -50,11 +51,12 @@ export const useUpdateTenant = () => {
         variables: {
           input: {
             id: bien.id,
-            tenants,
+            tenants: finalTenants,
+            _version: bien._version,
           },
         },
       });
     }
-    return updateRealEstate;
+    return null;
   };
 };

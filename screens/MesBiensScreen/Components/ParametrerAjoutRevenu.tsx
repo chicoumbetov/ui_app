@@ -21,7 +21,7 @@ import {
   useUpdateBudgetLineMutation,
 } from '../../../src/API/BudgetLine';
 import { useGetRealEstate } from '../../../src/API/RealEstate';
-import { useAddTenant } from '../../../src/API/Tenant';
+import { useAddTenant, useUpdateTenant } from '../../../src/API/Tenant';
 import DatePicker from '../../../components/Form/DatePicker';
 import { AvailableValidationRules } from '../../../components/Form/validation';
 import Separator from '../../../components/Separator';
@@ -46,6 +46,7 @@ type ParamBudgetForm = {
 const ParametrerAjoutRevenu = () => {
   const paramBudgetForm = useForm<ParamBudgetForm>();
   const addTenant = useAddTenant();
+  const updateTenant = useUpdateTenant();
   const createBudgetLine = useCreateBudgetLineMutation();
   const updateBudgetLine = useUpdateBudgetLineMutation();
 
@@ -103,10 +104,12 @@ const ParametrerAjoutRevenu = () => {
     } = data;
 
     if (route.params.idBudgetLine) {
-      if (data.category === 'Loyer') {
+      if (data.category === 'Loyer' && currentBudgetLine.tenantId) {
+        console.log('id tenant la', currentBudgetLine.tenantId);
         let tenantId: string | null = null;
         if (tenant) {
-          tenantId = await addTenant(bien, {
+          tenantId = await updateTenant(bien, {
+            id: currentBudgetLine.tenantId,
             ...tenant,
             amount,
           });
@@ -134,6 +137,7 @@ const ParametrerAjoutRevenu = () => {
               amount,
               frequency,
               nextDueDate,
+              _version: currentBudgetLine._version,
             },
           },
         });

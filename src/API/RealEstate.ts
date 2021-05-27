@@ -111,24 +111,37 @@ export function useCreateRealEstateMutation() {
   const [createRealEstate] = useMutation<
   CreateRealEstateMutation,
   CreateRealEstateMutationVariables
-  >(gql(mutations.createRealEstate), {
+  >(gql(mutations.createRealEstate));
+  return createRealEstate;
+}
+
+export function useUpdateRealEstateMutation() {
+  const getRealEstatesQuery = <DocumentNode>gql(getRealEstate);
+  // eslint-disable-next-line @typescript-eslint/no-shadow
+  const [updateRealEstate] = useMutation<UpdateRealEstateMutation,
+  UpdateRealEstateMutationVariables>(gql(mutations.updateRealEstate), {
     update: (cache, { data: mutationData }) => {
-      console.log(mutationData);
       if (mutationData) {
-        const { createRealEstate: newData } = mutationData;
+        const { updateRealEstate: newData } = mutationData;
         if (newData) {
           // Read query from cache
-          const cacheData = cache.readQuery<ListRealEstatesQuery, ListRealEstatesQueryVariables>({
-            query: listRealEstatesQuery,
+          const cacheData = cache.readQuery<GetRealEstateQuery, GetRealEstateQueryVariables>({
+            query: getRealEstatesQuery,
+            variables: {
+              id: newData.id,
+            },
           });
 
           // Add newly created item to the cache copy
-          if (cacheData && cacheData.listRealEstates?.items) {
-            cacheData.listRealEstates?.items.push(newData);
+          if (cacheData && cacheData.getRealEstate) {
+            cacheData.getRealEstate = newData;
 
             // Overwrite the cache with the new results
-            cache.writeQuery<ListRealEstatesQuery, ListRealEstatesQueryVariables>({
-              query: listRealEstatesQuery,
+            cache.writeQuery<GetRealEstateQuery, GetRealEstateQueryVariables>({
+              query: getRealEstatesQuery,
+              variables: {
+                id: newData.id,
+              },
               data: cacheData,
             });
           }
@@ -136,13 +149,6 @@ export function useCreateRealEstateMutation() {
       }
     },
   });
-  return createRealEstate;
-}
-
-export function useUpdateRealEstateMutation() {
-  // eslint-disable-next-line @typescript-eslint/no-shadow
-  const [updateRealEstate] = useMutation<UpdateRealEstateMutation,
-  UpdateRealEstateMutationVariables>(gql(mutations.updateRealEstate));
   return updateRealEstate;
 }
 

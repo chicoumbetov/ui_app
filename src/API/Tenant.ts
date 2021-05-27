@@ -4,6 +4,7 @@ import {
 } from '../API';
 
 import { useUpdateRealEstateMutation } from './RealEstate';
+import { removeKey, removeKeyArray } from '../../utils/ObjectHelper';
 
 export const useAddTenant = () => {
   const updateRealEstate = useUpdateRealEstateMutation();
@@ -14,7 +15,7 @@ export const useAddTenant = () => {
       id: uuid(),
     };
 
-    const tenants = (<TenantInfoInput[]>bien?.tenants || []);
+    const tenants = removeKeyArray<TenantInfoInput>((<TenantInfoInput[]>bien?.tenants || []), '__typename');
     tenants.push(tenantInfo);
 
     if (bien.id) {
@@ -36,7 +37,7 @@ export const useUpdateTenant = () => {
   const updateRealEstate = useUpdateRealEstateMutation();
 
   return async (bien: RealEstate, updatedTenant: TenantInfoInput) => {
-    const tenants = (<TenantInfoInput[]>bien?.tenants || []);
+    const tenants = removeKey((<TenantInfoInput[]>bien?.tenants || []), '__typename');
     tenants.map((tenant) => {
       if (tenant.id === updatedTenant.id) {
         return updatedTenant;

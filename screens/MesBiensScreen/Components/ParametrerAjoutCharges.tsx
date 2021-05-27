@@ -17,7 +17,7 @@ import {
 } from '../../../mockData/ajoutRevenuData';
 import Form from '../../../components/Form/Form';
 import MaxWidthContainer from '../../../components/MaxWidthContainer';
-import { BudgetLineType, Frequency } from '../../../src/API';
+import { AmortizationTable, BudgetLineType, Frequency } from '../../../src/API';
 
 import { TabMesBiensParamList } from '../../../types';
 import { useGetRealEstate } from '../../../src/API/RealEstate';
@@ -29,7 +29,7 @@ import Datepicker from '../../../components/Form/DatePicker';
 import { useCreateBudgetLineMutation, useUpdateBudgetLineMutation } from '../../../src/API/BudgetLine';
 
 type ParamBudgetForm = {
-  category1: string,
+  category: string,
   category2?: string,
   amount: number,
   frequency: Frequency,
@@ -40,6 +40,7 @@ type ParamBudgetForm = {
     duration?: number | null,
     interestRate?: number | null,
     assuranceRate?: number | null,
+    amortizationTable?: Array<AmortizationTable | null > | null,
   }
 };
 
@@ -67,42 +68,73 @@ const ParametrerAjoutCharges = () => {
   // infoCredit
   const [mensualiteCreditShow, setMensualiteCreditShow] = useState(false);
 
+  let currentBudgetLine: ParamBudgetForm | undefined;
+
+  if (route.params.idBudgetLine) {
+    // get budgetLine that is clicked
+    currentBudgetLine = bien.budgetLines?.items?.filter(
+      (item) => item?.id === route.params.idBudgetLine,
+    ).pop();
+    useEffect(() => {
+      setMontantShow(true);
+      setFrequenceShow(true);
+      setDateDerniereEcheanceShow(true);
+    }, []);
+    if (currentBudgetLine?.category === 'Taxes Foncières' || currentBudgetLine?.category === 'Taxes d\'Habitation' || currentBudgetLine?.category === 'Contribution Sociales') {
+      currentBudgetLine.category2 = currentBudgetLine.category;
+      currentBudgetLine.category = 'Impôts';
+      setTaxShow(true);
+    } else if (currentBudgetLine?.category === 'Assurance du bien' || currentBudgetLine?.category === 'Loyer impayé' || currentBudgetLine?.category === 'Vacances locatives') {
+      currentBudgetLine.category2 = currentBudgetLine.category;
+      currentBudgetLine.category = 'Assurance';
+      setAssuranceShow(true);
+    } else if (currentBudgetLine?.category === 'Frais bancaires') {
+      currentBudgetLine.category2 = currentBudgetLine.category;
+      currentBudgetLine.category = 'Banque';
+      setBanqueShow(true);
+    } else if (currentBudgetLine?.category === 'Mensualité crédit') {
+      currentBudgetLine.category2 = currentBudgetLine.category;
+      currentBudgetLine.category = 'Banque';
+      setBanqueShow(true);
+      setMensualiteCreditShow(true);
+    }
+  }
+
   const validateCharge = async (data: ParamBudgetForm) => {
-    console.log('Validate charge: ', data);
-    let category: string;
+    let category1: string;
     const {
-      category1, category2, amount, frequency, nextDueDate,
+      category, category2, amount, frequency, nextDueDate, infoCredit,
     } = data;
-    if ((category1 === 'Impôts' || category1 === 'Assurance') && category2) {
-      category = category2;
+    if ((category === 'Impôts' || category === 'Assurance' || category === 'Banque') && category2) {
+      category1 = category2;
     } else {
-      category = category1;
+      category1 = category;
     }
 
     if (route.params.idBudgetLine) {
-      /**
       await updateBudgetLine({
         variables: {
           input: {
             id: route.params.idBudgetLine,
-            category,
-            category2,
-            ...data,
+            category: category1,
+            amount,
+            frequency,
+            nextDueDate,
+            ...infoCredit,
             _version: currentBudgetLine._version,
           },
         },
       });
-      */
-
     } else {
       await createBudgetLine({
         variables: {
           input: {
             realEstateId: route.params.id,
-            category,
+            category: category1,
             amount,
             frequency,
             nextDueDate,
+            ...infoCredit,
             type: BudgetLineType.Expense,
           },
         },
@@ -141,7 +173,10 @@ const ParametrerAjoutCharges = () => {
           Ajouter une charge
         </Text>
 
-        <Form<ParamBudgetForm> {...paramBudgetForm}>
+        <Form
+          {...paramBudgetForm}
+          defaultValues={currentBudgetLine}
+        >
           <>
 
             {/**
@@ -152,7 +187,7 @@ const ParametrerAjoutCharges = () => {
 
               <View>
                 <Select
-                  name="category1"
+                  name="category"
                   data={typeCharge}
                   onChangeValue={(v) => {
                     if (v === 'Impôts') {

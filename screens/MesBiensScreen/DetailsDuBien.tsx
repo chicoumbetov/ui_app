@@ -18,6 +18,7 @@ import {
 
 import { RouteProp } from '@react-navigation/core/lib/typescript/src/types';
 import * as DocumentPicker from 'expo-document-picker';
+import moment from 'moment';
 import Icon from '../../components/Icon';
 import MaxWidthContainer from '../../components/MaxWidthContainer';
 
@@ -303,25 +304,28 @@ function DetailsBien() {
             {clientData.prenom}
           </Text>
            */}
-        {bien?.tenants?.map((tenant) => (
-          <Card style={styles.compteSection}>
-            <Text category="h6" status="basic">{`${tenant?.firstname} ${tenant?.lastname}`}</Text>
-            <Text category="h6" appearance="hint">{`${tenant?.amount} €`}</Text>
-            <Text category="h6" appearance="hint" style={{ marginTop: 6 }} />
-            <Layout style={{ borderBottomWidth: 0.5, borderBottomColor: '#b5b5b5', marginVertical: 15 }} />
+        {bien?.tenants?.map((tenant, index) => {
+          const { id } = tenant;
+          return (
+            <Card style={styles.compteSection} key={id}>
+              <Text category="h6" status="basic">{`${tenant?.firstname} ${tenant?.lastname}`}</Text>
+              <Text category="h6" appearance="hint">{`${tenant?.amount} €`}</Text>
+              <Text category="h6" appearance="hint" style={{ marginTop: 6 }} />
+              <Layout style={{ borderBottomWidth: 0.5, borderBottomColor: '#b5b5b5', marginBottom: 15 }} />
 
-            <Text category="h6" status="basic" style={{ marginTop: 7 }}>Date de fin de bail</Text>
-            <Text
-              category="h6"
-              appearance="hint"
-              style={{
-                marginTop: 5,
-              }}
-            >
-              {`${tenant?.endDate}`}
-            </Text>
-          </Card>
-        )) || undefined}
+              <Text category="h6" status="basic" style={{ marginTop: 7 }}>Date de fin de bail</Text>
+              <Text
+                category="h6"
+                appearance="hint"
+                style={{
+                  marginTop: 5,
+                }}
+              >
+                {`${moment(tenant?.endDate).format('L')}`}
+              </Text>
+            </Card>
+          );
+        }) || undefined}
 
         <Layout style={styles.button}>
           <TouchableOpacity onPress={() => {}}>

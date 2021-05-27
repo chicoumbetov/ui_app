@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Button, Layout, Text, useTheme,
 } from '@ui-kitten/components';
@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 
 import { useForm } from 'react-hook-form';
-import { useRoute } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { RouteProp } from '@react-navigation/core/lib/typescript/src/types';
 import { MotiView } from 'moti';
 
@@ -17,7 +17,7 @@ import {
 } from '../../../mockData/ajoutRevenuData';
 import Form from '../../../components/Form/Form';
 import MaxWidthContainer from '../../../components/MaxWidthContainer';
-import { Frequency } from '../../../src/API';
+import { BudgetLineType, Frequency } from '../../../src/API';
 
 import { TabMesBiensParamList } from '../../../types';
 import { useGetRealEstate } from '../../../src/API/RealEstate';
@@ -26,6 +26,7 @@ import Separator from '../../../components/Separator';
 import TextInput from '../../../components/Form/TextInput';
 import { AvailableValidationRules } from '../../../components/Form/validation';
 import Datepicker from '../../../components/Form/DatePicker';
+import { useCreateBudgetLineMutation, useUpdateBudgetLineMutation } from '../../../src/API/BudgetLine';
 
 type ParamBudgetForm = {
   category: string,
@@ -33,7 +34,6 @@ type ParamBudgetForm = {
   amount: number,
   frequency: Frequency,
   nextDueDate?: string | null,
-  tenantId?: string | null,
   infoCredit?: {
     borrowedCapital?: number,
     loadStartDate?: string | null,
@@ -46,12 +46,14 @@ type ParamBudgetForm = {
 const ParametrerAjoutCharges = () => {
   const theme = useTheme();
   const paramBudgetForm = useForm<ParamBudgetForm>();
+  const createBudgetLine = useCreateBudgetLineMutation();
+  const updateBudgetLine = useUpdateBudgetLineMutation();
 
   // const addTenant = useAddTenant();
   // const createBudgetLine = useCreateBudgetLineMutation();
 
   const route = useRoute<RouteProp<TabMesBiensParamList, 'ajout-revenu'> | RouteProp<TabMesBiensParamList, 'modifier-revenu'>>();
-  // const navigation = useNavigation();
+  const navigation = useNavigation();
   console.log('route ajout charge', route.params);
   const { bien } = useGetRealEstate(route.params.id);
 
@@ -65,8 +67,46 @@ const ParametrerAjoutCharges = () => {
   // infoCredit
   const [mensualiteCreditShow, setMensualiteCreditShow] = useState(false);
 
-  const validateCharge = (data: ParamBudgetForm) => {
+  const validateCharge = async (data: ParamBudgetForm) => {
     console.log('Validate charge: ', data);
+    const {
+      category, category2, amount, frequency, nextDueDate,
+    } = data;
+
+    if (route.params.idBudgetLine) {
+      /**
+      await updateBudgetLine({
+        variables: {
+          input: {
+            id: route.params.idBudgetLine,
+            category,
+            category2,
+            ...data,
+            _version: currentBudgetLine._version,
+          },
+        },
+      });
+      */
+
+    } else {
+      await createBudgetLine({
+        variables: {
+          input: {
+            realEstateId: route.params.id,
+            category,
+            amount,
+            frequency,
+            nextDueDate,
+            type: BudgetLineType.Expense,
+          },
+        },
+      });
+    }
+
+    /**
+     ?
+     */
+    navigation.pop();
   };
   return (
     <MaxWidthContainer

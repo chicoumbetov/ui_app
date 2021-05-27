@@ -12,7 +12,7 @@ import Card from '../../../components/Card';
 import { BudgetLine } from '../../../src/API';
 import MaxWidthContainer from '../../../components/MaxWidthContainer';
 import { TabMesBiensParamList } from '../../../types';
-import { deleteBudgetLine } from '../../../src/graphql/mutations';
+import { useDeleteBudgetLineMutation } from '../../../src/API/BudgetLine';
 
 type MonBudgetProps = { budget: BudgetLine };
 
@@ -20,6 +20,7 @@ const AjoutChargeCard = (props: MonBudgetProps) => {
   const { budget } = props;
   const theme = useTheme();
   const linkTo = useLinkTo();
+  const deleteBudgetLine = useDeleteBudgetLineMutation();
 
   const allerTresorie = () => {
     linkTo('/ma-tresorerie');

@@ -1,6 +1,8 @@
 import { Layout, Text, useTheme } from '@ui-kitten/components';
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import {
+  StyleSheet, TouchableOpacity, View, Alert,
+} from 'react-native';
 import { Icon as IconUIKitten } from '@ui-kitten/components/ui/icon/icon.component';
 import moment from 'moment';
 
@@ -10,6 +12,7 @@ import Card from '../../../components/Card';
 import { BudgetLine } from '../../../src/API';
 import MaxWidthContainer from '../../../components/MaxWidthContainer';
 import { TabMesBiensParamList } from '../../../types';
+import { useDeleteBudgetLineMutation } from '../../../src/API/BudgetLine';
 
 type MonBudgetProps = { budget: BudgetLine };
 
@@ -17,6 +20,8 @@ const MonBudgetCard = (props: MonBudgetProps) => {
   const { budget } = props;
   const theme = useTheme();
   const linkTo = useLinkTo();
+
+  const deleteBudgetLine = useDeleteBudgetLineMutation();
 
   const allerTresorie = () => {
     linkTo('/ma-tresorerie');
@@ -45,8 +50,32 @@ const MonBudgetCard = (props: MonBudgetProps) => {
 
   const navigation = useNavigation();
   const route = useRoute<RouteProp<TabMesBiensParamList, 'mon-budget'>>();
-  const allerModifierRevenu = (idBudgetLine: string) => {
-    navigation.navigate('modifier-revenu', { idBudgetLine, id: route.params.id });
+  const allerModifierRevenu = () => {
+    navigation.navigate('modifier-revenu', { idBudgetLine: budget.id, id: route.params.id });
+  };
+
+  const supprimerLeRevenue = async () => {
+    Alert.alert(
+      'Suppression de revenue',
+      '',
+      [{
+        text: 'Annuler',
+        style: 'cancel',
+      },
+      {
+        text: 'Valider',
+        onPress: async () => {
+          await deleteBudgetLine({
+            variables: {
+              input: {
+                id: budget.id,
+                _version: budget._version,
+              },
+            },
+          });
+        },
+      }],
+    );
   };
 
   return (
@@ -112,12 +141,12 @@ const MonBudgetCard = (props: MonBudgetProps) => {
       </Card>
 
       <View style={styles.button}>
-        <TouchableOpacity onPress={() => allerModifierRevenu(budget.id)}>
+        <TouchableOpacity onPress={() => allerModifierRevenu()}>
           <Layout style={styles.button}>
             <Text category="h6" status="info" style={styles.buttonTextLeft}>Modifier</Text>
           </Layout>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => {}}>
+        <TouchableOpacity onPress={() => supprimerLeRevenue()}>
           <Layout style={styles.button}>
             <Text category="h6" status="basic">Supprimer</Text>
           </Layout>

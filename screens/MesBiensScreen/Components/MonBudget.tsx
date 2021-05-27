@@ -24,7 +24,7 @@ import { useGetRealEstate } from '../../../src/API/RealEstate';
 import CompteHeader from '../../../components/CompteHeader/CompteHeader';
 
 import MonBudgetCard from './MonBudgetCard';
-import { BudgetLine } from '../../../src/API';
+import { BudgetLine, BudgetLineType } from '../../../src/API';
 import Separator from '../../../components/Separator';
 import AjoutChargeCard from './AjoutChargeCard';
 
@@ -98,7 +98,12 @@ function MonBudget() {
          />
         */}
         <FlatList<BudgetLine | null>
-          data={bien?.budgetLines?.items}
+          data={bien?.budgetLines?.items.filter((item) => {
+            if (item?.type === BudgetLineType.Income && !item?._deleted) {
+              return item;
+            }
+            return false;
+          })}
           renderItem={({ item }) => item && <MonBudgetCard budget={item} />}
           keyExtractor={(item) => item?.id}
         />

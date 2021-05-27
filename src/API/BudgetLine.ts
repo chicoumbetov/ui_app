@@ -5,7 +5,7 @@ import { getBudgetLine, getRealEstate } from '../graphql/queries';
 import {
   BudgetLineType,
   CreateBudgetLineMutation,
-  CreateBudgetLineMutationVariables,
+  CreateBudgetLineMutationVariables, DeleteBudgetLineMutation, DeleteBudgetLineMutationVariables,
   Frequency,
   GetBudgetLineQuery,
   GetBudgetLineQueryVariables,
@@ -59,6 +59,50 @@ export function useUpdateBudgetLineMutation() {
   const [updateBudgetLine] = useMutation<UpdateBudgetLineMutation,
   UpdateBudgetLineMutationVariables>(gql(mutations.updateBudgetLine));
   return updateBudgetLine;
+}
+
+export function useDeleteBudgetLineMutation() {
+  const getRealEstatesQuery = <DocumentNode>gql(getRealEstate);
+  const [deleteBudgetLine] = useMutation<DeleteBudgetLineMutation,
+  DeleteBudgetLineMutationVariables>(gql(mutations.deleteBudgetLine),
+    {
+      update: (cache, { data: mutationData }) => {
+        if (mutationData) {
+          const { deleteBudgetLine: newData } = mutationData;
+          if (newData) {
+            // Read query from cache
+            const cacheData = cache.readQuery<GetRealEstateQuery, GetRealEstateQueryVariables>({
+              query: getRealEstatesQuery,
+              variables: {
+                id: newData.realEstateId,
+              },
+            });
+
+            // Add newly created item to the cache copy
+            if (cacheData && cacheData.getRealEstate && cacheData.getRealEstate.budgetLines) {
+              cacheData
+                .getRealEstate
+                .budgetLines
+                .items = cacheData
+                  .getRealEstate
+                  .budgetLines
+                  ?.items
+                  ?.filter((item) => item?.id !== newData.id);
+
+              // Overwrite the cache with the new results
+              cache.writeQuery<GetRealEstateQuery, GetRealEstateQueryVariables>({
+                query: getRealEstatesQuery,
+                variables: {
+                  id: newData.realEstateId,
+                },
+                data: cacheData,
+              });
+            }
+          }
+        }
+      },
+    });
+  return deleteBudgetLine;
 }
 
 export function useCreateBudgetLineMutation() {

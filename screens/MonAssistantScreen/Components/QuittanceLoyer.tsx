@@ -2,14 +2,13 @@ import React from 'react';
 import { Button, Layout, Text } from '@ui-kitten/components';
 import { useNavigation } from '@react-navigation/native';
 import {
-  ScrollView,
   StyleSheet, View,
 } from 'react-native';
 import { useForm } from 'react-hook-form';
 import Form from '../../../components/Form/Form';
 import SelectComp from '../../../components/Form/Select';
-import TextInputComp from '../../../components/Form/TextInput';
 import MaxWidthContainer from '../../../components/MaxWidthContainer';
+import TextInput from '../../../components/Form/TextInput';
 
 type QuittanceLoyerForm = {
   bien: string;
@@ -37,17 +36,21 @@ const QuittanceLoyer = () => {
   };
 
   return (
-    <MaxWidthContainer>
+    <MaxWidthContainer
+      withScrollView="keyboardAware"
+      outerViewProps={{
+        showsVerticalScrollIndicator: false,
+      }}
+    >
 
       <Layout style={styles.containerOut}>
 
         <Text category="h1" style={styles.title}>Générer une quittance de loyer</Text>
         <Form <QuittanceLoyerForm> {...quittanceLoyerForm}>
-
-          <SelectComp name="bien" data={comptesData} placeholder="Choisissez le bien" size="large" appearance="default" status="primary" />
-
-          <TextInputComp label="Année de l'écheance" placeholder="jj/mm/aaaa" icon="calendar-outline" />
-
+          <>
+            <SelectComp name="bien" data={comptesData} placeholder="Choisissez le bien" size="large" appearance="default" status="primary" />
+            <TextInput label="Année de l'écheance" placeholder="aaaa" icon="calendar-outline" />
+          </>
         </Form>
 
         <View style={styles.buttonRight}>

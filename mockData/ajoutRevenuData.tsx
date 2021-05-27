@@ -84,6 +84,21 @@ export const typeAssurance = [
   },
 ];
 
+export const typeDivers = [
+  {
+    label: 'Mobilier',
+    key: 'Mobilier',
+  },
+  {
+    label: 'Téléphone',
+    key: 'Téléphone',
+  },
+  {
+    label: 'Internet',
+    key: 'Internet',
+  },
+];
+
 export const typeBanque = [
   {
     label: 'Frais bancaires',

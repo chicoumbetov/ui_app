@@ -12,7 +12,6 @@ import Form from '../../../components/Form/Form';
 import Select from '../../../components/Form/Select';
 import MaxWidthContainer from '../../../components/MaxWidthContainer';
 import { useRealEstateList } from '../../../src/API/RealEstate';
-import { IconName } from '../../../components/Icon/Icon';
 
 type DeclarationImpotsForm = {
   bien: string;
@@ -24,20 +23,6 @@ const DeclarationImpots = () => {
   const { data } = useRealEstateList();
   const [houseList, setHouseList] = useState<Array<{ label: string, key: string }>>([]);
 
-  /**
-  function checkValue(house: string, selectForm) {
-    const status = 'Not exist';
-
-    for (let i = 0; i < selectForm.length; i += 1) {
-      const name = selectForm[i];
-      if (name !== house) {
-        selectForm.push({ label: house?.name, key: house?.id });
-        break;
-      }
-    }
-    return status;
-  }
-  */
   useEffect(() => {
     const selectHouse: Array<{ label: string, key: string }> = [];
     data?.listRealEstates?.items?.forEach((house) => {
@@ -68,7 +53,12 @@ const DeclarationImpots = () => {
   };
 
   return (
-    <MaxWidthContainer>
+    <MaxWidthContainer
+      withScrollView="keyboardAware"
+      outerViewProps={{
+        showsVerticalScrollIndicator: false,
+      }}
+    >
 
       <View style={styles.containerOut}>
 

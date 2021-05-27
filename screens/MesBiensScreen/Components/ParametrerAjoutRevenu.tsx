@@ -265,7 +265,7 @@ const ParametrerAjoutRevenu = () => {
             */}
             <MotiView
               animate={{ height: (etape === 0 && montantShow ? 68 : 0) }}
-              style={{ overflow: 'hidden' }}
+              style={{ overflow: 'hidden', flexDirection: 'row', alignItems: 'center' }}
               transition={{ type: 'timing', duration: 500 }}
             >
               <TextInput
@@ -273,6 +273,7 @@ const ParametrerAjoutRevenu = () => {
                 placeholder="Saisissez votre montant ici"
                 validators={[{ rule: AvailableValidationRules.required, errorMessage: 'Un montant est requis' }]}
               />
+              <Text category="h4" style={{ marginLeft: 19 }}> €</Text>
             </MotiView>
             <MotiView
               animate={{ height: (revenuLoyer ? 136 : 0) }}
@@ -324,6 +325,7 @@ const ParametrerAjoutRevenu = () => {
                 <DatePicker
                   name="nextDueDate"
                   placeholder="Date de dernière échéance"
+                  icon="calendar-outline"
                   validators={[AvailableValidationRules.required]}
                 />
               </MotiView>
@@ -331,7 +333,7 @@ const ParametrerAjoutRevenu = () => {
             </MotiView>
 
             <MotiView
-              animate={{ maxHeight: (revenuLoyer ? 365 : 0) }}
+              animate={{ maxHeight: (revenuLoyer ? 500 : 0) }}
               style={{
                 overflow: 'hidden',
                 // hack pour éviter que le overflow 'hidden' ne cache l'ombre
@@ -349,8 +351,16 @@ const ParametrerAjoutRevenu = () => {
                 placeholder="Saisissez le mail"
                 validators={[AvailableValidationRules.email]}
               />
-              <DatePicker name="tenant.startDate" placeholder="Date de début de bail" />
-              <DatePicker name="tenant.endDate" placeholder="Date de fin de bail" />
+              <DatePicker
+                name="tenant.startDate"
+                placeholder="Date de début de bail"
+                icon="calendar-outline"
+              />
+              <DatePicker
+                name="tenant.endDate"
+                placeholder="Date de fin de bail"
+                icon="calendar-outline"
+              />
             </MotiView>
 
             <View style={{ alignItems: 'flex-end', marginTop: 10 }}>

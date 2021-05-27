@@ -17,7 +17,7 @@ import MaxWidthContainer from '../../../components/MaxWidthContainer';
 
 import Icon from '../../../components/Icon';
 
-import comptesData from '../../../mockData/comptesData';
+// import comptesData from '../../../mockData/comptesData';
 
 import { TabMesBiensParamList } from '../../../types';
 import { useGetRealEstate } from '../../../src/API/RealEstate';
@@ -26,6 +26,7 @@ import CompteHeader from '../../../components/CompteHeader/CompteHeader';
 import MonBudgetCard from './MonBudgetCard';
 import { BudgetLine } from '../../../src/API';
 import Separator from '../../../components/Separator';
+import AjoutChargeCard from './AjoutChargeCard';
 
 function MonBudget() {
   const navigation = useNavigation();
@@ -48,7 +49,7 @@ function MonBudget() {
     navigation.navigate('ajout-charge', { id: route.params.id });
   };
 
-  console.log('mon budget :', bien);
+  // console.log('mon budget :', bien);
   return (
     <MaxWidthContainer
       withScrollView="keyboardAware"
@@ -99,7 +100,7 @@ function MonBudget() {
         <FlatList<BudgetLine | null>
           data={bien?.budgetLines?.items}
           renderItem={({ item }) => item && <MonBudgetCard budget={item} />}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item) => item?.id}
         />
 
         <Layout style={styles.button}>
@@ -140,61 +141,24 @@ function MonBudget() {
           </Text>
         </Layout>
 
-        <FlatList
-          data={comptesData}
-          keyExtractor={(item) => item.id}
-          renderItem={() => (
-
-            <Layout style={styles.window}>
-              <Layout style={{
-                flex: 1,
-                borderRightWidth: 1,
-                borderRightColor: '#b5b5b5',
-              }}
-              >
-
-                <Text
-                  category="h6"
-                  status="danger"
-                  style={{ justifyContent: 'center' }}
-                >
-                  -500
-                </Text>
-
-                <Text category="h6" status="basic">Assurances</Text>
-                <Text category="p1" appearance="hint">Mensuel</Text>
-              </Layout>
-
-              <Layout style={{
-                flex: 1,
-                marginLeft: 10,
-              }}
-              >
-                <Text category="p1" appearance="hint" style={{ justifyContent: 'center' }}>
-                  Date d'échéance
-                </Text>
-
-                <Text category="c1">03/03/2021</Text>
-                <Text category="h6" status="success">Validé</Text>
-
-              </Layout>
-            </Layout>
-
-          )}
+        <FlatList<BudgetLine | null>
+          data={bien?.budgetLines?.items}
+          renderItem={({ item }) => item && <AjoutChargeCard budget={item} />}
+          keyExtractor={(item) => item?.id}
         />
 
-        <Layout style={styles.button}>
+        <View style={styles.button}>
           <TouchableOpacity onPress={allerAjoutCharge}>
-            <Layout style={styles.button}>
+            <View style={styles.button}>
               <Text category="h6" status="info" style={{ marginLeft: 6 }}>Ajouter une charge</Text>
-            </Layout>
+            </View>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => {}}>
-            <Layout style={styles.button}>
+            <View style={styles.button}>
               <Text category="h6" status="basic">Supprimer une charge</Text>
-            </Layout>
+            </View>
           </TouchableOpacity>
-        </Layout>
+        </View>
 
       </Layout>
 

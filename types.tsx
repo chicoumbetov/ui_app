@@ -67,7 +67,7 @@ export type TabMesBiensParamList = {
   'modifier-charge': { id: string, idBudgetLine: string };
 
   ParametrerAjoutCharges: { id: string };
-  PartagerBien: undefined;
+  'partager-bien': undefined;
   'modifier-characteristique': undefined;
   'ajout-bien-screen': undefined;
   'mes-rapports': undefined;

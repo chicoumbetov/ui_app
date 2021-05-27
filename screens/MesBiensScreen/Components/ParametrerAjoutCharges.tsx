@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import {
-  Button, Datepicker, Icon, Layout, Text, useTheme,
+  Button, Datepicker, Layout, Text, useTheme,
 } from '@ui-kitten/components';
 import {
-  StyleSheet, TouchableOpacity, View,
+  StyleSheet, View,
 } from 'react-native';
 
 import { useForm } from 'react-hook-form';
@@ -13,7 +13,7 @@ import { MotiView } from 'moti';
 
 import SelectComp from '../../../components/Form/Select';
 import {
-  frequence, typeCharge, typeImpots, typeAssurance, typeBanque,
+  frequence, typeCharge, typeImpots, typeAssurance, typeBanque, typeDivers,
 } from '../../../mockData/ajoutRevenuData';
 import Form from '../../../components/Form/Form';
 import MaxWidthContainer from '../../../components/MaxWidthContainer';
@@ -42,20 +42,15 @@ type ParamBudgetForm = {
   }
 };
 
-type ParamAjoutBienForm = {
-  bien: string;
-  anneeEcheance: string;
-};
-
 const ParametrerAjoutCharges = () => {
   const theme = useTheme();
   const paramBudgetForm = useForm<ParamBudgetForm>();
 
   // const addTenant = useAddTenant();
-  const createBudgetLine = useCreateBudgetLineMutation();
+  // const createBudgetLine = useCreateBudgetLineMutation();
 
   const route = useRoute<RouteProp<TabMesBiensParamList, 'ajout-revenu'> | RouteProp<TabMesBiensParamList, 'modifier-revenu'>>();
-  const navigation = useNavigation();
+  // const navigation = useNavigation();
   console.log('route ajout charge', route.params);
   const { bien } = useGetRealEstate(route.params.id);
 
@@ -64,6 +59,7 @@ const ParametrerAjoutCharges = () => {
   const [taxShow, setTaxShow] = useState(false);
   const [assuranceShow, setAssuranceShow] = useState(false);
   const [banqueShow, setBanqueShow] = useState(false);
+  const [diversShow, setDiversShow] = useState(false);
   const [dateDerniereEcheanceShow, setDateDerniereEcheanceShow] = useState(false);
   // infoCredit
   const [mensualiteCreditShow, setMensualiteCreditShow] = useState(false);
@@ -95,7 +91,7 @@ const ParametrerAjoutCharges = () => {
       */}
       <Layout style={styles.container}>
         <Text category="s2" status="basic" style={{ marginBottom: 20 }}>
-          Ajouter un charge
+          Ajouter une charge
         </Text>
 
         <Form<ParamBudgetForm> {...paramBudgetForm}>
@@ -117,18 +113,27 @@ const ParametrerAjoutCharges = () => {
                       setTaxShow(true);
                       setAssuranceShow(false);
                       setBanqueShow(false);
+                      setDiversShow(false);
                     } else if (v === 'Assurance') {
                       setTaxShow(false);
                       setAssuranceShow(true);
                       setBanqueShow(false);
+                      setDiversShow(false);
                     } else if (v === 'Banque') {
                       setTaxShow(false);
                       setAssuranceShow(false);
                       setBanqueShow(true);
+                      setDiversShow(false);
+                    } else if (v === 'Frais divers') {
+                      setTaxShow(false);
+                      setAssuranceShow(false);
+                      setBanqueShow(false);
+                      setDiversShow(true);
                     } else {
                       setTaxShow(false);
                       setAssuranceShow(false);
                       setBanqueShow(false);
+                      setDiversShow(false);
                     }
                     setMontantShow(true);
                     setFrequenceShow(true);
@@ -137,6 +142,7 @@ const ParametrerAjoutCharges = () => {
                   size="large"
                   appearance="default"
                   status="primary"
+                  validators={[AvailableValidationRules.required]}
                 />
               </View>
               {taxShow ? (
@@ -191,6 +197,22 @@ const ParametrerAjoutCharges = () => {
                 </View>
               ) : (<></>)}
 
+              {diversShow ? (
+                <View>
+                  <SelectComp
+                    name="category2"
+                    data={typeDivers}
+                    onChangeValue={(item) => {
+                      // console.log('typeAssurance item: ', item);
+                    }}
+                    placeholder="Divers"
+                    size="large"
+                    appearance="default"
+                    status="primary"
+                  />
+                </View>
+              ) : (<></>)}
+
               <MotiView
                 animate={{ height: (mensualiteCreditShow ? 300 : 0) }}
                 style={{
@@ -205,9 +227,10 @@ const ParametrerAjoutCharges = () => {
                   name="infoCredit.borrowedCapital"
                   placeholder="Capital emprunté"
                 />
-                <TextInput
+                <Datepicker
                   name="infoCredit.loadStartDate"
                   placeholder="La date de début du prêt"
+                  icon="calendar-outline"
                 />
                 <TextInput
                   name="infoCredit.duration"
@@ -223,11 +246,18 @@ const ParametrerAjoutCharges = () => {
                 />
               </MotiView>
 
-              {montantShow ? (
-                <MotiView>
-                  <TextInput name="amount" placeholder="Saisissez votre montant ici" />
-                </MotiView>
-              ) : (<></>)}
+              <MotiView
+                animate={{ height: (montantShow ? 68 : 0) }}
+                style={{ overflow: 'hidden', flexDirection: 'row', alignItems: 'center' }}
+                transition={{ type: 'timing', duration: 500 }}
+              >
+                <TextInput
+                  name="amount"
+                  placeholder="Saisissez votre montant ici"
+                  validators={[{ rule: AvailableValidationRules.required, errorMessage: 'Un montant est requis' }]}
+                />
+                <Text category="h4" style={{ marginLeft: 19 }}> €</Text>
+              </MotiView>
 
               {frequenceShow
                 ? (
@@ -245,6 +275,7 @@ const ParametrerAjoutCharges = () => {
                     <Datepicker
                       name="nextDueDate"
                       placeholder="Date de dernière échéance"
+                      icon="calendar-outline"
                       validators={[AvailableValidationRules.required]}
                     />
                     )}

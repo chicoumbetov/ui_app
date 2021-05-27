@@ -51,7 +51,7 @@ export default function MesBiensStackNavigator() {
         component={ParametrerAjoutCharges}
       />
       <Stack.Screen
-        name="PartagerBien"
+        name="partager-bien"
         component={PartagerBien}
       />
       <Stack.Screen

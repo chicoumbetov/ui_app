@@ -27,6 +27,7 @@ import MonBudgetCard from './MonBudgetCard';
 import { BudgetLine, BudgetLineType } from '../../../src/API';
 import Separator from '../../../components/Separator';
 import AjoutChargeCard from './AjoutChargeCard';
+import Button from '../../../components/Button';
 
 function MonBudget() {
   const navigation = useNavigation();
@@ -108,18 +109,13 @@ function MonBudget() {
           keyExtractor={(item) => item?.id}
         />
 
-        <Layout style={styles.button}>
-          <TouchableOpacity onPress={allerAjoutRevenu}>
-            <Layout style={styles.button}>
-              <Text category="h6" status="info" style={styles.buttonTextLeft}>Ajouter un revenu</Text>
-            </Layout>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => {}}>
-            <Layout style={styles.button}>
-              <Text category="h6" status="basic">Supprimer un revenu</Text>
-            </Layout>
-          </TouchableOpacity>
-        </Layout>
+        <Button
+          size="large"
+          onPress={() => { allerAjoutRevenu(); }}
+          // style={{ marginTop: 25 }}
+        >
+          + Ajouter un autre revenu
+        </Button>
 
       </View>
 
@@ -157,18 +153,13 @@ function MonBudget() {
           keyExtractor={(item) => item?.id}
         />
 
-        <View style={styles.button}>
-          <TouchableOpacity onPress={allerAjoutCharge}>
-            <View style={styles.button}>
-              <Text category="h6" status="info" style={{ marginLeft: 6 }}>Ajouter une charge</Text>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => {}}>
-            <View style={styles.button}>
-              <Text category="h6" status="basic">Supprimer une charge</Text>
-            </View>
-          </TouchableOpacity>
-        </View>
+        <Button
+          size="large"
+          onPress={() => { allerAjoutCharge(); }}
+          style={{ marginTop: 25 }}
+        >
+          + Ajouter une autre charge
+        </Button>
 
       </Layout>
 

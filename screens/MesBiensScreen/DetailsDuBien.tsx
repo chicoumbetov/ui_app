@@ -304,7 +304,7 @@ function DetailsBien() {
             {clientData.prenom}
           </Text>
            */}
-        {bien?.tenants?.map((tenant, index) => {
+        {bien?.tenants?.map((tenant) => {
           const { id } = tenant;
           return (
             <Card style={styles.compteSection} key={id}>

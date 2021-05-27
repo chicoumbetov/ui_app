@@ -285,83 +285,65 @@ const ParametrerAjoutRevenu = () => {
               }}
               transition={{ type: 'timing', duration: 500 }}
             >
-              <TextInput name="tenant.rentalCharges" placeholder="Dont charges" />
-              <TextInput name="tenant.managementFees" placeholder="Dont frais de gestion" />
-            </MotiView>
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <TextInput name="tenant.rentalCharges" placeholder="Dont charges" />
+                <Text category="h4" style={{ marginLeft: 19 }}> €</Text>
+              </View>
 
-            <MotiView
-              animate={{
-                height: (frequenceShow ? (dateDerniereEcheanceShow ? 151 : 87) : 0),
-              }}
-              style={{
-                overflow: 'hidden',
-                // hack pour éviter que le overflow 'hidden' ne cache l'ombre
-                marginHorizontal: -5,
-                paddingHorizontal: 5,
-              }}
-              transition={{ type: 'timing', duration: 500 }}
-            >
-              <Select
-                name="frequency"
-                data={frequence}
-                onChangeValue={() => setDateDerniereEcheanceShow(true)}
-                placeholder="Fréquence"
-                size="large"
-                appearance="default"
-                status="primary"
-                validators={[AvailableValidationRules.required]}
-              />
-
-              <MotiView
-                animate={{ maxHeight: (dateDerniereEcheanceShow ? 68 : 0) }}
-                style={{
-                  overflow: 'hidden',
-                  // hack pour éviter que le overflow 'hidden' ne cache l'ombre
-                  marginHorizontal: -5,
-                  paddingHorizontal: 5,
-                }}
-                transition={{ type: 'timing', duration: 500 }}
-              >
-                <DatePicker
-                  name="nextDueDate"
-                  placeholder="Date de dernière échéance"
-                  icon="calendar-outline"
-                  validators={[AvailableValidationRules.required]}
-                />
-              </MotiView>
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <TextInput name="tenant.managementFees" placeholder="Dont frais de gestion" />
+                <Text category="h4" style={{ marginLeft: 19 }}>%</Text>
+              </View>
 
             </MotiView>
 
-            <MotiView
-              animate={{ maxHeight: (revenuLoyer ? 500 : 0) }}
-              style={{
-                overflow: 'hidden',
-                // hack pour éviter que le overflow 'hidden' ne cache l'ombre
-                marginHorizontal: -5,
-                paddingHorizontal: 5,
-                paddingTop: 8,
-              }}
-              transition={{ type: 'timing', duration: 500 }}
-            >
-              <Text category="h5">Ajouter un locataire</Text>
-              <TextInput name="tenant.firstname" placeholder="Saisissez le prénom" />
-              <TextInput name="tenant.lastname" placeholder="Saisissez le nom" />
-              <TextInput
-                name="tenant.email"
-                placeholder="Saisissez le mail"
-                validators={[AvailableValidationRules.email]}
-              />
-              <DatePicker
-                name="tenant.startDate"
-                placeholder="Date de début de bail"
-                icon="calendar-outline"
-              />
-              <DatePicker
-                name="tenant.endDate"
-                placeholder="Date de fin de bail"
-                icon="calendar-outline"
-              />
-            </MotiView>
+            {frequenceShow
+              ? (
+                <View>
+                  <Select
+                    name="frequency"
+                    data={frequence}
+                    onChangeValue={() => setDateDerniereEcheanceShow(true)}
+                    placeholder="Fréquence"
+                    size="large"
+                    appearance="default"
+                    status="primary"
+                    validators={[AvailableValidationRules.required]}
+                  />
+                  {dateDerniereEcheanceShow && (
+                    <DatePicker
+                      name="nextDueDate"
+                      placeholder="Date de dernière échéance"
+                      icon="calendar-outline"
+                      validators={[AvailableValidationRules.required]}
+                    />
+                  )}
+                </View>
+              ) : (<></>)}
+
+            {revenuLoyer
+              ? (
+                <View>
+                  <Text category="h5">Ajouter un locataire</Text>
+                  <TextInput name="tenant.firstname" placeholder="Saisissez le prénom" />
+                  <TextInput name="tenant.lastname" placeholder="Saisissez le nom" />
+                  <TextInput
+                    name="tenant.email"
+                    placeholder="Saisissez le mail"
+                    validators={[AvailableValidationRules.email]}
+                  />
+                  <DatePicker
+                    name="tenant.startDate"
+                    placeholder="Date de début de bail"
+                    icon="calendar-outline"
+                  />
+                  <DatePicker
+                    name="tenant.endDate"
+                    placeholder="Date de fin de bail"
+                    icon="calendar-outline"
+                  />
+                </View>
+              ) : (<></>)}
 
             <View style={{ alignItems: 'flex-end', marginTop: 10 }}>
               <Button

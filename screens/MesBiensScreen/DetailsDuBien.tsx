@@ -4,7 +4,7 @@
  * @author: Shynggys UMBETOV
  */
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Layout, Text, Icon as IconUIKitten, useTheme,
 } from '@ui-kitten/components';
@@ -26,7 +26,7 @@ import MaisonVert from '../../assets/Omedom_Icons_svg/Logement/maison_verte.svg'
 import WomanAvatar from '../../assets/Omedom_Icons_svg/Avatars/womanAvatar.svg';
 
 // import comptesData from '../../mockData/comptesData';
-import clientData from '../../mockData/clientDATA';
+// import clientData from '../../mockData/clientDATA';
 import { useGetRealEstate } from '../../src/API/RealEstate';
 import { TabMesBiensParamList } from '../../types';
 import { Upload } from '../../utils/S3FileStorage';
@@ -40,12 +40,33 @@ function DetailsBien() {
   const route = useRoute<RouteProp<TabMesBiensParamList, 'detail-bien'>>();
   const { bien } = useGetRealEstate(route.params.id);
 
+  const [typeRevenu, setTypeRevenu] = useState<string>();
+  useEffect(() => {
+    switch (bien?.type) {
+      default:
+        setTypeRevenu('Type de bien');
+        break;
+      case 'mainHome':
+        setTypeRevenu('Résidence Principal');
+        break;
+      case 'secondHome':
+        setTypeRevenu('Résidence Secondaire');
+        break;
+      case 'professionnalRentalInvestment':
+        setTypeRevenu('Investissement Locatif Professionnel ou Commercial');
+        break;
+      case 'privateRentalInvestment':
+        setTypeRevenu('Investissement Locatif Particulier');
+        break;
+    }
+  }, []);
+
   // const [compte, setCompte] = useState(comptesData);
 
   const allerMonBudget = () => {
     navigation.navigate('mon-budget', { id: route.params.id });
   };
-  console.log('Detail Bien: ', bien);
+  // console.log('Detail Bien: ', bien);
   const allerTresorerie = () => {
     linkTo('/ma-tresorerie');
   };
@@ -246,7 +267,7 @@ function DetailsBien() {
 
           <Text category="h6" status="basic" style={{ marginTop: 8 }}>Type de bien</Text>
           <Text category="h6" appearance="hint" style={{ marginTop: 5 }}>
-            {bien?.type || undefined}
+            {`${typeRevenu}`}
           </Text>
           <Layout style={{ borderBottomWidth: 0.5, borderBottomColor: '#b5b5b5', marginVertical: 15 }} />
 
@@ -330,10 +351,10 @@ function DetailsBien() {
 
         <Layout style={styles.button}>
           <TouchableOpacity onPress={async () => {
-            console.log('should');
+            // console.log('should');
             const doc = await DocumentPicker.getDocumentAsync();
             const key = await Upload(doc, `biens/${route.params.id}/documents/`);
-            console.log(key);
+            // console.log(key);
           }}
           >
             <Text category="h5" status="info" style={styles.buttonText}>Ajouter</Text>

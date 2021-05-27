@@ -1,30 +1,31 @@
 import React, { useState } from 'react';
 import {
-  Button, Datepicker, Layout, Text, useTheme,
+  Button, Layout, Text, useTheme,
 } from '@ui-kitten/components';
 import {
   StyleSheet, View,
 } from 'react-native';
 
 import { useForm } from 'react-hook-form';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { useRoute } from '@react-navigation/native';
 import { RouteProp } from '@react-navigation/core/lib/typescript/src/types';
 import { MotiView } from 'moti';
 
-import SelectComp from '../../../components/Form/Select';
+import Select from '../../../components/Form/Select';
 import {
   frequence, typeCharge, typeImpots, typeAssurance, typeBanque, typeDivers,
 } from '../../../mockData/ajoutRevenuData';
 import Form from '../../../components/Form/Form';
 import MaxWidthContainer from '../../../components/MaxWidthContainer';
 import { Frequency } from '../../../src/API';
-import { useCreateBudgetLineMutation } from '../../../src/API/BudgetLine';
+
 import { TabMesBiensParamList } from '../../../types';
 import { useGetRealEstate } from '../../../src/API/RealEstate';
 import CompteHeader from '../../../components/CompteHeader/CompteHeader';
 import Separator from '../../../components/Separator';
 import TextInput from '../../../components/Form/TextInput';
 import { AvailableValidationRules } from '../../../components/Form/validation';
+import Datepicker from '../../../components/Form/DatePicker';
 
 type ParamBudgetForm = {
   category: string,
@@ -104,7 +105,7 @@ const ParametrerAjoutCharges = () => {
             <View style={{ paddingBottom: 33 }}>
 
               <View>
-                <SelectComp
+                <Select
                   name="category"
                   data={typeCharge}
                   onChangeValue={(v) => {
@@ -147,7 +148,7 @@ const ParametrerAjoutCharges = () => {
               </View>
               {taxShow ? (
                 <View>
-                  <SelectComp
+                  <Select
                     name="category2"
                     data={typeImpots}
                     onChangeValue={(item) => {
@@ -162,7 +163,7 @@ const ParametrerAjoutCharges = () => {
               ) : (<></>)}
               {assuranceShow ? (
                 <View>
-                  <SelectComp
+                  <Select
                     name="category2"
                     data={typeAssurance}
                     onChangeValue={(item) => {
@@ -178,7 +179,7 @@ const ParametrerAjoutCharges = () => {
 
               {banqueShow ? (
                 <View>
-                  <SelectComp
+                  <Select
                     name="category2"
                     data={typeBanque}
                     onChangeValue={(item) => {
@@ -199,7 +200,7 @@ const ParametrerAjoutCharges = () => {
 
               {diversShow ? (
                 <View>
-                  <SelectComp
+                  <Select
                     name="category2"
                     data={typeDivers}
                     onChangeValue={(item) => {
@@ -262,7 +263,7 @@ const ParametrerAjoutCharges = () => {
               {frequenceShow
                 ? (
                   <View>
-                    <SelectComp
+                    <Select
                       name="frequency"
                       data={frequence}
                       onChangeValue={() => setDateDerniereEcheanceShow(true)}

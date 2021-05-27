@@ -155,7 +155,6 @@ export function useGetRealEstate(id: string) {
       id,
     },
     fetchPolicy: 'cache-and-network',
-    nextFetchPolicy: 'cache-first',
   });
 
   return {

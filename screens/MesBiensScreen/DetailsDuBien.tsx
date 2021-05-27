@@ -268,31 +268,28 @@ function DetailsBien() {
       </Layout>
 
       {/**
-       *  VI. Géstion des locataires
+       *  VI. Gestion des locataires
        */}
       <Separator />
       <Layout style={styles.container}>
         <Text category="s2" style={{ marginBottom: 30 }}>
-          Géstion des locataires
+          Gestion des locataires
         </Text>
-        <Card style={styles.compteSection}>
-          {/* use SectionList to render several accounts with its types and details */}
-          {/**
+
+        {/* use SectionList to render several accounts with its types and details */}
+        {/**
           <Text category="h6" status="basic">
             {clientData.prenom}
           </Text>
            */}
-          {bien?.tenants?.map((tenant) => (
+        {bien?.tenants?.map((tenant) => (
+          <Card style={styles.compteSection}>
             <Text category="h6" status="basic">{`${tenant?.firstname} ${tenant?.lastname}`}</Text>
-          )) || undefined}
-          {bien?.tenants?.map((tenant) => (
-            <Text category="h6" appearance="hint">{`${tenant?.firstname} ${tenant?.amount}`}</Text>
-          )) || undefined}
-          <Text category="h6" appearance="hint" style={{ marginTop: 6 }} />
-          <Layout style={{ borderBottomWidth: 0.5, borderBottomColor: '#b5b5b5', marginVertical: 15 }} />
+            <Text category="h6" appearance="hint">{`${tenant?.amount} €`}</Text>
+            <Text category="h6" appearance="hint" style={{ marginTop: 6 }} />
+            <Layout style={{ borderBottomWidth: 0.5, borderBottomColor: '#b5b5b5', marginVertical: 15 }} />
 
-          <Text category="h6" status="basic" style={{ marginTop: 7 }}>Date de fin de bail</Text>
-          {bien?.tenants?.map((tenant) => (
+            <Text category="h6" status="basic" style={{ marginTop: 7 }}>Date de fin de bail</Text>
             <Text
               category="h6"
               appearance="hint"
@@ -300,10 +297,10 @@ function DetailsBien() {
                 marginTop: 5,
               }}
             >
-              {`${tenant?.firstname} ${tenant?.endDate}`}
+              {`${tenant?.endDate}`}
             </Text>
-          )) || undefined}
-        </Card>
+          </Card>
+        )) || undefined}
 
         <Layout style={styles.button}>
           <TouchableOpacity onPress={() => {}}>
@@ -424,6 +421,7 @@ const styles = StyleSheet.create({
   compteSection: {
     paddingVertical: 24,
     paddingHorizontal: 26.5,
+    marginBottom: 10,
   },
 
   // Aide Declaration Impots

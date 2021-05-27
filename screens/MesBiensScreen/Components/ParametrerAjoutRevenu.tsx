@@ -16,7 +16,10 @@ import { BudgetLineType, Frequency } from '../../../src/API';
 import TextInput from '../../../components/Form/TextInput';
 import { TabMesBiensParamList } from '../../../types';
 import CompteHeader from '../../../components/CompteHeader/CompteHeader';
-import { useCreateBudgetLineMutation } from '../../../src/API/BudgetLine';
+import {
+  useCreateBudgetLineMutation,
+  useUpdateBudgetLineMutation,
+} from '../../../src/API/BudgetLine';
 import { useGetRealEstate } from '../../../src/API/RealEstate';
 import { useAddTenant } from '../../../src/API/Tenant';
 import DatePicker from '../../../components/Form/DatePicker';
@@ -44,6 +47,7 @@ const ParametrerAjoutRevenu = () => {
   const paramBudgetForm = useForm<ParamBudgetForm>();
   const addTenant = useAddTenant();
   const createBudgetLine = useCreateBudgetLineMutation();
+  const updateBudgetLine = useUpdateBudgetLineMutation();
 
   const route = useRoute<RouteProp<TabMesBiensParamList, 'ajout-revenu'> | RouteProp<TabMesBiensParamList, 'modifier-revenu'>>();
   const navigation = useNavigation();
@@ -94,37 +98,47 @@ const ParametrerAjoutRevenu = () => {
   const [etape, setEtape] = useState(0);
 
   const validateBudget = async (data: ParamBudgetForm) => {
-    console.log('ParametrerAjoutRevenu data:', data);
     const {
       category, amount, frequency, nextDueDate, tenant,
     } = data;
 
-    if (data.category === 'Loyer') {
-      /**
+    if (route.params.idBudgetLine) {
+      if (data.category === 'Loyer') {
+        let tenantId: string | null = null;
+        if (tenant) {
+          tenantId = await addTenant(bien, {
+            ...tenant,
+            amount,
+          });
+        }
 
-      await updateRealEstate({
-        variables: {
-          input: {
-            id: route.params.id,
-            tenants: bien?.getRealEstate?.tenants?.filter((item) => item?.id !== 'ID à supprimer'),
+        await updateBudgetLine({
+          variables: {
+            input: {
+              id: route.params.idBudgetLine,
+              category,
+              amount,
+              frequency,
+              nextDueDate,
+              tenantId,
+            },
           },
-        },
-      });
-
-      await updateRealEstate({
-        variables: {
-          input: {
-            id: route.params.id,
-            tenants: bien?.getRealEstate?.tenants?.map((item) => {
-              if (item?.id === 'ID à modifier') {
-                return tenant;
-              }
-              return item;
-            }),
+        });
+      } else {
+        console.log('ParametrerAjoutRevenu data:', route.params.idBudgetLine);
+        await updateBudgetLine({
+          variables: {
+            input: {
+              id: route.params.idBudgetLine,
+              category,
+              amount,
+              frequency,
+              nextDueDate,
+            },
           },
-        },
-      });
-       */
+        });
+      }
+    } else if (data.category === 'Loyer') {
       let tenantId: string | null = null;
       if (tenant) {
         tenantId = await addTenant(bien, {
@@ -132,27 +146,6 @@ const ParametrerAjoutRevenu = () => {
           amount,
         });
       }
-
-      /**
-      const tenantInfo: TenantInfoInput = {
-        ...tenant,
-        id: uuid(),
-      };
-
-      const tenants = (<TenantInfoInput[]>bien?.tenants || []);
-    tenants.push(tenantInfo);
-
-    if (bien.id) {
-        await updateRealEstate({
-          variables: {
-            input: {
-              id: bien.id,
-              tenants,
-            },
-          },
-        });
-      }
-      */
 
       await createBudgetLine({
         variables: {
@@ -168,6 +161,7 @@ const ParametrerAjoutRevenu = () => {
         },
       });
     } else {
+      console.log('pas normal');
       await createBudgetLine({
         variables: {
           input: {
@@ -181,7 +175,6 @@ const ParametrerAjoutRevenu = () => {
         },
       });
     }
-
     /**
      ?
      */

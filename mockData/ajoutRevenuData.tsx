@@ -84,6 +84,17 @@ export const typeAssurance = [
   },
 ];
 
+export const typeBanque = [
+  {
+    label: 'Frais bancaires',
+    key: 'Frais bancaires',
+  },
+  {
+    label: 'Mensualité crédit',
+    key: 'Mensualité crédit',
+  },
+];
+
 export const montant = [
   {
     label: 'Loyer',

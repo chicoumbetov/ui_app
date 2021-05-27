@@ -9,30 +9,37 @@ import {
 import { useForm } from 'react-hook-form';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { RouteProp } from '@react-navigation/core/lib/typescript/src/types';
-import MaisonVert from '../../../assets/Omedom_Icons_svg/Logement/maison_verte.svg';
+import { MotiView } from 'moti';
 
 import SelectComp from '../../../components/Form/Select';
 import {
-  loyer, frequence, typeRevenu, typeMontant, montant, typeCharge, typeImpots, typeAssurance,
+  frequence, typeCharge, typeImpots, typeAssurance, typeBanque,
 } from '../../../mockData/ajoutRevenuData';
 import Form from '../../../components/Form/Form';
-import TextInputComp from '../../../components/Form/TextInput';
 import MaxWidthContainer from '../../../components/MaxWidthContainer';
 import { Frequency } from '../../../src/API';
-import { useAddTenant } from '../../../src/API/Tenant';
 import { useCreateBudgetLineMutation } from '../../../src/API/BudgetLine';
 import { TabMesBiensParamList } from '../../../types';
 import { useGetRealEstate } from '../../../src/API/RealEstate';
 import CompteHeader from '../../../components/CompteHeader/CompteHeader';
 import Separator from '../../../components/Separator';
+import TextInput from '../../../components/Form/TextInput';
+import { AvailableValidationRules } from '../../../components/Form/validation';
 
 type ParamBudgetForm = {
   category: string,
+  category2?: string,
   amount: number,
   frequency: Frequency,
   nextDueDate?: string | null,
   tenantId?: string | null,
-
+  infoCredit?: {
+    borrowedCapital?: number,
+    loadStartDate?: string | null,
+    duration?: number | null,
+    interestRate?: number | null,
+    assuranceRate?: number | null,
+  }
 };
 
 type ParamAjoutBienForm = {
@@ -56,15 +63,14 @@ const ParametrerAjoutCharges = () => {
   const [montantShow, setMontantShow] = useState(false);
   const [taxShow, setTaxShow] = useState(false);
   const [assuranceShow, setAssuranceShow] = useState(false);
+  const [banqueShow, setBanqueShow] = useState(false);
   const [dateDerniereEcheanceShow, setDateDerniereEcheanceShow] = useState(false);
+  // infoCredit
+  const [mensualiteCreditShow, setMensualiteCreditShow] = useState(false);
 
-  const [montantValue, setMontantValue] = useState('Montant');
-
-  /**
-   *Variable pour gérer l'affichage des trois grandes partie
-   * */
-  const [etape, setEtape] = useState(0);
-
+  const validateCharge = (data: ParamBudgetForm) => {
+    console.log('Validate charge: ', data);
+  };
   return (
     <MaxWidthContainer
       withScrollView="keyboardAware"
@@ -85,11 +91,11 @@ const ParametrerAjoutCharges = () => {
       <Separator />
 
       {/**
-         *  II. Ajouter revenu
-         */}
+      *  II. Ajouter revenu
+      */}
       <Layout style={styles.container}>
         <Text category="s2" status="basic" style={{ marginBottom: 20 }}>
-          Ajouter un revenu
+          Ajouter un charge
         </Text>
 
         <Form<ParamBudgetForm> {...paramBudgetForm}>
@@ -99,91 +105,164 @@ const ParametrerAjoutCharges = () => {
                *  Mode de détention
                */}
 
-            <View>
+            <View style={{ paddingBottom: 33 }}>
 
-              <Layout style={{ backgroundColor: 'transparent', paddingBottom: 33 }}>
-
+              <View>
+                <SelectComp
+                  name="category"
+                  data={typeCharge}
+                  onChangeValue={(v) => {
+                    console.log('typeCharge  item: ', v);
+                    if (v === 'Impôts') {
+                      setTaxShow(true);
+                      setAssuranceShow(false);
+                      setBanqueShow(false);
+                    } else if (v === 'Assurance') {
+                      setTaxShow(false);
+                      setAssuranceShow(true);
+                      setBanqueShow(false);
+                    } else if (v === 'Banque') {
+                      setTaxShow(false);
+                      setAssuranceShow(false);
+                      setBanqueShow(true);
+                    } else {
+                      setTaxShow(false);
+                      setAssuranceShow(false);
+                      setBanqueShow(false);
+                    }
+                    setMontantShow(true);
+                    setFrequenceShow(true);
+                  }}
+                  placeholder="Type De Charges"
+                  size="large"
+                  appearance="default"
+                  status="primary"
+                />
+              </View>
+              {taxShow ? (
                 <View>
                   <SelectComp
-                    name="typeCharge"
-                    data={typeCharge}
-                    onChangeValue={(v) => {
-                      console.log(v);
-                      if (v === 'Impôts') {
-                        setTaxShow(true);
-                        setAssuranceShow(false);
-                      } else if (v === 'Assurance') {
-                        setTaxShow(false);
-                        setAssuranceShow(true);
-                      }
-                      setMontantShow(true); setFrequenceShow(true);
+                    name="category2"
+                    data={typeImpots}
+                    onChangeValue={(item) => {
+                      // console.log('typeImpots item: ', item);
                     }}
-                    placeholder="Type De Charges"
+                    placeholder="Type d'Impôts"
                     size="large"
                     appearance="default"
                     status="primary"
                   />
                 </View>
-                {taxShow ? (
-                  <View>
-                    <SelectComp
-                      name="typeImpots"
-                      data={typeImpots}
-                      onChangeValue={() => {}}
-                      placeholder="Type d'Impôts"
-                      size="large"
-                      appearance="default"
-                      status="primary"
-                    />
-                  </View>
-                ) : (<></>)}
-                {assuranceShow ? (
-                  <View>
-                    <SelectComp
-                      name="typeAssurance"
-                      data={typeAssurance}
-                      onChangeValue={() => {}}
-                      placeholder="Type d'Assurance"
-                      size="large"
-                      appearance="default"
-                      status="primary"
-                    />
-                  </View>
-                ) : (<></>)}
-                {montantShow && (
+              ) : (<></>)}
+              {assuranceShow ? (
                 <View>
-                  <TextInputComp name="montant" placeholder="Saisissez votre montant ici" />
+                  <SelectComp
+                    name="category2"
+                    data={typeAssurance}
+                    onChangeValue={(item) => {
+                      // console.log('typeAssurance item: ', item);
+                    }}
+                    placeholder="Type d'Assurance"
+                    size="large"
+                    appearance="default"
+                    status="primary"
+                  />
                 </View>
-                )}
+              ) : (<></>)}
 
+              {banqueShow ? (
                 <View>
+                  <SelectComp
+                    name="category2"
+                    data={typeBanque}
+                    onChangeValue={(item) => {
+                      console.log('typeBanque item: ', item);
+                      if (item === 'Mensualité crédit') {
+                        setMensualiteCreditShow(true);
+                      } else {
+                        setMensualiteCreditShow(false);
+                      }
+                    }}
+                    placeholder="Type de Banque"
+                    size="large"
+                    appearance="default"
+                    status="primary"
+                  />
+                </View>
+              ) : (<></>)}
 
-                  {frequenceShow
-                    && (
-                    <Layout style={{ backgroundColor: 'transparent' }}>
-                      <SelectComp name="typeRevenu" data={frequence} onChangeValue={() => setDateDerniereEcheanceShow(true)} placeholder="Fréquence" size="large" appearance="default" status="primary" />
-                      {dateDerniereEcheanceShow && (
-                      <Datepicker placeholder="Date de dernière échéance" />
-                      )}
-                    </Layout>
+              <MotiView
+                animate={{ height: (mensualiteCreditShow ? 300 : 0) }}
+                style={{
+                  overflow: 'hidden',
+                  // hack pour éviter que le overflow 'hidden' ne cache l'ombre
+                  marginHorizontal: -5,
+                  paddingHorizontal: 5,
+                }}
+                transition={{ type: 'timing', duration: 500 }}
+              >
+                <TextInput
+                  name="infoCredit.borrowedCapital"
+                  placeholder="Capital emprunté"
+                />
+                <TextInput
+                  name="infoCredit.loadStartDate"
+                  placeholder="La date de début du prêt"
+                />
+                <TextInput
+                  name="infoCredit.duration"
+                  placeholder="La durée"
+                />
+                <TextInput
+                  name="infoCredit.interestRate"
+                  placeholder="Le taux d'intérêts"
+                />
+                <TextInput
+                  name="infoCredit.assuranceRate"
+                  placeholder="Le taux d'assurance"
+                />
+              </MotiView>
 
+              {montantShow ? (
+                <MotiView>
+                  <TextInput name="amount" placeholder="Saisissez votre montant ici" />
+                </MotiView>
+              ) : (<></>)}
+
+              {frequenceShow
+                ? (
+                  <View>
+                    <SelectComp
+                      name="frequency"
+                      data={frequence}
+                      onChangeValue={() => setDateDerniereEcheanceShow(true)}
+                      placeholder="Fréquence"
+                      size="large"
+                      appearance="default"
+                      status="primary"
+                    />
+                    {dateDerniereEcheanceShow && (
+                    <Datepicker
+                      name="nextDueDate"
+                      placeholder="Date de dernière échéance"
+                      validators={[AvailableValidationRules.required]}
+                    />
                     )}
-                </View>
-
-              </Layout>
+                  </View>
+                ) : (<></>)}
 
             </View>
 
-            <Layout style={{ marginBottom: 10 }}>
+            <View style={{ marginBottom: 10 }}>
               <Button
-                onPress={paramBudgetForm.handleSubmit((e) => {
-                  console.log(e);
+                onPress={paramBudgetForm.handleSubmit((data) => {
+                  validateCharge(data);
                 })}
                 size="large"
               >
                 Valider
               </Button>
-            </Layout>
+            </View>
           </>
         </Form>
 

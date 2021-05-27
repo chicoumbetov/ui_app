@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Button, Text,
 } from '@ui-kitten/components';
@@ -7,27 +7,22 @@ import {
   StyleSheet, View,
 } from 'react-native';
 import { useForm } from 'react-hook-form';
-import TextInputComp from '../../../components/Form/TextInput';
+import TextInput from '../../../components/Form/TextInput';
 import Form from '../../../components/Form/Form';
-import SelectComp from '../../../components/Form/Select';
+import Select from '../../../components/Form/Select';
 import MaxWidthContainer from '../../../components/MaxWidthContainer';
 import { useRealEstateList } from '../../../src/API/RealEstate';
 import { IconName } from '../../../components/Icon/Icon';
 
 type DeclarationImpotsForm = {
-  key: number;
-  label: string;
-  section?: boolean;
-  icon?: IconName;
-  // to be as configurable as possible allow any
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  onPress?: (row?: any) => void;
+  bien: string;
+  anneeEcheance: string;
 };
-const selectHouse = [];
 
 const DeclarationImpots = () => {
   const navigation = useNavigation();
   const { data } = useRealEstateList();
+  const [houseList, setHouseList] = useState<Array<{ label: string, key: string }>>([]);
 
   /**
   function checkValue(house: string, selectForm) {
@@ -43,22 +38,16 @@ const DeclarationImpots = () => {
     return status;
   }
   */
-
-  data?.listRealEstates?.items?.forEach((house) => {
-    /**
-    for (let i = 0; i < selectHouse.length; i += 1) {
-      if (house === selectHouse[i]) {
-        return selectHouse;
+  useEffect(() => {
+    const selectHouse: Array<{ label: string, key: string }> = [];
+    data?.listRealEstates?.items?.forEach((house) => {
+      if (house) {
+        selectHouse.push({ label: house.name, key: house.id });
       }
-      selectHouse.push({ label: house?.name, key: house?.id });
-    }
-     */
+    });
+    setHouseList(selectHouse);
+  }, [data]);
 
-    selectHouse.push({ label: house?.name, key: house?.id });
-    // checkValue(house, selectForm);
-  });
-
-  console.log(selectHouse);
   /**
   const comptesData = [
     {
@@ -93,21 +82,23 @@ const DeclarationImpots = () => {
           Paramétrer mon aide à la déclaration d'impôts
         </Text>
 
-        <Form <DeclarationImpotsForm> {...declarationImpotsForm}>
-          <SelectComp
-            name="bien"
-            data={selectHouse}
-            placeholder="Choisissez le bien"
-            size="large"
-            appearance="default"
-            status="primary"
-          />
-          <TextInputComp
-            label="Année de l'écheance"
-            name="anneeEcheance"
-            placeholder="aaaa"
-            icon="calendar-outline"
-          />
+        <Form<DeclarationImpotsForm> {...declarationImpotsForm}>
+          <>
+            <Select
+              name="bien"
+              data={houseList}
+              placeholder="Choisissez le bien"
+              size="large"
+              appearance="default"
+              status="primary"
+            />
+            <TextInput
+              label="Année de l'écheance"
+              name="anneeEcheance"
+              placeholder="aaaa"
+              icon="calendar-outline"
+            />
+          </>
         </Form>
 
         <View style={styles.buttonRight}>

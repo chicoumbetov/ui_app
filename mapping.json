@@ -1435,7 +1435,7 @@
             "captionFontSize": "text-caption-1-font-size",
             "captionFontWeight": "text-caption-1-font-weight",
             "captionFontFamily": "text-caption-1-font-family",
-            "popoverMaxHeight": 220,
+            "popoverMaxHeight": 167,
             "popoverBorderRadius": "border-radius",
             "popoverBorderWidth": "border-width",
             "popoverBorderColor": "border-basic-color-4"

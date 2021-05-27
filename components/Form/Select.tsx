@@ -39,7 +39,7 @@ const SelectComp = React.forwardRef<SelectHandles, SelectFormProps<string | numb
       blur: selectRef.current.blur,
     }));
 
-    const [selectedIndex, setSelectedIndex] = useState<number>(0);
+    const [selectedIndex, setSelectedIndex] = useState<number>(-1);
 
     useEffect(() => {
       const selectedIndexValue = data.findIndex((item) => item.key === defaultValue);

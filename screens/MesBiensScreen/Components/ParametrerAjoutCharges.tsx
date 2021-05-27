@@ -29,7 +29,7 @@ import Datepicker from '../../../components/Form/DatePicker';
 import { useCreateBudgetLineMutation, useUpdateBudgetLineMutation } from '../../../src/API/BudgetLine';
 
 type ParamBudgetForm = {
-  category: string,
+  category1: string,
   category2?: string,
   amount: number,
   frequency: Frequency,
@@ -69,9 +69,15 @@ const ParametrerAjoutCharges = () => {
 
   const validateCharge = async (data: ParamBudgetForm) => {
     console.log('Validate charge: ', data);
+    let category: string;
     const {
-      category, category2, amount, frequency, nextDueDate,
+      category1, category2, amount, frequency, nextDueDate,
     } = data;
+    if ((category1 === 'Impôts' || category1 === 'Assurance') && category2) {
+      category = category2;
+    } else {
+      category = category1;
+    }
 
     if (route.params.idBudgetLine) {
       /**
@@ -146,10 +152,9 @@ const ParametrerAjoutCharges = () => {
 
               <View>
                 <Select
-                  name="category"
+                  name="category1"
                   data={typeCharge}
                   onChangeValue={(v) => {
-                    console.log('typeCharge  item: ', v);
                     if (v === 'Impôts') {
                       setTaxShow(true);
                       setAssuranceShow(false);

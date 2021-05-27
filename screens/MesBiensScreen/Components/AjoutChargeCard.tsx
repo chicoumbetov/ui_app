@@ -90,7 +90,7 @@ const AjoutChargeCard = (props: MonBudgetProps) => {
       >
         <View style={{
           justifyContent: 'space-evenly',
-          width: 93,
+          width: 110,
           paddingRight: 20,
           borderRightColor: theme['text-hint-color'],
           borderRightWidth: 1,

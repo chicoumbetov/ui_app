@@ -32,11 +32,12 @@ const Faq = () => {
   };
 
   return (
-    <MaxWidthContainer outerViewProps={{
-      style: {
-        margin: 30,
-      },
-    }}
+    <MaxWidthContainer
+      outerViewProps={{
+        style: {
+          margin: 30,
+        },
+      }}
     >
       <View>
         <Text category="h1" style={styles.header}>FAQ</Text>
@@ -63,7 +64,11 @@ const Faq = () => {
           // console.log('isChecked', isChecked);
           // eslint-disable-next-line implicit-arrow-linebreak
           (
-            <TouchableOpacity onPress={() => pressHandler(id)} key={index + isChecked} style={isChecked ? (styles.headerUp) : (styles.headerDown)}>
+            <TouchableOpacity
+              onPress={() => pressHandler(id)}
+              key={index + isChecked}
+              style={isChecked ? (styles.headerUp) : (styles.headerDown)}
+            >
               <Text category="h6" status="control" key={index}>
                 {title}
               </Text>

@@ -19,18 +19,17 @@ import {
   Icon as IconUIKitten,
 } from '@ui-kitten/components';
 import {
-  ImageProps, TouchableOpacity,
+  ImageProps, TouchableOpacity, View,
 } from 'react-native';
 import { InitialState, useLinkTo } from '@react-navigation/native';
-import { Auth, DataStore } from 'aws-amplify';
+import { Auth } from 'aws-amplify';
 import { DrawerContentComponentProps } from '@react-navigation/drawer/src/types';
 import { RenderProp } from '@ui-kitten/components/devsupport';
-import { DrawerContentScrollView } from '@react-navigation/drawer';
+// import { DrawerContentScrollView } from '@react-navigation/drawer';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useDimensions } from '@react-native-community/hooks';
-import comptesData from '../mockData/comptesData';
+// import comptesData from '../mockData/comptesData';
 import Icon, { IconName } from '../components/Icon/Icon';
-import ManAvatar from '../assets/Omedom_Icons_svg/Avatars/manAvatar.svg';
 import AutoAvatar from '../components/AutoAvatar';
 import { useUser } from '../src/API/UserContext';
 
@@ -146,7 +145,7 @@ const CustomDrawer = (props: DrawerContentComponentProps) => {
   const linkTo = useLinkTo();
   const { window } = useDimensions();
   return (
-    <DrawerContentScrollView style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
+    <View style={{ flex: 1, marginTop: inset.top, marginBottom: inset.bottom }}>
       <Layout level="4" style={{ flex: 1, justifyContent: 'space-between' }}>
 
         <Layout
@@ -175,7 +174,7 @@ const CustomDrawer = (props: DrawerContentComponentProps) => {
         <Drawer
           selectedIndex={new IndexPath(findFocusedDrawerItem(state))}
           onSelect={(index) => {
-            console.log(index);
+            // console.log(index);
             // eslint-disable-next-line default-case
             switch (index.row) {
               case 0:
@@ -261,7 +260,7 @@ const CustomDrawer = (props: DrawerContentComponentProps) => {
         <Text category="h5" style={{ textDecorationLine: 'underline' }}>Déconnexion</Text>
       </TouchableOpacity>
 
-    </DrawerContentScrollView>
+    </View>
   );
 };
 

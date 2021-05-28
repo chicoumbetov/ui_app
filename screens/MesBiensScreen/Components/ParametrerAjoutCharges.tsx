@@ -188,47 +188,46 @@ const ParametrerAjoutCharges = () => {
 
             <View style={{ paddingBottom: 33 }}>
 
-              <View>
-                <Select
-                  name="category"
-                  data={typeCharge}
-                  onChangeValue={(v) => {
-                    if (v === 'Impôts') {
-                      setTaxShow(true);
-                      setAssuranceShow(false);
-                      setBanqueShow(false);
-                      setDiversShow(false);
-                    } else if (v === 'Assurance') {
-                      setTaxShow(false);
-                      setAssuranceShow(true);
-                      setBanqueShow(false);
-                      setDiversShow(false);
-                    } else if (v === 'Banque') {
-                      setTaxShow(false);
-                      setAssuranceShow(false);
-                      setBanqueShow(true);
-                      setDiversShow(false);
-                    } else if (v === 'Frais divers') {
-                      setTaxShow(false);
-                      setAssuranceShow(false);
-                      setBanqueShow(false);
-                      setDiversShow(true);
-                    } else {
-                      setTaxShow(false);
-                      setAssuranceShow(false);
-                      setBanqueShow(false);
-                      setDiversShow(false);
-                    }
-                    setMontantShow(true);
-                    setFrequenceShow(true);
-                  }}
-                  placeholder="Type De Charges"
-                  size="large"
-                  appearance="default"
-                  status="primary"
-                  validators={[AvailableValidationRules.required]}
-                />
-              </View>
+              <Select
+                name="category"
+                data={typeCharge}
+                onChangeValue={(v) => {
+                  if (v === 'Impôts') {
+                    setTaxShow(true);
+                    setAssuranceShow(false);
+                    setBanqueShow(false);
+                    setDiversShow(false);
+                  } else if (v === 'Assurance') {
+                    setTaxShow(false);
+                    setAssuranceShow(true);
+                    setBanqueShow(false);
+                    setDiversShow(false);
+                  } else if (v === 'Banque') {
+                    setTaxShow(false);
+                    setAssuranceShow(false);
+                    setBanqueShow(true);
+                    setDiversShow(false);
+                  } else if (v === 'Frais divers') {
+                    setTaxShow(false);
+                    setAssuranceShow(false);
+                    setBanqueShow(false);
+                    setDiversShow(true);
+                  } else {
+                    setTaxShow(false);
+                    setAssuranceShow(false);
+                    setBanqueShow(false);
+                    setDiversShow(false);
+                  }
+                  setMontantShow(true);
+                  setFrequenceShow(true);
+                }}
+                placeholder="Type De Charges"
+                size="large"
+                appearance="default"
+                status="primary"
+                validators={[AvailableValidationRules.required]}
+              />
+
               {taxShow ? (
                 <View>
                   <Select
@@ -297,7 +296,7 @@ const ParametrerAjoutCharges = () => {
               ) : (<></>)}
 
               <MotiView
-                animate={{ height: (mensualiteCreditShow ? 300 : 0) }}
+                animate={{ height: (mensualiteCreditShow ? 350 : 0) }}
                 style={{
                   overflow: 'hidden',
                   // hack pour éviter que le overflow 'hidden' ne cache l'ombre
@@ -306,10 +305,14 @@ const ParametrerAjoutCharges = () => {
                 }}
                 transition={{ type: 'timing', duration: 500 }}
               >
-                <TextInput
-                  name="infoCredit.borrowedCapital"
-                  placeholder="Capital emprunté"
-                />
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  <TextInput
+                    name="infoCredit.borrowedCapital"
+                    placeholder="Capital emprunté"
+                  />
+                  <Text category="h4" style={{ marginLeft: 19 }}> €</Text>
+                </View>
+
                 <Datepicker
                   name="infoCredit.loadStartDate"
                   placeholder="La date de début du prêt"
@@ -317,16 +320,23 @@ const ParametrerAjoutCharges = () => {
                 />
                 <TextInput
                   name="infoCredit.duration"
-                  placeholder="La durée"
+                  placeholder="La durée en mois"
                 />
-                <TextInput
-                  name="infoCredit.interestRate"
-                  placeholder="Le taux d'intérêts"
-                />
-                <TextInput
-                  name="infoCredit.assuranceRate"
-                  placeholder="Le taux d'assurance"
-                />
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  <TextInput
+                    name="infoCredit.interestRate"
+                    placeholder="Le taux d'intérêts"
+                  />
+                  <Text category="h4" style={{ marginLeft: 19 }}>%</Text>
+                </View>
+
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  <TextInput
+                    name="infoCredit.assuranceRate"
+                    placeholder="Le taux d'assurance"
+                  />
+                  <Text category="h4" style={{ marginLeft: 19 }}>%</Text>
+                </View>
               </MotiView>
 
               <MotiView

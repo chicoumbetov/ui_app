@@ -89,8 +89,9 @@ const AjoutChargeCard = (props: MonBudgetProps) => {
         onPress={() => { allerTresorie(); }}
       >
         <View style={{
+          flex: 1,
           justifyContent: 'space-evenly',
-          width: 105,
+          // width: 105,
           paddingRight: 20,
           borderRightColor: theme['text-hint-color'],
           borderRightWidth: 1,
@@ -121,15 +122,18 @@ const AjoutChargeCard = (props: MonBudgetProps) => {
           </Text>
         </View>
         <View style={{
-          flex: 1,
           alignItems: 'center',
           flexDirection: 'row',
           justifyContent: 'space-between',
         }}
         >
-          <Text category="c1" status="warning" style={{ marginLeft: 15 }}>
-            En attente
-          </Text>
+          <IconUIKitten
+            name="alert-circle-outline"
+            fill={theme['color-warning-500']}
+            style={{
+              height: 20, width: 20, marginRight: 5,
+            }}
+          />
           <IconUIKitten
             name="arrow-ios-forward"
             fill="#000"

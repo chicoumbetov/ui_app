@@ -1114,7 +1114,7 @@
                 "minHeight": "size-medium",
                 "borderRadius": "border-radius",
                 "borderWidth": "border-width",
-                "paddingVertical": 0,
+                "paddingVertical": 3,
                 "textFontSize": "text-paragraph-1-font-size",
                 "textFontWeight": "normal"
               },

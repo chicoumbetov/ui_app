@@ -56,7 +56,7 @@ export default function MesBiensStackNavigator() {
       />
       <Stack.Screen
         name="modifier-characteristique"
-        component={ModifierCharacteristiques}
+        component={AjoutBienScreen}
       />
       <Stack.Screen
         name="ajout-bien-screen"

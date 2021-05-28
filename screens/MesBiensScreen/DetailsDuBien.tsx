@@ -6,7 +6,7 @@
 
 import React, { useEffect, useState } from 'react';
 import {
-  Layout, Text, Icon as IconUIKitten, useTheme,
+  Text, Icon as IconUIKitten, useTheme,
 } from '@ui-kitten/components';
 import {
   Alert,
@@ -81,7 +81,7 @@ function DetailsBien() {
     linkTo('/mon-assistant');
   };
   const allerPartagerBien = () => {
-    navigation.navigate('PartagerBien');
+    navigation.navigate('partager-bien');
   };
   const allerModifierCharacteristics = () => {
     navigation.navigate('modifier-characteristique', { id: route.params.id });
@@ -124,7 +124,7 @@ function DetailsBien() {
           {route.params.id}
            */}
         </Text>
-        <Layout style={{ alignItems: 'center', marginTop: 30 }}>
+        <View style={{ alignItems: 'center', marginTop: 30 }}>
           <MaisonVert
             height={100}
             width={100}
@@ -133,7 +133,7 @@ function DetailsBien() {
           <Text category="h2" status="basic">
             {bien?.name}
           </Text>
-        </Layout>
+        </View>
 
       </View>
 
@@ -141,7 +141,7 @@ function DetailsBien() {
        *  II. Compteurs
        */}
       <Separator />
-      <Layout style={styles.container}>
+      <View style={styles.container}>
         <Text category="s2" style={{ marginBottom: 30 }}>
           Compteurs
         </Text>
@@ -167,13 +167,13 @@ function DetailsBien() {
           </View>
         </Card>
 
-      </Layout>
+      </View>
 
       {/**
        *  III. Budget
        */}
       <Separator />
-      <Layout style={styles.container}>
+      <View style={styles.container}>
 
         <Text category="s2" style={{ marginBottom: 30 }}>
           Budget
@@ -195,13 +195,13 @@ function DetailsBien() {
           </Text>
         </Card>
 
-      </Layout>
+      </View>
 
       {/**
        *  IV. Nos Services
        */}
       <Separator />
-      <Layout style={styles.container}>
+      <View style={styles.container}>
 
         <Text category="s2" style={{ marginBottom: 30 }}>
           Nos Services
@@ -262,13 +262,13 @@ function DetailsBien() {
           </Text>
         </Card>
 
-      </Layout>
+      </View>
 
       {/**
        *  V. Characteristiques
        */}
       <Separator />
-      <Layout style={styles.container}>
+      <View style={styles.container}>
         <Text category="s2" style={{ marginBottom: 30 }}>
           Caractéristiques
         </Text>
@@ -278,42 +278,42 @@ function DetailsBien() {
           <Text category="h6" appearance="hint" style={{ marginTop: 6 }}>
             {`${bien?.address?.address} ${bien?.address?.postalCode} ${bien?.address?.city}`}
           </Text>
-          <Layout style={{ borderBottomWidth: 0.5, borderBottomColor: '#b5b5b5', marginVertical: 15 }} />
+          <View style={{ borderBottomWidth: 0.5, borderBottomColor: '#b5b5b5', marginVertical: 15 }} />
 
           <Text category="h6" status="basic" style={{ marginTop: 8 }}>Date d'acquisition</Text>
           <Text category="h6" appearance="hint" style={{ marginTop: 5 }}>
             {bien?.purchaseYear || undefined}
           </Text>
-          <Layout style={{ borderBottomWidth: 0.3, borderBottomColor: '#b5b5b5', marginVertical: 15 }} />
+          <View style={{ borderBottomWidth: 0.3, borderBottomColor: '#b5b5b5', marginVertical: 15 }} />
 
           <Text category="h6" status="basic" style={{ marginTop: 8 }}>Type de bien</Text>
           <Text category="h6" appearance="hint" style={{ marginTop: 5 }}>
             {`${typeRevenu}`}
           </Text>
-          <Layout style={{ borderBottomWidth: 0.5, borderBottomColor: '#b5b5b5', marginVertical: 15 }} />
+          <View style={{ borderBottomWidth: 0.5, borderBottomColor: '#b5b5b5', marginVertical: 15 }} />
 
           <Text category="h6" status="basic" style={{ marginTop: 10 }}>Mode de détention</Text>
           <Text category="h6" appearance="hint" style={{ marginTop: 5 }}>
             {bien?.ownName ? 'Nom propre' : 'Société'}
           </Text>
-          <Layout style={{ borderBottomWidth: 0.5, borderBottomColor: '#b5b5b5', marginVertical: 15 }} />
+          <View style={{ borderBottomWidth: 0.5, borderBottomColor: '#b5b5b5', marginVertical: 15 }} />
 
           <Text category="h6" status="basic" style={{ marginTop: 8 }}>Nombre de parts</Text>
           <Text category="h6" appearance="hint" style={{ marginTop: 5 }}>
-            {bien?.detentionPart || undefined}
+            {`${bien?.detentionPart || undefined} %`}
           </Text>
         </Card>
 
         <TouchableOpacity onPress={allerModifierCharacteristics}>
           <Text category="h5" status="info" style={styles.buttonText}>Modifier le bien</Text>
         </TouchableOpacity>
-      </Layout>
+      </View>
 
       {/**
        *  VI. Gestion des locataires
        */}
       <Separator />
-      <Layout style={styles.container}>
+      <View style={styles.container}>
         <Text category="s2" style={{ marginBottom: 30 }}>
           Gestion des locataires
         </Text>
@@ -331,7 +331,7 @@ function DetailsBien() {
               <Text category="h6" status="basic">{`${tenant?.firstname} ${tenant?.lastname}`}</Text>
               <Text category="h6" appearance="hint">{`${tenant?.amount} €`}</Text>
               <Text category="h6" appearance="hint" style={{ marginTop: 6 }} />
-              <Layout style={{ borderBottomWidth: 0.5, borderBottomColor: '#b5b5b5', marginBottom: 15 }} />
+              <View style={{ borderBottomWidth: 0.5, borderBottomColor: '#b5b5b5', marginBottom: 15 }} />
 
               <Text category="h6" status="basic" style={{ marginTop: 7 }}>Date de fin de bail</Text>
               <Text
@@ -347,7 +347,7 @@ function DetailsBien() {
           );
         }) || undefined}
 
-        <Layout style={styles.button}>
+        <View style={styles.button}>
           <TouchableOpacity onPress={() => {}}>
             <Text category="h5" status="info" style={styles.buttonText}>Ajouter</Text>
           </TouchableOpacity>
@@ -355,15 +355,15 @@ function DetailsBien() {
           <TouchableOpacity onPress={() => {}}>
             <Text category="h5" status="basic" style={styles.buttonText}>Supprimer</Text>
           </TouchableOpacity>
-        </Layout>
+        </View>
 
-      </Layout>
+      </View>
 
       {/**
        *  VII. Documents
        */}
       <Separator />
-      <Layout style={styles.container}>
+      <View style={styles.container}>
         <Text category="s2" style={{ marginBottom: 30 }}>
           Documents
         </Text>
@@ -373,7 +373,7 @@ function DetailsBien() {
           <IconUIKitten name="cloud-download" fill="#b5b5b5" style={{ height: 17, width: 17 }} />
         </Card>
 
-        <Layout style={styles.button}>
+        <View style={styles.button}>
           <TouchableOpacity onPress={async () => {
             // console.log('should');
             const doc = await DocumentPicker.getDocumentAsync();
@@ -387,14 +387,14 @@ function DetailsBien() {
           <TouchableOpacity onPress={() => {}}>
             <Text category="h5" status="basic" style={styles.buttonText}>Supprimer</Text>
           </TouchableOpacity>
-        </Layout>
-      </Layout>
+        </View>
+      </View>
 
       {/**
        *  VIII. Partager votre bien
        */}
       <Separator />
-      <Layout style={styles.container}>
+      <View style={styles.container}>
         <Text category="s2" style={{ marginBottom: 30 }}>
           Partager votre bien
         </Text>
@@ -416,7 +416,7 @@ function DetailsBien() {
 
         </Card>
 
-        <Layout style={styles.button}>
+        <View style={styles.button}>
           <TouchableOpacity onPress={allerPartagerBien}>
             <Text category="h5" status="info" style={styles.buttonText}>Ajouter</Text>
           </TouchableOpacity>
@@ -424,8 +424,8 @@ function DetailsBien() {
           <TouchableOpacity onPress={() => {}}>
             <Text category="h5" status="basic" style={styles.buttonText}>Supprimer</Text>
           </TouchableOpacity>
-        </Layout>
-      </Layout>
+        </View>
+      </View>
 
       {/**
        *  Supprimer le bien

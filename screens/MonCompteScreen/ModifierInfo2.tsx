@@ -76,12 +76,13 @@ const ModifierInfo2 = () => {
             labelBefore
             icon="calendar-outline"
             startView={CalendarViewModes.YEAR}
+            style={{ width: 159 }}
+            size="medium"
           />
 
           <TextInput
             name="address.address"
             placeholder="Adresse"
-
             validators={[
               AvailableValidationRules.required,
             ]}
@@ -97,7 +98,6 @@ const ModifierInfo2 = () => {
             name="address.postalCode"
             placeholder="Code postal"
             maxLength={5}
-
             validators={[
               AvailableValidationRules.required,
             ]}

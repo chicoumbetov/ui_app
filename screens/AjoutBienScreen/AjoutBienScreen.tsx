@@ -4,7 +4,7 @@
  * @author: Amaury, Shynggys UMBETOV
  */
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import {
   StyleSheet, TouchableOpacity, View,
@@ -16,6 +16,8 @@ import {
 
 import * as ImagePicker from 'expo-image-picker';
 import { View as MotiView } from 'moti';
+import { useRoute } from '@react-navigation/native';
+import { RouteProp } from '@react-navigation/core/lib/typescript/src/types';
 import { colors } from '../../assets/styles';
 import Form from '../../components/Form/Form';
 import SelectComp from '../../components/Form/Select';
@@ -27,9 +29,10 @@ import MaxWidthContainer from '../../components/MaxWidthContainer';
 import AutoAvatar from '../../components/AutoAvatar';
 import TextInput from '../../components/Form/TextInput';
 import { AvailableValidationRules } from '../../components/Form/validation';
-import { useCreateRealEstateMutation } from '../../src/API/RealEstate';
+import { useCreateRealEstateMutation, useGetRealEstate } from '../../src/API/RealEstate';
 import { CompanyType, RealEstateType, TaxType } from '../../src/API';
 import { useUser } from '../../src/API/UserContext';
+import { TabMesBiensParamList } from '../../types';
 
 type AjoutBienForm = {
   name: string,
@@ -98,10 +101,21 @@ function AjoutBienScreen() {
    * */
 
   const [detentionShow, setDetentionShow] = useState(false);
-
   const [statutShow, setStatutShow] = useState(false);
-
   const [pourcentageDetentionShow, setPourcentageDetentionShow] = useState(false);
+
+  const route = useRoute<RouteProp<TabMesBiensParamList, 'ajout-bien-screen'> | RouteProp<TabMesBiensParamList, 'modifier-characteristique'>>();
+  let currentRealEstate: AjoutBienForm | undefined;
+  if (route.params) {
+    const { bien } = useGetRealEstate(route.params.id);
+    currentRealEstate = bien;
+    console.log('Ajout bien screen modifier : ', currentRealEstate);
+    useEffect(() => {
+      setDetentionShow(true);
+      setStatutShow(true);
+      setPourcentageDetentionShow(true);
+    });
+  }
 
   return (
     <MaxWidthContainer
@@ -110,10 +124,16 @@ function AjoutBienScreen() {
         showsVerticalScrollIndicator: false,
       }}
     >
-      <Form<AjoutBienForm> {...ajoutBienForm}>
+      <Form
+        {...ajoutBienForm}
+        defaultValues={currentRealEstate}
+      >
         <>
           <View>
-            <Text style={styles.faq} category="h1">Création de votre bien</Text>
+            <Text style={styles.faq} category="h1">
+
+              Création de votre bien
+            </Text>
           </View>
           {/**
        *  Identité 1/3 title part
@@ -312,7 +332,7 @@ function AjoutBienScreen() {
            *  Identité 3/3 (etape 3)
            */}
           <MotiView
-            animate={{ maxHeight: (etape === 2 ? 500 : 0) }}
+            animate={{ maxHeight: (etape === 2 ? 600 : 0) }}
             style={{
               overflow: 'hidden',
               flexDirection: 'column',
@@ -401,7 +421,7 @@ function AjoutBienScreen() {
                 flexDirection: 'row',
                 marginHorizontal: 23,
                 justifyContent: 'space-between',
-                height: 60,
+                height: 70,
                 alignItems: 'center',
               }}
               transition={{ type: 'timing' }}
@@ -425,7 +445,7 @@ function AjoutBienScreen() {
 
             </MotiView>
 
-            <View style={{ marginBottom: 10 }}>
+            <View style={{ marginBottom: 20 }}>
               <Button
                 onPress={ajoutBienForm.handleSubmit((data) => onAjoutBien(data))}
                 size="large"

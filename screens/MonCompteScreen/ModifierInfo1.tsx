@@ -94,7 +94,7 @@ const ModifierInfo1 = () => {
       <View>
         <Text category="h1" style={styles.title}>Modifier vos informations</Text>
       </View>
-      <Form
+      <Form<ModifierInfo1Form>
         {...modifierInfo1Form}
         defaultValues={user}
       >

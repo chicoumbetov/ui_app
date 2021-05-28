@@ -9,6 +9,7 @@ import {
   Layout, Text, Icon as IconUIKitten, useTheme,
 } from '@ui-kitten/components';
 import {
+  Alert,
   StyleSheet, TouchableOpacity, View,
 } from 'react-native';
 import {
@@ -28,7 +29,7 @@ import WomanAvatar from '../../assets/Omedom_Icons_svg/Avatars/womanAvatar.svg';
 
 // import comptesData from '../../mockData/comptesData';
 // import clientData from '../../mockData/clientDATA';
-import { useGetRealEstate } from '../../src/API/RealEstate';
+import { useDeleteRealEstateMutation, useGetRealEstate } from '../../src/API/RealEstate';
 import { TabMesBiensParamList } from '../../types';
 import { Upload } from '../../utils/S3FileStorage';
 import Card from '../../components/Card';
@@ -42,6 +43,7 @@ function DetailsBien() {
   const { bien } = useGetRealEstate(route.params.id);
 
   const [typeRevenu, setTypeRevenu] = useState<string>();
+
   useEffect(() => {
     switch (bien?.type) {
       default:
@@ -84,6 +86,25 @@ function DetailsBien() {
   };
   const allerModifierCharacteristics = () => {
     navigation.navigate('modifier-characteristique', { id: route.params.id });
+  };
+
+  const deleteRealEstate = useDeleteRealEstateMutation;
+  const supprimerLeRevenue = async () => {
+    return false;
+    Alert.alert(
+      'Suppression de revenue',
+      '',
+      [{
+        text: 'Annuler',
+        style: 'cancel',
+      },
+      {
+        text: 'Valider',
+        onPress: async () => {
+          await deleteRealEstate();
+        },
+      }],
+    );
   };
 
   return (
@@ -411,12 +432,15 @@ function DetailsBien() {
        *  Supprimer le bien
        */}
       <Separator />
-      <Layout style={[styles.container, { alignItems: 'center' }]}>
-        <Text category="h5" status="danger" style={{ marginVertical: 20 }}>
-          Supprimer le bien
-        </Text>
 
-      </Layout>
+      <TouchableOpacity onPress={() => supprimerLeRevenue()}>
+        <Layout style={[styles.container, { alignItems: 'center' }]}>
+          <Text category="h5" status="danger" style={{ marginVertical: 20 }}>
+            Supprimer le bien
+          </Text>
+
+        </Layout>
+      </TouchableOpacity>
 
     </MaxWidthContainer>
 

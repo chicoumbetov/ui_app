@@ -7,11 +7,17 @@ import {
   BudgetLineType,
   CompanyType,
   CreateRealEstateMutation,
-  CreateRealEstateMutationVariables, Frequency, GetRealEstateQueryVariables,
+  CreateRealEstateMutationVariables,
+  DeleteRealEstateMutation, DeleteRealEstateMutationVariables,
+  Frequency,
+  GetRealEstateQueryVariables,
   ListRealEstatesQuery,
   ListRealEstatesQueryVariables,
-  OnCreateRealEstateSubscription, OnCreateRealEstateSubscriptionVariables, RealEstate,
-  RealEstateType, TaxType,
+  OnCreateRealEstateSubscription,
+  OnCreateRealEstateSubscriptionVariables,
+  RealEstate,
+  RealEstateType,
+  TaxType,
   UpdateRealEstateMutation,
   UpdateRealEstateMutationVariables,
 } from '../API';
@@ -384,4 +390,10 @@ export function useGetRealEstate(id: string) {
   return {
     loading, bien: <RealEstate>data?.getRealEstate, fetchMore, refetch,
   };
+}
+
+export function useDeleteRealEstateMutation() {
+  const [deleteRealEstate] = useMutation<DeleteRealEstateMutation,
+  DeleteRealEstateMutationVariables>(gql(mutations.deleteBudgetLine));
+  return deleteRealEstate;
 }

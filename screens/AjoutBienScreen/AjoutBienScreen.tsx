@@ -16,7 +16,7 @@ import {
 
 import * as ImagePicker from 'expo-image-picker';
 import { View as MotiView } from 'moti';
-import { useRoute } from '@react-navigation/native';
+import { useLinkTo, useRoute } from '@react-navigation/native';
 import { RouteProp } from '@react-navigation/core/lib/typescript/src/types';
 import { colors } from '../../assets/styles';
 import Form from '../../components/Form/Form';
@@ -56,6 +56,7 @@ function AjoutBienScreen() {
   const { user } = useUser();
 
   const createRealEstate = useCreateRealEstateMutation();
+  const linkTo = useLinkTo();
 
   const ajoutBienForm = useForm<AjoutBienForm>();
 
@@ -83,6 +84,7 @@ function AjoutBienScreen() {
         },
       },
     });
+    linkTo('/mes-biens');
   };
 
   /**

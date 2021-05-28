@@ -9,7 +9,7 @@ import {
   Layout, Text, Icon as IconUIKitten, useTheme,
 } from '@ui-kitten/components';
 import {
-  FlatList, StyleSheet, TouchableOpacity, View,
+  StyleSheet, TouchableOpacity, View,
 } from 'react-native';
 import { useLinkTo, useNavigation, useRoute } from '@react-navigation/native';
 import { RouteProp } from '@react-navigation/core/lib/typescript/src/types';
@@ -24,7 +24,7 @@ import { useGetRealEstate } from '../../../src/API/RealEstate';
 import CompteHeader from '../../../components/CompteHeader/CompteHeader';
 
 import MonBudgetCard from './MonBudgetCard';
-import { BudgetLine, BudgetLineType } from '../../../src/API';
+import { BudgetLineType } from '../../../src/API';
 import Separator from '../../../components/Separator';
 import AjoutChargeCard from './AjoutChargeCard';
 import Button from '../../../components/Button';
@@ -49,6 +49,20 @@ function MonBudget() {
   const allerAjoutCharge = () => {
     navigation.navigate('ajout-charge', { id: route.params.id });
   };
+
+  const revenus = bien?.budgetLines?.items && bien?.budgetLines?.items.filter((item) => {
+    if (item?.type === BudgetLineType.Income && !item?._deleted) {
+      return item;
+    }
+    return false;
+  });
+
+  const charges = bien?.budgetLines?.items && bien?.budgetLines?.items.filter((item) => {
+    if (item?.type === BudgetLineType.Expense && !item?._deleted) {
+      return item;
+    }
+    return false;
+  });
 
   // console.log('mon budget :', bien);
   return (
@@ -98,16 +112,7 @@ function MonBudget() {
          keyExtractor={(item) => item.id}
          />
         */}
-        <FlatList<BudgetLine | null>
-          data={bien?.budgetLines?.items.filter((item) => {
-            if (item?.type === BudgetLineType.Income && !item?._deleted) {
-              return item;
-            }
-            return false;
-          })}
-          renderItem={({ item }) => item && <MonBudgetCard budget={item} />}
-          keyExtractor={(item) => item?.id}
-        />
+        {revenus && revenus.map((item) => item && <MonBudgetCard key={item.id} budget={item} />)}
 
         <Button
           size="large"
@@ -142,16 +147,7 @@ function MonBudget() {
           </Text>
         </Layout>
 
-        <FlatList<BudgetLine | null>
-          data={bien?.budgetLines?.items.filter((item) => {
-            if (item?.type === BudgetLineType.Expense && !item?._deleted) {
-              return item;
-            }
-            return false;
-          })}
-          renderItem={({ item }) => item && <AjoutChargeCard budget={item} />}
-          keyExtractor={(item) => item?.id}
-        />
+        {charges && charges.map((item) => item && <AjoutChargeCard key={item.id} budget={item} />)}
 
         <Button
           size="large"

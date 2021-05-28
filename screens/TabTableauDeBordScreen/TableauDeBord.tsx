@@ -4,10 +4,9 @@
  * @author: Shynggys UMBETOV, Amaury
  */
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Icon as IconUIKitten, Text } from '@ui-kitten/components';
 import {
-  FlatList,
   StyleSheet, TouchableOpacity, View,
 } from 'react-native';
 
@@ -18,12 +17,11 @@ import MaisonVert from '../../assets/Omedom_Icons_svg/Logement/maison_verte.svg'
 import Immeuble from '../../assets/Omedom_Icons_svg/Logement/immeuble.svg';
 import MaxWidthContainer from '../../components/MaxWidthContainer';
 import MonBienResume from '../../components/MonBienResume';
-import { RealEstateItem, useRealEstateList } from '../../src/API/RealEstate';
+import { useRealEstateList } from '../../src/API/RealEstate';
 import Separator from '../../components/Separator';
 import Card from '../../components/Card';
 import Button from '../../components/Button';
 import ActivityIndicator from '../../components/ActivityIndicator';
-// import MonBien from '../MesBiensScreen/Components/MonBien';
 
 function TableauDeBord() {
   const linkTo = useLinkTo();
@@ -41,10 +39,6 @@ function TableauDeBord() {
   const onAjoutBien = () => {
     linkTo('/mes-biens/ajouter');
   };
-
-  useEffect(() => {
-    console.log('useEffect test of Tableau de bord');
-  });
 
   return (
     <MaxWidthContainer
@@ -123,14 +117,11 @@ function TableauDeBord() {
         {loading
           ? <ActivityIndicator />
           : (
-            <FlatList<RealEstateItem>
-              data={data?.listRealEstates?.items}
-              scrollEnabled={false}
-              renderItem={
-                ({ item }) => <MonBienResume bien={item} />
-              }
-              keyExtractor={(item) => item.id}
-            />
+            <>
+              {data?.listRealEstates?.items?.map(
+                (item) => item && <MonBienResume key={item.id} bien={item} />,
+              )}
+            </>
           )}
         <Button
           size="large"
@@ -142,7 +133,7 @@ function TableauDeBord() {
       </View>
       <Separator />
       {/**
-       *  Notifications
+       *  Notification
        */}
       <View style={styles.container}>
         <Text category="h1" style={{ marginTop: -5 }}>

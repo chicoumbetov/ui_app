@@ -130,7 +130,9 @@ const UserProvider: React.FC = ({ children }) => {
       setCognitoUser(authUser);
       getUserFromDataBase({ variables: { id: authUser.attributes.sub } });
       setRefresh(!refresh);
-      AsyncStorage.setItem('lastFirstname', authUser?.attributes.given_name);
+      if (authUser?.attributes.given_name) {
+        AsyncStorage.setItem('lastFirstname', authUser?.attributes.given_name);
+      }
       authUser.getCachedDeviceKeyAndPassword();
       const stayConnected = await AsyncStorage.getItem('stayConnected');
       if (stayConnected === 'true') {

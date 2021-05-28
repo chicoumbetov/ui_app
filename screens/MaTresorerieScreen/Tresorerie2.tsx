@@ -5,30 +5,38 @@
  */
 
 import React, { useState } from 'react';
-import { Button, Layout, Text } from '@ui-kitten/components';
+import { Button, Text } from '@ui-kitten/components';
 import {
-  FlatList,
-  SectionList,
   StyleSheet, View,
 } from 'react-native';
 
-import comptesData from '../../mockData/comptesData';
+// import { useRoute } from '@react-navigation/native';
+// 4import { RouteProp } from '@react-navigation/core/lib/typescript/src/types';
+// import comptesData from '../../mockData/comptesData';
 import MaxWidthContainer from '../../components/MaxWidthContainer';
 
 import { useRealEstateList } from '../../src/API/RealEstate';
 import CompteHeader from '../../components/CompteHeader/CompteHeader';
-import ComptesBancaires from './Components/ComptesBancaires';
 import OwnerCompte from './Components/OwnerCompte';
-import CompteFooter from '../../components/CompteFooter';
+// import CompteFooter from '../../components/CompteFooter';
+import ActivityIndicator from '../../components/ActivityIndicator';
 
 const MaTresorerie2 = () => {
-  const [client] = useState(comptesData);
-  const { loading, refetch, data } = useRealEstateList();
-  const [compte] = useState(comptesData);
+  const { loading, data } = useRealEstateList();
+  // const [compte] = useState(comptesData);
+
+  // const route = useRoute<RouteProp<TabMaTresorerieParamList, 'ma-tresorerie-2'>>();
+  // console.log('mon-budget data', route.params);
+  // const { bien } = useGetRealEstate(route.params.id);
 
   return (
-    <MaxWidthContainer>
-      <Layout style={styles.container}>
+    <MaxWidthContainer
+      withScrollView="keyboardAware"
+      outerViewProps={{
+        showsVerticalScrollIndicator: false,
+      }}
+    >
+      <View style={styles.container}>
         <Text
           category="h1"
           status="basic"
@@ -36,20 +44,23 @@ const MaTresorerie2 = () => {
         >
           Ma Trésorerie
         </Text>
-        <CompteHeader title={data?.listRealEstates?.items?.map((item) => item?.name)} />
+        <CompteHeader
+          title={data?.listRealEstates?.items?.map((item) => item?.name)}
+        />
         <Text category="h2" style={{ marginVertical: 20 }}>
           Comptes Bancaires
         </Text>
         <Text category="h6" appearance="hint">Sélectionner le compte pour consulter votre trésorerie</Text>
 
-        <FlatList
-          data={compte}
-          renderItem={({ item }) => (
-            <View>
-              <OwnerCompte compte={item.data} />
-            </View>
+        {loading
+          ? <ActivityIndicator />
+          : (
+            <>
+              {data?.listRealEstates?.items?.map(
+                (item) => item && <OwnerCompte key={item.id} compte={item} />,
+              )}
+            </>
           )}
-        />
 
         <Button
           size="large"
@@ -68,7 +79,7 @@ const MaTresorerie2 = () => {
           Supprimer un compte
         </Button>
 
-      </Layout>
+      </View>
 
     </MaxWidthContainer>
   );

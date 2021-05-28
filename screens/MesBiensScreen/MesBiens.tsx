@@ -8,13 +8,12 @@ import React from 'react';
 import { Button, Layout, Text } from '@ui-kitten/components';
 
 import { useLinkTo } from '@react-navigation/native';
-import { FlatList } from 'react-native';
 import MonBien from './Components/MonBien';
 import MaxWidthContainer from '../../components/MaxWidthContainer';
-//  import comptesData from '../../mockData/comptesData';
-
-import { RealEstateItem, useRealEstateList } from '../../src/API/RealEstate';
+import { useRealEstateList } from '../../src/API/RealEstate';
 import ActivityIndicator from '../../components/ActivityIndicator';
+
+//  import comptesData from '../../mockData/comptesData';
 
 function MesBiens() {
   const linkTo = useLinkTo();
@@ -52,11 +51,11 @@ function MesBiens() {
         {loading
           ? <ActivityIndicator />
           : (
-            <FlatList<RealEstateItem>
-              data={data?.listRealEstates?.items}
-              renderItem={({ item }) => <MonBien bien={item} />}
-              keyExtractor={(item) => item.id}
-            />
+            <>
+              {data?.listRealEstates?.items?.map(
+                (item) => item && <MonBien key={item.id} bien={item} />,
+              )}
+            </>
           )}
 
         <Button

@@ -14,7 +14,6 @@ import {
 } from 'react-native';
 import {
   useLinkTo, useNavigation, useRoute,
-  // useRoute
 } from '@react-navigation/native';
 
 import { RouteProp } from '@react-navigation/core/lib/typescript/src/types';
@@ -434,12 +433,12 @@ function DetailsBien() {
       <Separator />
 
       <TouchableOpacity onPress={() => supprimerLeRevenue()}>
-        <Layout style={[styles.container, { alignItems: 'center' }]}>
+        <View style={[styles.container, { alignItems: 'center' }]}>
           <Text category="h5" status="danger" style={{ marginVertical: 20 }}>
             Supprimer le bien
           </Text>
 
-        </Layout>
+        </View>
       </TouchableOpacity>
 
     </MaxWidthContainer>

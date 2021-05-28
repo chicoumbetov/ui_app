@@ -74,47 +74,41 @@ const MonBien = (props: MonBienProps) => {
         </TouchableOpacity>
 
         {!opened ? (
-          <Layout style={{
+          <View style={{
             flexDirection: 'row',
             marginTop: 22,
             justifyContent: 'space-between',
+            alignItems: 'center',
           }}
           >
             {/**
               *
               */}
-            <Layout>
-              <Layout style={{
-                alignItems: 'center',
-                flexDirection: 'row',
-              }}
-              >
-                <Layout style={{ width: 22, flexDirection: 'row' }}>
-                  <Layout style={{ width: 7 }}>
-                    <IconUIKitten
-                      name="arrow-downward"
-                      fill="#b5b5b5"
-                      style={{ height: 16, width: 16 }}
-                    />
-                  </Layout>
-                  <IconUIKitten
-                    name="arrow-upward"
-                    fill="#b5b5b5"
-                    style={{
-                      height: 16, width: 16, marginRight: 8,
-                    }}
-                  />
-                </Layout>
 
-                <Text category="h5" status="success">+ 10 800 €</Text>
-              </Layout>
-            </Layout>
+            <View style={{ width: 22, flexDirection: 'row' }}>
+              <View style={{ width: 7 }}>
+                <IconUIKitten
+                  name="arrow-downward"
+                  fill="#b5b5b5"
+                  style={{ height: 16, width: 16 }}
+                />
+              </View>
+              <IconUIKitten
+                name="arrow-upward"
+                fill="#b5b5b5"
+                style={{
+                  height: 16, width: 16, marginRight: 8,
+                }}
+              />
+            </View>
+
+            <Text category="h5" status="success">+ 10 800 €</Text>
 
             {/**
                *
                */}
 
-            <Layout style={{
+            <View style={{
               alignItems: 'center',
               marginRight: 20,
               flexDirection: 'row',
@@ -126,7 +120,7 @@ const MonBien = (props: MonBienProps) => {
                 style={{ height: 16, width: 16 }}
               />
               <Text category="h4" status="danger">- 160 €</Text>
-            </Layout>
+            </View>
 
             {/**
                *
@@ -143,26 +137,26 @@ const MonBien = (props: MonBienProps) => {
               <Text category="h4" status="warning">60 %</Text>
             </View>
 
-          </Layout>
+          </View>
         ) : (
-          <Layout style={{ backgroundColor: 'transparent' }}>
-            <Layout style={{
+          <>
+            <View style={{
               borderBottomWidth: 1, marginVertical: 20, borderBottomColor: theme['text-hint-color'],
             }}
             />
-            <Layout style={{
+            <View style={{
               flexDirection: 'row',
             }}
             >
-              <Layout style={styles.oneThirdBlock}>
+              <View style={styles.oneThirdBlock}>
                 <Text category="h6" appearance="hint" style={styles.text}>Dernier mouvement</Text>
                 <Text category="h4" status="success" style={{ marginVertical: 14 }}>+ 500 €</Text>
                 <TouchableOpacity onPress={() => {}}>
                   <Text category="h6" status="info">Affecter</Text>
                 </TouchableOpacity>
-              </Layout>
+              </View>
 
-              <Layout style={styles.oneThirdBlock}>
+              <View style={styles.oneThirdBlock}>
                 <Text category="h6" appearance="hint" style={styles.text}>
                   Prochaine dépense
                 </Text>
@@ -170,9 +164,9 @@ const MonBien = (props: MonBienProps) => {
                 <TouchableOpacity onPress={allerTresorerie}>
                   <Text category="h6" status="info">En savoir +</Text>
                 </TouchableOpacity>
-              </Layout>
+              </View>
 
-              <Layout style={styles.oneThirdBlock}>
+              <View style={styles.oneThirdBlock}>
                 <Text category="h6" appearance="hint" style={styles.text}>
                   Réntabilité du bien
                 </Text>
@@ -180,8 +174,8 @@ const MonBien = (props: MonBienProps) => {
                 <TouchableOpacity onPress={allerMesRapports}>
                   <Text category="h6" status="info">Mes rapports</Text>
                 </TouchableOpacity>
-              </Layout>
-            </Layout>
+              </View>
+            </View>
 
             <TouchableOpacity onPress={() => onDetailsBiens(bien.id)} style={styles.button}>
               <Text category="h6" status="basic">Accéder au bien</Text>
@@ -193,7 +187,7 @@ const MonBien = (props: MonBienProps) => {
             </TouchableOpacity>
             <Graphics data={mesBiensData} />
             <GraphicsII />
-          </Layout>
+          </>
         )}
       </Layout>
     </MaxWidthContainer>

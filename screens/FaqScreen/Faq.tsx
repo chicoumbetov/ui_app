@@ -11,7 +11,7 @@ const Faq = () => {
   const theme = useTheme();
   const [questions, setQuestions] = useState(faqDATA);
 
-  const pressHandler = (id: number) => {
+  const pressHandler = (id: string) => {
     // console to check which question was clicked
     // console.log(id);
     // if Clicked then show chosen index ( therefore setAccodion)
@@ -34,7 +34,9 @@ const Faq = () => {
   return (
     <MaxWidthContainer
       outerViewProps={{
+        showsVerticalScrollIndicator: false,
         style: {
+          width: 'auto',
           margin: 30,
         },
       }}
@@ -126,13 +128,6 @@ const styles = StyleSheet.create({
     },
     shadowRadius: 4,
     shadowOpacity: 1,
-  },
-  headerText: {
-    fontSize: 16,
-    color: '#fff',
-  },
-  title: {
-    fontSize: 24,
   },
 });
 

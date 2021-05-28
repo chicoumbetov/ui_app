@@ -4,17 +4,18 @@ import { DocumentNode } from 'apollo-link';
 
 import { useEffect } from 'react';
 import {
+  BudgetLineType,
   CompanyType,
   CreateRealEstateMutation,
-  CreateRealEstateMutationVariables, GetRealEstateQuery, GetRealEstateQueryVariables,
+  CreateRealEstateMutationVariables, Frequency, GetRealEstateQueryVariables,
   ListRealEstatesQuery,
   ListRealEstatesQueryVariables,
   OnCreateRealEstateSubscription, OnCreateRealEstateSubscriptionVariables, RealEstate,
-  RealEstateType,
+  RealEstateType, TaxType,
   UpdateRealEstateMutation,
   UpdateRealEstateMutationVariables,
 } from '../API';
-import { getRealEstate, listRealEstates } from '../graphql/queries';
+import { listRealEstates } from '../graphql/queries';
 import * as mutations from '../graphql/mutations';
 import * as subscriptions from '../graphql/subscriptions';
 import { useUser } from './UserContext';
@@ -71,6 +72,223 @@ export type RealEstateItem = {
   _lastChangedAt: number,
   createdAt: string,
   updatedAt: string,
+};
+
+export const getRealEstate = /* GraphQL */ `
+  query GetRealEstate($id: ID!) {
+    getRealEstate(id: $id) {
+      id
+      name
+      iconUri
+      purchaseYear
+      type
+      ownName
+      company
+      detentionPart
+      typeImpot
+      budgetLines {
+        items {
+          id
+          realEstateId
+          type
+          category
+          amount
+          frequency
+          nextDueDate
+          tenantId
+          infoCredit {
+            borrowedCapital
+            loadStartDate
+            duration
+            interestRate
+            assuranceRate
+            amortizationTable {
+              dueDate
+              amount
+              interest
+              assurance
+              amortizedCapital
+            }
+          }
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+        nextToken
+        startedAt
+      }
+      documents {
+        items {
+          id
+          realEstateId
+          name
+          s3file
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+        nextToken
+        startedAt
+      }
+      admins
+      shared
+      pendingInvitations
+      address {
+        address
+        additionalAddress
+        postalCode
+        city
+        country
+      }
+      tenants {
+        id
+        amount
+        rentalCharges
+        managementFees
+        lastname
+        firstname
+        email
+        startDate
+        endDate
+      }
+      bankAccounts {
+        items {
+          id
+          realEstateId
+          bankAccountId
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+        nextToken
+        startedAt
+      }
+      _version
+      _deleted
+      _lastChangedAt
+      createdAt
+      updatedAt
+    }
+  }
+`;
+
+export type GetRealEstateQuery = {
+  getRealEstate?: {
+    __typename: 'RealEstate',
+    id: string,
+    name: string,
+    iconUri: string,
+    purchaseYear?: number | null,
+    type?: RealEstateType | null,
+    ownName?: boolean | null,
+    company?: CompanyType | null,
+    detentionPart?: number | null,
+    typeImpot?: TaxType | null,
+    budgetLines?: {
+      __typename: 'ModelBudgetLineConnection',
+      items?: Array< {
+        __typename: 'BudgetLine',
+        id: string,
+        realEstateId: string,
+        type: BudgetLineType,
+        category: string,
+        amount: number,
+        frequency: Frequency,
+        nextDueDate?: string | null,
+        infoCredit?: {
+          __typename: 'MortgageLoanInfo',
+          borrowedCapital: number,
+          loadStartDate?: string | null,
+          duration?: number | null,
+          interestRate?: number | null,
+          assuranceRate?: number | null,
+          amortizationTable?: Array< {
+            __typename: 'AmortizationTable',
+            dueDate?: string | null,
+            amount?: number | null,
+            interest?: number | null,
+            assurance?: number | null,
+            amortizedCapital?: number | null,
+          } | null > | null,
+        } | null,
+        tenantId?: string | null,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
+    documents?: {
+      __typename: 'ModelDocumentConnection',
+      items?: Array< {
+        __typename: 'Document',
+        id: string,
+        realEstateId: string,
+        name: string,
+        s3file: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
+    admins: Array< string >,
+    shared?: Array< string > | null,
+    pendingInvitations?: Array< string > | null,
+    address?: {
+      __typename: 'Address',
+      address: string,
+      additionalAddress?: string | null,
+      postalCode: string,
+      city: string,
+      country: string,
+    } | null,
+    tenants?: Array< {
+      __typename: 'TenantInfo',
+      id: string,
+      amount: number,
+      rentalCharges?: number | null,
+      managementFees?: number | null,
+      lastname: string,
+      firstname: string,
+      email: string,
+      startDate: string,
+      endDate?: string | null,
+    } | null > | null,
+    bankAccounts?: {
+      __typename: 'ModelRealEstateBankAccountConnection',
+      items?: Array< {
+        __typename: 'RealEstateBankAccount',
+        id: string,
+        realEstateId: string,
+        bankAccountId: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
 };
 
 const listRealEstatesQuery = <DocumentNode>gql(listRealEstates);

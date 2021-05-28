@@ -14,6 +14,7 @@ import {
   ListRealEstatesQueryVariables,
   MortgageLoanInfo,
   RealEstate,
+  BudgetLine,
   TenantInfo,
   UpdateBudgetLineMutation,
   UpdateBudgetLineMutationVariables,
@@ -39,18 +40,18 @@ export type BudgetLineItem = {
   tenants: TenantInfo
 };
 
-export function useGetBudgetLine(realEstateId: string) {
+export function useGetBudgetLine(id: string) {
   const getBudgetLineQuery = <DocumentNode>gql(getBudgetLine);
   const {
     loading, data, fetchMore, refetch,
   } = useQuery<GetBudgetLineQuery, GetBudgetLineQueryVariables>(getBudgetLineQuery, {
     variables: {
-      realEstateId,
+      id,
     },
   });
 
   return {
-    loading, data, fetchMore, refetch,
+    loading, budgetLine: <BudgetLine>data?.getBudgetLine, fetchMore, refetch,
   };
 }
 

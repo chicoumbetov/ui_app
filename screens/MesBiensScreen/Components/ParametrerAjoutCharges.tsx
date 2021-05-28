@@ -26,7 +26,11 @@ import Separator from '../../../components/Separator';
 import TextInput from '../../../components/Form/TextInput';
 import { AvailableValidationRules } from '../../../components/Form/validation';
 import Datepicker from '../../../components/Form/DatePicker';
-import { useCreateBudgetLineMutation, useUpdateBudgetLineMutation } from '../../../src/API/BudgetLine';
+import {
+  useCreateBudgetLineMutation,
+  useGetBudgetLine,
+  useUpdateBudgetLineMutation,
+} from '../../../src/API/BudgetLine';
 
 type ParamBudgetForm = {
   category: string,
@@ -55,7 +59,6 @@ const ParametrerAjoutCharges = () => {
 
   const route = useRoute<RouteProp<TabMesBiensParamList, 'ajout-revenu'> | RouteProp<TabMesBiensParamList, 'modifier-revenu'>>();
   const navigation = useNavigation();
-  console.log('route ajout charge', route.params);
   const { bien } = useGetRealEstate(route.params.id);
 
   const [frequenceShow, setFrequenceShow] = useState(false);
@@ -120,7 +123,7 @@ const ParametrerAjoutCharges = () => {
             amount,
             frequency,
             nextDueDate,
-            ...infoCredit,
+            infoCredit,
             _version: currentBudgetLine._version,
           },
         },
@@ -134,7 +137,7 @@ const ParametrerAjoutCharges = () => {
             amount,
             frequency,
             nextDueDate,
-            ...infoCredit,
+            infoCredit,
             type: BudgetLineType.Expense,
           },
         },
@@ -263,7 +266,6 @@ const ParametrerAjoutCharges = () => {
                     name="category2"
                     data={typeBanque}
                     onChangeValue={(item) => {
-                      console.log('typeBanque item: ', item);
                       if (item === 'Mensualité crédit') {
                         setMensualiteCreditShow(true);
                       } else {

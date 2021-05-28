@@ -979,6 +979,20 @@ export const getRealEstate = /* GraphQL */ `
           frequency
           nextDueDate
           tenantId
+          infoCredit {
+            borrowedCapital
+            loadStartDate
+            duration
+            interestRate
+            assuranceRate
+            amortizationTable {
+              dueDate
+              amount
+              interest
+              assurance
+              amortizedCapital
+            }
+          }
           _version
           _deleted
           _lastChangedAt

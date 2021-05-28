@@ -35,11 +35,11 @@ type ParamBudgetForm = {
   frequency: Frequency,
   nextDueDate?: string | null,
   infoCredit?: {
-    borrowedCapital?: number,
-    loadStartDate?: string | null,
-    duration?: number | null,
-    interestRate?: number | null,
-    assuranceRate?: number | null,
+    borrowedCapital: number,
+    loadStartDate: string,
+    duration: number,
+    interestRate: number,
+    assuranceRate: number,
     amortizationTable?: Array<AmortizationTable | null > | null,
   }
 };

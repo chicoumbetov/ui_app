@@ -9,7 +9,8 @@
     "test": "jest --watchAll",
     "debug": "open 'rndebugger://set-debugger-loc?host=localhost&port=19000'",
     "devtools": "react-devtools",
-    "amplify:omedomfee3bfe0PostConfirmation": "cd amplify/backend/function/omedomfee3bfe0PostConfirmation/src && tsc"
+    "amplify:omedomfee3bfe0PostConfirmation": "cd amplify/backend/function/omedomfee3bfe0PostConfirmation/src && tsc",
+    "postinstall": "patch-package"
   },
   "jest": {
     "preset": "jest-expo",

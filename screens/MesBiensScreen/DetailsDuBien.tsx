@@ -110,7 +110,7 @@ function DetailsBien() {
             width={100}
             style={{ marginRight: 12, marginBottom: 10 }}
           />
-          <Text category="h2" status="basic" style={{ height: 20 }}>
+          <Text category="h2" status="basic">
             {bien?.name}
           </Text>
         </Layout>

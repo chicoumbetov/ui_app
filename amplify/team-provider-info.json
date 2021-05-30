@@ -21,12 +21,38 @@
           "s3Key": "amplify-builds/S3Trigger9d22396d-366e6d5a4c6b6a7a4e37-build.zip"
         },
         "omedomfee3bfe0PostConfirmation": {
-          "GROUP": "test",
           "deploymentBucketName": "amplify-omedom-dev-175444-deployment",
           "s3Key": "amplify-builds/omedomfee3bfe0PostConfirmation-693455486b6d76766651-build.zip"
         },
         "transactionWebHook": {
           "deploymentBucketName": "amplify-omedom-dev-175444-deployment",
+          "s3Key": "amplify-builds/transactionWebHook-6a4e6d637849422b4138-build.zip"
+        }
+      }
+    }
+  },
+  "prod": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-omedom-prod-72630-authRole",
+      "UnauthRoleArn": "arn:aws:iam::459088793760:role/amplify-omedom-prod-72630-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::459088793760:role/amplify-omedom-prod-72630-authRole",
+      "Region": "eu-west-3",
+      "DeploymentBucketName": "amplify-omedom-prod-72630-deployment",
+      "UnauthRoleName": "amplify-omedom-prod-72630-unauthRole",
+      "StackName": "amplify-omedom-prod-72630",
+      "StackId": "arn:aws:cloudformation:eu-west-3:459088793760:stack/amplify-omedom-prod-72630/97d98940-c107-11eb-8108-0632652294fc"
+    },
+    "categories": {
+      "auth": {
+        "omedomfee3bfe0": {}
+      },
+      "function": {
+        "omedomfee3bfe0PostConfirmation": {
+          "deploymentBucketName": "amplify-omedom-prod-72630-deployment",
+          "s3Key": "amplify-builds/omedomfee3bfe0PostConfirmation-693455486b6d76766651-build.zip"
+        },
+        "transactionWebHook": {
+          "deploymentBucketName": "amplify-omedom-prod-72630-deployment",
           "s3Key": "amplify-builds/transactionWebHook-6a4e6d637849422b4138-build.zip"
         }
       }

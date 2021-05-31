@@ -1,5 +1,5 @@
 import {
-  Button, CheckBox, Layout, Text, useTheme,
+  Button, Card, CheckBox, Layout, Text, useTheme,
 } from '@ui-kitten/components';
 import {
   FlatList, ScrollView, StyleSheet, TouchableOpacity, View,
@@ -18,8 +18,8 @@ const EditMouvement = () => {
   const theme = useTheme();
   const [checked, setChecked] = React.useState(false);
 
-  const route = useRoute<RouteProp<TabMaTresorerieParamList, 'mouv-bancaires'>>();
-  const { bien } = useGetRealEstate(route.params.id);
+  // const route = useRoute<RouteProp<TabMaTresorerieParamList, 'mouv-bancaires'>>();
+  // const { bien } = useGetRealEstate(route.params.id);
 
   /**
    if we want to sort mouvements then
@@ -41,7 +41,7 @@ const EditMouvement = () => {
   const grouped = groupBy(mouvementData, (mouvement) => mouvement.typeMouvement);
 
   return (
-    <Layout style={styles.container}>
+    <View style={styles.container}>
 
       <View style={{ marginVertical: 20, alignItems: 'center' }}>
         <Text category="h2" status="success">+500 €</Text>
@@ -66,115 +66,75 @@ const EditMouvement = () => {
           Sélectionner le revenu correspondant
         </Text>
 
-        <FlatList
-                    // data={grouped.get('En attente')}
-          data={mouvementData}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-
-            <View
-              style={[
-                styles.window,
-                { backgroundColor: theme['color-basic-100'] },
-              ]}
-            >
-              <View style={{ flexDirection: 'row', padding: 25, alignItems: 'center' }}>
-                <CheckBox
-                  checked={checked}
-                  onChange={(nextChecked) => setChecked(nextChecked)}
-                  style={{ marginRight: 15 }}
-                />
-                <View style={{
-                  flex: 1,
-                  borderRightWidth: 1,
-                  borderRightColor: '#b5b5b5',
-                }}
-                >
-
-                  <Text
-                    style={{ marginBottom: 15 }}
-                    category="h6"
-                    status={item.typeMouvement === 'Validé' ? ('success') : ('warning')}
-                  >
-                    {item.typeMouvement}
-                  </Text>
-                  <Text
-                    // style={{ justifyContent: 'center' }}
-                    category="h5"
-                    status={item.valeur.substring(0, 1) === '-' ? ('danger') : ('success')}
-                  >
-                    {item.valeur}
-                  </Text>
-
-                </View>
-
-                <View
-                  style={{
-                    flex: 1,
-                    alignItems: 'center',
-                    flexDirection: 'column',
-                    // justifyContent: 'space-evenly',
-                    paddingLeft: 10,
-                  }}
-                >
-                  <Text category="p1" appearance="basic">Mensuel</Text>
-                  <Text category="p1" appearance="hint">Echéance</Text>
-                  <Text category="h6" status="basic">{item.date}</Text>
-
-                </View>
-              </View>
+        {mouvementData.map((item) => (
+          <Card
+            key={item.id}
+            style={{ marginVertical: 15 }}
+          >
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <CheckBox
+                checked={checked}
+                onChange={(nextChecked) => setChecked(nextChecked)}
+                style={{ marginRight: 15 }}
+              />
               <View style={{
-                backgroundColor: '#efefef',
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                padding: 25,
-                borderBottomStartRadius: 10,
-                borderBottomEndRadius: 10,
+                flex: 1,
+                borderRightWidth: 1,
+                borderRightColor: '#b5b5b5',
               }}
               >
-                <Text category="h6" status="warning">En attente</Text>
 
-                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                  <IconUIKitten
-                    name="edit-outline"
-                    fill="#000"
-                    style={{
-                      height: 20, width: 20, marginRight: 5,
-                    }}
-                  />
-                  <Text category="h6" status="basic">Editer</Text>
-                </View>
-
-                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                  <IconUIKitten
-                    name="trash-2-outline"
-                    fill="#000"
-                    style={{
-                      height: 20, width: 20, marginRight: 5,
-                    }}
-                  />
-                  <Text category="h6">Supprimer</Text>
-                </View>
+                <Text
+                  style={{ marginBottom: 15 }}
+                  category="h6"
+                  status={item.typeMouvement === 'Validé' ? ('success') : ('warning')}
+                >
+                  {item.typeMouvement}
+                </Text>
+                <Text
+                      // style={{ justifyContent: 'center' }}
+                  category="h5"
+                  status={item.valeur.substring(0, 1) === '-' ? ('danger') : ('success')}
+                >
+                  {item.valeur}
+                </Text>
 
               </View>
 
+              <View
+                style={{
+                  flex: 1,
+                  alignItems: 'center',
+                  flexDirection: 'column',
+                  // justifyContent: 'space-evenly',
+                  paddingLeft: 10,
+                }}
+              >
+                <Text category="p1" appearance="basic">Mensuel</Text>
+                <Text category="p1" appearance="hint">Echéance</Text>
+                <Text category="h6" status="basic">{item.date}</Text>
+
+              </View>
+            </View>
+            <View style={{
+              backgroundColor: '#efefef',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              padding: 25,
+              borderBottomStartRadius: 10,
+              borderBottomEndRadius: 10,
+            }}
+            >
+              <Text category="h6" status="warning">En attente</Text>
+              <Text category="h6" status="basic">Editer</Text>
+              <Text category="h6">Supprimer</Text>
             </View>
 
-          )}
-        />
+          </Card>
+        ))}
 
-        <Button
-          size="large"
-          onPress={() => {}}
-          appearance="outline"
-          status="info"
-          style={{ marginVertical: 20 }}
-        >
-          Créer des mouvements
-        </Button>
-
-        <Text category="p1" appearance="hint" style={{ marginBottom: 20 }}>
-          Consulter et parametrez vos charges et revenus dans votre budget.
+        <Text category="p1" status="basic" style={{ marginBottom: 20 }}>
+          Parametrez et consulter vos charges et revenus dans votre budget.
         </Text>
 
         <Layout style={styles.docs}>
@@ -192,7 +152,7 @@ const EditMouvement = () => {
         </Layout>
       </ScrollView>
 
-    </Layout>
+    </View>
   );
 };
 

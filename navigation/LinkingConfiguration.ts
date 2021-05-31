@@ -68,9 +68,9 @@ export default {
             path: 'ma-tresorerie',
             screens: {
               'ma-tresorerie': '/',
-              'mouv-bancaires': 'mouvement-bancaires',
+              'ma-tresorerie-2': '/ma-tresorerie-2/:id',
+              'mouv-bancaires': '/mouv-bancaires/:id',
               'ignorer-mouvement': 'ignorer-mouvement',
-              'edit-mouvement': 'edit-mouvement',
             },
           },
           faq: 'faq',

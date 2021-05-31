@@ -105,7 +105,7 @@ function DetailsBien() {
       }],
     );
   };
-
+  // console.log(bien?.budgetLines?.items?.pop()?.amount);
   return (
     <MaxWidthContainer
       withScrollView="keyboardAware"
@@ -149,7 +149,10 @@ function DetailsBien() {
         <Card style={{ flexDirection: 'row' }}>
           <View style={styles.oneThirdBlock}>
             <Text category="h6" appearance="hint" style={styles.text}>Dernier mouvement</Text>
-            <Text category="h3" status="success" style={{ marginTop: 14 }}>+ 500 €</Text>
+            <Text category="h3" status="success" style={{ marginTop: 14 }}>
+
+              {`+ ${bien?.budgetLines?.items?.pop()?.amount} €`}
+            </Text>
           </View>
 
           <View style={styles.oneThirdBlock}>

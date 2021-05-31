@@ -15,7 +15,7 @@ import {
 } from '@ui-kitten/components';
 
 import * as ImagePicker from 'expo-image-picker';
-import { View as MotiView } from 'moti';
+import { MotiView } from 'moti';
 import { useLinkTo, useRoute } from '@react-navigation/native';
 import { RouteProp } from '@react-navigation/core/lib/typescript/src/types';
 import { colors } from '../../assets/styles';

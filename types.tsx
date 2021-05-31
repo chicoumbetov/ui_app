@@ -77,13 +77,12 @@ export type TabMesBiensParamList = {
 
 export type TabMaTresorerieParamList = {
   'ma-tresorerie': undefined;
-  'ma-tresorerie-2': undefined;
+  'ma-tresorerie-2': { id: string };
   'mouv-bancaires': undefined;
 
   TresoMouvement_page1: undefined;
   TresoMouvement_page2: undefined;
   'ignorer-mouvement': undefined;
-  'edit-mouvement': undefined;
   AjoutCompte: undefined;
 
   'treso-mouvement-page1': undefined;

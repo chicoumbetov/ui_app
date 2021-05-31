@@ -11,7 +11,7 @@ import IgnorerMouvement
 import AjoutCompte from '../screens/MaTresorerieScreen/Components/AjoutCompte/AjoutCompte';
 import MaTresorerie2 from '../screens/MaTresorerieScreen/Tresorerie2';
 import MouvBancaires from '../screens/MaTresorerieScreen/Components/TresoMouvVersion2/MouvBancaires';
-import EditMouvemenet from '../screens/MaTresorerieScreen/Components/TresoMouvVersion2/EditMouvemenet';
+import EditMouvemenet from '../screens/MaTresorerieScreen/Components/TresoMouvVersion2/EditMouvement';
 
 const Stack = createStackNavigator<TabMaTresorerieParamList>();
 
@@ -46,10 +46,6 @@ export default function MaTresorerieStackNavigator() {
       <Stack.Screen
         name="ignorer-mouvement"
         component={IgnorerMouvement}
-      />
-      <Stack.Screen
-        name="edit-mouvement"
-        component={EditMouvemenet}
       />
       <Stack.Screen
         name="AjoutCompte"

@@ -7,8 +7,8 @@ import { TouchableOpacity, View } from 'react-native';
 import { Icon as IconUIKitten } from '@ui-kitten/components/ui/icon/icon.component';
 import { useLinkTo } from '@react-navigation/native';
 import CompteHeader from './CompteHeader/CompteHeader';
-import MaxWidthContainer from './MaxWidthContainer';
-import { MonBienProps, TabMesBiensParamList } from '../types';
+
+import { MonBienProps } from '../types';
 import Card from './Card';
 
 const MonBienResume = (props: MonBienProps) => {

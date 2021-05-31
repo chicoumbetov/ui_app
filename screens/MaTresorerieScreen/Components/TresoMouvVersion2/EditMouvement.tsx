@@ -2,38 +2,59 @@ import {
   Button, CheckBox, Layout, Text, useTheme,
 } from '@ui-kitten/components';
 import {
-  FlatList, StyleSheet, TouchableOpacity, View,
+  FlatList, ScrollView, StyleSheet, TouchableOpacity, View,
 } from 'react-native';
 import { Icon as IconUIKitten } from '@ui-kitten/components/ui/icon/icon.component';
 import React from 'react';
-import MaxWidthContainer from '../../../../components/MaxWidthContainer';
 
+import { useRoute } from '@react-navigation/native';
+import { RouteProp } from '@react-navigation/core/lib/typescript/src/types';
 import mouvementData from '../../../../mockData/mouvementData';
 import Icon from '../../../../components/Icon';
+import { TabMaTresorerieParamList } from '../../../../types';
+import { useGetRealEstate } from '../../../../src/API/RealEstate';
 
 const EditMouvement = () => {
   const theme = useTheme();
   const [checked, setChecked] = React.useState(false);
 
+  const route = useRoute<RouteProp<TabMaTresorerieParamList, 'mouv-bancaires'>>();
+  const { bien } = useGetRealEstate(route.params.id);
+
+  /**
+   if we want to sort mouvements then
+   upload data such way // data={grouped.get('En attente')}
+   */
+  function groupBy(list, keyGetter) {
+    const map = new Map();
+    list.forEach((item) => {
+      const key = keyGetter(item);
+      const collection = map.get(key);
+      if (!collection) {
+        map.set(key, [item]);
+      } else {
+        collection.push(item);
+      }
+    });
+    return map;
+  }
+  const grouped = groupBy(mouvementData, (mouvement) => mouvement.typeMouvement);
+
   return (
-    <MaxWidthContainer outerViewProps={{
-      style: {
-        backgroundColor: '#efefef',
-      },
-    }}
-    >
-      <Layout style={styles.container}>
+    <Layout style={styles.container}>
 
-        <View style={{ marginVertical: 20, alignItems: 'center' }}>
-          <Text category="h2" status="success">+500 €</Text>
-          <Text category="h6" status="basic">10/03/2021</Text>
-          <Text category="h6" appearance="hint">Libéllé du mouvement</Text>
-        </View>
-
+      <View style={{ marginVertical: 20, alignItems: 'center' }}>
+        <Text category="h2" status="success">+500 €</Text>
+        <Text category="h6" status="basic">10/03/2021</Text>
+        <Text category="h6" appearance="hint">Libéllé du mouvement</Text>
+      </View>
+      <ScrollView
+        style={{ borderTopWidth: 1, borderTopColor: '#b5b5b5' }}
+      >
         <Text
           category="h3"
           style={{
-            marginTop: 20, paddingTop: 30, borderTopWidth: 1, borderTopColor: '#b5b5b5',
+            marginTop: 20, paddingTop: 30,
           }}
         >
           Affecter le mouvement
@@ -169,10 +190,9 @@ const EditMouvement = () => {
             </Text>
           </TouchableOpacity>
         </Layout>
+      </ScrollView>
 
-      </Layout>
-
-    </MaxWidthContainer>
+    </Layout>
   );
 };
 
@@ -182,6 +202,8 @@ const styles = StyleSheet.create({
     paddingVertical: 25,
     marginBottom: 12,
     paddingHorizontal: 26,
+    flex: 1,
+    flexGrow: 1,
   },
   window: {
     flexDirection: 'column',

@@ -139,16 +139,16 @@ const MouvBancaires = () => {
             >
               <TouchableOpacity
                 onPress={() => onEditMouvement(item)}
+                style={{ flexDirection: 'row' }}
               >
-                <View style={{
-                  flex: 1,
-                }}
+                <View
+                  style={{
+                    flex: 1,
+                    alignItems: 'center',
+                  }}
                 >
-
                   <Text
-                    style={{
-                      justifyContent: 'center',
-                    }}
+                    style={{ justifyContent: 'center' }}
                     category="h5"
                     status={item.valeur.substring(0, 1) === '-' ? ('danger') : ('success')}
                   >
@@ -161,7 +161,6 @@ const MouvBancaires = () => {
                   >
                     {item.typeMouvement}
                   </Text>
-
                 </View>
 
                 <View

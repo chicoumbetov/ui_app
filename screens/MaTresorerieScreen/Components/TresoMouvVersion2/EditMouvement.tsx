@@ -49,13 +49,11 @@ const EditMouvement = () => {
         <Text category="h6" appearance="hint">Libéllé du mouvement</Text>
       </View>
       <ScrollView
-        style={{ borderTopWidth: 1, borderTopColor: '#b5b5b5' }}
+        style={{ paddingTop: 20, borderTopWidth: 1, borderTopColor: '#b5b5b5' }}
       >
         <Text
           category="h3"
-          style={{
-            marginTop: 20, paddingTop: 30,
-          }}
+          style={{ marginTop: 20 }}
         >
           Affecter le mouvement
         </Text>
@@ -71,7 +69,7 @@ const EditMouvement = () => {
             key={item.id}
             style={{ marginVertical: 15 }}
           >
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 15 }}>
               <CheckBox
                 checked={checked}
                 onChange={(nextChecked) => setChecked(nextChecked)}
@@ -86,14 +84,14 @@ const EditMouvement = () => {
 
                 <Text
                   style={{ marginBottom: 15 }}
-                  category="h6"
-                  status={item.typeMouvement === 'Validé' ? ('success') : ('warning')}
+                  category="h4"
+                  status="basic"
                 >
-                  {item.typeMouvement}
+                  {item.category}
                 </Text>
                 <Text
                       // style={{ justifyContent: 'center' }}
-                  category="h5"
+                  category="c1"
                   status={item.valeur.substring(0, 1) === '-' ? ('danger') : ('success')}
                 >
                   {item.valeur}
@@ -125,9 +123,9 @@ const EditMouvement = () => {
               borderBottomEndRadius: 10,
             }}
             >
-              <Text category="h6" status="warning">En attente</Text>
-              <Text category="h6" status="basic">Editer</Text>
-              <Text category="h6">Supprimer</Text>
+              <Text category="h6" status="warning">En attent</Text>
+              <Text category="h6" status="info">Editer</Text>
+              <Text category="h6" status="danger">Supprimer</Text>
             </View>
 
           </Card>
@@ -160,7 +158,6 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: '#f6f6f6',
     paddingVertical: 25,
-    marginBottom: 12,
     paddingHorizontal: 26,
     flex: 1,
     flexGrow: 1,

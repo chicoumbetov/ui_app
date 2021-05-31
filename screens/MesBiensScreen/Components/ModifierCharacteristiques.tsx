@@ -49,7 +49,7 @@ const Informations = () => {
       address, city, additionalAddress, country, postalCode, type, purchaseYear, ...rest
     } = data;
 
-    await updateRealEstate({
+    await updateRealEstate.updateRealEstate({
       variables: {
         input: {
           id: route.params.id,

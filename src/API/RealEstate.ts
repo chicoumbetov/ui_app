@@ -332,7 +332,7 @@ export function useRealEstateList() {
 
 export function useCreateRealEstateMutation() {
   // eslint-disable-next-line @typescript-eslint/no-shadow
-  const [createRealEstate] = useMutation<
+  const [createRealEstate, { loading: mutationLoading }] = useMutation<
   CreateRealEstateMutation,
   CreateRealEstateMutationVariables
   >(gql(mutations.createRealEstate), {
@@ -359,13 +359,13 @@ export function useCreateRealEstateMutation() {
       }
     },
   });
-  return createRealEstate;
+  return { createRealEstate, mutationLoading };
 }
 
 export function useUpdateRealEstateMutation() {
   const getRealEstatesQuery = <DocumentNode>gql(getRealEstate);
   // eslint-disable-next-line @typescript-eslint/no-shadow
-  const [updateRealEstate] = useMutation<UpdateRealEstateMutation,
+  const [updateRealEstate, { loading: mutationLoading }] = useMutation<UpdateRealEstateMutation,
   UpdateRealEstateMutationVariables>(gql(mutations.updateRealEstate), {
     update: (cache, { data: mutationData }) => {
       if (mutationData) {
@@ -396,7 +396,7 @@ export function useUpdateRealEstateMutation() {
       }
     },
   });
-  return updateRealEstate;
+  return { updateRealEstate, mutationLoading };
 }
 
 export function useGetRealEstate(id: string) {

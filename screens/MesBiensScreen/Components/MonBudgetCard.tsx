@@ -118,7 +118,7 @@ const MonBudgetCard = (props: MonBudgetProps) => {
             Echéance
           </Text>
           <Text category="c1" status="basic" style={{ marginLeft: 15 }}>
-            {`${moment(budget.nextDueDate).format('L')}`}
+            {`${moment(budget.nextDueDate).format('DD/MM/YYYY')}`}
           </Text>
         </View>
         <View style={{

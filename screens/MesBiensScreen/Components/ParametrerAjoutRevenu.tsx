@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Layout, Text } from '@ui-kitten/components';
+import {
+  Button, Layout, Spinner, Text,
+} from '@ui-kitten/components';
 import { StyleSheet, View } from 'react-native';
 
 import { useForm } from 'react-hook-form';
@@ -8,6 +10,7 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import { RouteProp } from '@react-navigation/core/lib/typescript/src/types';
 
 import { MotiView } from 'moti';
+import { useMutation } from 'react-apollo';
 import Select from '../../../components/Form/Select';
 import { frequence, typeRevenu } from '../../../mockData/ajoutRevenuData';
 import Form from '../../../components/Form/Form';
@@ -25,6 +28,7 @@ import { useAddTenant, useUpdateTenant } from '../../../src/API/Tenant';
 import DatePicker from '../../../components/Form/DatePicker';
 import { AvailableValidationRules } from '../../../components/Form/validation';
 import Separator from '../../../components/Separator';
+import ActivityIndicator from '../../../components/ActivityIndicator';
 
 type ParamBudgetForm = {
   category: string,
@@ -68,6 +72,7 @@ const ParametrerAjoutRevenu = () => {
     currentBudgetLine = bien.budgetLines?.items?.filter(
       (item) => item?.id === route.params.idBudgetLine,
     ).pop();
+    currentBudgetLine.amount = currentBudgetLine.amount.toString();
     useEffect(() => {
       setMontantShow(true);
       setFrequenceShow(true);
@@ -82,6 +87,9 @@ const ParametrerAjoutRevenu = () => {
       useEffect(() => {
         setRevenuLoyer(true);
       }, []);
+      tenant.rentalCharges = tenant.rentalCharges.toString();
+      tenant.managementFees = tenant.managementFees.toString();
+
       // both values are put back to current budgetLine
       // then we show in Form as defaultValue
       currentBudgetLine = {
@@ -105,7 +113,6 @@ const ParametrerAjoutRevenu = () => {
 
     if (route.params.idBudgetLine) {
       if (data.category === 'Loyer' && currentBudgetLine.tenantId) {
-        console.log('id tenant la', currentBudgetLine.tenantId);
         let tenantId: string | null = null;
         if (tenant) {
           tenantId = await updateTenant(bien, {
@@ -115,7 +122,7 @@ const ParametrerAjoutRevenu = () => {
           });
         }
 
-        await updateBudgetLine({
+        await updateBudgetLine.updateBudgetLine({
           variables: {
             input: {
               id: route.params.idBudgetLine,
@@ -128,8 +135,7 @@ const ParametrerAjoutRevenu = () => {
           },
         });
       } else {
-        console.log('ParametrerAjoutRevenu data:', route.params.idBudgetLine);
-        await updateBudgetLine({
+        await updateBudgetLine.updateBudgetLine({
           variables: {
             input: {
               id: route.params.idBudgetLine,
@@ -151,7 +157,7 @@ const ParametrerAjoutRevenu = () => {
         });
       }
 
-      await createBudgetLine({
+      await createBudgetLine.createBudgetLine({
         variables: {
           input: {
             realEstateId: route.params.id,
@@ -166,7 +172,7 @@ const ParametrerAjoutRevenu = () => {
       });
     } else {
       console.log('pas normal');
-      await createBudgetLine({
+      await createBudgetLine.createBudgetLine({
         variables: {
           input: {
             realEstateId: route.params.id,
@@ -271,10 +277,12 @@ const ParametrerAjoutRevenu = () => {
               <TextInput
                 name="amount"
                 placeholder="Saisissez votre montant ici"
-                validators={[{ rule: AvailableValidationRules.required, errorMessage: 'Un montant est requis' }]}
+                keyboardType="numeric"
+                validators={[AvailableValidationRules.required, AvailableValidationRules.float]}
               />
               <Text category="h4" style={{ marginLeft: 19 }}> €</Text>
             </MotiView>
+            {revenuLoyer && (
             <MotiView
               animate={{ height: (revenuLoyer ? 136 : 0) }}
               style={{
@@ -286,16 +294,17 @@ const ParametrerAjoutRevenu = () => {
               transition={{ type: 'timing', duration: 500 }}
             >
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <TextInput name="tenant.rentalCharges" placeholder="Dont charges" />
+                <TextInput name="tenant.rentalCharges" keyboardType="numeric" placeholder="Dont charges" validators={[AvailableValidationRules.float]} />
                 <Text category="h4" style={{ marginLeft: 19 }}> €</Text>
               </View>
 
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <TextInput name="tenant.managementFees" placeholder="Dont frais de gestion" />
+                <TextInput name="tenant.managementFees" keyboardType="numeric" placeholder="Dont frais de gestion" validators={[AvailableValidationRules.float]} />
                 <Text category="h4" style={{ marginLeft: 19 }}>%</Text>
               </View>
 
             </MotiView>
+            )}
 
             {frequenceShow
               ? (
@@ -346,12 +355,27 @@ const ParametrerAjoutRevenu = () => {
               ) : (<></>)}
 
             <View style={{ alignItems: 'flex-end', marginTop: 10 }}>
-              <Button
-                onPress={paramBudgetForm.handleSubmit((data) => validateBudget(data))}
-                size="large"
-              >
-                Enregistrer
-              </Button>
+              {updateBudgetLine.mutationLoading || createBudgetLine.mutationLoading
+                ? (
+                  <Button
+                    onPress={paramBudgetForm.handleSubmit((data) => validateBudget(data))}
+                    size="large"
+                    accessoryRight={() => <Spinner status="basic" />}
+                    disabled
+                  >
+                    Chargement
+
+                  </Button>
+                )
+                : (
+                  <Button
+                    onPress={paramBudgetForm.handleSubmit((data) => validateBudget(data))}
+                    size="large"
+                  >
+                    Enregistrer
+
+                  </Button>
+                )}
             </View>
 
           </>
@@ -401,4 +425,5 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     shadowOpacity: 1,
   },
+
 });

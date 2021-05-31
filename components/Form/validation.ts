@@ -9,6 +9,7 @@ export enum AvailableValidationRules {
   email = 'email',
   numeroTel = 'numeroTel',
   password = 'password',
+  float = 'float',
 }
 
 export type ValidationRuleConfig = Array<
@@ -79,6 +80,16 @@ const availableValidationRulesDefinition: ValidationRulesDefinitionMap = {
       password: (data: string | undefined) => {
         if (data !== undefined && data.trim() !== '' && data.length < 6) {
           return message || `${name} doit avoir une longueur minimale de 6 caractères`;
+        }
+        return true;
+      },
+    },
+  }),
+  float: (name?: string, message?:string): ValidationRules => ({
+    validate: {
+      float: (data: string | undefined) => {
+        if (!Number(data)) {
+          return message || `${name} ne doit pas contenir de lettres`;
         }
         return true;
       },

@@ -1,4 +1,5 @@
 import {
+  Button,
   Card, CheckBox, Layout, Text, useTheme,
 } from '@ui-kitten/components';
 import {
@@ -22,7 +23,7 @@ const EditMouvement = (props: MonBudgetProps) => {
 
       <View style={{ marginVertical: 20, alignItems: 'center' }}>
         <Text category="h2" status="success">+500 €</Text>
-        <Text category="h6" status="basic">10/03/2021</Text>
+        <Text category="h6" status="basic" style={{ marginVertical: 10 }}>10/03/2021</Text>
         <Text category="h6" appearance="hint">Libéllé du mouvement</Text>
       </View>
       <ScrollView
@@ -46,11 +47,13 @@ const EditMouvement = (props: MonBudgetProps) => {
             key={item.id}
             style={{ marginVertical: 15 }}
           >
-            <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 15 }}>
+            <View
+              style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 15 }}
+            >
               <CheckBox
                 checked={checked}
                 onChange={(nextChecked) => setChecked(nextChecked)}
-                style={{ marginRight: 15 }}
+                style={{ marginRight: 20 }}
               />
               <View style={{
                 flex: 1,
@@ -67,7 +70,6 @@ const EditMouvement = (props: MonBudgetProps) => {
                   {item.category}
                 </Text>
                 <Text
-                      // style={{ justifyContent: 'center' }}
                   category="c1"
                   status={item.type === BudgetLineType.Expense ? ('danger') : ('success')}
                 >
@@ -93,7 +95,7 @@ const EditMouvement = (props: MonBudgetProps) => {
               </View>
             </View>
             <View style={{
-              backgroundColor: '#efefef',
+              backgroundColor: '#f6f6f6',
               flexDirection: 'row',
               justifyContent: 'space-between',
               padding: 25,
@@ -101,7 +103,7 @@ const EditMouvement = (props: MonBudgetProps) => {
               borderBottomEndRadius: 10,
             }}
             >
-              <Text category="h6" status="warning">En attent</Text>
+              <Text category="h6" status="warning">En attente</Text>
               <Text category="h6" status="info">Editer</Text>
               <Text category="h6" status="danger">Supprimer</Text>
             </View>
@@ -109,23 +111,34 @@ const EditMouvement = (props: MonBudgetProps) => {
           </Card>
         ))}
 
-        <Text category="p1" status="basic" style={{ marginBottom: 20 }}>
-          Parametrez et consulter vos charges et revenus dans votre budget.
-        </Text>
-
-        <Layout style={styles.docs}>
-          <TouchableOpacity
-            onPress={() => {}}
-            style={{
-              flexDirection: 'row', alignItems: 'center',
-            }}
-          >
-            <Icon name="calculator" size={33} color={theme['color-success-400']} style={{ marginRight: 10 }} />
-            <Text category="h5">
-              Mon Budget
-            </Text>
-          </TouchableOpacity>
-        </Layout>
+        {checked
+          ? (<Button status="success" style={{ marginVertical: 20 }}>Enregistrer</Button>)
+          : (
+            <>
+              <Text category="p1" status="basic" style={{ marginVertical: 20 }}>
+                Parametrez et consulter vos charges et revenus dans votre budget.
+              </Text>
+              <Card
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'center',
+                }}
+              >
+                <TouchableOpacity
+                  onPress={() => {
+                  }}
+                  style={{
+                    flexDirection: 'row', alignItems: 'center',
+                  }}
+                >
+                  <Icon name="calculator" size={33} color={theme['color-success-400']} style={{ marginRight: 10 }} />
+                  <Text category="h5">
+                    Mon Budget
+                  </Text>
+                </TouchableOpacity>
+              </Card>
+            </>
+          )}
       </ScrollView>
 
     </View>
@@ -134,7 +147,7 @@ const EditMouvement = (props: MonBudgetProps) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#f6f6f6',
+    backgroundColor: '#fafafa',
     paddingVertical: 25,
     paddingHorizontal: 26,
     flex: 1,
@@ -155,27 +168,6 @@ const styles = StyleSheet.create({
     },
     shadowRadius: 0.5,
     shadowOpacity: 1,
-  },
-  docs: {
-    flexDirection: 'row',
-    // justifyContent: 'space-between',
-    justifyContent: 'center',
-    paddingHorizontal: 22,
-    paddingTop: 28,
-    paddingBottom: 20,
-    borderWidth: 1,
-    borderRadius: 10,
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowRadius: 2,
-    shadowOpacity: 1,
-
-    backgroundColor: '#fff',
-    fontWeight: 'normal',
-    borderColor: 'transparent',
-    shadowColor: '#dedede',
   },
 });
 

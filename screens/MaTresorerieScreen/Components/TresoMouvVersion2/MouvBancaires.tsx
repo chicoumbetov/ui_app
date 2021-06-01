@@ -135,7 +135,7 @@ const MouvBancaires = () => {
               style={{ marginVertical: 20 }}
             >
               <TouchableOpacity
-                onPress={() => onEditMouvement(item, bien)}
+                onPress={() => onEditMouvement(item)}
                 style={{ flexDirection: 'row' }}
               >
                 <View

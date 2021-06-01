@@ -1360,9 +1360,41 @@
           "variantGroups": {
             "status": {
               "primary": {
-                "backgroundColor": "transparent",
+                "backgroundColor": "color-primary-200",
                 "borderColor": "color-info-500",
                 "textColor": "color-info-500"
+              },
+              "danger": {
+                "borderColor": "color-danger-transparent-default-border",
+                "backgroundColor": "color-basic-transparent-default",
+                "textColor": "text-danger-color",
+                "iconTintColor": "text-danger-color",
+                "state": {
+                  "focused": {
+                    "borderColor": "color-danger-transparent-focus-border",
+                    "backgroundColor": "color-danger-transparent-focus",
+                    "textColor": "text-danger-color",
+                    "iconTintColor": "text-danger-color"
+                  },
+                  "hover": {
+                    "borderColor": "color-danger-transparent-hover-border",
+                    "backgroundColor": "color-danger-transparent-hover",
+                    "textColor": "text-danger-color",
+                    "iconTintColor": "text-danger-color"
+                  },
+                  "active": {
+                    "borderColor": "color-danger-transparent-active-border",
+                    "backgroundColor": "color-danger-transparent-active",
+                    "textColor": "text-danger-color",
+                    "iconTintColor": "text-danger-color"
+                  },
+                  "disabled": {
+                    "borderColor": "color-danger-transparent-disabled-border",
+                    "backgroundColor": "color-danger-transparent-disabled",
+                    "textColor": "text-disabled-color",
+                    "iconTintColor": "text-disabled-color"
+                  }
+                }
               }
             }
           }

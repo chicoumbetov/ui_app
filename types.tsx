@@ -91,11 +91,11 @@ export type TabMaTresorerieParamList = {
 
 export type TabMonAssistantParamList = {
   'mon-assistant': undefined;
-  DeclarationImpots: undefined;
-  DeclarationImpots2: undefined;
-  PdfScreen: undefined;
-  QuittanceLoyer: undefined;
-  QuittanceLoyer2: undefined;
+  'declaration-impots': { id: string };
+  'declaration-impots-2': { id: string, anneeEcheance: number };
+  'pdf-screen': undefined;
+  'quittance-loyer': { id: string };
+  'quittance-loyer-2': { id: string };
 };
 
 export type TabMesChargesParamList = {

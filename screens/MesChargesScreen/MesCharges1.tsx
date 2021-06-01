@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import { Layout, Text, useTheme } from '@ui-kitten/components';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import React, { useState } from 'react';
+import { Text, useTheme } from '@ui-kitten/components';
+
 import {
-  FlatList, StyleSheet, TouchableOpacity,
+  TouchableOpacity,
 } from 'react-native';
 
 import { Icon as IconUIKitten } from '@ui-kitten/components/ui/icon/icon.component';
+import { useNavigation } from '@react-navigation/native';
 import MaxWidthContainer from '../../components/MaxWidthContainer';
+import Card from '../../components/Card';
 
 const DATA = [
   {
@@ -34,15 +36,11 @@ const DATA = [
 const MesCharges1 = () => {
   const navigation = useNavigation();
   const theme = useTheme();
-  const [charges, setCharges] = useState(DATA);
+  const [charges] = useState(DATA);
 
   const onMesCharges2 = (item) => {
     navigation.navigate('MesCharges2', { title: item.title });
   };
-
-  useEffect(() => {
-    console.log('useEffect test of MesCharges 1');
-  });
 
   return (
     <MaxWidthContainer outerViewProps={{
@@ -64,31 +62,36 @@ const MesCharges1 = () => {
         Choisissez votre charge
       </Text>
 
-      <FlatList
-        data={charges}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <TouchableOpacity
-            onPress={() => { onMesCharges2(item); }}
-            style={[
-              styles.docs,
-              { backgroundColor: theme['color-basic-100'] },
-            ]}
+      {charges.map(
+        (item) => (
+          <Card
+            key={item.id}
+            style={{
+              padding: 23,
+              marginVertical: 10,
+            }}
           >
-            <Text category="h5" status="basic">{item.title}</Text>
-
-            <IconUIKitten
-              name="arrow-ios-forward"
-              fill={theme['text-hint-color']}
+            <TouchableOpacity
+              onPress={() => { onMesCharges2(item); }}
               style={{
-                height: 17, width: 17,
+                flexDirection: 'row',
+                justifyContent: 'space-between',
               }}
-            />
+            >
+              <Text category="h5" status="basic">{item.title}</Text>
 
-          </TouchableOpacity>
-        )}
-      />
+              <IconUIKitten
+                name="arrow-ios-forward"
+                fill={theme['text-hint-color']}
+                style={{
+                  height: 17, width: 17,
+                }}
+              />
 
+            </TouchableOpacity>
+          </Card>
+        ),
+      )}
     </MaxWidthContainer>
 
   );
@@ -96,34 +99,4 @@ const MesCharges1 = () => {
 
 export default MesCharges1;
 
-const styles = StyleSheet.create({
-  container: {
-    padding: 24,
-    marginVertical: 12,
-    backgroundColor: '#f6f6f6',
-  },
-  title: {
-    fontSize: 25,
-    marginTop: 13,
-    letterSpacing: 0.2,
-    fontFamily: 'HouschkaRoundedDemiBold',
-  },
-  docs: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-
-    paddingHorizontal: 23,
-    paddingVertical: 29.5,
-    borderWidth: 1,
-    borderRadius: 10,
-    marginBottom: 29,
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowRadius: 2,
-    shadowOpacity: 1,
-    borderColor: 'transparent',
-    shadowColor: '#dedede',
-  },
-});
+// const styles = StyleSheet.create({ container: {} });

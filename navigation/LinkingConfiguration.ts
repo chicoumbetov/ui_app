@@ -46,6 +46,10 @@ export default {
                 path: 'mon-assistant',
                 screens: {
                   'mon-assistant': '/',
+                  'declaration-impots': '/declaration-impots',
+                  'declaration-impots-2': '/declaration-impots/:id/:anneeEcheance',
+                  'quittance-loyer': '/quittance-loyer',
+                  'quittance-loyer-2': '/quittance-loyer/:id/:anneeEcheance',
                 },
               },
               notifications: {

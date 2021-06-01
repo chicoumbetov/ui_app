@@ -72,6 +72,7 @@ const MaTresorerie2 = () => {
               <OwnerCompte
                 key={item.id}
                 compte={item}
+                supprimer={supprim}
               />
               ),
             )}

@@ -8,10 +8,10 @@ import { Icon as IconUIKitten } from '@ui-kitten/components/ui/icon/icon.compone
 import Card from '../../../components/Card';
 import { RealEstateItem } from '../../../src/API/RealEstate';
 
-type MonBienProps = { compte: RealEstateItem };
+type MonBienProps = { compte: RealEstateItem, supprimer : boolean };
 
 const OwnerCompte = (props: MonBienProps) => {
-  const { compte } = props;
+  const { compte, supprimer } = props;
 
   const linkTo = useLinkTo();
   const theme = useTheme();
@@ -28,11 +28,14 @@ const OwnerCompte = (props: MonBienProps) => {
     >
       <TouchableOpacity onPress={() => onTresoMouvement(compte.id)} style={styles.container}>
         <View style={{ justifyContent: 'center', paddingHorizontal: 14, width: 50 }}>
-          <CheckBox
-            checked={checked}
-            status="danger"
-            onChange={(nextChecked) => setChecked(nextChecked)}
-          />
+          {supprimer ? (
+            <CheckBox
+              checked={checked}
+              status="danger"
+              onChange={(nextChecked) => setChecked(nextChecked)}
+            />
+          ) : (<></>)}
+
         </View>
         <View style={{ justifyContent: 'center', paddingHorizontal: 14, flex: 1 }}>
           <Text category="h6">

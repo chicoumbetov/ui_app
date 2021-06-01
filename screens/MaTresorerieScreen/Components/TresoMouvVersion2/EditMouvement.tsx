@@ -1,44 +1,21 @@
 import {
-  Button, Card, CheckBox, Layout, Text, useTheme,
+  Card, CheckBox, Layout, Text, useTheme,
 } from '@ui-kitten/components';
 import {
-  FlatList, ScrollView, StyleSheet, TouchableOpacity, View,
+  ScrollView, StyleSheet, TouchableOpacity, View,
 } from 'react-native';
-import { Icon as IconUIKitten } from '@ui-kitten/components/ui/icon/icon.component';
 import React from 'react';
-
-import { useRoute } from '@react-navigation/native';
-import { RouteProp } from '@react-navigation/core/lib/typescript/src/types';
-import mouvementData from '../../../../mockData/mouvementData';
+import moment from 'moment';
 import Icon from '../../../../components/Icon';
-import { TabMaTresorerieParamList } from '../../../../types';
-import { useGetRealEstate } from '../../../../src/API/RealEstate';
+import { BudgetLine, BudgetLineType } from '../../../../src/API';
 
-const EditMouvement = () => {
+type MonBudgetProps = { budget: BudgetLine[] };
+
+const EditMouvement = (props: MonBudgetProps) => {
+  const { budget } = props;
+  console.log(budget);
   const theme = useTheme();
   const [checked, setChecked] = React.useState(false);
-
-  // const route = useRoute<RouteProp<TabMaTresorerieParamList, 'mouv-bancaires'>>();
-  // const { bien } = useGetRealEstate(route.params.id);
-
-  /**
-   if we want to sort mouvements then
-   upload data such way // data={grouped.get('En attente')}
-   */
-  function groupBy(list, keyGetter) {
-    const map = new Map();
-    list.forEach((item) => {
-      const key = keyGetter(item);
-      const collection = map.get(key);
-      if (!collection) {
-        map.set(key, [item]);
-      } else {
-        collection.push(item);
-      }
-    });
-    return map;
-  }
-  const grouped = groupBy(mouvementData, (mouvement) => mouvement.typeMouvement);
 
   return (
     <View style={styles.container}>
@@ -64,7 +41,7 @@ const EditMouvement = () => {
           Sélectionner le revenu correspondant
         </Text>
 
-        {mouvementData.map((item) => (
+        {budget.map((item) => (
           <Card
             key={item.id}
             style={{ marginVertical: 15 }}
@@ -92,9 +69,10 @@ const EditMouvement = () => {
                 <Text
                       // style={{ justifyContent: 'center' }}
                   category="c1"
-                  status={item.valeur.substring(0, 1) === '-' ? ('danger') : ('success')}
+                  status={item.type === BudgetLineType.Expense ? ('danger') : ('success')}
                 >
-                  {item.valeur}
+                  {item.type === BudgetLineType.Expense ? ('-') : ('+')}
+                  {item.amount}
                 </Text>
 
               </View>
@@ -110,7 +88,7 @@ const EditMouvement = () => {
               >
                 <Text category="p1" appearance="basic">Mensuel</Text>
                 <Text category="p1" appearance="hint">Echéance</Text>
-                <Text category="h6" status="basic">{item.date}</Text>
+                <Text category="h6" status="basic">{`${moment(item.nextDueDate).format('DD/MM/YYYY')}`}</Text>
 
               </View>
             </View>

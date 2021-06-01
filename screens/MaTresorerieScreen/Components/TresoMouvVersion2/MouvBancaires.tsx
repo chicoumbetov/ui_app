@@ -25,42 +25,39 @@ import EditMouvement from './EditMouvement';
 import Card from '../../../../components/Card';
 import { TabMaTresorerieParamList } from '../../../../types';
 import { useGetRealEstate, useRealEstateList } from '../../../../src/API/RealEstate';
+import { BudgetLineType } from '../../../../src/API';
 
 const MouvBancaires = () => {
   const theme = useTheme();
   const navigation = useNavigation();
-  const [compte] = useState(comptesData);
-  const [currentMvt, setCurrentMvt] = useState();
-
   const route = useRoute<RouteProp<TabMaTresorerieParamList, 'mouv-bancaires'>>();
   const { bien } = useGetRealEstate(route.params.id);
+  const [compte] = useState(comptesData);
+  const [currentMvt, setCurrentMvt] = useState();
+  const [budget, setBudget] = useState(bien?.budgetLines?.items);
 
   const onIgnorerMouvement = () => {
     navigation.navigate('ignorer-mouvement');
   };
 
-  const onEditMouvement = (item) => {
-    setCurrentMvt(item);
+  const onEditMouvement = (items) => {
+    setCurrentMvt(items);
+    if (items.valeur.substring(0, 1) === '-') {
+      setBudget(bien?.budgetLines?.items.filter((item) => {
+        if (item?.type === BudgetLineType.Expense && !item?._deleted) {
+          return item;
+        }
+        return false;
+      }));
+    } else {
+      setBudget(bien?.budgetLines?.items.filter((item) => {
+        if (item?.type === BudgetLineType.Income && !item?._deleted) {
+          return item;
+        }
+        return false;
+      }));
+    }
   };
-
-  /**
-   if we want to sort mouvements then
-    upload data such way // data={grouped.get('En attente')}
-   */
-  function groupBy(list, keyGetter) {
-    const map = new Map();
-    list.forEach((item) => {
-      const key = keyGetter(item);
-      const collection = map.get(key);
-      if (!collection) {
-        map.set(key, [item]);
-      } else {
-        collection.push(item);
-      }
-    });
-    return map;
-  }
-  const grouped = groupBy(mouvementData, (mouvement) => mouvement.typeMouvement);
 
   return (
     <>
@@ -138,7 +135,7 @@ const MouvBancaires = () => {
               style={{ marginVertical: 20 }}
             >
               <TouchableOpacity
-                onPress={() => onEditMouvement(item)}
+                onPress={() => onEditMouvement(item, bien)}
                 style={{ flexDirection: 'row' }}
               >
                 <View
@@ -185,7 +182,7 @@ const MouvBancaires = () => {
         </View>
 
       </MaxWidthContainer>
-      <ActionSheet title="test" before={<></>} noSafeArea scrollable={false} visible={currentMvt !== undefined} onClose={() => setCurrentMvt(undefined)}><EditMouvement /></ActionSheet>
+      <ActionSheet title="test" before={<></>} noSafeArea scrollable={false} visible={currentMvt !== undefined} onClose={() => setCurrentMvt(undefined)}><EditMouvement budget={budget} /></ActionSheet>
     </>
   );
 };

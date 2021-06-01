@@ -7,7 +7,7 @@
 import React, { useState } from 'react';
 import { Button, Text } from '@ui-kitten/components';
 import {
-  TouchableOpacity,
+  TouchableOpacity, View,
 } from 'react-native';
 
 import { useRoute } from '@react-navigation/native';
@@ -26,6 +26,9 @@ import comptesData from '../../mockData/comptesData';
 const MaTresorerie2 = () => {
   const { loading, data } = useRealEstateList();
   const [compte] = useState(comptesData);
+
+  const [toggle, setToggle] = useState(false);
+  const [supprim, setSupprim] = useState(false);
 
   const route = useRoute<RouteProp<TabMaTresorerieParamList, 'ma-tresorerie-2'>>();
   // console.log('mon-budget data', route.params);
@@ -57,8 +60,9 @@ const MaTresorerie2 = () => {
       <Text category="s2" status="basic" style={{ marginVertical: 20 }}>
         Comptes bancaires
       </Text>
-      <Text category="p2" appearance="hint">Sélectionner le compte pour consulter votre trésorerie</Text>
-
+      {toggle
+        ? <Text category="p2" appearance="hint">Ajoutez un compte pour consulter votre trésorerie</Text>
+        : <Text category="p2" appearance="hint">Sélectionner le compte pour consulter votre trésorerie</Text>}
       {loading
         ? <ActivityIndicator />
         : (
@@ -75,21 +79,35 @@ const MaTresorerie2 = () => {
         )}
 
       <TouchableOpacity
-        onPress={() => {}}
+        onPress={() => setSupprim(!supprim)}
         style={{
           flexDirection: 'row', marginTop: 30, justifyContent: 'flex-end', backgroundColor: 'transparent',
         }}
       >
-        <Text category="h5">Supprimer un compte</Text>
+        <Text
+          category="h5"
+          status={supprim ? 'danger' : 'basic'}
+        >
+          Supprimer un compte
+        </Text>
       </TouchableOpacity>
 
-      <Button
-        size="large"
-        onPress={() => {}}
-        style={{ pqddingVertical: 25, borderTopWidth: 1, borderTopColor: '#b5b5b5' }}
-      >
-        Lier un autre compte bancaire
-      </Button>
+      <View style={{ marginVertical: 30, borderTopWidth: 1, borderColor: '#b5b5b5' }} />
+      {supprim
+        ? <></>
+        : (
+          <Button
+            size="large"
+            onPress={() => setToggle(!toggle)}
+            style={{
+              paddingVertical: 20, marginBottom: 30, borderTopWidth: 1, borderTopColor: '#b5b5b5',
+            }}
+          >
+            {toggle
+              ? 'Lier un compte bancaire'
+              : 'Lier un autre compte bancaire'}
+          </Button>
+        )}
 
     </MaxWidthContainer>
   );

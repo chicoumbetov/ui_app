@@ -10,7 +10,6 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import { RouteProp } from '@react-navigation/core/lib/typescript/src/types';
 
 import { MotiView } from 'moti';
-import { useMutation } from 'react-apollo';
 import Select from '../../../components/Form/Select';
 import { frequence, typeRevenu } from '../../../mockData/ajoutRevenuData';
 import Form from '../../../components/Form/Form';
@@ -28,7 +27,6 @@ import { useAddTenant, useUpdateTenant } from '../../../src/API/Tenant';
 import DatePicker from '../../../components/Form/DatePicker';
 import { AvailableValidationRules } from '../../../components/Form/validation';
 import Separator from '../../../components/Separator';
-import ActivityIndicator from '../../../components/ActivityIndicator';
 
 type ParamBudgetForm = {
   category: string,
@@ -56,7 +54,7 @@ const ParametrerAjoutRevenu = () => {
 
   const route = useRoute<RouteProp<TabMesBiensParamList, 'ajout-revenu'> | RouteProp<TabMesBiensParamList, 'modifier-revenu'>>();
   const navigation = useNavigation();
-  console.log('route ajout revenu', route.params);
+  // console.log('route ajout revenu', route.params);
   const { bien } = useGetRealEstate(route.params.id);
 
   const [frequenceShow, setFrequenceShow] = useState(false);
@@ -171,7 +169,7 @@ const ParametrerAjoutRevenu = () => {
         },
       });
     } else {
-      console.log('pas normal');
+      // console.log('pas normal');
       await createBudgetLine.createBudgetLine({
         variables: {
           input: {
@@ -186,7 +184,7 @@ const ParametrerAjoutRevenu = () => {
       });
     }
     /**
-     ?
+     Navigate to previous target page - page with list of budget lines (MonBudget component)
      */
     navigation.pop();
   };

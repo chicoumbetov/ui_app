@@ -78,6 +78,7 @@ const ParametrerAjoutCharges = () => {
     currentBudgetLine = bien.budgetLines?.items?.filter(
       (item) => item?.id === route.params.idBudgetLine,
     ).pop();
+    currentBudgetLine.amount = currentBudgetLine.amount.toString();
     useEffect(() => {
       setMontantShow(true);
       setFrequenceShow(true);
@@ -310,7 +311,9 @@ const ParametrerAjoutCharges = () => {
                       name="infoCredit.borrowedCapital"
                       placeholder="Capital emprunté"
                       keyboardType="numeric"
-                      validators={[AvailableValidationRules.required, AvailableValidationRules.float]}
+                      validators={
+                        [AvailableValidationRules.required, AvailableValidationRules.float]
+                      }
                     />
                     <Text category="h4" style={{ marginLeft: 19 }}> €</Text>
                   </View>
@@ -320,18 +323,25 @@ const ParametrerAjoutCharges = () => {
                     placeholder="La date de début du prêt"
                     icon="calendar-outline"
                   />
-                  <TextInput
-                    name="infoCredit.duration"
-                    placeholder="La durée en mois"
-                    keyboardType="numeric"
-                    validators={[AvailableValidationRules.required, AvailableValidationRules.float]}
-                  />
+                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <TextInput
+                      name="infoCredit.duration"
+                      placeholder="La durée en mois"
+                      keyboardType="numeric"
+                      validators={
+                        [AvailableValidationRules.required, AvailableValidationRules.float]
+                      }
+                    />
+                    <Text category="h4" style={{ marginLeft: 19 }}>mois</Text>
+                  </View>
                   <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <TextInput
                       name="infoCredit.interestRate"
                       placeholder="Le taux d'intérêts"
                       keyboardType="numeric"
-                      validators={[AvailableValidationRules.required, AvailableValidationRules.float]}
+                      validators={
+                        [AvailableValidationRules.required, AvailableValidationRules.float]
+                      }
                     />
                     <Text category="h4" style={{ marginLeft: 19 }}>%</Text>
                   </View>
@@ -341,7 +351,9 @@ const ParametrerAjoutCharges = () => {
                       name="infoCredit.assuranceRate"
                       placeholder="Le taux d'assurance"
                       keyboardType="numeric"
-                      validators={[AvailableValidationRules.required, AvailableValidationRules.float]}
+                      validators={
+                        [AvailableValidationRules.required, AvailableValidationRules.float]
+                      }
                     />
                     <Text category="h4" style={{ marginLeft: 19 }}>%</Text>
                   </View>

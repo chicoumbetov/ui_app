@@ -1,14 +1,14 @@
 import {
   Button,
-  Card, CheckBox, Layout, Text, useTheme,
+  Card, CheckBox, Text, useTheme,
 } from '@ui-kitten/components';
 import {
   ScrollView, StyleSheet, TouchableOpacity, View,
 } from 'react-native';
 import React from 'react';
 import moment from 'moment';
-import Icon from '../../../../components/Icon';
-import { BudgetLine, BudgetLineType } from '../../../../src/API';
+import Icon from '../../../components/Icon';
+import { BudgetLine, BudgetLineType } from '../../../src/API';
 
 type MonBudgetProps = { budget: BudgetLine[] };
 
@@ -72,7 +72,8 @@ const EditMouvement = (props: MonBudgetProps) => {
                 </Text>
                 <Text
                   category="c1"
-                  status={item.type === BudgetLineType.Expense ? ('danger') : ('success')}
+                  status={item.type === BudgetLineType.Expense
+                    ? ('danger') : ('success')}
                 >
                   {item.type === BudgetLineType.Expense ? ('-') : ('+')}
                   {item.amount}
@@ -89,7 +90,7 @@ const EditMouvement = (props: MonBudgetProps) => {
                   paddingLeft: 10,
                 }}
               >
-                <Text category="p1" appearance="basic">Mensuel</Text>
+                <Text category="p1" status="basic">Mensuel</Text>
                 <Text category="p1" appearance="hint">Echéance</Text>
                 <Text category="h6" status="basic">{`${moment(item.nextDueDate).format('DD/MM/YYYY')}`}</Text>
 

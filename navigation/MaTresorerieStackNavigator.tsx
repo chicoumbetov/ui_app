@@ -3,9 +3,9 @@ import * as React from 'react';
 import { TabMaTresorerieParamList } from '../types';
 import MaTresorerie from '../screens/MaTresorerieScreen/Tresorerie';
 import MaTresorerie2 from '../screens/MaTresorerieScreen/Tresorerie2';
-import MouvBancaires from '../screens/MaTresorerieScreen/Components/TresoMouvVersion2/MouvBancaires';
+import MouvBancaires from '../screens/MaTresorerieScreen/MouvBancaires';
 import IgnorerMouvement
-  from '../screens/MaTresorerieScreen/Components/TresoMouvVersion2/IgnorerMouvement';
+  from '../screens/MaTresorerieScreen/IgnorerMouvement';
 import AjoutCompte from '../screens/MaTresorerieScreen/Components/AjoutCompte/AjoutCompte';
 
 const Stack = createStackNavigator<TabMaTresorerieParamList>();

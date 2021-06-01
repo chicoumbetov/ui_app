@@ -1,5 +1,6 @@
 import React from 'react';
-import { Layout, Text } from '@ui-kitten/components';
+import { Text } from '@ui-kitten/components';
+import { View } from 'react-native';
 import MaisonVerte from '../../assets/Omedom_Icons_svg/Logement/maison_verte.svg';
 import MaxWidthContainer from '../MaxWidthContainer';
 
@@ -9,8 +10,8 @@ type TitleProps = {
 
 const CompteHeader = ({ title }: TitleProps) => (
   <MaxWidthContainer>
-    <Layout style={{
-      marginRight: 20, flexDirection: 'row', backgroundColor: 'transparent',
+    <View style={{
+      marginRight: 20, flexDirection: 'row',
     }}
     >
       <MaisonVerte height={40} width={40} style={{ marginRight: 10 }} />
@@ -18,7 +19,7 @@ const CompteHeader = ({ title }: TitleProps) => (
       <Text category="h3" style={{ paddingTop: 13 }}>
         {title}
       </Text>
-    </Layout>
+    </View>
   </MaxWidthContainer>
 
 );

@@ -26,17 +26,21 @@ const OwnerCompte = (props: MonBienProps) => {
         // key={item.id}
       style={{ marginTop: 28 }}
     >
-      <TouchableOpacity onPress={() => onTresoMouvement(compte.id)} style={styles.container}>
-        <View style={{ justifyContent: 'center', paddingHorizontal: 14, width: 50 }}>
-          {supprimer ? (
+      <TouchableOpacity
+        onPress={supprimer ? () => {} : () => onTresoMouvement(compte.id)}
+        style={styles.container}
+      >
+
+        {supprimer ? (
+          <View style={{ justifyContent: 'center', paddingHorizontal: 14, width: 50 }}>
             <CheckBox
               checked={checked}
               status="danger"
               onChange={(nextChecked) => setChecked(nextChecked)}
             />
-          ) : (<></>)}
+          </View>
+        ) : (<></>)}
 
-        </View>
         <View style={{ justifyContent: 'center', paddingHorizontal: 14, flex: 1 }}>
           <Text category="h6">
             Monsieur

@@ -90,7 +90,7 @@ const MonBienResume = (props: MonBienProps) => {
             fill="#b5b5b5"
             style={{ height: 16, width: 16 }}
           />
-          <Text category="h4" status="danger">- 160 €</Text>
+          <Text category="h3" status="danger">- 160 €</Text>
         </View>
 
         {/**
@@ -105,7 +105,7 @@ const MonBienResume = (props: MonBienProps) => {
             fill="#b5b5b5"
             style={{ height: 18, width: 18, marginRight: 2 }}
           />
-          <Text category="h4" status="warning">60 %</Text>
+          <Text category="h3" status="warning">60 %</Text>
         </View>
 
       </View>

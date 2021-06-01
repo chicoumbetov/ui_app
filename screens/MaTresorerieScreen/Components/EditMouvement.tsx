@@ -1,22 +1,49 @@
 import {
   Button,
-  Card, CheckBox, Text, useTheme,
+  Card, CheckBox, Layout, Text, useTheme,
 } from '@ui-kitten/components';
 import {
+  Alert,
   ScrollView, StyleSheet, TouchableOpacity, View,
 } from 'react-native';
 import React from 'react';
 import moment from 'moment';
 import Icon from '../../../components/Icon';
 import { BudgetLine, BudgetLineType } from '../../../src/API';
+import { useDeleteBudgetLineMutation } from '../../../src/API/BudgetLine';
 
 type MonBudgetProps = { budget: BudgetLine[] };
 
 const EditMouvement = (props: MonBudgetProps) => {
   const { budget } = props;
-  console.log(budget);
   const theme = useTheme();
   const [checked, setChecked] = React.useState(false);
+
+  const deleteBudgetLine = useDeleteBudgetLineMutation();
+
+  const supprimerLeRevenue = async (item) => {
+    Alert.alert(
+      'Suppression de revenue',
+      '',
+      [{
+        text: 'Annuler',
+        style: 'cancel',
+      },
+      {
+        text: 'Valider',
+        onPress: async () => {
+          await deleteBudgetLine({
+            variables: {
+              input: {
+                id: item.id,
+                _version: item._version,
+              },
+            },
+          });
+        },
+      }],
+    );
+  };
 
   return (
     <View style={styles.container}>
@@ -107,7 +134,9 @@ const EditMouvement = (props: MonBudgetProps) => {
             >
               <Text category="h6" status="warning">En attente</Text>
               <Text category="h6" status="info">Editer</Text>
-              <Text category="h6" status="danger">Supprimer</Text>
+              <TouchableOpacity onPress={() => supprimerLeRevenue(item)}>
+                <Text category="h6" status="danger">Supprimer</Text>
+              </TouchableOpacity>
             </View>
 
           </Card>

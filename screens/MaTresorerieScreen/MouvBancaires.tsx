@@ -309,6 +309,7 @@ const MouvBancaires = () => {
           )}
 
       </MaxWidthContainer>
+
       <ActionSheet title="test" before={<></>} noSafeArea scrollable={false} visible={currentMvt !== undefined} onClose={() => setCurrentMvt(undefined)}><EditMouvement budget={budget} /></ActionSheet>
     </>
   );

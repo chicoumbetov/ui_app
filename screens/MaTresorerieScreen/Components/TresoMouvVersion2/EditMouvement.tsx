@@ -30,13 +30,14 @@ const EditMouvement = (props: MonBudgetProps) => {
         style={{ paddingTop: 20, borderTopWidth: 1, borderTopColor: '#b5b5b5' }}
       >
         <Text
-          category="h3"
+          category="h1"
           style={{ marginTop: 20 }}
         >
           Affecter le mouvement
         </Text>
-        <Text category="p1" style={{ marginVertical: 10 }}>
-          Revenus enregistés dans votre budget
+        <Text category="h2" style={{ marginVertical: 10 }}>
+          {`${budget[0].type === BudgetLineType.Expense
+            ? ('Charges') : ('Revenus')} enregistés dans votre budget`}
         </Text>
         <Text category="p1" appearance="hint">
           Sélectionner le revenu correspondant

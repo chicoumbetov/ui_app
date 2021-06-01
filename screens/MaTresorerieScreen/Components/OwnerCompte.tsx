@@ -1,8 +1,8 @@
 import React from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
-import { Text, useTheme } from '@ui-kitten/components';
+import { CheckBox, Text, useTheme } from '@ui-kitten/components';
 
-import { useLinkTo, useNavigation } from '@react-navigation/native';
+import { useLinkTo } from '@react-navigation/native';
 import { Icon as IconUIKitten } from '@ui-kitten/components/ui/icon/icon.component';
 
 import Card from '../../../components/Card';
@@ -19,13 +19,21 @@ const OwnerCompte = (props: MonBienProps) => {
     linkTo(`/ma-tresorerie/mouv-bancaires/${id}`);
   };
 
+  const [checked, setChecked] = React.useState(false);
+
   return (
     <Card
         // key={item.id}
       style={{ marginTop: 28 }}
     >
       <TouchableOpacity onPress={() => onTresoMouvement(compte.id)} style={styles.container}>
-
+        <View style={{ justifyContent: 'center', paddingHorizontal: 14, width: 50 }}>
+          <CheckBox
+            checked={checked}
+            status="danger"
+            onChange={(nextChecked) => setChecked(nextChecked)}
+          />
+        </View>
         <View style={{ justifyContent: 'center', paddingHorizontal: 14, flex: 1 }}>
           <Text category="h6">
             Monsieur
@@ -41,7 +49,6 @@ const OwnerCompte = (props: MonBienProps) => {
         </View>
 
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-
           <View style={{
             backgroundColor: theme['color-warning-500'],
             marginRight: 5,

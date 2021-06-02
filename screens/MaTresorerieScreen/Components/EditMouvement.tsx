@@ -1,6 +1,6 @@
 import {
   Button,
-  Card, CheckBox, Layout, Text, useTheme,
+  Card, CheckBox, Text, useTheme,
 } from '@ui-kitten/components';
 import {
   Alert,
@@ -10,7 +10,7 @@ import React, { useState } from 'react';
 import moment from 'moment';
 import Icon from '../../../components/Icon';
 import { BudgetLineDeadline, BudgetLineType } from '../../../src/API';
-import { useDeleteBudgetLineMutation } from '../../../src/API/BudgetLine';
+// import { useDeleteBudgetLineMutation } from '../../../src/API/BudgetLine';
 import { useDeleteBudgetLineDeadlineMutation } from '../../../src/API/BudgetLineDeadLine';
 
 type MonBudgetProps = { budget: BudgetLineDeadline[] };
@@ -57,6 +57,7 @@ const EditMouvement = (props: MonBudgetProps) => {
             variables: {
               input: {
                 id: item.id,
+                // eslint-disable-next-line no-underscore-dangle
                 _version: item._version,
               },
             },
@@ -81,7 +82,7 @@ const EditMouvement = (props: MonBudgetProps) => {
           category="h1"
           style={{ marginTop: 20 }}
         >
-          Affecter le mouvement
+          Affectation
         </Text>
         <Text category="h2" style={{ marginVertical: 10 }}>
           {`${budget[0].type === BudgetLineType.Expense
@@ -175,6 +176,7 @@ const EditMouvement = (props: MonBudgetProps) => {
                 style={{
                   flexDirection: 'row',
                   justifyContent: 'center',
+                  marginBottom: 20,
                 }}
               >
                 <TouchableOpacity

@@ -43,12 +43,12 @@ const MesCharges1 = () => {
   };
 
   return (
-    <MaxWidthContainer outerViewProps={{
-      style: {
-        padding: 24,
-        backgroundColor: '#f6f6f6',
-      },
-    }}
+    <MaxWidthContainer
+      outerViewProps={{
+        style: {
+          padding: 24,
+        },
+      }}
     >
       <Text category="h1" status="basic" style={{ marginTop: 13 }}>Mes rapports par charges</Text>
       <Text

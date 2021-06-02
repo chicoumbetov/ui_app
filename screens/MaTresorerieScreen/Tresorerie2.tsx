@@ -12,7 +12,6 @@ import {
 
 import { useRoute } from '@react-navigation/native';
 import { RouteProp } from '@react-navigation/core/lib/typescript/src/types';
-// import comptesData from '../../mockData/comptesData';
 import MaxWidthContainer from '../../components/MaxWidthContainer';
 
 import { useGetRealEstate, useRealEstateList } from '../../src/API/RealEstate';
@@ -21,11 +20,11 @@ import OwnerCompte from './Components/OwnerCompte';
 import ActivityIndicator from '../../components/ActivityIndicator';
 import { TabMaTresorerieParamList } from '../../types';
 
-import comptesData from '../../mockData/comptesData';
+// import comptesData from '../../mockData/comptesData';
 
 const MaTresorerie2 = () => {
   const { loading, data } = useRealEstateList();
-  const [compte] = useState(comptesData);
+  // const [compte] = useState(comptesData);
 
   const [toggle, setToggle] = useState(false);
   const [supprim, setSupprim] = useState(false);

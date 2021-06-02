@@ -46,7 +46,7 @@ const QuittanceLoyer = () => {
     // console.log(house.bien);
     const id = house.bien;
     const { anneeEcheance } = house;
-    linkTo(`/mon-assistant/declaration-impots/${id}/${anneeEcheance}`);
+    linkTo(`/mon-assistant/quittance-loyer/${id}/${anneeEcheance}`);
   };
 
   return (

@@ -9,11 +9,11 @@ import {
   Button, CheckBox, Text, useTheme,
 } from '@ui-kitten/components';
 import {
-  StyleSheet, TouchableOpacity, View,
+  TouchableOpacity, View,
 } from 'react-native';
 
 import { Icon as IconUIKitten } from '@ui-kitten/components/ui/icon/icon.component';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { useLinkTo, useRoute } from '@react-navigation/native';
 import { RouteProp } from '@react-navigation/core/lib/typescript/src/types';
 import CompteHeader from '../../components/CompteHeader/CompteHeader';
 import MaxWidthContainer from '../../components/MaxWidthContainer';
@@ -29,9 +29,10 @@ import Separator from '../../components/Separator';
 
 const MouvBancaires = () => {
   const theme = useTheme();
-  const navigation = useNavigation();
+  const linkTo = useLinkTo();
   const route = useRoute<RouteProp<TabMaTresorerieParamList, 'mouv-bancaires'>>();
   const { bien } = useGetRealEstate(route.params.id);
+
   // const [compte] = useState(comptesData);
   const [currentMvt, setCurrentMvt] = useState();
   const [budget, setBudget] = useState(bien?.budgetLines?.items);
@@ -40,14 +41,15 @@ const MouvBancaires = () => {
   const [ignoreClicked, setIgnoreClicked] = useState(false);
   const [affecte, setAffecte] = useState(false);
 
-  const onIgnorerMouvement = () => {
-    navigation.navigate('ignorer-mouvement');
+  const onIgnorerMouvement = (id?: string) => {
+    linkTo(`/ma-tresorerie/ignorer-mouvement/${id}`);
   };
 
   const onEditMouvement = (items) => {
     setCurrentMvt(items);
     if (items.valeur.substring(0, 1) === '-') {
       setBudget(bien?.budgetLines?.items.filter((item) => {
+        // eslint-disable-next-line no-underscore-dangle
         if (item?.type === BudgetLineType.Expense && !item?._deleted) {
           return item;
         }
@@ -55,6 +57,7 @@ const MouvBancaires = () => {
       }));
     } else {
       setBudget(bien?.budgetLines?.items.filter((item) => {
+        // eslint-disable-next-line no-underscore-dangle
         if (item?.type === BudgetLineType.Income && !item?._deleted) {
           return item;
         }
@@ -74,14 +77,6 @@ const MouvBancaires = () => {
           },
         }}
       >
-
-        <Text
-          category="h1"
-          status="basic"
-          style={{ marginVertical: 20 }}
-        >
-          Ma Trésorerie
-        </Text>
 
         <CompteHeader title={bien.name} />
 
@@ -255,56 +250,68 @@ const MouvBancaires = () => {
                   </TouchableOpacity>
                 </Card>
               ))}
+              {/**
+                if data.length = 0 then show message below
+                else hide
+              */}
               <View style={{ alignItems: 'center', marginVertical: 20 }}>
                 <Text category="h4" style={{ marginBottom: 10 }}>Bon Travail!</Text>
                 <Text category="p1">Vous avez affecté tous vos mouvements bancaires.</Text>
               </View>
+              {ignoreClicked
+                ? (
+                  <></>
+                )
+                : (
+                  <>
+                    <Separator />
+                    <Card
+                      style={{ marginVertical: 20 }}
+                    >
+                      <TouchableOpacity
+                        onPress={() => setAffecte(!affecte)}
+                        style={{
+                          flexDirection: 'row',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                          backgroundColor: theme['color-basic-100'],
+                        }}
+                      >
+                        <Text category="h6" status="basic">Mouvements affectés</Text>
+                        <IconUIKitten
+                          name="arrow-ios-forward"
+                          fill="#000"
+                          style={{
+                            height: 20, width: 20, alignItems: 'center',
+                          }}
+                        />
+                      </TouchableOpacity>
+                    </Card>
+                    <Card
+                      style={{ marginVertical: 20, marginBottom: 60 }}
+                    >
+                      <TouchableOpacity
+                        onPress={() => onIgnorerMouvement(bien.id)}
+                        style={{
+                          flexDirection: 'row',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                          backgroundColor: theme['color-basic-100'],
+                        }}
+                      >
+                        <Text category="h6" status="basic">Mouvements ignorés</Text>
+                        <IconUIKitten
+                          name="arrow-ios-forward"
+                          fill="#000"
+                          style={{
+                            height: 20, width: 20, alignItems: 'center',
+                          }}
+                        />
+                      </TouchableOpacity>
+                    </Card>
+                  </>
+                )}
 
-              <Separator />
-              <Card
-                style={{ marginVertical: 20 }}
-              >
-                <TouchableOpacity
-                  onPress={() => setAffecte(!affecte)}
-                  style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    backgroundColor: theme['color-basic-100'],
-                  }}
-                >
-                  <Text category="h6" status="basic">Mouvements affectés</Text>
-                  <IconUIKitten
-                    name="arrow-ios-forward"
-                    fill="#000"
-                    style={{
-                      height: 20, width: 20, alignItems: 'center',
-                    }}
-                  />
-                </TouchableOpacity>
-              </Card>
-              <Card
-                style={{ marginVertical: 20, marginBottom: 60 }}
-              >
-                <TouchableOpacity
-                  onPress={() => onIgnorerMouvement()}
-                  style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    backgroundColor: theme['color-basic-100'],
-                  }}
-                >
-                  <Text category="h6" status="basic">Mouvements ignorés</Text>
-                  <IconUIKitten
-                    name="arrow-ios-forward"
-                    fill="#000"
-                    style={{
-                      height: 20, width: 20, alignItems: 'center',
-                    }}
-                  />
-                </TouchableOpacity>
-              </Card>
             </>
           )}
 

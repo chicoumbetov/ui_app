@@ -29,7 +29,7 @@ const DeclarationImpots = () => {
     >
       <View style={{ marginBottom: 20 }}>
         <Text category="h1" style={{ marginBottom: 25 }}>Paramétrer mon aide à la déclaration d'impôts</Text>
-        <CompteHeader title={bien.name} />
+        <CompteHeader title={bien?.name} />
       </View>
 
       <Separator />

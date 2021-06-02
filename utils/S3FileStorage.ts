@@ -13,6 +13,7 @@ import { ImagePickerResult } from 'expo-image-picker';
 import { DocumentResult } from 'expo-document-picker';
 import { v4 as uuid } from 'uuid';
 import * as mime from 'react-native-mime-types';
+import { FilePrintResult } from 'expo-print/src/Print.types';
 import { useNetworkInfo } from './CustomHooks';
 import { CameraOutput } from '../components/Camera/Camera';
 
@@ -90,7 +91,7 @@ export function useAutoFileStorage() {
 }
 
 export const Upload = async (
-  file: ImagePickerResult | DocumentResult | CameraOutput,
+  file: ImagePickerResult | DocumentResult | CameraOutput | FilePrintResult,
   path?: string,
 ) => {
   // on normalise l'objet en fonction du cas
@@ -111,7 +112,8 @@ export const Upload = async (
       uri: file.uri,
     };
   } else if (file && !('cancelled' in file) && !('type' in file) && file.uri) {
-    // on est dans le cas d'une photo de la caméra
+    found = true;
+    // on est dans le cas d'une photo de la caméra ou d'un fichier imprimé
     finalFile = {
       name: getFilename(file.uri),
       uri: file.uri,
@@ -137,6 +139,7 @@ export const Upload = async (
     const uri = FileSystem.documentDirectory + waitingDirectory + key;
     const storageKey = `@S3Object_${uuidKey}`;
     try {
+      await FileSystem.makeDirectoryAsync(FileSystem.documentDirectory + waitingDirectory + path, { intermediates: true });
       await FileSystem.copyAsync({
         from: finalFile.uri,
         to: uri,

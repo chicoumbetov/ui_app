@@ -6,7 +6,9 @@ web-build
 patches
 babel.config.js
 components/Icon/typegenerator.js
-amplify
+amplify/#current-cloud-backend
+amplify/backend/api
+amplify/.config
 webpack.config.js
 /models
 navigation/BottomNavigation.tsx

@@ -28,6 +28,14 @@ export const onCreateDocument = /* GraphQL */ `
           nextToken
           startedAt
         }
+        bankMovements {
+          nextToken
+          startedAt
+        }
+        budgetLineDeadlines {
+          nextToken
+          startedAt
+        }
         documents {
           nextToken
           startedAt
@@ -92,6 +100,14 @@ export const onUpdateDocument = /* GraphQL */ `
           nextToken
           startedAt
         }
+        bankMovements {
+          nextToken
+          startedAt
+        }
+        budgetLineDeadlines {
+          nextToken
+          startedAt
+        }
         documents {
           nextToken
           startedAt
@@ -153,6 +169,14 @@ export const onDeleteDocument = /* GraphQL */ `
         detentionPart
         typeImpot
         budgetLines {
+          nextToken
+          startedAt
+        }
+        bankMovements {
+          nextToken
+          startedAt
+        }
+        budgetLineDeadlines {
           nextToken
           startedAt
         }
@@ -238,6 +262,14 @@ export const onCreateBudgetLine = /* GraphQL */ `
           nextToken
           startedAt
         }
+        bankMovements {
+          nextToken
+          startedAt
+        }
+        budgetLineDeadlines {
+          nextToken
+          startedAt
+        }
         documents {
           nextToken
           startedAt
@@ -317,6 +349,14 @@ export const onUpdateBudgetLine = /* GraphQL */ `
         detentionPart
         typeImpot
         budgetLines {
+          nextToken
+          startedAt
+        }
+        bankMovements {
+          nextToken
+          startedAt
+        }
+        budgetLineDeadlines {
           nextToken
           startedAt
         }
@@ -402,6 +442,383 @@ export const onDeleteBudgetLine = /* GraphQL */ `
           nextToken
           startedAt
         }
+        bankMovements {
+          nextToken
+          startedAt
+        }
+        budgetLineDeadlines {
+          nextToken
+          startedAt
+        }
+        documents {
+          nextToken
+          startedAt
+        }
+        admins
+        shared
+        pendingInvitations
+        address {
+          address
+          additionalAddress
+          postalCode
+          city
+          country
+        }
+        tenants {
+          id
+          amount
+          rentalCharges
+          managementFees
+          lastname
+          firstname
+          email
+          startDate
+          endDate
+        }
+        bankAccounts {
+          nextToken
+          startedAt
+        }
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+      }
+    }
+  }
+`;
+export const onCreateBudgetLineDeadline = /* GraphQL */ `
+  subscription OnCreateBudgetLineDeadline {
+    onCreateBudgetLineDeadline {
+      id
+      realEstateId
+      budgetLineId
+      budgetLine {
+        id
+        realEstateId
+        type
+        category
+        amount
+        frequency
+        nextDueDate
+        infoCredit {
+          borrowedCapital
+          loadStartDate
+          duration
+          interestRate
+          assuranceRate
+        }
+        tenantId
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+        realEstate {
+          id
+          name
+          iconUri
+          purchaseYear
+          type
+          ownName
+          company
+          detentionPart
+          typeImpot
+          admins
+          shared
+          pendingInvitations
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+      }
+      type
+      category
+      amount
+      frequency
+      date
+      infoCredit {
+        amount
+        interest
+        assurance
+      }
+      tenantId
+      _version
+      _deleted
+      _lastChangedAt
+      createdAt
+      updatedAt
+      realEstate {
+        id
+        name
+        iconUri
+        purchaseYear
+        type
+        ownName
+        company
+        detentionPart
+        typeImpot
+        budgetLines {
+          nextToken
+          startedAt
+        }
+        bankMovements {
+          nextToken
+          startedAt
+        }
+        budgetLineDeadlines {
+          nextToken
+          startedAt
+        }
+        documents {
+          nextToken
+          startedAt
+        }
+        admins
+        shared
+        pendingInvitations
+        address {
+          address
+          additionalAddress
+          postalCode
+          city
+          country
+        }
+        tenants {
+          id
+          amount
+          rentalCharges
+          managementFees
+          lastname
+          firstname
+          email
+          startDate
+          endDate
+        }
+        bankAccounts {
+          nextToken
+          startedAt
+        }
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+      }
+    }
+  }
+`;
+export const onUpdateBudgetLineDeadline = /* GraphQL */ `
+  subscription OnUpdateBudgetLineDeadline {
+    onUpdateBudgetLineDeadline {
+      id
+      realEstateId
+      budgetLineId
+      budgetLine {
+        id
+        realEstateId
+        type
+        category
+        amount
+        frequency
+        nextDueDate
+        infoCredit {
+          borrowedCapital
+          loadStartDate
+          duration
+          interestRate
+          assuranceRate
+        }
+        tenantId
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+        realEstate {
+          id
+          name
+          iconUri
+          purchaseYear
+          type
+          ownName
+          company
+          detentionPart
+          typeImpot
+          admins
+          shared
+          pendingInvitations
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+      }
+      type
+      category
+      amount
+      frequency
+      date
+      infoCredit {
+        amount
+        interest
+        assurance
+      }
+      tenantId
+      _version
+      _deleted
+      _lastChangedAt
+      createdAt
+      updatedAt
+      realEstate {
+        id
+        name
+        iconUri
+        purchaseYear
+        type
+        ownName
+        company
+        detentionPart
+        typeImpot
+        budgetLines {
+          nextToken
+          startedAt
+        }
+        bankMovements {
+          nextToken
+          startedAt
+        }
+        budgetLineDeadlines {
+          nextToken
+          startedAt
+        }
+        documents {
+          nextToken
+          startedAt
+        }
+        admins
+        shared
+        pendingInvitations
+        address {
+          address
+          additionalAddress
+          postalCode
+          city
+          country
+        }
+        tenants {
+          id
+          amount
+          rentalCharges
+          managementFees
+          lastname
+          firstname
+          email
+          startDate
+          endDate
+        }
+        bankAccounts {
+          nextToken
+          startedAt
+        }
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+      }
+    }
+  }
+`;
+export const onDeleteBudgetLineDeadline = /* GraphQL */ `
+  subscription OnDeleteBudgetLineDeadline {
+    onDeleteBudgetLineDeadline {
+      id
+      realEstateId
+      budgetLineId
+      budgetLine {
+        id
+        realEstateId
+        type
+        category
+        amount
+        frequency
+        nextDueDate
+        infoCredit {
+          borrowedCapital
+          loadStartDate
+          duration
+          interestRate
+          assuranceRate
+        }
+        tenantId
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+        realEstate {
+          id
+          name
+          iconUri
+          purchaseYear
+          type
+          ownName
+          company
+          detentionPart
+          typeImpot
+          admins
+          shared
+          pendingInvitations
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+      }
+      type
+      category
+      amount
+      frequency
+      date
+      infoCredit {
+        amount
+        interest
+        assurance
+      }
+      tenantId
+      _version
+      _deleted
+      _lastChangedAt
+      createdAt
+      updatedAt
+      realEstate {
+        id
+        name
+        iconUri
+        purchaseYear
+        type
+        ownName
+        company
+        detentionPart
+        typeImpot
+        budgetLines {
+          nextToken
+          startedAt
+        }
+        bankMovements {
+          nextToken
+          startedAt
+        }
+        budgetLineDeadlines {
+          nextToken
+          startedAt
+        }
         documents {
           nextToken
           startedAt
@@ -457,7 +874,7 @@ export const onCreateRealEstateBankAccount = /* GraphQL */ `
         iban
         bic
         balance
-        bridgetApiAccountId
+        bridgeApiId
         movements {
           nextToken
           startedAt
@@ -484,6 +901,14 @@ export const onCreateRealEstateBankAccount = /* GraphQL */ `
         detentionPart
         typeImpot
         budgetLines {
+          nextToken
+          startedAt
+        }
+        bankMovements {
+          nextToken
+          startedAt
+        }
+        budgetLineDeadlines {
           nextToken
           startedAt
         }
@@ -542,7 +967,7 @@ export const onUpdateRealEstateBankAccount = /* GraphQL */ `
         iban
         bic
         balance
-        bridgetApiAccountId
+        bridgeApiId
         movements {
           nextToken
           startedAt
@@ -569,6 +994,14 @@ export const onUpdateRealEstateBankAccount = /* GraphQL */ `
         detentionPart
         typeImpot
         budgetLines {
+          nextToken
+          startedAt
+        }
+        bankMovements {
+          nextToken
+          startedAt
+        }
+        budgetLineDeadlines {
           nextToken
           startedAt
         }
@@ -627,7 +1060,7 @@ export const onDeleteRealEstateBankAccount = /* GraphQL */ `
         iban
         bic
         balance
-        bridgetApiAccountId
+        bridgeApiId
         movements {
           nextToken
           startedAt
@@ -654,6 +1087,14 @@ export const onDeleteRealEstateBankAccount = /* GraphQL */ `
         detentionPart
         typeImpot
         budgetLines {
+          nextToken
+          startedAt
+        }
+        bankMovements {
+          nextToken
+          startedAt
+        }
+        budgetLineDeadlines {
           nextToken
           startedAt
         }
@@ -718,16 +1159,16 @@ export const onCreateBankAccount = /* GraphQL */ `
       iban
       bic
       balance
-      bridgetApiAccountId
+      bridgeApiId
       movements {
         items {
           id
           bankAccountId
           realEstateId
-          bridgetApiId
+          bridgeApiId
           description
           amount
-          budgetLineId
+          budgetLineDeadlineId
           ignored
           date
           _version
@@ -770,16 +1211,16 @@ export const onUpdateBankAccount = /* GraphQL */ `
       iban
       bic
       balance
-      bridgetApiAccountId
+      bridgeApiId
       movements {
         items {
           id
           bankAccountId
           realEstateId
-          bridgetApiId
+          bridgeApiId
           description
           amount
-          budgetLineId
+          budgetLineDeadlineId
           ignored
           date
           _version
@@ -822,16 +1263,16 @@ export const onDeleteBankAccount = /* GraphQL */ `
       iban
       bic
       balance
-      bridgetApiAccountId
+      bridgeApiId
       movements {
         items {
           id
           bankAccountId
           realEstateId
-          bridgetApiId
+          bridgeApiId
           description
           amount
-          budgetLineId
+          budgetLineDeadlineId
           ignored
           date
           _version
@@ -867,7 +1308,7 @@ export const onCreateBankMovement = /* GraphQL */ `
         iban
         bic
         balance
-        bridgetApiAccountId
+        bridgeApiId
         movements {
           nextToken
           startedAt
@@ -890,7 +1331,7 @@ export const onCreateBankMovement = /* GraphQL */ `
         iban
         bic
         balance
-        bridgetApiAccountId
+        bridgeApiId
         movements {
           nextToken
           startedAt
@@ -901,24 +1342,38 @@ export const onCreateBankMovement = /* GraphQL */ `
         createdAt
         updatedAt
       }
-      bridgetApiId
+      bridgeApiId
       description
       amount
-      budgetLineId
-      budgetLine {
+      budgetLineDeadlineId
+      budgetLineDeadline {
         id
         realEstateId
+        budgetLineId
+        budgetLine {
+          id
+          realEstateId
+          type
+          category
+          amount
+          frequency
+          nextDueDate
+          tenantId
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
         type
         category
         amount
         frequency
-        nextDueDate
+        date
         infoCredit {
-          borrowedCapital
-          loadStartDate
-          duration
-          interestRate
-          assuranceRate
+          amount
+          interest
+          assurance
         }
         tenantId
         _version
@@ -972,7 +1427,7 @@ export const onUpdateBankMovement = /* GraphQL */ `
         iban
         bic
         balance
-        bridgetApiAccountId
+        bridgeApiId
         movements {
           nextToken
           startedAt
@@ -995,7 +1450,7 @@ export const onUpdateBankMovement = /* GraphQL */ `
         iban
         bic
         balance
-        bridgetApiAccountId
+        bridgeApiId
         movements {
           nextToken
           startedAt
@@ -1006,24 +1461,38 @@ export const onUpdateBankMovement = /* GraphQL */ `
         createdAt
         updatedAt
       }
-      bridgetApiId
+      bridgeApiId
       description
       amount
-      budgetLineId
-      budgetLine {
+      budgetLineDeadlineId
+      budgetLineDeadline {
         id
         realEstateId
+        budgetLineId
+        budgetLine {
+          id
+          realEstateId
+          type
+          category
+          amount
+          frequency
+          nextDueDate
+          tenantId
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
         type
         category
         amount
         frequency
-        nextDueDate
+        date
         infoCredit {
-          borrowedCapital
-          loadStartDate
-          duration
-          interestRate
-          assuranceRate
+          amount
+          interest
+          assurance
         }
         tenantId
         _version
@@ -1077,7 +1546,7 @@ export const onDeleteBankMovement = /* GraphQL */ `
         iban
         bic
         balance
-        bridgetApiAccountId
+        bridgeApiId
         movements {
           nextToken
           startedAt
@@ -1100,7 +1569,7 @@ export const onDeleteBankMovement = /* GraphQL */ `
         iban
         bic
         balance
-        bridgetApiAccountId
+        bridgeApiId
         movements {
           nextToken
           startedAt
@@ -1111,24 +1580,38 @@ export const onDeleteBankMovement = /* GraphQL */ `
         createdAt
         updatedAt
       }
-      bridgetApiId
+      bridgeApiId
       description
       amount
-      budgetLineId
-      budgetLine {
+      budgetLineDeadlineId
+      budgetLineDeadline {
         id
         realEstateId
+        budgetLineId
+        budgetLine {
+          id
+          realEstateId
+          type
+          category
+          amount
+          frequency
+          nextDueDate
+          tenantId
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
         type
         category
         amount
         frequency
-        nextDueDate
+        date
         infoCredit {
-          borrowedCapital
-          loadStartDate
-          duration
-          interestRate
-          assuranceRate
+          amount
+          interest
+          assurance
         }
         tenantId
         _version
@@ -1172,12 +1655,6 @@ export const onCreateUser = /* GraphQL */ `
       id
       lastname
       firstname
-      avatarUri
-      _version
-      _deleted
-      _lastChangedAt
-      createdAt
-      updatedAt
       email
       phoneNumber
       optIn
@@ -1189,8 +1666,15 @@ export const onCreateUser = /* GraphQL */ `
         country
       }
       expoToken
+      bridgeApiUser
+      avatarUri
       birthDate
       subscription
+      _version
+      _deleted
+      _lastChangedAt
+      createdAt
+      updatedAt
     }
   }
 `;
@@ -1200,12 +1684,6 @@ export const onUpdateUser = /* GraphQL */ `
       id
       lastname
       firstname
-      avatarUri
-      _version
-      _deleted
-      _lastChangedAt
-      createdAt
-      updatedAt
       email
       phoneNumber
       optIn
@@ -1217,8 +1695,15 @@ export const onUpdateUser = /* GraphQL */ `
         country
       }
       expoToken
+      bridgeApiUser
+      avatarUri
       birthDate
       subscription
+      _version
+      _deleted
+      _lastChangedAt
+      createdAt
+      updatedAt
     }
   }
 `;
@@ -1228,12 +1713,6 @@ export const onDeleteUser = /* GraphQL */ `
       id
       lastname
       firstname
-      avatarUri
-      _version
-      _deleted
-      _lastChangedAt
-      createdAt
-      updatedAt
       email
       phoneNumber
       optIn
@@ -1245,8 +1724,15 @@ export const onDeleteUser = /* GraphQL */ `
         country
       }
       expoToken
+      bridgeApiUser
+      avatarUri
       birthDate
       subscription
+      _version
+      _deleted
+      _lastChangedAt
+      createdAt
+      updatedAt
     }
   }
 `;
@@ -1271,6 +1757,46 @@ export const onCreateRealEstate = /* GraphQL */ `
           amount
           frequency
           nextDueDate
+          tenantId
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+        nextToken
+        startedAt
+      }
+      bankMovements {
+        items {
+          id
+          bankAccountId
+          realEstateId
+          bridgeApiId
+          description
+          amount
+          budgetLineDeadlineId
+          ignored
+          date
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+        nextToken
+        startedAt
+      }
+      budgetLineDeadlines {
+        items {
+          id
+          realEstateId
+          budgetLineId
+          type
+          category
+          amount
+          frequency
+          date
           tenantId
           _version
           _deleted
@@ -1370,6 +1896,46 @@ export const onUpdateRealEstate = /* GraphQL */ `
         nextToken
         startedAt
       }
+      bankMovements {
+        items {
+          id
+          bankAccountId
+          realEstateId
+          bridgeApiId
+          description
+          amount
+          budgetLineDeadlineId
+          ignored
+          date
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+        nextToken
+        startedAt
+      }
+      budgetLineDeadlines {
+        items {
+          id
+          realEstateId
+          budgetLineId
+          type
+          category
+          amount
+          frequency
+          date
+          tenantId
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+        nextToken
+        startedAt
+      }
       documents {
         items {
           id
@@ -1459,6 +2025,46 @@ export const onDeleteRealEstate = /* GraphQL */ `
         nextToken
         startedAt
       }
+      bankMovements {
+        items {
+          id
+          bankAccountId
+          realEstateId
+          bridgeApiId
+          description
+          amount
+          budgetLineDeadlineId
+          ignored
+          date
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+        nextToken
+        startedAt
+      }
+      budgetLineDeadlines {
+        items {
+          id
+          realEstateId
+          budgetLineId
+          type
+          category
+          amount
+          frequency
+          date
+          tenantId
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+        nextToken
+        startedAt
+      }
       documents {
         items {
           id
@@ -1526,21 +2132,15 @@ export const onCreateNotification = /* GraphQL */ `
       category
       text
       params
+      createdAt
       _version
       _deleted
       _lastChangedAt
-      createdAt
       updatedAt
       user {
         id
         lastname
         firstname
-        avatarUri
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
         email
         phoneNumber
         optIn
@@ -1552,8 +2152,15 @@ export const onCreateNotification = /* GraphQL */ `
           country
         }
         expoToken
+        bridgeApiUser
+        avatarUri
         birthDate
         subscription
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
       }
     }
   }
@@ -1567,21 +2174,15 @@ export const onUpdateNotification = /* GraphQL */ `
       category
       text
       params
+      createdAt
       _version
       _deleted
       _lastChangedAt
-      createdAt
       updatedAt
       user {
         id
         lastname
         firstname
-        avatarUri
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
         email
         phoneNumber
         optIn
@@ -1593,8 +2194,15 @@ export const onUpdateNotification = /* GraphQL */ `
           country
         }
         expoToken
+        bridgeApiUser
+        avatarUri
         birthDate
         subscription
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
       }
     }
   }
@@ -1608,21 +2216,15 @@ export const onDeleteNotification = /* GraphQL */ `
       category
       text
       params
+      createdAt
       _version
       _deleted
       _lastChangedAt
-      createdAt
       updatedAt
       user {
         id
         lastname
         firstname
-        avatarUri
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
         email
         phoneNumber
         optIn
@@ -1634,8 +2236,15 @@ export const onDeleteNotification = /* GraphQL */ `
           country
         }
         expoToken
+        bridgeApiUser
+        avatarUri
         birthDate
         subscription
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
       }
     }
   }
@@ -1660,12 +2269,6 @@ export const onCreateBillingHistory = /* GraphQL */ `
         id
         lastname
         firstname
-        avatarUri
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
         email
         phoneNumber
         optIn
@@ -1677,8 +2280,15 @@ export const onCreateBillingHistory = /* GraphQL */ `
           country
         }
         expoToken
+        bridgeApiUser
+        avatarUri
         birthDate
         subscription
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
       }
     }
   }
@@ -1703,12 +2313,6 @@ export const onUpdateBillingHistory = /* GraphQL */ `
         id
         lastname
         firstname
-        avatarUri
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
         email
         phoneNumber
         optIn
@@ -1720,8 +2324,15 @@ export const onUpdateBillingHistory = /* GraphQL */ `
           country
         }
         expoToken
+        bridgeApiUser
+        avatarUri
         birthDate
         subscription
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
       }
     }
   }
@@ -1746,12 +2357,6 @@ export const onDeleteBillingHistory = /* GraphQL */ `
         id
         lastname
         firstname
-        avatarUri
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
         email
         phoneNumber
         optIn
@@ -1763,8 +2368,15 @@ export const onDeleteBillingHistory = /* GraphQL */ `
           country
         }
         expoToken
+        bridgeApiUser
+        avatarUri
         birthDate
         subscription
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
       }
     }
   }

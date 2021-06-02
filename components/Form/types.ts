@@ -5,8 +5,6 @@ import {
 import {
   InputProps, RadioProps, SelectProps, ToggleProps, DatepickerProps, Datepicker,
 } from '@ui-kitten/components';
-import { PersistentModel } from '@aws-amplify/datastore';
-import { AutoCompleteHandles, AutoCompleteProps } from '../AutoComplete/AutoComplete';
 import { ValidationRuleConfig } from './validation';
 import { IconName } from '../Icon/Icon';
 
@@ -65,18 +63,6 @@ export type SwitchFormProps = {
   style?: StyleProp<ViewStyle>;
   defaultValue?: boolean;
 } & ToggleProps & FormChildProp;
-
-// AutoComplete Types
-export type AutoCompleteFormProps<T extends PersistentModel> = {
-  name: string;
-  label?: string;
-  labelStyle?: StyleProp<TextStyle>;
-  error?: FieldError | undefined;
-  style?: StyleProp<ViewStyle>;
-  validators?: ValidationRuleConfig;
-  onChangeValue?: ChangeValueCallbackType;
-  itemsFormator: (allItems: T[], selectedItem?: T) => string | number;
-} & AutoCompleteProps<T>;
 
 // Radio Types
 export type RadioFormProps = {

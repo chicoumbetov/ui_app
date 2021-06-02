@@ -2,16 +2,19 @@
 type User @model @auth(rules: [
   {allow: owner, ownerField: "id"}
   {allow: private, operations: [read]}
+  {allow: private, provider: iam}
 ])
+@key(name: "userByBridgeApiUser", fields: ["bridgeApiUser"], queryField: "userByBridgeApiUser")
 {
   id: ID!
   lastname: String
   firstname: String
-  email: AWSEmail @auth (rules: [{allow: owner, ownerField: "id"}])
+  email: AWSEmail
   phoneNumber: AWSPhone @auth (rules: [{allow: owner, ownerField: "id"}])
   optIn: Boolean @auth (rules: [{allow: owner, ownerField: "id"}])
   address: Address @auth (rules: [{allow: owner, ownerField: "id"}])
   expoToken: [String!] @auth (rules: [{allow: owner, ownerField: "id"}])
+  bridgeApiUser: String @auth (rules: [{allow: owner, ownerField: "id"}])
 
   avatarUri: String
   birthDate: AWSDate @auth (rules: [{allow: owner, ownerField: "id"}])
@@ -33,6 +36,8 @@ type RealEstate @model
   detentionPart: Float
   typeImpot: TaxType
   budgetLines: [BudgetLine] @connection(keyName: "budgetLineByRealEstate", fields: ["id"])
+  bankMovements: [BankMovement] @connection(keyName: "bankMovementByRealEstate", fields: ["id"])
+  budgetLineDeadlines: [BudgetLineDeadline] @connection(keyName: "budgetLineDeadlineByRealEstate", fields: ["id"])
   documents: [Document] @connection(keyName: "documentByRealEstate", fields: ["id"])
   admins: [String!]!
   shared: [String!]
@@ -78,6 +83,24 @@ type BudgetLine
   infoCredit: MortgageLoanInfo
   tenantId: String
 }
+#should only be available for all operations to users in the admins field of RealEstate model and for read operation to users in the shared field of RealEstate model
+type BudgetLineDeadline
+@key(name: "budgetLineDeadlineByRealEstate", fields: ["realEstateId", "date"])
+@key(name: "budgetLineDeadlineByBudgetLine", fields: ["budgetLineId", "date"])
+@model {
+  id: ID!
+  realEstateId: ID!
+  realEstate: RealEstate @connection (fields: ["realEstateId"])
+  budgetLineId: ID!
+  budgetLine: BudgetLine @connection (fields: ["budgetLineId"])
+  type: BudgetLineType!
+  category: String!
+  amount: Float!
+  frequency: Frequency!
+  date: AWSDate
+  infoCredit: MortgageLoanDeadlineInfo
+  tenantId: String
+}
 
 enum BudgetLineType {
   Expense
@@ -95,6 +118,12 @@ type TenantInfo {
   email: AWSEmail!
   startDate: AWSDate!
   endDate: AWSDate
+}
+
+type MortgageLoanDeadlineInfo {
+  amount: Float
+  interest: Float
+  assurance: Float
 }
 
 type MortgageLoanInfo {
@@ -176,27 +205,27 @@ type BankAccount @model {
   iban: String!
   bic: String!
   balance: Float!
-  bridgetApiAccountId: String!
-  movements: [BankMovement] @connection(fields: ["id"])
+  bridgeApiId: Int!
+  movements: [BankMovement] @connection(keyName:"bankMovementByByBankAccount", fields: ["id"])
 }
 
 #should only be available for all operations to users in the admins field of RealEstate (linked by BankAccount and RealEstateBankAccount) model
 # and for read operation to users in the shared field of RealEstate (linked by BankAccount and RealEstateBankAccount) model
 type BankMovement @model
-@key(name: "bankMovementByByBankAccount", fields: ["bankAccountId"])
-@key(name: "bankMovementByBudgetLine", fields: ["budgetLineId"])
-@key(name: "bankMovementByRealEstate", fields: ["realEstateId"])
+@key(name: "bankMovementByByBankAccount", fields: ["bankAccountId","date"])
+@key(name: "bankMovementByBudgetLineDeadline", fields: ["budgetLineDeadlineId","date"])
+@key(name: "bankMovementByRealEstate", fields: ["realEstateId","date"])
 {
   id: ID!
   bankAccountId: ID!
   bankAccount: BankAccount! @connection(fields: ["bankAccountId"])
   realEstateId: ID
   realEstate: BankAccount @connection(fields: ["realEstateId"])
-  bridgetApiId: String!
+  bridgeApiId: Int!
   description: String!
   amount: Float!
-  budgetLineId: ID!
-  budgetLine: BudgetLine @connection (fields: ["budgetLineId"])
+  budgetLineDeadlineId: ID!
+  budgetLineDeadline: BudgetLineDeadline @connection (fields: ["budgetLineDeadlineId"])
   ignored: Boolean
   date: AWSDate
 }
@@ -206,7 +235,7 @@ type Notification @model
 @auth(rules: [
   {allow: owner, ownerField: "owner"}
 ])
-@key(name: "notificationByUser", fields: ["userId"])
+@key(name: "notificationByUser", fields: ["userId","createdAt"])
 {
   id: ID!
   owner: String
@@ -215,13 +244,14 @@ type Notification @model
   category: String!
   text: String!
   params: AWSJSON
+  createdAt: AWSDateTime
 }
 
 type BillingHistory @model
 @auth(rules: [
   {allow: owner, ownerField: "owner"}
 ])
-@key(name: "billingHistoryByUser", fields: ["userId"])
+@key(name: "billingHistoryByUser", fields: ["userId","date"])
 {
   id: ID!
   owner: String

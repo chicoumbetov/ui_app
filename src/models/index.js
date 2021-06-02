@@ -44,16 +44,17 @@ const InvitationType = {
   "READ_ONLY": "ReadOnly"
 };
 
-const { User, RealEstate, BudgetLine, Document, RealEstateBankAccount, BankAccount, BankMovement, Notification, BillingHistory, Address, MortgageLoanInfo, AmortizationTable, TenantInfo, PendingInvitation } = initSchema(schema);
+const { User, RealEstate, BudgetLine, BankMovement, BankAccount, RealEstateBankAccount, BudgetLineDeadline, Document, Notification, BillingHistory, Address, MortgageLoanInfo, AmortizationTable, MortgageLoanDeadlineInfo, TenantInfo, PendingInvitation } = initSchema(schema);
 
 export {
   User,
   RealEstate,
   BudgetLine,
-  Document,
-  RealEstateBankAccount,
-  BankAccount,
   BankMovement,
+  BankAccount,
+  RealEstateBankAccount,
+  BudgetLineDeadline,
+  Document,
   Notification,
   BillingHistory,
   SubscriptionType,
@@ -66,6 +67,7 @@ export {
   Address,
   MortgageLoanInfo,
   AmortizationTable,
+  MortgageLoanDeadlineInfo,
   TenantInfo,
   PendingInvitation
 };

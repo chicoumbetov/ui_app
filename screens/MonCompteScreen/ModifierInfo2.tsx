@@ -6,6 +6,7 @@ import {
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { RouteProp } from '@react-navigation/core/lib/typescript/src/types';
 import { useForm } from 'react-hook-form';
+import { API } from 'aws-amplify';
 import TextInput from '../../components/Form/TextInput';
 import MaxWidthContainer from '../../components/MaxWidthContainer';
 import { TabMonCompteParamList } from '../../types';
@@ -34,7 +35,13 @@ const ModifierInfo2 = () => {
   const onPress = async (data: ModifierInfo2Form) => {
     if (route.params?.signUp) {
       if (createUser) {
-        await createUser(data);
+        const response = await API.post('bridgeapi', '/bridgeapi/create-user', {});
+        console.log(response);
+
+        await createUser({
+          ...data,
+          bridgeApiUser: response.bridgeApiUser,
+        });
 
         navigation.navigate('modifier-info-3', {
           signUp: true,

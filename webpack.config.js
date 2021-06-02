@@ -1,4 +1,6 @@
 const createExpoWebpackConfigAsync = require('@expo/webpack-config');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+
 const path = require('path')
 
 module.exports = async function(env, argv) {
@@ -65,6 +67,19 @@ module.exports = async function(env, argv) {
       return rule;
     }
   });
+
+  if (env.mode === 'production') {
+    config.plugins.push(
+      new BundleAnalyzerPlugin({
+        path: 'web-report',
+      })
+    );
+  }
+  config.plugin.push(
+    new MomentLocalesPlugin({
+      localesToKeep: ['fr'],
+    }),
+  )
 
   return config;
 };

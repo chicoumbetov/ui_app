@@ -1,3 +1,19 @@
 {
-  "lambdaLayers": []
+  "lambdaLayers": [],
+  "permissions": {
+    "auth": {
+      "omedomfee3bfe0": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ]
+    },
+    "api": {
+      "omedom": [
+        "Query",
+        "Mutation"
+      ]
+    }
+  }
 }

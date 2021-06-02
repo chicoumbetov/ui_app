@@ -1,75 +1,59 @@
 import { DocumentNode } from 'apollo-link';
 import gql from 'graphql-tag';
 import { useMutation, useQuery } from 'react-apollo';
-import { getBudgetLine, getRealEstate } from '../graphql/queries';
+import { getBudgetLine, getBudgetLineDeadline, getRealEstate } from '../graphql/queries';
 import {
-  BudgetLineType,
   CreateBudgetLineMutation,
-  CreateBudgetLineMutationVariables, DeleteBudgetLineMutation, DeleteBudgetLineMutationVariables,
-  Frequency,
-  GetBudgetLineQuery,
-  GetBudgetLineQueryVariables,
-  GetRealEstateQuery, GetRealEstateQueryVariables,
-  ListRealEstatesQuery,
-  ListRealEstatesQueryVariables,
-  MortgageLoanInfo,
-  RealEstate,
-  BudgetLine,
-  TenantInfo,
+  CreateBudgetLineMutationVariables,
+  DeleteBudgetLineMutation,
+  DeleteBudgetLineMutationVariables,
+  GetRealEstateQuery,
+  GetRealEstateQueryVariables,
   UpdateBudgetLineMutation,
   UpdateBudgetLineMutationVariables,
+  GetBudgetLineDeadlineQuery,
+  GetBudgetLineDeadlineQueryVariables,
+  BudgetLineDeadline,
+  UpdateBudgetLineDeadlineMutation,
+  UpdateBudgetLineDeadlineMutationVariables,
+  DeleteBudgetLineDeadlineMutation,
+  GetBudgetLineQuery,
+  GetBudgetLineQueryVariables,
+  CreateBudgetLineDeadlineMutation,
+  CreateBudgetLineDeadlineMutationVariables, DeleteBudgetLineDeadlineMutationVariables,
 } from '../API';
 import * as mutations from '../graphql/mutations';
 
-export type BudgetLineItem = {
-  __typename: 'BudgetLine',
-  id?: string,
-  realEstateId?: string,
-  type?: BudgetLineType,
-  category?: string | null,
-  amount?: number | null,
-  frequency: Frequency,
-  nextDueDate?: string | null,
-  infoCredit?: MortgageLoanInfo,
-  _version?: number,
-  _deleted?: boolean | null,
-  _lastChangedAt?: number,
-  createdAt?: string,
-  updatedAt?: string,
-  realEstate?: RealEstate,
-  tenants: TenantInfo
-};
-
-export function useGetBudgetLine(id: string) {
-  const getBudgetLineQuery = <DocumentNode>gql(getBudgetLine);
+export function useGetBudgetLineDeadLine(id: string) {
+  const getBudgetLineDeadLineQuery = <DocumentNode>gql(getBudgetLineDeadline);
   const {
     loading, data, fetchMore, refetch,
-  } = useQuery<GetBudgetLineQuery, GetBudgetLineQueryVariables>(getBudgetLineQuery, {
+  } = useQuery<GetBudgetLineDeadlineQuery, GetBudgetLineDeadlineQueryVariables>(getBudgetLineDeadLineQuery, {
     variables: {
       id,
     },
   });
 
   return {
-    loading, budgetLine: <BudgetLine>data?.getBudgetLine, fetchMore, refetch,
+    loading, budgetLine: <BudgetLineDeadline>data?.getBudgetLineDeadline, fetchMore, refetch,
   };
 }
 
-export function useUpdateBudgetLineMutation() {
+export function useUpdateBudgetLineDeadlineMutation() {
   // eslint-disable-next-line @typescript-eslint/no-shadow
-  const [updateBudgetLine, { loading: mutationLoading }] = useMutation<UpdateBudgetLineMutation,
-  UpdateBudgetLineMutationVariables>(gql(mutations.updateBudgetLine));
-  return { updateBudgetLine, mutationLoading };
+  const [updateBudgetLineDeadline, { loading: mutationLoading }] = useMutation<UpdateBudgetLineDeadlineMutation,
+  UpdateBudgetLineDeadlineMutationVariables>(gql(mutations.updateBudgetLineDeadline));
+  return { updateBudgetLineDeadline, mutationLoading };
 }
 
-export function useDeleteBudgetLineMutation() {
+export function useDeleteBudgetLineDeadlineMutation() {
   const getRealEstatesQuery = <DocumentNode>gql(getRealEstate);
-  const [deleteBudgetLine] = useMutation<DeleteBudgetLineMutation,
-  DeleteBudgetLineMutationVariables>(gql(mutations.deleteBudgetLine),
+  const [deleteBudgetLineDeadLine] = useMutation<DeleteBudgetLineDeadlineMutation,
+  DeleteBudgetLineDeadlineMutationVariables>(gql(mutations.deleteBudgetLineDeadline),
     {
       update: (cache, { data: mutationData }) => {
         if (mutationData) {
-          const { deleteBudgetLine: newData } = mutationData;
+          const { deleteBudgetLineDeadline: newData } = mutationData;
           if (newData) {
             // Read query from cache
             const cacheData = cache.readQuery<GetRealEstateQuery, GetRealEstateQueryVariables>({
@@ -103,17 +87,17 @@ export function useDeleteBudgetLineMutation() {
         }
       },
     });
-  return deleteBudgetLine;
+  return deleteBudgetLineDeadLine;
 }
 
-export function useCreateBudgetLineMutation() {
+export function useCreateBudgetLineDeadlineMutation() {
   const getRealEstatesQuery = <DocumentNode>gql(getRealEstate);
-  const [createBudgetLine, { loading: mutationLoading }] = useMutation<CreateBudgetLineMutation,
-  CreateBudgetLineMutationVariables>(gql(mutations.createBudgetLine),
+  const [createBudgetLineDeadLine, { loading: mutationLoading }] = useMutation<CreateBudgetLineDeadlineMutation,
+  CreateBudgetLineDeadlineMutationVariables>(gql(mutations.createBudgetLineDeadline),
     {
       update: (cache, { data: mutationData }) => {
         if (mutationData) {
-          const { createBudgetLine: newData } = mutationData;
+          const { createBudgetLineDeadline: newData } = mutationData;
           if (newData) {
             // Read query from cache
             const cacheData = cache.readQuery<GetRealEstateQuery, GetRealEstateQueryVariables>({
@@ -125,7 +109,7 @@ export function useCreateBudgetLineMutation() {
 
             // Add newly created item to the cache copy
             if (cacheData && cacheData.getRealEstate) {
-              cacheData.getRealEstate.budgetLines?.items?.push(newData);
+              cacheData.getRealEstate.budgetLineDeadlines?.items?.push(newData);
 
               // Overwrite the cache with the new results
               cache.writeQuery<GetRealEstateQuery, GetRealEstateQueryVariables>({
@@ -139,7 +123,6 @@ export function useCreateBudgetLineMutation() {
           }
         }
       },
-
     });
-  return { createBudgetLine, mutationLoading };
+  return { createBudgetLineDeadLine, mutationLoading };
 }

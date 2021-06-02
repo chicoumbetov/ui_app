@@ -6,20 +6,41 @@ import {
   Alert,
   ScrollView, StyleSheet, TouchableOpacity, View,
 } from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import moment from 'moment';
 import Icon from '../../../components/Icon';
-import { BudgetLine, BudgetLineType } from '../../../src/API';
+import { BudgetLineDeadline, BudgetLineType } from '../../../src/API';
 import { useDeleteBudgetLineMutation } from '../../../src/API/BudgetLine';
+import { useDeleteBudgetLineDeadlineMutation } from '../../../src/API/BudgetLineDeadLine';
 
-type MonBudgetProps = { budget: BudgetLine[] };
+type MonBudgetProps = { budget: BudgetLineDeadline[] };
 
 const EditMouvement = (props: MonBudgetProps) => {
   const { budget } = props;
-  const theme = useTheme();
-  const [checked, setChecked] = React.useState(false);
 
-  const deleteBudgetLine = useDeleteBudgetLineMutation();
+  const theme = useTheme();
+  const [checked, setChecked] = React.useState<string[]>([]);
+  const [amountMouvement, setAmountMouvement] = useState(500);
+
+  const deleteBudgetLine = useDeleteBudgetLineDeadlineMutation();
+
+  const EditerLeRevenue = async (item) => {
+
+  };
+
+  const isChecked = (id:string): boolean => checked.indexOf(id) > -1;
+
+  const checkFunction = (nextChecked: boolean, id:string, amount: number) => {
+    const newCheckedState = checked.filter((currentId) => currentId !== id);
+    if (nextChecked) {
+      newCheckedState.push(id);
+      setAmountMouvement(amountMouvement - amount);
+    } else {
+      setAmountMouvement(amountMouvement + amount);
+    }
+
+    setChecked(newCheckedState);
+  };
 
   const supprimerLeRevenue = async (item) => {
     Alert.alert(
@@ -79,8 +100,8 @@ const EditMouvement = (props: MonBudgetProps) => {
               style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 15 }}
             >
               <CheckBox
-                checked={checked}
-                onChange={(nextChecked) => setChecked(nextChecked)}
+                checked={isChecked(item.id)}
+                onChange={(nextChecked) => checkFunction(nextChecked, item.id, item.amount)}
                 style={{ marginRight: 20 }}
               />
               <View style={{
@@ -119,7 +140,7 @@ const EditMouvement = (props: MonBudgetProps) => {
               >
                 <Text category="p1" status="basic">Mensuel</Text>
                 <Text category="p1" appearance="hint">Echéance</Text>
-                <Text category="h6" status="basic">{`${moment(item.nextDueDate).format('DD/MM/YYYY')}`}</Text>
+                <Text category="h6" status="basic">{`${moment(item.date).format('DD/MM/YYYY')}`}</Text>
 
               </View>
             </View>
@@ -133,7 +154,9 @@ const EditMouvement = (props: MonBudgetProps) => {
             }}
             >
               <Text category="h6" status="warning">En attente</Text>
-              <Text category="h6" status="info">Editer</Text>
+              <TouchableOpacity onPress={() => EditerLeRevenue(item)}>
+                <Text category="h6" status="info">Editer</Text>
+              </TouchableOpacity>
               <TouchableOpacity onPress={() => supprimerLeRevenue(item)}>
                 <Text category="h6" status="danger">Supprimer</Text>
               </TouchableOpacity>
@@ -141,13 +164,12 @@ const EditMouvement = (props: MonBudgetProps) => {
 
           </Card>
         ))}
-
-        {checked
+        {checked !== [] ? (amountMouvement === 0
           ? (<Button status="success" style={{ marginVertical: 20 }}>Enregistrer</Button>)
           : (
             <>
               <Text category="p1" status="basic" style={{ marginVertical: 20 }}>
-                Parametrez et consulter vos charges et revenus dans votre budget.
+                Il vous manque 10e.
               </Text>
               <Card
                 style={{
@@ -169,7 +191,34 @@ const EditMouvement = (props: MonBudgetProps) => {
                 </TouchableOpacity>
               </Card>
             </>
-          )}
+          )
+        ) : (
+          <>
+            <Text category="p1" status="basic" style={{ marginVertical: 20 }}>
+              Parametrez et consulter vos charges et revenus dans votre budget.
+            </Text>
+            <Card
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'center',
+              }}
+            >
+              <TouchableOpacity
+                onPress={() => {
+                }}
+                style={{
+                  flexDirection: 'row', alignItems: 'center',
+                }}
+              >
+                <Icon name="calculator" size={33} color={theme['color-success-400']} style={{ marginRight: 10 }} />
+                <Text category="h5">
+                  Mon Budget
+                </Text>
+              </TouchableOpacity>
+            </Card>
+          </>
+        )}
+
       </ScrollView>
 
     </View>

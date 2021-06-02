@@ -32,6 +32,8 @@ import {
   useCreateBudgetLineMutation,
   useUpdateBudgetLineMutation,
 } from '../../../src/API/BudgetLine';
+import DateUtils from '../../../utils/DateUtils';
+import { useCreateBudgetLineDeadlineMutation } from '../../../src/API/BudgetLineDeadLine';
 
 type ParamBudgetForm = {
   category: string,
@@ -104,6 +106,7 @@ const ParametrerAjoutCharges = () => {
       setMensualiteCreditShow(true);
     }
   }
+  const createBudgetLineDeadLine = useCreateBudgetLineDeadlineMutation();
 
   const validateCharge = async (data: ParamBudgetForm) => {
     let category1: string;
@@ -131,7 +134,7 @@ const ParametrerAjoutCharges = () => {
         },
       });
     } else {
-      await createBudgetLine.createBudgetLine({
+      const newBugetLine = await createBudgetLine.createBudgetLine({
         variables: {
           input: {
             realEstateId: route.params.id,
@@ -144,6 +147,24 @@ const ParametrerAjoutCharges = () => {
           },
         },
       });
+      if (newBugetLine.data?.createBudgetLine && nextDueDate && frequency) {
+        for (let i = 0; i < 3; i += 1) {
+          // eslint-disable-next-line no-await-in-loop
+          await createBudgetLineDeadLine.createBudgetLineDeadLine({
+            variables: {
+              input: {
+                budgetLineId: newBugetLine.data?.createBudgetLine.id,
+                realEstateId: route.params.id,
+                type: BudgetLineType.Income,
+                category,
+                amount,
+                frequency,
+                date: DateUtils.addMonths(nextDueDate, -DateUtils.frequencyToMonths(frequency) * i),
+              },
+            },
+          });
+        }
+      }
     }
 
     /**

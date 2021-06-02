@@ -80,7 +80,7 @@ function MonBudget() {
         <Text category="h1" style={{ marginVertical: 20 }}>
           Mon Budget
         </Text>
-        <CompteHeader title={bien.name} />
+        <CompteHeader title={bien?.name} />
       </View>
 
       <Separator />

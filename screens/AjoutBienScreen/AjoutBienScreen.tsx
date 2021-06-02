@@ -11,11 +11,11 @@ import {
 } from 'react-native';
 
 import {
-  Button, Layout, Text, useTheme,
+  Button, Layout, Spinner, Text, useTheme,
 } from '@ui-kitten/components';
 
 import * as ImagePicker from 'expo-image-picker';
-import { View as MotiView } from 'moti';
+import { MotiView } from 'moti';
 import { useLinkTo, useRoute } from '@react-navigation/native';
 import { RouteProp } from '@react-navigation/core/lib/typescript/src/types';
 import { colors } from '../../assets/styles';
@@ -29,7 +29,11 @@ import MaxWidthContainer from '../../components/MaxWidthContainer';
 import AutoAvatar from '../../components/AutoAvatar';
 import TextInput from '../../components/Form/TextInput';
 import { AvailableValidationRules } from '../../components/Form/validation';
-import { useCreateRealEstateMutation, useGetRealEstate } from '../../src/API/RealEstate';
+import {
+  useCreateRealEstateMutation,
+  useGetRealEstate,
+  useUpdateRealEstateMutation,
+} from '../../src/API/RealEstate';
 import { CompanyType, RealEstateType, TaxType } from '../../src/API';
 import { useUser } from '../../src/API/UserContext';
 import { TabMesBiensParamList } from '../../types';
@@ -54,7 +58,7 @@ type AjoutBienForm = {
 function AjoutBienScreen() {
   const theme = useTheme();
   const { user } = useUser();
-
+  const updateRealEstate = useUpdateRealEstateMutation();
   const createRealEstate = useCreateRealEstateMutation();
   const linkTo = useLinkTo();
 
@@ -71,19 +75,33 @@ function AjoutBienScreen() {
   };
 
   const onAjoutBien = async (data: AjoutBienForm) => {
-    console.log(data);
-
-    await createRealEstate({
-      variables: {
-        input: {
-          ...data,
-          iconUri: 'default::mainHouse',
-          admins: [
-            user.id,
-          ],
+    if (route.params) {
+      await updateRealEstate.updateRealEstate({
+        variables: {
+          input: {
+            id: route.params.id,
+            ...data,
+            iconUri: 'default::mainHouse',
+            admins: [
+              user.id,
+            ],
+            _version: currentRealEstate._version,
+          },
         },
-      },
-    });
+      });
+    } else {
+      await createRealEstate.createRealEstate({
+        variables: {
+          input: {
+            ...data,
+            iconUri: 'default::mainHouse',
+            admins: [
+              user.id,
+            ],
+          },
+        },
+      });
+    }
     linkTo('/mes-biens');
   };
 
@@ -448,12 +466,25 @@ function AjoutBienScreen() {
             </MotiView>
 
             <View style={{ marginBottom: 20 }}>
-              <Button
-                onPress={ajoutBienForm.handleSubmit((data) => onAjoutBien(data))}
-                size="large"
-              >
-                Enregistrer
-              </Button>
+              {createRealEstate.mutationLoading || updateRealEstate.mutationLoading
+                ? (
+                  <Button
+                    onPress={ajoutBienForm.handleSubmit((data) => onAjoutBien(data))}
+                    size="large"
+                    accessoryRight={() => <Spinner status="basic" />}
+                    disabled
+                  >
+                    Chargement
+                  </Button>
+                ) : (
+                  <Button
+                    onPress={ajoutBienForm.handleSubmit((data) => onAjoutBien(data))}
+                    size="large"
+                  >
+                    Enregistrer
+                  </Button>
+                )}
+
             </View>
           </MotiView>
 

@@ -46,6 +46,10 @@ export default {
                 path: 'mon-assistant',
                 screens: {
                   'mon-assistant': '/',
+                  'declaration-impots': '/declaration-impots',
+                  'declaration-impots-2': '/declaration-impots/:id/:anneeEcheance',
+                  'quittance-loyer': '/quittance-loyer',
+                  'quittance-loyer-2': '/quittance-loyer/:id/:anneeEcheance',
                 },
               },
               notifications: {
@@ -68,9 +72,9 @@ export default {
             path: 'ma-tresorerie',
             screens: {
               'ma-tresorerie': '/',
-              'mouv-bancaires': 'mouvement-bancaires',
+              'ma-tresorerie-2': '/ma-tresorerie-2/:id',
+              'mouv-bancaires': '/mouv-bancaires/:id',
               'ignorer-mouvement': 'ignorer-mouvement',
-              'edit-mouvement': 'edit-mouvement',
             },
           },
           faq: 'faq',

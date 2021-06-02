@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import {
   Button, Text,
 } from '@ui-kitten/components';
-import { useNavigation } from '@react-navigation/native';
+import { useLinkTo } from '@react-navigation/native';
 import {
-  StyleSheet, View,
+  View,
 } from 'react-native';
 import { useForm } from 'react-hook-form';
 import TextInput from '../../../components/Form/TextInput';
@@ -15,14 +15,14 @@ import { useRealEstateList } from '../../../src/API/RealEstate';
 
 type DeclarationImpotsForm = {
   bien: string;
-  anneeEcheance: string;
+  anneeEcheance: number;
 };
 
 const DeclarationImpots = () => {
-  const navigation = useNavigation();
   const { data } = useRealEstateList();
+  const linkTo = useLinkTo();
   const [houseList, setHouseList] = useState<Array<{ label: string, key: string }>>([]);
-
+  const declarationImpotsForm = useForm<DeclarationImpotsForm>();
   useEffect(() => {
     const selectHouse: Array<{ label: string, key: string }> = [];
     data?.listRealEstates?.items?.forEach((house) => {
@@ -46,10 +46,11 @@ const DeclarationImpots = () => {
   ];
  */
 
-  const declarationImpotsForm = useForm<DeclarationImpotsForm>();
-
-  const onDeclarationImpots2 = () => {
-    navigation.navigate('DeclarationImpots2');
+  const onDeclarationImpots2 = (house : DeclarationImpotsForm) => {
+    // console.log(house.bien);
+    const id = house.bien;
+    const { anneeEcheance } = house;
+    linkTo(`/mon-assistant/declaration-impots/${id}/${anneeEcheance}`);
   };
 
   return (
@@ -57,46 +58,50 @@ const DeclarationImpots = () => {
       withScrollView="keyboardAware"
       outerViewProps={{
         showsVerticalScrollIndicator: false,
+        style: {
+          padding: 25,
+        },
       }}
     >
+      <Text
+        category="h1"
+        style={{
+          marginVertical: 15,
+        }}
+      >
+        Paramétrer mon aide à la déclaration d'impôts
+      </Text>
 
-      <View style={styles.containerOut}>
+      <Form<DeclarationImpotsForm> {...declarationImpotsForm}>
+        <>
+          <Select
+            name="bien"
+            data={houseList}
+            placeholder="Choisissez le bien"
+            size="large"
+            appearance="default"
+            status="primary"
+          />
+          <TextInput
+            label="Année de l'écheance"
+            name="anneeEcheance"
+            placeholder="aaaa"
+            keyboardType="numeric"
+            icon="calendar-outline"
+          />
+        </>
+      </Form>
 
-        <Text
-          category="h1"
-          style={{
-            marginTop: 19.7,
-            marginBottom: 14,
-          }}
+      <View style={{ marginTop: 20, alignItems: 'flex-end' }}>
+        <Button
+          onPress={declarationImpotsForm.handleSubmit((house) => {
+            onDeclarationImpots2(house);
+          })}
+          size="large"
+          style={{ width: 139 }}
         >
-          Paramétrer mon aide à la déclaration d'impôts
-        </Text>
-
-        <Form<DeclarationImpotsForm> {...declarationImpotsForm}>
-          <>
-            <Select
-              name="bien"
-              data={houseList}
-              placeholder="Choisissez le bien"
-              size="large"
-              appearance="default"
-              status="primary"
-            />
-            <TextInput
-              label="Année de l'écheance"
-              name="anneeEcheance"
-              placeholder="aaaa"
-              icon="calendar-outline"
-            />
-          </>
-        </Form>
-
-        <View style={styles.buttonRight}>
-          <Button onPress={onDeclarationImpots2} size="large" style={{ width: 139 }}>
-            Confirmer
-          </Button>
-        </View>
-
+          Confirmer
+        </Button>
       </View>
 
     </MaxWidthContainer>
@@ -105,17 +110,4 @@ const DeclarationImpots = () => {
 
 export default DeclarationImpots;
 
-const styles = StyleSheet.create({
-  containerOut: {
-    flex: 1,
-    padding: 25,
-    paddingRight: 21,
-  },
-  item: {
-    borderBottomEndRadius: 20,
-  },
-  headerText: {
-    marginTop: 2.8,
-  },
-  buttonRight: { marginTop: 36, alignItems: 'flex-end' },
-});
+// const styles = StyleSheet.create({ item: { } });

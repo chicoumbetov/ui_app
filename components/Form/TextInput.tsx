@@ -55,9 +55,13 @@ const TextInputComp = React.forwardRef<Input, TextInputFormProps>(
           secureTextEntry={!passwdShown}
           size="medium"
           onChangeText={(text) => {
-            setInputValue(text);
+            let finalText = text;
+            if (keyboardType === 'numeric') {
+              finalText = text.replace(',', '.');
+            }
+            setInputValue(finalText);
             if (onChangeValue) {
-              onChangeValue(text);
+              onChangeValue(finalText);
             }
           }}
           value={inputValue || undefined}

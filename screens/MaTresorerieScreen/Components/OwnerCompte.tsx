@@ -1,55 +1,62 @@
 import React from 'react';
-import { StyleSheet, TouchableOpacity } from 'react-native';
-import { Layout, Text, useTheme } from '@ui-kitten/components';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { CheckBox, Text, useTheme } from '@ui-kitten/components';
 
-import { useNavigation } from '@react-navigation/native';
+import { useLinkTo } from '@react-navigation/native';
 import { Icon as IconUIKitten } from '@ui-kitten/components/ui/icon/icon.component';
-import MaxWidthContainer from '../../../components/MaxWidthContainer';
 
-const OwnerCompte = ({ compte }) => {
-  const navigation = useNavigation();
+import Card from '../../../components/Card';
+import { RealEstateItem } from '../../../src/API/RealEstate';
+
+type MonBienProps = { compte: RealEstateItem, supprimer : boolean };
+
+const OwnerCompte = (props: MonBienProps) => {
+  const { compte, supprimer } = props;
+
+  const linkTo = useLinkTo();
   const theme = useTheme();
-  const onTresoMouvement = () => {
-    navigation.navigate('mouv-bancaires');
+  const onTresoMouvement = (id: string) => {
+    linkTo(`/ma-tresorerie/mouv-bancaires/${id}`);
   };
 
-  return (
-    <MaxWidthContainer>
-      <TouchableOpacity onPress={onTresoMouvement} style={styles.container}>
+  const [checked, setChecked] = React.useState(false);
 
-        <Layout style={{ paddingHorizontal: 14, width: 255, backgroundColor: 'transparent' }}>
-          <Text
-            category="h6"
-            style={{
-              borderRadius: 10,
-            }}
-          >
+  return (
+    <Card
+        // key={item.id}
+      style={{ marginTop: 28 }}
+    >
+      <TouchableOpacity
+        onPress={supprimer ? () => {} : () => onTresoMouvement(compte.id)}
+        style={styles.container}
+      >
+
+        {supprimer ? (
+          <View style={{ justifyContent: 'center', paddingHorizontal: 14, width: 50 }}>
+            <CheckBox
+              checked={checked}
+              status="danger"
+              onChange={(nextChecked) => setChecked(nextChecked)}
+            />
+          </View>
+        ) : (<></>)}
+
+        <View style={{ justifyContent: 'center', paddingHorizontal: 14, flex: 1 }}>
+          <Text category="h6">
             Monsieur
             {' '}
-            {compte.nom}
-            {' '}
-            {compte.prenom}
+            {compte?.name}
           </Text>
-          <Text
-            category="h6"
-            appearance="hint"
-            style={{ paddingTop: 8 }}
-          >
-            FR
-            {compte.IBAN}
+          <Text category="p2" appearance="hint">
+            FR 1234 1234 1234 1234
           </Text>
-          <Text
-            category="h6"
-            appearance="hint"
-            style={{ paddingTop: 8 }}
-          >
-            {compte.bank}
+          <Text category="p2" status="basic">
+            Société générale
           </Text>
-        </Layout>
+        </View>
 
-        <Layout style={{ flexDirection: 'row', backgroundColor: 'transparent', alignItems: 'center' }}>
-          {/**
-          <Layout style={{
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <View style={{
             backgroundColor: theme['color-warning-500'],
             marginRight: 5,
             height: 30,
@@ -60,32 +67,26 @@ const OwnerCompte = ({ compte }) => {
             borderRadius: 30,
           }}
           >
-            <Text status="control">3</Text>
-          </Layout>
-          */}
-          <Layout style={{ marginRight: 2 }}>
-            <IconUIKitten
-              name="arrow-ios-forward"
-              fill={theme['text-hint-color']}
-              style={{ height: 20, width: 20 }}
-            />
-          </Layout>
+            <Text status="control">12</Text>
+          </View>
 
-        </Layout>
+          <IconUIKitten
+            name="arrow-ios-forward"
+            fill="#000"
+            style={{ height: 20, width: 20 }}
+          />
+
+        </View>
 
       </TouchableOpacity>
-    </MaxWidthContainer>
+    </Card>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    padding: 15,
     justifyContent: 'space-between',
-    backgroundColor: '#fff',
-    marginTop: 25,
-    borderRadius: 10,
   },
   window: {
     flexDirection: 'row',

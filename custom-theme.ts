@@ -86,6 +86,8 @@ const omedomTheme = {
   'border-basic-color-4': '$color-basic-400',
   'border-basic-color-5': '$color-basic-500',
 
+  'color-basic-transparent-100': 'rgb(255,255,255)',
+
   'color-primary-default': '$color-primary-400',
 
   'text-hint-color': '#b5b5b5',

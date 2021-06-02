@@ -147,7 +147,7 @@ function MonBudget() {
           </Text>
         </Layout>
 
-        {charges && charges.map((item) => item && <AjoutChargeCard key={item.id} budget={item} />)}
+        {charges && charges.map((item) => item && <MonBudgetCard key={item.id} budget={item} />)}
 
         <Button
           size="large"

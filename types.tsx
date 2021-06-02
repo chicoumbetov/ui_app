@@ -77,13 +77,12 @@ export type TabMesBiensParamList = {
 
 export type TabMaTresorerieParamList = {
   'ma-tresorerie': undefined;
-  'ma-tresorerie-2': undefined;
-  'mouv-bancaires': undefined;
+  'ma-tresorerie-2': { id: string };
+  'mouv-bancaires': { id: string };
 
   TresoMouvement_page1: undefined;
   TresoMouvement_page2: undefined;
   'ignorer-mouvement': undefined;
-  'edit-mouvement': undefined;
   AjoutCompte: undefined;
 
   'treso-mouvement-page1': undefined;
@@ -92,11 +91,11 @@ export type TabMaTresorerieParamList = {
 
 export type TabMonAssistantParamList = {
   'mon-assistant': undefined;
-  DeclarationImpots: undefined;
-  DeclarationImpots2: undefined;
-  PdfScreen: undefined;
-  QuittanceLoyer: undefined;
-  QuittanceLoyer2: undefined;
+  'declaration-impots': { id: string };
+  'declaration-impots-2': { id: string, anneeEcheance: number };
+  'pdf-screen': undefined;
+  'quittance-loyer': { id: string };
+  'quittance-loyer-2': { id: string };
 };
 
 export type TabMesChargesParamList = {

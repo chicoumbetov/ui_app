@@ -9,7 +9,7 @@ import moment from 'moment';
 import { useLinkTo, useNavigation, useRoute } from '@react-navigation/native';
 import { RouteProp } from '@react-navigation/core/lib/typescript/src/types';
 import Card from '../../../components/Card';
-import { BudgetLine } from '../../../src/API';
+import { BudgetLine, BudgetLineType } from '../../../src/API';
 import MaxWidthContainer from '../../../components/MaxWidthContainer';
 import { TabMesBiensParamList } from '../../../types';
 import { useDeleteBudgetLineMutation } from '../../../src/API/BudgetLine';
@@ -50,8 +50,13 @@ const MonBudgetCard = (props: MonBudgetProps) => {
 
   const navigation = useNavigation();
   const route = useRoute<RouteProp<TabMesBiensParamList, 'mon-budget'>>();
+
   const allerModifierRevenu = () => {
     navigation.navigate('modifier-revenu', { idBudgetLine: budget.id, id: route.params.id });
+  };
+
+  const allerModifierCharge = () => {
+    navigation.navigate('modifier-charge', { idBudgetLine: budget.id, id: route.params.id });
   };
 
   const supprimerLeRevenue = async () => {
@@ -101,7 +106,7 @@ const MonBudgetCard = (props: MonBudgetProps) => {
           <Text category="h3" style={{ justifyContent: 'center', flexWrap: 'wrap' }}>
             {`${budget.category}`}
           </Text>
-          <Text category="c1" status="success">{`+ ${budget.amount} €`}</Text>
+          <Text category="c1" status={budget.type === BudgetLineType.Income ? ('success') : ('danger')}>{`${budget.type === BudgetLineType.Income ? ('+') : ('-')} ${budget.amount} €`}</Text>
         </View>
 
         <View style={{
@@ -118,7 +123,7 @@ const MonBudgetCard = (props: MonBudgetProps) => {
             Echéance
           </Text>
           <Text category="c1" status="basic" style={{ marginLeft: 15 }}>
-            {`${moment(budget.nextDueDate).format('L')}`}
+            {`${moment(budget.nextDueDate).format('DD/MM/YYYY')}`}
           </Text>
         </View>
         <View style={{
@@ -145,7 +150,10 @@ const MonBudgetCard = (props: MonBudgetProps) => {
       </Card>
 
       <View style={styles.button}>
-        <TouchableOpacity onPress={() => allerModifierRevenu()}>
+        <TouchableOpacity onPress={
+          () => { budget.type === BudgetLineType.Income ? (allerModifierRevenu()) : (allerModifierCharge()); }
+        }
+        >
           <Layout style={styles.button}>
             <Text category="h6" status="info" style={styles.buttonTextLeft}>Modifier</Text>
           </Layout>

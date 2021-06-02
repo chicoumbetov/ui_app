@@ -1,4 +1,4 @@
-import { TransitionConfig, View as MotiView } from 'moti';
+import { TransitionConfig, MotiView } from 'moti';
 import React from 'react';
 import { StyleProp, ViewStyle } from 'react-native';
 import { Icon as IconUIKitten, IconProps as IconPropsUIKitten } from '@ui-kitten/components';

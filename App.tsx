@@ -102,13 +102,13 @@ function App() {
   return (
     <SafeAreaProvider>
       <IconRegistry icons={[EvaIconsPack]} />
-      <ApplicationProvider
-        {...eva}
-        // @ts-ignore
-        customMapping={mapping}
-        theme={{ ...eva.light, ...omedomTheme }}
-      >
-        <ApolloProvider client={client}>
+      <ApolloProvider client={client}>
+        <ApplicationProvider
+          {...eva}
+              // @ts-ignore
+          customMapping={mapping}
+          theme={{ ...eva.light, ...omedomTheme }}
+        >
           <Rehydration>
             <UserProvider>
               <Layout style={{ flex: 1 }}>
@@ -139,8 +139,9 @@ function App() {
               </Layout>
             </UserProvider>
           </Rehydration>
-        </ApolloProvider>
-      </ApplicationProvider>
+        </ApplicationProvider>
+      </ApolloProvider>
+
     </SafeAreaProvider>
 
   );

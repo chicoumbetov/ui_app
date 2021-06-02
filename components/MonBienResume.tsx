@@ -7,8 +7,8 @@ import { TouchableOpacity, View } from 'react-native';
 import { Icon as IconUIKitten } from '@ui-kitten/components/ui/icon/icon.component';
 import { useLinkTo } from '@react-navigation/native';
 import CompteHeader from './CompteHeader/CompteHeader';
-import MaxWidthContainer from './MaxWidthContainer';
-import { MonBienProps, TabMesBiensParamList } from '../types';
+
+import { MonBienProps } from '../types';
 import Card from './Card';
 
 const MonBienResume = (props: MonBienProps) => {
@@ -90,7 +90,7 @@ const MonBienResume = (props: MonBienProps) => {
             fill="#b5b5b5"
             style={{ height: 16, width: 16 }}
           />
-          <Text category="h4" status="danger">- 160 €</Text>
+          <Text category="h3" status="danger">- 160 €</Text>
         </View>
 
         {/**
@@ -105,7 +105,7 @@ const MonBienResume = (props: MonBienProps) => {
             fill="#b5b5b5"
             style={{ height: 18, width: 18, marginRight: 2 }}
           />
-          <Text category="h4" status="warning">60 %</Text>
+          <Text category="h3" status="warning">60 %</Text>
         </View>
 
       </View>

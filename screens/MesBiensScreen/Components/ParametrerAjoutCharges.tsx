@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import {
-  Button, Layout, Text, useTheme,
+  Button,
+  Spinner, Text,
+  // useTheme,
 } from '@ui-kitten/components';
 import {
   StyleSheet, View,
@@ -28,7 +30,6 @@ import { AvailableValidationRules } from '../../../components/Form/validation';
 import Datepicker from '../../../components/Form/DatePicker';
 import {
   useCreateBudgetLineMutation,
-  useGetBudgetLine,
   useUpdateBudgetLineMutation,
 } from '../../../src/API/BudgetLine';
 
@@ -49,7 +50,7 @@ type ParamBudgetForm = {
 };
 
 const ParametrerAjoutCharges = () => {
-  const theme = useTheme();
+  // const theme = useTheme();
   const paramBudgetForm = useForm<ParamBudgetForm>();
   const createBudgetLine = useCreateBudgetLineMutation();
   const updateBudgetLine = useUpdateBudgetLineMutation();
@@ -78,6 +79,7 @@ const ParametrerAjoutCharges = () => {
     currentBudgetLine = bien.budgetLines?.items?.filter(
       (item) => item?.id === route.params.idBudgetLine,
     ).pop();
+    currentBudgetLine.amount = currentBudgetLine.amount.toString();
     useEffect(() => {
       setMontantShow(true);
       setFrequenceShow(true);
@@ -115,7 +117,7 @@ const ParametrerAjoutCharges = () => {
     }
 
     if (route.params.idBudgetLine) {
-      await updateBudgetLine({
+      await updateBudgetLine.updateBudgetLine({
         variables: {
           input: {
             id: route.params.idBudgetLine,
@@ -129,7 +131,7 @@ const ParametrerAjoutCharges = () => {
         },
       });
     } else {
-      await createBudgetLine({
+      await createBudgetLine.createBudgetLine({
         variables: {
           input: {
             realEstateId: route.params.id,
@@ -160,18 +162,18 @@ const ParametrerAjoutCharges = () => {
       {/**
          *  I. Mon Budget
          */}
-      <Layout style={styles.container}>
+      <View style={styles.container}>
         <Text category="h1" style={{ marginBottom: 20 }}>
           Paramétrer votre budget
         </Text>
         <CompteHeader title={bien?.name} />
-      </Layout>
+      </View>
       <Separator />
 
       {/**
       *  II. Ajouter revenu
       */}
-      <Layout style={styles.container}>
+      <View style={styles.container}>
         <Text category="s2" status="basic" style={{ marginBottom: 20 }}>
           Ajouter une charge
         </Text>
@@ -233,9 +235,6 @@ const ParametrerAjoutCharges = () => {
                   <Select
                     name="category2"
                     data={typeImpots}
-                    onChangeValue={(item) => {
-                      // console.log('typeImpots item: ', item);
-                    }}
                     placeholder="Type d'Impôts"
                     size="large"
                     appearance="default"
@@ -248,9 +247,6 @@ const ParametrerAjoutCharges = () => {
                   <Select
                     name="category2"
                     data={typeAssurance}
-                    onChangeValue={(item) => {
-                      // console.log('typeAssurance item: ', item);
-                    }}
                     placeholder="Type d'Assurance"
                     size="large"
                     appearance="default"
@@ -284,9 +280,6 @@ const ParametrerAjoutCharges = () => {
                   <Select
                     name="category2"
                     data={typeDivers}
-                    onChangeValue={(item) => {
-                      // console.log('typeAssurance item: ', item);
-                    }}
                     placeholder="Divers"
                     size="large"
                     appearance="default"
@@ -294,60 +287,85 @@ const ParametrerAjoutCharges = () => {
                   />
                 </View>
               ) : (<></>)}
+              {mensualiteCreditShow ? (
+                <MotiView
+                  animate={{ height: (mensualiteCreditShow ? 420 : 0) }}
+                  style={{
+                    overflow: 'hidden',
+                    // hack pour éviter que le overflow 'hidden' ne cache l'ombre
+                    marginHorizontal: -5,
+                    paddingHorizontal: 5,
+                  }}
+                  transition={{ type: 'timing', duration: 500 }}
+                >
+                  <Text>Capital emprunté</Text>
+                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <TextInput
+                      name="infoCredit.borrowedCapital"
+                      placeholder="Capital emprunté"
+                      keyboardType="numeric"
+                      validators={
+                        [AvailableValidationRules.required, AvailableValidationRules.float]
+                      }
+                    />
+                    <Text category="h4" style={{ marginLeft: 19 }}> €</Text>
+                  </View>
+                  <Text>La date de début du prêt</Text>
+                  <Datepicker
+                    name="infoCredit.loadStartDate"
+                    placeholder="La date de début du prêt"
+                    icon="calendar-outline"
+                  />
+                  <Text>La durée en mois</Text>
+                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <TextInput
+                      name="infoCredit.duration"
+                      placeholder="La durée en mois"
+                      keyboardType="numeric"
+                      validators={
+                        [AvailableValidationRules.required, AvailableValidationRules.float]
+                      }
+                    />
+                    <Text category="h4" style={{ marginLeft: 19 }}>mois</Text>
+                  </View>
+                  <Text>Le taux d'intérêts</Text>
+                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <TextInput
+                      name="infoCredit.interestRate"
+                      placeholder="Le taux d'intérêts"
+                      keyboardType="numeric"
+                      validators={
+                        [AvailableValidationRules.required, AvailableValidationRules.float]
+                      }
+                    />
+                    <Text category="h4" style={{ marginLeft: 19 }}>%</Text>
+                  </View>
 
+                  <Text>Le taux d'assurance</Text>
+                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <TextInput
+                      name="infoCredit.assuranceRate"
+                      placeholder="Le taux d'assurance"
+                      keyboardType="numeric"
+                      validators={
+                        [AvailableValidationRules.required, AvailableValidationRules.float]
+                      }
+                    />
+                    <Text category="h4" style={{ marginLeft: 19 }}>%</Text>
+                  </View>
+                </MotiView>
+              ) : (<></>)}
+              {montantShow ? <Text>Montant</Text> : <></>}
               <MotiView
-                animate={{ height: (mensualiteCreditShow ? 350 : 0) }}
-                style={{
-                  overflow: 'hidden',
-                  // hack pour éviter que le overflow 'hidden' ne cache l'ombre
-                  marginHorizontal: -5,
-                  paddingHorizontal: 5,
-                }}
-                transition={{ type: 'timing', duration: 500 }}
-              >
-                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                  <TextInput
-                    name="infoCredit.borrowedCapital"
-                    placeholder="Capital emprunté"
-                  />
-                  <Text category="h4" style={{ marginLeft: 19 }}> €</Text>
-                </View>
-
-                <Datepicker
-                  name="infoCredit.loadStartDate"
-                  placeholder="La date de début du prêt"
-                  icon="calendar-outline"
-                />
-                <TextInput
-                  name="infoCredit.duration"
-                  placeholder="La durée en mois"
-                />
-                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                  <TextInput
-                    name="infoCredit.interestRate"
-                    placeholder="Le taux d'intérêts"
-                  />
-                  <Text category="h4" style={{ marginLeft: 19 }}>%</Text>
-                </View>
-
-                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                  <TextInput
-                    name="infoCredit.assuranceRate"
-                    placeholder="Le taux d'assurance"
-                  />
-                  <Text category="h4" style={{ marginLeft: 19 }}>%</Text>
-                </View>
-              </MotiView>
-
-              <MotiView
-                animate={{ height: (montantShow ? 68 : 0) }}
+                animate={{ height: (montantShow ? 75 : 0) }}
                 style={{ overflow: 'hidden', flexDirection: 'row', alignItems: 'center' }}
                 transition={{ type: 'timing', duration: 500 }}
               >
                 <TextInput
                   name="amount"
                   placeholder="Saisissez votre montant ici"
-                  validators={[{ rule: AvailableValidationRules.required, errorMessage: 'Un montant est requis' }]}
+                  keyboardType="numeric"
+                  validators={[AvailableValidationRules.required, AvailableValidationRules.float]}
                 />
                 <Text category="h4" style={{ marginLeft: 19 }}> €</Text>
               </MotiView>
@@ -378,19 +396,33 @@ const ParametrerAjoutCharges = () => {
             </View>
 
             <View style={{ marginBottom: 10 }}>
-              <Button
-                onPress={paramBudgetForm.handleSubmit((data) => {
-                  validateCharge(data);
-                })}
-                size="large"
-              >
-                Valider
-              </Button>
+              {updateBudgetLine.mutationLoading || createBudgetLine.mutationLoading ? (
+                <Button
+                  onPress={paramBudgetForm.handleSubmit((data) => {
+                    validateCharge(data);
+                  })}
+                  size="large"
+                  accessoryRight={() => <Spinner status="basic" />}
+                  disabled
+                >
+                  Valider
+                </Button>
+              ) : (
+                <Button
+                  onPress={paramBudgetForm.handleSubmit((data) => {
+                    validateCharge(data);
+                  })}
+                  size="large"
+                >
+                  Valider
+                </Button>
+              )}
+
             </View>
           </>
         </Form>
 
-      </Layout>
+      </View>
     </MaxWidthContainer>
   );
 };

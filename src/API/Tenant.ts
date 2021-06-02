@@ -19,7 +19,7 @@ export const useAddTenant = () => {
     tenants.push(tenantInfo);
 
     if (bien.id) {
-      await updateRealEstate({
+      await updateRealEstate.updateRealEstate({
         variables: {
           input: {
             id: bien.id,
@@ -47,7 +47,7 @@ export const useUpdateTenant = () => {
     });
 
     if (bien.id) {
-      await updateRealEstate({
+      await updateRealEstate.updateRealEstate({
         variables: {
           input: {
             id: bien.id,

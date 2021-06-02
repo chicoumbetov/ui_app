@@ -24,27 +24,27 @@ export default () => (
     />
     {/**         Declaration impots screens      */}
     <Stack.Screen
-      name="DeclarationImpots"
+      name="declaration-impots"
       component={DeclarationImpots}
     />
     <Stack.Screen
-      name="DeclarationImpots2"
+      name="declaration-impots-2"
       component={DeclarationImpots2}
     />
 
     {/**         Pdf component      */}
     <Stack.Screen
-      name="PdfScreen"
+      name="pdf-screen"
       component={PdfScreen}
     />
 
     {/**         Quittance Loyer screens      */}
     <Stack.Screen
-      name="QuittanceLoyer"
+      name="quittance-loyer"
       component={QuittanceLoyer}
     />
     <Stack.Screen
-      name="QuittanceLoyer2"
+      name="quittance-loyer-2"
       component={QuittanceLoyer2}
     />
   </Stack.Navigator>

@@ -102,7 +102,7 @@ const MonBien = (props: MonBienProps) => {
               />
             </View>
 
-            <Text category="h5" status="success">+ 10 800 €</Text>
+            <Text category="h5" status="success">+ 10800 €</Text>
 
             {/**
                *

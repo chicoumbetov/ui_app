@@ -1347,7 +1347,7 @@
           "variantGroups": {
             "status": {
               "primary": {
-                "backgroundColor": "color-primary-200",
+                "backgroundColor": "transparent",
                 "borderColor": "color-info-500",
                 "textColor": "color-info-500"
               },

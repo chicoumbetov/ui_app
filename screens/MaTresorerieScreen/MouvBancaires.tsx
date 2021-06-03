@@ -26,6 +26,7 @@ import { TabMaTresorerieParamList } from '../../types';
 import { useGetRealEstate } from '../../src/API/RealEstate';
 import { BudgetLineType } from '../../src/API';
 import Separator from '../../components/Separator';
+import Amount from '../../components/Amount';
 
 const MouvBancaires = () => {
   const theme = useTheme();
@@ -35,7 +36,7 @@ const MouvBancaires = () => {
 
   // const [compte] = useState(comptesData);
   const [currentMvt, setCurrentMvt] = useState();
-  const [budget, setBudget] = useState(bien?.budgetLines?.items);
+  const [budget, setBudget] = useState(bien?.budgetLineDeadlines?.items);
 
   const [checked, setChecked] = React.useState(false);
   const [ignoreClicked, setIgnoreClicked] = useState(false);
@@ -44,11 +45,15 @@ const MouvBancaires = () => {
   const onIgnorerMouvement = (id?: string) => {
     linkTo(`/ma-tresorerie/ignorer-mouvement/${id}`);
   };
+  const [thisamount, setAmount] = useState(0);
 
   const onEditMouvement = (items) => {
     setCurrentMvt(items);
-    if (items.valeur.substring(0, 1) === '-') {
-      setBudget(bien?.budgetLines?.items.filter((item) => {
+    setAmount(items.valeur);
+
+    if (items.valeur < 0) {
+      console.log(items.valeur);
+      setBudget(bien?.budgetLineDeadlines?.items.filter((item) => {
         // eslint-disable-next-line no-underscore-dangle
         if (item?.type === BudgetLineType.Expense && !item?._deleted) {
           return item;
@@ -56,7 +61,7 @@ const MouvBancaires = () => {
         return false;
       }));
     } else {
-      setBudget(bien?.budgetLines?.items.filter((item) => {
+      setBudget(bien?.budgetLineDeadlines?.items.filter((item) => {
         // eslint-disable-next-line no-underscore-dangle
         if (item?.type === BudgetLineType.Income && !item?._deleted) {
           return item;
@@ -78,7 +83,7 @@ const MouvBancaires = () => {
         }}
       >
 
-        <CompteHeader title={bien.name} />
+        <CompteHeader title={bien?.name} />
 
         <View style={{
           marginTop: 20,
@@ -143,13 +148,7 @@ const MouvBancaires = () => {
                         marginLeft: 20,
                       }}
                     >
-                      <Text
-                        style={{ justifyContent: 'center' }}
-                        category="h5"
-                        status={item.valeur.substring(0, 1) === '-' ? ('danger') : ('success')}
-                      >
-                        {item.valeur}
-                      </Text>
+                      <Amount amount={item.valeur} category="h5" />
                       <Text
                         style={{ justifyContent: 'center' }}
                         category="h6"
@@ -218,13 +217,7 @@ const MouvBancaires = () => {
                         marginLeft: 20,
                       }}
                     >
-                      <Text
-                        style={{ justifyContent: 'center' }}
-                        category="h5"
-                        status={item.valeur.substring(0, 1) === '-' ? ('danger') : ('success')}
-                      >
-                        {item.valeur}
-                      </Text>
+                      <Amount amount={item.valeur} category="h5" />
                       <Text
                         style={{ justifyContent: 'center' }}
                         category="h6"
@@ -317,7 +310,7 @@ const MouvBancaires = () => {
 
       </MaxWidthContainer>
 
-      <ActionSheet title="test" before={<></>} noSafeArea scrollable={false} visible={currentMvt !== undefined} onClose={() => setCurrentMvt(undefined)}><EditMouvement budget={bien?.budgetLineDeadlines?.items} /></ActionSheet>
+      <ActionSheet title="test" before={<></>} noSafeArea scrollable={false} visible={currentMvt !== undefined} onClose={() => setCurrentMvt(undefined)}><EditMouvement budget={budget} amount={thisamount} /></ActionSheet>
     </>
   );
 };

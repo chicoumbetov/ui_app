@@ -11,35 +11,65 @@ import moment from 'moment';
 import Icon from '../../../components/Icon';
 import { BudgetLineDeadline, BudgetLineType } from '../../../src/API';
 // import { useDeleteBudgetLineMutation } from '../../../src/API/BudgetLine';
-import { useDeleteBudgetLineDeadlineMutation } from '../../../src/API/BudgetLineDeadLine';
+import {
+  useDeleteBudgetLineDeadlineMutation,
+  useUpdateBudgetLineDeadlineMutation,
+} from '../../../src/API/BudgetLineDeadLine';
+import TextInputComp from '../../../components/Form/TextInput';
+import Amount from '../../../components/Amount';
 
-type MonBudgetProps = { budget: BudgetLineDeadline[] };
+type MonBudgetProps = { budget: BudgetLineDeadline[], amount: number };
 
 const EditMouvement = (props: MonBudgetProps) => {
-  const { budget } = props;
-
+  const { budget, amount } = props;
+  console.log(budget, 'ouiiiiiiiiiiiiiiiiiii');
   const theme = useTheme();
+
+  const updateBudgetLineDeadLine = useUpdateBudgetLineDeadlineMutation();
+
   const [checked, setChecked] = React.useState<string[]>([]);
-  const [amountMouvement, setAmountMouvement] = useState(500);
+  const [edit, setedit] = React.useState<string[]>([]);
+
+  const [amountMouvement, setAmountMouvement] = useState(amount);
+  const [newAmount, setNewAmount] = useState();
 
   const deleteBudgetLine = useDeleteBudgetLineDeadlineMutation();
 
-  const EditerLeRevenue = async (item) => {
+  const isEdited = (id:string): boolean => edit.indexOf(id) > -1;
 
+  const editFunction = async (isEdit: boolean, id:string, modifier?: boolean) => {
+    const neweditState = edit.filter((currentId) => currentId !== id);
+    if (isEdit) {
+      neweditState.push(id);
+    }
+    if (modifier) {
+      await updateBudgetLineDeadLine.updateBudgetLineDeadline({
+        variables: {
+          input: {
+            id,
+            amount: newAmount,
+          },
+        },
+      });
+    }
+
+    setedit(neweditState);
+    console.log(edit);
   };
 
   const isChecked = (id:string): boolean => checked.indexOf(id) > -1;
 
-  const checkFunction = (nextChecked: boolean, id:string, amount: number) => {
+  const checkFunction = (nextChecked: boolean, id:string, thisAmount: number) => {
     const newCheckedState = checked.filter((currentId) => currentId !== id);
     if (nextChecked) {
       newCheckedState.push(id);
-      setAmountMouvement(amountMouvement - amount);
+      setAmountMouvement(amountMouvement - thisAmount);
     } else {
-      setAmountMouvement(amountMouvement + amount);
+      setAmountMouvement(amountMouvement + thisAmount);
     }
 
     setChecked(newCheckedState);
+    console.log(checked);
   };
 
   const supprimerLeRevenue = async (item) => {
@@ -71,134 +101,192 @@ const EditMouvement = (props: MonBudgetProps) => {
     <View style={styles.container}>
 
       <View style={{ marginVertical: 20, alignItems: 'center' }}>
-        <Text category="h2" status="success">+500 €</Text>
+        <Amount amount={amount} category="h2" />
         <Text category="h6" status="basic" style={{ marginVertical: 10 }}>10/03/2021</Text>
         <Text category="h6" appearance="hint">Libéllé du mouvement</Text>
       </View>
       <ScrollView
         style={{ paddingTop: 20, borderTopWidth: 1, borderTopColor: '#b5b5b5' }}
       >
-        <Text
-          category="h1"
-          style={{ marginTop: 20 }}
-        >
-          Affectation
-        </Text>
-        <Text category="h2" style={{ marginVertical: 10 }}>
-          {`${budget[0].type === BudgetLineType.Expense
-            ? ('Charges') : ('Revenus')} enregistés dans votre budget`}
-        </Text>
-        <Text category="p1" appearance="hint">
-          Sélectionner le revenu correspondant
-        </Text>
-
-        {budget.map((item) => (
-          <Card
-            key={item.id}
-            style={{ marginVertical: 15 }}
-          >
-            <View
-              style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 15 }}
+        {budget.length > 0 ? (
+          <>
+            <Text
+              category="h1"
+              style={{ marginTop: 20 }}
             >
-              <CheckBox
-                checked={isChecked(item.id)}
-                onChange={(nextChecked) => checkFunction(nextChecked, item.id, item.amount)}
-                style={{ marginRight: 20 }}
-              />
-              <View style={{
-                flex: 1,
-                borderRightWidth: 1,
-                borderRightColor: '#b5b5b5',
-              }}
-              >
+              Affectation
+            </Text>
+            <Text category="h2" style={{ marginVertical: 10 }}>
+              {`${budget[0].type === BudgetLineType.Expense
+                ? ('Charges') : ('Revenus')} enregistés dans votre budget`}
+            </Text>
+            <Text category="p1" appearance="hint">
+              Sélectionner le revenu correspondant
+            </Text>
 
-                <Text
-                  style={{ marginBottom: 15 }}
-                  category="h4"
-                  status="basic"
-                >
-                  {item.category}
-                </Text>
-                <Text
-                  category="c1"
-                  status={item.type === BudgetLineType.Expense
-                    ? ('danger') : ('success')}
-                >
-                  {item.type === BudgetLineType.Expense ? ('-') : ('+')}
-                  {item.amount}
-                </Text>
-
-              </View>
-
-              <View
-                style={{
-                  flex: 1,
-                  alignItems: 'center',
-                  flexDirection: 'column',
-                  // justifyContent: 'space-evenly',
-                  paddingLeft: 10,
-                }}
-              >
-                <Text category="p1" status="basic">Mensuel</Text>
-                <Text category="p1" appearance="hint">Echéance</Text>
-                <Text category="h6" status="basic">{`${moment(item.date).format('DD/MM/YYYY')}`}</Text>
-
-              </View>
-            </View>
-            <View style={{
-              backgroundColor: '#f6f6f6',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              padding: 25,
-              borderBottomStartRadius: 10,
-              borderBottomEndRadius: 10,
-            }}
-            >
-              <Text category="h6" status="warning">En attente</Text>
-              <TouchableOpacity onPress={() => EditerLeRevenue(item)}>
-                <Text category="h6" status="info">Editer</Text>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => supprimerLeRevenue(item)}>
-                <Text category="h6" status="danger">Supprimer</Text>
-              </TouchableOpacity>
-            </View>
-
-          </Card>
-        ))}
-        {checked !== [] ? (amountMouvement === 0
-          ? (<Button status="success" style={{ marginVertical: 20 }}>Enregistrer</Button>)
-          : (
-            <>
-              <Text category="p1" status="basic" style={{ marginVertical: 20 }}>
-                Il vous manque 10e.
-              </Text>
+            {budget.map((item) => (
               <Card
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'center',
-                  marginBottom: 20,
-                }}
+                key={item.id}
+                style={{ marginVertical: 15 }}
               >
-                <TouchableOpacity
-                  onPress={() => {
+                <View
+                  style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 15 }}
+                >
+                  <CheckBox
+                    checked={isChecked(item.id)}
+                    onChange={(nextChecked) => checkFunction(nextChecked, item.id, item.amount)}
+                    style={{ marginRight: 20 }}
+                  />
+                  <View style={{
+                    flex: 1,
+                    borderRightWidth: 1,
+                    borderRightColor: '#b5b5b5',
                   }}
+                  >
+
+                    <Text
+                      style={{ marginBottom: 15 }}
+                      category="h4"
+                      status="basic"
+                    >
+                      {item.category}
+                    </Text>
+                    {isEdited(item.id) ? (<TextInputComp name="amount" defaultValue={item.amount} keyboardType="numeric" onChangeValue={(v) => setNewAmount(v)} />) : (
+                      <Text
+                        category="c1"
+                        status={item.type === BudgetLineType.Expense
+                          ? ('danger') : ('success')}
+                      >
+                        {item.type === BudgetLineType.Expense ? ('-') : ('+')}
+                        {item.amount}
+                      </Text>
+
+                    )}
+
+                  </View>
+
+                  <View
+                    style={{
+                      flex: 1,
+                      alignItems: 'center',
+                      flexDirection: 'column',
+                      // justifyContent: 'space-evenly',
+                      paddingLeft: 10,
+                    }}
+                  >
+                    <Text category="p1" status="basic">Mensuel</Text>
+                    <Text category="p1" appearance="hint">Echéance</Text>
+                    <Text category="h6" status="basic">{`${moment(item.date).format('DD/MM/YYYY')}`}</Text>
+
+                  </View>
+                </View>
+                <View style={{
+                  backgroundColor: '#f6f6f6',
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  padding: 25,
+                  borderBottomStartRadius: 10,
+                  borderBottomEndRadius: 10,
+                  alignItems: 'center',
+                }}
+                >
+                  <Text category="h6" status="warning">En attente</Text>
+                  {isEdited(item.id) ? (
+                    <>
+                      <TouchableOpacity onPress={() => editFunction(!isEdited(item.id), item.id)}>
+                        <Text category="h6">Annuler</Text>
+                      </TouchableOpacity>
+                      <Button
+                        size="small"
+                        onPress={() => { editFunction(!isEdited(item.id), item.id, true); }}
+                          // style={{ marginTop: 25 }}
+                      >
+                        Enregister
+                      </Button>
+                    </>
+                  ) : (
+                    <>
+                      <TouchableOpacity onPress={() => editFunction(!isEdited(item.id), item.id)}>
+                        <Text category="h6" status="info">Editer</Text>
+                      </TouchableOpacity>
+                      <TouchableOpacity onPress={() => supprimerLeRevenue(item)}>
+                        <Text category="h6" status="danger">Supprimer</Text>
+                      </TouchableOpacity>
+                    </>
+                  )}
+                </View>
+
+              </Card>
+            ))}
+            {checked.length > 0 ? (amountMouvement === 0
+              ? (<Button status="success" style={{ marginVertical: 20 }}>Enregistrer</Button>)
+              : (
+                <>
+                  <Text category="p1" status="basic" style={{ marginVertical: 20 }}>
+                    Il vous manque
+                    {' '}
+                    {amountMouvement}
+                  </Text>
+                  <Card
+                    style={{
+                      flexDirection: 'row',
+                      justifyContent: 'center',
+                      marginBottom: 20,
+                    }}
+                  >
+                    <TouchableOpacity
+                      onPress={() => {
+                      }}
+                      style={{
+                        flexDirection: 'row', alignItems: 'center',
+                      }}
+                    >
+                      <Icon name="calculator" size={33} color={theme['color-success-400']} style={{ marginRight: 10 }} />
+                      <Text category="h5">
+                        Mon Budget
+                      </Text>
+                    </TouchableOpacity>
+                  </Card>
+                </>
+              )
+            ) : (
+              <>
+                <Text category="p1" status="basic" style={{ marginVertical: 20 }}>
+                  Parametrez et consulter vos charges et revenus dans votre budget.
+                </Text>
+                <Card
                   style={{
-                    flexDirection: 'row', alignItems: 'center',
+                    flexDirection: 'row',
+                    justifyContent: 'center',
                   }}
                 >
-                  <Icon name="calculator" size={33} color={theme['color-success-400']} style={{ marginRight: 10 }} />
-                  <Text category="h5">
-                    Mon Budget
-                  </Text>
-                </TouchableOpacity>
-              </Card>
-            </>
-          )
+                  <TouchableOpacity
+                    onPress={() => {
+                    }}
+                    style={{
+                      flexDirection: 'row', alignItems: 'center',
+                    }}
+                  >
+                    <Icon name="calculator" size={33} color={theme['color-success-400']} style={{ marginRight: 10 }} />
+                    <Text category="h5">
+                      Mon Budget
+                    </Text>
+                  </TouchableOpacity>
+                </Card>
+              </>
+            )}
+          </>
         ) : (
           <>
-            <Text category="p1" status="basic" style={{ marginVertical: 20 }}>
-              Parametrez et consulter vos charges et revenus dans votre budget.
-            </Text>
+            <Card style={{
+              justifyContent: 'center',
+              marginBottom: 20,
+            }}
+            >
+              <Text category="h2">
+                Vous n'avez pas de charges affecté a votre loyé merci de les affécter depuis votre Budget
+              </Text>
+            </Card>
             <Card
               style={{
                 flexDirection: 'row',

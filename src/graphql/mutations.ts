@@ -2,6 +2,240 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const createPendingInvitation = /* GraphQL */ `
+  mutation CreatePendingInvitation(
+    $input: CreatePendingInvitationInput!
+    $condition: ModelPendingInvitationConditionInput
+  ) {
+    createPendingInvitation(input: $input, condition: $condition) {
+      id
+      realEstateId
+      email
+      type
+      _version
+      _deleted
+      _lastChangedAt
+      createdAt
+      updatedAt
+      realEstate {
+        id
+        name
+        iconUri
+        purchaseYear
+        type
+        ownName
+        company
+        detentionPart
+        typeImpot
+        budgetLines {
+          nextToken
+          startedAt
+        }
+        bankMovements {
+          nextToken
+          startedAt
+        }
+        budgetLineDeadlines {
+          nextToken
+          startedAt
+        }
+        documents {
+          nextToken
+          startedAt
+        }
+        admins
+        shared
+        pendingInvitations {
+          nextToken
+          startedAt
+        }
+        address {
+          address
+          additionalAddress
+          postalCode
+          city
+          country
+        }
+        tenants {
+          id
+          amount
+          rentalCharges
+          managementFees
+          lastname
+          firstname
+          email
+          startDate
+          endDate
+        }
+        bankAccounts {
+          nextToken
+          startedAt
+        }
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+      }
+    }
+  }
+`;
+export const updatePendingInvitation = /* GraphQL */ `
+  mutation UpdatePendingInvitation(
+    $input: UpdatePendingInvitationInput!
+    $condition: ModelPendingInvitationConditionInput
+  ) {
+    updatePendingInvitation(input: $input, condition: $condition) {
+      id
+      realEstateId
+      email
+      type
+      _version
+      _deleted
+      _lastChangedAt
+      createdAt
+      updatedAt
+      realEstate {
+        id
+        name
+        iconUri
+        purchaseYear
+        type
+        ownName
+        company
+        detentionPart
+        typeImpot
+        budgetLines {
+          nextToken
+          startedAt
+        }
+        bankMovements {
+          nextToken
+          startedAt
+        }
+        budgetLineDeadlines {
+          nextToken
+          startedAt
+        }
+        documents {
+          nextToken
+          startedAt
+        }
+        admins
+        shared
+        pendingInvitations {
+          nextToken
+          startedAt
+        }
+        address {
+          address
+          additionalAddress
+          postalCode
+          city
+          country
+        }
+        tenants {
+          id
+          amount
+          rentalCharges
+          managementFees
+          lastname
+          firstname
+          email
+          startDate
+          endDate
+        }
+        bankAccounts {
+          nextToken
+          startedAt
+        }
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+      }
+    }
+  }
+`;
+export const deletePendingInvitation = /* GraphQL */ `
+  mutation DeletePendingInvitation(
+    $input: DeletePendingInvitationInput!
+    $condition: ModelPendingInvitationConditionInput
+  ) {
+    deletePendingInvitation(input: $input, condition: $condition) {
+      id
+      realEstateId
+      email
+      type
+      _version
+      _deleted
+      _lastChangedAt
+      createdAt
+      updatedAt
+      realEstate {
+        id
+        name
+        iconUri
+        purchaseYear
+        type
+        ownName
+        company
+        detentionPart
+        typeImpot
+        budgetLines {
+          nextToken
+          startedAt
+        }
+        bankMovements {
+          nextToken
+          startedAt
+        }
+        budgetLineDeadlines {
+          nextToken
+          startedAt
+        }
+        documents {
+          nextToken
+          startedAt
+        }
+        admins
+        shared
+        pendingInvitations {
+          nextToken
+          startedAt
+        }
+        address {
+          address
+          additionalAddress
+          postalCode
+          city
+          country
+        }
+        tenants {
+          id
+          amount
+          rentalCharges
+          managementFees
+          lastname
+          firstname
+          email
+          startDate
+          endDate
+        }
+        bankAccounts {
+          nextToken
+          startedAt
+        }
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+      }
+    }
+  }
+`;
 export const createDocument = /* GraphQL */ `
   mutation CreateDocument(
     $input: CreateDocumentInput!
@@ -11,6 +245,7 @@ export const createDocument = /* GraphQL */ `
       id
       realEstateId
       name
+      key
       s3file
       _version
       _deleted
@@ -45,7 +280,10 @@ export const createDocument = /* GraphQL */ `
         }
         admins
         shared
-        pendingInvitations
+        pendingInvitations {
+          nextToken
+          startedAt
+        }
         address {
           address
           additionalAddress
@@ -86,6 +324,7 @@ export const updateDocument = /* GraphQL */ `
       id
       realEstateId
       name
+      key
       s3file
       _version
       _deleted
@@ -120,7 +359,10 @@ export const updateDocument = /* GraphQL */ `
         }
         admins
         shared
-        pendingInvitations
+        pendingInvitations {
+          nextToken
+          startedAt
+        }
         address {
           address
           additionalAddress
@@ -161,6 +403,7 @@ export const deleteDocument = /* GraphQL */ `
       id
       realEstateId
       name
+      key
       s3file
       _version
       _deleted
@@ -195,7 +438,10 @@ export const deleteDocument = /* GraphQL */ `
         }
         admins
         shared
-        pendingInvitations
+        pendingInvitations {
+          nextToken
+          startedAt
+        }
         address {
           address
           additionalAddress
@@ -288,7 +534,10 @@ export const createBudgetLine = /* GraphQL */ `
         }
         admins
         shared
-        pendingInvitations
+        pendingInvitations {
+          nextToken
+          startedAt
+        }
         address {
           address
           additionalAddress
@@ -381,7 +630,10 @@ export const updateBudgetLine = /* GraphQL */ `
         }
         admins
         shared
-        pendingInvitations
+        pendingInvitations {
+          nextToken
+          startedAt
+        }
         address {
           address
           additionalAddress
@@ -474,7 +726,10 @@ export const deleteBudgetLine = /* GraphQL */ `
         }
         admins
         shared
-        pendingInvitations
+        pendingInvitations {
+          nextToken
+          startedAt
+        }
         address {
           address
           additionalAddress
@@ -548,7 +803,6 @@ export const createBudgetLineDeadline = /* GraphQL */ `
           typeImpot
           admins
           shared
-          pendingInvitations
           _version
           _deleted
           _lastChangedAt
@@ -600,7 +854,10 @@ export const createBudgetLineDeadline = /* GraphQL */ `
         }
         admins
         shared
-        pendingInvitations
+        pendingInvitations {
+          nextToken
+          startedAt
+        }
         address {
           address
           additionalAddress
@@ -674,7 +931,6 @@ export const updateBudgetLineDeadline = /* GraphQL */ `
           typeImpot
           admins
           shared
-          pendingInvitations
           _version
           _deleted
           _lastChangedAt
@@ -726,7 +982,10 @@ export const updateBudgetLineDeadline = /* GraphQL */ `
         }
         admins
         shared
-        pendingInvitations
+        pendingInvitations {
+          nextToken
+          startedAt
+        }
         address {
           address
           additionalAddress
@@ -800,7 +1059,6 @@ export const deleteBudgetLineDeadline = /* GraphQL */ `
           typeImpot
           admins
           shared
-          pendingInvitations
           _version
           _deleted
           _lastChangedAt
@@ -852,7 +1110,10 @@ export const deleteBudgetLineDeadline = /* GraphQL */ `
         }
         admins
         shared
-        pendingInvitations
+        pendingInvitations {
+          nextToken
+          startedAt
+        }
         address {
           address
           additionalAddress
@@ -950,7 +1211,10 @@ export const createRealEstateBankAccount = /* GraphQL */ `
         }
         admins
         shared
-        pendingInvitations
+        pendingInvitations {
+          nextToken
+          startedAt
+        }
         address {
           address
           additionalAddress
@@ -1048,7 +1312,10 @@ export const updateRealEstateBankAccount = /* GraphQL */ `
         }
         admins
         shared
-        pendingInvitations
+        pendingInvitations {
+          nextToken
+          startedAt
+        }
         address {
           address
           additionalAddress
@@ -1146,7 +1413,10 @@ export const deleteRealEstateBankAccount = /* GraphQL */ `
         }
         admins
         shared
-        pendingInvitations
+        pendingInvitations {
+          nextToken
+          startedAt
+        }
         address {
           address
           additionalAddress
@@ -1457,7 +1727,6 @@ export const createBankMovement = /* GraphQL */ `
           typeImpot
           admins
           shared
-          pendingInvitations
           _version
           _deleted
           _lastChangedAt
@@ -1583,7 +1852,6 @@ export const updateBankMovement = /* GraphQL */ `
           typeImpot
           admins
           shared
-          pendingInvitations
           _version
           _deleted
           _lastChangedAt
@@ -1709,7 +1977,6 @@ export const deleteBankMovement = /* GraphQL */ `
           typeImpot
           admins
           shared
-          pendingInvitations
           _version
           _deleted
           _lastChangedAt
@@ -1911,6 +2178,7 @@ export const createRealEstate = /* GraphQL */ `
           id
           realEstateId
           name
+          key
           s3file
           _version
           _deleted
@@ -1923,7 +2191,21 @@ export const createRealEstate = /* GraphQL */ `
       }
       admins
       shared
-      pendingInvitations
+      pendingInvitations {
+        items {
+          id
+          realEstateId
+          email
+          type
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+        nextToken
+        startedAt
+      }
       address {
         address
         additionalAddress
@@ -2043,6 +2325,7 @@ export const updateRealEstate = /* GraphQL */ `
           id
           realEstateId
           name
+          key
           s3file
           _version
           _deleted
@@ -2055,7 +2338,21 @@ export const updateRealEstate = /* GraphQL */ `
       }
       admins
       shared
-      pendingInvitations
+      pendingInvitations {
+        items {
+          id
+          realEstateId
+          email
+          type
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+        nextToken
+        startedAt
+      }
       address {
         address
         additionalAddress
@@ -2175,6 +2472,7 @@ export const deleteRealEstate = /* GraphQL */ `
           id
           realEstateId
           name
+          key
           s3file
           _version
           _deleted
@@ -2187,7 +2485,21 @@ export const deleteRealEstate = /* GraphQL */ `
       }
       admins
       shared
-      pendingInvitations
+      pendingInvitations {
+        items {
+          id
+          realEstateId
+          email
+          type
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+        nextToken
+        startedAt
+      }
       address {
         address
         additionalAddress

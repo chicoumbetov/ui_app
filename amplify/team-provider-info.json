@@ -30,7 +30,7 @@
         },
         "budgetinsight": {
           "deploymentBucketName": "amplify-omedom-dev-175444-deployment",
-          "s3Key": "amplify-builds/budgetinsight-5359714e675962365174-build.zip"
+          "s3Key": "amplify-builds/budgetinsight-752f434b303265427a63-build.zip"
         }
       }
     },
@@ -69,6 +69,14 @@
                 }
               ],
               "hash": "AJ4QtGroc/H0VjbjhxYxB0q0sIdpfzbKk5HdZdEsPPw="
+            },
+            "5": {
+              "permissions": [
+                {
+                  "type": "private"
+                }
+              ],
+              "hash": "L8+sXgaymgEmMJ8dXqUfpX8vY6H28QpxjxMZkonp6z4="
             }
           }
         }

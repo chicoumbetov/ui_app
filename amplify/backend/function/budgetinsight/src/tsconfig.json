@@ -1,0 +1,12 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "/opt/nodejs/*": [
+        "../../budgetinsightlayer/lib/nodejs/*"
+      ],
+      "*" : ["*", "../../budgetinsightlayer/lib/nodejs/node_modules/*"]
+    }
+  }
+}

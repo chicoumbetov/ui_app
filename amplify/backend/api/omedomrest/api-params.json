@@ -1,0 +1,62 @@
+{
+    "paths": [
+        {
+            "name": "/webhooks",
+            "lambdaFunction": "transactionWebHook",
+            "privacy": {
+                "open": true
+            },
+            "policyResourceName": "/webhooks"
+        },
+        {
+            "name": "/budgetinsight",
+            "lambdaFunction": "budgetinsight",
+            "privacy": {
+                "private": true,
+                "auth": [
+                    "/POST",
+                    "/GET",
+                    "/PUT",
+                    "/PATCH",
+                    "/DELETE"
+                ]
+            },
+            "policyResourceName": "/budgetinsight"
+        }
+    ],
+    "resourceName": "omedomrest",
+    "apiName": "omedomrest",
+    "functionArns": [
+        {
+            "lambdaFunction": "transactionWebHook"
+        },
+        {
+            "lambdaFunction": "budgetinsight"
+        }
+    ],
+    "privacy": {
+        "auth": 1,
+        "unauth": 0,
+        "authRoleName": "amplify-omedom-dev-175444-authRole",
+        "unAuthRoleName": "amplify-omedom-dev-175444-unauthRole"
+    },
+    "dependsOn": [
+        {
+            "category": "function",
+            "resourceName": "transactionWebHook",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        },
+        {
+            "category": "function",
+            "resourceName": "budgetinsight",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        }
+    ],
+    "uuid": "5b3641ad"
+}

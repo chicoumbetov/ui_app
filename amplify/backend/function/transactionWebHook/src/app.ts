@@ -33,51 +33,11 @@ app.use((req, res, next) => {
   next();
 });
 
-const client = BridgeApiClient(<'dev' | 'prod'>process.env.ENV);
-
-const getCredentials = (cognitoAuthenticationProvider: string) => {
-  const uuid = cognitoAuthenticationProvider.split(':').pop();
-  const email = `${uuid}@bridge-api.omedom.com`;
-  const password = sha256(client.clientId + uuid).toString();
-  return {
-    email,
-    password,
-    uuid,
-  };
-};
-
-// permet la création d'un utilisateur
-app.post('/budgetinsight/create-user', async (req, res) => {
-  const uuid = req.apiGateway.event.requestContext.identity
-    .cognitoAuthenticationProvider.split(':').pop();
-
-  try {
-    const response = await client.createUser();
-    res.json({
-      uuid, bridgeApiUser: response.data.uuid, success: true,
-    });
-  } catch (e) {
-    res.json({
-      success: false, error: e,
-    });
-  }
-});
-
 // permet l'obtention d'une URL de redirection
-app.get('/bridgeapi/bridge-url', async (req, res) => {
-  try {
-    const redirectUrl = await client.getBridgeUrl(req.query.context);
-    res.json({
-      redirectUrl, success: true,
-    });
-    res.json({
-      success: false, error: 'Cannot login',
-    });
-  } catch (e) {
-    res.json({
-      success: false, error: e,
-    });
-  }
+app.get('/webhooks/create-redirect', async (req, res) => {
+  const val = JSON.stringify(req.query);
+  res.send(`<html><head></head><body style="align-items: center;display: flex;justify-content: center;font-family: Arial;height: 100vh;margin: 0;"><div>En cours d'ajout ...</div>
+<script>parent.postMessage("${val}", "*");</script></body></html>`);
 });
 
 app.listen(3000, () => {

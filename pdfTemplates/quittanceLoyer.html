@@ -24,6 +24,11 @@
     }
     table {
       border-collapse: collapse;
+      width: 100%;
+    }
+    tbody {
+      display: table;
+      width: 100%;
     }
     td {
       border: 1px solid black;
@@ -69,39 +74,35 @@
   </div>
   <div>
     <table >
-      <thead>
-        <div>
-          <tr >
-            <td >
-              <h2>QUITTANCE DE LOYER</h2>
-              <div><p><strong>Période : </strong> du 01/01/2020 au 31/01/2020</p></div>
-              <div><p><strong>Adresse du logement: </strong> {{bien.address.address}} {{bien.address.postalCode}} {{bien.address.city}}</p></div>
-            </td>
-          </tr>
-        </div>
-      </thead>
       <tbody >
+        <tr>
+          <td colspan="12">
+            <h2>QUITTANCE DE LOYER</h2>
+            <div><p><strong>Période : </strong> du 01/01/2020 au 31/01/2020</p></div>
+            <div><p><strong>Adresse du logement: </strong> {{bien.address.address}} {{bien.address.postalCode}} {{bien.address.city}}</p></div>
+          </td>
+        </tr>
         <tr >
-          <td>
+          <td colspan="2">
             <strong>PROPRIETAIRE</strong>
             <p>{{user.user.firstname}} {{user.user.lastname}}</p>
           </td>
-          <td>
+          <td >
             <strong>LOCATAIRE</strong>
             <p>{{tenant.firstname}} {{tenant.lastname}}</p>
           </td>
         </tr>
         <tr>
-          <td><h3><strong>Détail du réglement</strong></h3></td>
+          <td colspan="2"><h3><strong>Détail du réglement</strong></h3></td>
           <td><h3><strong>Montant</strong></h3></td>
         </tr>
         <tr>
-          <td>Loyer</td>
+          <td colspan="2">Loyer</td>
           <td>{{bien.amount}} €</td>
         </tr>
         <tr>
-          <td>Total</td>
-          <td>800 €</td>
+          <td colspan="2">Total</td>
+          <td>{{bien.amount}} €</td>
         </tr>
       </tbody>
     </table>

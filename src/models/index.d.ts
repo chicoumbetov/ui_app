@@ -90,12 +90,6 @@ export declare class TenantInfo {
   constructor(init: ModelInit<TenantInfo>);
 }
 
-export declare class PendingInvitation {
-  readonly email: string;
-  readonly type: InvitationType | keyof typeof InvitationType;
-  constructor(init: ModelInit<PendingInvitation>);
-}
-
 export declare class User {
   readonly id: string;
   readonly lastname?: string;
@@ -129,7 +123,7 @@ export declare class RealEstate {
   readonly documents?: (Document | null)[];
   readonly admins: string[];
   readonly shared?: string[];
-  readonly pendingInvitations?: string[];
+  readonly pendingInvitations?: (PendingInvitation | null)[];
   readonly address?: Address;
   readonly tenants?: (TenantInfo | null)[];
   readonly bankAccounts?: (RealEstateBankAccount | null)[];
@@ -208,9 +202,19 @@ export declare class Document {
   readonly id: string;
   readonly realEstate?: RealEstate;
   readonly name: string;
+  readonly key?: string;
   readonly s3file: string;
   constructor(init: ModelInit<Document>);
   static copyOf(source: Document, mutator: (draft: MutableModel<Document>) => MutableModel<Document> | void): Document;
+}
+
+export declare class PendingInvitation {
+  readonly id: string;
+  readonly realEstate?: RealEstate;
+  readonly email: string;
+  readonly type: InvitationType | keyof typeof InvitationType;
+  constructor(init: ModelInit<PendingInvitation>);
+  static copyOf(source: PendingInvitation, mutator: (draft: MutableModel<PendingInvitation>) => MutableModel<PendingInvitation> | void): PendingInvitation;
 }
 
 export declare class Notification {

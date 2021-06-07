@@ -294,10 +294,16 @@ export const schema = {
                 "pendingInvitations": {
                     "name": "pendingInvitations",
                     "isArray": true,
-                    "type": "String",
-                    "isRequired": true,
+                    "type": {
+                        "model": "PendingInvitation"
+                    },
+                    "isRequired": false,
                     "attributes": [],
-                    "isArrayNullable": true
+                    "isArrayNullable": true,
+                    "association": {
+                        "connectionType": "HAS_MANY",
+                        "associatedWith": "id"
+                    }
                 },
                 "address": {
                     "name": "address",
@@ -916,6 +922,13 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
+                "key": {
+                    "name": "key",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
                 "s3file": {
                     "name": "s3file",
                     "isArray": false,
@@ -934,6 +947,84 @@ export const schema = {
                         "fields": [
                             "realEstateId"
                         ]
+                    }
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "name": "documentByKey",
+                        "fields": [
+                            "key"
+                        ],
+                        "queryField": "documentByKey"
+                    }
+                },
+                {
+                    "type": "model",
+                    "properties": {}
+                }
+            ]
+        },
+        "PendingInvitation": {
+            "name": "PendingInvitation",
+            "fields": {
+                "id": {
+                    "name": "id",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "realEstate": {
+                    "name": "realEstate",
+                    "isArray": false,
+                    "type": {
+                        "model": "RealEstate"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "association": {
+                        "connectionType": "BELONGS_TO",
+                        "targetName": "realEstateId"
+                    }
+                },
+                "email": {
+                    "name": "email",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "type": {
+                    "name": "type",
+                    "isArray": false,
+                    "type": {
+                        "enum": "InvitationType"
+                    },
+                    "isRequired": true,
+                    "attributes": []
+                }
+            },
+            "syncable": true,
+            "pluralName": "PendingInvitations",
+            "attributes": [
+                {
+                    "type": "key",
+                    "properties": {
+                        "name": "pendingInvitationByRealEstate",
+                        "fields": [
+                            "realEstateId"
+                        ]
+                    }
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "name": "pendingInvitationByEmail",
+                        "fields": [
+                            "email"
+                        ],
+                        "queryField": "pendingInvitationByEmail"
                     }
                 },
                 {
@@ -1444,28 +1535,7 @@ export const schema = {
                     "attributes": []
                 }
             }
-        },
-        "PendingInvitation": {
-            "name": "PendingInvitation",
-            "fields": {
-                "email": {
-                    "name": "email",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "type": {
-                    "name": "type",
-                    "isArray": false,
-                    "type": {
-                        "enum": "InvitationType"
-                    },
-                    "isRequired": true,
-                    "attributes": []
-                }
-            }
         }
     },
-    "version": "981566d6c0fee2568de5cb00c075a8a1"
+    "version": "9c14f4224c87709d2f334e66e6aca9ab"
 };

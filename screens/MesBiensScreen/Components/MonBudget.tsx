@@ -112,7 +112,7 @@ function MonBudget() {
          keyExtractor={(item) => item.id}
          />
         */}
-        {revenus && revenus.map((item) => item && <MonBudgetCard key={item.id} budget={item} />)}
+        {revenus && revenus.map((item) => item && <MonBudgetCard key={item.id} budget={item} realEstate={bien} />)}
 
         <Button
           size="large"

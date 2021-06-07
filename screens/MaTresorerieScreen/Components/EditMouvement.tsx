@@ -37,17 +37,18 @@ const EditMouvement = (props: MonBudgetProps) => {
 
   const isEdited = (id:string): boolean => edit.indexOf(id) > -1;
 
-  const editFunction = async (isEdit: boolean, id:string, modifier?: boolean) => {
-    const neweditState = edit.filter((currentId) => currentId !== id);
+  const editFunction = async (isEdit: boolean, data:BudgetLineDeadline, modifier?: boolean) => {
+    const neweditState = edit.filter((currentId) => currentId !== data.id);
     if (isEdit) {
-      neweditState.push(id);
+      neweditState.push(data.id);
     }
     if (modifier) {
       await updateBudgetLineDeadLine.updateBudgetLineDeadline({
         variables: {
           input: {
-            id,
+            id: data.id,
             amount: newAmount,
+            _version: data._version,
           },
         },
       });
@@ -193,12 +194,12 @@ const EditMouvement = (props: MonBudgetProps) => {
                   <Text category="h6" status="warning">En attente</Text>
                   {isEdited(item.id) ? (
                     <>
-                      <TouchableOpacity onPress={() => editFunction(!isEdited(item.id), item.id)}>
+                      <TouchableOpacity onPress={() => editFunction(!isEdited(item.id), item)}>
                         <Text category="h6">Annuler</Text>
                       </TouchableOpacity>
                       <Button
                         size="small"
-                        onPress={() => { editFunction(!isEdited(item.id), item.id, true); }}
+                        onPress={() => { editFunction(!isEdited(item.id), item, true); }}
                           // style={{ marginTop: 25 }}
                       >
                         Enregister
@@ -206,7 +207,7 @@ const EditMouvement = (props: MonBudgetProps) => {
                     </>
                   ) : (
                     <>
-                      <TouchableOpacity onPress={() => editFunction(!isEdited(item.id), item.id)}>
+                      <TouchableOpacity onPress={() => editFunction(!isEdited(item.id), item)}>
                         <Text category="h6" status="info">Editer</Text>
                       </TouchableOpacity>
                       <TouchableOpacity onPress={() => supprimerLeRevenue(item)}>

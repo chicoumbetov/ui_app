@@ -2,6 +2,173 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const syncPendingInvitations = /* GraphQL */ `
+  query SyncPendingInvitations(
+    $filter: ModelPendingInvitationFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncPendingInvitations(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        realEstateId
+        email
+        type
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+        realEstate {
+          id
+          name
+          iconUri
+          purchaseYear
+          type
+          ownName
+          company
+          detentionPart
+          typeImpot
+          admins
+          shared
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const getPendingInvitation = /* GraphQL */ `
+  query GetPendingInvitation($id: ID!) {
+    getPendingInvitation(id: $id) {
+      id
+      realEstateId
+      email
+      type
+      _version
+      _deleted
+      _lastChangedAt
+      createdAt
+      updatedAt
+      realEstate {
+        id
+        name
+        iconUri
+        purchaseYear
+        type
+        ownName
+        company
+        detentionPart
+        typeImpot
+        budgetLines {
+          nextToken
+          startedAt
+        }
+        bankMovements {
+          nextToken
+          startedAt
+        }
+        budgetLineDeadlines {
+          nextToken
+          startedAt
+        }
+        documents {
+          nextToken
+          startedAt
+        }
+        admins
+        shared
+        pendingInvitations {
+          nextToken
+          startedAt
+        }
+        address {
+          address
+          additionalAddress
+          postalCode
+          city
+          country
+        }
+        tenants {
+          id
+          amount
+          rentalCharges
+          managementFees
+          lastname
+          firstname
+          email
+          startDate
+          endDate
+        }
+        bankAccounts {
+          nextToken
+          startedAt
+        }
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+      }
+    }
+  }
+`;
+export const listPendingInvitations = /* GraphQL */ `
+  query ListPendingInvitations(
+    $filter: ModelPendingInvitationFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listPendingInvitations(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        realEstateId
+        email
+        type
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+        realEstate {
+          id
+          name
+          iconUri
+          purchaseYear
+          type
+          ownName
+          company
+          detentionPart
+          typeImpot
+          admins
+          shared
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
 export const syncDocuments = /* GraphQL */ `
   query SyncDocuments(
     $filter: ModelDocumentFilterInput
@@ -19,6 +186,7 @@ export const syncDocuments = /* GraphQL */ `
         id
         realEstateId
         name
+        key
         s3file
         _version
         _deleted
@@ -37,7 +205,6 @@ export const syncDocuments = /* GraphQL */ `
           typeImpot
           admins
           shared
-          pendingInvitations
           _version
           _deleted
           _lastChangedAt
@@ -56,6 +223,7 @@ export const getDocument = /* GraphQL */ `
       id
       realEstateId
       name
+      key
       s3file
       _version
       _deleted
@@ -90,7 +258,10 @@ export const getDocument = /* GraphQL */ `
         }
         admins
         shared
-        pendingInvitations
+        pendingInvitations {
+          nextToken
+          startedAt
+        }
         address {
           address
           additionalAddress
@@ -133,6 +304,7 @@ export const listDocuments = /* GraphQL */ `
         id
         realEstateId
         name
+        key
         s3file
         _version
         _deleted
@@ -151,7 +323,6 @@ export const listDocuments = /* GraphQL */ `
           typeImpot
           admins
           shared
-          pendingInvitations
           _version
           _deleted
           _lastChangedAt
@@ -210,7 +381,6 @@ export const syncBudgetLines = /* GraphQL */ `
           typeImpot
           admins
           shared
-          pendingInvitations
           _version
           _deleted
           _lastChangedAt
@@ -281,7 +451,10 @@ export const getBudgetLine = /* GraphQL */ `
         }
         admins
         shared
-        pendingInvitations
+        pendingInvitations {
+          nextToken
+          startedAt
+        }
         address {
           address
           additionalAddress
@@ -353,7 +526,6 @@ export const listBudgetLines = /* GraphQL */ `
           typeImpot
           admins
           shared
-          pendingInvitations
           _version
           _deleted
           _lastChangedAt
@@ -426,7 +598,6 @@ export const syncBudgetLineDeadlines = /* GraphQL */ `
           typeImpot
           admins
           shared
-          pendingInvitations
           _version
           _deleted
           _lastChangedAt
@@ -478,7 +649,6 @@ export const getBudgetLineDeadline = /* GraphQL */ `
           typeImpot
           admins
           shared
-          pendingInvitations
           _version
           _deleted
           _lastChangedAt
@@ -530,7 +700,10 @@ export const getBudgetLineDeadline = /* GraphQL */ `
         }
         admins
         shared
-        pendingInvitations
+        pendingInvitations {
+          nextToken
+          startedAt
+        }
         address {
           address
           additionalAddress
@@ -620,7 +793,6 @@ export const listBudgetLineDeadlines = /* GraphQL */ `
           typeImpot
           admins
           shared
-          pendingInvitations
           _version
           _deleted
           _lastChangedAt
@@ -681,7 +853,6 @@ export const syncRealEstateBankAccounts = /* GraphQL */ `
           typeImpot
           admins
           shared
-          pendingInvitations
           _version
           _deleted
           _lastChangedAt
@@ -999,7 +1170,6 @@ export const getBankMovement = /* GraphQL */ `
           typeImpot
           admins
           shared
-          pendingInvitations
           _version
           _deleted
           _lastChangedAt
@@ -1089,66 +1259,99 @@ export const listBankMovements = /* GraphQL */ `
     }
   }
 `;
-export const getUser = /* GraphQL */ `
-  query GetUser($id: ID!) {
-    getUser(id: $id) {
-      id
-      lastname
-      firstname
-      email
-      phoneNumber
-      optIn
-      address {
-        address
-        additionalAddress
-        postalCode
-        city
-        country
-      }
-      expoToken
-      bridgeApiUser
-      avatarUri
-      birthDate
-      subscription
-      _version
-      _deleted
-      _lastChangedAt
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const listUsers = /* GraphQL */ `
-  query ListUsers(
-    $filter: ModelUserFilterInput
+export const pendingInvitationByEmail = /* GraphQL */ `
+  query PendingInvitationByEmail(
+    $email: String
+    $sortDirection: ModelSortDirection
+    $filter: ModelPendingInvitationFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    listUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    pendingInvitationByEmail(
+      email: $email
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
       items {
         id
-        lastname
-        firstname
+        realEstateId
         email
-        phoneNumber
-        optIn
-        address {
-          address
-          additionalAddress
-          postalCode
-          city
-          country
-        }
-        expoToken
-        bridgeApiUser
-        avatarUri
-        birthDate
-        subscription
+        type
         _version
         _deleted
         _lastChangedAt
         createdAt
         updatedAt
+        realEstate {
+          id
+          name
+          iconUri
+          purchaseYear
+          type
+          ownName
+          company
+          detentionPart
+          typeImpot
+          admins
+          shared
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const documentByKey = /* GraphQL */ `
+  query DocumentByKey(
+    $key: String
+    $sortDirection: ModelSortDirection
+    $filter: ModelDocumentFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    documentByKey(
+      key: $key
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        realEstateId
+        name
+        key
+        s3file
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+        realEstate {
+          id
+          name
+          iconUri
+          purchaseYear
+          type
+          ownName
+          company
+          detentionPart
+          typeImpot
+          admins
+          shared
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
       }
       nextToken
       startedAt
@@ -1175,6 +1378,12 @@ export const userByBridgeApiUser = /* GraphQL */ `
         lastname
         firstname
         email
+        avatarUri
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
         phoneNumber
         optIn
         address {
@@ -1186,14 +1395,8 @@ export const userByBridgeApiUser = /* GraphQL */ `
         }
         expoToken
         bridgeApiUser
-        avatarUri
         birthDate
         subscription
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
       }
       nextToken
       startedAt
@@ -1218,6 +1421,12 @@ export const syncUsers = /* GraphQL */ `
         lastname
         firstname
         email
+        avatarUri
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
         phoneNumber
         optIn
         address {
@@ -1229,9 +1438,141 @@ export const syncUsers = /* GraphQL */ `
         }
         expoToken
         bridgeApiUser
-        avatarUri
         birthDate
         subscription
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const getUser = /* GraphQL */ `
+  query GetUser($id: ID!) {
+    getUser(id: $id) {
+      id
+      lastname
+      firstname
+      email
+      avatarUri
+      _version
+      _deleted
+      _lastChangedAt
+      createdAt
+      updatedAt
+      phoneNumber
+      optIn
+      address {
+        address
+        additionalAddress
+        postalCode
+        city
+        country
+      }
+      expoToken
+      bridgeApiUser
+      birthDate
+      subscription
+    }
+  }
+`;
+export const listUsers = /* GraphQL */ `
+  query ListUsers(
+    $filter: ModelUserFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        lastname
+        firstname
+        email
+        avatarUri
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+        phoneNumber
+        optIn
+        address {
+          address
+          additionalAddress
+          postalCode
+          city
+          country
+        }
+        expoToken
+        bridgeApiUser
+        birthDate
+        subscription
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const listRealEstates = /* GraphQL */ `
+  query ListRealEstates(
+    $filter: ModelRealEstateFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listRealEstates(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        name
+        iconUri
+        purchaseYear
+        type
+        ownName
+        company
+        detentionPart
+        typeImpot
+        budgetLines {
+          nextToken
+          startedAt
+        }
+        bankMovements {
+          nextToken
+          startedAt
+        }
+        budgetLineDeadlines {
+          nextToken
+          startedAt
+        }
+        documents {
+          nextToken
+          startedAt
+        }
+        admins
+        shared
+        pendingInvitations {
+          nextToken
+          startedAt
+        }
+        address {
+          address
+          additionalAddress
+          postalCode
+          city
+          country
+        }
+        tenants {
+          id
+          amount
+          rentalCharges
+          managementFees
+          lastname
+          firstname
+          email
+          startDate
+          endDate
+        }
+        bankAccounts {
+          nextToken
+          startedAt
+        }
         _version
         _deleted
         _lastChangedAt
@@ -1319,6 +1660,7 @@ export const getRealEstate = /* GraphQL */ `
           id
           realEstateId
           name
+          key
           s3file
           _version
           _deleted
@@ -1331,7 +1673,21 @@ export const getRealEstate = /* GraphQL */ `
       }
       admins
       shared
-      pendingInvitations
+      pendingInvitations {
+        items {
+          id
+          realEstateId
+          email
+          type
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+        nextToken
+        startedAt
+      }
       address {
         address
         additionalAddress
@@ -1369,75 +1725,6 @@ export const getRealEstate = /* GraphQL */ `
       _lastChangedAt
       createdAt
       updatedAt
-    }
-  }
-`;
-export const listRealEstates = /* GraphQL */ `
-  query ListRealEstates(
-    $filter: ModelRealEstateFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listRealEstates(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        name
-        iconUri
-        purchaseYear
-        type
-        ownName
-        company
-        detentionPart
-        typeImpot
-        budgetLines {
-          nextToken
-          startedAt
-        }
-        bankMovements {
-          nextToken
-          startedAt
-        }
-        budgetLineDeadlines {
-          nextToken
-          startedAt
-        }
-        documents {
-          nextToken
-          startedAt
-        }
-        admins
-        shared
-        pendingInvitations
-        address {
-          address
-          additionalAddress
-          postalCode
-          city
-          country
-        }
-        tenants {
-          id
-          amount
-          rentalCharges
-          managementFees
-          lastname
-          firstname
-          email
-          startDate
-          endDate
-        }
-        bankAccounts {
-          nextToken
-          startedAt
-        }
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-      }
-      nextToken
-      startedAt
     }
   }
 `;
@@ -1482,7 +1769,10 @@ export const syncRealEstates = /* GraphQL */ `
         }
         admins
         shared
-        pendingInvitations
+        pendingInvitations {
+          nextToken
+          startedAt
+        }
         address {
           address
           additionalAddress
@@ -1535,6 +1825,12 @@ export const getNotification = /* GraphQL */ `
         lastname
         firstname
         email
+        avatarUri
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
         phoneNumber
         optIn
         address {
@@ -1546,14 +1842,8 @@ export const getNotification = /* GraphQL */ `
         }
         expoToken
         bridgeApiUser
-        avatarUri
         birthDate
         subscription
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
       }
     }
   }
@@ -1582,18 +1872,18 @@ export const listNotifications = /* GraphQL */ `
           lastname
           firstname
           email
-          phoneNumber
-          optIn
-          expoToken
-          bridgeApiUser
           avatarUri
-          birthDate
-          subscription
           _version
           _deleted
           _lastChangedAt
           createdAt
           updatedAt
+          phoneNumber
+          optIn
+          expoToken
+          bridgeApiUser
+          birthDate
+          subscription
         }
       }
       nextToken
@@ -1631,18 +1921,18 @@ export const syncNotifications = /* GraphQL */ `
           lastname
           firstname
           email
-          phoneNumber
-          optIn
-          expoToken
-          bridgeApiUser
           avatarUri
-          birthDate
-          subscription
           _version
           _deleted
           _lastChangedAt
           createdAt
           updatedAt
+          phoneNumber
+          optIn
+          expoToken
+          bridgeApiUser
+          birthDate
+          subscription
         }
       }
       nextToken
@@ -1671,6 +1961,12 @@ export const getBillingHistory = /* GraphQL */ `
         lastname
         firstname
         email
+        avatarUri
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
         phoneNumber
         optIn
         address {
@@ -1682,14 +1978,8 @@ export const getBillingHistory = /* GraphQL */ `
         }
         expoToken
         bridgeApiUser
-        avatarUri
         birthDate
         subscription
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
       }
     }
   }
@@ -1720,18 +2010,18 @@ export const listBillingHistorys = /* GraphQL */ `
           lastname
           firstname
           email
-          phoneNumber
-          optIn
-          expoToken
-          bridgeApiUser
           avatarUri
-          birthDate
-          subscription
           _version
           _deleted
           _lastChangedAt
           createdAt
           updatedAt
+          phoneNumber
+          optIn
+          expoToken
+          bridgeApiUser
+          birthDate
+          subscription
         }
       }
       nextToken
@@ -1771,18 +2061,18 @@ export const syncBillingHistories = /* GraphQL */ `
           lastname
           firstname
           email
-          phoneNumber
-          optIn
-          expoToken
-          bridgeApiUser
           avatarUri
-          birthDate
-          subscription
           _version
           _deleted
           _lastChangedAt
           createdAt
           updatedAt
+          phoneNumber
+          optIn
+          expoToken
+          bridgeApiUser
+          birthDate
+          subscription
         }
       }
       nextToken

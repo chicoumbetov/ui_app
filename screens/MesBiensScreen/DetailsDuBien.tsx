@@ -33,6 +33,7 @@ import { TabMesBiensParamList } from '../../types';
 import { Upload } from '../../utils/S3FileStorage';
 import Card from '../../components/Card';
 import Separator from '../../components/Separator';
+import { UseGetInvitateUser, useGetUserByIDList } from '../../src/API/User';
 
 function DetailsBien() {
   const navigation = useNavigation();
@@ -42,6 +43,10 @@ function DetailsBien() {
   const { bien } = useGetRealEstate(route.params.id);
 
   const [typeRevenu, setTypeRevenu] = useState<string>();
+
+  const users = useGetUserByIDList(Array.prototype.concat(bien.admins, bien.shared));
+
+  console.log(users);
 
   useEffect(() => {
     switch (bien?.type) {
@@ -81,7 +86,7 @@ function DetailsBien() {
     linkTo('/mon-assistant');
   };
   const allerPartagerBien = () => {
-    navigation.navigate('partager-bien');
+    navigation.navigate('partager-bien', { id: route.params.id });
   };
   const allerModifierCharacteristics = () => {
     navigation.navigate('modifier-characteristique', { id: route.params.id });
@@ -317,8 +322,11 @@ function DetailsBien() {
        */}
       <Separator />
       <View style={styles.container}>
-        <Text category="s2" style={{ marginBottom: 30 }}>
-          Gestion des locataires
+        <Text category="s2">
+          Mes locataires
+        </Text>
+        <Text category="p2" appearance="hint" style={{ marginBottom: 30 }}>
+          Vous pouvez ajouter ou modifier vos locataires en paramétrant vos revenus de type "Loyer" dans votre espace "Mon Budget".
         </Text>
 
         {/* use SectionList to render several accounts with its types and details */}
@@ -424,7 +432,10 @@ function DetailsBien() {
             <Text category="h5" status="info" style={styles.buttonText}>Ajouter</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => {}}>
+          <TouchableOpacity onPress={() => {
+            console.log(useGetInvitateUser.userList);
+          }}
+          >
             <Text category="h5" status="basic" style={styles.buttonText}>Supprimer</Text>
           </TouchableOpacity>
         </View>

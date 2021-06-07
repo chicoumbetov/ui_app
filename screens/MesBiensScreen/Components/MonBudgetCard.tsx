@@ -9,19 +9,23 @@ import moment from 'moment';
 import { useLinkTo, useNavigation, useRoute } from '@react-navigation/native';
 import { RouteProp } from '@react-navigation/core/lib/typescript/src/types';
 import Card from '../../../components/Card';
-import { BudgetLine, BudgetLineType } from '../../../src/API';
+import { BudgetLine, BudgetLineType, RealEstate } from '../../../src/API';
 import MaxWidthContainer from '../../../components/MaxWidthContainer';
 import { TabMesBiensParamList } from '../../../types';
 import { useDeleteBudgetLineMutation } from '../../../src/API/BudgetLine';
 
-type MonBudgetProps = { budget: BudgetLine };
+type MonBudgetProps = { budget: BudgetLine, realEstate: RealEstate };
 
 const MonBudgetCard = (props: MonBudgetProps) => {
-  const { budget } = props;
+  const { budget, realEstate } = props;
   const theme = useTheme();
   const linkTo = useLinkTo();
-
+  console.log(realEstate);
   const deleteBudgetLine = useDeleteBudgetLineMutation();
+  let tenant;
+  if (realEstate) {
+    tenant = realEstate.tenants?.filter((item) => item.id === budget.tenantId);
+  }
 
   const allerTresorie = () => {
     linkTo('/ma-tresorerie');
@@ -96,7 +100,7 @@ const MonBudgetCard = (props: MonBudgetProps) => {
       >
         <View style={{
           flex: 1,
-          justifyContent: 'space-evenly',
+          justifyContent: 'center',
           // width: 93,
           paddingRight: 20,
           borderRightColor: theme['text-hint-color'],
@@ -107,6 +111,12 @@ const MonBudgetCard = (props: MonBudgetProps) => {
             {`${budget.category}`}
           </Text>
           <Text category="c1" status={budget.type === BudgetLineType.Income ? ('success') : ('danger')}>{`${budget.type === BudgetLineType.Income ? ('+') : ('-')} ${budget.amount} €`}</Text>
+          {budget.tenantId && (
+          <Text category="c1" appearance="hint">
+            {tenant[0].lastname}
+          </Text>
+          )}
+
         </View>
 
         <View style={{

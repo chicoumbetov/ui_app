@@ -27,6 +27,7 @@ export default {
                   'mes-rapports-biens1': '/mes-rapports-biens1',
                   'mes-rapports-biens2': '/mes-rapports-biens2',
                   'modifier-characteristique': '/bien/:id/modifier-characteristique',
+                  'partager-bien': '/bien/:id/partager-bien',
                 },
               },
               'mes-charges-nav': {

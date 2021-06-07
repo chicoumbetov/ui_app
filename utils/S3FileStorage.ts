@@ -5,7 +5,7 @@
  */
 
 import * as FileSystem from 'expo-file-system';
-import { Storage } from 'aws-amplify';
+import Storage from '@aws-amplify/storage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Platform } from 'react-native';
 import { useEffect } from 'react';

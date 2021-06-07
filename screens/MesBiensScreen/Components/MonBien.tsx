@@ -68,7 +68,7 @@ const MonBien = (props: MonBienProps) => {
 
         <TouchableOpacity onPress={() => setOpened(!opened)}>
           <Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-            <CompteHeader title={bien.name} />
+            <CompteHeader title={bien?.name} />
             <RotatingIcon name="arrow-ios-downward-outline" uikitten state={opened} width={24} height={25} fill="#b5b5b5" />
           </Layout>
         </TouchableOpacity>

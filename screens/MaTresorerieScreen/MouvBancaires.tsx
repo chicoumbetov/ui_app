@@ -83,7 +83,7 @@ const MouvBancaires = () => {
           Ma Trésorerie
         </Text>
 
-        <CompteHeader title={bien.name} />
+        <CompteHeader title={bien?.name} />
 
         <View style={{
           marginTop: 20,

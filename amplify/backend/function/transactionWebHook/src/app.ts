@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and limitations 
 Amplify Params - DO NOT EDIT */
 
 import * as sha256 from 'crypto-js/sha256';
-import BridgeApiClient from '../../bridgeclientlayer/opt/src/BridgeApiClient';
+import BridgeApiClient from '/opt/nodejs/src/BIApiClient';
 
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -47,12 +47,12 @@ const getCredentials = (cognitoAuthenticationProvider: string) => {
 };
 
 // permet la création d'un utilisateur
-app.post('/bridgeapi/create-user', async (req, res) => {
-  const { email, password, uuid } = getCredentials(req.apiGateway.event.requestContext.identity
-    .cognitoAuthenticationProvider);
+app.post('/budgetinsight/create-user', async (req, res) => {
+  const uuid = req.apiGateway.event.requestContext.identity
+    .cognitoAuthenticationProvider.split(':').pop();
 
   try {
-    const response = await client.createUser(email, password);
+    const response = await client.createUser();
     res.json({
       uuid, bridgeApiUser: response.data.uuid, success: true,
     });
@@ -65,16 +65,11 @@ app.post('/bridgeapi/create-user', async (req, res) => {
 
 // permet l'obtention d'une URL de redirection
 app.get('/bridgeapi/bridge-url', async (req, res) => {
-  const { email, password } = getCredentials(req.apiGateway.event.requestContext.identity
-    .cognitoAuthenticationProvider);
-
   try {
-    if (await client.login(email, password)) {
-      const redirectUrl = await client.getBridgeUrl(req.query.context);
-      res.json({
-        redirectUrl, success: true,
-      });
-    }
+    const redirectUrl = await client.getBridgeUrl(req.query.context);
+    res.json({
+      redirectUrl, success: true,
+    });
     res.json({
       success: false, error: 'Cannot login',
     });

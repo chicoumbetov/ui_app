@@ -10,7 +10,6 @@ import Informations from './Components/Informations';
 import Abonnement from './Components/Abonnement';
 import MaxWidthContainer from '../../components/MaxWidthContainer';
 
-import ManAvatar from '../../assets/Omedom_Icons_svg/Avatars/manAvatar.svg';
 import { useUser } from '../../src/API/UserContext';
 import AutoAvatar from '../../components/AutoAvatar';
 

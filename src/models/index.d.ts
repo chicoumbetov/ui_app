@@ -42,6 +42,16 @@ export enum InvitationType {
   READ_ONLY = "ReadOnly"
 }
 
+export declare class ProfileInfo {
+  readonly email?: string;
+  readonly phoneNumber?: string;
+  readonly optIn?: boolean;
+  readonly address?: Address;
+  readonly birthDate?: string;
+  readonly subscription?: SubscriptionType | keyof typeof SubscriptionType;
+  constructor(init: ModelInit<ProfileInfo>);
+}
+
 export declare class Address {
   readonly address: string;
   readonly additionalAddress?: string;
@@ -100,15 +110,11 @@ export declare class User {
   readonly id: string;
   readonly lastname?: string;
   readonly firstname?: string;
-  readonly email?: string;
-  readonly phoneNumber?: string;
-  readonly optIn?: boolean;
-  readonly address?: Address;
-  readonly expoToken?: string[];
-  readonly bridgeApiUser?: string;
   readonly avatarUri?: string;
-  readonly birthDate?: string;
-  readonly subscription?: SubscriptionType | keyof typeof SubscriptionType;
+  readonly privateProfile?: ProfileInfo;
+  readonly expoToken?: string[];
+  readonly biUser?: string;
+  readonly biToken?: string;
   constructor(init: ModelInit<User>);
   static copyOf(source: User, mutator: (draft: MutableModel<User>) => MutableModel<User> | void): User;
 }
@@ -155,7 +161,7 @@ export declare class BankMovement {
   readonly id: string;
   readonly bankAccount: BankAccount;
   readonly realEstate?: BankAccount;
-  readonly bridgeApiId: number;
+  readonly biId: number;
   readonly description: string;
   readonly amount: number;
   readonly budgetLineDeadlineId: string;
@@ -174,7 +180,9 @@ export declare class BankAccount {
   readonly iban: string;
   readonly bic: string;
   readonly balance: number;
-  readonly bridgeApiId: number;
+  readonly biId: number;
+  readonly biConnectionId: number;
+  readonly biState?: string;
   readonly movements?: (BankMovement | null)[];
   constructor(init: ModelInit<BankAccount>);
   static copyOf(source: BankAccount, mutator: (draft: MutableModel<BankAccount>) => MutableModel<BankAccount> | void): BankAccount;

@@ -7,6 +7,5 @@
     "types": ["node"],
     "moduleResolution": "node"
   },
-  "include": ["."],
   "exclude": ["node_modules", "**/*.spec.ts"]
 }

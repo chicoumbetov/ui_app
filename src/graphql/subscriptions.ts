@@ -874,7 +874,9 @@ export const onCreateRealEstateBankAccount = /* GraphQL */ `
         iban
         bic
         balance
-        bridgeApiId
+        biId
+        biConnectionId
+        biState
         movements {
           nextToken
           startedAt
@@ -967,7 +969,9 @@ export const onUpdateRealEstateBankAccount = /* GraphQL */ `
         iban
         bic
         balance
-        bridgeApiId
+        biId
+        biConnectionId
+        biState
         movements {
           nextToken
           startedAt
@@ -1060,7 +1064,9 @@ export const onDeleteRealEstateBankAccount = /* GraphQL */ `
         iban
         bic
         balance
-        bridgeApiId
+        biId
+        biConnectionId
+        biState
         movements {
           nextToken
           startedAt
@@ -1159,13 +1165,15 @@ export const onCreateBankAccount = /* GraphQL */ `
       iban
       bic
       balance
-      bridgeApiId
+      biId
+      biConnectionId
+      biState
       movements {
         items {
           id
           bankAccountId
           realEstateId
-          bridgeApiId
+          biId
           description
           amount
           budgetLineDeadlineId
@@ -1211,13 +1219,15 @@ export const onUpdateBankAccount = /* GraphQL */ `
       iban
       bic
       balance
-      bridgeApiId
+      biId
+      biConnectionId
+      biState
       movements {
         items {
           id
           bankAccountId
           realEstateId
-          bridgeApiId
+          biId
           description
           amount
           budgetLineDeadlineId
@@ -1263,13 +1273,15 @@ export const onDeleteBankAccount = /* GraphQL */ `
       iban
       bic
       balance
-      bridgeApiId
+      biId
+      biConnectionId
+      biState
       movements {
         items {
           id
           bankAccountId
           realEstateId
-          bridgeApiId
+          biId
           description
           amount
           budgetLineDeadlineId
@@ -1308,7 +1320,9 @@ export const onCreateBankMovement = /* GraphQL */ `
         iban
         bic
         balance
-        bridgeApiId
+        biId
+        biConnectionId
+        biState
         movements {
           nextToken
           startedAt
@@ -1331,7 +1345,9 @@ export const onCreateBankMovement = /* GraphQL */ `
         iban
         bic
         balance
-        bridgeApiId
+        biId
+        biConnectionId
+        biState
         movements {
           nextToken
           startedAt
@@ -1342,7 +1358,7 @@ export const onCreateBankMovement = /* GraphQL */ `
         createdAt
         updatedAt
       }
-      bridgeApiId
+      biId
       description
       amount
       budgetLineDeadlineId
@@ -1427,7 +1443,9 @@ export const onUpdateBankMovement = /* GraphQL */ `
         iban
         bic
         balance
-        bridgeApiId
+        biId
+        biConnectionId
+        biState
         movements {
           nextToken
           startedAt
@@ -1450,7 +1468,9 @@ export const onUpdateBankMovement = /* GraphQL */ `
         iban
         bic
         balance
-        bridgeApiId
+        biId
+        biConnectionId
+        biState
         movements {
           nextToken
           startedAt
@@ -1461,7 +1481,7 @@ export const onUpdateBankMovement = /* GraphQL */ `
         createdAt
         updatedAt
       }
-      bridgeApiId
+      biId
       description
       amount
       budgetLineDeadlineId
@@ -1546,7 +1566,9 @@ export const onDeleteBankMovement = /* GraphQL */ `
         iban
         bic
         balance
-        bridgeApiId
+        biId
+        biConnectionId
+        biState
         movements {
           nextToken
           startedAt
@@ -1569,7 +1591,9 @@ export const onDeleteBankMovement = /* GraphQL */ `
         iban
         bic
         balance
-        bridgeApiId
+        biId
+        biConnectionId
+        biState
         movements {
           nextToken
           startedAt
@@ -1580,7 +1604,7 @@ export const onDeleteBankMovement = /* GraphQL */ `
         createdAt
         updatedAt
       }
-      bridgeApiId
+      biId
       description
       amount
       budgetLineDeadlineId
@@ -1655,26 +1679,29 @@ export const onCreateUser = /* GraphQL */ `
       id
       lastname
       firstname
-      email
-      phoneNumber
-      optIn
-      address {
-        address
-        additionalAddress
-        postalCode
-        city
-        country
-      }
-      expoToken
-      bridgeApiUser
       avatarUri
-      birthDate
-      subscription
       _version
       _deleted
       _lastChangedAt
       createdAt
       updatedAt
+      privateProfile {
+        email
+        phoneNumber
+        optIn
+        address {
+          address
+          additionalAddress
+          postalCode
+          city
+          country
+        }
+        birthDate
+        subscription
+      }
+      expoToken
+      biUser
+      biToken
     }
   }
 `;
@@ -1684,26 +1711,29 @@ export const onUpdateUser = /* GraphQL */ `
       id
       lastname
       firstname
-      email
-      phoneNumber
-      optIn
-      address {
-        address
-        additionalAddress
-        postalCode
-        city
-        country
-      }
-      expoToken
-      bridgeApiUser
       avatarUri
-      birthDate
-      subscription
       _version
       _deleted
       _lastChangedAt
       createdAt
       updatedAt
+      privateProfile {
+        email
+        phoneNumber
+        optIn
+        address {
+          address
+          additionalAddress
+          postalCode
+          city
+          country
+        }
+        birthDate
+        subscription
+      }
+      expoToken
+      biUser
+      biToken
     }
   }
 `;
@@ -1713,26 +1743,29 @@ export const onDeleteUser = /* GraphQL */ `
       id
       lastname
       firstname
-      email
-      phoneNumber
-      optIn
-      address {
-        address
-        additionalAddress
-        postalCode
-        city
-        country
-      }
-      expoToken
-      bridgeApiUser
       avatarUri
-      birthDate
-      subscription
       _version
       _deleted
       _lastChangedAt
       createdAt
       updatedAt
+      privateProfile {
+        email
+        phoneNumber
+        optIn
+        address {
+          address
+          additionalAddress
+          postalCode
+          city
+          country
+        }
+        birthDate
+        subscription
+      }
+      expoToken
+      biUser
+      biToken
     }
   }
 `;
@@ -1772,7 +1805,7 @@ export const onCreateRealEstate = /* GraphQL */ `
           id
           bankAccountId
           realEstateId
-          bridgeApiId
+          biId
           description
           amount
           budgetLineDeadlineId
@@ -1901,7 +1934,7 @@ export const onUpdateRealEstate = /* GraphQL */ `
           id
           bankAccountId
           realEstateId
-          bridgeApiId
+          biId
           description
           amount
           budgetLineDeadlineId
@@ -2030,7 +2063,7 @@ export const onDeleteRealEstate = /* GraphQL */ `
           id
           bankAccountId
           realEstateId
-          bridgeApiId
+          biId
           description
           amount
           budgetLineDeadlineId
@@ -2141,26 +2174,22 @@ export const onCreateNotification = /* GraphQL */ `
         id
         lastname
         firstname
-        email
-        phoneNumber
-        optIn
-        address {
-          address
-          additionalAddress
-          postalCode
-          city
-          country
-        }
-        expoToken
-        bridgeApiUser
         avatarUri
-        birthDate
-        subscription
         _version
         _deleted
         _lastChangedAt
         createdAt
         updatedAt
+        privateProfile {
+          email
+          phoneNumber
+          optIn
+          birthDate
+          subscription
+        }
+        expoToken
+        biUser
+        biToken
       }
     }
   }
@@ -2183,26 +2212,22 @@ export const onUpdateNotification = /* GraphQL */ `
         id
         lastname
         firstname
-        email
-        phoneNumber
-        optIn
-        address {
-          address
-          additionalAddress
-          postalCode
-          city
-          country
-        }
-        expoToken
-        bridgeApiUser
         avatarUri
-        birthDate
-        subscription
         _version
         _deleted
         _lastChangedAt
         createdAt
         updatedAt
+        privateProfile {
+          email
+          phoneNumber
+          optIn
+          birthDate
+          subscription
+        }
+        expoToken
+        biUser
+        biToken
       }
     }
   }
@@ -2225,26 +2250,22 @@ export const onDeleteNotification = /* GraphQL */ `
         id
         lastname
         firstname
-        email
-        phoneNumber
-        optIn
-        address {
-          address
-          additionalAddress
-          postalCode
-          city
-          country
-        }
-        expoToken
-        bridgeApiUser
         avatarUri
-        birthDate
-        subscription
         _version
         _deleted
         _lastChangedAt
         createdAt
         updatedAt
+        privateProfile {
+          email
+          phoneNumber
+          optIn
+          birthDate
+          subscription
+        }
+        expoToken
+        biUser
+        biToken
       }
     }
   }
@@ -2269,26 +2290,22 @@ export const onCreateBillingHistory = /* GraphQL */ `
         id
         lastname
         firstname
-        email
-        phoneNumber
-        optIn
-        address {
-          address
-          additionalAddress
-          postalCode
-          city
-          country
-        }
-        expoToken
-        bridgeApiUser
         avatarUri
-        birthDate
-        subscription
         _version
         _deleted
         _lastChangedAt
         createdAt
         updatedAt
+        privateProfile {
+          email
+          phoneNumber
+          optIn
+          birthDate
+          subscription
+        }
+        expoToken
+        biUser
+        biToken
       }
     }
   }
@@ -2313,26 +2330,22 @@ export const onUpdateBillingHistory = /* GraphQL */ `
         id
         lastname
         firstname
-        email
-        phoneNumber
-        optIn
-        address {
-          address
-          additionalAddress
-          postalCode
-          city
-          country
-        }
-        expoToken
-        bridgeApiUser
         avatarUri
-        birthDate
-        subscription
         _version
         _deleted
         _lastChangedAt
         createdAt
         updatedAt
+        privateProfile {
+          email
+          phoneNumber
+          optIn
+          birthDate
+          subscription
+        }
+        expoToken
+        biUser
+        biToken
       }
     }
   }
@@ -2357,26 +2370,22 @@ export const onDeleteBillingHistory = /* GraphQL */ `
         id
         lastname
         firstname
-        email
-        phoneNumber
-        optIn
-        address {
-          address
-          additionalAddress
-          postalCode
-          city
-          country
-        }
-        expoToken
-        bridgeApiUser
         avatarUri
-        birthDate
-        subscription
         _version
         _deleted
         _lastChangedAt
         createdAt
         updatedAt
+        privateProfile {
+          email
+          phoneNumber
+          optIn
+          birthDate
+          subscription
+        }
+        expoToken
+        biUser
+        biToken
       }
     }
   }

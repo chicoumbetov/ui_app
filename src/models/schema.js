@@ -24,32 +24,18 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
-                "email": {
-                    "name": "email",
+                "avatarUri": {
+                    "name": "avatarUri",
                     "isArray": false,
-                    "type": "AWSEmail",
+                    "type": "String",
                     "isRequired": false,
                     "attributes": []
                 },
-                "phoneNumber": {
-                    "name": "phoneNumber",
-                    "isArray": false,
-                    "type": "AWSPhone",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "optIn": {
-                    "name": "optIn",
-                    "isArray": false,
-                    "type": "Boolean",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "address": {
-                    "name": "address",
+                "privateProfile": {
+                    "name": "privateProfile",
                     "isArray": false,
                     "type": {
-                        "nonModel": "Address"
+                        "nonModel": "ProfileInfo"
                     },
                     "isRequired": false,
                     "attributes": []
@@ -62,33 +48,17 @@ export const schema = {
                     "attributes": [],
                     "isArrayNullable": true
                 },
-                "bridgeApiUser": {
-                    "name": "bridgeApiUser",
+                "biUser": {
+                    "name": "biUser",
                     "isArray": false,
                     "type": "String",
                     "isRequired": false,
                     "attributes": []
                 },
-                "avatarUri": {
-                    "name": "avatarUri",
+                "biToken": {
+                    "name": "biToken",
                     "isArray": false,
                     "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "birthDate": {
-                    "name": "birthDate",
-                    "isArray": false,
-                    "type": "AWSDate",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "subscription": {
-                    "name": "subscription",
-                    "isArray": false,
-                    "type": {
-                        "enum": "SubscriptionType"
-                    },
                     "isRequired": false,
                     "attributes": []
                 }
@@ -103,11 +73,11 @@ export const schema = {
                 {
                     "type": "key",
                     "properties": {
-                        "name": "userByBridgeApiUser",
+                        "name": "userByBiUser",
                         "fields": [
-                            "bridgeApiUser"
+                            "biUser"
                         ],
-                        "queryField": "userByBridgeApiUser"
+                        "queryField": "userByBiUser"
                     }
                 },
                 {
@@ -503,8 +473,8 @@ export const schema = {
                         "targetName": "realEstateId"
                     }
                 },
-                "bridgeApiId": {
-                    "name": "bridgeApiId",
+                "biId": {
+                    "name": "biId",
                     "isArray": false,
                     "type": "Int",
                     "isRequired": true,
@@ -570,7 +540,7 @@ export const schema = {
                 {
                     "type": "key",
                     "properties": {
-                        "name": "bankMovementByByBankAccount",
+                        "name": "bankMovementByBankAccount",
                         "fields": [
                             "bankAccountId",
                             "date"
@@ -658,11 +628,25 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "bridgeApiId": {
-                    "name": "bridgeApiId",
+                "biId": {
+                    "name": "biId",
                     "isArray": false,
                     "type": "Int",
                     "isRequired": true,
+                    "attributes": []
+                },
+                "biConnectionId": {
+                    "name": "biConnectionId",
+                    "isArray": false,
+                    "type": "Int",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "biState": {
+                    "name": "biState",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
                     "attributes": []
                 },
                 "movements": {
@@ -686,6 +670,16 @@ export const schema = {
                 {
                     "type": "model",
                     "properties": {}
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "name": "bankAccountByBiId",
+                        "fields": [
+                            "biId"
+                        ],
+                        "queryField": "listBankAccountByBiId"
+                    }
                 }
             ]
         },
@@ -1221,6 +1215,57 @@ export const schema = {
         }
     },
     "nonModels": {
+        "ProfileInfo": {
+            "name": "ProfileInfo",
+            "fields": {
+                "email": {
+                    "name": "email",
+                    "isArray": false,
+                    "type": "AWSEmail",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "phoneNumber": {
+                    "name": "phoneNumber",
+                    "isArray": false,
+                    "type": "AWSPhone",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "optIn": {
+                    "name": "optIn",
+                    "isArray": false,
+                    "type": "Boolean",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "address": {
+                    "name": "address",
+                    "isArray": false,
+                    "type": {
+                        "nonModel": "Address"
+                    },
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "birthDate": {
+                    "name": "birthDate",
+                    "isArray": false,
+                    "type": "AWSDate",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "subscription": {
+                    "name": "subscription",
+                    "isArray": false,
+                    "type": {
+                        "enum": "SubscriptionType"
+                    },
+                    "isRequired": false,
+                    "attributes": []
+                }
+            }
+        },
         "Address": {
             "name": "Address",
             "fields": {
@@ -1467,5 +1512,5 @@ export const schema = {
             }
         }
     },
-    "version": "981566d6c0fee2568de5cb00c075a8a1"
+    "version": "d8ef2af34a810f44492de6ee3daa4065"
 };

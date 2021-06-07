@@ -4,7 +4,7 @@ import {
   Layout, Button, Text,
 } from '@ui-kitten/components';
 import { useForm } from 'react-hook-form';
-import { Auth } from 'aws-amplify';
+import Auth from '@aws-amplify/auth';
 import { View } from 'react-native';
 import { AuthStyles } from './styles';
 import { ErrorMessage } from './components/ErrorMessage';

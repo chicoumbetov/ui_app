@@ -4,21 +4,26 @@ type User @model @auth(rules: [
   {allow: private, operations: [read]}
   {allow: private, provider: iam}
 ])
-@key(name: "userByBridgeApiUser", fields: ["bridgeApiUser"], queryField: "userByBridgeApiUser")
+@key(name: "userByBiUser", fields: ["biUser"], queryField: "userByBiUser")
 {
   id: ID!
   lastname: String
   firstname: String
-  email: AWSEmail
-  phoneNumber: AWSPhone @auth (rules: [{allow: owner, ownerField: "id"}])
-  optIn: Boolean @auth (rules: [{allow: owner, ownerField: "id"}])
-  address: Address @auth (rules: [{allow: owner, ownerField: "id"}])
-  expoToken: [String!] @auth (rules: [{allow: owner, ownerField: "id"}])
-  bridgeApiUser: String @auth (rules: [{allow: owner, ownerField: "id"}])
-
   avatarUri: String
-  birthDate: AWSDate @auth (rules: [{allow: owner, ownerField: "id"}])
-  subscription: SubscriptionType @auth (rules: [{allow: owner, ownerField: "id"}])
+  privateProfile: ProfileInfo @auth (rules: [{allow: owner, ownerField: "id"}, {allow: private, provider: iam}])
+
+  expoToken: [String!] @auth (rules: [{allow: owner, ownerField: "id"}, {allow: private, provider: iam}])
+  biUser: String @auth (rules: [{allow: owner, ownerField: "id"}, {allow: private, provider: iam}])
+  biToken: String @auth (rules: [{allow: owner, ownerField: "id"}, {allow: private, provider: iam}])
+}
+
+type ProfileInfo {
+  email: AWSEmail
+  phoneNumber: AWSPhone
+  optIn: Boolean
+  address: Address
+  birthDate: AWSDate
+  subscription: SubscriptionType
 }
 
 type RealEstate @model
@@ -197,7 +202,9 @@ type RealEstateBankAccount
 
 #should only be available for all operations to users in the admins field of RealEstate (linked by RealEstateBankAccount) model
 # and for read operation to users in the shared field of RealEstate (linked by RealEstateBankAccount) model
-type BankAccount @model {
+type BankAccount @model
+@key(name: "bankAccountByBiId", fields: ["biId"], queryField: "listBankAccountByBiId")
+{
   id: ID!
   realEstates: [RealEstateBankAccount] @connection(fields: ["id"])
   bank: String!
@@ -205,14 +212,16 @@ type BankAccount @model {
   iban: String!
   bic: String!
   balance: Float!
-  bridgeApiId: Int!
-  movements: [BankMovement] @connection(keyName:"bankMovementByByBankAccount", fields: ["id"])
+  biId: Int!
+  biConnectionId: Int!
+  biState: String
+  movements: [BankMovement] @connection(keyName:"bankMovementByBankAccount", fields: ["id"])
 }
 
 #should only be available for all operations to users in the admins field of RealEstate (linked by BankAccount and RealEstateBankAccount) model
 # and for read operation to users in the shared field of RealEstate (linked by BankAccount and RealEstateBankAccount) model
 type BankMovement @model
-@key(name: "bankMovementByByBankAccount", fields: ["bankAccountId","date"])
+@key(name: "bankMovementByBankAccount", fields: ["bankAccountId","date"])
 @key(name: "bankMovementByBudgetLineDeadline", fields: ["budgetLineDeadlineId","date"])
 @key(name: "bankMovementByRealEstate", fields: ["realEstateId","date"])
 {
@@ -221,7 +230,7 @@ type BankMovement @model
   bankAccount: BankAccount! @connection(fields: ["bankAccountId"])
   realEstateId: ID
   realEstate: BankAccount @connection(fields: ["realEstateId"])
-  bridgeApiId: Int!
+  biId: Int!
   description: String!
   amount: Float!
   budgetLineDeadlineId: ID!

@@ -1,5 +1,6 @@
 const createExpoWebpackConfigAsync = require('@expo/webpack-config');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
 
 const path = require('path')
 
@@ -75,7 +76,7 @@ module.exports = async function(env, argv) {
       })
     );
   }
-  config.plugin.push(
+  config.plugins.push(
     new MomentLocalesPlugin({
       localesToKeep: ['fr'],
     }),

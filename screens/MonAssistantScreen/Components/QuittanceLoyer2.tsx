@@ -42,7 +42,7 @@ const QuittanceLoyer2 = () => {
         >
           <Text category="p2">
             Quittance_Loyer_
-            {bien.name}
+            {bien?.name}
             _
             {route.params.anneeEcheance}
           </Text>

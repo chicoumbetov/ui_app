@@ -27,13 +27,21 @@
         }
       }
     },
-    "bridgeapi": {
+    "omedomrest": {
       "service": "API Gateway",
       "providerPlugin": "awscloudformation",
       "dependsOn": [
         {
           "category": "function",
-          "resourceName": "bridgeapi",
+          "resourceName": "transactionWebHook",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        },
+        {
+          "category": "function",
+          "resourceName": "budgetinsight",
           "attributes": [
             "Name",
             "Arn"
@@ -71,14 +79,14 @@
         }
       ]
     },
-    "bridgeapi": {
+    "budgetinsight": {
       "build": true,
       "providerPlugin": "awscloudformation",
       "service": "Lambda",
       "dependsOn": [
         {
           "category": "function",
-          "resourceName": "bridgeclientlayer",
+          "resourceName": "budgetinsightlayer",
           "attributes": [
             "Arn"
           ]
@@ -100,7 +108,7 @@
         }
       ]
     },
-    "bridgeclientlayer": {
+    "budgetinsightlayer": {
       "providerPlugin": "awscloudformation",
       "service": "LambdaLayer",
       "build": true

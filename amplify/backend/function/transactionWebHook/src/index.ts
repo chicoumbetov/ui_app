@@ -1,7 +1,7 @@
 const awsServerlessExpress = require('aws-serverless-express');
-const app = require('./app');
+const serverApp = require('./app');
 
-const server = awsServerlessExpress.createServer(app);
+const server = awsServerlessExpress.createServer(serverApp);
 
 exports.handler = (event, context) => {
   console.log(`EVENT: ${JSON.stringify(event)}`);

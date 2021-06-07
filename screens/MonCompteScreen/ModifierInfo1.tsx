@@ -7,7 +7,7 @@ import {
 } from '@ui-kitten/components';
 import { useNavigation } from '@react-navigation/native';
 import { useForm } from 'react-hook-form';
-import { Auth } from 'aws-amplify';
+import Auth from '@aws-amplify/auth';
 import TextInput from '../../components/Form/TextInput';
 import MaxWidthContainer from '../../components/MaxWidthContainer';
 import { AvailableValidationRules } from '../../components/Form/validation';
@@ -20,11 +20,13 @@ import { removeNull } from '../../utils/ObjectHelper';
 type ModifierInfo1Form = {
   firstname:string;
   lastname: string;
-  email: string;
+  privateProfile: {
+    email?: string | null;
+    phoneNumber?: string | null;
+    optIn?: boolean | null;
+  }
   password: string;
   oldPassword: string;
-  phoneNumber: string;
-  optIn: boolean;
 };
 
 const ModifierInfo1 = () => {
@@ -53,11 +55,11 @@ const ModifierInfo1 = () => {
       }
 
       const newCognitoAttr = removeNull({
-        email: otherProps.email,
+        email: otherProps.privateProfile.email,
         family_name: otherProps.lastname,
         given_name: otherProps.firstname,
-        phone_number: otherProps.phoneNumber,
-        'custom:optIn': otherProps.optIn ? 'true' : 'flse',
+        phone_number: otherProps.privateProfile.phoneNumber,
+        'custom:optIn': otherProps.privateProfile.optIn ? 'true' : 'flse',
         // false => flse sur 4 caractères seulement car le custom attribute a
         // été créer sur max 4 et ne peut plus être modifié
       });
@@ -116,7 +118,7 @@ const ModifierInfo1 = () => {
           />
 
           <TextInput
-            name="email"
+            name="privateProfile.email"
             placeholder="Votre  e-mail"
             validators={[
               AvailableValidationRules.required,
@@ -151,7 +153,7 @@ const ModifierInfo1 = () => {
           />
 
           <PhoneNumberInput
-            name="phoneNumber"
+            name="privateProfile.phoneNumber"
             placeholder="Votre numéro de téléphone"
             validators={[
               AvailableValidationRules.numeroTel,
@@ -159,7 +161,7 @@ const ModifierInfo1 = () => {
             ]}
           />
           <Radio
-            name="optIn"
+            name="privateProfile.optIn"
             label="Souhaitez-vous rester informé de nos actualités ? "
             labelPosition="before"
           />

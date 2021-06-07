@@ -657,7 +657,9 @@ export const syncRealEstateBankAccounts = /* GraphQL */ `
           iban
           bic
           balance
-          bridgeApiId
+          biId
+          biConnectionId
+          biState
           _version
           _deleted
           _lastChangedAt
@@ -718,7 +720,9 @@ export const syncBankAccounts = /* GraphQL */ `
         iban
         bic
         balance
-        bridgeApiId
+        biId
+        biConnectionId
+        biState
         movements {
           nextToken
           startedAt
@@ -757,13 +761,15 @@ export const getBankAccount = /* GraphQL */ `
       iban
       bic
       balance
-      bridgeApiId
+      biId
+      biConnectionId
+      biState
       movements {
         items {
           id
           bankAccountId
           realEstateId
-          bridgeApiId
+          biId
           description
           amount
           budgetLineDeadlineId
@@ -804,7 +810,9 @@ export const listBankAccounts = /* GraphQL */ `
         iban
         bic
         balance
-        bridgeApiId
+        biId
+        biConnectionId
+        biState
         movements {
           nextToken
           startedAt
@@ -843,7 +851,9 @@ export const syncBankMovements = /* GraphQL */ `
           iban
           bic
           balance
-          bridgeApiId
+          biId
+          biConnectionId
+          biState
           _version
           _deleted
           _lastChangedAt
@@ -858,14 +868,16 @@ export const syncBankMovements = /* GraphQL */ `
           iban
           bic
           balance
-          bridgeApiId
+          biId
+          biConnectionId
+          biState
           _version
           _deleted
           _lastChangedAt
           createdAt
           updatedAt
         }
-        bridgeApiId
+        biId
         description
         amount
         budgetLineDeadlineId
@@ -914,7 +926,9 @@ export const getBankMovement = /* GraphQL */ `
         iban
         bic
         balance
-        bridgeApiId
+        biId
+        biConnectionId
+        biState
         movements {
           nextToken
           startedAt
@@ -937,7 +951,9 @@ export const getBankMovement = /* GraphQL */ `
         iban
         bic
         balance
-        bridgeApiId
+        biId
+        biConnectionId
+        biState
         movements {
           nextToken
           startedAt
@@ -948,7 +964,7 @@ export const getBankMovement = /* GraphQL */ `
         createdAt
         updatedAt
       }
-      bridgeApiId
+      biId
       description
       amount
       budgetLineDeadlineId
@@ -1034,7 +1050,9 @@ export const listBankMovements = /* GraphQL */ `
           iban
           bic
           balance
-          bridgeApiId
+          biId
+          biConnectionId
+          biState
           _version
           _deleted
           _lastChangedAt
@@ -1049,14 +1067,16 @@ export const listBankMovements = /* GraphQL */ `
           iban
           bic
           balance
-          bridgeApiId
+          biId
+          biConnectionId
+          biState
           _version
           _deleted
           _lastChangedAt
           createdAt
           updatedAt
         }
-        bridgeApiId
+        biId
         description
         amount
         budgetLineDeadlineId
@@ -1089,61 +1109,39 @@ export const listBankMovements = /* GraphQL */ `
     }
   }
 `;
-export const getUser = /* GraphQL */ `
-  query GetUser($id: ID!) {
-    getUser(id: $id) {
-      id
-      lastname
-      firstname
-      email
-      phoneNumber
-      optIn
-      address {
-        address
-        additionalAddress
-        postalCode
-        city
-        country
-      }
-      expoToken
-      bridgeApiUser
-      avatarUri
-      birthDate
-      subscription
-      _version
-      _deleted
-      _lastChangedAt
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const listUsers = /* GraphQL */ `
-  query ListUsers(
-    $filter: ModelUserFilterInput
+export const listBankAccountByBiId = /* GraphQL */ `
+  query ListBankAccountByBiId(
+    $biId: Int
+    $sortDirection: ModelSortDirection
+    $filter: ModelBankAccountFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    listUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    listBankAccountByBiId(
+      biId: $biId
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
       items {
         id
-        lastname
-        firstname
-        email
-        phoneNumber
-        optIn
-        address {
-          address
-          additionalAddress
-          postalCode
-          city
-          country
+        realEstates {
+          nextToken
+          startedAt
         }
-        expoToken
-        bridgeApiUser
-        avatarUri
-        birthDate
-        subscription
+        bank
+        accountOwner
+        iban
+        bic
+        balance
+        biId
+        biConnectionId
+        biState
+        movements {
+          nextToken
+          startedAt
+        }
         _version
         _deleted
         _lastChangedAt
@@ -1155,16 +1153,16 @@ export const listUsers = /* GraphQL */ `
     }
   }
 `;
-export const userByBridgeApiUser = /* GraphQL */ `
-  query UserByBridgeApiUser(
-    $bridgeApiUser: String
+export const userByBiUser = /* GraphQL */ `
+  query UserByBiUser(
+    $biUser: String
     $sortDirection: ModelSortDirection
     $filter: ModelUserFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    userByBridgeApiUser(
-      bridgeApiUser: $bridgeApiUser
+    userByBiUser(
+      biUser: $biUser
       sortDirection: $sortDirection
       filter: $filter
       limit: $limit
@@ -1174,26 +1172,22 @@ export const userByBridgeApiUser = /* GraphQL */ `
         id
         lastname
         firstname
-        email
-        phoneNumber
-        optIn
-        address {
-          address
-          additionalAddress
-          postalCode
-          city
-          country
-        }
-        expoToken
-        bridgeApiUser
         avatarUri
-        birthDate
-        subscription
         _version
         _deleted
         _lastChangedAt
         createdAt
         updatedAt
+        privateProfile {
+          email
+          phoneNumber
+          optIn
+          birthDate
+          subscription
+        }
+        expoToken
+        biUser
+        biToken
       }
       nextToken
       startedAt
@@ -1217,6 +1211,41 @@ export const syncUsers = /* GraphQL */ `
         id
         lastname
         firstname
+        avatarUri
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+        privateProfile {
+          email
+          phoneNumber
+          optIn
+          birthDate
+          subscription
+        }
+        expoToken
+        biUser
+        biToken
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const getUser = /* GraphQL */ `
+  query GetUser($id: ID!) {
+    getUser(id: $id) {
+      id
+      lastname
+      firstname
+      avatarUri
+      _version
+      _deleted
+      _lastChangedAt
+      createdAt
+      updatedAt
+      privateProfile {
         email
         phoneNumber
         optIn
@@ -1227,16 +1256,42 @@ export const syncUsers = /* GraphQL */ `
           city
           country
         }
-        expoToken
-        bridgeApiUser
-        avatarUri
         birthDate
         subscription
+      }
+      expoToken
+      biUser
+      biToken
+    }
+  }
+`;
+export const listUsers = /* GraphQL */ `
+  query ListUsers(
+    $filter: ModelUserFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        lastname
+        firstname
+        avatarUri
         _version
         _deleted
         _lastChangedAt
         createdAt
         updatedAt
+        privateProfile {
+          email
+          phoneNumber
+          optIn
+          birthDate
+          subscription
+        }
+        expoToken
+        biUser
+        biToken
       }
       nextToken
       startedAt
@@ -1279,7 +1334,7 @@ export const getRealEstate = /* GraphQL */ `
           id
           bankAccountId
           realEstateId
-          bridgeApiId
+          biId
           description
           amount
           budgetLineDeadlineId
@@ -1534,26 +1589,22 @@ export const getNotification = /* GraphQL */ `
         id
         lastname
         firstname
-        email
-        phoneNumber
-        optIn
-        address {
-          address
-          additionalAddress
-          postalCode
-          city
-          country
-        }
-        expoToken
-        bridgeApiUser
         avatarUri
-        birthDate
-        subscription
         _version
         _deleted
         _lastChangedAt
         createdAt
         updatedAt
+        privateProfile {
+          email
+          phoneNumber
+          optIn
+          birthDate
+          subscription
+        }
+        expoToken
+        biUser
+        biToken
       }
     }
   }
@@ -1581,19 +1632,15 @@ export const listNotifications = /* GraphQL */ `
           id
           lastname
           firstname
-          email
-          phoneNumber
-          optIn
-          expoToken
-          bridgeApiUser
           avatarUri
-          birthDate
-          subscription
           _version
           _deleted
           _lastChangedAt
           createdAt
           updatedAt
+          expoToken
+          biUser
+          biToken
         }
       }
       nextToken
@@ -1630,19 +1677,15 @@ export const syncNotifications = /* GraphQL */ `
           id
           lastname
           firstname
-          email
-          phoneNumber
-          optIn
-          expoToken
-          bridgeApiUser
           avatarUri
-          birthDate
-          subscription
           _version
           _deleted
           _lastChangedAt
           createdAt
           updatedAt
+          expoToken
+          biUser
+          biToken
         }
       }
       nextToken
@@ -1670,26 +1713,22 @@ export const getBillingHistory = /* GraphQL */ `
         id
         lastname
         firstname
-        email
-        phoneNumber
-        optIn
-        address {
-          address
-          additionalAddress
-          postalCode
-          city
-          country
-        }
-        expoToken
-        bridgeApiUser
         avatarUri
-        birthDate
-        subscription
         _version
         _deleted
         _lastChangedAt
         createdAt
         updatedAt
+        privateProfile {
+          email
+          phoneNumber
+          optIn
+          birthDate
+          subscription
+        }
+        expoToken
+        biUser
+        biToken
       }
     }
   }
@@ -1719,19 +1758,15 @@ export const listBillingHistorys = /* GraphQL */ `
           id
           lastname
           firstname
-          email
-          phoneNumber
-          optIn
-          expoToken
-          bridgeApiUser
           avatarUri
-          birthDate
-          subscription
           _version
           _deleted
           _lastChangedAt
           createdAt
           updatedAt
+          expoToken
+          biUser
+          biToken
         }
       }
       nextToken
@@ -1770,19 +1805,15 @@ export const syncBillingHistories = /* GraphQL */ `
           id
           lastname
           firstname
-          email
-          phoneNumber
-          optIn
-          expoToken
-          bridgeApiUser
           avatarUri
-          birthDate
-          subscription
           _version
           _deleted
           _lastChangedAt
           createdAt
           updatedAt
+          expoToken
+          biUser
+          biToken
         }
       }
       nextToken

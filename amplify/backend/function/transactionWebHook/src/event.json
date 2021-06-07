@@ -1,5 +1,12 @@
 {
-  "key1": "value1",
-  "key2": "value2",
-  "key3": "value3"
+  "httpMethod": "POST",
+  "body": "{\"name\": \"Amplify\"}",
+  "path": "/bridgeapi/create-user",
+  "resource": "/{proxy+}",
+  "queryStringParameters": {},
+  "requestContext": {
+    "identity": {
+     "cognitoAuthenticationProvider": "cognito-idp.eu-west-2.amazonaws.com/eu-west-2_f3onOurMk,cognito-idp.eu-west-2.amazonaws.com/eu-west-2_f3onOurMk:CognitoSignIn:7086e4da-c486-4171-83cb-2d12098e2540",
+      }
+  }
 }

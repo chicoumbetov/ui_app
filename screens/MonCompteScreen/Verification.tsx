@@ -5,7 +5,7 @@ import {
 } from '@ui-kitten/components';
 import { useNavigation } from '@react-navigation/native';
 import { useForm } from 'react-hook-form';
-import { Auth } from 'aws-amplify';
+import Auth from '@aws-amplify/auth';
 import MaxWidthContainer from '../../components/MaxWidthContainer';
 import Form from '../../components/Form/Form';
 import { AvailableValidationRules } from '../../components/Form/validation';

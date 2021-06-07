@@ -9,7 +9,8 @@
     "test": "jest --watchAll",
     "debug": "open 'rndebugger://set-debugger-loc?host=localhost&port=19000'",
     "devtools": "react-devtools",
-    "amplify:bridgeapi": "cd amplify/backend/function/bridgeapi/src && tsc",
+    "amplify:budgetinsight": "cd amplify/backend/function/budgetinsight/src && tsc",
+    "amplify:budgetinsightlayer": "cd amplify/backend/function/budgetinsightlayer/src && tsc",
     "postinstall": "patch-package"
   },
   "jest": {

@@ -11,7 +11,7 @@ import * as eva from '@eva-design/eva';
 
 import { EvaIconsPack } from '@ui-kitten/eva-icons';
 
-import Amplify, { I18n } from 'aws-amplify';
+import { Amplify, I18n } from '@aws-amplify/core';
 
 import { Authenticator } from 'aws-amplify-react-native';
 

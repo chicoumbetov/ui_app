@@ -38,7 +38,7 @@ const ActionSheet = (props: ActionSheetProps) => {
     rightAction = undefined,
     title, children, before, visible, onClose,
   } = props;
-  const { screen } = useDimensions();
+  const { window } = useDimensions();
   const [visibleState, setVisible] = useState(visible);
   const [visibleModalState, setVisibleModal] = useState(visible);
 
@@ -96,11 +96,11 @@ const ActionSheet = (props: ActionSheetProps) => {
           </MotiView>
           <MotiView
             style={{
-              paddingBottom: insets.bottom, maxWidth: 780, width: '100%', flex: 1, maxHeight: screen.height * 0.8,
+              paddingBottom: insets.bottom, maxWidth: 780, width: '100%', flex: 1, maxHeight: window.height * 0.8,
             }}
-            from={{ translateY: screen.height }}
+            from={{ translateY: window.height }}
             animate={{ translateY: 0 }}
-            exit={{ translateY: screen.height }}
+            exit={{ translateY: window.height }}
             transition={{
               type: 'timing',
               duration,

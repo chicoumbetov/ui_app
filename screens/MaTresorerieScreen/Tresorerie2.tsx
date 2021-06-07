@@ -7,6 +7,7 @@
 import React, { useState } from 'react';
 import { Button, Text } from '@ui-kitten/components';
 import {
+  Alert,
   TouchableOpacity, View,
 } from 'react-native';
 
@@ -21,7 +22,7 @@ import OwnerCompte from './Components/OwnerCompte';
 import ActivityIndicator from '../../components/ActivityIndicator';
 import { TabMaTresorerieParamList } from '../../types';
 
-//import comptesData from '../../mockData/comptesData';
+// import comptesData from '../../mockData/comptesData';
 import ActionSheet from '../../components/ActionSheet/ActionSheet';
 import EditMouvement from './Components/EditMouvement';
 import WebView from '../../components/WebView';
@@ -31,7 +32,7 @@ const MaTresorerie2 = () => {
   // const [compte] = useState(comptesData);
 
   const [toggle, setToggle] = useState(false);
-  const [newAccountLink, setNewAccountLink] = useState<string | undefined>('https://omedom1-sandbox.biapi.pro/2.0/auth/webview/?client_id=45913022&code=ZeIjiP6qFz%2FAO6L22%2FC_Dt6dtZ9U_4CVOnsq6u7Kxoy9hf5t4H3zviRz7Px8_3B6k12jQX0JeRR5%2F2ewbw7jsBlELU90oHPyo5s48WxXHf4PJjADhG9xIMTn4sDC1JxC&redirect_url=https%3A%2F%2F0patt7mbe7.execute-api.eu-west-2.amazonaws.com%2Fdev%2Fwebhooks%2Fitem%2Ftea&state=93408e3c-a431-4a52-b909-0e6c9ab8bc8f');
+  const [newAccountLink, setNewAccountLink] = useState<string | undefined>();
   const [supprim, setSupprim] = useState(false);
 
   const route = useRoute<RouteProp<TabMaTresorerieParamList, 'ma-tresorerie-2'>>();
@@ -119,8 +120,28 @@ const MaTresorerie2 = () => {
           )}
 
       </MaxWidthContainer>
-      <ActionSheet title="test" before={<></>} noSafeArea scrollable={false} visible={newAccountLink !== undefined} onClose={() => setNewAccountLink(undefined)}>
-        {newAccountLink && <WebView src={newAccountLink} />}
+      <ActionSheet
+        title="test"
+        before={<></>}
+        noSafeArea
+        scrollable={false}
+        visible={newAccountLink !== undefined}
+        onClose={() => {
+          Alert.alert('Ajout de compte bancaire',
+            'Vous êtes sur de vouloir quitter l\'ajout du compte bancaire ? Il ne sera pas ajouté.',
+            [{
+              text: 'Annuler',
+              style: 'cancel',
+            },
+            {
+              text: 'Valider',
+              onPress: async () => {
+                setNewAccountLink(undefined);
+              },
+            }]);
+        }}
+      >
+        {newAccountLink && <WebView src={newAccountLink} id="biApiIframe" />}
       </ActionSheet>
     </>
   );

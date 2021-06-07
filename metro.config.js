@@ -11,7 +11,7 @@ module.exports = (async () => {
     resolver: {
       assetExts: assetExts.filter((ext) => ext !== 'svg'),
       sourceExts: [...sourceExts, 'svg'],
-      blacklistRE: /#current-cloud-backend\/.*/,
+      blacklistRE: /amplify\/(backend|#current-cloud-backend)\/.*/,
     },
   };
 })();

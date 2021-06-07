@@ -88,44 +88,44 @@ export type ModelInvitationTypeInput = {
 
 export type PendingInvitation = {
   __typename: "PendingInvitation",
-  id: string,
-  realEstateId: string,
-  email: string,
-  type: InvitationType,
-  _version: number,
+  id?: string,
+  realEstateId?: string,
+  email?: string,
+  type?: InvitationType,
+  _version?: number,
   _deleted?: boolean | null,
-  _lastChangedAt: number,
-  createdAt: string,
-  updatedAt: string,
-  realEstate?: RealEstate | null,
+  _lastChangedAt?: number,
+  createdAt?: string,
+  updatedAt?: string,
+  realEstate?: RealEstate,
 };
 
 export type RealEstate = {
   __typename: "RealEstate",
-  id: string,
-  name: string,
-  iconUri: string,
+  id?: string,
+  name?: string,
+  iconUri?: string,
   purchaseYear?: number | null,
   type?: RealEstateType | null,
   ownName?: boolean | null,
   company?: CompanyType | null,
   detentionPart?: number | null,
   typeImpot?: TaxType | null,
-  budgetLines?: ModelBudgetLineConnection | null,
-  bankMovements?: ModelBankMovementConnection | null,
-  budgetLineDeadlines?: ModelBudgetLineDeadlineConnection | null,
-  documents?: ModelDocumentConnection | null,
-  admins: Array< string >,
+  budgetLines?: ModelBudgetLineConnection,
+  bankMovements?: ModelBankMovementConnection,
+  budgetLineDeadlines?: ModelBudgetLineDeadlineConnection,
+  documents?: ModelDocumentConnection,
+  admins?: Array< string >,
   shared?: Array< string > | null,
-  pendingInvitations?: ModelPendingInvitationConnection | null,
-  address?: Address | null,
+  pendingInvitations?: ModelPendingInvitationConnection,
+  address?: Address,
   tenants?:  Array<TenantInfo | null > | null,
-  bankAccounts?: ModelRealEstateBankAccountConnection | null,
-  _version: number,
+  bankAccounts?: ModelRealEstateBankAccountConnection,
+  _version?: number,
   _deleted?: boolean | null,
-  _lastChangedAt: number,
-  createdAt: string,
-  updatedAt: string,
+  _lastChangedAt?: number,
+  createdAt?: string,
+  updatedAt?: string,
 };
 
 export enum RealEstateType {
@@ -159,21 +159,21 @@ export type ModelBudgetLineConnection = {
 
 export type BudgetLine = {
   __typename: "BudgetLine",
-  id: string,
-  realEstateId: string,
-  type: BudgetLineType,
-  category: string,
-  amount: number,
-  frequency: Frequency,
+  id?: string,
+  realEstateId?: string,
+  type?: BudgetLineType,
+  category?: string,
+  amount?: number,
+  frequency?: Frequency,
   nextDueDate?: string | null,
-  infoCredit?: MortgageLoanInfo | null,
+  infoCredit?: MortgageLoanInfo,
   tenantId?: string | null,
-  _version: number,
+  _version?: number,
   _deleted?: boolean | null,
-  _lastChangedAt: number,
-  createdAt: string,
-  updatedAt: string,
-  realEstate?: RealEstate | null,
+  _lastChangedAt?: number,
+  createdAt?: string,
+  updatedAt?: string,
+  realEstate?: RealEstate,
 };
 
 export enum BudgetLineType {
@@ -192,7 +192,7 @@ export enum Frequency {
 
 export type MortgageLoanInfo = {
   __typename: "MortgageLoanInfo",
-  borrowedCapital: number,
+  borrowedCapital?: number,
   loadStartDate?: string | null,
   duration?: number | null,
   interestRate?: number | null,
@@ -218,43 +218,43 @@ export type ModelBankMovementConnection = {
 
 export type BankMovement = {
   __typename: "BankMovement",
-  id: string,
-  bankAccountId: string,
-  bankAccount: BankAccount,
+  id?: string,
+  bankAccountId?: string,
+  bankAccount?: BankAccount,
   realEstateId?: string | null,
-  realEstate?: BankAccount | null,
-  biId: number,
-  description: string,
-  amount: number,
-  budgetLineDeadlineId: string,
-  budgetLineDeadline?: BudgetLineDeadline | null,
+  realEstate?: BankAccount,
+  biId?: number,
+  description?: string,
+  amount?: number,
+  budgetLineDeadlineId?: string,
+  budgetLineDeadline?: BudgetLineDeadline,
   ignored?: boolean | null,
   date?: string | null,
-  _version: number,
+  _version?: number,
   _deleted?: boolean | null,
-  _lastChangedAt: number,
-  createdAt: string,
-  updatedAt: string,
+  _lastChangedAt?: number,
+  createdAt?: string,
+  updatedAt?: string,
 };
 
 export type BankAccount = {
   __typename: "BankAccount",
-  id: string,
-  realEstates?: ModelRealEstateBankAccountConnection | null,
-  bank: string,
-  accountOwner: string,
-  iban: string,
-  bic: string,
-  balance: number,
-  biId: number,
-  biConnectionId: number,
+  id?: string,
+  realEstates?: ModelRealEstateBankAccountConnection,
+  bank?: string,
+  accountOwner?: string,
+  iban?: string,
+  bic?: string,
+  balance?: number,
+  biId?: number,
+  biConnectionId?: number,
   biState?: string | null,
-  movements?: ModelBankMovementConnection | null,
-  _version: number,
+  movements?: ModelBankMovementConnection,
+  _version?: number,
   _deleted?: boolean | null,
-  _lastChangedAt: number,
-  createdAt: string,
-  updatedAt: string,
+  _lastChangedAt?: number,
+  createdAt?: string,
+  updatedAt?: string,
 };
 
 export type ModelRealEstateBankAccountConnection = {
@@ -266,37 +266,37 @@ export type ModelRealEstateBankAccountConnection = {
 
 export type RealEstateBankAccount = {
   __typename: "RealEstateBankAccount",
-  id: string,
-  realEstateId: string,
-  bankAccountId: string,
-  bankAccount: BankAccount,
-  _version: number,
+  id?: string,
+  realEstateId?: string,
+  bankAccountId?: string,
+  bankAccount?: BankAccount,
+  _version?: number,
   _deleted?: boolean | null,
-  _lastChangedAt: number,
-  createdAt: string,
-  updatedAt: string,
-  realEstate?: RealEstate | null,
+  _lastChangedAt?: number,
+  createdAt?: string,
+  updatedAt?: string,
+  realEstate?: RealEstate,
 };
 
 export type BudgetLineDeadline = {
   __typename: "BudgetLineDeadline",
-  id: string,
-  realEstateId: string,
-  budgetLineId: string,
-  budgetLine?: BudgetLine | null,
-  type: BudgetLineType,
-  category: string,
-  amount: number,
-  frequency: Frequency,
+  id?: string,
+  realEstateId?: string,
+  budgetLineId?: string,
+  budgetLine?: BudgetLine,
+  type?: BudgetLineType,
+  category?: string,
+  amount?: number,
+  frequency?: Frequency,
   date?: string | null,
-  infoCredit?: MortgageLoanDeadlineInfo | null,
+  infoCredit?: MortgageLoanDeadlineInfo,
   tenantId?: string | null,
-  _version: number,
+  _version?: number,
   _deleted?: boolean | null,
-  _lastChangedAt: number,
-  createdAt: string,
-  updatedAt: string,
-  realEstate?: RealEstate | null,
+  _lastChangedAt?: number,
+  createdAt?: string,
+  updatedAt?: string,
+  realEstate?: RealEstate,
 };
 
 export type MortgageLoanDeadlineInfo = {
@@ -322,17 +322,17 @@ export type ModelDocumentConnection = {
 
 export type Document = {
   __typename: "Document",
-  id: string,
-  realEstateId: string,
-  name: string,
+  id?: string,
+  realEstateId?: string,
+  name?: string,
   key?: string | null,
-  s3file: string,
-  _version: number,
+  s3file?: string,
+  _version?: number,
   _deleted?: boolean | null,
-  _lastChangedAt: number,
-  createdAt: string,
-  updatedAt: string,
-  realEstate?: RealEstate | null,
+  _lastChangedAt?: number,
+  createdAt?: string,
+  updatedAt?: string,
+  realEstate?: RealEstate,
 };
 
 export type ModelPendingInvitationConnection = {
@@ -344,23 +344,23 @@ export type ModelPendingInvitationConnection = {
 
 export type Address = {
   __typename: "Address",
-  address: string,
+  address?: string,
   additionalAddress?: string | null,
-  postalCode: string,
-  city: string,
-  country: string,
+  postalCode?: string,
+  city?: string,
+  country?: string,
 };
 
 export type TenantInfo = {
   __typename: "TenantInfo",
-  id: string,
-  amount: number,
+  id?: string,
+  amount?: number,
   rentalCharges?: number | null,
   managementFees?: number | null,
-  lastname: string,
-  firstname: string,
-  email: string,
-  startDate: string,
+  lastname?: string,
+  firstname?: string,
+  email?: string,
+  startDate?: string,
   endDate?: string | null,
 };
 
@@ -373,7 +373,7 @@ export type UpdatePendingInvitationInput = {
 };
 
 export type DeletePendingInvitationInput = {
-  id: string,
+  id?: string | null,
   _version?: number | null,
 };
 
@@ -406,7 +406,7 @@ export type UpdateDocumentInput = {
 };
 
 export type DeleteDocumentInput = {
-  id: string,
+  id?: string | null,
   _version?: number | null,
 };
 
@@ -489,7 +489,7 @@ export type UpdateBudgetLineInput = {
 };
 
 export type DeleteBudgetLineInput = {
-  id: string,
+  id?: string | null,
   _version?: number | null,
 };
 
@@ -542,7 +542,7 @@ export type UpdateBudgetLineDeadlineInput = {
 };
 
 export type DeleteBudgetLineDeadlineInput = {
-  id: string,
+  id?: string | null,
   _version?: number | null,
 };
 
@@ -569,7 +569,7 @@ export type UpdateRealEstateBankAccountInput = {
 };
 
 export type DeleteRealEstateBankAccountInput = {
-  id: string,
+  id?: string | null,
   _version?: number | null,
 };
 
@@ -626,7 +626,7 @@ export type UpdateBankAccountInput = {
 };
 
 export type DeleteBankAccountInput = {
-  id: string,
+  id?: string | null,
   _version?: number | null,
 };
 
@@ -678,7 +678,7 @@ export type UpdateBankMovementInput = {
 };
 
 export type DeleteBankMovementInput = {
-  id: string,
+  id?: string | null,
   _version?: number | null,
 };
 
@@ -687,6 +687,7 @@ export type CreateUserInput = {
   lastname?: string | null,
   firstname?: string | null,
   avatarUri?: string | null,
+  email?: string | null,
   privateProfile?: ProfileInfoInput | null,
   expoToken?: Array< string > | null,
   biUser?: string | null,
@@ -695,7 +696,6 @@ export type CreateUserInput = {
 };
 
 export type ProfileInfoInput = {
-  email?: string | null,
   phoneNumber?: string | null,
   optIn?: boolean | null,
   address?: AddressInput | null,
@@ -722,6 +722,7 @@ export type ModelUserConditionInput = {
   lastname?: ModelStringInput | null,
   firstname?: ModelStringInput | null,
   avatarUri?: ModelStringInput | null,
+  email?: ModelStringInput | null,
   expoToken?: ModelStringInput | null,
   biUser?: ModelStringInput | null,
   biToken?: ModelStringInput | null,
@@ -732,16 +733,17 @@ export type ModelUserConditionInput = {
 
 export type User = {
   __typename: "User",
-  id: string,
+  id?: string,
   lastname?: string | null,
   firstname?: string | null,
   avatarUri?: string | null,
-  _version: number,
+  _version?: number,
   _deleted?: boolean | null,
-  _lastChangedAt: number,
-  createdAt: string,
-  updatedAt: string,
-  privateProfile?: ProfileInfo | null,
+  _lastChangedAt?: number,
+  createdAt?: string,
+  updatedAt?: string,
+  email?: string | null,
+  privateProfile?: ProfileInfo,
   expoToken?: Array< string > | null,
   biUser?: string | null,
   biToken?: string | null,
@@ -749,10 +751,9 @@ export type User = {
 
 export type ProfileInfo = {
   __typename: "ProfileInfo",
-  email?: string | null,
   phoneNumber?: string | null,
   optIn?: boolean | null,
-  address?: Address | null,
+  address?: Address,
   birthDate?: string | null,
   subscription?: SubscriptionType | null,
 };
@@ -762,6 +763,7 @@ export type UpdateUserInput = {
   lastname?: string | null,
   firstname?: string | null,
   avatarUri?: string | null,
+  email?: string | null,
   privateProfile?: ProfileInfoInput | null,
   expoToken?: Array< string > | null,
   biUser?: string | null,
@@ -770,7 +772,7 @@ export type UpdateUserInput = {
 };
 
 export type DeleteUserInput = {
-  id: string,
+  id?: string | null,
   _version?: number | null,
 };
 
@@ -850,7 +852,7 @@ export type UpdateRealEstateInput = {
 };
 
 export type DeleteRealEstateInput = {
-  id: string,
+  id?: string | null,
   _version?: number | null,
 };
 
@@ -878,18 +880,18 @@ export type ModelNotificationConditionInput = {
 
 export type Notification = {
   __typename: "Notification",
-  id: string,
+  id?: string,
   owner?: string | null,
-  userId: string,
-  category: string,
-  text: string,
+  userId?: string,
+  category?: string,
+  text?: string,
   params?: string | null,
   createdAt?: string | null,
-  _version: number,
+  _version?: number,
   _deleted?: boolean | null,
-  _lastChangedAt: number,
-  updatedAt: string,
-  user?: User | null,
+  _lastChangedAt?: number,
+  updatedAt?: string,
+  user?: User,
 };
 
 export type UpdateNotificationInput = {
@@ -904,7 +906,7 @@ export type UpdateNotificationInput = {
 };
 
 export type DeleteNotificationInput = {
-  id: string,
+  id?: string | null,
   _version?: number | null,
 };
 
@@ -939,20 +941,20 @@ export type ModelSubscriptionTypeInput = {
 
 export type BillingHistory = {
   __typename: "BillingHistory",
-  id: string,
+  id?: string,
   owner?: string | null,
-  userId: string,
-  date: string,
+  userId?: string,
+  date?: string,
   nextRenewDate?: string | null,
   subscription?: SubscriptionType | null,
-  amount: number,
+  amount?: number,
   paid?: boolean | null,
-  _version: number,
+  _version?: number,
   _deleted?: boolean | null,
-  _lastChangedAt: number,
-  createdAt: string,
-  updatedAt: string,
-  user?: User | null,
+  _lastChangedAt?: number,
+  createdAt?: string,
+  updatedAt?: string,
+  user?: User,
 };
 
 export type UpdateBillingHistoryInput = {
@@ -968,7 +970,7 @@ export type UpdateBillingHistoryInput = {
 };
 
 export type DeleteBillingHistoryInput = {
-  id: string,
+  id?: string | null,
   _version?: number | null,
 };
 
@@ -1079,6 +1081,7 @@ export type ModelUserFilterInput = {
   lastname?: ModelStringInput | null,
   firstname?: ModelStringInput | null,
   avatarUri?: ModelStringInput | null,
+  email?: ModelStringInput | null,
   expoToken?: ModelStringInput | null,
   biUser?: ModelStringInput | null,
   biToken?: ModelStringInput | null,
@@ -1160,7 +1163,7 @@ export type ModelBillingHistoryConnection = {
 };
 
 export type CreatePendingInvitationMutationVariables = {
-  input: CreatePendingInvitationInput,
+  input?: CreatePendingInvitationInput,
   condition?: ModelPendingInvitationConditionInput | null,
 };
 
@@ -1249,7 +1252,7 @@ export type CreatePendingInvitationMutation = {
 };
 
 export type UpdatePendingInvitationMutationVariables = {
-  input: UpdatePendingInvitationInput,
+  input?: UpdatePendingInvitationInput,
   condition?: ModelPendingInvitationConditionInput | null,
 };
 
@@ -1338,7 +1341,7 @@ export type UpdatePendingInvitationMutation = {
 };
 
 export type DeletePendingInvitationMutationVariables = {
-  input: DeletePendingInvitationInput,
+  input?: DeletePendingInvitationInput,
   condition?: ModelPendingInvitationConditionInput | null,
 };
 
@@ -1427,7 +1430,7 @@ export type DeletePendingInvitationMutation = {
 };
 
 export type CreateDocumentMutationVariables = {
-  input: CreateDocumentInput,
+  input?: CreateDocumentInput,
   condition?: ModelDocumentConditionInput | null,
 };
 
@@ -1517,7 +1520,7 @@ export type CreateDocumentMutation = {
 };
 
 export type UpdateDocumentMutationVariables = {
-  input: UpdateDocumentInput,
+  input?: UpdateDocumentInput,
   condition?: ModelDocumentConditionInput | null,
 };
 
@@ -1607,7 +1610,7 @@ export type UpdateDocumentMutation = {
 };
 
 export type DeleteDocumentMutationVariables = {
-  input: DeleteDocumentInput,
+  input?: DeleteDocumentInput,
   condition?: ModelDocumentConditionInput | null,
 };
 
@@ -1697,7 +1700,7 @@ export type DeleteDocumentMutation = {
 };
 
 export type CreateBudgetLineMutationVariables = {
-  input: CreateBudgetLineInput,
+  input?: CreateBudgetLineInput,
   condition?: ModelBudgetLineConditionInput | null,
 };
 
@@ -1806,7 +1809,7 @@ export type CreateBudgetLineMutation = {
 };
 
 export type UpdateBudgetLineMutationVariables = {
-  input: UpdateBudgetLineInput,
+  input?: UpdateBudgetLineInput,
   condition?: ModelBudgetLineConditionInput | null,
 };
 
@@ -1915,7 +1918,7 @@ export type UpdateBudgetLineMutation = {
 };
 
 export type DeleteBudgetLineMutationVariables = {
-  input: DeleteBudgetLineInput,
+  input?: DeleteBudgetLineInput,
   condition?: ModelBudgetLineConditionInput | null,
 };
 
@@ -2024,7 +2027,7 @@ export type DeleteBudgetLineMutation = {
 };
 
 export type CreateBudgetLineDeadlineMutationVariables = {
-  input: CreateBudgetLineDeadlineInput,
+  input?: CreateBudgetLineDeadlineInput,
   condition?: ModelBudgetLineDeadlineConditionInput | null,
 };
 
@@ -2167,7 +2170,7 @@ export type CreateBudgetLineDeadlineMutation = {
 };
 
 export type UpdateBudgetLineDeadlineMutationVariables = {
-  input: UpdateBudgetLineDeadlineInput,
+  input?: UpdateBudgetLineDeadlineInput,
   condition?: ModelBudgetLineDeadlineConditionInput | null,
 };
 
@@ -2310,7 +2313,7 @@ export type UpdateBudgetLineDeadlineMutation = {
 };
 
 export type DeleteBudgetLineDeadlineMutationVariables = {
-  input: DeleteBudgetLineDeadlineInput,
+  input?: DeleteBudgetLineDeadlineInput,
   condition?: ModelBudgetLineDeadlineConditionInput | null,
 };
 
@@ -2453,7 +2456,7 @@ export type DeleteBudgetLineDeadlineMutation = {
 };
 
 export type CreateRealEstateBankAccountMutationVariables = {
-  input: CreateRealEstateBankAccountInput,
+  input?: CreateRealEstateBankAccountInput,
   condition?: ModelRealEstateBankAccountConditionInput | null,
 };
 
@@ -2568,7 +2571,7 @@ export type CreateRealEstateBankAccountMutation = {
 };
 
 export type UpdateRealEstateBankAccountMutationVariables = {
-  input: UpdateRealEstateBankAccountInput,
+  input?: UpdateRealEstateBankAccountInput,
   condition?: ModelRealEstateBankAccountConditionInput | null,
 };
 
@@ -2683,7 +2686,7 @@ export type UpdateRealEstateBankAccountMutation = {
 };
 
 export type DeleteRealEstateBankAccountMutationVariables = {
-  input: DeleteRealEstateBankAccountInput,
+  input?: DeleteRealEstateBankAccountInput,
   condition?: ModelRealEstateBankAccountConditionInput | null,
 };
 
@@ -2798,7 +2801,7 @@ export type DeleteRealEstateBankAccountMutation = {
 };
 
 export type CreateBankAccountMutationVariables = {
-  input: CreateBankAccountInput,
+  input?: CreateBankAccountInput,
   condition?: ModelBankAccountConditionInput | null,
 };
 
@@ -2861,7 +2864,7 @@ export type CreateBankAccountMutation = {
 };
 
 export type UpdateBankAccountMutationVariables = {
-  input: UpdateBankAccountInput,
+  input?: UpdateBankAccountInput,
   condition?: ModelBankAccountConditionInput | null,
 };
 
@@ -2924,7 +2927,7 @@ export type UpdateBankAccountMutation = {
 };
 
 export type DeleteBankAccountMutationVariables = {
-  input: DeleteBankAccountInput,
+  input?: DeleteBankAccountInput,
   condition?: ModelBankAccountConditionInput | null,
 };
 
@@ -2987,7 +2990,7 @@ export type DeleteBankAccountMutation = {
 };
 
 export type CreateBankMovementMutationVariables = {
-  input: CreateBankMovementInput,
+  input?: CreateBankMovementInput,
   condition?: ModelBankMovementConditionInput | null,
 };
 
@@ -3124,7 +3127,7 @@ export type CreateBankMovementMutation = {
 };
 
 export type UpdateBankMovementMutationVariables = {
-  input: UpdateBankMovementInput,
+  input?: UpdateBankMovementInput,
   condition?: ModelBankMovementConditionInput | null,
 };
 
@@ -3261,7 +3264,7 @@ export type UpdateBankMovementMutation = {
 };
 
 export type DeleteBankMovementMutationVariables = {
-  input: DeleteBankMovementInput,
+  input?: DeleteBankMovementInput,
   condition?: ModelBankMovementConditionInput | null,
 };
 
@@ -3398,7 +3401,7 @@ export type DeleteBankMovementMutation = {
 };
 
 export type CreateUserMutationVariables = {
-  input: CreateUserInput,
+  input?: CreateUserInput,
   condition?: ModelUserConditionInput | null,
 };
 
@@ -3414,9 +3417,9 @@ export type CreateUserMutation = {
     _lastChangedAt: number,
     createdAt: string,
     updatedAt: string,
+    email?: string | null,
     privateProfile?:  {
       __typename: "ProfileInfo",
-      email?: string | null,
       phoneNumber?: string | null,
       optIn?: boolean | null,
       address?:  {
@@ -3437,7 +3440,7 @@ export type CreateUserMutation = {
 };
 
 export type UpdateUserMutationVariables = {
-  input: UpdateUserInput,
+  input?: UpdateUserInput,
   condition?: ModelUserConditionInput | null,
 };
 
@@ -3453,9 +3456,9 @@ export type UpdateUserMutation = {
     _lastChangedAt: number,
     createdAt: string,
     updatedAt: string,
+    email?: string | null,
     privateProfile?:  {
       __typename: "ProfileInfo",
-      email?: string | null,
       phoneNumber?: string | null,
       optIn?: boolean | null,
       address?:  {
@@ -3476,7 +3479,7 @@ export type UpdateUserMutation = {
 };
 
 export type DeleteUserMutationVariables = {
-  input: DeleteUserInput,
+  input?: DeleteUserInput,
   condition?: ModelUserConditionInput | null,
 };
 
@@ -3492,9 +3495,9 @@ export type DeleteUserMutation = {
     _lastChangedAt: number,
     createdAt: string,
     updatedAt: string,
+    email?: string | null,
     privateProfile?:  {
       __typename: "ProfileInfo",
-      email?: string | null,
       phoneNumber?: string | null,
       optIn?: boolean | null,
       address?:  {
@@ -3515,7 +3518,7 @@ export type DeleteUserMutation = {
 };
 
 export type CreateRealEstateMutationVariables = {
-  input: CreateRealEstateInput,
+  input?: CreateRealEstateInput,
   condition?: ModelRealEstateConditionInput | null,
 };
 
@@ -3678,7 +3681,7 @@ export type CreateRealEstateMutation = {
 };
 
 export type UpdateRealEstateMutationVariables = {
-  input: UpdateRealEstateInput,
+  input?: UpdateRealEstateInput,
   condition?: ModelRealEstateConditionInput | null,
 };
 
@@ -3841,7 +3844,7 @@ export type UpdateRealEstateMutation = {
 };
 
 export type DeleteRealEstateMutationVariables = {
-  input: DeleteRealEstateInput,
+  input?: DeleteRealEstateInput,
   condition?: ModelRealEstateConditionInput | null,
 };
 
@@ -4004,7 +4007,7 @@ export type DeleteRealEstateMutation = {
 };
 
 export type CreateNotificationMutationVariables = {
-  input: CreateNotificationInput,
+  input?: CreateNotificationInput,
   condition?: ModelNotificationConditionInput | null,
 };
 
@@ -4033,9 +4036,9 @@ export type CreateNotificationMutation = {
       _lastChangedAt: number,
       createdAt: string,
       updatedAt: string,
+      email?: string | null,
       privateProfile?:  {
         __typename: "ProfileInfo",
-        email?: string | null,
         phoneNumber?: string | null,
         optIn?: boolean | null,
         birthDate?: string | null,
@@ -4049,7 +4052,7 @@ export type CreateNotificationMutation = {
 };
 
 export type UpdateNotificationMutationVariables = {
-  input: UpdateNotificationInput,
+  input?: UpdateNotificationInput,
   condition?: ModelNotificationConditionInput | null,
 };
 
@@ -4078,9 +4081,9 @@ export type UpdateNotificationMutation = {
       _lastChangedAt: number,
       createdAt: string,
       updatedAt: string,
+      email?: string | null,
       privateProfile?:  {
         __typename: "ProfileInfo",
-        email?: string | null,
         phoneNumber?: string | null,
         optIn?: boolean | null,
         birthDate?: string | null,
@@ -4094,7 +4097,7 @@ export type UpdateNotificationMutation = {
 };
 
 export type DeleteNotificationMutationVariables = {
-  input: DeleteNotificationInput,
+  input?: DeleteNotificationInput,
   condition?: ModelNotificationConditionInput | null,
 };
 
@@ -4123,9 +4126,9 @@ export type DeleteNotificationMutation = {
       _lastChangedAt: number,
       createdAt: string,
       updatedAt: string,
+      email?: string | null,
       privateProfile?:  {
         __typename: "ProfileInfo",
-        email?: string | null,
         phoneNumber?: string | null,
         optIn?: boolean | null,
         birthDate?: string | null,
@@ -4139,7 +4142,7 @@ export type DeleteNotificationMutation = {
 };
 
 export type CreateBillingHistoryMutationVariables = {
-  input: CreateBillingHistoryInput,
+  input?: CreateBillingHistoryInput,
   condition?: ModelBillingHistoryConditionInput | null,
 };
 
@@ -4170,9 +4173,9 @@ export type CreateBillingHistoryMutation = {
       _lastChangedAt: number,
       createdAt: string,
       updatedAt: string,
+      email?: string | null,
       privateProfile?:  {
         __typename: "ProfileInfo",
-        email?: string | null,
         phoneNumber?: string | null,
         optIn?: boolean | null,
         birthDate?: string | null,
@@ -4186,7 +4189,7 @@ export type CreateBillingHistoryMutation = {
 };
 
 export type UpdateBillingHistoryMutationVariables = {
-  input: UpdateBillingHistoryInput,
+  input?: UpdateBillingHistoryInput,
   condition?: ModelBillingHistoryConditionInput | null,
 };
 
@@ -4217,9 +4220,9 @@ export type UpdateBillingHistoryMutation = {
       _lastChangedAt: number,
       createdAt: string,
       updatedAt: string,
+      email?: string | null,
       privateProfile?:  {
         __typename: "ProfileInfo",
-        email?: string | null,
         phoneNumber?: string | null,
         optIn?: boolean | null,
         birthDate?: string | null,
@@ -4233,7 +4236,7 @@ export type UpdateBillingHistoryMutation = {
 };
 
 export type DeleteBillingHistoryMutationVariables = {
-  input: DeleteBillingHistoryInput,
+  input?: DeleteBillingHistoryInput,
   condition?: ModelBillingHistoryConditionInput | null,
 };
 
@@ -4264,9 +4267,9 @@ export type DeleteBillingHistoryMutation = {
       _lastChangedAt: number,
       createdAt: string,
       updatedAt: string,
+      email?: string | null,
       privateProfile?:  {
         __typename: "ProfileInfo",
-        email?: string | null,
         phoneNumber?: string | null,
         optIn?: boolean | null,
         birthDate?: string | null,
@@ -4326,7 +4329,7 @@ export type SyncPendingInvitationsQuery = {
 };
 
 export type GetPendingInvitationQueryVariables = {
-  id: string,
+  id?: string,
 };
 
 export type GetPendingInvitationQuery = {
@@ -4506,7 +4509,7 @@ export type SyncDocumentsQuery = {
 };
 
 export type GetDocumentQueryVariables = {
-  id: string,
+  id?: string,
 };
 
 export type GetDocumentQuery = {
@@ -4699,7 +4702,7 @@ export type SyncBudgetLinesQuery = {
 };
 
 export type GetBudgetLineQueryVariables = {
-  id: string,
+  id?: string,
 };
 
 export type GetBudgetLineQuery = {
@@ -4937,7 +4940,7 @@ export type SyncBudgetLineDeadlinesQuery = {
 };
 
 export type GetBudgetLineDeadlineQueryVariables = {
-  id: string,
+  id?: string,
 };
 
 export type GetBudgetLineDeadlineQuery = {
@@ -5255,7 +5258,7 @@ export type SyncBankAccountsQuery = {
 };
 
 export type GetBankAccountQueryVariables = {
-  id: string,
+  id?: string,
 };
 
 export type GetBankAccountQuery = {
@@ -5441,7 +5444,7 @@ export type SyncBankMovementsQuery = {
 };
 
 export type GetBankMovementQueryVariables = {
-  id: string,
+  id?: string,
 };
 
 export type GetBankMovementQuery = {
@@ -5818,9 +5821,48 @@ export type UserByBiUserQuery = {
       _lastChangedAt: number,
       createdAt: string,
       updatedAt: string,
+      email?: string | null,
       privateProfile?:  {
         __typename: "ProfileInfo",
-        email?: string | null,
+        phoneNumber?: string | null,
+        optIn?: boolean | null,
+        birthDate?: string | null,
+        subscription?: SubscriptionType | null,
+      } | null,
+      expoToken?: Array< string > | null,
+      biUser?: string | null,
+      biToken?: string | null,
+    } | null > | null,
+    nextToken?: string | null,
+    startedAt?: number | null,
+  } | null,
+};
+
+export type UserByEmailQueryVariables = {
+  email?: string | null,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelUserFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type UserByEmailQuery = {
+  userByEmail?:  {
+    __typename: "ModelUserConnection",
+    items?:  Array< {
+      __typename: "User",
+      id: string,
+      lastname?: string | null,
+      firstname?: string | null,
+      avatarUri?: string | null,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+      createdAt: string,
+      updatedAt: string,
+      email?: string | null,
+      privateProfile?:  {
+        __typename: "ProfileInfo",
         phoneNumber?: string | null,
         optIn?: boolean | null,
         birthDate?: string | null,
@@ -5856,9 +5898,9 @@ export type SyncUsersQuery = {
       _lastChangedAt: number,
       createdAt: string,
       updatedAt: string,
+      email?: string | null,
       privateProfile?:  {
         __typename: "ProfileInfo",
-        email?: string | null,
         phoneNumber?: string | null,
         optIn?: boolean | null,
         birthDate?: string | null,
@@ -5874,7 +5916,7 @@ export type SyncUsersQuery = {
 };
 
 export type GetUserQueryVariables = {
-  id: string,
+  id?: string,
 };
 
 export type GetUserQuery = {
@@ -5889,9 +5931,9 @@ export type GetUserQuery = {
     _lastChangedAt: number,
     createdAt: string,
     updatedAt: string,
+    email?: string | null,
     privateProfile?:  {
       __typename: "ProfileInfo",
-      email?: string | null,
       phoneNumber?: string | null,
       optIn?: boolean | null,
       address?:  {
@@ -5931,9 +5973,9 @@ export type ListUsersQuery = {
       _lastChangedAt: number,
       createdAt: string,
       updatedAt: string,
+      email?: string | null,
       privateProfile?:  {
         __typename: "ProfileInfo",
-        email?: string | null,
         phoneNumber?: string | null,
         optIn?: boolean | null,
         birthDate?: string | null,
@@ -5948,8 +5990,91 @@ export type ListUsersQuery = {
   } | null,
 };
 
+export type ListRealEstatesQueryVariables = {
+  filter?: ModelRealEstateFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListRealEstatesQuery = {
+  listRealEstates?:  {
+    __typename: "ModelRealEstateConnection",
+    items?:  Array< {
+      __typename: "RealEstate",
+      id: string,
+      name: string,
+      iconUri: string,
+      purchaseYear?: number | null,
+      type?: RealEstateType | null,
+      ownName?: boolean | null,
+      company?: CompanyType | null,
+      detentionPart?: number | null,
+      typeImpot?: TaxType | null,
+      budgetLines?:  {
+        __typename: "ModelBudgetLineConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      bankMovements?:  {
+        __typename: "ModelBankMovementConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      budgetLineDeadlines?:  {
+        __typename: "ModelBudgetLineDeadlineConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      documents?:  {
+        __typename: "ModelDocumentConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      admins: Array< string >,
+      shared?: Array< string > | null,
+      pendingInvitations?:  {
+        __typename: "ModelPendingInvitationConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      address?:  {
+        __typename: "Address",
+        address: string,
+        additionalAddress?: string | null,
+        postalCode: string,
+        city: string,
+        country: string,
+      } | null,
+      tenants?:  Array< {
+        __typename: "TenantInfo",
+        id: string,
+        amount: number,
+        rentalCharges?: number | null,
+        managementFees?: number | null,
+        lastname: string,
+        firstname: string,
+        email: string,
+        startDate: string,
+        endDate?: string | null,
+      } | null > | null,
+      bankAccounts?:  {
+        __typename: "ModelRealEstateBankAccountConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+      createdAt: string,
+      updatedAt: string,
+    } | null > | null,
+    nextToken?: string | null,
+    startedAt?: number | null,
+  } | null,
+};
+
 export type GetRealEstateQueryVariables = {
-  id: string,
+  id?: string,
 };
 
 export type GetRealEstateQuery = {
@@ -6110,89 +6235,6 @@ export type GetRealEstateQuery = {
   } | null,
 };
 
-export type ListRealEstatesQueryVariables = {
-  filter?: ModelRealEstateFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type ListRealEstatesQuery = {
-  listRealEstates?:  {
-    __typename: "ModelRealEstateConnection",
-    items?:  Array< {
-      __typename: "RealEstate",
-      id: string,
-      name: string,
-      iconUri: string,
-      purchaseYear?: number | null,
-      type?: RealEstateType | null,
-      ownName?: boolean | null,
-      company?: CompanyType | null,
-      detentionPart?: number | null,
-      typeImpot?: TaxType | null,
-      budgetLines?:  {
-        __typename: "ModelBudgetLineConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      bankMovements?:  {
-        __typename: "ModelBankMovementConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      budgetLineDeadlines?:  {
-        __typename: "ModelBudgetLineDeadlineConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      documents?:  {
-        __typename: "ModelDocumentConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      admins: Array< string >,
-      shared?: Array< string > | null,
-      pendingInvitations?:  {
-        __typename: "ModelPendingInvitationConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      address?:  {
-        __typename: "Address",
-        address: string,
-        additionalAddress?: string | null,
-        postalCode: string,
-        city: string,
-        country: string,
-      } | null,
-      tenants?:  Array< {
-        __typename: "TenantInfo",
-        id: string,
-        amount: number,
-        rentalCharges?: number | null,
-        managementFees?: number | null,
-        lastname: string,
-        firstname: string,
-        email: string,
-        startDate: string,
-        endDate?: string | null,
-      } | null > | null,
-      bankAccounts?:  {
-        __typename: "ModelRealEstateBankAccountConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-      createdAt: string,
-      updatedAt: string,
-    } | null > | null,
-    nextToken?: string | null,
-    startedAt?: number | null,
-  } | null,
-};
-
 export type SyncRealEstatesQueryVariables = {
   filter?: ModelRealEstateFilterInput | null,
   limit?: number | null,
@@ -6278,7 +6320,7 @@ export type SyncRealEstatesQuery = {
 };
 
 export type GetNotificationQueryVariables = {
-  id: string,
+  id?: string,
 };
 
 export type GetNotificationQuery = {
@@ -6306,9 +6348,9 @@ export type GetNotificationQuery = {
       _lastChangedAt: number,
       createdAt: string,
       updatedAt: string,
+      email?: string | null,
       privateProfile?:  {
         __typename: "ProfileInfo",
-        email?: string | null,
         phoneNumber?: string | null,
         optIn?: boolean | null,
         birthDate?: string | null,
@@ -6354,6 +6396,7 @@ export type ListNotificationsQuery = {
         _lastChangedAt: number,
         createdAt: string,
         updatedAt: string,
+        email?: string | null,
         expoToken?: Array< string > | null,
         biUser?: string | null,
         biToken?: string | null,
@@ -6398,6 +6441,7 @@ export type SyncNotificationsQuery = {
         _lastChangedAt: number,
         createdAt: string,
         updatedAt: string,
+        email?: string | null,
         expoToken?: Array< string > | null,
         biUser?: string | null,
         biToken?: string | null,
@@ -6409,7 +6453,7 @@ export type SyncNotificationsQuery = {
 };
 
 export type GetBillingHistoryQueryVariables = {
-  id: string,
+  id?: string,
 };
 
 export type GetBillingHistoryQuery = {
@@ -6439,9 +6483,9 @@ export type GetBillingHistoryQuery = {
       _lastChangedAt: number,
       createdAt: string,
       updatedAt: string,
+      email?: string | null,
       privateProfile?:  {
         __typename: "ProfileInfo",
-        email?: string | null,
         phoneNumber?: string | null,
         optIn?: boolean | null,
         birthDate?: string | null,
@@ -6489,6 +6533,7 @@ export type ListBillingHistorysQuery = {
         _lastChangedAt: number,
         createdAt: string,
         updatedAt: string,
+        email?: string | null,
         expoToken?: Array< string > | null,
         biUser?: string | null,
         biToken?: string | null,
@@ -6535,6 +6580,7 @@ export type SyncBillingHistoriesQuery = {
         _lastChangedAt: number,
         createdAt: string,
         updatedAt: string,
+        email?: string | null,
         expoToken?: Array< string > | null,
         biUser?: string | null,
         biToken?: string | null,
@@ -8690,9 +8736,9 @@ export type OnCreateUserSubscription = {
     _lastChangedAt: number,
     createdAt: string,
     updatedAt: string,
+    email?: string | null,
     privateProfile?:  {
       __typename: "ProfileInfo",
-      email?: string | null,
       phoneNumber?: string | null,
       optIn?: boolean | null,
       address?:  {
@@ -8724,9 +8770,9 @@ export type OnUpdateUserSubscription = {
     _lastChangedAt: number,
     createdAt: string,
     updatedAt: string,
+    email?: string | null,
     privateProfile?:  {
       __typename: "ProfileInfo",
-      email?: string | null,
       phoneNumber?: string | null,
       optIn?: boolean | null,
       address?:  {
@@ -8758,9 +8804,9 @@ export type OnDeleteUserSubscription = {
     _lastChangedAt: number,
     createdAt: string,
     updatedAt: string,
+    email?: string | null,
     privateProfile?:  {
       __typename: "ProfileInfo",
-      email?: string | null,
       phoneNumber?: string | null,
       optIn?: boolean | null,
       address?:  {
@@ -9298,9 +9344,9 @@ export type OnCreateNotificationSubscription = {
       _lastChangedAt: number,
       createdAt: string,
       updatedAt: string,
+      email?: string | null,
       privateProfile?:  {
         __typename: "ProfileInfo",
-        email?: string | null,
         phoneNumber?: string | null,
         optIn?: boolean | null,
         birthDate?: string | null,
@@ -9342,9 +9388,9 @@ export type OnUpdateNotificationSubscription = {
       _lastChangedAt: number,
       createdAt: string,
       updatedAt: string,
+      email?: string | null,
       privateProfile?:  {
         __typename: "ProfileInfo",
-        email?: string | null,
         phoneNumber?: string | null,
         optIn?: boolean | null,
         birthDate?: string | null,
@@ -9386,9 +9432,9 @@ export type OnDeleteNotificationSubscription = {
       _lastChangedAt: number,
       createdAt: string,
       updatedAt: string,
+      email?: string | null,
       privateProfile?:  {
         __typename: "ProfileInfo",
-        email?: string | null,
         phoneNumber?: string | null,
         optIn?: boolean | null,
         birthDate?: string | null,
@@ -9432,9 +9478,9 @@ export type OnCreateBillingHistorySubscription = {
       _lastChangedAt: number,
       createdAt: string,
       updatedAt: string,
+      email?: string | null,
       privateProfile?:  {
         __typename: "ProfileInfo",
-        email?: string | null,
         phoneNumber?: string | null,
         optIn?: boolean | null,
         birthDate?: string | null,
@@ -9478,9 +9524,9 @@ export type OnUpdateBillingHistorySubscription = {
       _lastChangedAt: number,
       createdAt: string,
       updatedAt: string,
+      email?: string | null,
       privateProfile?:  {
         __typename: "ProfileInfo",
-        email?: string | null,
         phoneNumber?: string | null,
         optIn?: boolean | null,
         birthDate?: string | null,
@@ -9524,9 +9570,9 @@ export type OnDeleteBillingHistorySubscription = {
       _lastChangedAt: number,
       createdAt: string,
       updatedAt: string,
+      email?: string | null,
       privateProfile?:  {
         __typename: "ProfileInfo",
-        email?: string | null,
         phoneNumber?: string | null,
         optIn?: boolean | null,
         birthDate?: string | null,

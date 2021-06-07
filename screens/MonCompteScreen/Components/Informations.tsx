@@ -41,7 +41,7 @@ const Informations = ({ utilisateur } : InformationProps) => {
 
         <Text category="h6" status="basic" style={{ marginTop: 7 }}>Adresse e-mail : </Text>
         <Text appearance="hint" style={{ marginTop: 5 }}>
-          {utilisateur?.privateProfile?.email || undefined}
+          {utilisateur?.email || undefined}
         </Text>
         <Layout style={{ borderBottomWidth: 0.3, borderBottomColor: '#b5b5b5', marginVertical: 15 }} />
 

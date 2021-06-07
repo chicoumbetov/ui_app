@@ -31,7 +31,12 @@
         "budgetinsight": {
           "deploymentBucketName": "amplify-omedom-dev-175444-deployment",
           "s3Key": "amplify-builds/budgetinsight-752f434b303265427a63-build.zip"
-        }
+        },
+        "shareRealEstate": {
+          "deploymentBucketName": "amplify-omedom-dev-175444-deployment",
+          "s3Key": "amplify-builds/shareRealEstate-454664744f305930346f-build.zip"
+        },
+        "omedomfee3bfe0PostConfirmation": {}
       }
     },
     "nonCFNdata": {

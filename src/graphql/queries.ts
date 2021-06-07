@@ -1447,8 +1447,49 @@ export const userByBiUser = /* GraphQL */ `
         _lastChangedAt
         createdAt
         updatedAt
+        email
         privateProfile {
-          email
+          phoneNumber
+          optIn
+          birthDate
+          subscription
+        }
+        expoToken
+        biUser
+        biToken
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const userByEmail = /* GraphQL */ `
+  query UserByEmail(
+    $email: AWSEmail
+    $sortDirection: ModelSortDirection
+    $filter: ModelUserFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    userByEmail(
+      email: $email
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        lastname
+        firstname
+        avatarUri
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+        email
+        privateProfile {
           phoneNumber
           optIn
           birthDate
@@ -1486,8 +1527,8 @@ export const syncUsers = /* GraphQL */ `
         _lastChangedAt
         createdAt
         updatedAt
+        email
         privateProfile {
-          email
           phoneNumber
           optIn
           birthDate
@@ -1514,8 +1555,8 @@ export const getUser = /* GraphQL */ `
       _lastChangedAt
       createdAt
       updatedAt
+      email
       privateProfile {
-        email
         phoneNumber
         optIn
         address {
@@ -1551,8 +1592,8 @@ export const listUsers = /* GraphQL */ `
         _lastChangedAt
         createdAt
         updatedAt
+        email
         privateProfile {
-          email
           phoneNumber
           optIn
           birthDate
@@ -1561,6 +1602,78 @@ export const listUsers = /* GraphQL */ `
         expoToken
         biUser
         biToken
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const listRealEstates = /* GraphQL */ `
+  query ListRealEstates(
+    $filter: ModelRealEstateFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listRealEstates(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        name
+        iconUri
+        purchaseYear
+        type
+        ownName
+        company
+        detentionPart
+        typeImpot
+        budgetLines {
+          nextToken
+          startedAt
+        }
+        bankMovements {
+          nextToken
+          startedAt
+        }
+        budgetLineDeadlines {
+          nextToken
+          startedAt
+        }
+        documents {
+          nextToken
+          startedAt
+        }
+        admins
+        shared
+        pendingInvitations {
+          nextToken
+          startedAt
+        }
+        address {
+          address
+          additionalAddress
+          postalCode
+          city
+          country
+        }
+        tenants {
+          id
+          amount
+          rentalCharges
+          managementFees
+          lastname
+          firstname
+          email
+          startDate
+          endDate
+        }
+        bankAccounts {
+          nextToken
+          startedAt
+        }
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
       }
       nextToken
       startedAt
@@ -1711,78 +1824,6 @@ export const getRealEstate = /* GraphQL */ `
     }
   }
 `;
-export const listRealEstates = /* GraphQL */ `
-  query ListRealEstates(
-    $filter: ModelRealEstateFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listRealEstates(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        name
-        iconUri
-        purchaseYear
-        type
-        ownName
-        company
-        detentionPart
-        typeImpot
-        budgetLines {
-          nextToken
-          startedAt
-        }
-        bankMovements {
-          nextToken
-          startedAt
-        }
-        budgetLineDeadlines {
-          nextToken
-          startedAt
-        }
-        documents {
-          nextToken
-          startedAt
-        }
-        admins
-        shared
-        pendingInvitations {
-          nextToken
-          startedAt
-        }
-        address {
-          address
-          additionalAddress
-          postalCode
-          city
-          country
-        }
-        tenants {
-          id
-          amount
-          rentalCharges
-          managementFees
-          lastname
-          firstname
-          email
-          startDate
-          endDate
-        }
-        bankAccounts {
-          nextToken
-          startedAt
-        }
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-      }
-      nextToken
-      startedAt
-    }
-  }
-`;
 export const syncRealEstates = /* GraphQL */ `
   query SyncRealEstates(
     $filter: ModelRealEstateFilterInput
@@ -1885,8 +1926,8 @@ export const getNotification = /* GraphQL */ `
         _lastChangedAt
         createdAt
         updatedAt
+        email
         privateProfile {
-          email
           phoneNumber
           optIn
           birthDate
@@ -1928,6 +1969,7 @@ export const listNotifications = /* GraphQL */ `
           _lastChangedAt
           createdAt
           updatedAt
+          email
           expoToken
           biUser
           biToken
@@ -1973,6 +2015,7 @@ export const syncNotifications = /* GraphQL */ `
           _lastChangedAt
           createdAt
           updatedAt
+          email
           expoToken
           biUser
           biToken
@@ -2009,8 +2052,8 @@ export const getBillingHistory = /* GraphQL */ `
         _lastChangedAt
         createdAt
         updatedAt
+        email
         privateProfile {
-          email
           phoneNumber
           optIn
           birthDate
@@ -2054,6 +2097,7 @@ export const listBillingHistorys = /* GraphQL */ `
           _lastChangedAt
           createdAt
           updatedAt
+          email
           expoToken
           biUser
           biToken
@@ -2101,6 +2145,7 @@ export const syncBillingHistories = /* GraphQL */ `
           _lastChangedAt
           createdAt
           updatedAt
+          email
           expoToken
           biUser
           biToken

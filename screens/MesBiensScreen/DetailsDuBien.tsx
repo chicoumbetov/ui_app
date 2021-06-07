@@ -33,9 +33,10 @@ import { TabMesBiensParamList } from '../../types';
 import { Upload } from '../../utils/S3FileStorage';
 import Card from '../../components/Card';
 import Separator from '../../components/Separator';
-import { UseGetInvitateUser, useGetUserByIDList } from '../../src/API/User';
+import { useGetUserByIDList } from '../../src/API/User';
 import DocumentComponent from '../../components/DocumentComponent';
 import { useDocumentList } from '../../src/API/Document';
+import { usePendingInvitationsList } from '../../src/API/PendingInvitation';
 
 function DetailsBien() {
   const navigation = useNavigation();
@@ -43,12 +44,15 @@ function DetailsBien() {
   const theme = useTheme();
   const route = useRoute<RouteProp<TabMesBiensParamList, 'detail-bien'>>();
   const { bien } = useGetRealEstate(route.params.id);
+  const { pendingInvitations } = usePendingInvitationsList();
   const { documentList } = useDocumentList();
   // console.log('detail bien document', documentList);
 
   const [typeRevenu, setTypeRevenu] = useState<string>();
+  console.log(route.params.id);
 
-  const users = useGetUserByIDList(Array.prototype.concat(bien.admins, bien.shared));
+  const users = useGetUserByIDList(Array.prototype.concat(bien?.admins, bien?.shared));
+  const invitateUserId = pendingInvitations?.filter((item) => item?.realEstateId === route.params.id);
 
   console.log(users);
 

@@ -20,8 +20,8 @@ import { removeNull } from '../../utils/ObjectHelper';
 type ModifierInfo1Form = {
   firstname:string;
   lastname: string;
+  email?: string | null;
   privateProfile: {
-    email?: string | null;
     phoneNumber?: string | null;
     optIn?: boolean | null;
   }
@@ -55,7 +55,7 @@ const ModifierInfo1 = () => {
       }
 
       const newCognitoAttr = removeNull({
-        email: otherProps.privateProfile.email,
+        email: otherProps.email,
         family_name: otherProps.lastname,
         given_name: otherProps.firstname,
         phone_number: otherProps.privateProfile.phoneNumber,
@@ -118,7 +118,7 @@ const ModifierInfo1 = () => {
           />
 
           <TextInput
-            name="privateProfile.email"
+            name="email"
             placeholder="Votre  e-mail"
             validators={[
               AvailableValidationRules.required,

@@ -1943,8 +1943,8 @@ export const onCreateUser = /* GraphQL */ `
       _lastChangedAt
       createdAt
       updatedAt
+      email
       privateProfile {
-        email
         phoneNumber
         optIn
         address {
@@ -1975,8 +1975,8 @@ export const onUpdateUser = /* GraphQL */ `
       _lastChangedAt
       createdAt
       updatedAt
+      email
       privateProfile {
-        email
         phoneNumber
         optIn
         address {
@@ -2007,8 +2007,8 @@ export const onDeleteUser = /* GraphQL */ `
       _lastChangedAt
       createdAt
       updatedAt
+      email
       privateProfile {
-        email
         phoneNumber
         optIn
         address {
@@ -2483,8 +2483,8 @@ export const onCreateNotification = /* GraphQL */ `
         _lastChangedAt
         createdAt
         updatedAt
+        email
         privateProfile {
-          email
           phoneNumber
           optIn
           birthDate
@@ -2521,8 +2521,8 @@ export const onUpdateNotification = /* GraphQL */ `
         _lastChangedAt
         createdAt
         updatedAt
+        email
         privateProfile {
-          email
           phoneNumber
           optIn
           birthDate
@@ -2559,8 +2559,8 @@ export const onDeleteNotification = /* GraphQL */ `
         _lastChangedAt
         createdAt
         updatedAt
+        email
         privateProfile {
-          email
           phoneNumber
           optIn
           birthDate
@@ -2599,8 +2599,8 @@ export const onCreateBillingHistory = /* GraphQL */ `
         _lastChangedAt
         createdAt
         updatedAt
+        email
         privateProfile {
-          email
           phoneNumber
           optIn
           birthDate
@@ -2639,8 +2639,8 @@ export const onUpdateBillingHistory = /* GraphQL */ `
         _lastChangedAt
         createdAt
         updatedAt
+        email
         privateProfile {
-          email
           phoneNumber
           optIn
           birthDate
@@ -2679,8 +2679,8 @@ export const onDeleteBillingHistory = /* GraphQL */ `
         _lastChangedAt
         createdAt
         updatedAt
+        email
         privateProfile {
-          email
           phoneNumber
           optIn
           birthDate

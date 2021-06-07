@@ -1,0 +1,8 @@
+{
+  "Template": {
+    "TemplateName": "ExampleTemplate",
+    "SubjectPart": "Hello, YOYO!",
+    "HtmlPart": "<h1>Hello YOYO,</h1><p>This is an email template.</p>",
+    "TextPart": "Hello YOYO,\r\nThis is an email template."
+  }
+}

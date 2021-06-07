@@ -2,19 +2,22 @@ import { useMutation, useQuery } from 'react-apollo';
 import gql from 'graphql-tag';
 import { DocumentNode } from 'apollo-link';
 import {
-  BudgetLine,
+
   CreatePendingInvitationMutation,
   CreatePendingInvitationMutationVariables,
   DeletePendingInvitationMutation,
   DeletePendingInvitationMutationVariables,
-  GetBudgetLineQuery,
-  GetBudgetLineQueryVariables,
   GetPendingInvitationQuery,
   GetPendingInvitationQueryVariables,
+  ListPendingInvitationsQuery,
+  ListPendingInvitationsQueryVariables,
   PendingInvitation,
 } from '../API';
 import * as mutations from '../graphql/mutations';
-import { getBudgetLine, getPendingInvitation } from '../graphql/queries';
+import {
+  getPendingInvitation,
+  listPendingInvitations,
+} from '../graphql/queries';
 
 export function useCreatePendingInvitationMutation() {
   const [createPendingInvitation, { loading: mutationLoading }] = useMutation<CreatePendingInvitationMutation,
@@ -40,5 +43,17 @@ export function useGetPendingInvitation(id: string) {
 
   return {
     loading, pendingInvitations: <PendingInvitation>data?.getPendingInvitation, fetchMore, refetch,
+  };
+}
+
+const listPendingInvitationsQuery = <DocumentNode>gql(listPendingInvitations);
+
+export function usePendingInvitationsList() {
+  const {
+    loading, data, fetchMore, refetch,
+  } = useQuery<ListPendingInvitationsQuery, ListPendingInvitationsQueryVariables>(listPendingInvitationsQuery);
+
+  return {
+    loading, pendingInvitations: data?.listPendingInvitations?.items, fetchMore, refetch,
   };
 }

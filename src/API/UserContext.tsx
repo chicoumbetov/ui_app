@@ -15,6 +15,7 @@ import { gql } from 'graphql-tag';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { FetchResult } from 'apollo-link';
 import _ from 'lodash';
+import useQuery from '@wora/apollo-offline/lib/react/useQuery';
 import {
   CreateUserInput,
   CreateUserMutation,
@@ -114,6 +115,7 @@ const UserProvider: React.FC = ({ children }) => {
     getUserAuthenticatedAST,
     {
       onCompleted: (data) => {
+        console.log(`data${data}`);
         setUser(data?.getUser || undefined);
         if (loading) {
           // on vient de se reconnecter, donc il faut relancer la souscription
@@ -129,7 +131,17 @@ const UserProvider: React.FC = ({ children }) => {
   const [userIsCreating, setUserIsCreating] = useState(false);
   const client = useApolloClient();
 
+  const { data } = useQuery<
+  GetUserQuery,
+  GetUserQueryVariables
+  >(getUserAuthenticatedAST, {
+    variables: {
+      id: '7fc00da4-c872-4c31-8276-c464d758bd80',
+    },
+  });
+
   const currentUser = async () => {
+    console.log('loading current user');
     try {
       setLoading(true);
       const authUser = await Auth.currentAuthenticatedUser();
@@ -153,6 +165,7 @@ const UserProvider: React.FC = ({ children }) => {
         });
       }
     } catch (error) {
+      console.log(error);
       setLoading(false);
       setUser(undefined);
       setCognitoUser(undefined);

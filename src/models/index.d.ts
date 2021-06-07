@@ -43,7 +43,6 @@ export enum InvitationType {
 }
 
 export declare class ProfileInfo {
-  readonly email?: string;
   readonly phoneNumber?: string;
   readonly optIn?: boolean;
   readonly address?: Address;
@@ -105,6 +104,7 @@ export declare class User {
   readonly lastname?: string;
   readonly firstname?: string;
   readonly avatarUri?: string;
+  readonly email?: string;
   readonly privateProfile?: ProfileInfo;
   readonly expoToken?: string[];
   readonly biUser?: string;

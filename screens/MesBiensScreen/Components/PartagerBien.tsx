@@ -16,6 +16,7 @@ import { useCreatePendingInvitationMutation } from '../../../src/API/PendingInvi
 import { InvitationType } from '../../../src/API';
 import { TabMesBiensParamList } from '../../../types';
 import { useGetRealEstate } from '../../../src/API/RealEstate';
+import { sendEmail } from '../../../components/AwsMail/SendMail';
 
 type ShareRealEstateForm = {
   email : string,
@@ -43,12 +44,12 @@ const PartagerBien = () => {
   const createPendingInvitation = useCreatePendingInvitationMutation();
 
   const addUser = async (data: ShareRealEstateForm) => {
+    sendEmail(data.email, 'yoyo');
     console.log(data);
     await createPendingInvitation.createPendingInvitation({
       variables: {
         input: {
           realEstateId: route.params.id,
-
           ...data,
         },
       },
@@ -75,12 +76,7 @@ const PartagerBien = () => {
         >
           <MaisonVert height={40} width={40} style={{ marginRight: 12 }} />
           <Text category="h4" status="basic">
-            {' '}
-            {/* {compte.typeBien} */}
-            La Maison
-            {' '}
-            de Mathieu
-            {' '}
+            {bien?.name}
           </Text>
         </View>
       </Layout>

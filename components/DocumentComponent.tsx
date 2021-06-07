@@ -14,7 +14,6 @@ type DocumentProps = {
 
 const DocumentComponent = (props: DocumentProps) => {
   const { document } = props;
-  const [state, setState] = useState('');
 
   const shareDoc = async () => {
     if (document) {
@@ -23,7 +22,7 @@ const DocumentComponent = (props: DocumentProps) => {
         if (Platform.OS === 'web') {
           window.open(url as string);
         } else {
-          const directory = `${FileSystem.documentDirectory + waitingDirectory}temp/`;
+          const directory = `${FileSystem.cacheDirectory + waitingDirectory}temp/`;
 
           try {
             await FileSystem.makeDirectoryAsync(
@@ -36,7 +35,7 @@ const DocumentComponent = (props: DocumentProps) => {
 
           const downloaded = await FileSystem.downloadAsync(
             url as string,
-            directory + document.name,
+            directory + encodeURIComponent(document.name),
           );
           if (downloaded.uri) {
             await Sharing.shareAsync(downloaded.uri);
@@ -48,7 +47,7 @@ const DocumentComponent = (props: DocumentProps) => {
       }
     }
   };
-
+  console.log('document component', document);
   return (document ? (
     <Card
       onPress={() => { shareDoc(); }}

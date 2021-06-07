@@ -31,6 +31,13 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
+                "email": {
+                    "name": "email",
+                    "isArray": false,
+                    "type": "AWSEmail",
+                    "isRequired": false,
+                    "attributes": []
+                },
                 "privateProfile": {
                     "name": "privateProfile",
                     "isArray": false,
@@ -78,6 +85,16 @@ export const schema = {
                             "biUser"
                         ],
                         "queryField": "userByBiUser"
+                    }
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "name": "userByEmail",
+                        "fields": [
+                            "email"
+                        ],
+                        "queryField": "userByEmail"
                     }
                 },
                 {
@@ -1309,13 +1326,6 @@ export const schema = {
         "ProfileInfo": {
             "name": "ProfileInfo",
             "fields": {
-                "email": {
-                    "name": "email",
-                    "isArray": false,
-                    "type": "AWSEmail",
-                    "isRequired": false,
-                    "attributes": []
-                },
                 "phoneNumber": {
                     "name": "phoneNumber",
                     "isArray": false,
@@ -1582,5 +1592,5 @@ export const schema = {
             }
         }
     },
-    "version": "d4bbb35471cc26ab6ff544f7cbcf5fa5"
+    "version": "5e09ae37e29d10ad3c036919a12a6ce5"
 };

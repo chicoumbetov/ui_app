@@ -45,11 +45,15 @@ const QuittanceLoyer2 = () => {
   }, [route]);
 
   useEffect(() => {
+    setNewDocument(undefined);
+  }, [route.params]);
+
+  useEffect(() => {
     (async () => {
       if (!newDocument && bien) {
-        const tenant = bien.tenants?.filter(
+        const tenant = bien.tenants?.find(
           (item) => (item?.id === route.params.idTenant),
-        ).pop();
+        );
         if (tenant) {
           const key = `quittance_${tenant.id}_${route.params.date}`;
           const document = await getDocumentByKey(client, key);
@@ -61,8 +65,9 @@ const QuittanceLoyer2 = () => {
               bien, user, tenant, date: route.params.date,
             });
             if (result !== false) {
-              console.log(result);
-              const s3file = await Upload(result, `realEstate/${bien.id}/`);
+              console.log('result', result);
+              const name = `Quittance_Loyer_${bien.name}_${route.params.date}.pdf`;
+              const s3file = await Upload(result, `realEstate/${bien.id}/`, name);
               console.log(s3file);
               if (s3file !== false && bien.id) {
                 const doc = await createDocument.createDocument({
@@ -71,7 +76,7 @@ const QuittanceLoyer2 = () => {
                       s3file: s3file.key,
                       realEstateId: bien.id,
                       key,
-                      name: `Quittance_Loyer_${bien.name}_${route.params.date}.pdf`,
+                      name,
                     },
                   },
                 });
@@ -82,7 +87,7 @@ const QuittanceLoyer2 = () => {
         }
       }
     })();
-  }, [bien]);
+  }, [bien, newDocument]);
 
   // const onPdf = () => { navigation.navigate('pdf-screen'); };
   return (
@@ -93,7 +98,7 @@ const QuittanceLoyer2 = () => {
       }}
     >
 
-      <View style={{ marginBottom: 20, paddingHorizontal: 27 }}>
+      <View style={{ marginVertical: 20, paddingHorizontal: 27 }}>
         <Text category="h1" style={{ marginBottom: 6 }}>Générer une quittance de loyer</Text>
         <CompteHeader title={bien?.name} />
       </View>
@@ -103,7 +108,7 @@ const QuittanceLoyer2 = () => {
         ? (
           <View style={{ paddingHorizontal: 27 }}>
             <Text category="h2" style={{ marginVertical: 30 }}>Votre document est prêt</Text>
-            <DocumentComponent document={document} />
+            <DocumentComponent document={newDocument} />
           </View>
         )
         : (

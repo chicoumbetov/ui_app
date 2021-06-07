@@ -112,6 +112,21 @@
       "providerPlugin": "awscloudformation",
       "service": "LambdaLayer",
       "build": true
+    },
+    "shareRealEstate": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "dependsOn": [
+        {
+          "category": "api",
+          "resourceName": "omedom",
+          "attributes": [
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput"
+          ]
+        }
+      ]
     }
   }
 }

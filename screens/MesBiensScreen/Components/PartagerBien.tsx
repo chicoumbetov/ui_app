@@ -48,7 +48,6 @@ const PartagerBien = () => {
       variables: {
         input: {
           realEstateId: route.params.id,
-
           ...data,
         },
       },
@@ -75,12 +74,7 @@ const PartagerBien = () => {
         >
           <MaisonVert height={40} width={40} style={{ marginRight: 12 }} />
           <Text category="h4" status="basic">
-            {' '}
-            {/* {compte.typeBien} */}
-            La Maison
-            {' '}
-            de Mathieu
-            {' '}
+            {bien?.name}
           </Text>
         </View>
       </Layout>

@@ -47,8 +47,9 @@ function DetailsBien() {
   // console.log('detail bien document', documentList);
 
   const [typeRevenu, setTypeRevenu] = useState<string>();
+  console.log(route.params.id);
 
-  const users = useGetUserByIDList(Array.prototype.concat(bien.admins, bien.shared));
+  const users = useGetUserByIDList(Array.prototype.concat(bien?.admins, bien?.shared));
 
   console.log(users);
 

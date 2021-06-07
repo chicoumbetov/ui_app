@@ -1,5 +1,5 @@
 import { Icon, Text } from '@ui-kitten/components';
-import React, { useState } from 'react';
+import React from 'react';
 import * as Sharing from 'expo-sharing';
 import { Platform } from 'react-native';
 import { Storage } from 'aws-amplify';
@@ -47,7 +47,7 @@ const DocumentComponent = (props: DocumentProps) => {
       }
     }
   };
-  console.log('document component', document);
+  // console.log('document component', document);
   return (document ? (
     <Card
       onPress={() => { shareDoc(); }}

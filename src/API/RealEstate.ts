@@ -242,7 +242,7 @@ export function useCreateRealEstateMutation() {
 }
 
 export function useUpdateRealEstateMutation() {
-  const getRealEstatesQuery = <DocumentNode>gql(getReaÒlEstate);
+  const getRealEstatesQuery = <DocumentNode>gql(getRealEstate);
   // eslint-disable-next-line @typescript-eslint/no-shadow
   const [updateRealEstate, { loading: mutationLoading }] = useMutation<UpdateRealEstateMutation,
   UpdateRealEstateMutationVariables>(gql(mutations.updateRealEstate), {

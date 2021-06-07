@@ -1,9 +1,9 @@
-/**
- * Exemple d'un template mushtache
-*/
-// eslint-disable-next-line import/prefer-default-export
-export const pdfTemplateDeclaration = `
-<style>
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>Quittance de loyer</title>
+  <style>
     .container {
       padding: 30px;
     }
@@ -45,8 +45,10 @@ export const pdfTemplateDeclaration = `
       align-content: center;
     }
   </style>
-<div class="container">
-  
+</head>
+<body>
+  <div class="container">
+
       <table class="header">
         <tr>
           <td>
@@ -55,14 +57,14 @@ export const pdfTemplateDeclaration = `
             <p>Adresse</p>
           </td>
           <td>
-            <p>{{user.user.firstname}} {{user.user.lastname}}</p>
+            <p>M et Mme JOURDE</p>
             <p>56116589651</p>
-            <p>{{bien.address.address}}</p>
-            <p>{{bien.address.postalCode}} {{bien.address.city}}</p>
+            <p>Adresse</p>
+            <p>Code postal City</p>
           </td>
         </tr>
       </table>
-  
+
     <div class="header">
           <h3>PROPOSITION DE DECLARATION DES REVENUS FONCIERS</h3>
     </div>
@@ -70,11 +72,11 @@ export const pdfTemplateDeclaration = `
       <tr>
         <td>
           <p>Réf.</p>
-          <p>005346 ??????</p>
+          <p>005346</p>
         </td>
         <td>
           <p>{{tenant.firstname}} {{tenant.lastname}}</p>
-          <p>56116589651  ???????</p>
+          <p>56116589651</p>
         </td>
         <td>
           <p>Entré le</p>
@@ -87,15 +89,15 @@ export const pdfTemplateDeclaration = `
       </tr>
     </table>
       <table >
-  
+
         <tbody >
-  
+
           <tr >
             <td colspan="2">
               <h4>DECLARATION 'NORMALE'</h4>
               <strong>210   RECETTES </strong>
               <div><p><strong>Immeuble donnés en location</strong></p></div>
-  
+
               <br>
               <p>211    Loyers (ou fermages) bruts encaissés</p>
               <p>212    Dépenses mises par convention à la charge des locataires</p>
@@ -103,26 +105,26 @@ export const pdfTemplateDeclaration = `
               <br>
               <div><p><strong>Immeubles dont vous vous réservez la jouissance</strong></p></div>
               <p>214    Valeur locative réelle des propriétés dont vous vous réservez la jouissance</p>
-  
+
               <p><strong>215    Total des recettes : Lignes 211 à 214</strong></p>
-  
+
               <p><strong>220    FRAIS ET CHARGES</strong> </p>
               <p>221    Frais d'administration et de gestion<br>
                       (Rémuneration des gardes  et concierges ; Rémunerations, honoraires et<br>
                       commissions versées à un tiers ; Frais de procédure)
               </p>
-              <p>222    Autres frais de gestion : <strong>{{tenant.managementFees}} € par local</strong></p>
+              <p>222    Autres frais de gestion : <strong>20 € par local</strong></p>
               <p>223    Primes d'assurances A completer si assurance << en directe >></p>
               <p>224    Dépenses de réparation, d'entretien et d'amélioration (remplir également la rubrique 400)</p>
               <p>225    Charges récupérables non réupérées au départ du locataire</p>
               <p>226    Indemnités d'éviction, frais de relogement</p>
-              <p>227    Taxes foncières, taxes annexes de {{date}}????? 2016</p>
+              <p>227    Taxes foncières, taxes annexes de 2021???????????????</p>
               <p>     <strong>Régimes particuliers</strong></p>
               <p>228   Déduction spécifique (sous certaines conditions : voir notice)</p>
               <p>     0 % du total de la ligne 215</p>
               <p>     <strong>Immeubles en copropriété</strong> (uniquement pour les propriétaires bailleurs)</p>
-              <p>229    Provisions pour charges payées en {{date}}</p>
-              <p>230    Régularisation des provisions pour charges déduites en { {{date}}-1}??????2015</p>
+              <p>229    Provisions pour charges payées en 2021???????????</p>
+              <p>230    Régularisation des provisions pour charges déduites en 2015</p>
               <br>
               <p><strong>240            Total des frais et charges : lignes 221 à 229 - ligne 230 </strong> </p>
               <br>
@@ -133,8 +135,8 @@ export const pdfTemplateDeclaration = `
               <p>262    Réintégration du supplément de déduction (voir notice)</p>
               <p><strong>263    Bénefice (+) ou déficit (-): lignes 261 + ligne 262</strong> </p>
             </td>
-  
-  
+
+
             <td class="secondColumn">
               <p>0</p>
               <br>
@@ -159,15 +161,19 @@ export const pdfTemplateDeclaration = `
               <br>
               <br>
               <p>A RENSEIGNER</p>
-  
+
             </td>
           </tr>
-  
+
         </tbody>
       </table>
-  
+
     <p>Cette quittance annule tous les reçus qui auraient pu être donnés pour acomptes versés au titre du loyer
       et des charges pour l'échéance correspondante. Le paiement de la présente quittance ne présume pas du paiement des termes précédents.
       A conserver 3 ans après échéance du bail.
     </p>
-  </div>`;
+  </div>
+</body>
+</html>
+
+

@@ -4,7 +4,6 @@ import { TabMonAssistantParamList } from '../types';
 import MonAssistant from '../screens/MonAssistantScreen/MonAssistant';
 import DeclarationImpots from '../screens/MonAssistantScreen/Components/DeclarationImpots';
 import DeclarationImpots2 from '../screens/MonAssistantScreen/Components/DeclarationImpots2';
-// import PdfScreen from '../screens/MonAssistantScreen/Components/PdfScreen';
 import QuittanceLoyer from '../screens/MonAssistantScreen/Components/QuittanceLoyer';
 import QuittanceLoyer2 from '../screens/MonAssistantScreen/Components/QuittanceLoyer2';
 

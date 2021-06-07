@@ -59,21 +59,11 @@
     "userPoolGroupList": [],
     "serviceName": "Cognito",
     "usernameCaseSensitive": false,
-    "dependsOn": [
-        {
-            "category": "function",
-            "resourceName": "omedomfee3bfe0PostConfirmation",
-            "triggerProvider": "Cognito",
-            "attributes": [
-                "Arn",
-                "Name"
-            ]
-        }
-    ],
+    "dependsOn": [],
     "thirdPartyAuth": false,
     "userPoolGroups": false,
     "adminQueries": false,
-    "triggers": "{\n  \"PostConfirmation\": [\n    \"custom\"\n  ]\n}",
+    "triggers": "{}",
     "hostedUI": false,
     "parentStack": {
         "Ref": "AWS::StackId"

@@ -49,7 +49,7 @@ export default {
                   'declaration-impots': '/declaration-impots',
                   'declaration-impots-2': '/declaration-impots/:id/:anneeEcheance',
                   'quittance-loyer': '/quittance-loyer',
-                  'quittance-loyer-2': '/quittance-loyer/:id/:anneeEcheance',
+                  'quittance-loyer-2': '/quittance-loyer/:idBien',
                 },
               },
               notifications: {
@@ -74,7 +74,7 @@ export default {
               'ma-tresorerie': '/',
               'ma-tresorerie-2': '/ma-tresorerie-2/:id',
               'mouv-bancaires': '/mouv-bancaires/:id',
-              'ignorer-mouvement': 'ignorer-mouvement',
+              'ignorer-mouvement': '/ignorer-mouvement/:id',
             },
           },
           faq: 'faq',

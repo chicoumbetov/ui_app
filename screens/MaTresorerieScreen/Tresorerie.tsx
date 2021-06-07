@@ -7,7 +7,7 @@
 import React from 'react';
 import { Text } from '@ui-kitten/components';
 import {
-  StyleSheet, TouchableOpacity,
+  TouchableOpacity,
 } from 'react-native';
 
 import { Icon as IconUIKitten } from '@ui-kitten/components/ui/icon/icon.component';
@@ -22,8 +22,8 @@ import Card from '../../components/Card';
 
 const MaTresorerie = () => {
   // const [client] = useState(comptesData);
-  const { loading, data } = useRealEstateList();
   // const theme = useTheme();
+  const { loading, data } = useRealEstateList();
   const linkTo = useLinkTo();
 
   const onMaTresorerie2 = (id: string) => {
@@ -125,17 +125,6 @@ const MaTresorerie = () => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    paddingVertical: 25,
-    marginBottom: 12,
-    paddingHorizontal: 26,
-  },
-  window: {
-    flexDirection: 'row',
-    marginTop: 30,
-
-  },
-});
+// const styles = StyleSheet.create({});
 
 export default MaTresorerie;

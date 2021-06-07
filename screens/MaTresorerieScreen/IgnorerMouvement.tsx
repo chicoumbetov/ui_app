@@ -1,21 +1,30 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Text,
 } from '@ui-kitten/components';
 import {
-  StyleSheet, TouchableOpacity, View,
+  TouchableOpacity, View,
 } from 'react-native';
 
+import { useRoute } from '@react-navigation/native';
+import { RouteProp } from '@react-navigation/core/lib/typescript/src/types';
+import { useGetRealEstate } from '../../src/API/RealEstate';
+
 import CompteHeader from '../../components/CompteHeader/CompteHeader';
-import comptesData from '../../mockData/comptesData';
 import MaxWidthContainer from '../../components/MaxWidthContainer';
-import mouvementData from '../../mockData/mouvementData';
 import Card from '../../components/Card';
+
+import { TabMaTresorerieParamList } from '../../types';
+
+// import comptesData from '../../mockData/comptesData';
+import mouvementData from '../../mockData/mouvementData';
 
 const IgnorerMouvement = () => {
   // const { compte } = props;
   // const theme = useTheme();
-  const [client] = useState(comptesData);
+  // const [client] = useState(comptesData);
+  const route = useRoute<RouteProp<TabMaTresorerieParamList, 'ignorer-mouvement'>>();
+  const { bien } = useGetRealEstate(route.params.id);
 
   return (
     <MaxWidthContainer
@@ -36,9 +45,12 @@ const IgnorerMouvement = () => {
         Ma Trésorerie
       </Text>
 
-      <CompteHeader title={client[0].title} />
+      <CompteHeader title={bien.name} />
 
-      <View style={{ marginVertical: 20, alignItems: 'center' }}>
+      <View style={{
+        marginVertical: 20, paddingBottom: 20, alignItems: 'center', borderBottomWidth: 2.5, borderBottomColor: '#f4f4f4',
+      }}
+      >
         <Text category="h6" status="basic">Monsieur Dupont Matthieu</Text>
         <Text category="h6" appearance="hint">FR76**************583</Text>
         <Text category="h6" status="basic">Société Générale</Text>
@@ -48,6 +60,9 @@ const IgnorerMouvement = () => {
         category="h2"
       >
         Mouvements ignorés
+      </Text>
+      <Text category="p1" appearance="hint">
+        Vous pouvez affecter ou ignorer les mouvements bancaires liés à ce compte bancaire.
       </Text>
       <View
         style={{ marginBottom: 40 }}
@@ -59,6 +74,7 @@ const IgnorerMouvement = () => {
               marginVertical: 10,
               flexDirection: 'row',
               alignItems: 'center',
+              backgroundColor: 'f4f4f4',
             }}
           >
 

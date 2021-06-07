@@ -6,7 +6,7 @@
 
 import React, { useState } from 'react';
 import {
-  Layout, Text, Icon, useTheme,
+  Text, Icon, useTheme,
 } from '@ui-kitten/components';
 
 import {
@@ -21,6 +21,7 @@ import Graphics from '../../../components/Graphics/Graphics';
 import RotatingIcon from '../../../components/Icon/RotatingIcon';
 import MaxWidthContainer from '../../../components/MaxWidthContainer';
 import { RealEstateItem } from '../../../src/API/RealEstate';
+import Card from '../../../components/Card';
 
 const mesBiensData = [
   { x: '35%', y: 35 },
@@ -57,22 +58,15 @@ const MonBien = (props: MonBienProps) => {
         showsVerticalScrollIndicator: false,
       }}
     >
-      <Layout style={{
-        flexDirection: 'column',
-        marginTop: 27,
-        padding: 15,
-        paddingBottom: 20,
-        borderRadius: 10,
-      }}
-      >
 
-        <TouchableOpacity onPress={() => setOpened(!opened)}>
-          <Layout style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+      <Card onPress={() => setOpened(!opened)} style={{ marginVertical: 15 }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+          <View style={{ flex: 1, flexWrap: 'wrap' }}>
             <CompteHeader title={bien?.name} />
-            <RotatingIcon name="arrow-ios-downward-outline" uikitten state={opened} width={24} height={25} fill="#b5b5b5" />
-          </Layout>
-        </TouchableOpacity>
+          </View>
 
+          <RotatingIcon name="arrow-ios-downward-outline" uikitten state={opened} width={24} height={25} fill="#b5b5b5" />
+        </View>
         {!opened ? (
           <View style={{
             flexDirection: 'row',
@@ -82,8 +76,8 @@ const MonBien = (props: MonBienProps) => {
           }}
           >
             {/**
-              *
-              */}
+                 *
+                 */}
 
             <View style={{ width: 22, flexDirection: 'row' }}>
               <View style={{ width: 7 }}>
@@ -105,8 +99,8 @@ const MonBien = (props: MonBienProps) => {
             <Text category="h5" status="success">+ 10800 €</Text>
 
             {/**
-               *
-               */}
+                 *
+                 */}
 
             <View style={{
               alignItems: 'center',
@@ -123,8 +117,8 @@ const MonBien = (props: MonBienProps) => {
             </View>
 
             {/**
-               *
-               */}
+                 *
+                 */}
             <View style={{
               flexDirection: 'row',
             }}
@@ -189,7 +183,8 @@ const MonBien = (props: MonBienProps) => {
             <GraphicsII />
           </>
         )}
-      </Layout>
+      </Card>
+
     </MaxWidthContainer>
   );
 };

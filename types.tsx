@@ -67,22 +67,23 @@ export type TabMesBiensParamList = {
   'modifier-charge': { id: string, idBudgetLine: string };
 
   ParametrerAjoutCharges: { id: string };
-  'partager-bien': undefined;
-  'modifier-characteristique': undefined;
+  'partager-bien': { id: string };
+  'modifier-characteristique': { id: string };
   'ajout-bien-screen': undefined;
   'mes-rapports': undefined;
-  'mes-rapports-biens1': undefined;
-  'mes-rapports-biens2': undefined;
+  'mes-rapports-biens1': { id: string };
+  'mes-rapports-biens2': { id: string };
 };
 
 export type TabMaTresorerieParamList = {
-  'ma-tresorerie': undefined;
+  'ma-tresorerie': { id: string };
   'ma-tresorerie-2': { id: string };
   'mouv-bancaires': { id: string };
+  'ignorer-mouvement': { id: string };
 
   TresoMouvement_page1: undefined;
   TresoMouvement_page2: undefined;
-  'ignorer-mouvement': undefined;
+
   AjoutCompte: undefined;
 
   'treso-mouvement-page1': undefined;
@@ -95,7 +96,7 @@ export type TabMonAssistantParamList = {
   'declaration-impots-2': { id: string, anneeEcheance: number };
   'pdf-screen': undefined;
   'quittance-loyer': { id: string };
-  'quittance-loyer-2': { id: string };
+  'quittance-loyer-2': { idBien: string, date: string, idTenant: string };
 };
 
 export type TabMesChargesParamList = {

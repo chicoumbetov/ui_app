@@ -65,11 +65,13 @@ enum InvitationType {
 #should only be available for all operations to users in the admins field of RealEstate model and for read operation to users in the shared field of RealEstate model
 type Document
 @key(name: "documentByRealEstate", fields: ["realEstateId"])
+@key(name: "documentByKey", fields: ["key"], queryField: "documentByKey")
 @model {
   id: ID!
   realEstateId: ID!
   realEstate: RealEstate @connection (fields: ["realEstateId"])
   name: String!
+  key: String
   s3file: String!
 }
 

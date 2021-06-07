@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import {
-  SectionList, StyleSheet, View, Platform, TouchableOpacity,
+  StyleSheet, View, Platform, TouchableOpacity,
 } from 'react-native';
 import Constants from 'expo-constants';
 import * as Notifications from 'expo-notifications';
@@ -21,14 +21,15 @@ Notifications.setNotificationHandler({
 
 const NotificationsPage = () => {
   const theme = useTheme();
-  const [questions, setQuestions] = useState(notificationsDATA);
+  const [questions] = useState(notificationsDATA);
 
   // Taken from doc. Adopt on needs
-  const [expoPushToken, setExpoPushToken] = useState('');
-  const [notification, setNotification] = useState(false);
-  const notificationListener = useRef();
-  const responseListener = useRef();
+  // const [expoPushToken, setExpoPushToken] = useState('');
+  // const [notification, setNotification] = useState(false);
+  // const notificationListener = useRef();
+  // const responseListener = useRef();
 
+  /**
   async function schedulePushNotification() {
     await Notifications.scheduleNotificationAsync({
       content: {
@@ -39,8 +40,10 @@ const NotificationsPage = () => {
       trigger: { seconds: 1 },
     });
   }
+   */
 
   // detect which one is clicked
+  /**
   const pressHandler = (id: number) => {
     const temp = questions.map((question) => {
       if (id === question.id) {
@@ -61,8 +64,10 @@ const NotificationsPage = () => {
 
     setQuestions(temp);
   };
+   */
 
   // Taken from documentation. Probably need to adopt.
+  /**
   async function registerForPushNotificationsAsync() {
     let token;
     if (Constants.isDevice) {
@@ -93,8 +98,9 @@ const NotificationsPage = () => {
 
     return token;
   }
-
+  */
   // notification lifecycle
+  /**
   useEffect(() => {
     registerForPushNotificationsAsync().then((token) => setExpoPushToken(token));
 
@@ -111,43 +117,43 @@ const NotificationsPage = () => {
       Notifications.removeNotificationSubscription(responseListener.current);
     };
   }, []);
+   */
 
   return (
-    <MaxWidthContainer outerViewProps={{
-      style: {
-        backgroundColor: '#efefef',
-        paddingHorizontal: 24,
-        paddingTop: 34,
-      },
-    }}
+    <MaxWidthContainer
+      outerViewProps={{
+        style: {
+          padding: 25,
+        },
+      }}
     >
       <View>
         <Text category="h1" style={styles.faq}>Notifications</Text>
       </View>
-      <SectionList
-        sections={questions}
-        keyExtractor={(item, index) => item.id + index}
-        renderItem={({ item }) => (
+      {questions.map((item) => (
 
-          <View style={styles.headerDown}>
-            <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
-              <MaisonVert height={40} width={40} style={{ marginRight: 10 }} />
-              <Text category="h6" status="control" style={{ width: 200 }}>
-                {item}
-              </Text>
-            </View>
-            <TouchableOpacity onPress={() => {}}>
-              <IconUIKitten
-                name="arrow-ios-forward"
-                fill={theme['color-success-100']}
-                style={{
-                  height: 16, width: 16, marginRight: 5, marginTop: 8,
-                }}
-              />
-            </TouchableOpacity>
+        <View
+          key={item.id}
+          style={styles.headerDown}
+        >
+          <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
+            <MaisonVert height={40} width={40} style={{ marginRight: 10 }} />
+            <Text category="h6" status="control" style={{ width: 200 }}>
+              {item.title}
+            </Text>
           </View>
-        )}
-      />
+          <TouchableOpacity onPress={() => {}}>
+            <IconUIKitten
+              name="arrow-ios-forward"
+              fill={theme['color-success-100']}
+              style={{
+                height: 16, width: 16, marginRight: 5, marginTop: 8,
+              }}
+            />
+          </TouchableOpacity>
+        </View>
+
+      ))}
     </MaxWidthContainer>
   );
 };

@@ -4,7 +4,7 @@ import { TabMonAssistantParamList } from '../types';
 import MonAssistant from '../screens/MonAssistantScreen/MonAssistant';
 import DeclarationImpots from '../screens/MonAssistantScreen/Components/DeclarationImpots';
 import DeclarationImpots2 from '../screens/MonAssistantScreen/Components/DeclarationImpots2';
-import PdfScreen from '../screens/MonAssistantScreen/Components/PdfScreen';
+// import PdfScreen from '../screens/MonAssistantScreen/Components/PdfScreen';
 import QuittanceLoyer from '../screens/MonAssistantScreen/Components/QuittanceLoyer';
 import QuittanceLoyer2 from '../screens/MonAssistantScreen/Components/QuittanceLoyer2';
 
@@ -31,13 +31,6 @@ export default () => (
       name="declaration-impots-2"
       component={DeclarationImpots2}
     />
-
-    {/**         Pdf component      */}
-    <Stack.Screen
-      name="pdf-screen"
-      component={PdfScreen}
-    />
-
     {/**         Quittance Loyer screens      */}
     <Stack.Screen
       name="quittance-loyer"

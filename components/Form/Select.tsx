@@ -42,9 +42,15 @@ const SelectComp = React.forwardRef<SelectHandles, SelectFormProps<string | numb
     const [selectedIndex, setSelectedIndex] = useState<number>(-1);
 
     useEffect(() => {
-      const selectedIndexValue = data.findIndex((item) => item.key === defaultValue);
-      setSelectedIndex(selectedIndexValue);
-    }, [defaultValue]);
+      if (data) {
+        const selectedIndexValue = data.findIndex((item) => item.key === defaultValue);
+        setSelectedIndex(selectedIndexValue);
+      }
+    }, [data, defaultValue]);
+
+    if (data === undefined) {
+      return (<></>);
+    }
 
     return (
       <View style={[styles.container, containerStyle]}>

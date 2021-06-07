@@ -12,7 +12,6 @@ import {
 
 import { useRoute } from '@react-navigation/native';
 import { RouteProp } from '@react-navigation/core/lib/typescript/src/types';
-// import comptesData from '../../mockData/comptesData';
 import API from '@aws-amplify/api';
 import MaxWidthContainer from '../../components/MaxWidthContainer';
 
@@ -22,14 +21,14 @@ import OwnerCompte from './Components/OwnerCompte';
 import ActivityIndicator from '../../components/ActivityIndicator';
 import { TabMaTresorerieParamList } from '../../types';
 
-import comptesData from '../../mockData/comptesData';
+//import comptesData from '../../mockData/comptesData';
 import ActionSheet from '../../components/ActionSheet/ActionSheet';
 import EditMouvement from './Components/EditMouvement';
 import WebView from '../../components/WebView';
 
 const MaTresorerie2 = () => {
   const { loading, data } = useRealEstateList();
-  const [compte] = useState(comptesData);
+  // const [compte] = useState(comptesData);
 
   const [toggle, setToggle] = useState(false);
   const [newAccountLink, setNewAccountLink] = useState<string | undefined>('https://omedom1-sandbox.biapi.pro/2.0/auth/webview/?client_id=45913022&code=ZeIjiP6qFz%2FAO6L22%2FC_Dt6dtZ9U_4CVOnsq6u7Kxoy9hf5t4H3zviRz7Px8_3B6k12jQX0JeRR5%2F2ewbw7jsBlELU90oHPyo5s48WxXHf4PJjADhG9xIMTn4sDC1JxC&redirect_url=https%3A%2F%2F0patt7mbe7.execute-api.eu-west-2.amazonaws.com%2Fdev%2Fwebhooks%2Fitem%2Ftea&state=93408e3c-a431-4a52-b909-0e6c9ab8bc8f');

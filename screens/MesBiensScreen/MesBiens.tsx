@@ -5,9 +5,10 @@
  */
 
 import React from 'react';
-import { Button, Layout, Text } from '@ui-kitten/components';
+import { Button, Text } from '@ui-kitten/components';
 
 import { useLinkTo } from '@react-navigation/native';
+import { View } from 'react-native';
 import MonBien from './Components/MonBien';
 import MaxWidthContainer from '../../components/MaxWidthContainer';
 import { useRealEstateList } from '../../src/API/RealEstate';
@@ -34,7 +35,7 @@ function MesBiens() {
         showsVerticalScrollIndicator: false,
       }}
     >
-      <Layout style={{ flex: 1, backgroundColor: '#f6f6f6', padding: 26 }}>
+      <View style={{ flex: 1, padding: 26 }}>
         <Text
           category="h1"
           style={{
@@ -66,7 +67,7 @@ function MesBiens() {
           Ajouter un nouveau bien
         </Button>
 
-      </Layout>
+      </View>
 
     </MaxWidthContainer>
   );

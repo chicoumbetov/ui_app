@@ -27,6 +27,8 @@ import { useAddTenant, useUpdateTenant } from '../../../src/API/Tenant';
 import DatePicker from '../../../components/Form/DatePicker';
 import { AvailableValidationRules } from '../../../components/Form/validation';
 import Separator from '../../../components/Separator';
+import { useCreateBudgetLineDeadlineMutation } from '../../../src/API/BudgetLineDeadLine';
+import DateUtils from '../../../utils/DateUtils';
 
 type ParamBudgetForm = {
   category: string,
@@ -51,6 +53,8 @@ const ParametrerAjoutRevenu = () => {
   const updateTenant = useUpdateTenant();
   const createBudgetLine = useCreateBudgetLineMutation();
   const updateBudgetLine = useUpdateBudgetLineMutation();
+
+  const createBudgetLineDeadLine = useCreateBudgetLineDeadlineMutation();
 
   const route = useRoute<RouteProp<TabMesBiensParamList, 'ajout-revenu'> | RouteProp<TabMesBiensParamList, 'modifier-revenu'>>();
   const navigation = useNavigation();
@@ -155,7 +159,7 @@ const ParametrerAjoutRevenu = () => {
         });
       }
 
-      await createBudgetLine.createBudgetLine({
+      const newBugetLine = await createBudgetLine.createBudgetLine({
         variables: {
           input: {
             realEstateId: route.params.id,
@@ -168,9 +172,28 @@ const ParametrerAjoutRevenu = () => {
           },
         },
       });
+      if (newBugetLine.data?.createBudgetLine && nextDueDate && frequency) {
+        for (let i = 0; i < 3; i += 1) {
+          // eslint-disable-next-line no-await-in-loop
+          await createBudgetLineDeadLine.createBudgetLineDeadLine({
+            variables: {
+              input: {
+                budgetLineId: newBugetLine.data?.createBudgetLine.id,
+                realEstateId: route.params.id,
+                type: BudgetLineType.Income,
+                category,
+                amount,
+                frequency,
+                tenantId,
+                date: DateUtils.addMonths(nextDueDate, -DateUtils.frequencyToMonths(frequency) * i),
+              },
+            },
+          });
+        }
+      }
     } else {
       // console.log('pas normal');
-      await createBudgetLine.createBudgetLine({
+      const newBugetLine = await createBudgetLine.createBudgetLine({
         variables: {
           input: {
             realEstateId: route.params.id,
@@ -182,7 +205,26 @@ const ParametrerAjoutRevenu = () => {
           },
         },
       });
+      if (newBugetLine.data?.createBudgetLine && nextDueDate && frequency) {
+        for (let i = 0; i < 3; i += 1) {
+          // eslint-disable-next-line no-await-in-loop
+          await createBudgetLineDeadLine.createBudgetLineDeadLine({
+            variables: {
+              input: {
+                budgetLineId: newBugetLine.data?.createBudgetLine.id,
+                realEstateId: route.params.id,
+                type: BudgetLineType.Income,
+                category,
+                amount,
+                frequency,
+                date: DateUtils.addMonths(nextDueDate, -DateUtils.frequencyToMonths(frequency) * i),
+              },
+            },
+          });
+        }
+      }
     }
+
     /**
      Navigate to previous target page - page with list of budget lines (MonBudget component)
      */
@@ -298,7 +340,7 @@ const ParametrerAjoutRevenu = () => {
 
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <TextInput name="tenant.managementFees" keyboardType="numeric" placeholder="Dont frais de gestion" validators={[AvailableValidationRules.float]} />
-                <Text category="h4" style={{ marginLeft: 19 }}>%</Text>
+                <Text category="h4" style={{ marginLeft: 19 }}>€</Text>
               </View>
 
             </MotiView>
@@ -353,7 +395,7 @@ const ParametrerAjoutRevenu = () => {
               ) : (<></>)}
 
             <View style={{ alignItems: 'flex-end', marginTop: 10 }}>
-              {updateBudgetLine.mutationLoading || createBudgetLine.mutationLoading
+              {updateBudgetLine.mutationLoading || createBudgetLine.mutationLoading || createBudgetLineDeadLine.mutationLoading
                 ? (
                   <Button
                     onPress={paramBudgetForm.handleSubmit((data) => validateBudget(data))}

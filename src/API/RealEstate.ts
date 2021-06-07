@@ -12,7 +12,7 @@ import {
   Frequency,
   GetRealEstateQueryVariables,
   ListRealEstatesQuery,
-  ListRealEstatesQueryVariables,
+  ListRealEstatesQueryVariables, ModelBankMovementConnection, ModelBudgetLineDeadlineConnection,
   OnCreateRealEstateSubscription,
   OnCreateRealEstateSubscriptionVariables,
   RealEstate,
@@ -38,6 +38,16 @@ export type RealEstateItem = {
   detentionPart?: number | null,
   budgetLines?: {
     __typename: 'ModelBudgetLineConnection',
+    nextToken?: string | null,
+    startedAt?: number | null,
+  } | null,
+  bankMovements?: {
+    __typename: 'ModelBankMovementConnection',
+    nextToken?: string | null,
+    startedAt?: number | null,
+  } | null,
+  budgetLineDeadlines?: {
+    __typename: 'ModelBudgetLineDeadlineConnection',
     nextToken?: string | null,
     startedAt?: number | null,
   } | null,
@@ -116,6 +126,46 @@ export const getRealEstate = /* GraphQL */ `
               amortizedCapital
             }
           }
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+        nextToken
+        startedAt
+      }
+      bankMovements {
+        items {
+          id
+          bankAccountId
+          realEstateId
+          bridgeApiId
+          description
+          amount
+          budgetLineDeadlineId
+          ignored
+          date
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+        nextToken
+        startedAt
+      }
+      budgetLineDeadlines {
+        items {
+          id
+          realEstateId
+          budgetLineId
+          type
+          category
+          amount
+          frequency
+          date
+          tenantId
           _version
           _deleted
           _lastChangedAt

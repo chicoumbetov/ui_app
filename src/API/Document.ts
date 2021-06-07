@@ -1,16 +1,27 @@
 import { DocumentNode } from 'apollo-link';
 import gql from 'graphql-tag';
 import { useMutation, useQuery } from 'react-apollo';
-import { getDocument, getRealEstate } from '../graphql/queries';
+import ApolloClient from 'apollo-client';
+import {
+  documentByKey, getDocument, getRealEstate, listDocuments, listRealEstates,
+} from '../graphql/queries';
 import {
   CreateDocumentMutation,
-  CreateDocumentMutationVariables, DeleteDocumentMutation, DeleteDocumentMutationVariables,
+  CreateDocumentMutationVariables,
+  DeleteDocumentMutation,
+  DeleteDocumentMutationVariables,
   GetDocumentQuery,
   GetDocumentQueryVariables,
-  GetRealEstateQuery, GetRealEstateQueryVariables,
+  GetRealEstateQuery,
+  GetRealEstateQueryVariables,
   Document,
   UpdateDocumentMutation,
-  UpdateDocumentMutationVariables, RealEstate,
+  UpdateDocumentMutationVariables,
+  RealEstate,
+  DocumentByKeyQuery,
+  DocumentByKeyQueryVariables,
+  ListRealEstatesQuery,
+  ListRealEstatesQueryVariables, ListDocumentsQuery, ListDocumentsQueryVariables,
 } from '../API';
 import * as mutations from '../graphql/mutations';
 
@@ -41,6 +52,29 @@ export function useGetDocument(id: string) {
   return {
     loading, Document: <Document>data?.getDocument, fetchMore, refetch,
   };
+}
+
+const listDocumentsQuery = <DocumentNode>gql(listDocuments);
+
+export function useDocumentList() {
+  const {
+    loading, data, fetchMore, refetch, subscribeToMore,
+  } = useQuery<ListDocumentsQuery, ListDocumentsQueryVariables>(listDocumentsQuery);
+
+  return { documentList: data };
+}
+
+export async function getDocumentByKey(client: ApolloClient<object>, key: string) {
+  const getDocumentQuery = <DocumentNode>gql(documentByKey);
+  const documents = await client.query<DocumentByKeyQuery, DocumentByKeyQueryVariables>({
+    query: getDocumentQuery,
+    variables: {
+      key,
+    },
+    fetchPolicy: 'network-only',
+  });
+
+  return documents.data.documentByKey?.items?.pop();
 }
 
 export function useUpdateDocumentMutation() {

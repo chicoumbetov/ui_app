@@ -14,7 +14,7 @@ import Select from '../../../components/Form/Select';
 import { frequence, typeRevenu } from '../../../mockData/ajoutRevenuData';
 import Form from '../../../components/Form/Form';
 import MaxWidthContainer from '../../../components/MaxWidthContainer';
-import { BudgetLineType, Frequency, MortgageLoanDeadlineInfoInput } from '../../../src/API';
+import { BudgetLineType, Frequency } from '../../../src/API';
 import TextInput from '../../../components/Form/TextInput';
 import { TabMesBiensParamList } from '../../../types';
 import CompteHeader from '../../../components/CompteHeader/CompteHeader';
@@ -340,7 +340,7 @@ const ParametrerAjoutRevenu = () => {
 
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <TextInput name="tenant.managementFees" keyboardType="numeric" placeholder="Dont frais de gestion" validators={[AvailableValidationRules.float]} />
-                <Text category="h4" style={{ marginLeft: 19 }}>%</Text>
+                <Text category="h4" style={{ marginLeft: 19 }}>€</Text>
               </View>
 
             </MotiView>

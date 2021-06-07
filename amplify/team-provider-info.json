@@ -27,6 +27,14 @@
         "bridgeapi": {
           "deploymentBucketName": "amplify-omedom-dev-175444-deployment",
           "s3Key": "amplify-builds/bridgeapi-6e5468646e4471515a79-build.zip"
+        },
+        "budgetinsight": {
+          "deploymentBucketName": "amplify-omedom-dev-175444-deployment",
+          "s3Key": "amplify-builds/budgetinsight-7163317254632b595053-build.zip"
+        },
+        "budgetinsightlayer": {
+          "deploymentBucketName": "amplify-omedom-dev-175444-deployment",
+          "s3Key": "amplify-builds/budgetinsightlayer-build.zip"
         }
       }
     },
@@ -40,6 +48,18 @@
                   "type": "private"
                 }
               ]
+            }
+          }
+        },
+        "budgetinsightlayer": {
+          "layerVersionMap": {
+            "1": {
+              "permissions": [
+                {
+                  "type": "private"
+                }
+              ],
+              "hash": "Asn7vsREf7WWj1c3HwFC5DPJiLcD1A0sZ23ehiOEfOk="
             }
           }
         }

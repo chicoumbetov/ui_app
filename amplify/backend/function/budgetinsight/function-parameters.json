@@ -12,11 +12,5 @@
       ]
     }
   },
-  "lambdaLayers": [
-    {
-      "type": "ProjectLayer",
-      "resourceName": "bridgeclientlayer",
-      "version": 1
-    }
-  ]
+  "lambdaLayers": []
 }

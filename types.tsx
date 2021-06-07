@@ -96,7 +96,7 @@ export type TabMonAssistantParamList = {
   'declaration-impots-2': { id: string, anneeEcheance: number };
   'pdf-screen': undefined;
   'quittance-loyer': { id: string };
-  'quittance-loyer-2': { id: string, anneeEcheance: number };
+  'quittance-loyer-2': { idBien: string, date: string, idTenant: string };
 };
 
 export type TabMesChargesParamList = {

@@ -22,7 +22,7 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
   useAutoFileStorage();
 
   const Theme = colorScheme === 'dark' ? DarkTheme : DefaultTheme;
-  Theme.colors.background = 'transparent';
+  Theme.colors.background = '#fbfbfb';
 
   return (
     userIsLoading

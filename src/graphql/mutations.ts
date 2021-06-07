@@ -11,6 +11,7 @@ export const createDocument = /* GraphQL */ `
       id
       realEstateId
       name
+      key
       s3file
       _version
       _deleted
@@ -86,6 +87,7 @@ export const updateDocument = /* GraphQL */ `
       id
       realEstateId
       name
+      key
       s3file
       _version
       _deleted
@@ -161,6 +163,7 @@ export const deleteDocument = /* GraphQL */ `
       id
       realEstateId
       name
+      key
       s3file
       _version
       _deleted
@@ -1713,6 +1716,12 @@ export const createUser = /* GraphQL */ `
       lastname
       firstname
       email
+      avatarUri
+      _version
+      _deleted
+      _lastChangedAt
+      createdAt
+      updatedAt
       phoneNumber
       optIn
       address {
@@ -1724,14 +1733,8 @@ export const createUser = /* GraphQL */ `
       }
       expoToken
       bridgeApiUser
-      avatarUri
       birthDate
       subscription
-      _version
-      _deleted
-      _lastChangedAt
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -1745,6 +1748,12 @@ export const updateUser = /* GraphQL */ `
       lastname
       firstname
       email
+      avatarUri
+      _version
+      _deleted
+      _lastChangedAt
+      createdAt
+      updatedAt
       phoneNumber
       optIn
       address {
@@ -1756,14 +1765,8 @@ export const updateUser = /* GraphQL */ `
       }
       expoToken
       bridgeApiUser
-      avatarUri
       birthDate
       subscription
-      _version
-      _deleted
-      _lastChangedAt
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -1777,6 +1780,12 @@ export const deleteUser = /* GraphQL */ `
       lastname
       firstname
       email
+      avatarUri
+      _version
+      _deleted
+      _lastChangedAt
+      createdAt
+      updatedAt
       phoneNumber
       optIn
       address {
@@ -1788,14 +1797,8 @@ export const deleteUser = /* GraphQL */ `
       }
       expoToken
       bridgeApiUser
-      avatarUri
       birthDate
       subscription
-      _version
-      _deleted
-      _lastChangedAt
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -1878,6 +1881,7 @@ export const createRealEstate = /* GraphQL */ `
           id
           realEstateId
           name
+          key
           s3file
           _version
           _deleted
@@ -2010,6 +2014,7 @@ export const updateRealEstate = /* GraphQL */ `
           id
           realEstateId
           name
+          key
           s3file
           _version
           _deleted
@@ -2142,6 +2147,7 @@ export const deleteRealEstate = /* GraphQL */ `
           id
           realEstateId
           name
+          key
           s3file
           _version
           _deleted
@@ -2217,6 +2223,12 @@ export const createNotification = /* GraphQL */ `
         lastname
         firstname
         email
+        avatarUri
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
         phoneNumber
         optIn
         address {
@@ -2228,14 +2240,8 @@ export const createNotification = /* GraphQL */ `
         }
         expoToken
         bridgeApiUser
-        avatarUri
         birthDate
         subscription
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
       }
     }
   }
@@ -2262,6 +2268,12 @@ export const updateNotification = /* GraphQL */ `
         lastname
         firstname
         email
+        avatarUri
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
         phoneNumber
         optIn
         address {
@@ -2273,14 +2285,8 @@ export const updateNotification = /* GraphQL */ `
         }
         expoToken
         bridgeApiUser
-        avatarUri
         birthDate
         subscription
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
       }
     }
   }
@@ -2307,6 +2313,12 @@ export const deleteNotification = /* GraphQL */ `
         lastname
         firstname
         email
+        avatarUri
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
         phoneNumber
         optIn
         address {
@@ -2318,14 +2330,8 @@ export const deleteNotification = /* GraphQL */ `
         }
         expoToken
         bridgeApiUser
-        avatarUri
         birthDate
         subscription
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
       }
     }
   }
@@ -2354,6 +2360,12 @@ export const createBillingHistory = /* GraphQL */ `
         lastname
         firstname
         email
+        avatarUri
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
         phoneNumber
         optIn
         address {
@@ -2365,14 +2377,8 @@ export const createBillingHistory = /* GraphQL */ `
         }
         expoToken
         bridgeApiUser
-        avatarUri
         birthDate
         subscription
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
       }
     }
   }
@@ -2401,6 +2407,12 @@ export const updateBillingHistory = /* GraphQL */ `
         lastname
         firstname
         email
+        avatarUri
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
         phoneNumber
         optIn
         address {
@@ -2412,14 +2424,8 @@ export const updateBillingHistory = /* GraphQL */ `
         }
         expoToken
         bridgeApiUser
-        avatarUri
         birthDate
         subscription
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
       }
     }
   }
@@ -2448,6 +2454,12 @@ export const deleteBillingHistory = /* GraphQL */ `
         lastname
         firstname
         email
+        avatarUri
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
         phoneNumber
         optIn
         address {
@@ -2459,14 +2471,8 @@ export const deleteBillingHistory = /* GraphQL */ `
         }
         expoToken
         bridgeApiUser
-        avatarUri
         birthDate
         subscription
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
       }
     }
   }

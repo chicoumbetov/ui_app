@@ -916,6 +916,13 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
+                "key": {
+                    "name": "key",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
                 "s3file": {
                     "name": "s3file",
                     "isArray": false,
@@ -934,6 +941,16 @@ export const schema = {
                         "fields": [
                             "realEstateId"
                         ]
+                    }
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "name": "documentByKey",
+                        "fields": [
+                            "key"
+                        ],
+                        "queryField": "documentByKey"
                     }
                 },
                 {
@@ -1467,5 +1484,5 @@ export const schema = {
             }
         }
     },
-    "version": "981566d6c0fee2568de5cb00c075a8a1"
+    "version": "48423a7a220049158f7896099a81fa63"
 };

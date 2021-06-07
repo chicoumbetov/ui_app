@@ -30,12 +30,12 @@ export type SelectFormProps<KT> = {
   value?: KT;
   labelStyle?: StyleProp<TextStyle>;
   containerStyle?: StyleProp<ViewStyle>;
-  data: SelectItemProps<KT>[];
+  data: SelectItemProps<KT>[] | undefined;
 } & Exclude<SelectProps, 'children'> & FormChildProp;
 
 export type SelectItemProps<KT = string | number> = {
-  key: KT;
-  label: string;
+  key: KT | undefined;
+  label: string | undefined;
   section?: boolean;
   icon?: IconName;
   // to be as configurable as possible allow any

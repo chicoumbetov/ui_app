@@ -27,10 +27,6 @@
     "apiomedomGraphQLAPIEndpointOutput": {
       "Type": "String",
       "Default": "apiomedomGraphQLAPIEndpointOutput"
-    },
-    "functionbridgeclientlayerArn": {
-      "Type": "String",
-      "Default": "functionbridgeclientlayerArn"
     }
   },
   "Conditions": {
@@ -63,12 +59,12 @@
         "FunctionName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "bridgeapi",
+            "budgetinsight",
             {
               "Fn::Join": [
                 "",
                 [
-                  "bridgeapi",
+                  "budgetinsight",
                   "-",
                   {
                     "Ref": "env"
@@ -104,11 +100,7 @@
           ]
         },
         "Runtime": "nodejs14.x",
-        "Layers": [
-          {
-            "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:layer:bridgeclientlayer-dev:1"
-          }
-        ],
+        "Layers": [],
         "Timeout": "25"
       }
     },
@@ -118,12 +110,12 @@
         "RoleName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "omedomLambdaRole298f8ace",
+            "omedomLambdaRole24a4db36",
             {
               "Fn::Join": [
                 "",
                 [
-                  "omedomLambdaRole298f8ace",
+                  "omedomLambdaRole24a4db36",
                   "-",
                   {
                     "Ref": "env"

@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Datepicker, Text } from '@ui-kitten/components';
-import { useLinkTo, useNavigation } from '@react-navigation/native';
+import { Button, Text } from '@ui-kitten/components';
+import { useNavigation } from '@react-navigation/native';
 import { View } from 'react-native';
 import { useForm } from 'react-hook-form';
 import Form from '../../../components/Form/Form';
 import SelectComp from '../../../components/Form/Select';
 import MaxWidthContainer from '../../../components/MaxWidthContainer';
-import TextInput from '../../../components/Form/TextInput';
+
 import { useRealEstateList } from '../../../src/API/RealEstate';
 import DatePicker from '../../../components/Form/DatePicker';
-import { TabMonAssistantParamList } from '../../../types';
 
 type QuittanceLoyerForm = {
   idBien: string;
@@ -21,10 +20,12 @@ const QuittanceLoyer = () => {
   const { data } = useRealEstateList();
   const navigation = useNavigation();
   const quittanceLoyerForm = useForm<QuittanceLoyerForm>();
+
   const [houseList, setHouseList] = useState<
   Array<{ label: string | undefined, key: string | undefined }>
   | undefined
   >([]);
+
   const [tenantsList, setTenantsList] = useState<
   Array<{ label: string | undefined, key: string | undefined }>
   | undefined

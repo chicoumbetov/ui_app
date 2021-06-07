@@ -6,6 +6,7 @@ import { StackActions, useNavigation, useRoute } from '@react-navigation/native'
 import { RouteProp } from '@react-navigation/core/lib/typescript/src/types';
 import { useApolloClient } from 'react-apollo';
 
+import moment from 'moment';
 import ActivityIndicator from '../../../components/ActivityIndicator';
 import CompteHeader from '../../../components/CompteHeader/CompteHeader';
 // import clientData from '../../../mockData/clientDATA';
@@ -55,9 +56,9 @@ const QuittanceLoyer2 = () => {
           (item) => (item?.id === route.params.idTenant),
         );
         if (tenant) {
-          const key = `quittance_${tenant.id}_${route.params.date}`;
+          const key = `quittance_${tenant.id}_${moment(route.params.date).format('DD/MM/YYYY')}`;
           const document = await getDocumentByKey(client, key);
-          console.log('Quittance document', document);
+          // console.log('Quittance document', document);
           if (document) {
             setNewDocument(document);
           } else {
@@ -65,10 +66,10 @@ const QuittanceLoyer2 = () => {
               bien, user, tenant, date: route.params.date,
             });
             if (result !== false) {
-              console.log('result', result);
-              const name = `Quittance_Loyer_${bien.name}_${route.params.date}.pdf`;
+              // console.log('result', result);
+              const name = `Quittance_Loyer_${bien.name}_${moment(route.params.date).format('DD/MM/YYYY')}.pdf`;
               const s3file = await Upload(result, `realEstate/${bien.id}/`, name);
-              console.log(s3file);
+              // console.log(s3file);
               if (s3file !== false && bien.id) {
                 const doc = await createDocument.createDocument({
                   variables: {

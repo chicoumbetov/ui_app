@@ -13,10 +13,16 @@ const pdfTemplateQuittance = `
     flex: 1;
     width: 100%;
     justify-content: space-between;
+    margin-bottom: 80px;
   }
   .bailleur {
-    flex: 1;
+    contain: content;
     padding: 15px;
+  }
+  .bailleur2 {
+      contain: content;
+      padding: 15px;
+      justify-content: flex-end;
   }
   .bailleur p {
     margin-top: 0;
@@ -70,7 +76,9 @@ const pdfTemplateQuittance = `
         <p>{{user.user.firstname}} {{user.user.lastname}}</p>
       </div>
   
-      <div class="bailleur">
+      <div class="bailleur2">
+        <br>
+        <br>
         <p>{{tenant.firstname}} {{tenant.lastname}}</p>
         <p>{{bien.address.address}} </p>
         <p>{{bien.address.postalCode}} {{bien.address.city}}</p>
@@ -88,7 +96,8 @@ const pdfTemplateQuittance = `
         </tr>
         <tr >
           <td>
-            <strong>PROPRIETAIRE</strong>
+            <p><strong>PROPRIETAIRE</strong></p>
+            <br>
             <p>{{user.user.firstname}} {{user.user.lastname}}</p>
           </td>
           <td>
@@ -101,11 +110,11 @@ const pdfTemplateQuittance = `
           <td><h3><strong>Montant</strong></h3></td>
         </tr>
         <tr>
-          <td>Loyer</td>
+          <td colspan="2">Loyer</td>
           <td>{{tenant.amount}} €</td>
         </tr>
         <tr>
-          <td>Total</td>
+          <td colspan="2"><strong>Total</strong></td>
           <td>{{ tenant.amount}} €</td>
         </tr>
         </tbody>
@@ -117,7 +126,7 @@ const pdfTemplateQuittance = `
     </div>
   
     <div class="rowBailleur">
-      <div>Fait à le 17/03/2020</div>
+      <div>Fait à le {{date}}</div>
       <div>
         <p>Le bailleur</p>
         <p>{{user.user.firstname}} {{user.user.lastname}}</p>

@@ -48,7 +48,7 @@ export default {
                 screens: {
                   'mon-assistant': '/',
                   'declaration-impots': '/declaration-impots',
-                  'declaration-impots-2': '/declaration-impots/:id/:anneeEcheance',
+                  'declaration-impots-2': '/declaration-impots/:idBien',
                   'quittance-loyer': '/quittance-loyer',
                   'quittance-loyer-2': '/quittance-loyer/:idBien',
                 },

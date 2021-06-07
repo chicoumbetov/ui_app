@@ -50,7 +50,7 @@ export default {
                   'declaration-impots': '/declaration-impots',
                   'declaration-impots-2': '/declaration-impots/:id/:anneeEcheance',
                   'quittance-loyer': '/quittance-loyer',
-                  'quittance-loyer-2': '/quittance-loyer/:id/:anneeEcheance',
+                  'quittance-loyer-2': '/quittance-loyer/:idBien',
                 },
               },
               notifications: {

@@ -5,7 +5,7 @@
  */
 
 import * as FileSystem from 'expo-file-system';
-import { Storage } from 'aws-amplify';
+import Storage from '@aws-amplify/storage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Platform } from 'react-native';
 import { useEffect } from 'react';
@@ -91,7 +91,7 @@ export function useAutoFileStorage() {
 }
 
 export const Upload = async (
-  file: ImagePickerResult | DocumentResult | CameraOutput | FilePrintResult,
+  file: ImagePickerResult | DocumentResult | CameraOutput | FilePrintResult | { uri: string },
   path?: string,
 ) => {
   // on normalise l'objet en fonction du cas
@@ -139,7 +139,9 @@ export const Upload = async (
     const uri = FileSystem.documentDirectory + waitingDirectory + key;
     const storageKey = `@S3Object_${uuidKey}`;
     try {
-      await FileSystem.makeDirectoryAsync(FileSystem.documentDirectory + waitingDirectory + path, { intermediates: true });
+      await FileSystem.makeDirectoryAsync(
+        FileSystem.documentDirectory + waitingDirectory + path, { intermediates: true },
+      );
       await FileSystem.copyAsync({
         from: finalFile.uri,
         to: uri,

@@ -6,7 +6,8 @@ import {
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { RouteProp } from '@react-navigation/core/lib/typescript/src/types';
 import { useForm } from 'react-hook-form';
-import { API } from 'aws-amplify';
+import API from '@aws-amplify/api';
+import _ from 'lodash';
 import TextInput from '../../components/Form/TextInput';
 import MaxWidthContainer from '../../components/MaxWidthContainer';
 import { TabMonCompteParamList } from '../../types';
@@ -16,14 +17,16 @@ import { AvailableValidationRules } from '../../components/Form/validation';
 import { useUser } from '../../src/API/UserContext';
 
 type ModifierInfo2Form = {
-  address: {
-    address:string;
-    additionalAddress?: string | null;
-    postalCode: string;
-    city: string;
-    country: string;
-  };
-  birthDate: string;
+  privateProfile: {
+    address?: {
+      address: string;
+      additionalAddress?: string | null;
+      postalCode: string;
+      city: string;
+      country: string;
+    } | null;
+    birthDate?: string | null;
+  }
 };
 
 const ModifierInfo2 = () => {
@@ -35,12 +38,12 @@ const ModifierInfo2 = () => {
   const onPress = async (data: ModifierInfo2Form) => {
     if (route.params?.signUp) {
       if (createUser) {
-        const response = await API.post('bridgeapi', '/bridgeapi/create-user', {});
-        console.log(response);
+        const response = await API.post('omedomrest', '/budgetinsight/create-user', {});
 
         await createUser({
           ...data,
-          bridgeApiUser: response.bridgeApiUser,
+          biUser: response.id_user,
+          biToken: response.auth_token,
         });
 
         navigation.navigate('modifier-info-3', {
@@ -48,6 +51,14 @@ const ModifierInfo2 = () => {
         });
       }
     } else if (updateUser) {
+      if (!user?.biUser) {
+        const response = await API.post('omedomrest', '/budgetinsight/create-user', {});
+        _.merge(data, {
+          biUser: response.id_user,
+          biToken: response.auth_token,
+        });
+      }
+
       await updateUser(data);
 
       navigation.navigate('modifier-info-3');
@@ -77,7 +88,7 @@ const ModifierInfo2 = () => {
           </View>
 
           <DatePicker
-            name="birthDate"
+            name="privateProfile.birthDate"
             placeholder="dd/mm/yyyy"
             label="Votre date de naissance"
             labelBefore
@@ -88,7 +99,7 @@ const ModifierInfo2 = () => {
           />
 
           <TextInput
-            name="address.address"
+            name="privateProfile.address.address"
             placeholder="Adresse"
             validators={[
               AvailableValidationRules.required,
@@ -96,13 +107,13 @@ const ModifierInfo2 = () => {
           />
 
           <TextInput
-            name="address.additionalAddress"
+            name="privateProfile.address.additionalAddress"
             placeholder="Complément d'adresse"
 
           />
 
           <TextInput
-            name="address.postalCode"
+            name="privateProfile.address.postalCode"
             placeholder="Code postal"
             maxLength={5}
             validators={[
@@ -111,7 +122,7 @@ const ModifierInfo2 = () => {
           />
 
           <TextInput
-            name="address.city"
+            name="privateProfile.address.city"
             placeholder="Ville"
             validators={[
               AvailableValidationRules.required,
@@ -119,7 +130,7 @@ const ModifierInfo2 = () => {
           />
 
           <TextInput
-            name="address.country"
+            name="privateProfile.address.country"
             placeholder="Pays"
             validators={[
               AvailableValidationRules.required,

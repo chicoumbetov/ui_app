@@ -26,6 +26,28 @@
           ]
         }
       }
+    },
+    "omedomrest": {
+      "service": "API Gateway",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [
+        {
+          "category": "function",
+          "resourceName": "transactionWebHook",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        },
+        {
+          "category": "function",
+          "resourceName": "budgetinsight",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        }
+      ]
     }
   },
   "storage": {
@@ -62,6 +84,13 @@
       "providerPlugin": "awscloudformation",
       "service": "Lambda",
       "dependsOn": [
+        {
+          "category": "function",
+          "resourceName": "budgetinsightlayer",
+          "attributes": [
+            "Arn"
+          ]
+        },
         {
           "category": "auth",
           "resourceName": "omedomfee3bfe0",

@@ -22,7 +22,7 @@ import {
   ImageProps, TouchableOpacity, View,
 } from 'react-native';
 import { InitialState, useLinkTo } from '@react-navigation/native';
-import { Auth } from 'aws-amplify';
+import Auth from '@aws-amplify/auth';
 import { DrawerContentComponentProps } from '@react-navigation/drawer/src/types';
 import { RenderProp } from '@ui-kitten/components/devsupport';
 // import { DrawerContentScrollView } from '@react-navigation/drawer';

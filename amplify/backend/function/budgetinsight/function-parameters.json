@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "auth": {
+      "omedomfee3bfe0": [
+        "read"
+      ]
+    },
+    "api": {
+      "omedom": [
+        "Query",
+        "Mutation"
+      ]
+    }
+  },
+  "lambdaLayers": [
+    {
+      "type": "ProjectLayer",
+      "resourceName": "budgetinsightlayer",
+      "version": 4
+    }
+  ]
+}

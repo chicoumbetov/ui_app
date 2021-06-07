@@ -24,32 +24,18 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
-                "email": {
-                    "name": "email",
+                "avatarUri": {
+                    "name": "avatarUri",
                     "isArray": false,
-                    "type": "AWSEmail",
+                    "type": "String",
                     "isRequired": false,
                     "attributes": []
                 },
-                "phoneNumber": {
-                    "name": "phoneNumber",
-                    "isArray": false,
-                    "type": "AWSPhone",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "optIn": {
-                    "name": "optIn",
-                    "isArray": false,
-                    "type": "Boolean",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "address": {
-                    "name": "address",
+                "privateProfile": {
+                    "name": "privateProfile",
                     "isArray": false,
                     "type": {
-                        "nonModel": "Address"
+                        "nonModel": "ProfileInfo"
                     },
                     "isRequired": false,
                     "attributes": []
@@ -62,33 +48,17 @@ export const schema = {
                     "attributes": [],
                     "isArrayNullable": true
                 },
-                "bridgeApiUser": {
-                    "name": "bridgeApiUser",
+                "biUser": {
+                    "name": "biUser",
                     "isArray": false,
                     "type": "String",
                     "isRequired": false,
                     "attributes": []
                 },
-                "avatarUri": {
-                    "name": "avatarUri",
+                "biToken": {
+                    "name": "biToken",
                     "isArray": false,
                     "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "birthDate": {
-                    "name": "birthDate",
-                    "isArray": false,
-                    "type": "AWSDate",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "subscription": {
-                    "name": "subscription",
-                    "isArray": false,
-                    "type": {
-                        "enum": "SubscriptionType"
-                    },
                     "isRequired": false,
                     "attributes": []
                 }
@@ -103,11 +73,11 @@ export const schema = {
                 {
                     "type": "key",
                     "properties": {
-                        "name": "userByBridgeApiUser",
+                        "name": "userByBiUser",
                         "fields": [
-                            "bridgeApiUser"
+                            "biUser"
                         ],
-                        "queryField": "userByBridgeApiUser"
+                        "queryField": "userByBiUser"
                     }
                 },
                 {
@@ -294,16 +264,10 @@ export const schema = {
                 "pendingInvitations": {
                     "name": "pendingInvitations",
                     "isArray": true,
-                    "type": {
-                        "model": "PendingInvitation"
-                    },
-                    "isRequired": false,
+                    "type": "String",
+                    "isRequired": true,
                     "attributes": [],
-                    "isArrayNullable": true,
-                    "association": {
-                        "connectionType": "HAS_MANY",
-                        "associatedWith": "id"
-                    }
+                    "isArrayNullable": true
                 },
                 "address": {
                     "name": "address",
@@ -509,8 +473,8 @@ export const schema = {
                         "targetName": "realEstateId"
                     }
                 },
-                "bridgeApiId": {
-                    "name": "bridgeApiId",
+                "biId": {
+                    "name": "biId",
                     "isArray": false,
                     "type": "Int",
                     "isRequired": true,
@@ -576,7 +540,7 @@ export const schema = {
                 {
                     "type": "key",
                     "properties": {
-                        "name": "bankMovementByByBankAccount",
+                        "name": "bankMovementByBankAccount",
                         "fields": [
                             "bankAccountId",
                             "date"
@@ -664,11 +628,25 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "bridgeApiId": {
-                    "name": "bridgeApiId",
+                "biId": {
+                    "name": "biId",
                     "isArray": false,
                     "type": "Int",
                     "isRequired": true,
+                    "attributes": []
+                },
+                "biConnectionId": {
+                    "name": "biConnectionId",
+                    "isArray": false,
+                    "type": "Int",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "biState": {
+                    "name": "biState",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
                     "attributes": []
                 },
                 "movements": {
@@ -692,6 +670,16 @@ export const schema = {
                 {
                     "type": "model",
                     "properties": {}
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "name": "bankAccountByBiId",
+                        "fields": [
+                            "biId"
+                        ],
+                        "queryField": "listBankAccountByBiId"
+                    }
                 }
             ]
         },
@@ -922,13 +910,6 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "key": {
-                    "name": "key",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                },
                 "s3file": {
                     "name": "s3file",
                     "isArray": false,
@@ -947,84 +928,6 @@ export const schema = {
                         "fields": [
                             "realEstateId"
                         ]
-                    }
-                },
-                {
-                    "type": "key",
-                    "properties": {
-                        "name": "documentByKey",
-                        "fields": [
-                            "key"
-                        ],
-                        "queryField": "documentByKey"
-                    }
-                },
-                {
-                    "type": "model",
-                    "properties": {}
-                }
-            ]
-        },
-        "PendingInvitation": {
-            "name": "PendingInvitation",
-            "fields": {
-                "id": {
-                    "name": "id",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "realEstate": {
-                    "name": "realEstate",
-                    "isArray": false,
-                    "type": {
-                        "model": "RealEstate"
-                    },
-                    "isRequired": false,
-                    "attributes": [],
-                    "association": {
-                        "connectionType": "BELONGS_TO",
-                        "targetName": "realEstateId"
-                    }
-                },
-                "email": {
-                    "name": "email",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "type": {
-                    "name": "type",
-                    "isArray": false,
-                    "type": {
-                        "enum": "InvitationType"
-                    },
-                    "isRequired": true,
-                    "attributes": []
-                }
-            },
-            "syncable": true,
-            "pluralName": "PendingInvitations",
-            "attributes": [
-                {
-                    "type": "key",
-                    "properties": {
-                        "name": "pendingInvitationByRealEstate",
-                        "fields": [
-                            "realEstateId"
-                        ]
-                    }
-                },
-                {
-                    "type": "key",
-                    "properties": {
-                        "name": "pendingInvitationByEmail",
-                        "fields": [
-                            "email"
-                        ],
-                        "queryField": "pendingInvitationByEmail"
                     }
                 },
                 {
@@ -1312,6 +1215,57 @@ export const schema = {
         }
     },
     "nonModels": {
+        "ProfileInfo": {
+            "name": "ProfileInfo",
+            "fields": {
+                "email": {
+                    "name": "email",
+                    "isArray": false,
+                    "type": "AWSEmail",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "phoneNumber": {
+                    "name": "phoneNumber",
+                    "isArray": false,
+                    "type": "AWSPhone",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "optIn": {
+                    "name": "optIn",
+                    "isArray": false,
+                    "type": "Boolean",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "address": {
+                    "name": "address",
+                    "isArray": false,
+                    "type": {
+                        "nonModel": "Address"
+                    },
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "birthDate": {
+                    "name": "birthDate",
+                    "isArray": false,
+                    "type": "AWSDate",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "subscription": {
+                    "name": "subscription",
+                    "isArray": false,
+                    "type": {
+                        "enum": "SubscriptionType"
+                    },
+                    "isRequired": false,
+                    "attributes": []
+                }
+            }
+        },
         "Address": {
             "name": "Address",
             "fields": {
@@ -1535,7 +1489,28 @@ export const schema = {
                     "attributes": []
                 }
             }
+        },
+        "PendingInvitation": {
+            "name": "PendingInvitation",
+            "fields": {
+                "email": {
+                    "name": "email",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "type": {
+                    "name": "type",
+                    "isArray": false,
+                    "type": {
+                        "enum": "InvitationType"
+                    },
+                    "isRequired": true,
+                    "attributes": []
+                }
+            }
         }
     },
-    "version": "9c14f4224c87709d2f334e66e6aca9ab"
+    "version": "d8ef2af34a810f44492de6ee3daa4065"
 };

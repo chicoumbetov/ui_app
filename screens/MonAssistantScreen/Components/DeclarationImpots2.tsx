@@ -42,7 +42,7 @@ const DeclarationImpots = () => {
         >
           <Text category="p2">
             Déclaration_Impôts_
-            {bien.name}
+            {bien?.name}
             _
             {route.params.anneeEcheance}
           </Text>

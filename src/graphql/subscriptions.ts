@@ -2,238 +2,12 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const onCreatePendingInvitation = /* GraphQL */ `
-  subscription OnCreatePendingInvitation {
-    onCreatePendingInvitation {
-      id
-      realEstateId
-      email
-      type
-      _version
-      _deleted
-      _lastChangedAt
-      createdAt
-      updatedAt
-      realEstate {
-        id
-        name
-        iconUri
-        purchaseYear
-        type
-        ownName
-        company
-        detentionPart
-        typeImpot
-        budgetLines {
-          nextToken
-          startedAt
-        }
-        bankMovements {
-          nextToken
-          startedAt
-        }
-        budgetLineDeadlines {
-          nextToken
-          startedAt
-        }
-        documents {
-          nextToken
-          startedAt
-        }
-        admins
-        shared
-        pendingInvitations {
-          nextToken
-          startedAt
-        }
-        address {
-          address
-          additionalAddress
-          postalCode
-          city
-          country
-        }
-        tenants {
-          id
-          amount
-          rentalCharges
-          managementFees
-          lastname
-          firstname
-          email
-          startDate
-          endDate
-        }
-        bankAccounts {
-          nextToken
-          startedAt
-        }
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-      }
-    }
-  }
-`;
-export const onUpdatePendingInvitation = /* GraphQL */ `
-  subscription OnUpdatePendingInvitation {
-    onUpdatePendingInvitation {
-      id
-      realEstateId
-      email
-      type
-      _version
-      _deleted
-      _lastChangedAt
-      createdAt
-      updatedAt
-      realEstate {
-        id
-        name
-        iconUri
-        purchaseYear
-        type
-        ownName
-        company
-        detentionPart
-        typeImpot
-        budgetLines {
-          nextToken
-          startedAt
-        }
-        bankMovements {
-          nextToken
-          startedAt
-        }
-        budgetLineDeadlines {
-          nextToken
-          startedAt
-        }
-        documents {
-          nextToken
-          startedAt
-        }
-        admins
-        shared
-        pendingInvitations {
-          nextToken
-          startedAt
-        }
-        address {
-          address
-          additionalAddress
-          postalCode
-          city
-          country
-        }
-        tenants {
-          id
-          amount
-          rentalCharges
-          managementFees
-          lastname
-          firstname
-          email
-          startDate
-          endDate
-        }
-        bankAccounts {
-          nextToken
-          startedAt
-        }
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-      }
-    }
-  }
-`;
-export const onDeletePendingInvitation = /* GraphQL */ `
-  subscription OnDeletePendingInvitation {
-    onDeletePendingInvitation {
-      id
-      realEstateId
-      email
-      type
-      _version
-      _deleted
-      _lastChangedAt
-      createdAt
-      updatedAt
-      realEstate {
-        id
-        name
-        iconUri
-        purchaseYear
-        type
-        ownName
-        company
-        detentionPart
-        typeImpot
-        budgetLines {
-          nextToken
-          startedAt
-        }
-        bankMovements {
-          nextToken
-          startedAt
-        }
-        budgetLineDeadlines {
-          nextToken
-          startedAt
-        }
-        documents {
-          nextToken
-          startedAt
-        }
-        admins
-        shared
-        pendingInvitations {
-          nextToken
-          startedAt
-        }
-        address {
-          address
-          additionalAddress
-          postalCode
-          city
-          country
-        }
-        tenants {
-          id
-          amount
-          rentalCharges
-          managementFees
-          lastname
-          firstname
-          email
-          startDate
-          endDate
-        }
-        bankAccounts {
-          nextToken
-          startedAt
-        }
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-      }
-    }
-  }
-`;
 export const onCreateDocument = /* GraphQL */ `
   subscription OnCreateDocument {
     onCreateDocument {
       id
       realEstateId
       name
-      key
       s3file
       _version
       _deleted
@@ -268,10 +42,7 @@ export const onCreateDocument = /* GraphQL */ `
         }
         admins
         shared
-        pendingInvitations {
-          nextToken
-          startedAt
-        }
+        pendingInvitations
         address {
           address
           additionalAddress
@@ -309,7 +80,6 @@ export const onUpdateDocument = /* GraphQL */ `
       id
       realEstateId
       name
-      key
       s3file
       _version
       _deleted
@@ -344,10 +114,7 @@ export const onUpdateDocument = /* GraphQL */ `
         }
         admins
         shared
-        pendingInvitations {
-          nextToken
-          startedAt
-        }
+        pendingInvitations
         address {
           address
           additionalAddress
@@ -385,7 +152,6 @@ export const onDeleteDocument = /* GraphQL */ `
       id
       realEstateId
       name
-      key
       s3file
       _version
       _deleted
@@ -420,10 +186,7 @@ export const onDeleteDocument = /* GraphQL */ `
         }
         admins
         shared
-        pendingInvitations {
-          nextToken
-          startedAt
-        }
+        pendingInvitations
         address {
           address
           additionalAddress
@@ -513,10 +276,7 @@ export const onCreateBudgetLine = /* GraphQL */ `
         }
         admins
         shared
-        pendingInvitations {
-          nextToken
-          startedAt
-        }
+        pendingInvitations
         address {
           address
           additionalAddress
@@ -606,10 +366,7 @@ export const onUpdateBudgetLine = /* GraphQL */ `
         }
         admins
         shared
-        pendingInvitations {
-          nextToken
-          startedAt
-        }
+        pendingInvitations
         address {
           address
           additionalAddress
@@ -699,10 +456,7 @@ export const onDeleteBudgetLine = /* GraphQL */ `
         }
         admins
         shared
-        pendingInvitations {
-          nextToken
-          startedAt
-        }
+        pendingInvitations
         address {
           address
           additionalAddress
@@ -773,6 +527,7 @@ export const onCreateBudgetLineDeadline = /* GraphQL */ `
           typeImpot
           admins
           shared
+          pendingInvitations
           _version
           _deleted
           _lastChangedAt
@@ -824,10 +579,7 @@ export const onCreateBudgetLineDeadline = /* GraphQL */ `
         }
         admins
         shared
-        pendingInvitations {
-          nextToken
-          startedAt
-        }
+        pendingInvitations
         address {
           address
           additionalAddress
@@ -898,6 +650,7 @@ export const onUpdateBudgetLineDeadline = /* GraphQL */ `
           typeImpot
           admins
           shared
+          pendingInvitations
           _version
           _deleted
           _lastChangedAt
@@ -949,10 +702,7 @@ export const onUpdateBudgetLineDeadline = /* GraphQL */ `
         }
         admins
         shared
-        pendingInvitations {
-          nextToken
-          startedAt
-        }
+        pendingInvitations
         address {
           address
           additionalAddress
@@ -1023,6 +773,7 @@ export const onDeleteBudgetLineDeadline = /* GraphQL */ `
           typeImpot
           admins
           shared
+          pendingInvitations
           _version
           _deleted
           _lastChangedAt
@@ -1074,10 +825,7 @@ export const onDeleteBudgetLineDeadline = /* GraphQL */ `
         }
         admins
         shared
-        pendingInvitations {
-          nextToken
-          startedAt
-        }
+        pendingInvitations
         address {
           address
           additionalAddress
@@ -1126,7 +874,9 @@ export const onCreateRealEstateBankAccount = /* GraphQL */ `
         iban
         bic
         balance
-        bridgeApiId
+        biId
+        biConnectionId
+        biState
         movements {
           nextToken
           startedAt
@@ -1170,10 +920,7 @@ export const onCreateRealEstateBankAccount = /* GraphQL */ `
         }
         admins
         shared
-        pendingInvitations {
-          nextToken
-          startedAt
-        }
+        pendingInvitations
         address {
           address
           additionalAddress
@@ -1222,7 +969,9 @@ export const onUpdateRealEstateBankAccount = /* GraphQL */ `
         iban
         bic
         balance
-        bridgeApiId
+        biId
+        biConnectionId
+        biState
         movements {
           nextToken
           startedAt
@@ -1266,10 +1015,7 @@ export const onUpdateRealEstateBankAccount = /* GraphQL */ `
         }
         admins
         shared
-        pendingInvitations {
-          nextToken
-          startedAt
-        }
+        pendingInvitations
         address {
           address
           additionalAddress
@@ -1318,7 +1064,9 @@ export const onDeleteRealEstateBankAccount = /* GraphQL */ `
         iban
         bic
         balance
-        bridgeApiId
+        biId
+        biConnectionId
+        biState
         movements {
           nextToken
           startedAt
@@ -1362,10 +1110,7 @@ export const onDeleteRealEstateBankAccount = /* GraphQL */ `
         }
         admins
         shared
-        pendingInvitations {
-          nextToken
-          startedAt
-        }
+        pendingInvitations
         address {
           address
           additionalAddress
@@ -1420,13 +1165,15 @@ export const onCreateBankAccount = /* GraphQL */ `
       iban
       bic
       balance
-      bridgeApiId
+      biId
+      biConnectionId
+      biState
       movements {
         items {
           id
           bankAccountId
           realEstateId
-          bridgeApiId
+          biId
           description
           amount
           budgetLineDeadlineId
@@ -1472,13 +1219,15 @@ export const onUpdateBankAccount = /* GraphQL */ `
       iban
       bic
       balance
-      bridgeApiId
+      biId
+      biConnectionId
+      biState
       movements {
         items {
           id
           bankAccountId
           realEstateId
-          bridgeApiId
+          biId
           description
           amount
           budgetLineDeadlineId
@@ -1524,13 +1273,15 @@ export const onDeleteBankAccount = /* GraphQL */ `
       iban
       bic
       balance
-      bridgeApiId
+      biId
+      biConnectionId
+      biState
       movements {
         items {
           id
           bankAccountId
           realEstateId
-          bridgeApiId
+          biId
           description
           amount
           budgetLineDeadlineId
@@ -1569,7 +1320,9 @@ export const onCreateBankMovement = /* GraphQL */ `
         iban
         bic
         balance
-        bridgeApiId
+        biId
+        biConnectionId
+        biState
         movements {
           nextToken
           startedAt
@@ -1592,7 +1345,9 @@ export const onCreateBankMovement = /* GraphQL */ `
         iban
         bic
         balance
-        bridgeApiId
+        biId
+        biConnectionId
+        biState
         movements {
           nextToken
           startedAt
@@ -1603,7 +1358,7 @@ export const onCreateBankMovement = /* GraphQL */ `
         createdAt
         updatedAt
       }
-      bridgeApiId
+      biId
       description
       amount
       budgetLineDeadlineId
@@ -1654,6 +1409,7 @@ export const onCreateBankMovement = /* GraphQL */ `
           typeImpot
           admins
           shared
+          pendingInvitations
           _version
           _deleted
           _lastChangedAt
@@ -1687,7 +1443,9 @@ export const onUpdateBankMovement = /* GraphQL */ `
         iban
         bic
         balance
-        bridgeApiId
+        biId
+        biConnectionId
+        biState
         movements {
           nextToken
           startedAt
@@ -1710,7 +1468,9 @@ export const onUpdateBankMovement = /* GraphQL */ `
         iban
         bic
         balance
-        bridgeApiId
+        biId
+        biConnectionId
+        biState
         movements {
           nextToken
           startedAt
@@ -1721,7 +1481,7 @@ export const onUpdateBankMovement = /* GraphQL */ `
         createdAt
         updatedAt
       }
-      bridgeApiId
+      biId
       description
       amount
       budgetLineDeadlineId
@@ -1772,6 +1532,7 @@ export const onUpdateBankMovement = /* GraphQL */ `
           typeImpot
           admins
           shared
+          pendingInvitations
           _version
           _deleted
           _lastChangedAt
@@ -1805,7 +1566,9 @@ export const onDeleteBankMovement = /* GraphQL */ `
         iban
         bic
         balance
-        bridgeApiId
+        biId
+        biConnectionId
+        biState
         movements {
           nextToken
           startedAt
@@ -1828,7 +1591,9 @@ export const onDeleteBankMovement = /* GraphQL */ `
         iban
         bic
         balance
-        bridgeApiId
+        biId
+        biConnectionId
+        biState
         movements {
           nextToken
           startedAt
@@ -1839,7 +1604,7 @@ export const onDeleteBankMovement = /* GraphQL */ `
         createdAt
         updatedAt
       }
-      bridgeApiId
+      biId
       description
       amount
       budgetLineDeadlineId
@@ -1890,6 +1655,7 @@ export const onDeleteBankMovement = /* GraphQL */ `
           typeImpot
           admins
           shared
+          pendingInvitations
           _version
           _deleted
           _lastChangedAt
@@ -1913,26 +1679,29 @@ export const onCreateUser = /* GraphQL */ `
       id
       lastname
       firstname
-      email
       avatarUri
       _version
       _deleted
       _lastChangedAt
       createdAt
       updatedAt
-      phoneNumber
-      optIn
-      address {
-        address
-        additionalAddress
-        postalCode
-        city
-        country
+      privateProfile {
+        email
+        phoneNumber
+        optIn
+        address {
+          address
+          additionalAddress
+          postalCode
+          city
+          country
+        }
+        birthDate
+        subscription
       }
       expoToken
-      bridgeApiUser
-      birthDate
-      subscription
+      biUser
+      biToken
     }
   }
 `;
@@ -1942,26 +1711,29 @@ export const onUpdateUser = /* GraphQL */ `
       id
       lastname
       firstname
-      email
       avatarUri
       _version
       _deleted
       _lastChangedAt
       createdAt
       updatedAt
-      phoneNumber
-      optIn
-      address {
-        address
-        additionalAddress
-        postalCode
-        city
-        country
+      privateProfile {
+        email
+        phoneNumber
+        optIn
+        address {
+          address
+          additionalAddress
+          postalCode
+          city
+          country
+        }
+        birthDate
+        subscription
       }
       expoToken
-      bridgeApiUser
-      birthDate
-      subscription
+      biUser
+      biToken
     }
   }
 `;
@@ -1971,26 +1743,29 @@ export const onDeleteUser = /* GraphQL */ `
       id
       lastname
       firstname
-      email
       avatarUri
       _version
       _deleted
       _lastChangedAt
       createdAt
       updatedAt
-      phoneNumber
-      optIn
-      address {
-        address
-        additionalAddress
-        postalCode
-        city
-        country
+      privateProfile {
+        email
+        phoneNumber
+        optIn
+        address {
+          address
+          additionalAddress
+          postalCode
+          city
+          country
+        }
+        birthDate
+        subscription
       }
       expoToken
-      bridgeApiUser
-      birthDate
-      subscription
+      biUser
+      biToken
     }
   }
 `;
@@ -2030,7 +1805,7 @@ export const onCreateRealEstate = /* GraphQL */ `
           id
           bankAccountId
           realEstateId
-          bridgeApiId
+          biId
           description
           amount
           budgetLineDeadlineId
@@ -2070,7 +1845,6 @@ export const onCreateRealEstate = /* GraphQL */ `
           id
           realEstateId
           name
-          key
           s3file
           _version
           _deleted
@@ -2083,21 +1857,7 @@ export const onCreateRealEstate = /* GraphQL */ `
       }
       admins
       shared
-      pendingInvitations {
-        items {
-          id
-          realEstateId
-          email
-          type
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-        }
-        nextToken
-        startedAt
-      }
+      pendingInvitations
       address {
         address
         additionalAddress
@@ -2174,7 +1934,7 @@ export const onUpdateRealEstate = /* GraphQL */ `
           id
           bankAccountId
           realEstateId
-          bridgeApiId
+          biId
           description
           amount
           budgetLineDeadlineId
@@ -2214,7 +1974,6 @@ export const onUpdateRealEstate = /* GraphQL */ `
           id
           realEstateId
           name
-          key
           s3file
           _version
           _deleted
@@ -2227,21 +1986,7 @@ export const onUpdateRealEstate = /* GraphQL */ `
       }
       admins
       shared
-      pendingInvitations {
-        items {
-          id
-          realEstateId
-          email
-          type
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-        }
-        nextToken
-        startedAt
-      }
+      pendingInvitations
       address {
         address
         additionalAddress
@@ -2318,7 +2063,7 @@ export const onDeleteRealEstate = /* GraphQL */ `
           id
           bankAccountId
           realEstateId
-          bridgeApiId
+          biId
           description
           amount
           budgetLineDeadlineId
@@ -2358,7 +2103,6 @@ export const onDeleteRealEstate = /* GraphQL */ `
           id
           realEstateId
           name
-          key
           s3file
           _version
           _deleted
@@ -2371,21 +2115,7 @@ export const onDeleteRealEstate = /* GraphQL */ `
       }
       admins
       shared
-      pendingInvitations {
-        items {
-          id
-          realEstateId
-          email
-          type
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-        }
-        nextToken
-        startedAt
-      }
+      pendingInvitations
       address {
         address
         additionalAddress
@@ -2444,26 +2174,22 @@ export const onCreateNotification = /* GraphQL */ `
         id
         lastname
         firstname
-        email
         avatarUri
         _version
         _deleted
         _lastChangedAt
         createdAt
         updatedAt
-        phoneNumber
-        optIn
-        address {
-          address
-          additionalAddress
-          postalCode
-          city
-          country
+        privateProfile {
+          email
+          phoneNumber
+          optIn
+          birthDate
+          subscription
         }
         expoToken
-        bridgeApiUser
-        birthDate
-        subscription
+        biUser
+        biToken
       }
     }
   }
@@ -2486,26 +2212,22 @@ export const onUpdateNotification = /* GraphQL */ `
         id
         lastname
         firstname
-        email
         avatarUri
         _version
         _deleted
         _lastChangedAt
         createdAt
         updatedAt
-        phoneNumber
-        optIn
-        address {
-          address
-          additionalAddress
-          postalCode
-          city
-          country
+        privateProfile {
+          email
+          phoneNumber
+          optIn
+          birthDate
+          subscription
         }
         expoToken
-        bridgeApiUser
-        birthDate
-        subscription
+        biUser
+        biToken
       }
     }
   }
@@ -2528,26 +2250,22 @@ export const onDeleteNotification = /* GraphQL */ `
         id
         lastname
         firstname
-        email
         avatarUri
         _version
         _deleted
         _lastChangedAt
         createdAt
         updatedAt
-        phoneNumber
-        optIn
-        address {
-          address
-          additionalAddress
-          postalCode
-          city
-          country
+        privateProfile {
+          email
+          phoneNumber
+          optIn
+          birthDate
+          subscription
         }
         expoToken
-        bridgeApiUser
-        birthDate
-        subscription
+        biUser
+        biToken
       }
     }
   }
@@ -2572,26 +2290,22 @@ export const onCreateBillingHistory = /* GraphQL */ `
         id
         lastname
         firstname
-        email
         avatarUri
         _version
         _deleted
         _lastChangedAt
         createdAt
         updatedAt
-        phoneNumber
-        optIn
-        address {
-          address
-          additionalAddress
-          postalCode
-          city
-          country
+        privateProfile {
+          email
+          phoneNumber
+          optIn
+          birthDate
+          subscription
         }
         expoToken
-        bridgeApiUser
-        birthDate
-        subscription
+        biUser
+        biToken
       }
     }
   }
@@ -2616,26 +2330,22 @@ export const onUpdateBillingHistory = /* GraphQL */ `
         id
         lastname
         firstname
-        email
         avatarUri
         _version
         _deleted
         _lastChangedAt
         createdAt
         updatedAt
-        phoneNumber
-        optIn
-        address {
-          address
-          additionalAddress
-          postalCode
-          city
-          country
+        privateProfile {
+          email
+          phoneNumber
+          optIn
+          birthDate
+          subscription
         }
         expoToken
-        bridgeApiUser
-        birthDate
-        subscription
+        biUser
+        biToken
       }
     }
   }
@@ -2660,26 +2370,22 @@ export const onDeleteBillingHistory = /* GraphQL */ `
         id
         lastname
         firstname
-        email
         avatarUri
         _version
         _deleted
         _lastChangedAt
         createdAt
         updatedAt
-        phoneNumber
-        optIn
-        address {
-          address
-          additionalAddress
-          postalCode
-          city
-          country
+        privateProfile {
+          email
+          phoneNumber
+          optIn
+          birthDate
+          subscription
         }
         expoToken
-        bridgeApiUser
-        birthDate
-        subscription
+        biUser
+        biToken
       }
     }
   }

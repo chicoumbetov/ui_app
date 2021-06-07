@@ -13,8 +13,8 @@ const awsmobile = {
     "aws_appsync_authenticationType": "AMAZON_COGNITO_USER_POOLS",
     "aws_cloud_logic_custom": [
         {
-            "name": "bridgeapi",
-            "endpoint": "https://l5tyv0o3u2.execute-api.eu-west-2.amazonaws.com/dev",
+            "name": "omedomrest",
+            "endpoint": "https://0patt7mbe7.execute-api.eu-west-2.amazonaws.com/dev",
             "region": "eu-west-2"
         }
     ],

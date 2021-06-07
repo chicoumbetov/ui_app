@@ -34,6 +34,8 @@ import { Upload } from '../../utils/S3FileStorage';
 import Card from '../../components/Card';
 import Separator from '../../components/Separator';
 import { UseGetInvitateUser, useGetUserByIDList } from '../../src/API/User';
+import DocumentComponent from '../../components/DocumentComponent';
+import { useDocumentList } from '../../src/API/Document';
 
 function DetailsBien() {
   const navigation = useNavigation();
@@ -41,6 +43,8 @@ function DetailsBien() {
   const theme = useTheme();
   const route = useRoute<RouteProp<TabMesBiensParamList, 'detail-bien'>>();
   const { bien } = useGetRealEstate(route.params.id);
+  const { documentList } = useDocumentList();
+  // console.log('detail bien document', documentList);
 
   const [typeRevenu, setTypeRevenu] = useState<string>();
 
@@ -378,11 +382,9 @@ function DetailsBien() {
         <Text category="s2" style={{ marginBottom: 30 }}>
           Documents
         </Text>
-        <Card style={styles.docs}>
-          <Text category="p2">Aide_Déclaration_Impôts_2021</Text>
-
-          <IconUIKitten name="cloud-download" fill="#b5b5b5" style={{ height: 17, width: 17 }} />
-        </Card>
+        {documentList?.listDocuments?.items?.map(
+          (item) => <DocumentComponent key={item?.id} document={item} />,
+        )}
 
         <View style={styles.button}>
           <TouchableOpacity onPress={async () => {

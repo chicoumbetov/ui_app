@@ -13,7 +13,7 @@ import {
 import { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as FileSystem from 'expo-file-system';
-import { Storage } from 'aws-amplify';
+import Storage from '@aws-amplify/storage';
 import Image, { ImageProps } from './Image';
 import ActivityIndicator from './ActivityIndicator';
 import { waitingDirectory } from '../utils/S3FileStorage';

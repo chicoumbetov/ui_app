@@ -2,7 +2,7 @@
 
 import { ApolloClient } from '@wora/apollo-offline';
 import { ApolloCache } from '@wora/apollo-cache';
-import { Auth } from 'aws-amplify';
+import Auth from '@aws-amplify/auth';
 import { ApolloLink } from 'apollo-link';
 import { AUTH_TYPE, createAuthLink } from 'aws-appsync-auth-link';
 import { createSubscriptionHandshakeLink } from 'aws-appsync-subscription-link';

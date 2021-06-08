@@ -1,55 +1,54 @@
+"use strict";
 /* Amplify Params - DO NOT EDIT
-	API_OMEDOMREST_APIID
-	API_OMEDOMREST_APINAME
-	API_OMEDOM_GRAPHQLAPIENDPOINTOUTPUT
-	API_OMEDOM_GRAPHQLAPIIDOUTPUT
-	ENV
-	REGION
+    API_OMEDOMREST_APIID
+    API_OMEDOMREST_APINAME
+    API_OMEDOM_GRAPHQLAPIENDPOINTOUTPUT
+    API_OMEDOM_GRAPHQLAPIIDOUTPUT
+    ENV
+    REGION
 Amplify Params - DO NOT EDIT */
-import { useGetUserByEmail } from '../../../../../src/API/User';
-import { sendEmail } from '../../../../../components/AwsMail/SendMail';
-import { useUpdateRealEstateMutation } from '../../../../../src/API/RealEstate';
-
+Object.defineProperty(exports, "__esModule", { value: true });
+const UserQueries_1 = require("/opt/nodejs/src/UserQueries");
+const AppSyncClient_1 = require("/opt/nodejs/src/AppSyncClient");
+const RealEstateMutation_1 = require("/opt/nodejs/src/RealEstateMutation");
+const SendMail_1 = require("/opt/nodejs/src/SendMail");
 exports.handler = (event) => {
-  //eslint-disable-line
-  console.log(JSON.stringify(event, null, 2));
-  const updateRealEstate = useUpdateRealEstateMutation();
-
-  event.Records.forEach(async (record) => {
-    if (record.eventName === 'INSERT') {
-      const { user } = useGetUserByEmail(record.dynamodb.NewImage.email.S);
-      console.log(user);
-      if (user.length > 0) {
-        console.log(record.dynamodb.NewImage.type.S);
-        if (record.dynamodb.NewImage.type.S === 'Admin') {
-          await updateRealEstate.updateRealEstate({
-            variables: {
-              input: {
-                id: record.dynamodb.NewImage.realEstateId.S,
-                admins: [
-                  user[0].id,
-                ],
-              },
-            },
-          });
-        } else {
-          await updateRealEstate.updateRealEstate({
-            variables: {
-              input: {
-                id: record.dynamodb.NewImage.realEstateId.S,
-                shared: [
-                  user[0].id,
-                ],
-              },
-            },
-          });
+    //eslint-disable-line
+    console.log(JSON.stringify(event, null, 2));
+    const appSyncClient = AppSyncClient_1.default(process.env);
+    event.Records.forEach(async (record) => {
+        if (record.eventName === 'INSERT') {
+            console.log(record.dynamodb.NewImage.email.S);
+            const user = await UserQueries_1.getUserByEmail(appSyncClient, record.dynamodb.NewImage.email.S);
+            if (user) {
+                console.log(record.dynamodb.NewImage.type.S);
+                if (record.dynamodb.NewImage.type.S === 'Admin') {
+                    await RealEstateMutation_1.updateRealEstateMutation(appSyncClient, {
+                        variables: {
+                            input: {
+                                id: record.dynamodb.NewImage.realEstateId.S,
+                                admins: [
+                                    user.id,
+                                ],
+                            },
+                        },
+                    });
+                }
+                else {
+                    await RealEstateMutation_1.updateRealEstateMutation(appSyncClient, {
+                        variables: {
+                            input: {
+                                id: record.dynamodb.NewImage.realEstateId.S,
+                                shared: [
+                                    user.id,
+                                ],
+                            },
+                        },
+                    });
+                }
+                SendMail_1.sendEmail(record.dynamodb.NewImage.email.S, 'Pirate');
+            }
         }
-
-        sendEmail(record.dynamodb.NewImage.email.S, 'Pirate');
-      }
-    } console.log(record);
-    console.log(record.eventName);
-    console.log('DynamoDB Record: %j', record.dynamodb);
-  });
-  return Promise.resolve('Successfully processed DynamoDB record');
+    });
+    return Promise.resolve('Successfully processed DynamoDB record');
 };

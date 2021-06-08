@@ -34,11 +34,19 @@
         },
         "shareRealEstate": {
           "deploymentBucketName": "amplify-omedom-dev-175444-deployment",
-          "s3Key": "amplify-builds/shareRealEstate-43576174476378653664-build.zip"
+          "s3Key": "amplify-builds/shareRealEstate-6e64572b47627a527975-build.zip"
         },
         "omedomfee3bfe0PostConfirmation": {
           "deploymentBucketName": "amplify-omedom-dev-175444-deployment",
           "s3Key": "amplify-builds/omedomfee3bfe0PostConfirmation-73517731353859796f48-build.zip"
+        },
+        "seslayer": {
+          "deploymentBucketName": "amplify-omedom-dev-175444-deployment",
+          "s3Key": "amplify-builds/seslayer-build.zip"
+        },
+        "graphqllayer": {
+          "deploymentBucketName": "amplify-omedom-dev-175444-deployment",
+          "s3Key": "amplify-builds/graphqllayer-build.zip"
         }
       }
     },
@@ -93,6 +101,30 @@
                 }
               ],
               "hash": "yJgSJnFqMVaycVZLTj04eLaYBXAPR8fWbbXU3D12W6M="
+            }
+          }
+        },
+        "graphqllayer": {
+          "layerVersionMap": {
+            "1": {
+              "permissions": [
+                {
+                  "type": "private"
+                }
+              ],
+              "hash": "yiy8iPyrlBqW9SyrUND3oaYu/a0h4HHpc4qayk7sgHU="
+            }
+          }
+        },
+        "seslayer": {
+          "layerVersionMap": {
+            "1": {
+              "permissions": [
+                {
+                  "type": "private"
+                }
+              ],
+              "hash": "m30pa3M7mCmlbSKV0+mlrTdn0KVOahbd6EgNXtgaUMQ="
             }
           }
         }

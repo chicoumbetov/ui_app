@@ -15,15 +15,8 @@ See the License for the specific language governing permissions and limitations 
 Amplify Params - DO NOT EDIT */
 
 import BIApiClient from '/opt/nodejs/src/BIApiClient';
-
-import * as AWS from 'aws-sdk';
-import AWSAppSyncClient, { AUTH_TYPE } from 'aws-appsync';
-import gql from 'graphql-tag';
-import { GetUserQuery, GetUserQueryVariables } from '../../../../../src/API';
-
-require('isomorphic-fetch');
-
-AWS.config.update({ region: process.env.REGION });
+import getAppSyncClient from "/opt/nodejs/src/AppSyncClient";
+import {getUserById} from "../../graphqllayer/lib/nodejs/src/UserQueries";
 
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -43,19 +36,7 @@ app.use((req, res, next) => {
 
 const client = BIApiClient(<'dev' | 'prod'>process.env.ENV);
 
-const getAppSyncClient = () => {
-  const config = {
-    url: process.env.API_OMEDOM_GRAPHQLAPIENDPOINTOUTPUT,
-    region: process.env.REGION,
-    auth: {
-      type: <'AWS_IAM'>AUTH_TYPE.AWS_IAM,
-      credentials: AWS.config.credentials,
-    },
-    disableOffline: true,
-  };
-
-  return new AWSAppSyncClient(config);
-};
+const AppSyncClient = getAppSyncClient(process.env);
 
 // permet la création d'un utilisateur
 app.post('/budgetinsight/create-user', async (req, res) => {
@@ -77,27 +58,18 @@ app.get('/budgetinsight/connect-url', async (req, res) => {
     .cognitoAuthenticationProvider.split(':').pop();
 
   try {
-    const appSyncClient = getAppSyncClient();
-    const { data } = await appSyncClient.query<GetUserQuery, GetUserQueryVariables>({
-      query: gql(`query GetUser($id: ID!) {
-        getUser(id: $id) {
-          id
-          biToken
-        }
-      }`), // use your graphql query here
-      variables: {
-        id: uuid,
-      },
-      fetchPolicy: 'no-cache',
-    });
-
-    console.log(data);
-
-    const redirectUrl = process.env.ENV === 'prod' ? '' : 'https://0patt7mbe7.execute-api.eu-west-2.amazonaws.com/dev/webhooks/create-redirect';
-    const connectUrl = await client.getConnectUrl(data.getUser.biToken, redirectUrl, uuid);
-    res.json({
-      connectUrl, success: true,
-    });
+    const user = await getUserById(AppSyncClient, uuid);
+    if (user) {
+      const redirectUrl = process.env.ENV === 'prod' ? '' : 'https://0patt7mbe7.execute-api.eu-west-2.amazonaws.com/dev/webhooks/create-redirect';
+      const connectUrl = await client.getConnectUrl(user.biToken, redirectUrl, uuid);
+      res.json({
+        connectUrl, success: true,
+      });
+    } else {
+      res.json({
+        success: false, error: "Utilisateur introuvable",
+      });
+    }
   } catch (e) {
     res.json({
       success: false, error: e,

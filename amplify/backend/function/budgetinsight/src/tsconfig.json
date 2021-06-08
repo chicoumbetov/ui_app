@@ -4,9 +4,14 @@
     "baseUrl": ".",
     "paths": {
       "/opt/nodejs/*": [
-        "../../budgetinsightlayer/lib/nodejs/*"
+        "../../budgetinsightlayer/lib/nodejs/*",
+        "../../graphqllayer/lib/nodejs/*"
       ],
-      "*" : ["*", "../../budgetinsightlayer/lib/nodejs/node_modules/*"]
+      "*" : [
+        "*",
+        "../../graphqllayer/lib/nodejs/node_modules/*",
+        "../../budgetinsightlayer/lib/nodejs/node_modules/*"
+      ]
     }
   }
 }

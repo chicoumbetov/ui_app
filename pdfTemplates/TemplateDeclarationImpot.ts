@@ -4,8 +4,11 @@
 // eslint-disable-next-line import/prefer-default-export
 export const pdfTemplateDeclaration = `
 <style>
+    * {
+        font-size: 13px;
+    }
     .container {
-      padding: 30px;
+      margin: 40px;
     }
     .header {
       border: 1px solid black;
@@ -22,8 +25,11 @@ export const pdfTemplateDeclaration = `
       display: table;
       width: 100%;
     }
+    tr {
+        border: 1px solid black;
+    }
     td {
-      border: 1px solid black;
+      
       padding: 5px 0 5px 10px;
     }
     h4,
@@ -31,6 +37,8 @@ export const pdfTemplateDeclaration = `
       display: flex;
       flex: 1;
       justify-content: center;
+      margin: 0;
+      margin-top: 5px;
     }
     h3 {
       display: flex;
@@ -43,6 +51,7 @@ export const pdfTemplateDeclaration = `
     }
     .secondColumn {
       align-content: center;
+      border-left: 1px solid black;
     }
   </style>
 <div class="container">
@@ -78,11 +87,11 @@ export const pdfTemplateDeclaration = `
         </td>
         <td>
           <p>Entré le</p>
-          <p>{{tenant.startDate}}</p>
+          <p>{{startDate}}</p>
         </td>
         <td>
           <p>Départ le</p>
-          <p>{{tenant.endDate}}</p>
+          <p>{{endDate}}</p>
         </td>
       </tr>
     </table>
@@ -91,47 +100,92 @@ export const pdfTemplateDeclaration = `
         <tbody >
   
           <tr >
+            <td >
+              <br>
+              <strong>210</strong>
+              <br>
+              <br>
+              <br>
+              <br>
+              <p>211</p>
+              <p>212</p>
+              <p>213</p>
+              <br>
+              <br>
+              <p>214</p>
+  
+              <p><strong>215</strong></p>
+  
+              <p><strong>220</strong> </p>
+              <p>221    <br>
+                          <br>
+                          <br>
+              </p>
+              <p>222</p>
+              <p>223</p>
+              <p>224</p>
+              <p>225</p>
+              <p>226</p>
+              <p>227</p>
+              <br>
+              <p>228</p>
+              <br>
+              <br>
+              <p>229</p>
+              <p>230</p>
+              <br>
+              <p><strong>240</strong> </p>
+              <br>
+              <p><strong>250</strong> </p>
+              <br>
+              <p><strong>260</strong> </p>
+              <p>261</p>
+              <p>262</p>
+              <p><strong>263</strong> </p>
+            </td>
+            
+            
             <td colspan="2">
               <h4>DECLARATION 'NORMALE'</h4>
-              <strong>210   RECETTES </strong>
+              <strong>RECETTES </strong>
               <div><p><strong>Immeuble donnés en location</strong></p></div>
   
               <br>
-              <p>211    Loyers (ou fermages) bruts encaissés</p>
-              <p>212    Dépenses mises par convention à la charge des locataires</p>
-              <p>213    Recettes brutes diverses ( y compris subventions ANAH et indemnités d'assurance)</p>
+              <p>Loyers (ou fermages) bruts encaissés</p>
+              <p>Dépenses mises par convention à la charge des locataires</p>
+              <p>Recettes brutes diverses ( y compris subventions ANAH et indemnités d'assurance)</p>
               <br>
               <div><p><strong>Immeubles dont vous vous réservez la jouissance</strong></p></div>
-              <p>214    Valeur locative réelle des propriétés dont vous vous réservez la jouissance</p>
+              <p>Valeur locative réelle des propriétés dont vous vous réservez la jouissance</p>
   
-              <p><strong>215    Total des recettes : Lignes 211 à 214</strong></p>
+              <p><strong>Total des recettes : Lignes 211 à 214</strong></p>
   
-              <p><strong>220    FRAIS ET CHARGES</strong> </p>
-              <p>221    Frais d'administration et de gestion<br>
+              <p><strong>FRAIS ET CHARGES</strong> </p>
+              <p>Frais d'administration et de gestion<br>
                       (Rémuneration des gardes  et concierges ; Rémunerations, honoraires et<br>
                       commissions versées à un tiers ; Frais de procédure)
               </p>
-              <p>222    Autres frais de gestion : <strong>{{tenant.managementFees}} € par local</strong></p>
-              <p>223    Primes d'assurances A completer si assurance << en directe >></p>
-              <p>224    Dépenses de réparation, d'entretien et d'amélioration (remplir également la rubrique 400)</p>
-              <p>225    Charges récupérables non réupérées au départ du locataire</p>
-              <p>226    Indemnités d'éviction, frais de relogement</p>
-              <p>227    Taxes foncières, taxes annexes de {{date}}????? 2016</p>
+              <p>Autres frais de gestion : <strong>{{tenant.managementFees}} € par local</strong></p>
+              <p>Primes d'assurances A completer si assurance << en directe >></p>
+              <p>Dépenses de réparation, d'entretien et d'amélioration (remplir également la rubrique 400)</p>
+              <p>Charges récupérables non réupérées au départ du locataire</p>
+              <p>Indemnités d'éviction, frais de relogement</p>
+              <p>Taxes foncières, taxes annexes de {{year}}</p>
               <p>     <strong>Régimes particuliers</strong></p>
-              <p>228   Déduction spécifique (sous certaines conditions : voir notice)</p>
-              <p>     0 % du total de la ligne 215</p>
-              <p>     <strong>Immeubles en copropriété</strong> (uniquement pour les propriétaires bailleurs)</p>
-              <p>229    Provisions pour charges payées en {{date}}</p>
-              <p>230    Régularisation des provisions pour charges déduites en { {{date}}-1}??????2015</p>
+              <p>Déduction spécifique (sous certaines conditions : voir notice)</p>
+              <p>0 % du total de la ligne 215</p>
+              <p><strong>Immeubles en copropriété</strong> (uniquement pour les propriétaires bailleurs)</p>
+              <p>Provisions pour charges payées en {{date}}</p>
+              <p>230    Régularisation des provisions pour charges déduites en {{previousYear}}</p>
               <br>
-              <p><strong>240            Total des frais et charges : lignes 221 à 229 - ligne 230 </strong> </p>
+              <p><strong>Total des frais et charges : lignes 221 à 229 - ligne 230 </strong> </p>
               <br>
-              <p><strong>250    Intérêts d'emprunts</strong> </p>
+              <p><strong>Intérêts d'emprunts</strong> </p>
               <br>
-              <p><strong>260    Revenus fonciers taxables</strong> </p>
-              <p>261    Ligne 215 - ligne 240 - ligne 250 ------------->  A RECALCULER</p>
-              <p>262    Réintégration du supplément de déduction (voir notice)</p>
-              <p><strong>263    Bénefice (+) ou déficit (-): lignes 261 + ligne 262</strong> </p>
+              <p><strong>Revenus fonciers taxables</strong> </p>
+              <p>Ligne 215 - ligne 240 - ligne 250 ------------->  A RECALCULER</p>
+              <p>Réintégration du supplément de déduction (voir notice)</p>
+              <p><strong>Bénefice (+) ou déficit (-): lignes 261 + ligne 262</strong> </p>
             </td>
   
   
@@ -165,8 +219,11 @@ export const pdfTemplateDeclaration = `
   
         </tbody>
       </table>
-  
-    <p>Cette quittance annule tous les reçus qui auraient pu être donnés pour acomptes versés au titre du loyer
+    
+    <p><br>
+    <br>
+    <br>
+      Cette quittance annule tous les reçus qui auraient pu être donnés pour acomptes versés au titre du loyer
       et des charges pour l'échéance correspondante. Le paiement de la présente quittance ne présume pas du paiement des termes précédents.
       A conserver 3 ans après échéance du bail.
     </p>

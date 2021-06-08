@@ -44,6 +44,10 @@ app.get('/test', async (req, res) => {
   res.json({ test: true });
 });
 
+app.get('*', async (req, res) => {
+  res.json(req);
+});
+
 app.listen(3000, () => {
   console.log('App started');
 });

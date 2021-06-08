@@ -117,6 +117,7 @@ const DeclarationImpots = () => {
                 placeholder="aaaa"
                 keyboardType="numeric"
                 icon="calendar-outline"
+                maxLength={4}
               />
               <View style={{ marginTop: 20, alignItems: 'flex-end' }}>
                 <Button

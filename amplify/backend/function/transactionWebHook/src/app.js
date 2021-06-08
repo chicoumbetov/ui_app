@@ -31,6 +31,12 @@ app.get('/webhooks/create-redirect', async (req, res) => {
     res.send(`<html><head></head><body style="align-items: center;display: flex;justify-content: center;font-family: Arial;height: 100vh;margin: 0;"><div>En cours d'ajout ...</div>
 <script>if (window.ReactNativeWebView) {window.ReactNativeWebView.postMessage("${val}");} else {parent.postMessage("${val}", "*");}</script></body></html>`);
 });
+app.get('/test', async (req, res) => {
+    res.json({ test: true });
+});
+app.get('*', async (req, res) => {
+    res.json(req);
+});
 app.listen(3000, () => {
     console.log('App started');
 });

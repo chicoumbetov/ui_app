@@ -1,7 +1,7 @@
 import { Frequency } from '../src/API';
 
-const parseToDateObj = (date: string) => {
-  const dateObj = new Date(date);
+const parseToDateObj = (date?: string | null) => {
+  const dateObj = date ? new Date(date) : new Date();
   return dateObj;
 };
 
@@ -27,8 +27,11 @@ const frequencyToMonths = (frequence: Frequency) => {
   }
 };
 
+const daysInMonth = (month: number, year: number) => new Date(year, month + 1, 0).getDate();
+
 export default {
   parseToDateObj,
   addMonths,
   frequencyToMonths,
+  daysInMonth,
 };

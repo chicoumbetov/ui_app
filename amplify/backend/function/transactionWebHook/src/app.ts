@@ -37,6 +37,14 @@ app.get('/webhooks/create-redirect', async (req, res) => {
 <script>if (window.ReactNativeWebView) {window.ReactNativeWebView.postMessage("${val}");} else {parent.postMessage("${val}", "*");}</script></body></html>`);
 });
 
+app.get('/test', async (req, res) => {
+  res.json({ test: true });
+});
+
+app.get('*', async (req, res) => {
+  res.json(req);
+});
+
 app.listen(3000, () => {
   console.log('App started');
 });

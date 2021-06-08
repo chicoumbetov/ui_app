@@ -14,6 +14,7 @@ type DocumentProps = {
 
 const DocumentComponent = (props: DocumentProps) => {
   const { document } = props;
+  // console.log('props', props);
 
   const shareDoc = async () => {
     if (document) {
@@ -48,6 +49,7 @@ const DocumentComponent = (props: DocumentProps) => {
     }
   };
   // console.log('document component', document);
+
   return (document ? (
     <Card
       onPress={() => { shareDoc(); }}

@@ -30,12 +30,12 @@ import WomanAvatar from '../../assets/Omedom_Icons_svg/Avatars/womanAvatar.svg';
 // import clientData from '../../mockData/clientDATA';
 import { useDeleteRealEstateMutation, useGetRealEstate } from '../../src/API/RealEstate';
 import { TabMesBiensParamList } from '../../types';
-import { Upload } from '../../utils/S3FileStorage';
+// import { Upload } from '../../utils/S3FileStorage';
 import Card from '../../components/Card';
 import Separator from '../../components/Separator';
 import { useGetUserByIDList } from '../../src/API/User';
 import DocumentComponent from '../../components/DocumentComponent';
-import { useDocumentList } from '../../src/API/Document';
+import { useDeleteDocumentMutation, useDocumentList } from '../../src/API/Document';
 import { usePendingInvitationsList } from '../../src/API/PendingInvitation';
 
 function DetailsBien() {
@@ -49,12 +49,14 @@ function DetailsBien() {
   // console.log('detail bien document', documentList);
 
   const [typeRevenu, setTypeRevenu] = useState<string>();
-  console.log(route.params.id);
+  // console.log(route.params.id);
 
   const users = useGetUserByIDList(Array.prototype.concat(bien?.admins, bien?.shared));
-  const invitateUserId = pendingInvitations?.filter((item) => item?.realEstateId === route.params.id);
+  const invitateUserId = pendingInvitations?.filter(
+    (item) => item?.realEstateId === route.params.id,
+  );
 
-  console.log(users);
+  console.log(users, invitateUserId);
 
   useEffect(() => {
     switch (bien?.type) {
@@ -118,7 +120,42 @@ function DetailsBien() {
       }],
     );
   };
+
+  const deleteTenant = async () => {
+    return false;
+    Alert.alert(
+      'Suppression de revenue',
+      '',
+      [{
+        text: 'Annuler',
+        style: 'cancel',
+      },
+      {
+        text: 'Valider',
+        onPress: () => {},
+      }],
+    );
+  };
   // console.log(bien?.budgetLines?.items?.pop()?.amount);
+
+  const deleteDoc = useDeleteDocumentMutation();
+  const supprimerDocument = async () => {
+    return false;
+    Alert.alert(
+      'Suppression de revenue',
+      '',
+      [{
+        text: 'Annuler',
+        style: 'cancel',
+      },
+      {
+        text: 'Valider',
+        onPress: async () => {
+          await deleteDoc();
+        },
+      }],
+    );
+  };
   return (
     <MaxWidthContainer
       withScrollView="keyboardAware"
@@ -203,10 +240,7 @@ function DetailsBien() {
           }]}
         >
           <Icon name="calculator" size={33} color={theme['color-success-400']} style={{ marginRight: 10 }} />
-          <Text style={{
-            fontSize: 17, fontFamily: 'HouschkaRoundedDemiBold', letterSpacing: 0.2,
-          }}
-          >
+          <Text category="h5">
             Mon Budget
           </Text>
         </Card>
@@ -334,8 +368,8 @@ function DetailsBien() {
           Mes locataires
         </Text>
         <Text category="p2" appearance="hint" style={{ marginBottom: 30 }}>
-          Vous pouvez ajouter ou modifier vos locataires en paramétrant vos revenus
-          de type "Loyer" dans votre espace "Mon Budget".
+          Vous pouvez ajouter ou modifier vos locataires
+          en paramétrant vos revenus de type "Loyer" dans votre espace "Mon Budget".
         </Text>
 
         {/* use SectionList to render several accounts with its types and details */}
@@ -392,17 +426,20 @@ function DetailsBien() {
         )}
 
         <View style={styles.button}>
-          <TouchableOpacity onPress={async () => {
-            // console.log('should');
-            const doc = await DocumentPicker.getDocumentAsync();
-            const key = await Upload(doc, `biens/${route.params.id}/documents/`);
-            // console.log(key);
-          }}
+          <TouchableOpacity
+            onPress={
+                async () => {
+                  // console.log('should');
+                  const doc = await DocumentPicker.getDocumentAsync();
+                  // const key = await Upload(doc, `biens/${route.params.id}/documents/`);
+                  // console.log(key);
+                }
+}
           >
             <Text category="h5" status="info" style={styles.buttonText}>Ajouter</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => {}}>
+          <TouchableOpacity onPress={() => { supprimerDocument(); }}>
             <Text category="h5" status="basic" style={styles.buttonText}>Supprimer</Text>
           </TouchableOpacity>
         </View>

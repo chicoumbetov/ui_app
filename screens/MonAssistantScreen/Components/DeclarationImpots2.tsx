@@ -21,6 +21,7 @@ import ActivityIndicator from '../../../components/ActivityIndicator';
 import pdfGenerator from '../../../utils/pdfGenerator/pdfGenerator';
 import { pdfTemplateDeclaration } from '../../../pdfTemplates';
 import { Upload } from '../../../utils/S3FileStorage';
+import DateUtils from '../../../utils/DateUtils';
 
 const DeclarationImpots = () => {
   const route = useRoute<RouteProp<TabMonAssistantParamList, 'declaration-impots-2'>>();
@@ -49,15 +50,27 @@ const DeclarationImpots = () => {
     // console.log('Decl impots 2 set New doc');
   }, [route.params]);
 
+  const tenant = bien.tenants?.find(
+    (item) => (item?.id === route.params.idTenant),
+  );
+  const bailStartDate = DateUtils.parseToDateObj(tenant?.startDate);
+  bailStartDate.setHours(0, 0, 0, 0);
+  const bailEndDate = DateUtils.parseToDateObj(tenant?.endDate);
+  bailEndDate.setHours(0, 0, 0, 0);
+
+  const startYear = new Date(bailStartDate.valueOf());
+  const endYear = new Date(bailEndDate.valueOf());
+  // console.log('start end year', startYear.getFullYear(), endYear.getFullYear());
+
   useEffect(() => {
     (async () => {
       // console.log('Decl impots 2');
       if (!newDocument && bien) {
-        const tenant = bien.tenants?.find(
-          (item) => (item?.id === route.params.idTenant),
-        );
         if (tenant) {
           const key = `declaration_${tenant.id}_${moment(route.params.anneeEcheance).format('YYYY')}`;
+          const documentMonth = route.params.anneeEcheance;
+          const previousYear = route.params.anneeEcheance - 1;
+          // console.log(documentMonth);
           const document = await getDocumentByKey(client, key);
           // console.log('Declaration document', document);
           /** if document already exists then return it,
@@ -67,7 +80,13 @@ const DeclarationImpots = () => {
             setNewDocument(document);
           } else {
             const result = await pdfGenerator(pdfTemplateDeclaration, {
-              bien, user, tenant, date: route.params.anneeEcheance,
+              bien,
+              user,
+              tenant,
+              startDate: moment(tenant.startDate).format('DD/MM/YYYY'),
+              endDate: moment(tenant.endDate).format('DD/MM/YYYY'),
+              year: route.params.anneeEcheance,
+              previousYear,
             });
             // console.log('result', result);
             if (result !== false) {
@@ -103,34 +122,35 @@ const DeclarationImpots = () => {
         showsVerticalScrollIndicator: false,
       }}
     >
-      <View style={{ marginVertical: 20 }}>
+      <View style={{ margin: 27 }}>
         <Text category="h1" style={{ marginBottom: 25 }}>Générer une déclaration d'impôts</Text>
         <CompteHeader title={bien?.name} />
       </View>
 
       <Separator />
 
-      <Text category="h2" style={{ marginVertical: 30 }}>Votre document est prêt</Text>
-      {/**
-      <Card
-        onPress={() => {}}
-        style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}
-      >
-        <Text category="p2">
-          Déclaration_Impôts_
-          {bien?.name}
-          _
-          {route.params.anneeEcheance}
-        </Text>
-        <IconUIKitten name="eye" fill="#b5b5b5" style={{ height: 20, width: 20 }} />
-      </Card>
-      */}
       {newDocument
         ? (
-          <View style={{ paddingHorizontal: 27 }}>
-            <Text category="h2" style={{ marginVertical: 30 }}>Votre document est prêt</Text>
-            <DocumentComponent document={newDocument} />
-          </View>
+          <>
+            { (route.params.anneeEcheance >= startYear.getFullYear()
+                && endYear.getFullYear() >= route.params.anneeEcheance)
+              ? (
+                <View style={{ padding: 27 }}>
+                  <Text category="h2" style={{ marginBottom: 30 }}>Votre document est prêt</Text>
+                  <DocumentComponent document={newDocument} />
+                </View>
+              ) : (
+                <View style={{ padding: 27 }}>
+                  <Text>
+                    {`${tenant?.lastname} ${tenant?.firstname} n'a pas loué à l'année de ${route.params.anneeEcheance}`}
+                  </Text>
+                  <Text style={{ paddingTop: 5 }}>
+                    {`Location était entre ${moment(bailStartDate).format('DD/MM/YYYY')} et ${moment(bailEndDate).format('DD/MM/YYYY')} `}
+                  </Text>
+                </View>
+
+              )}
+          </>
         )
         : (
           <>

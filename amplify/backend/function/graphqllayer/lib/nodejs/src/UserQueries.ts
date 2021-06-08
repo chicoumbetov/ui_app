@@ -7,7 +7,12 @@ import {
 } from '../../../../../../../src/API';
 import { AppSyncClient } from './AppSyncClient';
 
-const getUserById = async (client: AppSyncClient, id: string) => {
+const getUserById = async (client: AppSyncClient, id: string): Promise<false |
+    {
+      __typename: 'User',
+      id: string,
+      biToken?: string | null
+    } | null> => {
   const { data } = await client.query<GetUserQuery, GetUserQueryVariables>({
     query: gql(`query GetUser($id: ID!) {
         getUser(id: $id) {
@@ -20,7 +25,10 @@ const getUserById = async (client: AppSyncClient, id: string) => {
     },
     fetchPolicy: 'no-cache',
   });
-  return data;
+  if (data.getUser) {
+    return data.getUser;
+  }
+  return false;
 };
 
 const getUserByEmail = async (client: AppSyncClient, email: string): Promise<false |

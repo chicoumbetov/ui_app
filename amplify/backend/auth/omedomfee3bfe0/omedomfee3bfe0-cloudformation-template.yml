@@ -9,6 +9,18 @@ Parameters:
     Type: String
 
   
+  
+  
+  functionomedomfee3bfe0PostConfirmationArn:
+    Type: String
+    Default: functionomedomfee3bfe0PostConfirmationArn
+  
+  functionomedomfee3bfe0PostConfirmationName:
+    Type: String
+    Default: functionomedomfee3bfe0PostConfirmationName
+  
+  
+  
 
     
   identityPoolName:
@@ -230,6 +242,19 @@ Resources:
         
       
       
+      LambdaConfig:
+        
+        
+        
+        
+        
+          PostConfirmation: !Ref functionomedomfee3bfe0PostConfirmationArn
+        
+        
+        
+        
+        
+      
       
       AutoVerifiedAttributes: !Ref autoVerifiedAttributes
       
@@ -259,6 +284,15 @@ Resources:
   
   
   
+  
+  UserPoolPostConfirmationLambdaInvokePermission:
+    Type: "AWS::Lambda::Permission"
+    DependsOn: UserPool
+    Properties:
+      Action: "lambda:invokeFunction"
+      Principal: "cognito-idp.amazonaws.com"
+      FunctionName: !Ref functionomedomfee3bfe0PostConfirmationName
+      SourceArn: !GetAtt UserPool.Arn
   
   
   

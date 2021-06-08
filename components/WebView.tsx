@@ -1,25 +1,46 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Platform } from 'react-native';
 import { WebView as OriginalWebView } from 'react-native-webview';
 
 type WebViewProps = {
   src: string;
-  id: string;
-  onUrlChange?: (currentUrl: string) => void;
+  onMessage?: (message: string) => void;
 };
 
 export default function WebView(props: WebViewProps): JSX.Element {
-  const { src, onUrlChange, id } = props;
-  return (Platform.OS === 'web'
-    ? (<iframe id={id} title="webview" src={src} style={{ flex: 1, border: 'none' }} onLoad={(e) => { console.log(e, document.getElementById(id).contentWindow.location.pathname); if (onUrlChange) { onUrlChange(); } }} />)
-    : (
-      <OriginalWebView
-        useWebKit
-        source={{ uri: src }}
-        onNavigationStateChange={({ url }) => {
-          console.log('url>>>>>>>>', url);
-          if (onUrlChange) { onUrlChange(url); }
-        }}
+  const { src, onMessage } = props;
+
+  useEffect(() => {
+    const listener = (e) => {
+      console.log(e);
+    };
+    if (onMessage && Platform.OS === 'web') {
+      window.addEventListener('onmessage', listener);
+    }
+    return () => {
+      window.removeEventListener('onmessage', listener);
+    };
+  }, [src, onMessage]);
+
+  if (Platform.OS === 'web') {
+    return (
+      <iframe
+        title="webview"
+        src={src}
+        style={{ flex: 1, border: 'none' }}
       />
-    ));
+    );
+  }
+
+  return (
+    <OriginalWebView
+      useWebKit
+      source={{ uri: src }}
+      onMessage={(event) => {
+        if (onMessage) {
+          onMessage(event.nativeEvent.data);
+        }
+      }}
+    />
+  );
 }

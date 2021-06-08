@@ -4,7 +4,6 @@ const axios_1 = require("axios");
 const BIApiKeys_1 = require("./BIApiKeys");
 const BIApiClient = (env) => {
     const BIApiCredentials = BIApiKeys_1.default[env];
-    let authToken;
     const webviewBaseUrl = `https://${BIApiCredentials.domain}.biapi.pro/2.0/auth/webview/`;
     const getAuthHeader = (token) => ({
         Authorization: `Bearer ${token}`,
@@ -19,12 +18,11 @@ const BIApiClient = (env) => {
         });
         return response;
     };
-    const getConnectUrl = async (token, state) => {
+    const getConnectUrl = async (token, redirectUrl, state) => {
         try {
             const response = await BIApiAxiosClient.get('/auth/token/code?type=singleAccess', {
                 headers: getAuthHeader(token),
             });
-            const redirectUrl = 'https://0patt7mbe7.execute-api.eu-west-2.amazonaws.com/dev/webhooks/item/tea';
             return `${webviewBaseUrl}?client_id=${BIApiCredentials.clientId}&code=${encodeURIComponent(response.data.code)}&redirect_url=${encodeURIComponent(redirectUrl)}&state=${state}`;
         }
         catch (e) {

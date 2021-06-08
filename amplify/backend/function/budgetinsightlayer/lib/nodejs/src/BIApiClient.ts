@@ -3,11 +3,10 @@ import BIApiKeys from './BIApiKeys';
 
 const BIApiClient = (env: 'dev' | 'prod') => {
   const BIApiCredentials = BIApiKeys[env];
-  let authToken: string | undefined;
 
   const webviewBaseUrl = `https://${BIApiCredentials.domain}.biapi.pro/2.0/auth/webview/`;
 
-  const getAuthHeader = (token) => ({
+  const getAuthHeader = (token: string) => ({
     Authorization: `Bearer ${token}`,
   });
 
@@ -23,12 +22,12 @@ const BIApiClient = (env: 'dev' | 'prod') => {
     return response;
   };
 
-  const getConnectUrl = async (token: string, state?: string) => {
+  const getConnectUrl = async (token: string, redirectUrl: string, state?: string) => {
     try {
       const response = await BIApiAxiosClient.get('/auth/token/code?type=singleAccess', {
         headers: getAuthHeader(token),
       });
-      const redirectUrl = 'https://0patt7mbe7.execute-api.eu-west-2.amazonaws.com/dev/webhooks/item/tea';
+
       return `${webviewBaseUrl}?client_id=${BIApiCredentials.clientId}&code=${encodeURIComponent(response.data.code)}&redirect_url=${encodeURIComponent(redirectUrl)}&state=${state}`;
     } catch (e) {
       return false;

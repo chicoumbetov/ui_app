@@ -30,13 +30,16 @@
         },
         "budgetinsight": {
           "deploymentBucketName": "amplify-omedom-dev-175444-deployment",
-          "s3Key": "amplify-builds/budgetinsight-752f434b303265427a63-build.zip"
+          "s3Key": "amplify-builds/budgetinsight-4b312f5258564a6e4255-build.zip"
         },
         "shareRealEstate": {
           "deploymentBucketName": "amplify-omedom-dev-175444-deployment",
-          "s3Key": "amplify-builds/shareRealEstate-454664744f305930346f-build.zip"
+          "s3Key": "amplify-builds/shareRealEstate-494b716e4f646d433158-build.zip"
         },
-        "omedomfee3bfe0PostConfirmation": {}
+        "omedomfee3bfe0PostConfirmation": {
+          "deploymentBucketName": "amplify-omedom-dev-175444-deployment",
+          "s3Key": "amplify-builds/omedomfee3bfe0PostConfirmation-73517731353859796f48-build.zip"
+        }
       }
     },
     "nonCFNdata": {
@@ -82,6 +85,14 @@
                 }
               ],
               "hash": "L8+sXgaymgEmMJ8dXqUfpX8vY6H28QpxjxMZkonp6z4="
+            },
+            "6": {
+              "permissions": [
+                {
+                  "type": "private"
+                }
+              ],
+              "hash": "yJgSJnFqMVaycVZLTj04eLaYBXAPR8fWbbXU3D12W6M="
             }
           }
         }

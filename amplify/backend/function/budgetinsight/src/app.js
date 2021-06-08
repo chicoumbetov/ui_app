@@ -79,9 +79,10 @@ app.get('/budgetinsight/connect-url', async (req, res) => {
             fetchPolicy: 'no-cache',
         });
         console.log(data);
-        const redirectUrl = await client.getConnectUrl(data.getUser.biToken, uuid);
+        const redirectUrl = process.env.ENV === 'prod' ? '' : 'https://0patt7mbe7.execute-api.eu-west-2.amazonaws.com/dev/webhooks/create-redirect';
+        const connectUrl = await client.getConnectUrl(data.getUser.biToken, redirectUrl, uuid);
         res.json({
-            redirectUrl, success: true,
+            connectUrl, success: true,
         });
     }
     catch (e) {

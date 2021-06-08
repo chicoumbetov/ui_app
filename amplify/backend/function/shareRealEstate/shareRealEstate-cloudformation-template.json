@@ -23,6 +23,14 @@
     "apiomedomGraphQLAPIEndpointOutput": {
       "Type": "String",
       "Default": "apiomedomGraphQLAPIEndpointOutput"
+    },
+    "apiomedomrestApiName": {
+      "Type": "String",
+      "Default": "apiomedomrestApiName"
+    },
+    "apiomedomrestApiId": {
+      "Type": "String",
+      "Default": "apiomedomrestApiId"
     }
   },
   "Conditions": {
@@ -77,6 +85,18 @@
             },
             "REGION": {
               "Ref": "AWS::Region"
+            },
+            "API_OMEDOM_GRAPHQLAPIIDOUTPUT": {
+              "Ref": "apiomedomGraphQLAPIIdOutput"
+            },
+            "API_OMEDOM_GRAPHQLAPIENDPOINTOUTPUT": {
+              "Ref": "apiomedomGraphQLAPIEndpointOutput"
+            },
+            "API_OMEDOMREST_APINAME": {
+              "Ref": "apiomedomrestApiName"
+            },
+            "API_OMEDOMREST_APIID": {
+              "Ref": "apiomedomrestApiId"
             }
           }
         },
@@ -283,6 +303,103 @@
           ]
         },
         "StartingPosition": "LATEST"
+      }
+    },
+    "AmplifyResourcesPolicy": {
+      "DependsOn": [
+        "LambdaExecutionRole"
+      ],
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyName": "amplify-lambda-execution-policy",
+        "Roles": [
+          {
+            "Ref": "LambdaExecutionRole"
+          }
+        ],
+        "PolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Action": [
+                "appsync:GraphQL"
+              ],
+              "Resource": [
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:aws:appsync:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":",
+                      {
+                        "Ref": "AWS::AccountId"
+                      },
+                      ":apis/",
+                      {
+                        "Ref": "apiomedomGraphQLAPIIdOutput"
+                      },
+                      "/types/Query/*"
+                    ]
+                  ]
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:aws:appsync:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":",
+                      {
+                        "Ref": "AWS::AccountId"
+                      },
+                      ":apis/",
+                      {
+                        "Ref": "apiomedomGraphQLAPIIdOutput"
+                      },
+                      "/types/Mutation/*"
+                    ]
+                  ]
+                }
+              ]
+            },
+            {
+              "Effect": "Allow",
+              "Action": [
+                "apigateway:POST",
+                "apigateway:PUT",
+                "apigateway:GET",
+                "apigateway:HEAD",
+                "apigateway:OPTIONS",
+                "apigateway:PATCH",
+                "apigateway:DELETE"
+              ],
+              "Resource": [
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:aws:apigateway:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      "::/restapis/",
+                      {
+                        "Ref": "apiomedomrestApiName"
+                      },
+                      "/*"
+                    ]
+                  ]
+                }
+              ]
+            }
+          ]
+        }
       }
     }
   },

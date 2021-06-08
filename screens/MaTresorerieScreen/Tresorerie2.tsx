@@ -107,7 +107,7 @@ const MaTresorerie2 = () => {
               size="large"
               onPress={async () => {
                 const response = await API.get('omedomrest', '/budgetinsight/connect-url', {});
-                setNewAccountLink(response.redirectUrl);
+                setNewAccountLink(response.connectUrl);
               }}
               style={{
                 paddingVertical: 20, marginBottom: 30, borderTopWidth: 1, borderTopColor: '#b5b5b5',
@@ -141,7 +141,7 @@ const MaTresorerie2 = () => {
             }]);
         }}
       >
-        {newAccountLink && <WebView src={newAccountLink} id="biApiIframe" />}
+        {newAccountLink && <WebView src={newAccountLink} />}
       </ActionSheet>
     </>
   );

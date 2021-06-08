@@ -3,6 +3,7 @@
     "omedomfee3bfe0": {
       "service": "Cognito",
       "providerPlugin": "awscloudformation",
+      "customAuth": false,
       "dependsOn": [
         {
           "category": "function",
@@ -13,8 +14,7 @@
             "Name"
           ]
         }
-      ],
-      "customAuth": false
+      ]
     }
   },
   "api": {
@@ -134,6 +134,14 @@
           "attributes": [
             "GraphQLAPIIdOutput",
             "GraphQLAPIEndpointOutput"
+          ]
+        },
+        {
+          "category": "api",
+          "resourceName": "omedomrest",
+          "attributes": [
+            "ApiName",
+            "ApiId"
           ]
         }
       ]

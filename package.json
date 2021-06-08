@@ -10,7 +10,7 @@
     "debug": "open 'rndebugger://set-debugger-loc?host=localhost&port=19000'",
     "devtools": "react-devtools",
     "amplify:budgetinsight": "cd amplify/backend/function/budgetinsight/src && tsc",
-    "amplify:budgetinsightlayer": "cd amplify/backend/function/budgetinsightlayer/src && tsc",
+    "amplify:budgetinsightlayer": "cd amplify/backend/function/budgetinsightlayer/lib/nodejs/src && tsc",
     "postinstall": "patch-package"
   },
   "jest": {

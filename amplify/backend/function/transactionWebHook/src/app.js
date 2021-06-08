@@ -1,4 +1,3 @@
-"use strict";
 /*
 Copyright 2017 - 2017 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 Licensed under the Apache License, Version 2.0 (the "License"). You may not use this file except in compliance with the License. A copy of the License is located at
@@ -6,7 +5,6 @@ Licensed under the Apache License, Version 2.0 (the "License"). You may not use 
 or in the "license" file accompanying this file. This file is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and limitations under the License.
 */
-Object.defineProperty(exports, "__esModule", { value: true });
 /* Amplify Params - DO NOT EDIT
     API_OMEDOM_GRAPHQLAPIENDPOINTOUTPUT
     API_OMEDOM_GRAPHQLAPIIDOUTPUT
@@ -14,8 +12,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
     ENV
     REGION
 Amplify Params - DO NOT EDIT */
-const sha256 = require("crypto-js/sha256");
-const BIApiClient_1 = require("/opt/nodejs/src/BIApiClient");
 const express = require('express');
 const bodyParser = require('body-parser');
 const awsServerlessExpressMiddleware = require('aws-serverless-express/middleware');
@@ -29,49 +25,11 @@ app.use((req, res, next) => {
     res.header('Access-Control-Allow-Headers', '*');
     next();
 });
-const client = BIApiClient_1.default(process.env.ENV);
-const getCredentials = (cognitoAuthenticationProvider) => {
-    const uuid = cognitoAuthenticationProvider.split(':').pop();
-    const email = `${uuid}@bridge-api.omedom.com`;
-    const password = sha256(client.clientId + uuid).toString();
-    return {
-        email,
-        password,
-        uuid,
-    };
-};
-// permet la création d'un utilisateur
-app.post('/budgetinsight/create-user', async (req, res) => {
-    const uuid = req.apiGateway.event.requestContext.identity
-        .cognitoAuthenticationProvider.split(':').pop();
-    try {
-        const response = await client.createUser();
-        res.json({
-            uuid, bridgeApiUser: response.data.uuid, success: true,
-        });
-    }
-    catch (e) {
-        res.json({
-            success: false, error: e,
-        });
-    }
-});
 // permet l'obtention d'une URL de redirection
-app.get('/bridgeapi/bridge-url', async (req, res) => {
-    try {
-        const redirectUrl = await client.getBridgeUrl(req.query.context);
-        res.json({
-            redirectUrl, success: true,
-        });
-        res.json({
-            success: false, error: 'Cannot login',
-        });
-    }
-    catch (e) {
-        res.json({
-            success: false, error: e,
-        });
-    }
+app.get('/webhooks/create-redirect', async (req, res) => {
+    const val = JSON.stringify(req.query).replace(/"/g, '\\"');
+    res.send(`<html><head></head><body style="align-items: center;display: flex;justify-content: center;font-family: Arial;height: 100vh;margin: 0;"><div>En cours d'ajout ...</div>
+<script>if (window.ReactNativeWebView) {window.ReactNativeWebView.postMessage("${val}");} else {parent.postMessage("${val}", "*");}</script></body></html>`);
 });
 app.listen(3000, () => {
     console.log('App started');

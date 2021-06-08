@@ -85,7 +85,7 @@ function DetailsBien() {
   };
   // console.log('Detail Bien: ', bien);
   const allerTresorerie = () => {
-    linkTo('/ma-tresorerie');
+    linkTo(`/ma-tresorerie/ma-tresorerie-2/${route.params.id}`);
   };
 
   const allerMesRapports = () => {

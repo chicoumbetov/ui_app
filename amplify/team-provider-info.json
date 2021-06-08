@@ -22,7 +22,7 @@
         },
         "transactionWebHook": {
           "deploymentBucketName": "amplify-omedom-dev-175444-deployment",
-          "s3Key": "amplify-builds/transactionWebHook-4b6f6543394368664f70-build.zip"
+          "s3Key": "amplify-builds/transactionWebHook-574b455245476a732f6f-build.zip"
         },
         "budgetinsightlayer": {
           "deploymentBucketName": "amplify-omedom-dev-175444-deployment",

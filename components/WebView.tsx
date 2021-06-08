@@ -11,14 +11,18 @@ export default function WebView(props: WebViewProps): JSX.Element {
   const { src, onMessage } = props;
 
   useEffect(() => {
-    const listener = (e) => {
-      console.log(e);
-    };
+    let listener = (e) => {};
     if (onMessage && Platform.OS === 'web') {
-      window.addEventListener('onmessage', listener);
+      console.log('added');
+      listener = (e) => {
+        onMessage(e);
+      };
+      window.addEventListener('message', listener);
     }
     return () => {
-      window.removeEventListener('onmessage', listener);
+      if (Platform.OS === 'web') {
+        window.removeEventListener('message', listener);
+      }
     };
   }, [src, onMessage]);
 

@@ -18,7 +18,9 @@ exports.handler = (event) => {
   event.Records.forEach(async (record) => {
     if (record.eventName === 'INSERT') {
       const { user } = useGetUserByEmail(record.dynamodb.NewImage.email.S);
+      console.log(user);
       if (user.length > 0) {
+        console.log(record.dynamodb.NewImage.type.S);
         if (record.dynamodb.NewImage.type.S === 'Admin') {
           await updateRealEstate.updateRealEstate({
             variables: {

@@ -1,5 +1,11 @@
 {
-  "lambdaLayers": [],
+  "lambdaLayers": [
+    {
+      "type": "ProjectLayer",
+      "resourceName": "budgetinsightlayer",
+      "version": 6
+    }
+  ],
   "permissions": {
     "auth": {
       "omedomfee3bfe0": [

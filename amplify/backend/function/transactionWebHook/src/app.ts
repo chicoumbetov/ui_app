@@ -40,6 +40,10 @@ app.get('/webhooks/create-redirect', async (req, res) => {
 <script>parent.postMessage("${val}", "*");</script></body></html>`);
 });
 
+app.get('/test', async (req, res) => {
+  res.json({ test: true });
+});
+
 app.listen(3000, () => {
   console.log('App started');
 });

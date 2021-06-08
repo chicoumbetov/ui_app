@@ -83,7 +83,7 @@ function DetailsBien() {
   };
   // console.log('Detail Bien: ', bien);
   const allerTresorerie = () => {
-    linkTo('/ma-tresorerie');
+    linkTo(`/ma-tresorerie/ma-tresorerie-2/${route.params.id}`);
   };
 
   const allerMesRapports = () => {
@@ -334,7 +334,8 @@ function DetailsBien() {
           Mes locataires
         </Text>
         <Text category="p2" appearance="hint" style={{ marginBottom: 30 }}>
-          Vous pouvez ajouter ou modifier vos locataires en paramétrant vos revenus de type "Loyer" dans votre espace "Mon Budget".
+          Vous pouvez ajouter ou modifier vos locataires en paramétrant vos revenus
+          de type "Loyer" dans votre espace "Mon Budget".
         </Text>
 
         {/* use SectionList to render several accounts with its types and details */}

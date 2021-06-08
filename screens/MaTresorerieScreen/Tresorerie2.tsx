@@ -141,7 +141,7 @@ const MaTresorerie2 = () => {
             }]);
         }}
       >
-        {newAccountLink && <WebView src={newAccountLink} />}
+        {newAccountLink && <WebView src={newAccountLink} onMessage={(e) => console.log(e)} />}
       </ActionSheet>
     </>
   );

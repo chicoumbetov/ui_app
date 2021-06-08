@@ -43,7 +43,7 @@
       "dependsOn": [
         {
           "category": "function",
-          "resourceName": "transactionWebHook",
+          "resourceName": "budgetinsight",
           "attributes": [
             "Name",
             "Arn"
@@ -51,7 +51,7 @@
         },
         {
           "category": "function",
-          "resourceName": "budgetinsight",
+          "resourceName": "transactionWebHook",
           "attributes": [
             "Name",
             "Arn"
@@ -72,6 +72,13 @@
       "providerPlugin": "awscloudformation",
       "service": "Lambda",
       "dependsOn": [
+        {
+          "category": "function",
+          "resourceName": "budgetinsightlayer",
+          "attributes": [
+            "Arn"
+          ]
+        },
         {
           "category": "auth",
           "resourceName": "omedomfee3bfe0",

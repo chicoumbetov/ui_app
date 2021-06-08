@@ -14,9 +14,6 @@ See the License for the specific language governing permissions and limitations 
 	REGION
 Amplify Params - DO NOT EDIT */
 
-import * as sha256 from 'crypto-js/sha256';
-import BridgeApiClient from '/opt/nodejs/src/BIApiClient';
-
 const express = require('express');
 const bodyParser = require('body-parser');
 const awsServerlessExpressMiddleware = require('aws-serverless-express/middleware');
@@ -35,9 +32,9 @@ app.use((req, res, next) => {
 
 // permet l'obtention d'une URL de redirection
 app.get('/webhooks/create-redirect', async (req, res) => {
-  const val = JSON.stringify(req.query);
+  const val = JSON.stringify(req.query).replace(/"/g, '\\"');
   res.send(`<html><head></head><body style="align-items: center;display: flex;justify-content: center;font-family: Arial;height: 100vh;margin: 0;"><div>En cours d'ajout ...</div>
-<script>parent.postMessage("${val}", "*");</script></body></html>`);
+<script>if (window.ReactNativeWebView) {window.ReactNativeWebView.postMessage("${val}");} else {parent.postMessage("${val}", "*");}</script></body></html>`);
 });
 
 app.listen(3000, () => {

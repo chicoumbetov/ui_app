@@ -15,11 +15,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
     REGION
 Amplify Params - DO NOT EDIT */
 const BIApiClient_1 = require("/opt/nodejs/src/BIApiClient");
-const AWS = require("aws-sdk");
-const aws_appsync_1 = require("aws-appsync");
-const graphql_tag_1 = require("graphql-tag");
-require('isomorphic-fetch');
-AWS.config.update({ region: process.env.REGION });
+const AppSyncClient_1 = require("/opt/nodejs/src/AppSyncClient");
+const UserQueries_1 = require("/opt/nodejs/src/UserQueries");
 const express = require('express');
 const bodyParser = require('body-parser');
 const awsServerlessExpressMiddleware = require('aws-serverless-express/middleware');
@@ -34,18 +31,7 @@ app.use((req, res, next) => {
     next();
 });
 const client = BIApiClient_1.default(process.env.ENV);
-const getAppSyncClient = () => {
-    const config = {
-        url: process.env.API_OMEDOM_GRAPHQLAPIENDPOINTOUTPUT,
-        region: process.env.REGION,
-        auth: {
-            type: aws_appsync_1.AUTH_TYPE.AWS_IAM,
-            credentials: AWS.config.credentials,
-        },
-        disableOffline: true,
-    };
-    return new aws_appsync_1.default(config);
-};
+const AppSyncClient = AppSyncClient_1.default(process.env);
 // permet la création d'un utilisateur
 app.post('/budgetinsight/create-user', async (req, res) => {
     try {
@@ -65,25 +51,19 @@ app.get('/budgetinsight/connect-url', async (req, res) => {
     const uuid = req.apiGateway.event.requestContext.identity
         .cognitoAuthenticationProvider.split(':').pop();
     try {
-        const appSyncClient = getAppSyncClient();
-        const { data } = await appSyncClient.query({
-            query: graphql_tag_1.default(`query GetUser($id: ID!) {
-        getUser(id: $id) {
-          id
-          biToken
+        const user = await UserQueries_1.getUserById(AppSyncClient, uuid);
+        if (user) {
+            const redirectUrl = process.env.ENV === 'prod' ? '' : 'https://0patt7mbe7.execute-api.eu-west-2.amazonaws.com/dev/webhooks/create-redirect';
+            const connectUrl = await client.getConnectUrl(user.biToken, redirectUrl, uuid);
+            res.json({
+                connectUrl, success: true,
+            });
         }
-      }`),
-            variables: {
-                id: uuid,
-            },
-            fetchPolicy: 'no-cache',
-        });
-        console.log(data);
-        const redirectUrl = process.env.ENV === 'prod' ? '' : 'https://0patt7mbe7.execute-api.eu-west-2.amazonaws.com/dev/webhooks/create-redirect';
-        const connectUrl = await client.getConnectUrl(data.getUser.biToken, redirectUrl, uuid);
-        res.json({
-            connectUrl, success: true,
-        });
+        else {
+            res.json({
+                success: false, error: 'Utilisateur introuvable',
+            });
+        }
     }
     catch (e) {
         res.json({

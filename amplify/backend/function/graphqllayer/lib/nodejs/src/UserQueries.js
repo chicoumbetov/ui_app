@@ -15,7 +15,10 @@ const getUserById = async (client, id) => {
         },
         fetchPolicy: 'no-cache',
     });
-    return data;
+    if (data.getUser) {
+        return data.getUser;
+    }
+    return false;
 };
 exports.getUserById = getUserById;
 const getUserByEmail = async (client, email) => {

@@ -13,6 +13,7 @@ const getAppSyncClient = (env) => {
             credentials: AWS.config.credentials,
         },
         disableOffline: true,
+        fetchPolicy: 'no-cache',
     };
     return new aws_appsync_1.default(config);
 };

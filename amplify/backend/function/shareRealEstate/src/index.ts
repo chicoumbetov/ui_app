@@ -27,6 +27,7 @@ exports.handler = async (event) => {
       const user = await getUserByEmail(appSyncClient, email.S);
       const realEstate = await getRealEstate(appSyncClient, realEstateId.S)
       if (user && realEstate) {
+        console.log('realEstate :', realEstate);
         if (type.S === 'Admin') {
           const admins = realEstate.admins;
           const exists = admins.find((admin) =>{
@@ -35,17 +36,14 @@ exports.handler = async (event) => {
             }
             return false;
           });
-          if (exists === undefined) {
+          if (!exists) {
             admins.push(user.id);
           }
 
           await updateRealEstateMutation(appSyncClient, {
-            variables: {
-              input: {
                 id: realEstateId.S,
-                admins
-              },
-            },
+                admins,
+                _version: realEstate._version,
           });
         } else {
           const shared = realEstate.shared || [];
@@ -59,12 +57,9 @@ exports.handler = async (event) => {
             shared.push(user.id);
           }
           await updateRealEstateMutation(appSyncClient, {
-            variables: {
-              input: {
                 id: record.dynamodb.NewImage.realEstateId.S,
-                shared
-              },
-            },
+                shared,
+            _version: realEstate._version,
           });
         }
 

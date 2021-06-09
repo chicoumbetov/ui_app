@@ -15,7 +15,7 @@ const getUserById = async (client: AppSyncClient, id: string): Promise<false |
   biUser?: string | null
 } | null> => {
   try {
-    const {data} = await client.query<GetUserQuery, GetUserQueryVariables>({
+    const { data } = await client.query<GetUserQuery, GetUserQueryVariables>({
       query: gql(`query GetUser($id: ID!) {
         getUser(id: $id) {
           id
@@ -47,9 +47,9 @@ const getUserByEmail = async (client: AppSyncClient, email: string): Promise<fal
   expoToken?: Array< string > | null,
 } | null> => {
   try {
-  const { data } = await client.query<UserByEmailQuery, UserByEmailQueryVariables>({
-    query: gql(`query UserByEmail(
-    $email: AWSEmail
+    const { data } = await client.query<UserByEmailQuery, UserByEmailQueryVariables>({
+      query: gql(`query UserByEmail(
+    $email: AWSEmail 
   ) {
     userByEmail(
       email: $email
@@ -65,15 +65,15 @@ const getUserByEmail = async (client: AppSyncClient, email: string): Promise<fal
       startedAt
     }
   }`), // use your graphql query here
-    variables: {
-      email,
-    },
-    fetchPolicy: 'no-cache',
-  });
-  if (data.userByEmail.items.length > 0) {
-    return data.userByEmail.items[0];
-  }
-  return false;
+      variables: {
+        email,
+      },
+      fetchPolicy: 'no-cache',
+    });
+    if (data.userByEmail.items.length > 0) {
+      return data.userByEmail.items[0];
+    }
+    return false;
   } catch (e) {
     console.error(e);
   }

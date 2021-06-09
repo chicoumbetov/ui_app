@@ -3,9 +3,10 @@ import {
   GetRealEstateQueryVariables,
   UpdateRealEstateMutation,
   UpdateRealEstateMutationVariables,
-    GetRealEstateQuery,
+  GetRealEstateQuery,
 } from '../../../../../../../src/API';
 import { AppSyncClient } from './AppSyncClient';
+
 const getRealEstateQuery = /* GraphQL */ `
   query GetRealEstate($id: ID!) {
     getRealEstate(id: $id) {
@@ -53,34 +54,30 @@ const updateRealEstateMutation = async (client: AppSyncClient, input) => {
   });
 };
 
-const getRealEstate = async (client: AppSyncClient,id : string): Promise<false |
-    {
-      __typename: "RealEstate",
-      id?: string,
-      name?: string,
-      admins?: Array< string >,
-      shared?: Array< string > | null,
-      _version?: number,
-      _deleted?: boolean | null,
-      _lastChangedAt?: number,
-      createdAt?: string,
-      updatedAt?: string,
-    } | null> =>{
-
+const getRealEstate = async (client: AppSyncClient, id : string): Promise<false |
+{
+  __typename: 'RealEstate',
+  id?: string,
+  name?: string,
+  admins?: Array< string >,
+  shared?: Array< string > | null,
+  _version?: number,
+  _deleted?: boolean | null,
+  _lastChangedAt?: number,
+  createdAt?: string,
+  updatedAt?: string,
+} | null> => {
   const { data } = await client.query<GetRealEstateQuery, GetRealEstateQueryVariables>({
     query: gql(getRealEstateQuery),
-  variables: {
-      id
-  },
+    variables: {
+      id,
+    },
     fetchPolicy: 'no-cache',
-  })
-  return data.getRealEstate
-}
-
+  });
+  return data.getRealEstate;
+};
 
 export {
   updateRealEstateMutation,
-  getRealEstate
+  getRealEstate,
 };
-
-

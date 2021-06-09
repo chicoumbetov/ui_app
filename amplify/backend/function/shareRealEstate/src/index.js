@@ -26,6 +26,7 @@ exports.handler = async (event) => {
             const user = await UserQueries_1.getUserByEmail(appSyncClient, email.S);
             const realEstate = await RealEstateMutation_1.getRealEstate(appSyncClient, realEstateId.S);
             if (user && realEstate) {
+                console.log('realEstate :', realEstate);
                 if (type.S === 'Admin') {
                     const admins = realEstate.admins;
                     const exists = admins.find((admin) => {
@@ -34,16 +35,13 @@ exports.handler = async (event) => {
                         }
                         return false;
                     });
-                    if (exists === undefined) {
+                    if (!exists) {
                         admins.push(user.id);
                     }
                     await RealEstateMutation_1.updateRealEstateMutation(appSyncClient, {
-                        variables: {
-                            input: {
-                                id: realEstateId.S,
-                                admins
-                            },
-                        },
+                        id: realEstateId.S,
+                        admins,
+                        _version: realEstate._version,
                     });
                 }
                 else {
@@ -58,12 +56,9 @@ exports.handler = async (event) => {
                         shared.push(user.id);
                     }
                     await RealEstateMutation_1.updateRealEstateMutation(appSyncClient, {
-                        variables: {
-                            input: {
-                                id: record.dynamodb.NewImage.realEstateId.S,
-                                shared
-                            },
-                        },
+                        id: record.dynamodb.NewImage.realEstateId.S,
+                        shared,
+                        _version: realEstate._version,
                     });
                 }
                 await SendMail_1.sendEmail(email.S, 'Pirate');

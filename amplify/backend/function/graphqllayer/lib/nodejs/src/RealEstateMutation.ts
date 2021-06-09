@@ -3,9 +3,10 @@ import {
   GetRealEstateQueryVariables,
   UpdateRealEstateMutation,
   UpdateRealEstateMutationVariables,
-    GetRealEstateQuery,
+  GetRealEstateQuery,
 } from '../../../../../../../src/API';
 import { AppSyncClient } from './AppSyncClient';
+
 const getRealEstateQuery = /* GraphQL */ `
   query GetRealEstate($id: ID!) {
     getRealEstate(id: $id) {
@@ -32,134 +33,6 @@ const mutationUpdateRealEstate = /* GraphQL */ `
       iconUri
       purchaseYear
       type
-      ownName
-      company
-      detentionPart
-      typeImpot
-      budgetLines {
-        items {
-          id
-          realEstateId
-          type
-          category
-          amount
-          frequency
-          nextDueDate
-          tenantId
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-        }
-        nextToken
-        startedAt
-      }
-      bankMovements {
-        items {
-          id
-          bankAccountId
-          realEstateId
-          biId
-          description
-          amount
-          budgetLineDeadlineId
-          ignored
-          date
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-        }
-        nextToken
-        startedAt
-      }
-      budgetLineDeadlines {
-        items {
-          id
-          realEstateId
-          budgetLineId
-          type
-          category
-          amount
-          frequency
-          date
-          tenantId
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-        }
-        nextToken
-        startedAt
-      }
-      documents {
-        items {
-          id
-          realEstateId
-          name
-          key
-          s3file
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-        }
-        nextToken
-        startedAt
-      }
-      admins
-      shared
-      pendingInvitations {
-        items {
-          id
-          realEstateId
-          email
-          type
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-        }
-        nextToken
-        startedAt
-      }
-      address {
-        address
-        additionalAddress
-        postalCode
-        city
-        country
-      }
-      tenants {
-        id
-        amount
-        rentalCharges
-        managementFees
-        lastname
-        firstname
-        email
-        startDate
-        endDate
-      }
-      bankAccounts {
-        items {
-          id
-          realEstateId
-          bankAccountId
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-        }
-        nextToken
-        startedAt
-      }
       _version
       _deleted
       _lastChangedAt
@@ -177,38 +50,34 @@ const updateRealEstateMutation = async (client: AppSyncClient, input) => {
     variables: {
       input,
     },
-    fetchPolicy: 'network-only',
+    fetchPolicy: 'no-cache',
   });
 };
 
-const getRealEstate = async (client: AppSyncClient,id : string): Promise<false |
-    {
-      __typename: "RealEstate",
-      id?: string,
-      name?: string,
-      admins?: Array< string >,
-      shared?: Array< string > | null,
-      _version?: number,
-      _deleted?: boolean | null,
-      _lastChangedAt?: number,
-      createdAt?: string,
-      updatedAt?: string,
-    } | null> =>{
-
+const getRealEstate = async (client: AppSyncClient, id : string): Promise<false |
+{
+  __typename: 'RealEstate',
+  id?: string,
+  name?: string,
+  admins?: Array< string >,
+  shared?: Array< string > | null,
+  _version?: number,
+  _deleted?: boolean | null,
+  _lastChangedAt?: number,
+  createdAt?: string,
+  updatedAt?: string,
+} | null> => {
   const { data } = await client.query<GetRealEstateQuery, GetRealEstateQueryVariables>({
     query: gql(getRealEstateQuery),
-  variables: {
-      id
-  },
+    variables: {
+      id,
+    },
     fetchPolicy: 'no-cache',
-  })
-  return data.getRealEstate
-}
-
+  });
+  return data.getRealEstate;
+};
 
 export {
   updateRealEstateMutation,
-  getRealEstate
+  getRealEstate,
 };
-
-

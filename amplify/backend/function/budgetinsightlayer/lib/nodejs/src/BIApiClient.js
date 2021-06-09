@@ -29,14 +29,29 @@ const BIApiClient = (env) => {
             return false;
         }
     };
+    const getAccounts = async (user_token, connection_id) => {
+        try {
+            const response = await BIApiAxiosClient.get(`/users/me/connections/${connection_id}?expand=accounts`, {
+                headers: getAuthHeader(user_token),
+            });
+            console.log(response.data);
+        }
+        catch (e) {
+            return false;
+        }
+    };
     const getMFAUrl = (account) => {
     };
     return {
         createUser,
         getConnectUrl,
         getMFAUrl,
+        getAccounts,
         clientId: BIApiCredentials.clientId,
         clientSecret: BIApiCredentials.clientSecret,
     };
 };
 exports.default = BIApiClient;
+console.log('test');
+const client = BIApiClient('dev');
+client.getAccounts('LdnTunKSkaOBH1UMhqQum_hCL6z_XANrxqdRk9xX9zPl2Dr7O/DE1jrBbhz0uBqgNnSs3oNw0XPe/dtM9xXL8usLi9UZjKDon1cqqT15qHdZ6/s2Ul5/eBkcaVHAeDvt', 4);

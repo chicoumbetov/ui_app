@@ -5,9 +5,33 @@ import { Layout, Text, useTheme } from '@ui-kitten/components';
 import { VictoryPie } from 'victory-native';
 import MaxWidthContainer from '../MaxWidthContainer';
 
-const Graphics = ({ data }) => {
+type MesBiensDataProps = [
+  { x: number, y: number },
+];
+
+const Graphics = (props: MesBiensDataProps) => {
+  const { data } = props;
   const theme = useTheme();
   const [victoryData, setVictoryData] = useState(data);
+
+  console.log('victoryData', props);
+  /**
+   amount.reduce((a, b) => {
+    return a+b
+  }, 0),
+   */
+  // const variable = Data.push(bien?.budgetLines?.items?.map((item) => item?.amount));
+  // const getAmountPourcentage = () => {}
+  // console.log('variable', variable, 'Data', Data);
+
+  const myMap = new Map([[23, 1], [24, 3]]);
+  let sum = 0;
+  myMap.forEach((v) => {
+    sum += v;
+  });
+
+  console.log(sum);
+
   return (
     <MaxWidthContainer>
       <Layout style={styles.container}>
@@ -23,6 +47,7 @@ const Graphics = ({ data }) => {
               width={272}
               innerRadius={67}
               data={victoryData}
+              labels={({ datum }) => `${datum.x} %`}
               colorScale={[
                 theme['color-success-400'],
                 theme['color-warning-500'],

@@ -15,8 +15,8 @@ See the License for the specific language governing permissions and limitations 
 Amplify Params - DO NOT EDIT */
 
 import BIApiClient from '/opt/nodejs/src/BIApiClient';
-import getAppSyncClient from "/opt/nodejs/src/AppSyncClient";
-import {getUserById} from "../../graphqllayer/lib/nodejs/src/UserQueries";
+import getAppSyncClient from '/opt/nodejs/src/AppSyncClient';
+import { getUserById } from '/opt/nodejs/src/UserQueries';
 
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -57,19 +57,42 @@ app.get('/budgetinsight/connect-url', async (req, res) => {
   const uuid = req.apiGateway.event.requestContext.identity
     .cognitoAuthenticationProvider.split(':').pop();
 
+  const { CONNECTION_ID, REAL_ESTATE_ID } = req.query;
+
   try {
     const user = await getUserById(AppSyncClient, uuid);
     if (user) {
-      const redirectUrl = process.env.ENV === 'prod' ? '' : 'https://0patt7mbe7.execute-api.eu-west-2.amazonaws.com/dev/webhooks/create-redirect';
-      const connectUrl = await client.getConnectUrl(user.biToken, redirectUrl, uuid);
+      const connection = await client.getConnectionAccounts(user.biToken, CONNECTION_ID);
+      if (connection && connection.id_user === parseInt(user.biUser, 10)) {
+        // on vérifie que ce soit bien le bon utilisateur BI qui essaye d'ajouter des comptes
+
+        // on boucle sur tous les comptes et on vérifie s'ils existent : on update, sinon on ajoute
+
+        res.json({
+          success: true,
+        });
+      }
       res.json({
-        connectUrl, success: true,
+        success: false, error: 'Utilisateur non autorisé',
       });
     } else {
       res.json({
-        success: false, error: "Utilisateur introuvable",
+        success: false, error: 'Utilisateur introuvable',
       });
     }
+  } catch (e) {
+    res.json({
+      success: false, error: e,
+    });
+  }
+});
+
+app.get('/budgetinsight/create-accounts', async (req, res) => {
+  const uuid = req.apiGateway.event.requestContext.identity
+    .cognitoAuthenticationProvider.split(':').pop();
+
+  try {
+    const user = await getUserById(AppSyncClient, uuid);
   } catch (e) {
     res.json({
       success: false, error: e,

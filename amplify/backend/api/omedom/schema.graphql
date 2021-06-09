@@ -213,6 +213,7 @@ type RealEstateBankAccount
 # and for read operation to users in the shared field of RealEstate (linked by RealEstateBankAccount) model
 type BankAccount @model
 @key(name: "bankAccountByBiId", fields: ["biId"], queryField: "listBankAccountByBiId")
+@key(name: "bankAccountByBiConnectionId", fields: ["biConnectionId"], queryField: "listBankAccountByBiConnectionId")
 {
   id: ID!
   realEstates: [RealEstateBankAccount] @connection(fields: ["id"])

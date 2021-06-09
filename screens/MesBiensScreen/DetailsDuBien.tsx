@@ -37,6 +37,7 @@ import { useGetUserByIDList } from '../../src/API/User';
 import DocumentComponent from '../../components/DocumentComponent';
 import { useDeleteDocumentMutation, useDocumentList } from '../../src/API/Document';
 import { usePendingInvitationsList } from '../../src/API/PendingInvitation';
+import { BudgetLineType } from '../../src/API';
 
 function DetailsBien() {
   const navigation = useNavigation();
@@ -56,7 +57,7 @@ function DetailsBien() {
     (item) => item?.realEstateId === route.params.id,
   );
 
-  console.log(users, invitateUserId);
+  // console.log(users, invitateUserId);
 
   useEffect(() => {
     switch (bien?.type) {
@@ -136,7 +137,21 @@ function DetailsBien() {
       }],
     );
   };
-  // console.log(bien?.budgetLines?.items?.pop()?.amount);
+  const lastAmount = bien?.budgetLines?.items?.filter((item) => {
+    if (item?.type === BudgetLineType.Income && !item?._deleted) {
+      return item;
+    }
+    return false;
+  }).pop()?.amount;
+
+  const lastExpense = bien?.budgetLines?.items?.filter((item) => {
+    if (item?.type === BudgetLineType.Expense && !item?._deleted) {
+      return item;
+    }
+    return false;
+  }).pop()?.amount;
+
+  // console.log('detail bien', lastAmount);
 
   const deleteDoc = useDeleteDocumentMutation();
   const supprimerDocument = async () => {
@@ -200,8 +215,7 @@ function DetailsBien() {
           <View style={styles.oneThirdBlock}>
             <Text category="h6" appearance="hint" style={styles.text}>Dernier mouvement</Text>
             <Text category="h3" status="success" style={{ marginTop: 14 }}>
-
-              {`+ ${bien?.budgetLines?.items?.pop()?.amount} €`}
+              {`+ ${lastAmount} €`}
             </Text>
           </View>
 
@@ -209,7 +223,7 @@ function DetailsBien() {
             <Text category="h6" appearance="hint" style={styles.text}>
               Prochaine dépense
             </Text>
-            <Text category="h3" status="danger" style={{ marginTop: 14 }}>- 160 €</Text>
+            <Text category="h3" status="danger" style={{ marginTop: 14 }}>{`- ${lastExpense} €`}</Text>
           </View>
 
           <View style={styles.oneThirdBlock}>
@@ -477,7 +491,7 @@ function DetailsBien() {
           </TouchableOpacity>
 
           <TouchableOpacity onPress={() => {
-            console.log(useGetInvitateUser.userList);
+            // console.log(useGetInvitateUser.userList);
           }}
           >
             <Text category="h5" status="basic" style={styles.buttonText}>Supprimer</Text>

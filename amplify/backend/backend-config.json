@@ -80,6 +80,13 @@
           ]
         },
         {
+          "category": "function",
+          "resourceName": "graphqllayer",
+          "attributes": [
+            "Arn"
+          ]
+        },
+        {
           "category": "auth",
           "resourceName": "omedomfee3bfe0",
           "attributes": [
@@ -104,6 +111,13 @@
         {
           "category": "function",
           "resourceName": "budgetinsightlayer",
+          "attributes": [
+            "Arn"
+          ]
+        },
+        {
+          "category": "function",
+          "resourceName": "graphqllayer",
           "attributes": [
             "Arn"
           ]

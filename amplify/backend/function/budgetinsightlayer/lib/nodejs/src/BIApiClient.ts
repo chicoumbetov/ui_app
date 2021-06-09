@@ -34,6 +34,18 @@ const BIApiClient = (env: 'dev' | 'prod') => {
     }
   };
 
+  const getConnectionAccounts = async (user_token: string, connection_id: number) => {
+    try {
+      const response = await BIApiAxiosClient.get(`/users/me/connections/${connection_id}?expand=accounts`, {
+        headers: getAuthHeader(user_token),
+      });
+
+      return response.data;
+    } catch (e) {
+      return false;
+    }
+  };
+
   const getMFAUrl = (account: number) => {
 
   };
@@ -42,6 +54,7 @@ const BIApiClient = (env: 'dev' | 'prod') => {
     createUser,
     getConnectUrl,
     getMFAUrl,
+    getConnectionAccounts,
     clientId: BIApiCredentials.clientId,
     clientSecret: BIApiCredentials.clientSecret,
   };

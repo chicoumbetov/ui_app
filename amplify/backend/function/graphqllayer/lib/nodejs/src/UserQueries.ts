@@ -8,17 +8,19 @@ import {
 import { AppSyncClient } from './AppSyncClient';
 
 const getUserById = async (client: AppSyncClient, id: string): Promise<false |
-    {
-      __typename: 'User',
-      id: string,
-      biToken?: string | null
-    } | null> => {
+{
+  __typename: 'User',
+  id: string,
+  biToken?: string | null,
+  biUser?: string | null
+} | null> => {
   try {
     const {data} = await client.query<GetUserQuery, GetUserQueryVariables>({
       query: gql(`query GetUser($id: ID!) {
         getUser(id: $id) {
           id
           biToken
+          biUser
         }
       }`), // use your graphql query here
       variables: {
@@ -44,7 +46,6 @@ const getUserByEmail = async (client: AppSyncClient, email: string): Promise<fal
   email?: string | null,
   expoToken?: Array< string > | null,
 } | null> => {
-  console.log("we are here");
   try {
   const { data } = await client.query<UserByEmailQuery, UserByEmailQueryVariables>({
     query: gql(`query UserByEmail(
@@ -69,7 +70,6 @@ const getUserByEmail = async (client: AppSyncClient, email: string): Promise<fal
     },
     fetchPolicy: 'no-cache',
   });
-  console.log(data);
   if (data.userByEmail.items.length > 0) {
     return data.userByEmail.items[0];
   }

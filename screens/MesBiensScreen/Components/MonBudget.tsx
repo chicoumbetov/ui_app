@@ -26,7 +26,6 @@ import CompteHeader from '../../../components/CompteHeader/CompteHeader';
 import MonBudgetCard from './MonBudgetCard';
 import { BudgetLineType } from '../../../src/API';
 import Separator from '../../../components/Separator';
-import AjoutChargeCard from './AjoutChargeCard';
 import Button from '../../../components/Button';
 
 function MonBudget() {
@@ -112,7 +111,9 @@ function MonBudget() {
          keyExtractor={(item) => item.id}
          />
         */}
-        {revenus && revenus.map((item) => item && <MonBudgetCard key={item.id} budget={item} realEstate={bien} />)}
+        {revenus && revenus.map(
+          (item) => item && <MonBudgetCard key={item.id} budget={item} realEstate={bien} />,
+        )}
 
         <Button
           size="large"

@@ -34,7 +34,7 @@
         },
         "shareRealEstate": {
           "deploymentBucketName": "amplify-omedom-dev-175444-deployment",
-          "s3Key": "amplify-builds/shareRealEstate-6e64572b47627a527975-build.zip"
+          "s3Key": "amplify-builds/shareRealEstate-587a6831782b6a745a78-build.zip"
         },
         "omedomfee3bfe0PostConfirmation": {
           "deploymentBucketName": "amplify-omedom-dev-175444-deployment",
@@ -113,6 +113,38 @@
                 }
               ],
               "hash": "yiy8iPyrlBqW9SyrUND3oaYu/a0h4HHpc4qayk7sgHU="
+            },
+            "2": {
+              "permissions": [
+                {
+                  "type": "private"
+                }
+              ],
+              "hash": "cM6lk/VPAgHxZeWhWrPHS6R+10wC4RH3+eJ9TCYwA7I="
+            },
+            "3": {
+              "permissions": [
+                {
+                  "type": "private"
+                }
+              ],
+              "hash": "lluR4aiYJNRkOUhM9/zzQ8MQtgQ8ph2uCdN9Q6KV0ag="
+            },
+            "4": {
+              "permissions": [
+                {
+                  "type": "private"
+                }
+              ],
+              "hash": "P/dN3N8KqpYGv5pIHgiR2kNnPWrutRytD3ukTYLIbyY="
+            },
+            "5": {
+              "permissions": [
+                {
+                  "type": "private"
+                }
+              ],
+              "hash": "33I4JzClY04ovbvyP1Wwo/Gm5ADDemImf+uZ8LHqxQI="
             }
           }
         },

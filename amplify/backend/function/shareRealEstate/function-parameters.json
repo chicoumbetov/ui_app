@@ -1,5 +1,16 @@
 {
-  "lambdaLayers": [],
+  "lambdaLayers": [
+    {
+      "type": "ProjectLayer",
+      "resourceName": "graphqllayer",
+      "version": 5
+    },
+    {
+      "type": "ProjectLayer",
+      "resourceName": "seslayer",
+      "version": 1
+    }
+  ],
   "permissions": {
     "api": {
       "omedom": [

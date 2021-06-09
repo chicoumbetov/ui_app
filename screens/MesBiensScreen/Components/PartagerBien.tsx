@@ -44,7 +44,6 @@ const PartagerBien = () => {
   const createPendingInvitation = useCreatePendingInvitationMutation();
 
   const addUser = async (data: ShareRealEstateForm) => {
-    sendEmail(data.email, 'yoyo');
     console.log(data);
     await createPendingInvitation.createPendingInvitation({
       variables: {

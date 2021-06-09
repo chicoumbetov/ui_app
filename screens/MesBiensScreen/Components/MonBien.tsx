@@ -4,7 +4,7 @@
  * @author: Shynggys UMBETOV
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
   Text, Icon, useTheme,
 } from '@ui-kitten/components';
@@ -23,13 +23,6 @@ import MaxWidthContainer from '../../../components/MaxWidthContainer';
 import { RealEstateItem, useGetRealEstate } from '../../../src/API/RealEstate';
 import Card from '../../../components/Card';
 import { BudgetLineType } from '../../../src/API';
-
-const mesBiensData = [
-  { x: '35%', y: 35 },
-  { x: '15%', y: 15 },
-  { x: '15%', y: 15 },
-  { x: '35%', y: 35 },
-];
 
 type MesBiensDataProps = { x: number, y: number | undefined };
 
@@ -123,7 +116,7 @@ const MonBien = (props: MonBienProps) => {
         }
         return false;
       }).map((item) => item?.amount);
-  console.log('insurance: ', insurance);
+  // console.log('insurance: ', insurance);
 
   /** get all the Frais Divers expenses */
   const fraisDivers = bienDetail.bien?.budgetLines?.items
@@ -154,9 +147,12 @@ const MonBien = (props: MonBienProps) => {
 
   /** Data to pass to graph */
   // you can also pass an i- value, but that's up to you
-  const amountData: MesBiensDataProps[] | undefined = bienDetail.bien?.budgetLines?.items?.map(
-    (val, index) => ({ x: index, y: val?.amount }),
-  );
+  const amountData: MesBiensDataProps[] | undefined = [
+    { x: Math.round(pourcentageInsurance), y: sumInsuranceExpenses },
+    { x: Math.round(pourcentageElec), y: sumElectricityExpenses },
+    { x: Math.round(pourcentageWater), y: sumWaterExpenses },
+    { x: Math.round(pourcentageFraisDivers), y: sumFraisDiversExpenses },
+  ];
 
   /** Redirections */
   const allerTresorerie = () => {
@@ -264,7 +260,7 @@ const MonBien = (props: MonBienProps) => {
             >
               <View style={styles.oneThirdBlock}>
                 <Text category="h6" appearance="hint" style={styles.text}>Dernier mouvement</Text>
-                <Text category="h4" status="success" style={{ marginVertical: 14 }}>+ 500 €</Text>
+                <Text category="h4" status="success" style={{ marginVertical: 14 }}>{`+ ${allIncomes?.pop()} €`}</Text>
                 <TouchableOpacity onPress={() => {}}>
                   <Text category="h6" status="info">Affecter</Text>
                 </TouchableOpacity>
@@ -274,7 +270,7 @@ const MonBien = (props: MonBienProps) => {
                 <Text category="h6" appearance="hint" style={styles.text}>
                   Prochaine dépense
                 </Text>
-                <Text category="h4" status="danger">- 160 €</Text>
+                <Text category="h4" status="danger">{`- ${allExpenses?.pop()} €`}</Text>
                 <TouchableOpacity onPress={allerTresorerie}>
                   <Text category="h6" status="info">En savoir +</Text>
                 </TouchableOpacity>

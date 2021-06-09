@@ -47,7 +47,7 @@ const Graphics = (props: MesBiensDataProps) => {
               width={272}
               innerRadius={67}
               data={victoryData}
-              labels={({ datum }) => `${datum.amount} %`}
+              labels={({ datum }) => `${datum.x} %`}
               colorScale={[
                 theme['color-success-400'],
                 theme['color-warning-500'],

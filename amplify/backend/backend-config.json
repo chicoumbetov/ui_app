@@ -164,6 +164,20 @@
             "ApiName",
             "ApiId"
           ]
+        },
+        {
+          "category": "function",
+          "resourceName": "graphqllayer",
+          "attributes": [
+            "Arn"
+          ]
+        },
+        {
+          "category": "function",
+          "resourceName": "seslayer",
+          "attributes": [
+            "Arn"
+          ]
         }
       ]
     },

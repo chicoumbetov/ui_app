@@ -1,7 +1,22 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateRealEstateMutation = void 0;
+exports.getRealEstate = exports.updateRealEstateMutation = void 0;
 const graphql_tag_1 = require("graphql-tag");
+const getRealEstateQuery = /* GraphQL */ `
+  query GetRealEstate($id: ID!) {
+    getRealEstate(id: $id) {
+      id
+      name
+      admins
+      shared
+      _version
+      _deleted
+      _lastChangedAt
+      createdAt
+      updatedAt
+    }
+  }
+`;
 const mutationUpdateRealEstate = /* GraphQL */ `
   mutation UpdateRealEstate(
     $input: UpdateRealEstateInput!
@@ -160,3 +175,14 @@ const updateRealEstateMutation = async (client, input) => {
     });
 };
 exports.updateRealEstateMutation = updateRealEstateMutation;
+const getRealEstate = async (client, id) => {
+    const { data } = await client.query({
+        query: graphql_tag_1.default(getRealEstateQuery),
+        variables: {
+            id
+        },
+        fetchPolicy: 'no-cache',
+    });
+    return data.getRealEstate;
+};
+exports.getRealEstate = getRealEstate;

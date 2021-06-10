@@ -23,14 +23,15 @@ const bodyParser = require('body-parser');
 const awsServerlessExpressMiddleware = require('aws-serverless-express/middleware');
 // declare a new express app
 const app = express();
+app.use((req, res, next) => {
+    delete req.headers['content-encoding']; // should be lowercase
+    next();
+});
+app.use(awsServerlessExpressMiddleware.eventContext());
 app.use(bodyParser.json({
     limit: '6MB',
+    inflate: true,
 }));
-app.use(bodyParser.urlencoded({
-    limit: '6MB',
-    extended: true,
-}));
-app.use(awsServerlessExpressMiddleware.eventContext());
 // Enable CORS for all methods
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
@@ -50,6 +51,7 @@ app.post('/webhooks/account-synced', async (req, res) => {
     console.log(req.body);
     const AppSyncClient = AppSyncClient_1.default(process.env);
     let account = await BankAccountQueries_1.getBankAccountByBIId(AppSyncClient, id);
+    let justCreated = false;
     if (!account) {
         account = await BankAccountMutations_1.createBankAccount(AppSyncClient, {
             name,
@@ -59,8 +61,17 @@ app.post('/webhooks/account-synced', async (req, res) => {
             biId: id,
             biConnectionId: id_connection,
         });
+        justCreated = true;
     }
     if (account && account !== true) {
+        if (!justCreated) {
+            await BankAccountMutations_1.updateBankAccount(AppSyncClient, {
+                id: account.id,
+                balance,
+                // eslint-disable-next-line no-underscore-dangle
+                _version: account._version,
+            });
+        }
         const map = transactions.map(async (transaction) => {
             if (!transaction.coming && transaction.active
                 && !transaction.deleted && account && account !== true) {

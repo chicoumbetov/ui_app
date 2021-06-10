@@ -42,7 +42,7 @@ function sendTemplateEmail(recipientEmail) {
                 recipientEmail,
             ],
         },
-        TemplateData: '',
+        TemplateData: '{"name":"John Doe"}',
     };
     return AWS_SES.sendTemplatedEmail(params).promise();
 }

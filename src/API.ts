@@ -2,380 +2,6 @@
 /* eslint-disable */
 //  This file was automatically generated and should not be edited.
 
-export type CreateDocumentInput = {
-  id?: string | null,
-  realEstateId: string,
-  name: string,
-  key?: string | null,
-  s3file: string,
-  _version?: number | null,
-};
-
-export type ModelDocumentConditionInput = {
-  realEstateId?: ModelIDInput | null,
-  name?: ModelStringInput | null,
-  key?: ModelStringInput | null,
-  s3file?: ModelStringInput | null,
-  and?: Array< ModelDocumentConditionInput | null > | null,
-  or?: Array< ModelDocumentConditionInput | null > | null,
-  not?: ModelDocumentConditionInput | null,
-};
-
-export type ModelIDInput = {
-  ne?: string | null,
-  eq?: string | null,
-  le?: string | null,
-  lt?: string | null,
-  ge?: string | null,
-  gt?: string | null,
-  contains?: string | null,
-  notContains?: string | null,
-  between?: Array< string | null > | null,
-  beginsWith?: string | null,
-  attributeExists?: boolean | null,
-  attributeType?: ModelAttributeTypes | null,
-  size?: ModelSizeInput | null,
-};
-
-export enum ModelAttributeTypes {
-  binary = "binary",
-  binarySet = "binarySet",
-  bool = "bool",
-  list = "list",
-  map = "map",
-  number = "number",
-  numberSet = "numberSet",
-  string = "string",
-  stringSet = "stringSet",
-  _null = "_null",
-}
-
-
-export type ModelSizeInput = {
-  ne?: number | null,
-  eq?: number | null,
-  le?: number | null,
-  lt?: number | null,
-  ge?: number | null,
-  gt?: number | null,
-  between?: Array< number | null > | null,
-};
-
-export type ModelStringInput = {
-  ne?: string | null,
-  eq?: string | null,
-  le?: string | null,
-  lt?: string | null,
-  ge?: string | null,
-  gt?: string | null,
-  contains?: string | null,
-  notContains?: string | null,
-  between?: Array< string | null > | null,
-  beginsWith?: string | null,
-  attributeExists?: boolean | null,
-  attributeType?: ModelAttributeTypes | null,
-  size?: ModelSizeInput | null,
-};
-
-export type Document = {
-  __typename: "Document",
-  id: string,
-  realEstateId: string,
-  name: string,
-  key?: string | null,
-  s3file: string,
-  _version: number,
-  _deleted?: boolean | null,
-  _lastChangedAt: number,
-  createdAt: string,
-  updatedAt: string,
-  realEstate?: RealEstate | null,
-};
-
-export type RealEstate = {
-  __typename: "RealEstate",
-  id: string,
-  name: string,
-  iconUri: string,
-  purchaseYear?: number | null,
-  type?: RealEstateType | null,
-  ownName?: boolean | null,
-  company?: CompanyType | null,
-  detentionPart?: number | null,
-  typeImpot?: TaxType | null,
-  documents?: ModelDocumentConnection | null,
-  admins: Array< string >,
-  shared?: Array< string > | null,
-  address?: Address | null,
-  tenants?:  Array<TenantInfo | null > | null,
-  _version: number,
-  _deleted?: boolean | null,
-  _lastChangedAt: number,
-  createdAt: string,
-  updatedAt: string,
-  pendingInvitations?: ModelPendingInvitationConnection | null,
-  budgetLines?: ModelBudgetLineConnection | null,
-  budgetLineDeadlines?: ModelBudgetLineDeadlineConnection | null,
-  bankAccounts?: ModelRealEstateBankAccountConnection | null,
-  bankMovements?: ModelBankMovementConnection | null,
-};
-
-export enum RealEstateType {
-  mainHome = "mainHome",
-  secondHome = "secondHome",
-  professionnalRentalInvestment = "professionnalRentalInvestment",
-  privateRentalInvestment = "privateRentalInvestment",
-}
-
-
-export enum CompanyType {
-  SCI = "SCI",
-  SAS = "SAS",
-  SARLclassique = "SARLclassique",
-  SARLfamille = "SARLfamille",
-}
-
-
-export enum TaxType {
-  RevenueTax = "RevenueTax",
-  SocialTax = "SocialTax",
-}
-
-
-export type ModelDocumentConnection = {
-  __typename: "ModelDocumentConnection",
-  items?:  Array<Document | null > | null,
-  nextToken?: string | null,
-  startedAt?: number | null,
-};
-
-export type Address = {
-  __typename: "Address",
-  address: string,
-  additionalAddress?: string | null,
-  postalCode: string,
-  city: string,
-  country: string,
-};
-
-export type TenantInfo = {
-  __typename: "TenantInfo",
-  id: string,
-  amount: number,
-  rentalCharges?: number | null,
-  managementFees?: number | null,
-  lastname: string,
-  firstname: string,
-  email: string,
-  startDate: string,
-  endDate?: string | null,
-};
-
-export type ModelPendingInvitationConnection = {
-  __typename: "ModelPendingInvitationConnection",
-  items?:  Array<PendingInvitation | null > | null,
-  nextToken?: string | null,
-  startedAt?: number | null,
-};
-
-export type PendingInvitation = {
-  __typename: "PendingInvitation",
-  id: string,
-  realEstateId: string,
-  email: string,
-  type: InvitationType,
-  _version: number,
-  _deleted?: boolean | null,
-  _lastChangedAt: number,
-  createdAt: string,
-  updatedAt: string,
-  realEstate?: RealEstate | null,
-};
-
-export enum InvitationType {
-  Admin = "Admin",
-  ReadOnly = "ReadOnly",
-}
-
-
-export type ModelBudgetLineConnection = {
-  __typename: "ModelBudgetLineConnection",
-  items?:  Array<BudgetLine | null > | null,
-  nextToken?: string | null,
-  startedAt?: number | null,
-};
-
-export type BudgetLine = {
-  __typename: "BudgetLine",
-  id: string,
-  realEstateId: string,
-  type: BudgetLineType,
-  category: string,
-  amount: number,
-  frequency: Frequency,
-  nextDueDate?: string | null,
-  infoCredit?: MortgageLoanInfo | null,
-  tenantId?: string | null,
-  _version: number,
-  _deleted?: boolean | null,
-  _lastChangedAt: number,
-  createdAt: string,
-  updatedAt: string,
-  realEstate?: RealEstate | null,
-};
-
-export enum BudgetLineType {
-  Expense = "Expense",
-  Income = "Income",
-}
-
-
-export enum Frequency {
-  monthly = "monthly",
-  fortnightly = "fortnightly",
-  quarterly = "quarterly",
-  annual = "annual",
-}
-
-
-export type MortgageLoanInfo = {
-  __typename: "MortgageLoanInfo",
-  borrowedCapital: number,
-  loadStartDate?: string | null,
-  duration?: number | null,
-  interestRate?: number | null,
-  assuranceRate?: number | null,
-  amortizationTable?:  Array<AmortizationTable | null > | null,
-};
-
-export type AmortizationTable = {
-  __typename: "AmortizationTable",
-  dueDate?: string | null,
-  amount?: number | null,
-  interest?: number | null,
-  assurance?: number | null,
-  amortizedCapital?: number | null,
-};
-
-export type ModelBudgetLineDeadlineConnection = {
-  __typename: "ModelBudgetLineDeadlineConnection",
-  items?:  Array<BudgetLineDeadline | null > | null,
-  nextToken?: string | null,
-  startedAt?: number | null,
-};
-
-export type BudgetLineDeadline = {
-  __typename: "BudgetLineDeadline",
-  id: string,
-  realEstateId: string,
-  budgetLineId: string,
-  type: BudgetLineType,
-  category: string,
-  amount: number,
-  frequency: Frequency,
-  date?: string | null,
-  infoCredit?: MortgageLoanDeadlineInfo | null,
-  tenantId?: string | null,
-  _version: number,
-  _deleted?: boolean | null,
-  _lastChangedAt: number,
-  createdAt: string,
-  updatedAt: string,
-  realEstate?: RealEstate | null,
-  budgetLine?: BudgetLine | null,
-};
-
-export type MortgageLoanDeadlineInfo = {
-  __typename: "MortgageLoanDeadlineInfo",
-  amount?: number | null,
-  interest?: number | null,
-  assurance?: number | null,
-};
-
-export type ModelRealEstateBankAccountConnection = {
-  __typename: "ModelRealEstateBankAccountConnection",
-  items?:  Array<RealEstateBankAccount | null > | null,
-  nextToken?: string | null,
-  startedAt?: number | null,
-};
-
-export type RealEstateBankAccount = {
-  __typename: "RealEstateBankAccount",
-  id: string,
-  realEstateId: string,
-  bankAccountId: string,
-  _version: number,
-  _deleted?: boolean | null,
-  _lastChangedAt: number,
-  createdAt: string,
-  updatedAt: string,
-  realEstate?: RealEstate | null,
-  bankAccount: BankAccount,
-};
-
-export type BankAccount = {
-  __typename: "BankAccount",
-  id: string,
-  bank?: string | null,
-  accountOwner?: string | null,
-  name?: string | null,
-  iban?: string | null,
-  bic?: string | null,
-  balance: number,
-  biId: number,
-  biConnectionId: number,
-  biState?: string | null,
-  _version: number,
-  _deleted?: boolean | null,
-  _lastChangedAt: number,
-  createdAt: string,
-  updatedAt: string,
-  realEstates?: ModelRealEstateBankAccountConnection | null,
-  movements?: ModelBankMovementConnection | null,
-};
-
-export type ModelBankMovementConnection = {
-  __typename: "ModelBankMovementConnection",
-  items?:  Array<BankMovement | null > | null,
-  nextToken?: string | null,
-  startedAt?: number | null,
-};
-
-export type BankMovement = {
-  __typename: "BankMovement",
-  id: string,
-  bankAccountId: string,
-  realEstateId?: string | null,
-  biId: number,
-  description?: string | null,
-  amount: number,
-  budgetLineDeadlineId?: string | null,
-  ignored?: boolean | null,
-  date?: string | null,
-  _version: number,
-  _deleted?: boolean | null,
-  _lastChangedAt: number,
-  createdAt: string,
-  updatedAt: string,
-  realEstate?: RealEstate | null,
-  budgetLineDeadline?: BudgetLineDeadline | null,
-  bankAccount: BankAccount,
-};
-
-export type UpdateDocumentInput = {
-  id: string,
-  realEstateId?: string | null,
-  name?: string | null,
-  key?: string | null,
-  s3file?: string | null,
-  _version?: number | null,
-};
-
-export type DeleteDocumentInput = {
-  id: string,
-  _version?: number | null,
-};
-
 export type CreateUserInput = {
   id?: string | null,
   lastname?: string | null,
@@ -425,19 +51,59 @@ export type ModelUserConditionInput = {
   not?: ModelUserConditionInput | null,
 };
 
+export type ModelStringInput = {
+  ne?: string | null,
+  eq?: string | null,
+  le?: string | null,
+  lt?: string | null,
+  ge?: string | null,
+  gt?: string | null,
+  contains?: string | null,
+  notContains?: string | null,
+  between?: Array< string | null > | null,
+  beginsWith?: string | null,
+  attributeExists?: boolean | null,
+  attributeType?: ModelAttributeTypes | null,
+  size?: ModelSizeInput | null,
+};
+
+export enum ModelAttributeTypes {
+  binary = "binary",
+  binarySet = "binarySet",
+  bool = "bool",
+  list = "list",
+  map = "map",
+  number = "number",
+  numberSet = "numberSet",
+  string = "string",
+  stringSet = "stringSet",
+  _null = "_null",
+}
+
+
+export type ModelSizeInput = {
+  ne?: number | null,
+  eq?: number | null,
+  le?: number | null,
+  lt?: number | null,
+  ge?: number | null,
+  gt?: number | null,
+  between?: Array< number | null > | null,
+};
+
 export type User = {
   __typename: "User",
-  id: string,
+  id?: string,
   lastname?: string | null,
   firstname?: string | null,
   avatarUri?: string | null,
-  _version: number,
+  _version?: number,
   _deleted?: boolean | null,
-  _lastChangedAt: number,
-  createdAt: string,
-  updatedAt: string,
+  _lastChangedAt?: number,
+  createdAt?: string,
+  updatedAt?: string,
   email?: string | null,
-  privateProfile?: ProfileInfo | null,
+  privateProfile?: ProfileInfo,
   expoToken?: Array< string > | null,
   biUser?: string | null,
   biToken?: string | null,
@@ -447,9 +113,18 @@ export type ProfileInfo = {
   __typename: "ProfileInfo",
   phoneNumber?: string | null,
   optIn?: boolean | null,
-  address?: Address | null,
+  address?: Address,
   birthDate?: string | null,
   subscription?: SubscriptionType | null,
+};
+
+export type Address = {
+  __typename: "Address",
+  address?: string,
+  additionalAddress?: string | null,
+  postalCode?: string,
+  city?: string,
+  country?: string,
 };
 
 export type UpdateUserInput = {
@@ -466,7 +141,7 @@ export type UpdateUserInput = {
 };
 
 export type DeleteUserInput = {
-  id: string,
+  id?: string | null,
   _version?: number | null,
 };
 
@@ -486,6 +161,28 @@ export type CreateRealEstateInput = {
   tenants?: Array< TenantInfoInput | null > | null,
   _version?: number | null,
 };
+
+export enum RealEstateType {
+  mainHome = "mainHome",
+  secondHome = "secondHome",
+  professionnalRentalInvestment = "professionnalRentalInvestment",
+  privateRentalInvestment = "privateRentalInvestment",
+}
+
+
+export enum CompanyType {
+  SCI = "SCI",
+  SAS = "SAS",
+  SARLclassique = "SARLclassique",
+  SARLfamille = "SARLfamille",
+}
+
+
+export enum TaxType {
+  RevenueTax = "RevenueTax",
+  SocialTax = "SocialTax",
+}
+
 
 export type TenantInfoInput = {
   id: string,
@@ -559,6 +256,260 @@ export type ModelTaxTypeInput = {
   ne?: TaxType | null,
 };
 
+export type RealEstate = {
+  __typename: "RealEstate",
+  id?: string,
+  name?: string,
+  iconUri?: string,
+  purchaseYear?: number | null,
+  type?: RealEstateType | null,
+  ownName?: boolean | null,
+  company?: CompanyType | null,
+  detentionPart?: number | null,
+  typeImpot?: TaxType | null,
+  admins?: Array< string >,
+  shared?: Array< string > | null,
+  address?: Address,
+  tenants?:  Array<TenantInfo | null > | null,
+  _version?: number,
+  _deleted?: boolean | null,
+  _lastChangedAt?: number,
+  createdAt?: string,
+  updatedAt?: string,
+  pendingInvitations?: ModelPendingInvitationConnection,
+  documents?: ModelDocumentConnection,
+  budgetLines?: ModelBudgetLineConnection,
+  budgetLineDeadlines?: ModelBudgetLineDeadlineConnection,
+  bankAccounts?: ModelRealEstateBankAccountConnection,
+  bankMovements?: ModelBankMovementConnection,
+};
+
+export type TenantInfo = {
+  __typename: "TenantInfo",
+  id?: string,
+  amount?: number,
+  rentalCharges?: number | null,
+  managementFees?: number | null,
+  lastname?: string,
+  firstname?: string,
+  email?: string,
+  startDate?: string,
+  endDate?: string | null,
+};
+
+export type ModelPendingInvitationConnection = {
+  __typename: "ModelPendingInvitationConnection",
+  items?:  Array<PendingInvitation | null > | null,
+  nextToken?: string | null,
+  startedAt?: number | null,
+};
+
+export type PendingInvitation = {
+  __typename: "PendingInvitation",
+  id?: string,
+  realEstateId?: string,
+  email?: string,
+  type?: InvitationType,
+  _version?: number,
+  _deleted?: boolean | null,
+  _lastChangedAt?: number,
+  createdAt?: string,
+  updatedAt?: string,
+  realEstate?: RealEstate,
+};
+
+export enum InvitationType {
+  Admin = "Admin",
+  ReadOnly = "ReadOnly",
+}
+
+
+export type ModelDocumentConnection = {
+  __typename: "ModelDocumentConnection",
+  items?:  Array<Document | null > | null,
+  nextToken?: string | null,
+  startedAt?: number | null,
+};
+
+export type Document = {
+  __typename: "Document",
+  id?: string,
+  realEstateId?: string,
+  name?: string,
+  key?: string | null,
+  s3file?: string,
+  _version?: number,
+  _deleted?: boolean | null,
+  _lastChangedAt?: number,
+  createdAt?: string,
+  updatedAt?: string,
+  realEstate?: RealEstate,
+};
+
+export type ModelBudgetLineConnection = {
+  __typename: "ModelBudgetLineConnection",
+  items?:  Array<BudgetLine | null > | null,
+  nextToken?: string | null,
+  startedAt?: number | null,
+};
+
+export type BudgetLine = {
+  __typename: "BudgetLine",
+  id?: string,
+  realEstateId?: string,
+  type?: BudgetLineType,
+  category?: string,
+  amount?: number,
+  frequency?: Frequency,
+  nextDueDate?: string | null,
+  infoCredit?: MortgageLoanInfo,
+  tenantId?: string | null,
+  _version?: number,
+  _deleted?: boolean | null,
+  _lastChangedAt?: number,
+  createdAt?: string,
+  updatedAt?: string,
+  realEstate?: RealEstate,
+};
+
+export enum BudgetLineType {
+  Expense = "Expense",
+  Income = "Income",
+}
+
+
+export enum Frequency {
+  monthly = "monthly",
+  fortnightly = "fortnightly",
+  quarterly = "quarterly",
+  annual = "annual",
+}
+
+
+export type MortgageLoanInfo = {
+  __typename: "MortgageLoanInfo",
+  borrowedCapital?: number,
+  loadStartDate?: string | null,
+  duration?: number | null,
+  interestRate?: number | null,
+  assuranceRate?: number | null,
+  amortizationTable?:  Array<AmortizationTable | null > | null,
+};
+
+export type AmortizationTable = {
+  __typename: "AmortizationTable",
+  dueDate?: string | null,
+  amount?: number | null,
+  interest?: number | null,
+  assurance?: number | null,
+  amortizedCapital?: number | null,
+};
+
+export type ModelBudgetLineDeadlineConnection = {
+  __typename: "ModelBudgetLineDeadlineConnection",
+  items?:  Array<BudgetLineDeadline | null > | null,
+  nextToken?: string | null,
+  startedAt?: number | null,
+};
+
+export type BudgetLineDeadline = {
+  __typename: "BudgetLineDeadline",
+  id?: string,
+  realEstateId?: string,
+  budgetLineId?: string,
+  type?: BudgetLineType,
+  category?: string,
+  amount?: number,
+  frequency?: Frequency,
+  date?: string | null,
+  infoCredit?: MortgageLoanDeadlineInfo,
+  tenantId?: string | null,
+  _version?: number,
+  _deleted?: boolean | null,
+  _lastChangedAt?: number,
+  createdAt?: string,
+  updatedAt?: string,
+  realEstate?: RealEstate,
+  budgetLine?: BudgetLine,
+};
+
+export type MortgageLoanDeadlineInfo = {
+  __typename: "MortgageLoanDeadlineInfo",
+  amount?: number | null,
+  interest?: number | null,
+  assurance?: number | null,
+};
+
+export type ModelRealEstateBankAccountConnection = {
+  __typename: "ModelRealEstateBankAccountConnection",
+  items?:  Array<RealEstateBankAccount | null > | null,
+  nextToken?: string | null,
+  startedAt?: number | null,
+};
+
+export type RealEstateBankAccount = {
+  __typename: "RealEstateBankAccount",
+  id?: string,
+  realEstateId?: string,
+  bankAccountId?: string,
+  _version?: number,
+  _deleted?: boolean | null,
+  _lastChangedAt?: number,
+  createdAt?: string,
+  updatedAt?: string,
+  realEstate?: RealEstate,
+  bankAccount?: BankAccount,
+};
+
+export type BankAccount = {
+  __typename: "BankAccount",
+  id?: string,
+  bank?: string | null,
+  accountOwner?: string | null,
+  name?: string | null,
+  iban?: string | null,
+  bic?: string | null,
+  balance?: number,
+  biId?: number,
+  biConnectionId?: number,
+  biState?: string | null,
+  _version?: number,
+  _deleted?: boolean | null,
+  _lastChangedAt?: number,
+  createdAt?: string,
+  updatedAt?: string,
+  realEstates?: ModelRealEstateBankAccountConnection,
+  movements?: ModelBankMovementConnection,
+};
+
+export type ModelBankMovementConnection = {
+  __typename: "ModelBankMovementConnection",
+  items?:  Array<BankMovement | null > | null,
+  nextToken?: string | null,
+  startedAt?: number | null,
+};
+
+export type BankMovement = {
+  __typename: "BankMovement",
+  id?: string,
+  bankAccountId?: string,
+  realEstateId?: string | null,
+  biId?: number,
+  description?: string | null,
+  amount?: number,
+  budgetLineDeadlineId?: string | null,
+  ignored?: boolean | null,
+  date?: string | null,
+  _version?: number,
+  _deleted?: boolean | null,
+  _lastChangedAt?: number,
+  createdAt?: string,
+  updatedAt?: string,
+  realEstate?: RealEstate,
+  budgetLineDeadline?: BudgetLineDeadline,
+  bankAccount?: BankAccount,
+};
+
 export type UpdateRealEstateInput = {
   id: string,
   name?: string | null,
@@ -577,7 +528,7 @@ export type UpdateRealEstateInput = {
 };
 
 export type DeleteRealEstateInput = {
-  id: string,
+  id?: string | null,
   _version?: number | null,
 };
 
@@ -598,6 +549,22 @@ export type ModelPendingInvitationConditionInput = {
   not?: ModelPendingInvitationConditionInput | null,
 };
 
+export type ModelIDInput = {
+  ne?: string | null,
+  eq?: string | null,
+  le?: string | null,
+  lt?: string | null,
+  ge?: string | null,
+  gt?: string | null,
+  contains?: string | null,
+  notContains?: string | null,
+  between?: Array< string | null > | null,
+  beginsWith?: string | null,
+  attributeExists?: boolean | null,
+  attributeType?: ModelAttributeTypes | null,
+  size?: ModelSizeInput | null,
+};
+
 export type ModelInvitationTypeInput = {
   eq?: InvitationType | null,
   ne?: InvitationType | null,
@@ -612,7 +579,40 @@ export type UpdatePendingInvitationInput = {
 };
 
 export type DeletePendingInvitationInput = {
+  id?: string | null,
+  _version?: number | null,
+};
+
+export type CreateDocumentInput = {
+  id?: string | null,
+  realEstateId: string,
+  name: string,
+  key?: string | null,
+  s3file: string,
+  _version?: number | null,
+};
+
+export type ModelDocumentConditionInput = {
+  realEstateId?: ModelIDInput | null,
+  name?: ModelStringInput | null,
+  key?: ModelStringInput | null,
+  s3file?: ModelStringInput | null,
+  and?: Array< ModelDocumentConditionInput | null > | null,
+  or?: Array< ModelDocumentConditionInput | null > | null,
+  not?: ModelDocumentConditionInput | null,
+};
+
+export type UpdateDocumentInput = {
   id: string,
+  realEstateId?: string | null,
+  name?: string | null,
+  key?: string | null,
+  s3file?: string | null,
+  _version?: number | null,
+};
+
+export type DeleteDocumentInput = {
+  id?: string | null,
   _version?: number | null,
 };
 
@@ -683,7 +683,7 @@ export type UpdateBudgetLineInput = {
 };
 
 export type DeleteBudgetLineInput = {
-  id: string,
+  id?: string | null,
   _version?: number | null,
 };
 
@@ -736,7 +736,7 @@ export type UpdateBudgetLineDeadlineInput = {
 };
 
 export type DeleteBudgetLineDeadlineInput = {
-  id: string,
+  id?: string | null,
   _version?: number | null,
 };
 
@@ -763,7 +763,7 @@ export type UpdateRealEstateBankAccountInput = {
 };
 
 export type DeleteRealEstateBankAccountInput = {
-  id: string,
+  id?: string | null,
   _version?: number | null,
 };
 
@@ -811,7 +811,7 @@ export type UpdateBankAccountInput = {
 };
 
 export type DeleteBankAccountInput = {
-  id: string,
+  id?: string | null,
   _version?: number | null,
 };
 
@@ -856,7 +856,7 @@ export type UpdateBankMovementInput = {
 };
 
 export type DeleteBankMovementInput = {
-  id: string,
+  id?: string | null,
   _version?: number | null,
 };
 
@@ -884,18 +884,18 @@ export type ModelNotificationConditionInput = {
 
 export type Notification = {
   __typename: "Notification",
-  id: string,
+  id?: string,
   owner?: string | null,
-  userId: string,
-  category: string,
-  text: string,
+  userId?: string,
+  category?: string,
+  text?: string,
   params?: string | null,
   createdAt?: string | null,
-  _version: number,
+  _version?: number,
   _deleted?: boolean | null,
-  _lastChangedAt: number,
-  updatedAt: string,
-  user?: User | null,
+  _lastChangedAt?: number,
+  updatedAt?: string,
+  user?: User,
 };
 
 export type UpdateNotificationInput = {
@@ -910,7 +910,7 @@ export type UpdateNotificationInput = {
 };
 
 export type DeleteNotificationInput = {
-  id: string,
+  id?: string | null,
   _version?: number | null,
 };
 
@@ -945,20 +945,20 @@ export type ModelSubscriptionTypeInput = {
 
 export type BillingHistory = {
   __typename: "BillingHistory",
-  id: string,
+  id?: string,
   owner?: string | null,
-  userId: string,
-  date: string,
+  userId?: string,
+  date?: string,
   nextRenewDate?: string | null,
   subscription?: SubscriptionType | null,
-  amount: number,
+  amount?: number,
   paid?: boolean | null,
-  _version: number,
+  _version?: number,
   _deleted?: boolean | null,
-  _lastChangedAt: number,
-  createdAt: string,
-  updatedAt: string,
-  user?: User | null,
+  _lastChangedAt?: number,
+  createdAt?: string,
+  updatedAt?: string,
+  user?: User,
 };
 
 export type UpdateBillingHistoryInput = {
@@ -974,19 +974,8 @@ export type UpdateBillingHistoryInput = {
 };
 
 export type DeleteBillingHistoryInput = {
-  id: string,
+  id?: string | null,
   _version?: number | null,
-};
-
-export type ModelDocumentFilterInput = {
-  id?: ModelIDInput | null,
-  realEstateId?: ModelIDInput | null,
-  name?: ModelStringInput | null,
-  key?: ModelStringInput | null,
-  s3file?: ModelStringInput | null,
-  and?: Array< ModelDocumentFilterInput | null > | null,
-  or?: Array< ModelDocumentFilterInput | null > | null,
-  not?: ModelDocumentFilterInput | null,
 };
 
 export enum ModelSortDirection {
@@ -1048,6 +1037,17 @@ export type ModelPendingInvitationFilterInput = {
   and?: Array< ModelPendingInvitationFilterInput | null > | null,
   or?: Array< ModelPendingInvitationFilterInput | null > | null,
   not?: ModelPendingInvitationFilterInput | null,
+};
+
+export type ModelDocumentFilterInput = {
+  id?: ModelIDInput | null,
+  realEstateId?: ModelIDInput | null,
+  name?: ModelStringInput | null,
+  key?: ModelStringInput | null,
+  s3file?: ModelStringInput | null,
+  and?: Array< ModelDocumentFilterInput | null > | null,
+  or?: Array< ModelDocumentFilterInput | null > | null,
+  not?: ModelDocumentFilterInput | null,
 };
 
 export type ModelBudgetLineFilterInput = {
@@ -1177,278 +1177,8 @@ export type ModelBillingHistoryConnection = {
   startedAt?: number | null,
 };
 
-export type CreateDocumentMutationVariables = {
-  input: CreateDocumentInput,
-  condition?: ModelDocumentConditionInput | null,
-};
-
-export type CreateDocumentMutation = {
-  createDocument?:  {
-    __typename: "Document",
-    id: string,
-    realEstateId: string,
-    name: string,
-    key?: string | null,
-    s3file: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
-    createdAt: string,
-    updatedAt: string,
-    realEstate?:  {
-      __typename: "RealEstate",
-      id: string,
-      name: string,
-      iconUri: string,
-      purchaseYear?: number | null,
-      type?: RealEstateType | null,
-      ownName?: boolean | null,
-      company?: CompanyType | null,
-      detentionPart?: number | null,
-      typeImpot?: TaxType | null,
-      documents?:  {
-        __typename: "ModelDocumentConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      admins: Array< string >,
-      shared?: Array< string > | null,
-      address?:  {
-        __typename: "Address",
-        address: string,
-        additionalAddress?: string | null,
-        postalCode: string,
-        city: string,
-        country: string,
-      } | null,
-      tenants?:  Array< {
-        __typename: "TenantInfo",
-        id: string,
-        amount: number,
-        rentalCharges?: number | null,
-        managementFees?: number | null,
-        lastname: string,
-        firstname: string,
-        email: string,
-        startDate: string,
-        endDate?: string | null,
-      } | null > | null,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-      createdAt: string,
-      updatedAt: string,
-      pendingInvitations?:  {
-        __typename: "ModelPendingInvitationConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      budgetLines?:  {
-        __typename: "ModelBudgetLineConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      budgetLineDeadlines?:  {
-        __typename: "ModelBudgetLineDeadlineConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      bankAccounts?:  {
-        __typename: "ModelRealEstateBankAccountConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      bankMovements?:  {
-        __typename: "ModelBankMovementConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-    } | null,
-  } | null,
-};
-
-export type UpdateDocumentMutationVariables = {
-  input: UpdateDocumentInput,
-  condition?: ModelDocumentConditionInput | null,
-};
-
-export type UpdateDocumentMutation = {
-  updateDocument?:  {
-    __typename: "Document",
-    id: string,
-    realEstateId: string,
-    name: string,
-    key?: string | null,
-    s3file: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
-    createdAt: string,
-    updatedAt: string,
-    realEstate?:  {
-      __typename: "RealEstate",
-      id: string,
-      name: string,
-      iconUri: string,
-      purchaseYear?: number | null,
-      type?: RealEstateType | null,
-      ownName?: boolean | null,
-      company?: CompanyType | null,
-      detentionPart?: number | null,
-      typeImpot?: TaxType | null,
-      documents?:  {
-        __typename: "ModelDocumentConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      admins: Array< string >,
-      shared?: Array< string > | null,
-      address?:  {
-        __typename: "Address",
-        address: string,
-        additionalAddress?: string | null,
-        postalCode: string,
-        city: string,
-        country: string,
-      } | null,
-      tenants?:  Array< {
-        __typename: "TenantInfo",
-        id: string,
-        amount: number,
-        rentalCharges?: number | null,
-        managementFees?: number | null,
-        lastname: string,
-        firstname: string,
-        email: string,
-        startDate: string,
-        endDate?: string | null,
-      } | null > | null,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-      createdAt: string,
-      updatedAt: string,
-      pendingInvitations?:  {
-        __typename: "ModelPendingInvitationConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      budgetLines?:  {
-        __typename: "ModelBudgetLineConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      budgetLineDeadlines?:  {
-        __typename: "ModelBudgetLineDeadlineConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      bankAccounts?:  {
-        __typename: "ModelRealEstateBankAccountConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      bankMovements?:  {
-        __typename: "ModelBankMovementConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-    } | null,
-  } | null,
-};
-
-export type DeleteDocumentMutationVariables = {
-  input: DeleteDocumentInput,
-  condition?: ModelDocumentConditionInput | null,
-};
-
-export type DeleteDocumentMutation = {
-  deleteDocument?:  {
-    __typename: "Document",
-    id: string,
-    realEstateId: string,
-    name: string,
-    key?: string | null,
-    s3file: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
-    createdAt: string,
-    updatedAt: string,
-    realEstate?:  {
-      __typename: "RealEstate",
-      id: string,
-      name: string,
-      iconUri: string,
-      purchaseYear?: number | null,
-      type?: RealEstateType | null,
-      ownName?: boolean | null,
-      company?: CompanyType | null,
-      detentionPart?: number | null,
-      typeImpot?: TaxType | null,
-      documents?:  {
-        __typename: "ModelDocumentConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      admins: Array< string >,
-      shared?: Array< string > | null,
-      address?:  {
-        __typename: "Address",
-        address: string,
-        additionalAddress?: string | null,
-        postalCode: string,
-        city: string,
-        country: string,
-      } | null,
-      tenants?:  Array< {
-        __typename: "TenantInfo",
-        id: string,
-        amount: number,
-        rentalCharges?: number | null,
-        managementFees?: number | null,
-        lastname: string,
-        firstname: string,
-        email: string,
-        startDate: string,
-        endDate?: string | null,
-      } | null > | null,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-      createdAt: string,
-      updatedAt: string,
-      pendingInvitations?:  {
-        __typename: "ModelPendingInvitationConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      budgetLines?:  {
-        __typename: "ModelBudgetLineConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      budgetLineDeadlines?:  {
-        __typename: "ModelBudgetLineDeadlineConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      bankAccounts?:  {
-        __typename: "ModelRealEstateBankAccountConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      bankMovements?:  {
-        __typename: "ModelBankMovementConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-    } | null,
-  } | null,
-};
-
 export type CreateUserMutationVariables = {
-  input: CreateUserInput,
+  input?: CreateUserInput,
   condition?: ModelUserConditionInput | null,
 };
 
@@ -1487,7 +1217,7 @@ export type CreateUserMutation = {
 };
 
 export type UpdateUserMutationVariables = {
-  input: UpdateUserInput,
+  input?: UpdateUserInput,
   condition?: ModelUserConditionInput | null,
 };
 
@@ -1526,7 +1256,7 @@ export type UpdateUserMutation = {
 };
 
 export type DeleteUserMutationVariables = {
-  input: DeleteUserInput,
+  input?: DeleteUserInput,
   condition?: ModelUserConditionInput | null,
 };
 
@@ -1565,7 +1295,7 @@ export type DeleteUserMutation = {
 };
 
 export type CreateRealEstateMutationVariables = {
-  input: CreateRealEstateInput,
+  input?: CreateRealEstateInput,
   condition?: ModelRealEstateConditionInput | null,
 };
 
@@ -1581,24 +1311,6 @@ export type CreateRealEstateMutation = {
     company?: CompanyType | null,
     detentionPart?: number | null,
     typeImpot?: TaxType | null,
-    documents?:  {
-      __typename: "ModelDocumentConnection",
-      items?:  Array< {
-        __typename: "Document",
-        id: string,
-        realEstateId: string,
-        name: string,
-        key?: string | null,
-        s3file: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
-        createdAt: string,
-        updatedAt: string,
-      } | null > | null,
-      nextToken?: string | null,
-      startedAt?: number | null,
-    } | null,
     admins: Array< string >,
     shared?: Array< string > | null,
     address?:  {
@@ -1634,6 +1346,24 @@ export type CreateRealEstateMutation = {
         realEstateId: string,
         email: string,
         type: InvitationType,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
+    documents?:  {
+      __typename: "ModelDocumentConnection",
+      items?:  Array< {
+        __typename: "Document",
+        id: string,
+        realEstateId: string,
+        name: string,
+        key?: string | null,
+        s3file: string,
         _version: number,
         _deleted?: boolean | null,
         _lastChangedAt: number,
@@ -1728,7 +1458,7 @@ export type CreateRealEstateMutation = {
 };
 
 export type UpdateRealEstateMutationVariables = {
-  input: UpdateRealEstateInput,
+  input?: UpdateRealEstateInput,
   condition?: ModelRealEstateConditionInput | null,
 };
 
@@ -1744,24 +1474,6 @@ export type UpdateRealEstateMutation = {
     company?: CompanyType | null,
     detentionPart?: number | null,
     typeImpot?: TaxType | null,
-    documents?:  {
-      __typename: "ModelDocumentConnection",
-      items?:  Array< {
-        __typename: "Document",
-        id: string,
-        realEstateId: string,
-        name: string,
-        key?: string | null,
-        s3file: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
-        createdAt: string,
-        updatedAt: string,
-      } | null > | null,
-      nextToken?: string | null,
-      startedAt?: number | null,
-    } | null,
     admins: Array< string >,
     shared?: Array< string > | null,
     address?:  {
@@ -1797,6 +1509,24 @@ export type UpdateRealEstateMutation = {
         realEstateId: string,
         email: string,
         type: InvitationType,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
+    documents?:  {
+      __typename: "ModelDocumentConnection",
+      items?:  Array< {
+        __typename: "Document",
+        id: string,
+        realEstateId: string,
+        name: string,
+        key?: string | null,
+        s3file: string,
         _version: number,
         _deleted?: boolean | null,
         _lastChangedAt: number,
@@ -1891,7 +1621,7 @@ export type UpdateRealEstateMutation = {
 };
 
 export type DeleteRealEstateMutationVariables = {
-  input: DeleteRealEstateInput,
+  input?: DeleteRealEstateInput,
   condition?: ModelRealEstateConditionInput | null,
 };
 
@@ -1907,24 +1637,6 @@ export type DeleteRealEstateMutation = {
     company?: CompanyType | null,
     detentionPart?: number | null,
     typeImpot?: TaxType | null,
-    documents?:  {
-      __typename: "ModelDocumentConnection",
-      items?:  Array< {
-        __typename: "Document",
-        id: string,
-        realEstateId: string,
-        name: string,
-        key?: string | null,
-        s3file: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
-        createdAt: string,
-        updatedAt: string,
-      } | null > | null,
-      nextToken?: string | null,
-      startedAt?: number | null,
-    } | null,
     admins: Array< string >,
     shared?: Array< string > | null,
     address?:  {
@@ -1960,6 +1672,24 @@ export type DeleteRealEstateMutation = {
         realEstateId: string,
         email: string,
         type: InvitationType,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
+    documents?:  {
+      __typename: "ModelDocumentConnection",
+      items?:  Array< {
+        __typename: "Document",
+        id: string,
+        realEstateId: string,
+        name: string,
+        key?: string | null,
+        s3file: string,
         _version: number,
         _deleted?: boolean | null,
         _lastChangedAt: number,
@@ -2054,7 +1784,7 @@ export type DeleteRealEstateMutation = {
 };
 
 export type CreatePendingInvitationMutationVariables = {
-  input: CreatePendingInvitationInput,
+  input?: CreatePendingInvitationInput,
   condition?: ModelPendingInvitationConditionInput | null,
 };
 
@@ -2081,11 +1811,6 @@ export type CreatePendingInvitationMutation = {
       company?: CompanyType | null,
       detentionPart?: number | null,
       typeImpot?: TaxType | null,
-      documents?:  {
-        __typename: "ModelDocumentConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
       admins: Array< string >,
       shared?: Array< string > | null,
       address?:  {
@@ -2115,6 +1840,11 @@ export type CreatePendingInvitationMutation = {
       updatedAt: string,
       pendingInvitations?:  {
         __typename: "ModelPendingInvitationConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      documents?:  {
+        __typename: "ModelDocumentConnection",
         nextToken?: string | null,
         startedAt?: number | null,
       } | null,
@@ -2143,7 +1873,7 @@ export type CreatePendingInvitationMutation = {
 };
 
 export type UpdatePendingInvitationMutationVariables = {
-  input: UpdatePendingInvitationInput,
+  input?: UpdatePendingInvitationInput,
   condition?: ModelPendingInvitationConditionInput | null,
 };
 
@@ -2170,11 +1900,6 @@ export type UpdatePendingInvitationMutation = {
       company?: CompanyType | null,
       detentionPart?: number | null,
       typeImpot?: TaxType | null,
-      documents?:  {
-        __typename: "ModelDocumentConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
       admins: Array< string >,
       shared?: Array< string > | null,
       address?:  {
@@ -2204,6 +1929,11 @@ export type UpdatePendingInvitationMutation = {
       updatedAt: string,
       pendingInvitations?:  {
         __typename: "ModelPendingInvitationConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      documents?:  {
+        __typename: "ModelDocumentConnection",
         nextToken?: string | null,
         startedAt?: number | null,
       } | null,
@@ -2232,7 +1962,7 @@ export type UpdatePendingInvitationMutation = {
 };
 
 export type DeletePendingInvitationMutationVariables = {
-  input: DeletePendingInvitationInput,
+  input?: DeletePendingInvitationInput,
   condition?: ModelPendingInvitationConditionInput | null,
 };
 
@@ -2259,11 +1989,6 @@ export type DeletePendingInvitationMutation = {
       company?: CompanyType | null,
       detentionPart?: number | null,
       typeImpot?: TaxType | null,
-      documents?:  {
-        __typename: "ModelDocumentConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
       admins: Array< string >,
       shared?: Array< string > | null,
       address?:  {
@@ -2296,6 +2021,281 @@ export type DeletePendingInvitationMutation = {
         nextToken?: string | null,
         startedAt?: number | null,
       } | null,
+      documents?:  {
+        __typename: "ModelDocumentConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      budgetLines?:  {
+        __typename: "ModelBudgetLineConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      budgetLineDeadlines?:  {
+        __typename: "ModelBudgetLineDeadlineConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      bankAccounts?:  {
+        __typename: "ModelRealEstateBankAccountConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      bankMovements?:  {
+        __typename: "ModelBankMovementConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+    } | null,
+  } | null,
+};
+
+export type CreateDocumentMutationVariables = {
+  input?: CreateDocumentInput,
+  condition?: ModelDocumentConditionInput | null,
+};
+
+export type CreateDocumentMutation = {
+  createDocument?:  {
+    __typename: "Document",
+    id: string,
+    realEstateId: string,
+    name: string,
+    key?: string | null,
+    s3file: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+    createdAt: string,
+    updatedAt: string,
+    realEstate?:  {
+      __typename: "RealEstate",
+      id: string,
+      name: string,
+      iconUri: string,
+      purchaseYear?: number | null,
+      type?: RealEstateType | null,
+      ownName?: boolean | null,
+      company?: CompanyType | null,
+      detentionPart?: number | null,
+      typeImpot?: TaxType | null,
+      admins: Array< string >,
+      shared?: Array< string > | null,
+      address?:  {
+        __typename: "Address",
+        address: string,
+        additionalAddress?: string | null,
+        postalCode: string,
+        city: string,
+        country: string,
+      } | null,
+      tenants?:  Array< {
+        __typename: "TenantInfo",
+        id: string,
+        amount: number,
+        rentalCharges?: number | null,
+        managementFees?: number | null,
+        lastname: string,
+        firstname: string,
+        email: string,
+        startDate: string,
+        endDate?: string | null,
+      } | null > | null,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+      createdAt: string,
+      updatedAt: string,
+      pendingInvitations?:  {
+        __typename: "ModelPendingInvitationConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      documents?:  {
+        __typename: "ModelDocumentConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      budgetLines?:  {
+        __typename: "ModelBudgetLineConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      budgetLineDeadlines?:  {
+        __typename: "ModelBudgetLineDeadlineConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      bankAccounts?:  {
+        __typename: "ModelRealEstateBankAccountConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      bankMovements?:  {
+        __typename: "ModelBankMovementConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+    } | null,
+  } | null,
+};
+
+export type UpdateDocumentMutationVariables = {
+  input?: UpdateDocumentInput,
+  condition?: ModelDocumentConditionInput | null,
+};
+
+export type UpdateDocumentMutation = {
+  updateDocument?:  {
+    __typename: "Document",
+    id: string,
+    realEstateId: string,
+    name: string,
+    key?: string | null,
+    s3file: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+    createdAt: string,
+    updatedAt: string,
+    realEstate?:  {
+      __typename: "RealEstate",
+      id: string,
+      name: string,
+      iconUri: string,
+      purchaseYear?: number | null,
+      type?: RealEstateType | null,
+      ownName?: boolean | null,
+      company?: CompanyType | null,
+      detentionPart?: number | null,
+      typeImpot?: TaxType | null,
+      admins: Array< string >,
+      shared?: Array< string > | null,
+      address?:  {
+        __typename: "Address",
+        address: string,
+        additionalAddress?: string | null,
+        postalCode: string,
+        city: string,
+        country: string,
+      } | null,
+      tenants?:  Array< {
+        __typename: "TenantInfo",
+        id: string,
+        amount: number,
+        rentalCharges?: number | null,
+        managementFees?: number | null,
+        lastname: string,
+        firstname: string,
+        email: string,
+        startDate: string,
+        endDate?: string | null,
+      } | null > | null,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+      createdAt: string,
+      updatedAt: string,
+      pendingInvitations?:  {
+        __typename: "ModelPendingInvitationConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      documents?:  {
+        __typename: "ModelDocumentConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      budgetLines?:  {
+        __typename: "ModelBudgetLineConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      budgetLineDeadlines?:  {
+        __typename: "ModelBudgetLineDeadlineConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      bankAccounts?:  {
+        __typename: "ModelRealEstateBankAccountConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      bankMovements?:  {
+        __typename: "ModelBankMovementConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+    } | null,
+  } | null,
+};
+
+export type DeleteDocumentMutationVariables = {
+  input?: DeleteDocumentInput,
+  condition?: ModelDocumentConditionInput | null,
+};
+
+export type DeleteDocumentMutation = {
+  deleteDocument?:  {
+    __typename: "Document",
+    id: string,
+    realEstateId: string,
+    name: string,
+    key?: string | null,
+    s3file: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+    createdAt: string,
+    updatedAt: string,
+    realEstate?:  {
+      __typename: "RealEstate",
+      id: string,
+      name: string,
+      iconUri: string,
+      purchaseYear?: number | null,
+      type?: RealEstateType | null,
+      ownName?: boolean | null,
+      company?: CompanyType | null,
+      detentionPart?: number | null,
+      typeImpot?: TaxType | null,
+      admins: Array< string >,
+      shared?: Array< string > | null,
+      address?:  {
+        __typename: "Address",
+        address: string,
+        additionalAddress?: string | null,
+        postalCode: string,
+        city: string,
+        country: string,
+      } | null,
+      tenants?:  Array< {
+        __typename: "TenantInfo",
+        id: string,
+        amount: number,
+        rentalCharges?: number | null,
+        managementFees?: number | null,
+        lastname: string,
+        firstname: string,
+        email: string,
+        startDate: string,
+        endDate?: string | null,
+      } | null > | null,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+      createdAt: string,
+      updatedAt: string,
+      pendingInvitations?:  {
+        __typename: "ModelPendingInvitationConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      documents?:  {
+        __typename: "ModelDocumentConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
       budgetLines?:  {
         __typename: "ModelBudgetLineConnection",
         nextToken?: string | null,
@@ -2321,7 +2321,7 @@ export type DeletePendingInvitationMutation = {
 };
 
 export type CreateBudgetLineMutationVariables = {
-  input: CreateBudgetLineInput,
+  input?: CreateBudgetLineInput,
   condition?: ModelBudgetLineConditionInput | null,
 };
 
@@ -2368,11 +2368,6 @@ export type CreateBudgetLineMutation = {
       company?: CompanyType | null,
       detentionPart?: number | null,
       typeImpot?: TaxType | null,
-      documents?:  {
-        __typename: "ModelDocumentConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
       admins: Array< string >,
       shared?: Array< string > | null,
       address?:  {
@@ -2405,6 +2400,11 @@ export type CreateBudgetLineMutation = {
         nextToken?: string | null,
         startedAt?: number | null,
       } | null,
+      documents?:  {
+        __typename: "ModelDocumentConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
       budgetLines?:  {
         __typename: "ModelBudgetLineConnection",
         nextToken?: string | null,
@@ -2430,7 +2430,7 @@ export type CreateBudgetLineMutation = {
 };
 
 export type UpdateBudgetLineMutationVariables = {
-  input: UpdateBudgetLineInput,
+  input?: UpdateBudgetLineInput,
   condition?: ModelBudgetLineConditionInput | null,
 };
 
@@ -2477,11 +2477,6 @@ export type UpdateBudgetLineMutation = {
       company?: CompanyType | null,
       detentionPart?: number | null,
       typeImpot?: TaxType | null,
-      documents?:  {
-        __typename: "ModelDocumentConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
       admins: Array< string >,
       shared?: Array< string > | null,
       address?:  {
@@ -2514,6 +2509,11 @@ export type UpdateBudgetLineMutation = {
         nextToken?: string | null,
         startedAt?: number | null,
       } | null,
+      documents?:  {
+        __typename: "ModelDocumentConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
       budgetLines?:  {
         __typename: "ModelBudgetLineConnection",
         nextToken?: string | null,
@@ -2539,7 +2539,7 @@ export type UpdateBudgetLineMutation = {
 };
 
 export type DeleteBudgetLineMutationVariables = {
-  input: DeleteBudgetLineInput,
+  input?: DeleteBudgetLineInput,
   condition?: ModelBudgetLineConditionInput | null,
 };
 
@@ -2586,11 +2586,6 @@ export type DeleteBudgetLineMutation = {
       company?: CompanyType | null,
       detentionPart?: number | null,
       typeImpot?: TaxType | null,
-      documents?:  {
-        __typename: "ModelDocumentConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
       admins: Array< string >,
       shared?: Array< string > | null,
       address?:  {
@@ -2623,6 +2618,11 @@ export type DeleteBudgetLineMutation = {
         nextToken?: string | null,
         startedAt?: number | null,
       } | null,
+      documents?:  {
+        __typename: "ModelDocumentConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
       budgetLines?:  {
         __typename: "ModelBudgetLineConnection",
         nextToken?: string | null,
@@ -2648,7 +2648,7 @@ export type DeleteBudgetLineMutation = {
 };
 
 export type CreateBudgetLineDeadlineMutationVariables = {
-  input: CreateBudgetLineDeadlineInput,
+  input?: CreateBudgetLineDeadlineInput,
   condition?: ModelBudgetLineDeadlineConditionInput | null,
 };
 
@@ -2686,11 +2686,6 @@ export type CreateBudgetLineDeadlineMutation = {
       company?: CompanyType | null,
       detentionPart?: number | null,
       typeImpot?: TaxType | null,
-      documents?:  {
-        __typename: "ModelDocumentConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
       admins: Array< string >,
       shared?: Array< string > | null,
       address?:  {
@@ -2720,6 +2715,11 @@ export type CreateBudgetLineDeadlineMutation = {
       updatedAt: string,
       pendingInvitations?:  {
         __typename: "ModelPendingInvitationConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      documents?:  {
+        __typename: "ModelDocumentConnection",
         nextToken?: string | null,
         startedAt?: number | null,
       } | null,
@@ -2791,7 +2791,7 @@ export type CreateBudgetLineDeadlineMutation = {
 };
 
 export type UpdateBudgetLineDeadlineMutationVariables = {
-  input: UpdateBudgetLineDeadlineInput,
+  input?: UpdateBudgetLineDeadlineInput,
   condition?: ModelBudgetLineDeadlineConditionInput | null,
 };
 
@@ -2829,11 +2829,6 @@ export type UpdateBudgetLineDeadlineMutation = {
       company?: CompanyType | null,
       detentionPart?: number | null,
       typeImpot?: TaxType | null,
-      documents?:  {
-        __typename: "ModelDocumentConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
       admins: Array< string >,
       shared?: Array< string > | null,
       address?:  {
@@ -2863,6 +2858,11 @@ export type UpdateBudgetLineDeadlineMutation = {
       updatedAt: string,
       pendingInvitations?:  {
         __typename: "ModelPendingInvitationConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      documents?:  {
+        __typename: "ModelDocumentConnection",
         nextToken?: string | null,
         startedAt?: number | null,
       } | null,
@@ -2934,7 +2934,7 @@ export type UpdateBudgetLineDeadlineMutation = {
 };
 
 export type DeleteBudgetLineDeadlineMutationVariables = {
-  input: DeleteBudgetLineDeadlineInput,
+  input?: DeleteBudgetLineDeadlineInput,
   condition?: ModelBudgetLineDeadlineConditionInput | null,
 };
 
@@ -2972,11 +2972,6 @@ export type DeleteBudgetLineDeadlineMutation = {
       company?: CompanyType | null,
       detentionPart?: number | null,
       typeImpot?: TaxType | null,
-      documents?:  {
-        __typename: "ModelDocumentConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
       admins: Array< string >,
       shared?: Array< string > | null,
       address?:  {
@@ -3006,6 +3001,11 @@ export type DeleteBudgetLineDeadlineMutation = {
       updatedAt: string,
       pendingInvitations?:  {
         __typename: "ModelPendingInvitationConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      documents?:  {
+        __typename: "ModelDocumentConnection",
         nextToken?: string | null,
         startedAt?: number | null,
       } | null,
@@ -3077,7 +3077,7 @@ export type DeleteBudgetLineDeadlineMutation = {
 };
 
 export type CreateRealEstateBankAccountMutationVariables = {
-  input: CreateRealEstateBankAccountInput,
+  input?: CreateRealEstateBankAccountInput,
   condition?: ModelRealEstateBankAccountConditionInput | null,
 };
 
@@ -3103,11 +3103,6 @@ export type CreateRealEstateBankAccountMutation = {
       company?: CompanyType | null,
       detentionPart?: number | null,
       typeImpot?: TaxType | null,
-      documents?:  {
-        __typename: "ModelDocumentConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
       admins: Array< string >,
       shared?: Array< string > | null,
       address?:  {
@@ -3137,6 +3132,11 @@ export type CreateRealEstateBankAccountMutation = {
       updatedAt: string,
       pendingInvitations?:  {
         __typename: "ModelPendingInvitationConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      documents?:  {
+        __typename: "ModelDocumentConnection",
         nextToken?: string | null,
         startedAt?: number | null,
       } | null,
@@ -3193,7 +3193,7 @@ export type CreateRealEstateBankAccountMutation = {
 };
 
 export type UpdateRealEstateBankAccountMutationVariables = {
-  input: UpdateRealEstateBankAccountInput,
+  input?: UpdateRealEstateBankAccountInput,
   condition?: ModelRealEstateBankAccountConditionInput | null,
 };
 
@@ -3219,11 +3219,6 @@ export type UpdateRealEstateBankAccountMutation = {
       company?: CompanyType | null,
       detentionPart?: number | null,
       typeImpot?: TaxType | null,
-      documents?:  {
-        __typename: "ModelDocumentConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
       admins: Array< string >,
       shared?: Array< string > | null,
       address?:  {
@@ -3253,6 +3248,11 @@ export type UpdateRealEstateBankAccountMutation = {
       updatedAt: string,
       pendingInvitations?:  {
         __typename: "ModelPendingInvitationConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      documents?:  {
+        __typename: "ModelDocumentConnection",
         nextToken?: string | null,
         startedAt?: number | null,
       } | null,
@@ -3309,7 +3309,7 @@ export type UpdateRealEstateBankAccountMutation = {
 };
 
 export type DeleteRealEstateBankAccountMutationVariables = {
-  input: DeleteRealEstateBankAccountInput,
+  input?: DeleteRealEstateBankAccountInput,
   condition?: ModelRealEstateBankAccountConditionInput | null,
 };
 
@@ -3335,11 +3335,6 @@ export type DeleteRealEstateBankAccountMutation = {
       company?: CompanyType | null,
       detentionPart?: number | null,
       typeImpot?: TaxType | null,
-      documents?:  {
-        __typename: "ModelDocumentConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
       admins: Array< string >,
       shared?: Array< string > | null,
       address?:  {
@@ -3369,6 +3364,11 @@ export type DeleteRealEstateBankAccountMutation = {
       updatedAt: string,
       pendingInvitations?:  {
         __typename: "ModelPendingInvitationConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      documents?:  {
+        __typename: "ModelDocumentConnection",
         nextToken?: string | null,
         startedAt?: number | null,
       } | null,
@@ -3425,7 +3425,7 @@ export type DeleteRealEstateBankAccountMutation = {
 };
 
 export type CreateBankAccountMutationVariables = {
-  input: CreateBankAccountInput,
+  input?: CreateBankAccountInput,
   condition?: ModelBankAccountConditionInput | null,
 };
 
@@ -3489,7 +3489,7 @@ export type CreateBankAccountMutation = {
 };
 
 export type UpdateBankAccountMutationVariables = {
-  input: UpdateBankAccountInput,
+  input?: UpdateBankAccountInput,
   condition?: ModelBankAccountConditionInput | null,
 };
 
@@ -3553,7 +3553,7 @@ export type UpdateBankAccountMutation = {
 };
 
 export type DeleteBankAccountMutationVariables = {
-  input: DeleteBankAccountInput,
+  input?: DeleteBankAccountInput,
   condition?: ModelBankAccountConditionInput | null,
 };
 
@@ -3617,7 +3617,7 @@ export type DeleteBankAccountMutation = {
 };
 
 export type CreateBankMovementMutationVariables = {
-  input: CreateBankMovementInput,
+  input?: CreateBankMovementInput,
   condition?: ModelBankMovementConditionInput | null,
 };
 
@@ -3649,11 +3649,6 @@ export type CreateBankMovementMutation = {
       company?: CompanyType | null,
       detentionPart?: number | null,
       typeImpot?: TaxType | null,
-      documents?:  {
-        __typename: "ModelDocumentConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
       admins: Array< string >,
       shared?: Array< string > | null,
       address?:  {
@@ -3683,6 +3678,11 @@ export type CreateBankMovementMutation = {
       updatedAt: string,
       pendingInvitations?:  {
         __typename: "ModelPendingInvitationConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      documents?:  {
+        __typename: "ModelDocumentConnection",
         nextToken?: string | null,
         startedAt?: number | null,
       } | null,
@@ -3797,7 +3797,7 @@ export type CreateBankMovementMutation = {
 };
 
 export type UpdateBankMovementMutationVariables = {
-  input: UpdateBankMovementInput,
+  input?: UpdateBankMovementInput,
   condition?: ModelBankMovementConditionInput | null,
 };
 
@@ -3829,11 +3829,6 @@ export type UpdateBankMovementMutation = {
       company?: CompanyType | null,
       detentionPart?: number | null,
       typeImpot?: TaxType | null,
-      documents?:  {
-        __typename: "ModelDocumentConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
       admins: Array< string >,
       shared?: Array< string > | null,
       address?:  {
@@ -3863,6 +3858,11 @@ export type UpdateBankMovementMutation = {
       updatedAt: string,
       pendingInvitations?:  {
         __typename: "ModelPendingInvitationConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      documents?:  {
+        __typename: "ModelDocumentConnection",
         nextToken?: string | null,
         startedAt?: number | null,
       } | null,
@@ -3977,7 +3977,7 @@ export type UpdateBankMovementMutation = {
 };
 
 export type DeleteBankMovementMutationVariables = {
-  input: DeleteBankMovementInput,
+  input?: DeleteBankMovementInput,
   condition?: ModelBankMovementConditionInput | null,
 };
 
@@ -4009,11 +4009,6 @@ export type DeleteBankMovementMutation = {
       company?: CompanyType | null,
       detentionPart?: number | null,
       typeImpot?: TaxType | null,
-      documents?:  {
-        __typename: "ModelDocumentConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
       admins: Array< string >,
       shared?: Array< string > | null,
       address?:  {
@@ -4043,6 +4038,11 @@ export type DeleteBankMovementMutation = {
       updatedAt: string,
       pendingInvitations?:  {
         __typename: "ModelPendingInvitationConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      documents?:  {
+        __typename: "ModelDocumentConnection",
         nextToken?: string | null,
         startedAt?: number | null,
       } | null,
@@ -4157,7 +4157,7 @@ export type DeleteBankMovementMutation = {
 };
 
 export type CreateNotificationMutationVariables = {
-  input: CreateNotificationInput,
+  input?: CreateNotificationInput,
   condition?: ModelNotificationConditionInput | null,
 };
 
@@ -4202,7 +4202,7 @@ export type CreateNotificationMutation = {
 };
 
 export type UpdateNotificationMutationVariables = {
-  input: UpdateNotificationInput,
+  input?: UpdateNotificationInput,
   condition?: ModelNotificationConditionInput | null,
 };
 
@@ -4247,7 +4247,7 @@ export type UpdateNotificationMutation = {
 };
 
 export type DeleteNotificationMutationVariables = {
-  input: DeleteNotificationInput,
+  input?: DeleteNotificationInput,
   condition?: ModelNotificationConditionInput | null,
 };
 
@@ -4292,7 +4292,7 @@ export type DeleteNotificationMutation = {
 };
 
 export type CreateBillingHistoryMutationVariables = {
-  input: CreateBillingHistoryInput,
+  input?: CreateBillingHistoryInput,
   condition?: ModelBillingHistoryConditionInput | null,
 };
 
@@ -4339,7 +4339,7 @@ export type CreateBillingHistoryMutation = {
 };
 
 export type UpdateBillingHistoryMutationVariables = {
-  input: UpdateBillingHistoryInput,
+  input?: UpdateBillingHistoryInput,
   condition?: ModelBillingHistoryConditionInput | null,
 };
 
@@ -4386,7 +4386,7 @@ export type UpdateBillingHistoryMutation = {
 };
 
 export type DeleteBillingHistoryMutationVariables = {
-  input: DeleteBillingHistoryInput,
+  input?: DeleteBillingHistoryInput,
   condition?: ModelBillingHistoryConditionInput | null,
 };
 
@@ -4429,236 +4429,6 @@ export type DeleteBillingHistoryMutation = {
       biUser?: string | null,
       biToken?: string | null,
     } | null,
-  } | null,
-};
-
-export type SyncDocumentsQueryVariables = {
-  filter?: ModelDocumentFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-  lastSync?: number | null,
-};
-
-export type SyncDocumentsQuery = {
-  syncDocuments?:  {
-    __typename: "ModelDocumentConnection",
-    items?:  Array< {
-      __typename: "Document",
-      id: string,
-      realEstateId: string,
-      name: string,
-      key?: string | null,
-      s3file: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-      createdAt: string,
-      updatedAt: string,
-      realEstate?:  {
-        __typename: "RealEstate",
-        id: string,
-        name: string,
-        iconUri: string,
-        purchaseYear?: number | null,
-        type?: RealEstateType | null,
-        ownName?: boolean | null,
-        company?: CompanyType | null,
-        detentionPart?: number | null,
-        typeImpot?: TaxType | null,
-        admins: Array< string >,
-        shared?: Array< string > | null,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
-        createdAt: string,
-        updatedAt: string,
-      } | null,
-    } | null > | null,
-    nextToken?: string | null,
-    startedAt?: number | null,
-  } | null,
-};
-
-export type GetDocumentQueryVariables = {
-  id: string,
-};
-
-export type GetDocumentQuery = {
-  getDocument?:  {
-    __typename: "Document",
-    id: string,
-    realEstateId: string,
-    name: string,
-    key?: string | null,
-    s3file: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
-    createdAt: string,
-    updatedAt: string,
-    realEstate?:  {
-      __typename: "RealEstate",
-      id: string,
-      name: string,
-      iconUri: string,
-      purchaseYear?: number | null,
-      type?: RealEstateType | null,
-      ownName?: boolean | null,
-      company?: CompanyType | null,
-      detentionPart?: number | null,
-      typeImpot?: TaxType | null,
-      documents?:  {
-        __typename: "ModelDocumentConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      admins: Array< string >,
-      shared?: Array< string > | null,
-      address?:  {
-        __typename: "Address",
-        address: string,
-        additionalAddress?: string | null,
-        postalCode: string,
-        city: string,
-        country: string,
-      } | null,
-      tenants?:  Array< {
-        __typename: "TenantInfo",
-        id: string,
-        amount: number,
-        rentalCharges?: number | null,
-        managementFees?: number | null,
-        lastname: string,
-        firstname: string,
-        email: string,
-        startDate: string,
-        endDate?: string | null,
-      } | null > | null,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-      createdAt: string,
-      updatedAt: string,
-      pendingInvitations?:  {
-        __typename: "ModelPendingInvitationConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      budgetLines?:  {
-        __typename: "ModelBudgetLineConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      budgetLineDeadlines?:  {
-        __typename: "ModelBudgetLineDeadlineConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      bankAccounts?:  {
-        __typename: "ModelRealEstateBankAccountConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      bankMovements?:  {
-        __typename: "ModelBankMovementConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-    } | null,
-  } | null,
-};
-
-export type ListDocumentsQueryVariables = {
-  filter?: ModelDocumentFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type ListDocumentsQuery = {
-  listDocuments?:  {
-    __typename: "ModelDocumentConnection",
-    items?:  Array< {
-      __typename: "Document",
-      id: string,
-      realEstateId: string,
-      name: string,
-      key?: string | null,
-      s3file: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-      createdAt: string,
-      updatedAt: string,
-      realEstate?:  {
-        __typename: "RealEstate",
-        id: string,
-        name: string,
-        iconUri: string,
-        purchaseYear?: number | null,
-        type?: RealEstateType | null,
-        ownName?: boolean | null,
-        company?: CompanyType | null,
-        detentionPart?: number | null,
-        typeImpot?: TaxType | null,
-        admins: Array< string >,
-        shared?: Array< string > | null,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
-        createdAt: string,
-        updatedAt: string,
-      } | null,
-    } | null > | null,
-    nextToken?: string | null,
-    startedAt?: number | null,
-  } | null,
-};
-
-export type DocumentByKeyQueryVariables = {
-  key?: string | null,
-  sortDirection?: ModelSortDirection | null,
-  filter?: ModelDocumentFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type DocumentByKeyQuery = {
-  documentByKey?:  {
-    __typename: "ModelDocumentConnection",
-    items?:  Array< {
-      __typename: "Document",
-      id: string,
-      realEstateId: string,
-      name: string,
-      key?: string | null,
-      s3file: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-      createdAt: string,
-      updatedAt: string,
-      realEstate?:  {
-        __typename: "RealEstate",
-        id: string,
-        name: string,
-        iconUri: string,
-        purchaseYear?: number | null,
-        type?: RealEstateType | null,
-        ownName?: boolean | null,
-        company?: CompanyType | null,
-        detentionPart?: number | null,
-        typeImpot?: TaxType | null,
-        admins: Array< string >,
-        shared?: Array< string > | null,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
-        createdAt: string,
-        updatedAt: string,
-      } | null,
-    } | null > | null,
-    nextToken?: string | null,
-    startedAt?: number | null,
   } | null,
 };
 
@@ -4779,7 +4549,7 @@ export type SyncUsersQuery = {
 };
 
 export type GetUserQueryVariables = {
-  id: string,
+  id?: string,
 };
 
 export type GetUserQuery = {
@@ -4853,8 +4623,91 @@ export type ListUsersQuery = {
   } | null,
 };
 
+export type ListRealEstatesQueryVariables = {
+  filter?: ModelRealEstateFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListRealEstatesQuery = {
+  listRealEstates?:  {
+    __typename: "ModelRealEstateConnection",
+    items?:  Array< {
+      __typename: "RealEstate",
+      id: string,
+      name: string,
+      iconUri: string,
+      purchaseYear?: number | null,
+      type?: RealEstateType | null,
+      ownName?: boolean | null,
+      company?: CompanyType | null,
+      detentionPart?: number | null,
+      typeImpot?: TaxType | null,
+      admins: Array< string >,
+      shared?: Array< string > | null,
+      address?:  {
+        __typename: "Address",
+        address: string,
+        additionalAddress?: string | null,
+        postalCode: string,
+        city: string,
+        country: string,
+      } | null,
+      tenants?:  Array< {
+        __typename: "TenantInfo",
+        id: string,
+        amount: number,
+        rentalCharges?: number | null,
+        managementFees?: number | null,
+        lastname: string,
+        firstname: string,
+        email: string,
+        startDate: string,
+        endDate?: string | null,
+      } | null > | null,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+      createdAt: string,
+      updatedAt: string,
+      pendingInvitations?:  {
+        __typename: "ModelPendingInvitationConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      documents?:  {
+        __typename: "ModelDocumentConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      budgetLines?:  {
+        __typename: "ModelBudgetLineConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      budgetLineDeadlines?:  {
+        __typename: "ModelBudgetLineDeadlineConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      bankAccounts?:  {
+        __typename: "ModelRealEstateBankAccountConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      bankMovements?:  {
+        __typename: "ModelBankMovementConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+    } | null > | null,
+    nextToken?: string | null,
+    startedAt?: number | null,
+  } | null,
+};
+
 export type GetRealEstateQueryVariables = {
-  id: string,
+  id?: string,
 };
 
 export type GetRealEstateQuery = {
@@ -4869,24 +4722,6 @@ export type GetRealEstateQuery = {
     company?: CompanyType | null,
     detentionPart?: number | null,
     typeImpot?: TaxType | null,
-    documents?:  {
-      __typename: "ModelDocumentConnection",
-      items?:  Array< {
-        __typename: "Document",
-        id: string,
-        realEstateId: string,
-        name: string,
-        key?: string | null,
-        s3file: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
-        createdAt: string,
-        updatedAt: string,
-      } | null > | null,
-      nextToken?: string | null,
-      startedAt?: number | null,
-    } | null,
     admins: Array< string >,
     shared?: Array< string > | null,
     address?:  {
@@ -4922,6 +4757,24 @@ export type GetRealEstateQuery = {
         realEstateId: string,
         email: string,
         type: InvitationType,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
+    documents?:  {
+      __typename: "ModelDocumentConnection",
+      items?:  Array< {
+        __typename: "Document",
+        id: string,
+        realEstateId: string,
+        name: string,
+        key?: string | null,
+        s3file: string,
         _version: number,
         _deleted?: boolean | null,
         _lastChangedAt: number,
@@ -5015,89 +4868,6 @@ export type GetRealEstateQuery = {
   } | null,
 };
 
-export type ListRealEstatesQueryVariables = {
-  filter?: ModelRealEstateFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type ListRealEstatesQuery = {
-  listRealEstates?:  {
-    __typename: "ModelRealEstateConnection",
-    items?:  Array< {
-      __typename: "RealEstate",
-      id: string,
-      name: string,
-      iconUri: string,
-      purchaseYear?: number | null,
-      type?: RealEstateType | null,
-      ownName?: boolean | null,
-      company?: CompanyType | null,
-      detentionPart?: number | null,
-      typeImpot?: TaxType | null,
-      documents?:  {
-        __typename: "ModelDocumentConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      admins: Array< string >,
-      shared?: Array< string > | null,
-      address?:  {
-        __typename: "Address",
-        address: string,
-        additionalAddress?: string | null,
-        postalCode: string,
-        city: string,
-        country: string,
-      } | null,
-      tenants?:  Array< {
-        __typename: "TenantInfo",
-        id: string,
-        amount: number,
-        rentalCharges?: number | null,
-        managementFees?: number | null,
-        lastname: string,
-        firstname: string,
-        email: string,
-        startDate: string,
-        endDate?: string | null,
-      } | null > | null,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-      createdAt: string,
-      updatedAt: string,
-      pendingInvitations?:  {
-        __typename: "ModelPendingInvitationConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      budgetLines?:  {
-        __typename: "ModelBudgetLineConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      budgetLineDeadlines?:  {
-        __typename: "ModelBudgetLineDeadlineConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      bankAccounts?:  {
-        __typename: "ModelRealEstateBankAccountConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      bankMovements?:  {
-        __typename: "ModelBankMovementConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-    } | null > | null,
-    nextToken?: string | null,
-    startedAt?: number | null,
-  } | null,
-};
-
 export type SyncRealEstatesQueryVariables = {
   filter?: ModelRealEstateFilterInput | null,
   limit?: number | null,
@@ -5119,11 +4889,6 @@ export type SyncRealEstatesQuery = {
       company?: CompanyType | null,
       detentionPart?: number | null,
       typeImpot?: TaxType | null,
-      documents?:  {
-        __typename: "ModelDocumentConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
       admins: Array< string >,
       shared?: Array< string > | null,
       address?:  {
@@ -5153,6 +4918,11 @@ export type SyncRealEstatesQuery = {
       updatedAt: string,
       pendingInvitations?:  {
         __typename: "ModelPendingInvitationConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      documents?:  {
+        __typename: "ModelDocumentConnection",
         nextToken?: string | null,
         startedAt?: number | null,
       } | null,
@@ -5183,7 +4953,7 @@ export type SyncRealEstatesQuery = {
 };
 
 export type GetPendingInvitationQueryVariables = {
-  id: string,
+  id?: string,
 };
 
 export type GetPendingInvitationQuery = {
@@ -5209,11 +4979,6 @@ export type GetPendingInvitationQuery = {
       company?: CompanyType | null,
       detentionPart?: number | null,
       typeImpot?: TaxType | null,
-      documents?:  {
-        __typename: "ModelDocumentConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
       admins: Array< string >,
       shared?: Array< string > | null,
       address?:  {
@@ -5243,6 +5008,11 @@ export type GetPendingInvitationQuery = {
       updatedAt: string,
       pendingInvitations?:  {
         __typename: "ModelPendingInvitationConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      documents?:  {
+        __typename: "ModelDocumentConnection",
         nextToken?: string | null,
         startedAt?: number | null,
       } | null,
@@ -5408,37 +5178,18 @@ export type SyncPendingInvitationsQuery = {
   } | null,
 };
 
-export type GetBudgetLineQueryVariables = {
-  id: string,
+export type GetDocumentQueryVariables = {
+  id?: string,
 };
 
-export type GetBudgetLineQuery = {
-  getBudgetLine?:  {
-    __typename: "BudgetLine",
+export type GetDocumentQuery = {
+  getDocument?:  {
+    __typename: "Document",
     id: string,
     realEstateId: string,
-    type: BudgetLineType,
-    category: string,
-    amount: number,
-    frequency: Frequency,
-    nextDueDate?: string | null,
-    infoCredit?:  {
-      __typename: "MortgageLoanInfo",
-      borrowedCapital: number,
-      loadStartDate?: string | null,
-      duration?: number | null,
-      interestRate?: number | null,
-      assuranceRate?: number | null,
-      amortizationTable?:  Array< {
-        __typename: "AmortizationTable",
-        dueDate?: string | null,
-        amount?: number | null,
-        interest?: number | null,
-        assurance?: number | null,
-        amortizedCapital?: number | null,
-      } | null > | null,
-    } | null,
-    tenantId?: string | null,
+    name: string,
+    key?: string | null,
+    s3file: string,
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
@@ -5455,11 +5206,6 @@ export type GetBudgetLineQuery = {
       company?: CompanyType | null,
       detentionPart?: number | null,
       typeImpot?: TaxType | null,
-      documents?:  {
-        __typename: "ModelDocumentConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
       admins: Array< string >,
       shared?: Array< string > | null,
       address?:  {
@@ -5492,6 +5238,11 @@ export type GetBudgetLineQuery = {
         nextToken?: string | null,
         startedAt?: number | null,
       } | null,
+      documents?:  {
+        __typename: "ModelDocumentConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
       budgetLines?:  {
         __typename: "ModelBudgetLineConnection",
         nextToken?: string | null,
@@ -5513,6 +5264,147 @@ export type GetBudgetLineQuery = {
         startedAt?: number | null,
       } | null,
     } | null,
+  } | null,
+};
+
+export type ListDocumentsQueryVariables = {
+  filter?: ModelDocumentFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListDocumentsQuery = {
+  listDocuments?:  {
+    __typename: "ModelDocumentConnection",
+    items?:  Array< {
+      __typename: "Document",
+      id: string,
+      realEstateId: string,
+      name: string,
+      key?: string | null,
+      s3file: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+      createdAt: string,
+      updatedAt: string,
+      realEstate?:  {
+        __typename: "RealEstate",
+        id: string,
+        name: string,
+        iconUri: string,
+        purchaseYear?: number | null,
+        type?: RealEstateType | null,
+        ownName?: boolean | null,
+        company?: CompanyType | null,
+        detentionPart?: number | null,
+        typeImpot?: TaxType | null,
+        admins: Array< string >,
+        shared?: Array< string > | null,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
+    } | null > | null,
+    nextToken?: string | null,
+    startedAt?: number | null,
+  } | null,
+};
+
+export type DocumentByKeyQueryVariables = {
+  key?: string | null,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelDocumentFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type DocumentByKeyQuery = {
+  documentByKey?:  {
+    __typename: "ModelDocumentConnection",
+    items?:  Array< {
+      __typename: "Document",
+      id: string,
+      realEstateId: string,
+      name: string,
+      key?: string | null,
+      s3file: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+      createdAt: string,
+      updatedAt: string,
+      realEstate?:  {
+        __typename: "RealEstate",
+        id: string,
+        name: string,
+        iconUri: string,
+        purchaseYear?: number | null,
+        type?: RealEstateType | null,
+        ownName?: boolean | null,
+        company?: CompanyType | null,
+        detentionPart?: number | null,
+        typeImpot?: TaxType | null,
+        admins: Array< string >,
+        shared?: Array< string > | null,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
+    } | null > | null,
+    nextToken?: string | null,
+    startedAt?: number | null,
+  } | null,
+};
+
+export type SyncDocumentsQueryVariables = {
+  filter?: ModelDocumentFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+  lastSync?: number | null,
+};
+
+export type SyncDocumentsQuery = {
+  syncDocuments?:  {
+    __typename: "ModelDocumentConnection",
+    items?:  Array< {
+      __typename: "Document",
+      id: string,
+      realEstateId: string,
+      name: string,
+      key?: string | null,
+      s3file: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+      createdAt: string,
+      updatedAt: string,
+      realEstate?:  {
+        __typename: "RealEstate",
+        id: string,
+        name: string,
+        iconUri: string,
+        purchaseYear?: number | null,
+        type?: RealEstateType | null,
+        ownName?: boolean | null,
+        company?: CompanyType | null,
+        detentionPart?: number | null,
+        typeImpot?: TaxType | null,
+        admins: Array< string >,
+        shared?: Array< string > | null,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
+    } | null > | null,
+    nextToken?: string | null,
+    startedAt?: number | null,
   } | null,
 };
 
@@ -5573,6 +5465,114 @@ export type ListBudgetLinesQuery = {
   } | null,
 };
 
+export type GetBudgetLineQueryVariables = {
+  id?: string,
+};
+
+export type GetBudgetLineQuery = {
+  getBudgetLine?:  {
+    __typename: "BudgetLine",
+    id: string,
+    realEstateId: string,
+    type: BudgetLineType,
+    category: string,
+    amount: number,
+    frequency: Frequency,
+    nextDueDate?: string | null,
+    infoCredit?:  {
+      __typename: "MortgageLoanInfo",
+      borrowedCapital: number,
+      loadStartDate?: string | null,
+      duration?: number | null,
+      interestRate?: number | null,
+      assuranceRate?: number | null,
+      amortizationTable?:  Array< {
+        __typename: "AmortizationTable",
+        dueDate?: string | null,
+        amount?: number | null,
+        interest?: number | null,
+        assurance?: number | null,
+        amortizedCapital?: number | null,
+      } | null > | null,
+    } | null,
+    tenantId?: string | null,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+    createdAt: string,
+    updatedAt: string,
+    realEstate?:  {
+      __typename: "RealEstate",
+      id: string,
+      name: string,
+      iconUri: string,
+      purchaseYear?: number | null,
+      type?: RealEstateType | null,
+      ownName?: boolean | null,
+      company?: CompanyType | null,
+      detentionPart?: number | null,
+      typeImpot?: TaxType | null,
+      admins: Array< string >,
+      shared?: Array< string > | null,
+      address?:  {
+        __typename: "Address",
+        address: string,
+        additionalAddress?: string | null,
+        postalCode: string,
+        city: string,
+        country: string,
+      } | null,
+      tenants?:  Array< {
+        __typename: "TenantInfo",
+        id: string,
+        amount: number,
+        rentalCharges?: number | null,
+        managementFees?: number | null,
+        lastname: string,
+        firstname: string,
+        email: string,
+        startDate: string,
+        endDate?: string | null,
+      } | null > | null,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+      createdAt: string,
+      updatedAt: string,
+      pendingInvitations?:  {
+        __typename: "ModelPendingInvitationConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      documents?:  {
+        __typename: "ModelDocumentConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      budgetLines?:  {
+        __typename: "ModelBudgetLineConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      budgetLineDeadlines?:  {
+        __typename: "ModelBudgetLineDeadlineConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      bankAccounts?:  {
+        __typename: "ModelRealEstateBankAccountConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      bankMovements?:  {
+        __typename: "ModelBankMovementConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+    } | null,
+  } | null,
+};
+
 export type SyncBudgetLinesQueryVariables = {
   filter?: ModelBudgetLineFilterInput | null,
   limit?: number | null,
@@ -5628,148 +5628,6 @@ export type SyncBudgetLinesQuery = {
     } | null > | null,
     nextToken?: string | null,
     startedAt?: number | null,
-  } | null,
-};
-
-export type GetBudgetLineDeadlineQueryVariables = {
-  id: string,
-};
-
-export type GetBudgetLineDeadlineQuery = {
-  getBudgetLineDeadline?:  {
-    __typename: "BudgetLineDeadline",
-    id: string,
-    realEstateId: string,
-    budgetLineId: string,
-    type: BudgetLineType,
-    category: string,
-    amount: number,
-    frequency: Frequency,
-    date?: string | null,
-    infoCredit?:  {
-      __typename: "MortgageLoanDeadlineInfo",
-      amount?: number | null,
-      interest?: number | null,
-      assurance?: number | null,
-    } | null,
-    tenantId?: string | null,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
-    createdAt: string,
-    updatedAt: string,
-    realEstate?:  {
-      __typename: "RealEstate",
-      id: string,
-      name: string,
-      iconUri: string,
-      purchaseYear?: number | null,
-      type?: RealEstateType | null,
-      ownName?: boolean | null,
-      company?: CompanyType | null,
-      detentionPart?: number | null,
-      typeImpot?: TaxType | null,
-      documents?:  {
-        __typename: "ModelDocumentConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      admins: Array< string >,
-      shared?: Array< string > | null,
-      address?:  {
-        __typename: "Address",
-        address: string,
-        additionalAddress?: string | null,
-        postalCode: string,
-        city: string,
-        country: string,
-      } | null,
-      tenants?:  Array< {
-        __typename: "TenantInfo",
-        id: string,
-        amount: number,
-        rentalCharges?: number | null,
-        managementFees?: number | null,
-        lastname: string,
-        firstname: string,
-        email: string,
-        startDate: string,
-        endDate?: string | null,
-      } | null > | null,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-      createdAt: string,
-      updatedAt: string,
-      pendingInvitations?:  {
-        __typename: "ModelPendingInvitationConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      budgetLines?:  {
-        __typename: "ModelBudgetLineConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      budgetLineDeadlines?:  {
-        __typename: "ModelBudgetLineDeadlineConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      bankAccounts?:  {
-        __typename: "ModelRealEstateBankAccountConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      bankMovements?:  {
-        __typename: "ModelBankMovementConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-    } | null,
-    budgetLine?:  {
-      __typename: "BudgetLine",
-      id: string,
-      realEstateId: string,
-      type: BudgetLineType,
-      category: string,
-      amount: number,
-      frequency: Frequency,
-      nextDueDate?: string | null,
-      infoCredit?:  {
-        __typename: "MortgageLoanInfo",
-        borrowedCapital: number,
-        loadStartDate?: string | null,
-        duration?: number | null,
-        interestRate?: number | null,
-        assuranceRate?: number | null,
-      } | null,
-      tenantId?: string | null,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-      createdAt: string,
-      updatedAt: string,
-      realEstate?:  {
-        __typename: "RealEstate",
-        id: string,
-        name: string,
-        iconUri: string,
-        purchaseYear?: number | null,
-        type?: RealEstateType | null,
-        ownName?: boolean | null,
-        company?: CompanyType | null,
-        detentionPart?: number | null,
-        typeImpot?: TaxType | null,
-        admins: Array< string >,
-        shared?: Array< string > | null,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
-        createdAt: string,
-        updatedAt: string,
-      } | null,
-    } | null,
   } | null,
 };
 
@@ -5842,6 +5700,148 @@ export type ListBudgetLineDeadlinesQuery = {
     } | null > | null,
     nextToken?: string | null,
     startedAt?: number | null,
+  } | null,
+};
+
+export type GetBudgetLineDeadlineQueryVariables = {
+  id?: string,
+};
+
+export type GetBudgetLineDeadlineQuery = {
+  getBudgetLineDeadline?:  {
+    __typename: "BudgetLineDeadline",
+    id: string,
+    realEstateId: string,
+    budgetLineId: string,
+    type: BudgetLineType,
+    category: string,
+    amount: number,
+    frequency: Frequency,
+    date?: string | null,
+    infoCredit?:  {
+      __typename: "MortgageLoanDeadlineInfo",
+      amount?: number | null,
+      interest?: number | null,
+      assurance?: number | null,
+    } | null,
+    tenantId?: string | null,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+    createdAt: string,
+    updatedAt: string,
+    realEstate?:  {
+      __typename: "RealEstate",
+      id: string,
+      name: string,
+      iconUri: string,
+      purchaseYear?: number | null,
+      type?: RealEstateType | null,
+      ownName?: boolean | null,
+      company?: CompanyType | null,
+      detentionPart?: number | null,
+      typeImpot?: TaxType | null,
+      admins: Array< string >,
+      shared?: Array< string > | null,
+      address?:  {
+        __typename: "Address",
+        address: string,
+        additionalAddress?: string | null,
+        postalCode: string,
+        city: string,
+        country: string,
+      } | null,
+      tenants?:  Array< {
+        __typename: "TenantInfo",
+        id: string,
+        amount: number,
+        rentalCharges?: number | null,
+        managementFees?: number | null,
+        lastname: string,
+        firstname: string,
+        email: string,
+        startDate: string,
+        endDate?: string | null,
+      } | null > | null,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+      createdAt: string,
+      updatedAt: string,
+      pendingInvitations?:  {
+        __typename: "ModelPendingInvitationConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      documents?:  {
+        __typename: "ModelDocumentConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      budgetLines?:  {
+        __typename: "ModelBudgetLineConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      budgetLineDeadlines?:  {
+        __typename: "ModelBudgetLineDeadlineConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      bankAccounts?:  {
+        __typename: "ModelRealEstateBankAccountConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      bankMovements?:  {
+        __typename: "ModelBankMovementConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+    } | null,
+    budgetLine?:  {
+      __typename: "BudgetLine",
+      id: string,
+      realEstateId: string,
+      type: BudgetLineType,
+      category: string,
+      amount: number,
+      frequency: Frequency,
+      nextDueDate?: string | null,
+      infoCredit?:  {
+        __typename: "MortgageLoanInfo",
+        borrowedCapital: number,
+        loadStartDate?: string | null,
+        duration?: number | null,
+        interestRate?: number | null,
+        assuranceRate?: number | null,
+      } | null,
+      tenantId?: string | null,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+      createdAt: string,
+      updatedAt: string,
+      realEstate?:  {
+        __typename: "RealEstate",
+        id: string,
+        name: string,
+        iconUri: string,
+        purchaseYear?: number | null,
+        type?: RealEstateType | null,
+        ownName?: boolean | null,
+        company?: CompanyType | null,
+        detentionPart?: number | null,
+        typeImpot?: TaxType | null,
+        admins: Array< string >,
+        shared?: Array< string > | null,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
+    } | null,
   } | null,
 };
 
@@ -5919,7 +5919,7 @@ export type SyncBudgetLineDeadlinesQuery = {
 };
 
 export type GetRealEstateBankAccountQueryVariables = {
-  id: string,
+  id?: string,
 };
 
 export type GetRealEstateBankAccountQuery = {
@@ -5944,11 +5944,6 @@ export type GetRealEstateBankAccountQuery = {
       company?: CompanyType | null,
       detentionPart?: number | null,
       typeImpot?: TaxType | null,
-      documents?:  {
-        __typename: "ModelDocumentConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
       admins: Array< string >,
       shared?: Array< string > | null,
       address?:  {
@@ -5978,6 +5973,11 @@ export type GetRealEstateBankAccountQuery = {
       updatedAt: string,
       pendingInvitations?:  {
         __typename: "ModelPendingInvitationConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      documents?:  {
+        __typename: "ModelDocumentConnection",
         nextToken?: string | null,
         startedAt?: number | null,
       } | null,
@@ -6223,8 +6223,50 @@ export type SyncRealEstateBankAccountsQuery = {
   } | null,
 };
 
+export type ListBankAccountsQueryVariables = {
+  filter?: ModelBankAccountFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListBankAccountsQuery = {
+  listBankAccounts?:  {
+    __typename: "ModelBankAccountConnection",
+    items?:  Array< {
+      __typename: "BankAccount",
+      id: string,
+      bank?: string | null,
+      accountOwner?: string | null,
+      name?: string | null,
+      iban?: string | null,
+      bic?: string | null,
+      balance: number,
+      biId: number,
+      biConnectionId: number,
+      biState?: string | null,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+      createdAt: string,
+      updatedAt: string,
+      realEstates?:  {
+        __typename: "ModelRealEstateBankAccountConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      movements?:  {
+        __typename: "ModelBankMovementConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+    } | null > | null,
+    nextToken?: string | null,
+    startedAt?: number | null,
+  } | null,
+};
+
 export type GetBankAccountQueryVariables = {
-  id: string,
+  id?: string,
 };
 
 export type GetBankAccountQuery = {
@@ -6283,48 +6325,6 @@ export type GetBankAccountQuery = {
       nextToken?: string | null,
       startedAt?: number | null,
     } | null,
-  } | null,
-};
-
-export type ListBankAccountsQueryVariables = {
-  filter?: ModelBankAccountFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type ListBankAccountsQuery = {
-  listBankAccounts?:  {
-    __typename: "ModelBankAccountConnection",
-    items?:  Array< {
-      __typename: "BankAccount",
-      id: string,
-      bank?: string | null,
-      accountOwner?: string | null,
-      name?: string | null,
-      iban?: string | null,
-      bic?: string | null,
-      balance: number,
-      biId: number,
-      biConnectionId: number,
-      biState?: string | null,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-      createdAt: string,
-      updatedAt: string,
-      realEstates?:  {
-        __typename: "ModelRealEstateBankAccountConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      movements?:  {
-        __typename: "ModelBankMovementConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-    } | null > | null,
-    nextToken?: string | null,
-    startedAt?: number | null,
   } | null,
 };
 
@@ -6460,7 +6460,7 @@ export type SyncBankAccountsQuery = {
 };
 
 export type GetBankMovementQueryVariables = {
-  id: string,
+  id?: string,
 };
 
 export type GetBankMovementQuery = {
@@ -6491,11 +6491,6 @@ export type GetBankMovementQuery = {
       company?: CompanyType | null,
       detentionPart?: number | null,
       typeImpot?: TaxType | null,
-      documents?:  {
-        __typename: "ModelDocumentConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
       admins: Array< string >,
       shared?: Array< string > | null,
       address?:  {
@@ -6525,6 +6520,11 @@ export type GetBankMovementQuery = {
       updatedAt: string,
       pendingInvitations?:  {
         __typename: "ModelPendingInvitationConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      documents?:  {
+        __typename: "ModelDocumentConnection",
         nextToken?: string | null,
         startedAt?: number | null,
       } | null,
@@ -6897,7 +6897,7 @@ export type SyncBankMovementsQuery = {
 };
 
 export type GetNotificationQueryVariables = {
-  id: string,
+  id?: string,
 };
 
 export type GetNotificationQuery = {
@@ -7030,7 +7030,7 @@ export type SyncNotificationsQuery = {
 };
 
 export type GetBillingHistoryQueryVariables = {
-  id: string,
+  id?: string,
 };
 
 export type GetBillingHistoryQuery = {
@@ -7168,261 +7168,6 @@ export type SyncBillingHistoriesQuery = {
   } | null,
 };
 
-export type OnCreateDocumentSubscription = {
-  onCreateDocument?:  {
-    __typename: "Document",
-    id: string,
-    realEstateId: string,
-    name: string,
-    key?: string | null,
-    s3file: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
-    createdAt: string,
-    updatedAt: string,
-    realEstate?:  {
-      __typename: "RealEstate",
-      id: string,
-      name: string,
-      iconUri: string,
-      purchaseYear?: number | null,
-      type?: RealEstateType | null,
-      ownName?: boolean | null,
-      company?: CompanyType | null,
-      detentionPart?: number | null,
-      typeImpot?: TaxType | null,
-      documents?:  {
-        __typename: "ModelDocumentConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      admins: Array< string >,
-      shared?: Array< string > | null,
-      address?:  {
-        __typename: "Address",
-        address: string,
-        additionalAddress?: string | null,
-        postalCode: string,
-        city: string,
-        country: string,
-      } | null,
-      tenants?:  Array< {
-        __typename: "TenantInfo",
-        id: string,
-        amount: number,
-        rentalCharges?: number | null,
-        managementFees?: number | null,
-        lastname: string,
-        firstname: string,
-        email: string,
-        startDate: string,
-        endDate?: string | null,
-      } | null > | null,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-      createdAt: string,
-      updatedAt: string,
-      pendingInvitations?:  {
-        __typename: "ModelPendingInvitationConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      budgetLines?:  {
-        __typename: "ModelBudgetLineConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      budgetLineDeadlines?:  {
-        __typename: "ModelBudgetLineDeadlineConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      bankAccounts?:  {
-        __typename: "ModelRealEstateBankAccountConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      bankMovements?:  {
-        __typename: "ModelBankMovementConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-    } | null,
-  } | null,
-};
-
-export type OnUpdateDocumentSubscription = {
-  onUpdateDocument?:  {
-    __typename: "Document",
-    id: string,
-    realEstateId: string,
-    name: string,
-    key?: string | null,
-    s3file: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
-    createdAt: string,
-    updatedAt: string,
-    realEstate?:  {
-      __typename: "RealEstate",
-      id: string,
-      name: string,
-      iconUri: string,
-      purchaseYear?: number | null,
-      type?: RealEstateType | null,
-      ownName?: boolean | null,
-      company?: CompanyType | null,
-      detentionPart?: number | null,
-      typeImpot?: TaxType | null,
-      documents?:  {
-        __typename: "ModelDocumentConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      admins: Array< string >,
-      shared?: Array< string > | null,
-      address?:  {
-        __typename: "Address",
-        address: string,
-        additionalAddress?: string | null,
-        postalCode: string,
-        city: string,
-        country: string,
-      } | null,
-      tenants?:  Array< {
-        __typename: "TenantInfo",
-        id: string,
-        amount: number,
-        rentalCharges?: number | null,
-        managementFees?: number | null,
-        lastname: string,
-        firstname: string,
-        email: string,
-        startDate: string,
-        endDate?: string | null,
-      } | null > | null,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-      createdAt: string,
-      updatedAt: string,
-      pendingInvitations?:  {
-        __typename: "ModelPendingInvitationConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      budgetLines?:  {
-        __typename: "ModelBudgetLineConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      budgetLineDeadlines?:  {
-        __typename: "ModelBudgetLineDeadlineConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      bankAccounts?:  {
-        __typename: "ModelRealEstateBankAccountConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      bankMovements?:  {
-        __typename: "ModelBankMovementConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-    } | null,
-  } | null,
-};
-
-export type OnDeleteDocumentSubscription = {
-  onDeleteDocument?:  {
-    __typename: "Document",
-    id: string,
-    realEstateId: string,
-    name: string,
-    key?: string | null,
-    s3file: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
-    createdAt: string,
-    updatedAt: string,
-    realEstate?:  {
-      __typename: "RealEstate",
-      id: string,
-      name: string,
-      iconUri: string,
-      purchaseYear?: number | null,
-      type?: RealEstateType | null,
-      ownName?: boolean | null,
-      company?: CompanyType | null,
-      detentionPart?: number | null,
-      typeImpot?: TaxType | null,
-      documents?:  {
-        __typename: "ModelDocumentConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      admins: Array< string >,
-      shared?: Array< string > | null,
-      address?:  {
-        __typename: "Address",
-        address: string,
-        additionalAddress?: string | null,
-        postalCode: string,
-        city: string,
-        country: string,
-      } | null,
-      tenants?:  Array< {
-        __typename: "TenantInfo",
-        id: string,
-        amount: number,
-        rentalCharges?: number | null,
-        managementFees?: number | null,
-        lastname: string,
-        firstname: string,
-        email: string,
-        startDate: string,
-        endDate?: string | null,
-      } | null > | null,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-      createdAt: string,
-      updatedAt: string,
-      pendingInvitations?:  {
-        __typename: "ModelPendingInvitationConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      budgetLines?:  {
-        __typename: "ModelBudgetLineConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      budgetLineDeadlines?:  {
-        __typename: "ModelBudgetLineDeadlineConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      bankAccounts?:  {
-        __typename: "ModelRealEstateBankAccountConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      bankMovements?:  {
-        __typename: "ModelBankMovementConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-    } | null,
-  } | null,
-};
-
 export type OnCreateUserSubscription = {
   onCreateUser?:  {
     __typename: "User",
@@ -7542,24 +7287,6 @@ export type OnCreateRealEstateSubscription = {
     company?: CompanyType | null,
     detentionPart?: number | null,
     typeImpot?: TaxType | null,
-    documents?:  {
-      __typename: "ModelDocumentConnection",
-      items?:  Array< {
-        __typename: "Document",
-        id: string,
-        realEstateId: string,
-        name: string,
-        key?: string | null,
-        s3file: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
-        createdAt: string,
-        updatedAt: string,
-      } | null > | null,
-      nextToken?: string | null,
-      startedAt?: number | null,
-    } | null,
     admins: Array< string >,
     shared?: Array< string > | null,
     address?:  {
@@ -7595,6 +7322,24 @@ export type OnCreateRealEstateSubscription = {
         realEstateId: string,
         email: string,
         type: InvitationType,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
+    documents?:  {
+      __typename: "ModelDocumentConnection",
+      items?:  Array< {
+        __typename: "Document",
+        id: string,
+        realEstateId: string,
+        name: string,
+        key?: string | null,
+        s3file: string,
         _version: number,
         _deleted?: boolean | null,
         _lastChangedAt: number,
@@ -7705,24 +7450,6 @@ export type OnUpdateRealEstateSubscription = {
     company?: CompanyType | null,
     detentionPart?: number | null,
     typeImpot?: TaxType | null,
-    documents?:  {
-      __typename: "ModelDocumentConnection",
-      items?:  Array< {
-        __typename: "Document",
-        id: string,
-        realEstateId: string,
-        name: string,
-        key?: string | null,
-        s3file: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
-        createdAt: string,
-        updatedAt: string,
-      } | null > | null,
-      nextToken?: string | null,
-      startedAt?: number | null,
-    } | null,
     admins: Array< string >,
     shared?: Array< string > | null,
     address?:  {
@@ -7758,6 +7485,24 @@ export type OnUpdateRealEstateSubscription = {
         realEstateId: string,
         email: string,
         type: InvitationType,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
+    documents?:  {
+      __typename: "ModelDocumentConnection",
+      items?:  Array< {
+        __typename: "Document",
+        id: string,
+        realEstateId: string,
+        name: string,
+        key?: string | null,
+        s3file: string,
         _version: number,
         _deleted?: boolean | null,
         _lastChangedAt: number,
@@ -7868,24 +7613,6 @@ export type OnDeleteRealEstateSubscription = {
     company?: CompanyType | null,
     detentionPart?: number | null,
     typeImpot?: TaxType | null,
-    documents?:  {
-      __typename: "ModelDocumentConnection",
-      items?:  Array< {
-        __typename: "Document",
-        id: string,
-        realEstateId: string,
-        name: string,
-        key?: string | null,
-        s3file: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
-        createdAt: string,
-        updatedAt: string,
-      } | null > | null,
-      nextToken?: string | null,
-      startedAt?: number | null,
-    } | null,
     admins: Array< string >,
     shared?: Array< string > | null,
     address?:  {
@@ -7921,6 +7648,24 @@ export type OnDeleteRealEstateSubscription = {
         realEstateId: string,
         email: string,
         type: InvitationType,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
+    documents?:  {
+      __typename: "ModelDocumentConnection",
+      items?:  Array< {
+        __typename: "Document",
+        id: string,
+        realEstateId: string,
+        name: string,
+        key?: string | null,
+        s3file: string,
         _version: number,
         _deleted?: boolean | null,
         _lastChangedAt: number,
@@ -8037,11 +7782,6 @@ export type OnCreatePendingInvitationSubscription = {
       company?: CompanyType | null,
       detentionPart?: number | null,
       typeImpot?: TaxType | null,
-      documents?:  {
-        __typename: "ModelDocumentConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
       admins: Array< string >,
       shared?: Array< string > | null,
       address?:  {
@@ -8071,6 +7811,11 @@ export type OnCreatePendingInvitationSubscription = {
       updatedAt: string,
       pendingInvitations?:  {
         __typename: "ModelPendingInvitationConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      documents?:  {
+        __typename: "ModelDocumentConnection",
         nextToken?: string | null,
         startedAt?: number | null,
       } | null,
@@ -8121,11 +7866,6 @@ export type OnUpdatePendingInvitationSubscription = {
       company?: CompanyType | null,
       detentionPart?: number | null,
       typeImpot?: TaxType | null,
-      documents?:  {
-        __typename: "ModelDocumentConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
       admins: Array< string >,
       shared?: Array< string > | null,
       address?:  {
@@ -8155,6 +7895,11 @@ export type OnUpdatePendingInvitationSubscription = {
       updatedAt: string,
       pendingInvitations?:  {
         __typename: "ModelPendingInvitationConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      documents?:  {
+        __typename: "ModelDocumentConnection",
         nextToken?: string | null,
         startedAt?: number | null,
       } | null,
@@ -8205,11 +7950,6 @@ export type OnDeletePendingInvitationSubscription = {
       company?: CompanyType | null,
       detentionPart?: number | null,
       typeImpot?: TaxType | null,
-      documents?:  {
-        __typename: "ModelDocumentConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
       admins: Array< string >,
       shared?: Array< string > | null,
       address?:  {
@@ -8239,6 +7979,266 @@ export type OnDeletePendingInvitationSubscription = {
       updatedAt: string,
       pendingInvitations?:  {
         __typename: "ModelPendingInvitationConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      documents?:  {
+        __typename: "ModelDocumentConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      budgetLines?:  {
+        __typename: "ModelBudgetLineConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      budgetLineDeadlines?:  {
+        __typename: "ModelBudgetLineDeadlineConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      bankAccounts?:  {
+        __typename: "ModelRealEstateBankAccountConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      bankMovements?:  {
+        __typename: "ModelBankMovementConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+    } | null,
+  } | null,
+};
+
+export type OnCreateDocumentSubscription = {
+  onCreateDocument?:  {
+    __typename: "Document",
+    id: string,
+    realEstateId: string,
+    name: string,
+    key?: string | null,
+    s3file: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+    createdAt: string,
+    updatedAt: string,
+    realEstate?:  {
+      __typename: "RealEstate",
+      id: string,
+      name: string,
+      iconUri: string,
+      purchaseYear?: number | null,
+      type?: RealEstateType | null,
+      ownName?: boolean | null,
+      company?: CompanyType | null,
+      detentionPart?: number | null,
+      typeImpot?: TaxType | null,
+      admins: Array< string >,
+      shared?: Array< string > | null,
+      address?:  {
+        __typename: "Address",
+        address: string,
+        additionalAddress?: string | null,
+        postalCode: string,
+        city: string,
+        country: string,
+      } | null,
+      tenants?:  Array< {
+        __typename: "TenantInfo",
+        id: string,
+        amount: number,
+        rentalCharges?: number | null,
+        managementFees?: number | null,
+        lastname: string,
+        firstname: string,
+        email: string,
+        startDate: string,
+        endDate?: string | null,
+      } | null > | null,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+      createdAt: string,
+      updatedAt: string,
+      pendingInvitations?:  {
+        __typename: "ModelPendingInvitationConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      documents?:  {
+        __typename: "ModelDocumentConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      budgetLines?:  {
+        __typename: "ModelBudgetLineConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      budgetLineDeadlines?:  {
+        __typename: "ModelBudgetLineDeadlineConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      bankAccounts?:  {
+        __typename: "ModelRealEstateBankAccountConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      bankMovements?:  {
+        __typename: "ModelBankMovementConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+    } | null,
+  } | null,
+};
+
+export type OnUpdateDocumentSubscription = {
+  onUpdateDocument?:  {
+    __typename: "Document",
+    id: string,
+    realEstateId: string,
+    name: string,
+    key?: string | null,
+    s3file: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+    createdAt: string,
+    updatedAt: string,
+    realEstate?:  {
+      __typename: "RealEstate",
+      id: string,
+      name: string,
+      iconUri: string,
+      purchaseYear?: number | null,
+      type?: RealEstateType | null,
+      ownName?: boolean | null,
+      company?: CompanyType | null,
+      detentionPart?: number | null,
+      typeImpot?: TaxType | null,
+      admins: Array< string >,
+      shared?: Array< string > | null,
+      address?:  {
+        __typename: "Address",
+        address: string,
+        additionalAddress?: string | null,
+        postalCode: string,
+        city: string,
+        country: string,
+      } | null,
+      tenants?:  Array< {
+        __typename: "TenantInfo",
+        id: string,
+        amount: number,
+        rentalCharges?: number | null,
+        managementFees?: number | null,
+        lastname: string,
+        firstname: string,
+        email: string,
+        startDate: string,
+        endDate?: string | null,
+      } | null > | null,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+      createdAt: string,
+      updatedAt: string,
+      pendingInvitations?:  {
+        __typename: "ModelPendingInvitationConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      documents?:  {
+        __typename: "ModelDocumentConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      budgetLines?:  {
+        __typename: "ModelBudgetLineConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      budgetLineDeadlines?:  {
+        __typename: "ModelBudgetLineDeadlineConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      bankAccounts?:  {
+        __typename: "ModelRealEstateBankAccountConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      bankMovements?:  {
+        __typename: "ModelBankMovementConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+    } | null,
+  } | null,
+};
+
+export type OnDeleteDocumentSubscription = {
+  onDeleteDocument?:  {
+    __typename: "Document",
+    id: string,
+    realEstateId: string,
+    name: string,
+    key?: string | null,
+    s3file: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+    createdAt: string,
+    updatedAt: string,
+    realEstate?:  {
+      __typename: "RealEstate",
+      id: string,
+      name: string,
+      iconUri: string,
+      purchaseYear?: number | null,
+      type?: RealEstateType | null,
+      ownName?: boolean | null,
+      company?: CompanyType | null,
+      detentionPart?: number | null,
+      typeImpot?: TaxType | null,
+      admins: Array< string >,
+      shared?: Array< string > | null,
+      address?:  {
+        __typename: "Address",
+        address: string,
+        additionalAddress?: string | null,
+        postalCode: string,
+        city: string,
+        country: string,
+      } | null,
+      tenants?:  Array< {
+        __typename: "TenantInfo",
+        id: string,
+        amount: number,
+        rentalCharges?: number | null,
+        managementFees?: number | null,
+        lastname: string,
+        firstname: string,
+        email: string,
+        startDate: string,
+        endDate?: string | null,
+      } | null > | null,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+      createdAt: string,
+      updatedAt: string,
+      pendingInvitations?:  {
+        __typename: "ModelPendingInvitationConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      documents?:  {
+        __typename: "ModelDocumentConnection",
         nextToken?: string | null,
         startedAt?: number | null,
       } | null,
@@ -8309,11 +8309,6 @@ export type OnCreateBudgetLineSubscription = {
       company?: CompanyType | null,
       detentionPart?: number | null,
       typeImpot?: TaxType | null,
-      documents?:  {
-        __typename: "ModelDocumentConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
       admins: Array< string >,
       shared?: Array< string > | null,
       address?:  {
@@ -8343,6 +8338,11 @@ export type OnCreateBudgetLineSubscription = {
       updatedAt: string,
       pendingInvitations?:  {
         __typename: "ModelPendingInvitationConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      documents?:  {
+        __typename: "ModelDocumentConnection",
         nextToken?: string | null,
         startedAt?: number | null,
       } | null,
@@ -8413,11 +8413,6 @@ export type OnUpdateBudgetLineSubscription = {
       company?: CompanyType | null,
       detentionPart?: number | null,
       typeImpot?: TaxType | null,
-      documents?:  {
-        __typename: "ModelDocumentConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
       admins: Array< string >,
       shared?: Array< string > | null,
       address?:  {
@@ -8447,6 +8442,11 @@ export type OnUpdateBudgetLineSubscription = {
       updatedAt: string,
       pendingInvitations?:  {
         __typename: "ModelPendingInvitationConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      documents?:  {
+        __typename: "ModelDocumentConnection",
         nextToken?: string | null,
         startedAt?: number | null,
       } | null,
@@ -8517,11 +8517,6 @@ export type OnDeleteBudgetLineSubscription = {
       company?: CompanyType | null,
       detentionPart?: number | null,
       typeImpot?: TaxType | null,
-      documents?:  {
-        __typename: "ModelDocumentConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
       admins: Array< string >,
       shared?: Array< string > | null,
       address?:  {
@@ -8551,6 +8546,11 @@ export type OnDeleteBudgetLineSubscription = {
       updatedAt: string,
       pendingInvitations?:  {
         __typename: "ModelPendingInvitationConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      documents?:  {
+        __typename: "ModelDocumentConnection",
         nextToken?: string | null,
         startedAt?: number | null,
       } | null,
@@ -8612,11 +8612,6 @@ export type OnCreateBudgetLineDeadlineSubscription = {
       company?: CompanyType | null,
       detentionPart?: number | null,
       typeImpot?: TaxType | null,
-      documents?:  {
-        __typename: "ModelDocumentConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
       admins: Array< string >,
       shared?: Array< string > | null,
       address?:  {
@@ -8646,6 +8641,11 @@ export type OnCreateBudgetLineDeadlineSubscription = {
       updatedAt: string,
       pendingInvitations?:  {
         __typename: "ModelPendingInvitationConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      documents?:  {
+        __typename: "ModelDocumentConnection",
         nextToken?: string | null,
         startedAt?: number | null,
       } | null,
@@ -8750,11 +8750,6 @@ export type OnUpdateBudgetLineDeadlineSubscription = {
       company?: CompanyType | null,
       detentionPart?: number | null,
       typeImpot?: TaxType | null,
-      documents?:  {
-        __typename: "ModelDocumentConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
       admins: Array< string >,
       shared?: Array< string > | null,
       address?:  {
@@ -8784,6 +8779,11 @@ export type OnUpdateBudgetLineDeadlineSubscription = {
       updatedAt: string,
       pendingInvitations?:  {
         __typename: "ModelPendingInvitationConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      documents?:  {
+        __typename: "ModelDocumentConnection",
         nextToken?: string | null,
         startedAt?: number | null,
       } | null,
@@ -8888,11 +8888,6 @@ export type OnDeleteBudgetLineDeadlineSubscription = {
       company?: CompanyType | null,
       detentionPart?: number | null,
       typeImpot?: TaxType | null,
-      documents?:  {
-        __typename: "ModelDocumentConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
       admins: Array< string >,
       shared?: Array< string > | null,
       address?:  {
@@ -8922,6 +8917,11 @@ export type OnDeleteBudgetLineDeadlineSubscription = {
       updatedAt: string,
       pendingInvitations?:  {
         __typename: "ModelPendingInvitationConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      documents?:  {
+        __typename: "ModelDocumentConnection",
         nextToken?: string | null,
         startedAt?: number | null,
       } | null,
@@ -9014,11 +9014,6 @@ export type OnCreateRealEstateBankAccountSubscription = {
       company?: CompanyType | null,
       detentionPart?: number | null,
       typeImpot?: TaxType | null,
-      documents?:  {
-        __typename: "ModelDocumentConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
       admins: Array< string >,
       shared?: Array< string > | null,
       address?:  {
@@ -9048,6 +9043,11 @@ export type OnCreateRealEstateBankAccountSubscription = {
       updatedAt: string,
       pendingInvitations?:  {
         __typename: "ModelPendingInvitationConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      documents?:  {
+        __typename: "ModelDocumentConnection",
         nextToken?: string | null,
         startedAt?: number | null,
       } | null,
@@ -9125,11 +9125,6 @@ export type OnUpdateRealEstateBankAccountSubscription = {
       company?: CompanyType | null,
       detentionPart?: number | null,
       typeImpot?: TaxType | null,
-      documents?:  {
-        __typename: "ModelDocumentConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
       admins: Array< string >,
       shared?: Array< string > | null,
       address?:  {
@@ -9159,6 +9154,11 @@ export type OnUpdateRealEstateBankAccountSubscription = {
       updatedAt: string,
       pendingInvitations?:  {
         __typename: "ModelPendingInvitationConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      documents?:  {
+        __typename: "ModelDocumentConnection",
         nextToken?: string | null,
         startedAt?: number | null,
       } | null,
@@ -9236,11 +9236,6 @@ export type OnDeleteRealEstateBankAccountSubscription = {
       company?: CompanyType | null,
       detentionPart?: number | null,
       typeImpot?: TaxType | null,
-      documents?:  {
-        __typename: "ModelDocumentConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
       admins: Array< string >,
       shared?: Array< string > | null,
       address?:  {
@@ -9270,6 +9265,11 @@ export type OnDeleteRealEstateBankAccountSubscription = {
       updatedAt: string,
       pendingInvitations?:  {
         __typename: "ModelPendingInvitationConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      documents?:  {
+        __typename: "ModelDocumentConnection",
         nextToken?: string | null,
         startedAt?: number | null,
       } | null,
@@ -9530,11 +9530,6 @@ export type OnCreateBankMovementSubscription = {
       company?: CompanyType | null,
       detentionPart?: number | null,
       typeImpot?: TaxType | null,
-      documents?:  {
-        __typename: "ModelDocumentConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
       admins: Array< string >,
       shared?: Array< string > | null,
       address?:  {
@@ -9564,6 +9559,11 @@ export type OnCreateBankMovementSubscription = {
       updatedAt: string,
       pendingInvitations?:  {
         __typename: "ModelPendingInvitationConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      documents?:  {
+        __typename: "ModelDocumentConnection",
         nextToken?: string | null,
         startedAt?: number | null,
       } | null,
@@ -9705,11 +9705,6 @@ export type OnUpdateBankMovementSubscription = {
       company?: CompanyType | null,
       detentionPart?: number | null,
       typeImpot?: TaxType | null,
-      documents?:  {
-        __typename: "ModelDocumentConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
       admins: Array< string >,
       shared?: Array< string > | null,
       address?:  {
@@ -9739,6 +9734,11 @@ export type OnUpdateBankMovementSubscription = {
       updatedAt: string,
       pendingInvitations?:  {
         __typename: "ModelPendingInvitationConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      documents?:  {
+        __typename: "ModelDocumentConnection",
         nextToken?: string | null,
         startedAt?: number | null,
       } | null,
@@ -9880,11 +9880,6 @@ export type OnDeleteBankMovementSubscription = {
       company?: CompanyType | null,
       detentionPart?: number | null,
       typeImpot?: TaxType | null,
-      documents?:  {
-        __typename: "ModelDocumentConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
       admins: Array< string >,
       shared?: Array< string > | null,
       address?:  {
@@ -9914,6 +9909,11 @@ export type OnDeleteBankMovementSubscription = {
       updatedAt: string,
       pendingInvitations?:  {
         __typename: "ModelPendingInvitationConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      documents?:  {
+        __typename: "ModelDocumentConnection",
         nextToken?: string | null,
         startedAt?: number | null,
       } | null,

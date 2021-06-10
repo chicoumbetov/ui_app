@@ -2,243 +2,6 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const createDocument = /* GraphQL */ `
-  mutation CreateDocument(
-    $input: CreateDocumentInput!
-    $condition: ModelDocumentConditionInput
-  ) {
-    createDocument(input: $input, condition: $condition) {
-      id
-      realEstateId
-      name
-      key
-      s3file
-      _version
-      _deleted
-      _lastChangedAt
-      createdAt
-      updatedAt
-      realEstate {
-        id
-        name
-        iconUri
-        purchaseYear
-        type
-        ownName
-        company
-        detentionPart
-        typeImpot
-        documents {
-          nextToken
-          startedAt
-        }
-        admins
-        shared
-        address {
-          address
-          additionalAddress
-          postalCode
-          city
-          country
-        }
-        tenants {
-          id
-          amount
-          rentalCharges
-          managementFees
-          lastname
-          firstname
-          email
-          startDate
-          endDate
-        }
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-        pendingInvitations {
-          nextToken
-          startedAt
-        }
-        budgetLines {
-          nextToken
-          startedAt
-        }
-        budgetLineDeadlines {
-          nextToken
-          startedAt
-        }
-        bankAccounts {
-          nextToken
-          startedAt
-        }
-        bankMovements {
-          nextToken
-          startedAt
-        }
-      }
-    }
-  }
-`;
-export const updateDocument = /* GraphQL */ `
-  mutation UpdateDocument(
-    $input: UpdateDocumentInput!
-    $condition: ModelDocumentConditionInput
-  ) {
-    updateDocument(input: $input, condition: $condition) {
-      id
-      realEstateId
-      name
-      key
-      s3file
-      _version
-      _deleted
-      _lastChangedAt
-      createdAt
-      updatedAt
-      realEstate {
-        id
-        name
-        iconUri
-        purchaseYear
-        type
-        ownName
-        company
-        detentionPart
-        typeImpot
-        documents {
-          nextToken
-          startedAt
-        }
-        admins
-        shared
-        address {
-          address
-          additionalAddress
-          postalCode
-          city
-          country
-        }
-        tenants {
-          id
-          amount
-          rentalCharges
-          managementFees
-          lastname
-          firstname
-          email
-          startDate
-          endDate
-        }
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-        pendingInvitations {
-          nextToken
-          startedAt
-        }
-        budgetLines {
-          nextToken
-          startedAt
-        }
-        budgetLineDeadlines {
-          nextToken
-          startedAt
-        }
-        bankAccounts {
-          nextToken
-          startedAt
-        }
-        bankMovements {
-          nextToken
-          startedAt
-        }
-      }
-    }
-  }
-`;
-export const deleteDocument = /* GraphQL */ `
-  mutation DeleteDocument(
-    $input: DeleteDocumentInput!
-    $condition: ModelDocumentConditionInput
-  ) {
-    deleteDocument(input: $input, condition: $condition) {
-      id
-      realEstateId
-      name
-      key
-      s3file
-      _version
-      _deleted
-      _lastChangedAt
-      createdAt
-      updatedAt
-      realEstate {
-        id
-        name
-        iconUri
-        purchaseYear
-        type
-        ownName
-        company
-        detentionPart
-        typeImpot
-        documents {
-          nextToken
-          startedAt
-        }
-        admins
-        shared
-        address {
-          address
-          additionalAddress
-          postalCode
-          city
-          country
-        }
-        tenants {
-          id
-          amount
-          rentalCharges
-          managementFees
-          lastname
-          firstname
-          email
-          startDate
-          endDate
-        }
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-        pendingInvitations {
-          nextToken
-          startedAt
-        }
-        budgetLines {
-          nextToken
-          startedAt
-        }
-        budgetLineDeadlines {
-          nextToken
-          startedAt
-        }
-        bankAccounts {
-          nextToken
-          startedAt
-        }
-        bankMovements {
-          nextToken
-          startedAt
-        }
-      }
-    }
-  }
-`;
 export const createUser = /* GraphQL */ `
   mutation CreateUser(
     $input: CreateUserInput!
@@ -359,22 +122,6 @@ export const createRealEstate = /* GraphQL */ `
       company
       detentionPart
       typeImpot
-      documents {
-        items {
-          id
-          realEstateId
-          name
-          key
-          s3file
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-        }
-        nextToken
-        startedAt
-      }
       admins
       shared
       address {
@@ -406,6 +153,22 @@ export const createRealEstate = /* GraphQL */ `
           realEstateId
           email
           type
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+        nextToken
+        startedAt
+      }
+      documents {
+        items {
+          id
+          realEstateId
+          name
+          key
+          s3file
           _version
           _deleted
           _lastChangedAt
@@ -506,22 +269,6 @@ export const updateRealEstate = /* GraphQL */ `
       company
       detentionPart
       typeImpot
-      documents {
-        items {
-          id
-          realEstateId
-          name
-          key
-          s3file
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-        }
-        nextToken
-        startedAt
-      }
       admins
       shared
       address {
@@ -553,6 +300,22 @@ export const updateRealEstate = /* GraphQL */ `
           realEstateId
           email
           type
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+        nextToken
+        startedAt
+      }
+      documents {
+        items {
+          id
+          realEstateId
+          name
+          key
+          s3file
           _version
           _deleted
           _lastChangedAt
@@ -653,22 +416,6 @@ export const deleteRealEstate = /* GraphQL */ `
       company
       detentionPart
       typeImpot
-      documents {
-        items {
-          id
-          realEstateId
-          name
-          key
-          s3file
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-        }
-        nextToken
-        startedAt
-      }
       admins
       shared
       address {
@@ -700,6 +447,22 @@ export const deleteRealEstate = /* GraphQL */ `
           realEstateId
           email
           type
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+        nextToken
+        startedAt
+      }
+      documents {
+        items {
+          id
+          realEstateId
+          name
+          key
+          s3file
           _version
           _deleted
           _lastChangedAt
@@ -810,10 +573,6 @@ export const createPendingInvitation = /* GraphQL */ `
         company
         detentionPart
         typeImpot
-        documents {
-          nextToken
-          startedAt
-        }
         admins
         shared
         address {
@@ -840,6 +599,10 @@ export const createPendingInvitation = /* GraphQL */ `
         createdAt
         updatedAt
         pendingInvitations {
+          nextToken
+          startedAt
+        }
+        documents {
           nextToken
           startedAt
         }
@@ -888,10 +651,6 @@ export const updatePendingInvitation = /* GraphQL */ `
         company
         detentionPart
         typeImpot
-        documents {
-          nextToken
-          startedAt
-        }
         admins
         shared
         address {
@@ -918,6 +677,10 @@ export const updatePendingInvitation = /* GraphQL */ `
         createdAt
         updatedAt
         pendingInvitations {
+          nextToken
+          startedAt
+        }
+        documents {
           nextToken
           startedAt
         }
@@ -966,10 +729,6 @@ export const deletePendingInvitation = /* GraphQL */ `
         company
         detentionPart
         typeImpot
-        documents {
-          nextToken
-          startedAt
-        }
         admins
         shared
         address {
@@ -996,6 +755,247 @@ export const deletePendingInvitation = /* GraphQL */ `
         createdAt
         updatedAt
         pendingInvitations {
+          nextToken
+          startedAt
+        }
+        documents {
+          nextToken
+          startedAt
+        }
+        budgetLines {
+          nextToken
+          startedAt
+        }
+        budgetLineDeadlines {
+          nextToken
+          startedAt
+        }
+        bankAccounts {
+          nextToken
+          startedAt
+        }
+        bankMovements {
+          nextToken
+          startedAt
+        }
+      }
+    }
+  }
+`;
+export const createDocument = /* GraphQL */ `
+  mutation CreateDocument(
+    $input: CreateDocumentInput!
+    $condition: ModelDocumentConditionInput
+  ) {
+    createDocument(input: $input, condition: $condition) {
+      id
+      realEstateId
+      name
+      key
+      s3file
+      _version
+      _deleted
+      _lastChangedAt
+      createdAt
+      updatedAt
+      realEstate {
+        id
+        name
+        iconUri
+        purchaseYear
+        type
+        ownName
+        company
+        detentionPart
+        typeImpot
+        admins
+        shared
+        address {
+          address
+          additionalAddress
+          postalCode
+          city
+          country
+        }
+        tenants {
+          id
+          amount
+          rentalCharges
+          managementFees
+          lastname
+          firstname
+          email
+          startDate
+          endDate
+        }
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+        pendingInvitations {
+          nextToken
+          startedAt
+        }
+        documents {
+          nextToken
+          startedAt
+        }
+        budgetLines {
+          nextToken
+          startedAt
+        }
+        budgetLineDeadlines {
+          nextToken
+          startedAt
+        }
+        bankAccounts {
+          nextToken
+          startedAt
+        }
+        bankMovements {
+          nextToken
+          startedAt
+        }
+      }
+    }
+  }
+`;
+export const updateDocument = /* GraphQL */ `
+  mutation UpdateDocument(
+    $input: UpdateDocumentInput!
+    $condition: ModelDocumentConditionInput
+  ) {
+    updateDocument(input: $input, condition: $condition) {
+      id
+      realEstateId
+      name
+      key
+      s3file
+      _version
+      _deleted
+      _lastChangedAt
+      createdAt
+      updatedAt
+      realEstate {
+        id
+        name
+        iconUri
+        purchaseYear
+        type
+        ownName
+        company
+        detentionPart
+        typeImpot
+        admins
+        shared
+        address {
+          address
+          additionalAddress
+          postalCode
+          city
+          country
+        }
+        tenants {
+          id
+          amount
+          rentalCharges
+          managementFees
+          lastname
+          firstname
+          email
+          startDate
+          endDate
+        }
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+        pendingInvitations {
+          nextToken
+          startedAt
+        }
+        documents {
+          nextToken
+          startedAt
+        }
+        budgetLines {
+          nextToken
+          startedAt
+        }
+        budgetLineDeadlines {
+          nextToken
+          startedAt
+        }
+        bankAccounts {
+          nextToken
+          startedAt
+        }
+        bankMovements {
+          nextToken
+          startedAt
+        }
+      }
+    }
+  }
+`;
+export const deleteDocument = /* GraphQL */ `
+  mutation DeleteDocument(
+    $input: DeleteDocumentInput!
+    $condition: ModelDocumentConditionInput
+  ) {
+    deleteDocument(input: $input, condition: $condition) {
+      id
+      realEstateId
+      name
+      key
+      s3file
+      _version
+      _deleted
+      _lastChangedAt
+      createdAt
+      updatedAt
+      realEstate {
+        id
+        name
+        iconUri
+        purchaseYear
+        type
+        ownName
+        company
+        detentionPart
+        typeImpot
+        admins
+        shared
+        address {
+          address
+          additionalAddress
+          postalCode
+          city
+          country
+        }
+        tenants {
+          id
+          amount
+          rentalCharges
+          managementFees
+          lastname
+          firstname
+          email
+          startDate
+          endDate
+        }
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+        pendingInvitations {
+          nextToken
+          startedAt
+        }
+        documents {
           nextToken
           startedAt
         }
@@ -1062,10 +1062,6 @@ export const createBudgetLine = /* GraphQL */ `
         company
         detentionPart
         typeImpot
-        documents {
-          nextToken
-          startedAt
-        }
         admins
         shared
         address {
@@ -1092,6 +1088,10 @@ export const createBudgetLine = /* GraphQL */ `
         createdAt
         updatedAt
         pendingInvitations {
+          nextToken
+          startedAt
+        }
+        documents {
           nextToken
           startedAt
         }
@@ -1158,10 +1158,6 @@ export const updateBudgetLine = /* GraphQL */ `
         company
         detentionPart
         typeImpot
-        documents {
-          nextToken
-          startedAt
-        }
         admins
         shared
         address {
@@ -1188,6 +1184,10 @@ export const updateBudgetLine = /* GraphQL */ `
         createdAt
         updatedAt
         pendingInvitations {
+          nextToken
+          startedAt
+        }
+        documents {
           nextToken
           startedAt
         }
@@ -1254,10 +1254,6 @@ export const deleteBudgetLine = /* GraphQL */ `
         company
         detentionPart
         typeImpot
-        documents {
-          nextToken
-          startedAt
-        }
         admins
         shared
         address {
@@ -1284,6 +1280,10 @@ export const deleteBudgetLine = /* GraphQL */ `
         createdAt
         updatedAt
         pendingInvitations {
+          nextToken
+          startedAt
+        }
+        documents {
           nextToken
           startedAt
         }
@@ -1342,10 +1342,6 @@ export const createBudgetLineDeadline = /* GraphQL */ `
         company
         detentionPart
         typeImpot
-        documents {
-          nextToken
-          startedAt
-        }
         admins
         shared
         address {
@@ -1372,6 +1368,10 @@ export const createBudgetLineDeadline = /* GraphQL */ `
         createdAt
         updatedAt
         pendingInvitations {
+          nextToken
+          startedAt
+        }
+        documents {
           nextToken
           startedAt
         }
@@ -1470,10 +1470,6 @@ export const updateBudgetLineDeadline = /* GraphQL */ `
         company
         detentionPart
         typeImpot
-        documents {
-          nextToken
-          startedAt
-        }
         admins
         shared
         address {
@@ -1500,6 +1496,10 @@ export const updateBudgetLineDeadline = /* GraphQL */ `
         createdAt
         updatedAt
         pendingInvitations {
+          nextToken
+          startedAt
+        }
+        documents {
           nextToken
           startedAt
         }
@@ -1598,10 +1598,6 @@ export const deleteBudgetLineDeadline = /* GraphQL */ `
         company
         detentionPart
         typeImpot
-        documents {
-          nextToken
-          startedAt
-        }
         admins
         shared
         address {
@@ -1628,6 +1624,10 @@ export const deleteBudgetLineDeadline = /* GraphQL */ `
         createdAt
         updatedAt
         pendingInvitations {
+          nextToken
+          startedAt
+        }
+        documents {
           nextToken
           startedAt
         }
@@ -1715,10 +1715,6 @@ export const createRealEstateBankAccount = /* GraphQL */ `
         company
         detentionPart
         typeImpot
-        documents {
-          nextToken
-          startedAt
-        }
         admins
         shared
         address {
@@ -1745,6 +1741,10 @@ export const createRealEstateBankAccount = /* GraphQL */ `
         createdAt
         updatedAt
         pendingInvitations {
+          nextToken
+          startedAt
+        }
+        documents {
           nextToken
           startedAt
         }
@@ -1817,10 +1817,6 @@ export const updateRealEstateBankAccount = /* GraphQL */ `
         company
         detentionPart
         typeImpot
-        documents {
-          nextToken
-          startedAt
-        }
         admins
         shared
         address {
@@ -1847,6 +1843,10 @@ export const updateRealEstateBankAccount = /* GraphQL */ `
         createdAt
         updatedAt
         pendingInvitations {
+          nextToken
+          startedAt
+        }
+        documents {
           nextToken
           startedAt
         }
@@ -1919,10 +1919,6 @@ export const deleteRealEstateBankAccount = /* GraphQL */ `
         company
         detentionPart
         typeImpot
-        documents {
-          nextToken
-          startedAt
-        }
         admins
         shared
         address {
@@ -1949,6 +1945,10 @@ export const deleteRealEstateBankAccount = /* GraphQL */ `
         createdAt
         updatedAt
         pendingInvitations {
+          nextToken
+          startedAt
+        }
+        documents {
           nextToken
           startedAt
         }
@@ -2201,10 +2201,6 @@ export const createBankMovement = /* GraphQL */ `
         company
         detentionPart
         typeImpot
-        documents {
-          nextToken
-          startedAt
-        }
         admins
         shared
         address {
@@ -2231,6 +2227,10 @@ export const createBankMovement = /* GraphQL */ `
         createdAt
         updatedAt
         pendingInvitations {
+          nextToken
+          startedAt
+        }
+        documents {
           nextToken
           startedAt
         }
@@ -2363,10 +2363,6 @@ export const updateBankMovement = /* GraphQL */ `
         company
         detentionPart
         typeImpot
-        documents {
-          nextToken
-          startedAt
-        }
         admins
         shared
         address {
@@ -2393,6 +2389,10 @@ export const updateBankMovement = /* GraphQL */ `
         createdAt
         updatedAt
         pendingInvitations {
+          nextToken
+          startedAt
+        }
+        documents {
           nextToken
           startedAt
         }
@@ -2525,10 +2525,6 @@ export const deleteBankMovement = /* GraphQL */ `
         company
         detentionPart
         typeImpot
-        documents {
-          nextToken
-          startedAt
-        }
         admins
         shared
         address {
@@ -2555,6 +2551,10 @@ export const deleteBankMovement = /* GraphQL */ `
         createdAt
         updatedAt
         pendingInvitations {
+          nextToken
+          startedAt
+        }
+        documents {
           nextToken
           startedAt
         }

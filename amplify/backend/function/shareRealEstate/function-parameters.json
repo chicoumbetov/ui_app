@@ -3,12 +3,12 @@
     {
       "type": "ProjectLayer",
       "resourceName": "graphqllayer",
-      "version": 11
+      "version": 15
     },
     {
       "type": "ProjectLayer",
       "resourceName": "seslayer",
-      "version": 1
+      "version": 3
     }
   ],
   "permissions": {

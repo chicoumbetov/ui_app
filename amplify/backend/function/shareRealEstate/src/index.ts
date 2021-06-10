@@ -10,8 +10,7 @@ Amplify Params - DO NOT EDIT */
 import { getUserByEmail } from '/opt/nodejs/src/UserQueries';
 import getAppSyncClient from '/opt/nodejs/src/AppSyncClient';
 import { updateRealEstateMutation, getRealEstate } from '/opt/nodejs/src/RealEstateMutation';
-import { sendEmail } from '/opt/nodejs/src/SendMail';
-import { sendTemplateEmail } from '../../../../../components/AwsMail/SendMail';
+import { sendEmail, sendTemplateEmail } from '/opt/nodejs/src/SendMail';
 
 exports.handler = async (event) => {
   //eslint-disable-line
@@ -23,9 +22,6 @@ exports.handler = async (event) => {
     // The first iteration uses an already resolved Promise
     // so, it will immediately continue.
     await promise;
-    if (record.eventName === 'REMOVE') {
-      return Promise.resolve('Successfully processed DynamoDB record');
-    }
     if (record.eventName === 'INSERT') {
       const { email, type, realEstateId } = record.dynamodb.NewImage;
       const user = await getUserByEmail(appSyncClient, email.S);
@@ -67,6 +63,8 @@ exports.handler = async (event) => {
           });
         }
 
+        await sendTemplateEmail(email.S);
+      } else {
         await sendTemplateEmail(email.S);
       }
     }

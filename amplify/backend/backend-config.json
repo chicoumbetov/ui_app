@@ -43,7 +43,7 @@
       "dependsOn": [
         {
           "category": "function",
-          "resourceName": "budgetinsight",
+          "resourceName": "transactionWebHook",
           "attributes": [
             "Name",
             "Arn"
@@ -51,7 +51,7 @@
         },
         {
           "category": "function",
-          "resourceName": "transactionWebHook",
+          "resourceName": "budgetinsight",
           "attributes": [
             "Name",
             "Arn"

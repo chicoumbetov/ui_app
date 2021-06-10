@@ -38,7 +38,7 @@ function sendTemplateEmail(recipientEmail) {
         Source: 'no-reply@app.omedom.com',
         Template: 'TemplateMail',
         Destination: {
-            ToAddresse: [
+            ToAddresses: [
                 recipientEmail,
             ],
         },

@@ -51,7 +51,7 @@ const getRealEstate = async (client, id) => {
     const { data } = await client.query({
         query: graphql_tag_1.default(getRealEstateQuery),
         variables: {
-            id
+            id,
         },
         fetchPolicy: 'no-cache',
     });

@@ -14,13 +14,30 @@ See the License for the specific language governing permissions and limitations 
 	REGION
 Amplify Params - DO NOT EDIT */
 
+import {
+  getBankAccountByBIId,
+  listBankAccountsByBIConnectionId,
+} from '/opt/nodejs/src/BankAccountQueries';
+import getAppSyncClient from '/opt/nodejs/src/AppSyncClient';
+import {
+  createBankAccount,
+  updateBankAccount,
+} from '/opt/nodejs/src/BankAccountMutations';
+import { createBankMovement } from '/opt/nodejs/src/BankMovementMutations';
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const awsServerlessExpressMiddleware = require('aws-serverless-express/middleware');
 
 // declare a new express app
 const app = express();
-app.use(bodyParser.json());
+app.use(bodyParser.json({
+  limit: '6MB',
+}));
+app.use(bodyParser.urlencoded({
+  limit: '6MB',
+  extended: true,
+}));
 app.use(awsServerlessExpressMiddleware.eventContext());
 
 // Enable CORS for all methods
@@ -37,12 +54,64 @@ app.get('/webhooks/create-redirect', async (req, res) => {
 <script>if (window.ReactNativeWebView) {window.ReactNativeWebView.postMessage("${val}");} else {parent.postMessage("${val}", "*");}</script></body></html>`);
 });
 
-app.get('/test', async (req, res) => {
-  res.json({ test: true });
+app.post('/webhooks/account-synced', async (req, res) => {
+  const {
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    id, id_connection, name, iban, bic, balance, transactions,
+  } = req.body;
+  console.log(req.body);
+  const AppSyncClient = getAppSyncClient(process.env);
+
+  let account = await getBankAccountByBIId(AppSyncClient, id);
+  if (!account) {
+    account = await createBankAccount(AppSyncClient, {
+      name,
+      iban,
+      bic,
+      balance,
+      biId: id,
+      biConnectionId: id_connection,
+    });
+  }
+  if (account && account !== true) {
+    const map = transactions.map(async (transaction) => {
+      if (!transaction.coming && transaction.active
+          && !transaction.deleted && account && account !== true) {
+        await createBankMovement(AppSyncClient, {
+          bankAccountId: (account || { id: '' }).id,
+          biId: transaction.id,
+          description: transaction.original_wording,
+          amount: transaction.value,
+          date: transaction.date,
+        });
+      }
+    });
+    await Promise.all(map);
+  }
+
+  res.sendStatus(200);
 });
 
-app.get('*', async (req, res) => {
-  res.json(req);
+app.post('/webhooks/connection-synced', async (req, res) => {
+  const { connection } = req.body;
+  console.log(req.body);
+  const AppSyncClient = getAppSyncClient(process.env);
+
+  // on update le statut des comptes de cette connexion
+  const accounts = await listBankAccountsByBIConnectionId(AppSyncClient, connection.id);
+  if (accounts) {
+    const map = accounts.map(async (account) => {
+      await updateBankAccount(AppSyncClient, {
+        id: account.id,
+        biState: connection.state,
+        // eslint-disable-next-line no-underscore-dangle
+        _version: account._version,
+      });
+    });
+    await Promise.all(map);
+  }
+
+  res.sendStatus(200);
 });
 
 app.listen(3000, () => {

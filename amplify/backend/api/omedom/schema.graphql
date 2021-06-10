@@ -31,6 +31,7 @@ type RealEstate @model
 @auth(rules: [
   {allow: owner, ownerField: "admins", operations: [ create, update, delete, read]}
   {allow: owner, ownerField: "shared", operations:[read]}
+  { allow: private, provider: iam }
 ]) {
   id: ID!
   name: String!
@@ -54,6 +55,10 @@ type RealEstate @model
 }
 
 type PendingInvitation
+@auth(rules: [
+  { allow: private }
+  { allow: private, provider: iam }
+])
 @key(name: "pendingInvitationByRealEstate", fields: ["realEstateId"])
 @key(name: "pendingInvitationByEmail", fields: ["email"], queryField: "pendingInvitationByEmail")
 @model {
@@ -84,6 +89,10 @@ type Document
 
 #should only be available for all operations to users in the admins field of RealEstate model and for read operation to users in the shared field of RealEstate model
 type BudgetLine
+@auth(rules: [
+  { allow: private }
+  { allow: private, provider: iam }
+])
 @key(name: "budgetLineByRealEstate", fields: ["realEstateId"])
 @model {
   id: ID!
@@ -99,6 +108,10 @@ type BudgetLine
 }
 #should only be available for all operations to users in the admins field of RealEstate model and for read operation to users in the shared field of RealEstate model
 type BudgetLineDeadline
+@auth(rules: [
+  { allow: private }
+  { allow: private, provider: iam }
+])
 @key(name: "budgetLineDeadlineByRealEstate", fields: ["realEstateId", "date"])
 @key(name: "budgetLineDeadlineByBudgetLine", fields: ["budgetLineId", "date"])
 @model {
@@ -199,9 +212,13 @@ type Address {
 
 #should only be available for all operations to users in the admins field of RealEstate model and for read operation to users in the shared field of RealEstate model
 type RealEstateBankAccount
-@model(queries: null)
+@model
+@auth(rules: [
+  { allow: private }
+  { allow: private, provider: iam }
+])
 @key(name: "bankAccountByRealEstate", fields: ["realEstateId", "bankAccountId"])
-@key(name: "realEstateByBankAccount", fields: ["bankAccountId", "realEstateId"]) {
+@key(name: "realEstateByBankAccount", fields: ["bankAccountId", "realEstateId"], queryField: "listRealEstatesByBankAccount") {
   id: ID!
   realEstateId: ID!
   realEstate: RealEstate @connection (fields: ["realEstateId"])
@@ -212,15 +229,20 @@ type RealEstateBankAccount
 #should only be available for all operations to users in the admins field of RealEstate (linked by RealEstateBankAccount) model
 # and for read operation to users in the shared field of RealEstate (linked by RealEstateBankAccount) model
 type BankAccount @model
+@auth(rules: [
+  { allow: private }
+  { allow: private, provider: iam }
+])
 @key(name: "bankAccountByBiId", fields: ["biId"], queryField: "listBankAccountByBiId")
 @key(name: "bankAccountByBiConnectionId", fields: ["biConnectionId"], queryField: "listBankAccountByBiConnectionId")
 {
   id: ID!
   realEstates: [RealEstateBankAccount] @connection(fields: ["id"])
-  bank: String!
-  accountOwner: String!
-  iban: String!
-  bic: String!
+  bank: String
+  accountOwner: String
+  name: String
+  iban: String
+  bic: String
   balance: Float!
   biId: Int!
   biConnectionId: Int!
@@ -231,19 +253,24 @@ type BankAccount @model
 #should only be available for all operations to users in the admins field of RealEstate (linked by BankAccount and RealEstateBankAccount) model
 # and for read operation to users in the shared field of RealEstate (linked by BankAccount and RealEstateBankAccount) model
 type BankMovement @model
+@auth(rules: [
+  { allow: private }
+  { allow: private, provider: iam }
+])
 @key(name: "bankMovementByBankAccount", fields: ["bankAccountId","date"])
 @key(name: "bankMovementByBudgetLineDeadline", fields: ["budgetLineDeadlineId","date"])
 @key(name: "bankMovementByRealEstate", fields: ["realEstateId","date"])
+@key(name: "bankMovementByBiId", fields: ["biId"], queryField:"listBankMovementByBiId")
 {
   id: ID!
   bankAccountId: ID!
   bankAccount: BankAccount! @connection(fields: ["bankAccountId"])
   realEstateId: ID
-  realEstate: BankAccount @connection(fields: ["realEstateId"])
+  realEstate: RealEstate @connection(fields: ["realEstateId"])
   biId: Int!
-  description: String!
+  description: String
   amount: Float!
-  budgetLineDeadlineId: ID!
+  budgetLineDeadlineId: ID
   budgetLineDeadline: BudgetLineDeadline @connection (fields: ["budgetLineDeadlineId"])
   ignored: Boolean
   date: AWSDate
@@ -282,3 +309,4 @@ type BillingHistory @model
   amount: Float!
   paid: Boolean
 }
+

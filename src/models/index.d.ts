@@ -154,11 +154,11 @@ export declare class BudgetLine {
 export declare class BankMovement {
   readonly id: string;
   readonly bankAccount: BankAccount;
-  readonly realEstate?: BankAccount;
+  readonly realEstate?: RealEstate;
   readonly biId: number;
-  readonly description: string;
+  readonly description?: string;
   readonly amount: number;
-  readonly budgetLineDeadlineId: string;
+  readonly budgetLineDeadlineId?: string;
   readonly budgetLineDeadline?: BudgetLineDeadline;
   readonly ignored?: boolean;
   readonly date?: string;
@@ -169,10 +169,11 @@ export declare class BankMovement {
 export declare class BankAccount {
   readonly id: string;
   readonly realEstates?: (RealEstateBankAccount | null)[];
-  readonly bank: string;
-  readonly accountOwner: string;
-  readonly iban: string;
-  readonly bic: string;
+  readonly bank?: string;
+  readonly accountOwner?: string;
+  readonly name?: string;
+  readonly iban?: string;
+  readonly bic?: string;
   readonly balance: number;
   readonly biId: number;
   readonly biConnectionId: number;

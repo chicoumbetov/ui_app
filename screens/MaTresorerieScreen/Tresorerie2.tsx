@@ -34,6 +34,7 @@ const MaTresorerie2 = () => {
   const [toggle, setToggle] = useState(false);
   const [newAccountLink, setNewAccountLink] = useState<string | undefined>();
   const [supprim, setSupprim] = useState(false);
+  const [addingAccounts, setAddingAccounts] = useState(false);
 
   const route = useRoute<RouteProp<TabMaTresorerieParamList, 'ma-tresorerie-2'>>();
   // console.log('mon-budget data', route.params);
@@ -106,7 +107,9 @@ const MaTresorerie2 = () => {
             <Button
               size="large"
               onPress={async () => {
+                setAddingAccounts(true);
                 const response = await API.get('omedomrest', '/budgetinsight/connect-url', {});
+                setAddingAccounts(false);
                 setNewAccountLink(response.connectUrl);
               }}
               style={{
@@ -125,7 +128,7 @@ const MaTresorerie2 = () => {
         before={<></>}
         noSafeArea
         scrollable={false}
-        visible={newAccountLink !== undefined}
+        visible={newAccountLink !== undefined || addingAccounts}
         onClose={() => {
           Alert.alert('Ajout de compte bancaire',
             'Vous êtes sur de vouloir quitter l\'ajout du compte bancaire ? Il ne sera pas ajouté.',
@@ -137,11 +140,37 @@ const MaTresorerie2 = () => {
               text: 'Valider',
               onPress: async () => {
                 setNewAccountLink(undefined);
+                setAddingAccounts(false);
               },
             }]);
         }}
       >
-        {newAccountLink && <WebView src={newAccountLink} onMessage={(e) => console.log(e)} />}
+        {newAccountLink && (
+        <WebView
+          src={newAccountLink}
+          onMessage={async (e) => {
+            if (e !== undefined && typeof e === 'string') {
+              setAddingAccounts(true);
+              setNewAccountLink(undefined);
+              const obj = JSON.parse(e);
+              if (!obj.error) {
+                await API.get('omedomrest', `/budgetinsight/create-accounts?CONNECTION_ID=${obj.id_connection}&REAL_ESTATE_ID=${route.params.id}`, {});
+              }
+              setAddingAccounts(false);
+            }
+          }}
+        />
+        )}
+        {addingAccounts && (
+        <View style={{
+          flex: 1,
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+        >
+          <ActivityIndicator />
+        </View>
+        )}
       </ActionSheet>
     </>
   );

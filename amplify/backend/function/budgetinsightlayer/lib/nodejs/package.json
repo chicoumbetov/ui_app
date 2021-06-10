@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "description": "",
+  "description": "budgetinsightlayer 10",
   "main": "",
   "dependencies": {
     "aws-serverless-express": "^3.3.5",

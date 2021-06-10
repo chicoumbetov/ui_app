@@ -3,9 +3,15 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "/opt/nodejs/*": [
-        "../../budgetinsightlayer/lib/nodejs/*"
-      ]
+        "/opt/nodejs/*": [
+          "../../budgetinsightlayer/lib/nodejs/*",
+          "../../graphqllayer/lib/nodejs/*"
+        ],
+        "*" : [
+          "*",
+          "../../graphqllayer/lib/nodejs/node_modules/*",
+          "../../budgetinsightlayer/lib/nodejs/node_modules/*"
+        ]
     }
   }
 }

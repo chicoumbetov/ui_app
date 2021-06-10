@@ -110,10 +110,10 @@
         "Runtime": "nodejs14.x",
         "Layers": [
           {
-            "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:layer:budgetinsightlayer-dev:7"
+            "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:layer:budgetinsightlayer-dev:10"
           },
           {
-            "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:layer:graphqllayer-dev:1"
+            "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:layer:graphqllayer-dev:15"
           }
         ],
         "Timeout": "25"

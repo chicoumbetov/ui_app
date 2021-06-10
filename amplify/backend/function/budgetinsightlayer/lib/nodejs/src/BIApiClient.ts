@@ -36,24 +36,37 @@ const BIApiClient = (env: 'dev' | 'prod') => {
 
   const getConnectionAccounts = async (user_token: string, connection_id: number) => {
     try {
-      const response = await BIApiAxiosClient.get(`/users/me/connections/${connection_id}?expand=accounts`, {
+      const response = await BIApiAxiosClient.get(`/users/me/connections/${connection_id}?expand=accounts,connector`, {
         headers: getAuthHeader(user_token),
       });
-
+      console.log(response.data);
       return response.data;
     } catch (e) {
       return false;
     }
   };
 
-  const getMFAUrl = (account: number) => {
+  const getReconnectUrl = async (
+    token: string,
+    redirectUrl: string,
+    connectionId: number,
+    state?: string,
+  ) => {
+    try {
+      const response = await BIApiAxiosClient.get('/auth/token/code?type=singleAccess', {
+        headers: getAuthHeader(token),
+      });
 
+      return `${webviewBaseUrl}reconnect?client_id=${BIApiCredentials.clientId}&connection_id=${connectionId}&code=${encodeURIComponent(response.data.code)}&redirect_url=${encodeURIComponent(redirectUrl)}&state=${state}`;
+    } catch (e) {
+      return false;
+    }
   };
 
   return {
     createUser,
     getConnectUrl,
-    getMFAUrl,
+    getReconnectUrl,
     getConnectionAccounts,
     clientId: BIApiCredentials.clientId,
     clientSecret: BIApiCredentials.clientSecret,
@@ -61,3 +74,8 @@ const BIApiClient = (env: 'dev' | 'prod') => {
 };
 
 export default BIApiClient;
+
+console.log('test');
+
+const client = BIApiClient('dev');
+client.getConnectionAccounts('LdnTunKSkaOBH1UMhqQum_hCL6z_XANrxqdRk9xX9zPl2Dr7O/DE1jrBbhz0uBqgNnSs3oNw0XPe/dtM9xXL8usLi9UZjKDon1cqqT15qHdZ6/s2Ul5/eBkcaVHAeDvt', 4);

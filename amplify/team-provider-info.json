@@ -22,7 +22,7 @@
         },
         "transactionWebHook": {
           "deploymentBucketName": "amplify-omedom-dev-175444-deployment",
-          "s3Key": "amplify-builds/transactionWebHook-4a7637657033764a4843-build.zip"
+          "s3Key": "amplify-builds/transactionWebHook-2b516c44695444384e42-build.zip"
         },
         "budgetinsightlayer": {
           "deploymentBucketName": "amplify-omedom-dev-175444-deployment",
@@ -30,11 +30,11 @@
         },
         "budgetinsight": {
           "deploymentBucketName": "amplify-omedom-dev-175444-deployment",
-          "s3Key": "amplify-builds/budgetinsight-7657577838796b4c2f42-build.zip"
+          "s3Key": "amplify-builds/budgetinsight-4c6556334a4732314158-build.zip"
         },
         "shareRealEstate": {
           "deploymentBucketName": "amplify-omedom-dev-175444-deployment",
-          "s3Key": "amplify-builds/shareRealEstate-524b747974434e623758-build.zip"
+          "s3Key": "amplify-builds/shareRealEstate-6a516d50736468384552-build.zip"
         },
         "omedomfee3bfe0PostConfirmation": {
           "deploymentBucketName": "amplify-omedom-dev-175444-deployment",
@@ -109,6 +109,30 @@
                 }
               ],
               "hash": "EJRv4nWmMYqGlROjWofL2qtVxxe0rjuDk1lXyHYPbXY="
+            },
+            "8": {
+              "permissions": [
+                {
+                  "type": "private"
+                }
+              ],
+              "hash": "DU/bO95Fa0cjKNDFUoXOjc3ZqRp5ZhuUNFCS53qHrQ0="
+            },
+            "9": {
+              "permissions": [
+                {
+                  "type": "private"
+                }
+              ],
+              "hash": "rXROnKOwUfaXBKnMYvS0FucJnm3aOdysRMHC/lhTTe8="
+            },
+            "10": {
+              "permissions": [
+                {
+                  "type": "private"
+                }
+              ],
+              "hash": "QLZtY8FRcH3RuJ2T8Aiz0uYj+Uuuku+MTBT/32ntCBg="
             }
           }
         },
@@ -201,6 +225,38 @@
                 }
               ],
               "hash": "PooURWgs9lSxp+CN5m8smCvPHFjVhl5PzbOCtKndilk="
+            },
+            "12": {
+              "permissions": [
+                {
+                  "type": "private"
+                }
+              ],
+              "hash": "UQvD4AV06Pe95MfzUAjiEGGKb+S+CN5h0AfoGz+OppM="
+            },
+            "13": {
+              "permissions": [
+                {
+                  "type": "private"
+                }
+              ],
+              "hash": "BZKWl5TzFPuVkVcyrl0NK6uG0r2a7d77AFfZuWA/4gs="
+            },
+            "14": {
+              "permissions": [
+                {
+                  "type": "private"
+                }
+              ],
+              "hash": "Cdwy2VxB23Z28VWH3SkMWoh+UFY8SZ7sMQ4LTkupfIc="
+            },
+            "15": {
+              "permissions": [
+                {
+                  "type": "private"
+                }
+              ],
+              "hash": "jhCnCgcpul9kNP6PjDmYqq6RxLOiWnrTNi8vRyZY3uY="
             }
           }
         },

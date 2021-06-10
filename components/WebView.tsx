@@ -15,7 +15,7 @@ export default function WebView(props: WebViewProps): JSX.Element {
     if (onMessage && Platform.OS === 'web') {
       console.log('added');
       listener = (e) => {
-        onMessage(e);
+        onMessage(e.data);
       };
       window.addEventListener('message', listener);
     }

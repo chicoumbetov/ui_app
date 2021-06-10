@@ -9,6 +9,7 @@ const getUserById = async (client, id) => {
         getUser(id: $id) {
           id
           biToken
+          biUser
         }
       }`),
             variables: {
@@ -27,11 +28,10 @@ const getUserById = async (client, id) => {
 };
 exports.getUserById = getUserById;
 const getUserByEmail = async (client, email) => {
-    console.log("we are here");
     try {
         const { data } = await client.query({
             query: graphql_tag_1.default(`query UserByEmail(
-    $email: AWSEmail
+    $email: AWSEmail 
   ) {
     userByEmail(
       email: $email
@@ -52,7 +52,6 @@ const getUserByEmail = async (client, email) => {
             },
             fetchPolicy: 'no-cache',
         });
-        console.log(data);
         if (data.userByEmail.items.length > 0) {
             return data.userByEmail.items[0];
         }

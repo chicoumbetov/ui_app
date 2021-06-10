@@ -16,12 +16,12 @@
     {
       "type": "ProjectLayer",
       "resourceName": "budgetinsightlayer",
-      "version": 7
+      "version": 10
     },
     {
       "type": "ProjectLayer",
       "resourceName": "graphqllayer",
-      "version": 1
+      "version": 15
     }
   ]
 }

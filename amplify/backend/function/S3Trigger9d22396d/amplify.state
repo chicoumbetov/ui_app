@@ -1,6 +1,6 @@
 {
   "pluginId": "amplify-nodejs-function-runtime-provider",
   "functionRuntime": "nodejs",
-  "defaultEditorFile": "src/index.ts",
+  "defaultEditorFile": "src/index.js",
   "useLegacyBuild": true
 }

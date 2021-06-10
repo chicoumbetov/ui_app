@@ -39,7 +39,7 @@ const BIApiClient = (env: 'dev' | 'prod') => {
       const response = await BIApiAxiosClient.get(`/users/me/connections/${connection_id}?expand=accounts,connector`, {
         headers: getAuthHeader(user_token),
       });
-      console.log(response.data);
+
       return response.data;
     } catch (e) {
       return false;
@@ -74,8 +74,3 @@ const BIApiClient = (env: 'dev' | 'prod') => {
 };
 
 export default BIApiClient;
-
-console.log('test');
-
-const client = BIApiClient('dev');
-client.getConnectionAccounts('LdnTunKSkaOBH1UMhqQum_hCL6z_XANrxqdRk9xX9zPl2Dr7O/DE1jrBbhz0uBqgNnSs3oNw0XPe/dtM9xXL8usLi9UZjKDon1cqqT15qHdZ6/s2Ul5/eBkcaVHAeDvt', 4);

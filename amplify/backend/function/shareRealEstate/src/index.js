@@ -11,7 +11,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const UserQueries_1 = require("/opt/nodejs/src/UserQueries");
 const AppSyncClient_1 = require("/opt/nodejs/src/AppSyncClient");
 const RealEstateMutation_1 = require("/opt/nodejs/src/RealEstateMutation");
-const SendMail_1 = require("/opt/nodejs/src/SendMail");
+const SendMail_1 = require("../../../../../components/AwsMail/SendMail");
 exports.handler = async (event) => {
     //eslint-disable-line
     console.log(JSON.stringify(event, null, 2));
@@ -21,6 +21,9 @@ exports.handler = async (event) => {
         // The first iteration uses an already resolved Promise
         // so, it will immediately continue.
         await promise;
+        if (record.eventName === 'REMOVE') {
+            return Promise.resolve('Successfully processed DynamoDB record');
+        }
         if (record.eventName === 'INSERT') {
             const { email, type, realEstateId } = record.dynamodb.NewImage;
             const user = await UserQueries_1.getUserByEmail(appSyncClient, email.S);
@@ -61,7 +64,7 @@ exports.handler = async (event) => {
                         _version: realEstate._version,
                     });
                 }
-                await SendMail_1.sendEmail(email.S, 'Pirate');
+                await SendMail_1.sendTemplateEmail(email.S);
             }
         }
     }, Promise.resolve());

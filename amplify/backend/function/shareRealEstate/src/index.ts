@@ -11,6 +11,7 @@ import { getUserByEmail } from '/opt/nodejs/src/UserQueries';
 import getAppSyncClient from '/opt/nodejs/src/AppSyncClient';
 import { updateRealEstateMutation, getRealEstate } from '/opt/nodejs/src/RealEstateMutation';
 import { sendEmail } from '/opt/nodejs/src/SendMail';
+import { sendTemplateEmail } from '../../../../../components/AwsMail/SendMail';
 
 exports.handler = async (event) => {
   //eslint-disable-line
@@ -22,6 +23,9 @@ exports.handler = async (event) => {
     // The first iteration uses an already resolved Promise
     // so, it will immediately continue.
     await promise;
+    if (record.eventName === 'REMOVE') {
+      return Promise.resolve('Successfully processed DynamoDB record');
+    }
     if (record.eventName === 'INSERT') {
       const { email, type, realEstateId } = record.dynamodb.NewImage;
       const user = await getUserByEmail(appSyncClient, email.S);
@@ -41,9 +45,9 @@ exports.handler = async (event) => {
           }
 
           await updateRealEstateMutation(appSyncClient, {
-                id: realEstateId.S,
-                admins,
-                _version: realEstate._version,
+            id: realEstateId.S,
+            admins,
+            _version: realEstate._version,
           });
         } else {
           const shared = realEstate.shared || [];
@@ -57,13 +61,13 @@ exports.handler = async (event) => {
             shared.push(user.id);
           }
           await updateRealEstateMutation(appSyncClient, {
-                id: record.dynamodb.NewImage.realEstateId.S,
-                shared,
+            id: record.dynamodb.NewImage.realEstateId.S,
+            shared,
             _version: realEstate._version,
           });
         }
 
-        await sendEmail(email.S, 'Pirate');
+        await sendTemplateEmail(email.S);
       }
     }
   }, Promise.resolve());

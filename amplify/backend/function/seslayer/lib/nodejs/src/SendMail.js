@@ -36,7 +36,7 @@ exports.sendEmail = sendEmail;
 function sendTemplateEmail(recipientEmail) {
     const params = {
         Source: 'no-reply@app.omedom.com',
-        Template: '',
+        Template: 'TemplateMail',
         Destination: {
             ToAddresse: [
                 recipientEmail,

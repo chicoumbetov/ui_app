@@ -33,16 +33,16 @@ function sendEmail(recipientEmail, name) {
     return AWS_SES.sendEmail(params).promise();
 }
 exports.sendEmail = sendEmail;
-function sendTemplateEmail(recipientEmail) {
+function sendTemplateEmail(recipientEmail, template) {
     const params = {
         Source: 'no-reply@app.omedom.com',
-        Template: 'TemplateMail',
+        Template: template,
         Destination: {
             ToAddresses: [
                 recipientEmail,
             ],
         },
-        TemplateData: '{"name":"John Doe"}',
+        TemplateData: '{"name":"pedro"}',
     };
     return AWS_SES.sendTemplatedEmail(params).promise();
 }

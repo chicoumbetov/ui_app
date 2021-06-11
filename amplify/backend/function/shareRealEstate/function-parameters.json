@@ -2,13 +2,13 @@
   "lambdaLayers": [
     {
       "type": "ProjectLayer",
-      "resourceName": "graphqllayer",
-      "version": 15
+      "resourceName": "seslayer",
+      "version": 8
     },
     {
       "type": "ProjectLayer",
-      "resourceName": "seslayer",
-      "version": 3
+      "resourceName": "graphqllayer",
+      "version": 15
     }
   ],
   "permissions": {

@@ -10,7 +10,7 @@ Amplify Params - DO NOT EDIT */
 import { getUserByEmail } from '/opt/nodejs/src/UserQueries';
 import getAppSyncClient from '/opt/nodejs/src/AppSyncClient';
 import { updateRealEstateMutation, getRealEstate } from '/opt/nodejs/src/RealEstateMutation';
-import { sendEmail, sendTemplateEmail } from '/opt/nodejs/src/SendMail';
+import { sendTemplateEmail } from '/opt/nodejs/src/SendMail';
 
 exports.handler = async (event) => {
   //eslint-disable-line
@@ -45,6 +45,7 @@ exports.handler = async (event) => {
             admins,
             _version: realEstate._version,
           });
+          await sendTemplateEmail(email.S, 'TemplateMailAdminAvecCompte');
         } else {
           const shared = realEstate.shared || [];
           const exists = shared.find((share) => {
@@ -63,9 +64,11 @@ exports.handler = async (event) => {
           });
         }
 
-        await sendTemplateEmail(email.S);
+        await sendTemplateEmail(email.S, 'TemplateMailLectureAvecCompte');
+      } else if (type.S === 'Admin') {
+        await sendTemplateEmail(email.S, 'TemplateMailAdminSansCompteV2');
       } else {
-        await sendTemplateEmail(email.S);
+        await sendTemplateEmail(email.S, 'TemplateMailLectureSansCompte');
       }
     }
   }, Promise.resolve());

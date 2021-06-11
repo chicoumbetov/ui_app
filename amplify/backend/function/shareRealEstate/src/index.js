@@ -43,6 +43,7 @@ exports.handler = async (event) => {
                         admins,
                         _version: realEstate._version,
                     });
+                    await SendMail_1.sendTemplateEmail(email.S, 'TemplateMailAdminAvecCompte');
                 }
                 else {
                     const shared = realEstate.shared || [];
@@ -61,10 +62,13 @@ exports.handler = async (event) => {
                         _version: realEstate._version,
                     });
                 }
-                await SendMail_1.sendTemplateEmail(email.S);
+                await SendMail_1.sendTemplateEmail(email.S, 'TemplateMailLectureAvecCompte');
+            }
+            else if (type.S === 'Admin') {
+                await SendMail_1.sendTemplateEmail(email.S, 'TemplateMailAdminSansCompteV2');
             }
             else {
-                await SendMail_1.sendTemplateEmail(email.S);
+                await SendMail_1.sendTemplateEmail(email.S, 'TemplateMailLectureSansCompte');
             }
         }
     }, Promise.resolve());

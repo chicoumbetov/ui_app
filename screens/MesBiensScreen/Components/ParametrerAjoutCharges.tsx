@@ -155,7 +155,7 @@ const ParametrerAjoutCharges = () => {
               input: {
                 budgetLineId: newBugetLine.data?.createBudgetLine.id,
                 realEstateId: route.params.id,
-                type: BudgetLineType.Income,
+                type: BudgetLineType.Expense,
                 category,
                 amount,
                 frequency,

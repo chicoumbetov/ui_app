@@ -10,6 +10,7 @@ import { Icon, Text, useTheme } from '@ui-kitten/components';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { useLinkTo, useNavigation } from '@react-navigation/native';
 import { Icon as IconUIKitten } from '@ui-kitten/components/ui/icon/icon.component';
+import moment from 'moment';
 import CompteHeader from '../../../components/CompteHeader/CompteHeader';
 import GraphicsII from '../../../components/Graphics/GraphicsII';
 import Graphics from '../../../components/Graphics/Graphics';
@@ -56,21 +57,34 @@ const MonBien = (props: MonBienProps) => {
    *   Summarizing of each expenses and incomes
    */
   const currentYear = new Date().getFullYear();
+  const currentMonth = new Date().getMonth();
 
-  /**
-  const allIncomes = bienDetail?.bien?.budgetLines?.items
+  const allDataNextExpense = bienDetail?.bien?.budgetLineDeadlines?.items
   && bienDetail?.bien?.budgetLineDeadlines?.items?.filter((item) => {
     // years for all existing Eau expenses in whole period
-    const allYearsEau = DateUtils.parseToDateObj(item?.date).getFullYear();
+    const allYears = DateUtils.parseToDateObj(item?.date).getFullYear();
+    const allMonths = DateUtils.parseToDateObj(item?.date).getMonth();
 
-    if (item?.type === BudgetLineType.Income
-        && !item?._deleted && allYearsEau === currentYear
+    if (item?.type === BudgetLineType.Expense
+        && !item?._deleted
+        && allYears === currentYear
+        && allMonths === currentMonth + 1
     ) {
+      console.log('months: ', item?.amount, DateUtils.parseToDateObj(item?.date));
+
       return item;
     }
     return false;
-  }).map((item) => item?.amount);
-  */
+  });
+
+  const nextexpense = allDataNextExpense?.map((d) => d?.amount)
+    .find((m) => m);
+
+  // console.log('item', allDataNextExpense);
+  // console.log('closest date', nextexpense);
+  // console.log('NEXT');
+
+  /** Frais compatible was changed to Frais Divers  and amount was changed from 33 to 9 */
 
   /** Object with 3 attributes and its key */
   const allCurrentCategories: {
@@ -104,7 +118,8 @@ const MonBien = (props: MonBienProps) => {
 
   // percentages
   Object.keys(allCurrentCategories).forEach((property) => {
-    /** */
+    /** Get only percentage variable number that is coefficient from allCurrentCategories and
+     * convert to actual percentage according on total value */
     allCurrentCategories[property].percentage = Math
       .round((allCurrentCategories[property].value / totalExpenses) * 100);
   });
@@ -186,7 +201,9 @@ const MonBien = (props: MonBienProps) => {
                 fill="#b5b5b5"
                 style={{ height: 16, width: 16 }}
               />
-              <Text category="h4" status="danger">- allExpenses €</Text>
+              <Text category="h4" status="danger">
+                {`- ${(nextexpense) || '0'} €`}
+              </Text>
             </View>
 
             {/**
@@ -227,7 +244,9 @@ const MonBien = (props: MonBienProps) => {
                 <Text category="h6" appearance="hint" style={styles.text}>
                   Prochaine dépense
                 </Text>
-                <Text category="h4" status="danger">- allExpenses €</Text>
+                <Text category="h4" status="danger">
+                  {`- ${(nextexpense) || '0'} €`}
+                </Text>
                 <TouchableOpacity onPress={allerTresorerie}>
                   <Text category="h6" status="info">En savoir +</Text>
                 </TouchableOpacity>

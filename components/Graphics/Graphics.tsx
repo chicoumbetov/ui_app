@@ -12,18 +12,18 @@ type MesBiensDataProps = {
 
 const Graphics = (data: MesBiensDataProps) => {
   const theme = useTheme();
-  console.log('theme: ', theme);
+  // console.log('theme: ', theme);
 
   /** To avoid displayment of values equal to 0 */
   // .filter((y) => y > 0)
   const [victoryData] = useState(Object.values(data));
   console.log('data :', victoryData);
 
-  const VICTORY_DATA = victoryData.map(
+  const victory = victoryData.map(
     (item) => (Object.values(item).map((val) => (
       { x: val.value, y: val.percentage, i: val.label }))),
   );
-  console.log(VICTORY_DATA);
+  // console.log('victory', victory);
 
   const colorScale = [
     theme['color-success-400'],
@@ -54,7 +54,7 @@ const Graphics = (data: MesBiensDataProps) => {
               height={272}
               width={272}
               innerRadius={67}
-              data={VICTORY_DATA[0]}
+              data={victory[0]}
               labels={(datum) => `${datum.datum.y} %`}
               colorScale={colorScale}
             />
@@ -68,10 +68,10 @@ const Graphics = (data: MesBiensDataProps) => {
           />
 
           {/**
-          *         Remake with Flatlist and connect with Victory Pie
+          *  Legend of graphic by iteration of colors according on category index
           * */}
 
-          {VICTORY_DATA.map((item) => item
+          {victory.map((item) => item
             .map((expenseLabel) => (
               <View style={{
                 flex: 1, flexDirection: 'row', marginTop: 10, alignItems: 'center',

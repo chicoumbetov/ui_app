@@ -1,43 +1,51 @@
 import React, { useState } from 'react';
-import { StyleSheet } from 'react-native';
-import { Layout, Text, useTheme } from '@ui-kitten/components';
+import { StyleSheet, View } from 'react-native';
+import { Text, useTheme } from '@ui-kitten/components';
 
 import { VictoryPie } from 'victory-native';
+
 import MaxWidthContainer from '../MaxWidthContainer';
 
-type MesBiensDataProps = [
-  { x: number, y: number },
-];
+type MesBiensDataProps = {
+  [key: string]: { value: number, percentage: number, label: string }
+};
 
-const Graphics = (props: MesBiensDataProps) => {
-  const { data } = props;
+const Graphics = (data: MesBiensDataProps) => {
   const theme = useTheme();
-  const [victoryData, setVictoryData] = useState(data);
+  console.log('theme: ', theme);
 
-  console.log('victoryData', props);
-  /**
-   amount.reduce((a, b) => {
-    return a+b
-  }, 0),
-   */
-  // const variable = Data.push(bien?.budgetLines?.items?.map((item) => item?.amount));
-  // const getAmountPourcentage = () => {}
-  // console.log('variable', variable, 'Data', Data);
+  /** To avoid displayment of values equal to 0 */
+  // .filter((y) => y > 0)
+  const [victoryData] = useState(Object.values(data));
+  console.log('data :', victoryData);
 
-  const myMap = new Map([[23, 1], [24, 3]]);
-  let sum = 0;
-  myMap.forEach((v) => {
-    sum += v;
-  });
+  const VICTORY_DATA = victoryData.map(
+    (item) => (Object.values(item).map((val) => (
+      { x: val.value, y: val.percentage, i: val.label }))),
+  );
+  console.log(VICTORY_DATA);
 
-  console.log(sum);
+  const colorScale = [
+    theme['color-success-400'],
+    theme['color-warning-500'],
+    theme['color-info-500'],
+    theme['color-danger-500'],
+    theme['color-success-200'],
+    theme['color-warning-700'],
+    theme['color-info-200'],
+    theme['color-danger-700'],
+    theme['color-success-800'],
+    theme['color-warning-300'],
+    theme['color-info-200'],
+    theme['color-danger-200'],
+  ];
 
   return (
     <MaxWidthContainer>
-      <Layout style={styles.container}>
-        <Layout style={styles.compteSection}>
+      <View style={styles.container}>
+        <View style={styles.compteSection}>
 
-          <Layout style={{ alignItems: 'center', margin: 30 }}>
+          <View style={{ alignItems: 'center', margin: 30 }}>
             <VictoryPie
               padAngle={4}
               startAngle={-27}
@@ -46,62 +54,44 @@ const Graphics = (props: MesBiensDataProps) => {
               height={272}
               width={272}
               innerRadius={67}
-              data={victoryData}
-              labels={({ datum }) => `${datum.x} %`}
-              colorScale={[
-                theme['color-success-400'],
-                theme['color-warning-500'],
-                theme['color-info-500'],
-                theme['color-danger-500'],
-              ]}
+              data={VICTORY_DATA[0]}
+              labels={(datum) => `${datum.datum.y} %`}
+              colorScale={colorScale}
             />
-          </Layout>
+          </View>
 
-          <Layout style={{
-            borderWidth: 1,
+          <View style={{
+            borderWidth: 0.5,
             borderColor: '#b5b5b5',
             marginVertical: 20,
           }}
           />
 
           {/**
-        *         Remake with Flatlist and connect with Victory Pie
-        * */}
-          <Layout style={{
-            flex: 1, flexDirection: 'row', marginTop: 10, alignItems: 'center',
-          }}
-          >
-            <Layout style={{
-              backgroundColor: theme['color-info-500'], height: 30, width: 30, borderRadius: 30, marginRight: 10,
-            }}
-            />
-            <Text category="h6" appearance="hint">Eau</Text>
-          </Layout>
-          <Layout style={{ flexDirection: 'row', marginTop: 10, alignItems: 'center' }}>
+          *         Remake with Flatlist and connect with Victory Pie
+          * */}
 
-            <Layout style={{
-              backgroundColor: theme['color-warning-500'], height: 30, width: 30, borderRadius: 30, marginRight: 10,
-            }}
-            />
-            <Text category="h6" appearance="hint">Electiricité</Text>
-          </Layout>
-          <Layout style={{ flexDirection: 'row', marginTop: 10, alignItems: 'center' }}>
-            <Layout style={{
-              backgroundColor: theme['color-success-400'], height: 30, width: 30, borderRadius: 30, marginRight: 10,
-            }}
-            />
-            <Text category="h6" appearance="hint">Assurances</Text>
-          </Layout>
-          <Layout style={{ flexDirection: 'row', marginTop: 10, alignItems: 'center' }}>
-            <Layout style={{
-              backgroundColor: theme['color-danger-500'], height: 30, width: 30, borderRadius: 30, marginRight: 10,
-            }}
-            />
-            <Text category="h6" appearance="hint">Frais Divers</Text>
-          </Layout>
+          {VICTORY_DATA.map((item) => item
+            .map((expenseLabel) => (
+              <View style={{
+                flex: 1, flexDirection: 'row', marginTop: 10, alignItems: 'center',
+              }}
+              >
+                <View
+                  style={{
+                    backgroundColor: colorScale[item.findIndex((value) => value === expenseLabel)],
+                    height: 30,
+                    width: 30,
+                    borderRadius: 30,
+                    marginRight: 10,
+                  }}
+                />
+                <Text category="h6" appearance="hint">{expenseLabel.i}</Text>
+              </View>
+            )))}
 
-        </Layout>
-      </Layout>
+        </View>
+      </View>
     </MaxWidthContainer>
   );
 };

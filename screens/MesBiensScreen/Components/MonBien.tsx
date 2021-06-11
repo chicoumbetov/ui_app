@@ -5,13 +5,9 @@
  */
 
 import React, { useState } from 'react';
-import {
-  Text, Icon, useTheme,
-} from '@ui-kitten/components';
+import { Icon, Text, useTheme } from '@ui-kitten/components';
 
-import {
-  StyleSheet, TouchableOpacity, View,
-} from 'react-native';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { useLinkTo, useNavigation } from '@react-navigation/native';
 import { Icon as IconUIKitten } from '@ui-kitten/components/ui/icon/icon.component';
 import CompteHeader from '../../../components/CompteHeader/CompteHeader';
@@ -23,14 +19,15 @@ import MaxWidthContainer from '../../../components/MaxWidthContainer';
 import { RealEstateItem, useGetRealEstate } from '../../../src/API/RealEstate';
 import Card from '../../../components/Card';
 import { BudgetLineType } from '../../../src/API';
-
-type MesBiensDataProps = { x: number, y: number | undefined };
+// import { useGetBudgetLineDeadLine } from '../../../src/API/BudgetLineDeadLine';
+import DateUtils from '../../../utils/DateUtils';
 
 type MonBienProps = { bien: RealEstateItem };
 
 const MonBien = (props: MonBienProps) => {
   const { bien } = props;
   const bienDetail = useGetRealEstate(bien?.id);
+  // const budgetLineDeadLine = useGetBudgetLineDeadLine(bien?.id);
   const linkTo = useLinkTo();
 
   const navigation = useNavigation();
@@ -58,101 +55,61 @@ const MonBien = (props: MonBienProps) => {
   /**
    *   Summarizing of each expenses and incomes
    */
+  const currentYear = new Date().getFullYear();
+
+  /**
   const allIncomes = bienDetail?.bien?.budgetLines?.items
-  && bienDetail?.bien?.budgetLines?.items?.filter((item) => {
-    if (item?.type === BudgetLineType.Income && !item?._deleted) {
+  && bienDetail?.bien?.budgetLineDeadlines?.items?.filter((item) => {
+    // years for all existing Eau expenses in whole period
+    const allYearsEau = DateUtils.parseToDateObj(item?.date).getFullYear();
+
+    if (item?.type === BudgetLineType.Income
+        && !item?._deleted && allYearsEau === currentYear
+    ) {
       return item;
     }
     return false;
   }).map((item) => item?.amount);
+  */
 
-  const allExpenses = bienDetail?.bien?.budgetLines?.items
-      && bienDetail?.bien?.budgetLines?.items?.filter((item) => {
-        if (item?.type === BudgetLineType.Expense && !item?._deleted) {
-          return item;
+  /** Object with 3 attributes and its key */
+  const allCurrentCategories: {
+    [key: string]: { value: number, percentage: number, label: string }
+  } = {};
+
+  if (bienDetail?.bien?.budgetLineDeadlines?.items) {
+    bienDetail.bien?.budgetLineDeadlines?.items.forEach((item) => {
+      // years for all existing Eau expenses in whole period
+      const allYears = DateUtils.parseToDateObj(item?.date).getFullYear();
+      if (item?.category && allYears === currentYear && item.type === BudgetLineType.Expense) {
+        /** If any expoense doesnt exist */
+        if (allCurrentCategories[item?.category] === undefined) {
+          /**
+           * initial values and then calculate percentage starting from 0
+           */
+          allCurrentCategories[item?.category] = {
+            value: item?.amount || 0,
+            percentage: 0,
+            label: item?.category,
+          };
+        } else {
+          /** else If any expoense exist then we add to allCurrentCategories variable */
+          allCurrentCategories[item?.category].value += item?.amount || 0;
         }
-        return false;
-      }).map((item) => item?.amount);
+      }
+    });
+  }
 
-  const sumAllIncomes = allIncomes?.reduce((a, b) => a + b, 0);
-  const sumAllExpenses = allExpenses?.reduce((a, b) => a + b, 0);
+  const totalExpenses = Object.values(allCurrentCategories).reduce((t, { value }) => t + value, 0);
 
-  /**
-   *   Summarizing of each expense categories to send to graph
-   *   water
-   *   electricity
-   *   assurances
-   *   Frais Divers
-   *
-   */
+  // percentages
+  Object.keys(allCurrentCategories).forEach((property) => {
+    /** */
+    allCurrentCategories[property].percentage = Math
+      .round((allCurrentCategories[property].value / totalExpenses) * 100);
+  });
 
-  /** get all the water expenses */
-  const eau = bienDetail.bien?.budgetLines?.items
-      && bienDetail.bien?.budgetLines?.items.filter((item) => {
-        if (item?.category === 'Eau' && !item?._deleted) {
-          return item;
-        }
-        return false;
-      }).map((item) => item?.amount);
-
-  /** get all the electricity expenses */
-  const electricity = bienDetail.bien?.budgetLines?.items
-      && bienDetail.bien?.budgetLines?.items.filter((item) => {
-        if (item?.category === 'Electricité' && !item?._deleted) {
-          return item;
-        }
-        return false;
-      }).map((item) => item?.amount);
-
-  /** get all the insurance expenses */
-  const insurance = bienDetail.bien?.budgetLines?.items
-      && bienDetail.bien?.budgetLines?.items.filter((item) => {
-        if (
-          (item?.category === 'Assurance du bien'
-            || item?.category === 'Vacances locatives'
-            || item?.category === 'Loyer impayé') && !item?._deleted
-        ) {
-          return item;
-        }
-        return false;
-      }).map((item) => item?.amount);
-  // console.log('insurance: ', insurance);
-
-  /** get all the Frais Divers expenses */
-  const fraisDivers = bienDetail.bien?.budgetLines?.items
-      && bienDetail.bien?.budgetLines?.items.filter((item) => {
-        if (item?.category === 'Frais divers' && !item?._deleted) {
-          return item;
-        }
-        return false;
-      }).map((item) => item?.amount);
-
-  const sumWaterExpenses = eau?.reduce((a, b) => a + b, 0);
-  const sumElectricityExpenses = electricity?.reduce((a, b) => a + b, 0);
-  const sumInsuranceExpenses = insurance?.reduce((a, b) => a + b, 0);
-  const sumFraisDiversExpenses = fraisDivers?.reduce((a, b) => a + b, 0);
-
-  console.log('NEXT HOUSE');
-  console.log('water: ', sumWaterExpenses);
-  console.log('elec: ', sumElectricityExpenses);
-  console.log('insurance: ', sumInsuranceExpenses);
-  console.log('Frais Divers: ', sumFraisDiversExpenses);
-
-  /** % of each category of expense */
-  const pourcentageWater = sumWaterExpenses * 100 / sumAllExpenses;
-  const pourcentageElec = sumElectricityExpenses * 100 / sumAllExpenses;
-  const pourcentageInsurance = sumInsuranceExpenses * 100 / sumAllExpenses;
-  const pourcentageFraisDivers = sumFraisDiversExpenses * 100 / sumAllExpenses;
-  console.log('pourcentageWater', pourcentageWater, pourcentageElec, pourcentageInsurance, pourcentageFraisDivers);
-
-  /** Data to pass to graph */
-  // you can also pass an i- value, but that's up to you
-  const amountData: MesBiensDataProps[] | undefined = [
-    { x: Math.round(pourcentageInsurance), y: sumInsuranceExpenses },
-    { x: Math.round(pourcentageElec), y: sumElectricityExpenses },
-    { x: Math.round(pourcentageWater), y: sumWaterExpenses },
-    { x: Math.round(pourcentageFraisDivers), y: sumFraisDiversExpenses },
-  ];
+  // console.log('allCurrentCategories', allCurrentCategories);
 
   /** Redirections */
   const allerTresorerie = () => {
@@ -211,7 +168,7 @@ const MonBien = (props: MonBienProps) => {
                   }}
                 />
               </View>
-              <Text category="h4" status="success">{`+ ${sumAllIncomes} €`}</Text>
+              <Text category="h4" status="success">+ allIncomes €</Text>
             </View>
 
             {/**
@@ -229,7 +186,7 @@ const MonBien = (props: MonBienProps) => {
                 fill="#b5b5b5"
                 style={{ height: 16, width: 16 }}
               />
-              <Text category="h4" status="danger">{` ${sumAllExpenses} €`}</Text>
+              <Text category="h4" status="danger">- allExpenses €</Text>
             </View>
 
             {/**
@@ -260,7 +217,7 @@ const MonBien = (props: MonBienProps) => {
             >
               <View style={styles.oneThirdBlock}>
                 <Text category="h6" appearance="hint" style={styles.text}>Dernier mouvement</Text>
-                <Text category="h4" status="success" style={{ marginVertical: 14 }}>{`+ ${allIncomes?.pop()} €`}</Text>
+                <Text category="h4" status="success" style={{ marginVertical: 14 }}>+ allIncomes €</Text>
                 <TouchableOpacity onPress={() => {}}>
                   <Text category="h6" status="info">Affecter</Text>
                 </TouchableOpacity>
@@ -270,7 +227,7 @@ const MonBien = (props: MonBienProps) => {
                 <Text category="h6" appearance="hint" style={styles.text}>
                   Prochaine dépense
                 </Text>
-                <Text category="h4" status="danger">{`- ${allExpenses?.pop()} €`}</Text>
+                <Text category="h4" status="danger">- allExpenses €</Text>
                 <TouchableOpacity onPress={allerTresorerie}>
                   <Text category="h6" status="info">En savoir +</Text>
                 </TouchableOpacity>
@@ -295,7 +252,7 @@ const MonBien = (props: MonBienProps) => {
                 style={{ height: 18, width: 18, marginRight: 8 }}
               />
             </TouchableOpacity>
-            <Graphics data={amountData} />
+            <Graphics data={allCurrentCategories} />
             <GraphicsII />
           </>
         )}

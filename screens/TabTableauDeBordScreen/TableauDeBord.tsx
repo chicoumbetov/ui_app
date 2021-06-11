@@ -17,17 +17,44 @@ import MaisonVert from '../../assets/Omedom_Icons_svg/Logement/maison_verte.svg'
 import Immeuble from '../../assets/Omedom_Icons_svg/Logement/immeuble.svg';
 import MaxWidthContainer from '../../components/MaxWidthContainer';
 import MonBienResume from '../../components/MonBienResume';
-import { useRealEstateList } from '../../src/API/RealEstate';
+import { useGetRealEstate, useRealEstateList } from '../../src/API/RealEstate';
 import Separator from '../../components/Separator';
 import Card from '../../components/Card';
 import Button from '../../components/Button';
 import ActivityIndicator from '../../components/ActivityIndicator';
+import { BudgetLineType } from '../../src/API';
 
 function TableauDeBord() {
   const linkTo = useLinkTo();
   const { loading, data } = useRealEstateList();
+  // console.log('data: ', data?.listRealEstates?.items?.map((item) => item?.id));
+  // const bienDetail = useGetRealEstate(data?.listRealEstates?.items?.map((item) => item?.id));
 
   // const [compte, setCompte] = useState(comptesData);
+
+  /**
+   *   Summarizing of each expenses and incomes
+   */
+
+  const allIncomes = data?.listRealEstates?.items
+      && data?.listRealEstates?.items?.filter((item) => {
+        if (item?.type === BudgetLineType.Income && !item?._deleted) {
+          return item;
+        }
+        return false;
+      }).map((item) => item?.amount);
+  // console.log(allIncomes);
+
+  const allExpenses = data?.listRealEstates?.items
+      && data?.listRealEstates?.items?.filter((item) => {
+        if (item?.type === BudgetLineType.Expense && !item?._deleted) {
+          return item;
+        }
+        return false;
+      }).map((item) => item?.amount);
+
+  // const sumAllIncomes = allIncomes?.reduce((a, b) => a + b, 0);
+  // const sumAllExpenses = allExpenses?.reduce((a, b) => a + b, 0);
 
   const allerTresorie = () => {
     linkTo('/ma-tresorerie');

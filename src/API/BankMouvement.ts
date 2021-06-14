@@ -3,7 +3,7 @@ import gql from 'graphql-tag';
 import { useQuery } from 'react-apollo';
 import { getBankMovementByBankAccountId, listBankMovements } from '../graphql/queries';
 import {
-  BankMovement,
+  BankMovement, GetBankMovementByBankAccountIdQuery, GetBankMovementByBankAccountIdQueryVariables,
   GetBankMovementQuery,
   GetBankMovementQueryVariables,
   ListBankMovementsQuery,
@@ -22,16 +22,20 @@ export function useBankMouvementList() {
 
 const getBankMovementByBankAccountIdQuery = <DocumentNode>gql(getBankMovementByBankAccountId);
 
-export function getBankMouvementByBiId(id: string) {
+export function useGetBankMovementByBankAccountId(bankAccountId: string) {
   const {
     loading, data, fetchMore, refetch,
-  } = useQuery<GetBankMovementQuery, GetBankMovementQueryVariables>(getBankMovementByBankAccountIdQuery, {
+  } = useQuery<GetBankMovementByBankAccountIdQuery,
+  GetBankMovementByBankAccountIdQueryVariables>(getBankMovementByBankAccountIdQuery, {
     variables: {
-      id,
+      bankAccountId,
     },
   });
 
   return {
-    loading, bankMouvement: <BankMovement>data?.getBankMovement, fetchMore, refetch,
+    loading,
+    bankMouvement: <BankMovement[]>data?.getBankMovementByBankAccountId?.items,
+    fetchMore,
+    refetch,
   };
 }

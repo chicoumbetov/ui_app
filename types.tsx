@@ -78,7 +78,7 @@ export type TabMesBiensParamList = {
 export type TabMaTresorerieParamList = {
   'ma-tresorerie': { id: string };
   'ma-tresorerie-2': { id: string };
-  'mouv-bancaires': { id: string };
+  'mouv-bancaires': { id: string, idCompte: string };
   'ignorer-mouvement': { id: string };
 
   TresoMouvement_page1: undefined;

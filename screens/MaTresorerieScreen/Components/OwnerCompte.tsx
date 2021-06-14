@@ -2,11 +2,13 @@ import React from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { CheckBox, Text, useTheme } from '@ui-kitten/components';
 
-import { useLinkTo } from '@react-navigation/native';
+import { useLinkTo, useNavigation, useRoute } from '@react-navigation/native';
 import { Icon as IconUIKitten } from '@ui-kitten/components/ui/icon/icon.component';
 
+import { RouteProp } from '@react-navigation/core/lib/typescript/src/types';
 import Card from '../../../components/Card';
 import { BankAccount } from '../../../src/API';
+import { TabMaTresorerieParamList } from '../../../types';
 
 type MonBienProps = { compte: BankAccount,
   supprimer?: boolean,
@@ -19,11 +21,13 @@ const OwnerCompte = (props: MonBienProps) => {
     compte, supprimer = false, add = false, checked = false, onCheck,
   } = props;
   console.log(compte);
+  const route = useRoute<RouteProp<TabMaTresorerieParamList, 'ma-tresorerie-2'>>();
+  const navigation = useNavigation();
 
   const linkTo = useLinkTo();
   const theme = useTheme();
   const onTresoMouvement = (id: string) => {
-    linkTo(`/ma-tresorerie/mouv-bancaires/${id}`);
+    navigation.navigate('mouv-bancaires', { idCompte: id, id: route.params.id });
   };
 
   return (

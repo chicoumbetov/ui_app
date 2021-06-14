@@ -27,12 +27,18 @@ import { useGetRealEstate } from '../../src/API/RealEstate';
 import { BudgetLineType } from '../../src/API';
 import Separator from '../../components/Separator';
 import Amount from '../../components/Amount';
+import {
+  getBankMouvementByBiId,
+  useGetBankMovementByBankAccountId,
+} from '../../src/API/BankMouvement';
 
 const MouvBancaires = () => {
   const theme = useTheme();
   const linkTo = useLinkTo();
   const route = useRoute<RouteProp<TabMaTresorerieParamList, 'mouv-bancaires'>>();
   const { bien } = useGetRealEstate(route.params.id);
+  const { bankMouvement } = useGetBankMovementByBankAccountId(route.params.idCompte);
+  console.log('mouvement ', bankMouvement);
 
   // const [compte] = useState(comptesData);
   const [currentMvt, setCurrentMvt] = useState();

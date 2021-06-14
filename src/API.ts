@@ -1180,6 +1180,16 @@ export type ModelBankMovementFilterInput = {
   not?: ModelBankMovementFilterInput | null,
 };
 
+export type ModelStringKeyConditionInput = {
+  eq?: string | null,
+  le?: string | null,
+  lt?: string | null,
+  ge?: string | null,
+  gt?: string | null,
+  between?: Array< string | null > | null,
+  beginsWith?: string | null,
+};
+
 export type ModelNotificationFilterInput = {
   id?: ModelIDInput | null,
   userId?: ModelIDInput | null,
@@ -6969,6 +6979,82 @@ export type ListBankMovementsQueryVariables = {
 
 export type ListBankMovementsQuery = {
   listBankMovements?:  {
+    __typename: "ModelBankMovementConnection",
+    items?:  Array< {
+      __typename: "BankMovement",
+      id: string,
+      bankAccountId: string,
+      realEstateId?: string | null,
+      biId: number,
+      description?: string | null,
+      amount: number,
+      budgetLineDeadlineId?: Array< string | null > | null,
+      ignored?: boolean | null,
+      date?: string | null,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+      createdAt: string,
+      updatedAt: string,
+      realEstate?:  {
+        __typename: "RealEstate",
+        id: string,
+        name: string,
+        iconUri: string,
+        purchaseYear?: number | null,
+        type?: RealEstateType | null,
+        ownName?: boolean | null,
+        company?: CompanyType | null,
+        detentionPart?: number | null,
+        typeImpot?: TaxType | null,
+        admins: Array< string >,
+        shared?: Array< string > | null,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
+      budgetLineDeadline?:  {
+        __typename: "ModelBudgetLineDeadlineConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      bankAccount:  {
+        __typename: "BankAccount",
+        id: string,
+        bank?: string | null,
+        accountOwner?: string | null,
+        name?: string | null,
+        iban?: string | null,
+        bic?: string | null,
+        balance: number,
+        biId: number,
+        biConnectionId: number,
+        biState?: string | null,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+        createdAt: string,
+        updatedAt: string,
+      },
+    } | null > | null,
+    nextToken?: string | null,
+    startedAt?: number | null,
+  } | null,
+};
+
+export type GetBankMovementByBankAccountIdQueryVariables = {
+  bankAccountId?: string | null,
+  date?: ModelStringKeyConditionInput | null,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelBankMovementFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type GetBankMovementByBankAccountIdQuery = {
+  getBankMovementByBankAccountId?:  {
     __typename: "ModelBankMovementConnection",
     items?:  Array< {
       __typename: "BankMovement",

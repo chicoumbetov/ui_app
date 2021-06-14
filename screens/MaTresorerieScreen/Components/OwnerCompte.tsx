@@ -6,9 +6,9 @@ import { useLinkTo } from '@react-navigation/native';
 import { Icon as IconUIKitten } from '@ui-kitten/components/ui/icon/icon.component';
 
 import Card from '../../../components/Card';
-import { RealEstateBankAccount } from '../../../src/API';
+import { BankAccount } from '../../../src/API';
 
-type MonBienProps = { compte: RealEstateBankAccount,
+type MonBienProps = { compte: BankAccount,
   supprimer?: boolean,
   add?: boolean,
   onCheck?: (checked: boolean) => void,
@@ -65,15 +65,13 @@ const OwnerCompte = (props: MonBienProps) => {
 
         <View style={{ justifyContent: 'center', paddingHorizontal: 14, flex: 1 }}>
           <Text category="h6">
-            Monsieur
-            {' '}
-            {compte?.name}
+            {compte.name}
           </Text>
           <Text category="p2" appearance="hint">
-            FR 1234 1234 1234 1234
+            {compte.iban}
           </Text>
           <Text category="p2" status="basic">
-            Société générale
+            {compte.bank}
           </Text>
         </View>
 

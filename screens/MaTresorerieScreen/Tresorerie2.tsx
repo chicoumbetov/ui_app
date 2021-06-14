@@ -30,7 +30,6 @@ import { useBankAccountList } from '../../src/API/BankAccount';
 import { useCreateRealEstateBankAccount } from '../../src/API/RealEstateBankAccount';
 
 const MaTresorerie2 = () => {
-  const { loading } = useRealEstateList();
   // const [compte] = useState(comptesData);
 
   const [toggle, setToggle] = useState(false);
@@ -45,11 +44,12 @@ const MaTresorerie2 = () => {
   const createRealEstateBankAccount = useCreateRealEstateBankAccount();
   const { bien, refetch: refetchBien, loading: loadingBien } = useGetRealEstate(route.params.id);
   const { data } = useBankAccountList();
-  console.log('oui', bien.bankAccounts?.items?.length);
-  if (bien.bankAccounts?.items?.length === 0 && !toggle) {
-    setToggle(true);
+  if (bien) {
+    console.log('oui', bien.bankAccounts?.items?.length);
+    if (bien.bankAccounts?.items?.length === 0 && !toggle) {
+      setToggle(true);
+    }
   }
-
   let buttonText = '';
   if (toggle) {
     if (checkedAccounts.length <= 0) {
@@ -95,7 +95,7 @@ const MaTresorerie2 = () => {
         {toggle
           ? (<Text category="p2" appearance="hint">Ajoutez un compte pour consulter votre trésorerie</Text>)
           : (<Text category="p2" appearance="hint">Sélectionner le compte pour consulter votre trésorerie</Text>)}
-        {loading
+        {loadingBien
           ? <ActivityIndicator />
           : (!toggle ? (
             <>
@@ -103,7 +103,7 @@ const MaTresorerie2 = () => {
                 (item) => item && (
                 <OwnerCompte
                   key={item.id}
-                  compte={item}
+                  compte={item.bankAccount}
                   supprimer={supprim}
                 />
                 ),
@@ -167,9 +167,10 @@ const MaTresorerie2 = () => {
                             },
                           },
                         });
-                        console.log('item : ', item);
                       }
                     });
+                    console.log('item : ', bien.bankAccounts?.items);
+                    setToggle(false);
                   } else {
                     setAddingAccounts(true);
                     const response = await API.get('omedomrest', '/budgetinsight/connect-url', {});

@@ -289,7 +289,7 @@ export const schema = {
                     "isArrayNullable": true,
                     "association": {
                         "connectionType": "HAS_MANY",
-                        "associatedWith": "id"
+                        "associatedWith": "realEstate"
                     }
                 },
                 "address": {
@@ -322,7 +322,7 @@ export const schema = {
                     "isArrayNullable": true,
                     "association": {
                         "connectionType": "HAS_MANY",
-                        "associatedWith": "id"
+                        "associatedWith": "realEstate"
                     }
                 }
             },
@@ -604,7 +604,8 @@ export const schema = {
                         "fields": [
                             "bankAccountId",
                             "date"
-                        ]
+                        ],
+                        "queryField": "getBankMovementByBankAccountId"
                     }
                 },
                 {
@@ -686,7 +687,7 @@ export const schema = {
                     "isArrayNullable": true,
                     "association": {
                         "connectionType": "HAS_MANY",
-                        "associatedWith": "id"
+                        "associatedWith": "bankAccount"
                     }
                 },
                 "bank": {
@@ -1062,16 +1063,6 @@ export const schema = {
                     }
                 },
                 {
-                    "type": "key",
-                    "properties": {
-                        "name": "budgetLineDeadlineByBankMovement",
-                        "fields": [
-                            "bankMouvementId",
-                            "date"
-                        ]
-                    }
-                },
-                {
                     "type": "model",
                     "properties": {}
                 },
@@ -1398,16 +1389,6 @@ export const schema = {
                                     "delete",
                                     "read"
                                 ]
-                            },
-                            {
-                                "allow": "private",
-                                "provider": "iam",
-                                "operations": [
-                                    "create",
-                                    "update",
-                                    "delete",
-                                    "read"
-                                ]
                             }
                         ]
                     }
@@ -1497,117 +1478,6 @@ export const schema = {
                         "fields": [
                             "userId",
                             "date"
-                        ]
-                    }
-                },
-                {
-                    "type": "auth",
-                    "properties": {
-                        "rules": [
-                            {
-                                "provider": "userPools",
-                                "ownerField": "userId",
-                                "allow": "owner",
-                                "identityClaim": "cognito:username",
-                                "operations": [
-                                    "create",
-                                    "update",
-                                    "delete",
-                                    "read"
-                                ]
-                            },
-                            {
-                                "allow": "private",
-                                "provider": "iam",
-                                "operations": [
-                                    "create",
-                                    "update",
-                                    "delete",
-                                    "read"
-                                ]
-                            },
-                            {
-                                "allow": "private",
-                                "provider": "iam",
-                                "operations": [
-                                    "create",
-                                    "update",
-                                    "delete",
-                                    "read"
-                                ]
-                            }
-                        ]
-                    }
-                }
-            ]
-        },
-        "NotificationReceipts": {
-            "name": "NotificationReceipts",
-            "fields": {
-                "id": {
-                    "name": "id",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "userId": {
-                    "name": "userId",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "user": {
-                    "name": "user",
-                    "isArray": false,
-                    "type": {
-                        "model": "User"
-                    },
-                    "isRequired": false,
-                    "attributes": [],
-                    "association": {
-                        "connectionType": "HAS_ONE",
-                        "associatedWith": "id",
-                        "targetName": "userId"
-                    }
-                },
-                "expoToken": {
-                    "name": "expoToken",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "receiptId": {
-                    "name": "receiptId",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "createdAt": {
-                    "name": "createdAt",
-                    "isArray": false,
-                    "type": "AWSDateTime",
-                    "isRequired": false,
-                    "attributes": []
-                }
-            },
-            "syncable": true,
-            "pluralName": "NotificationReceipts",
-            "attributes": [
-                {
-                    "type": "model",
-                    "properties": {}
-                },
-                {
-                    "type": "key",
-                    "properties": {
-                        "name": "notificationReceiptsByUser",
-                        "fields": [
-                            "userId",
-                            "createdAt"
                         ]
                     }
                 },
@@ -2072,5 +1942,5 @@ export const schema = {
             }
         }
     },
-    "version": "63be9174d1ec077c60cf3848f516262a"
+    "version": "fd5fdfee0278bf9221e278a8caca744d"
 };

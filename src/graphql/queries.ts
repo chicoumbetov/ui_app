@@ -2183,6 +2183,83 @@ export const listBankMovements = /* GraphQL */ `
     }
   }
 `;
+export const getBankMovementByBankAccountId = /* GraphQL */ `
+  query GetBankMovementByBankAccountId(
+    $bankAccountId: ID
+    $date: ModelStringKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelBankMovementFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    getBankMovementByBankAccountId(
+      bankAccountId: $bankAccountId
+      date: $date
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        bankAccountId
+        realEstateId
+        biId
+        description
+        amount
+        budgetLineDeadlineId
+        ignored
+        date
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+        realEstate {
+          id
+          name
+          iconUri
+          purchaseYear
+          type
+          ownName
+          company
+          detentionPart
+          typeImpot
+          admins
+          shared
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+        budgetLineDeadline {
+          nextToken
+          startedAt
+        }
+        bankAccount {
+          id
+          bank
+          accountOwner
+          name
+          iban
+          bic
+          balance
+          biId
+          biConnectionId
+          biState
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
 export const listBankMovementByBiId = /* GraphQL */ `
   query ListBankMovementByBiId(
     $biId: Int

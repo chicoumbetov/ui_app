@@ -48,10 +48,10 @@ type RealEstate @model
   documents: [Document] @connection(keyName: "documentByRealEstate", fields: ["id"])
   admins: [String!]!
   shared: [String!]
-  pendingInvitations: [PendingInvitation] @connection(fields: ["id"])
+  pendingInvitations: [PendingInvitation] @connection(keyName: "pendingInvitationByRealEstate", fields: ["id"])
   address: Address
   tenants: [TenantInfo]
-  bankAccounts: [RealEstateBankAccount] @connection(fields: ["id"])
+  bankAccounts: [RealEstateBankAccount] @connection(keyName: "bankAccountByRealEstate", fields: ["id"])
 }
 
 type PendingInvitation
@@ -244,7 +244,7 @@ type BankAccount @model
 @key(name: "bankAccountByBiConnectionId", fields: ["biConnectionId"], queryField: "listBankAccountByBiConnectionId")
 {
   id: ID!
-  realEstates: [RealEstateBankAccount] @connection(fields: ["id"])
+  realEstates: [RealEstateBankAccount] @connection(keyName: "realEstateByBankAccount", fields: ["id"])
   bank: String
   accountOwner: String
   name: String
@@ -264,7 +264,7 @@ type BankMovement @model
   { allow: private }
   { allow: private, provider: iam }
 ])
-@key(name: "bankMovementByBankAccount", fields: ["bankAccountId","date"])
+@key(name: "bankMovementByBankAccount", fields: ["bankAccountId","date"], queryField:"getBankMovementByBankAccountId")
 @key(name: "bankMovementByBudgetLineDeadline", fields: ["budgetLineDeadlineId","date"])
 @key(name: "bankMovementByRealEstate", fields: ["realEstateId","date"])
 @key(name: "bankMovementByBiId", fields: ["biId"], queryField:"listBankMovementByBiId")
@@ -317,20 +317,6 @@ type BillingHistory @model
     paid: Boolean
 }
 
-type NotificationReceipts @model
-@auth(rules: [
-    {allow: owner, ownerField: "userId"}
-    { allow: private, provider: iam }
-])
-@key(name: "notificationReceiptsByUser", fields: ["userId","createdAt"])
-{
-    id: ID!
-    userId: ID!
-    user: User @connection (fields: ["userId"])
-    expoToken: String!
-    receiptId: String!
-    createdAt: AWSDateTime
-}
 type NotificationReceipts @model
 @auth(rules: [
     {allow: owner, ownerField: "userId"}

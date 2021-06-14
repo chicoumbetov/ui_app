@@ -3,7 +3,7 @@ import gql from 'graphql-tag';
 import { useMutation, useQuery } from 'react-apollo';
 import ApolloClient from 'apollo-client';
 import {
-  documentByKey, getDocument, getRealEstate, listDocuments, listRealEstates,
+  documentByKey, getDocument, getRealEstate, listDocuments,
 } from '../graphql/queries';
 import {
   CreateDocumentMutation,
@@ -20,8 +20,8 @@ import {
   RealEstate,
   DocumentByKeyQuery,
   DocumentByKeyQueryVariables,
-  ListRealEstatesQuery,
-  ListRealEstatesQueryVariables, ListDocumentsQuery, ListDocumentsQueryVariables,
+  ListDocumentsQuery,
+  ListDocumentsQueryVariables,
 } from '../API';
 import * as mutations from '../graphql/mutations';
 

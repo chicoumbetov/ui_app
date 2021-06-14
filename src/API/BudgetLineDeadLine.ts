@@ -14,7 +14,6 @@ import {
   CreateBudgetLineDeadlineMutation,
   CreateBudgetLineDeadlineMutationVariables,
   DeleteBudgetLineDeadlineMutationVariables,
-  DeleteRealEstateMutation, DeleteRealEstateMutationVariables,
 } from '../API';
 import * as mutations from '../graphql/mutations';
 

@@ -138,213 +138,142 @@ const MouvBancaires = () => {
         {/**
          Mouvements affectés
         */}
-        {affecte
-          ? (
-            <>
-              {mouvementData.map((item) => (
-                <Card
-                  key={item.id}
-                  style={{
-                    marginVertical: 10,
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                  }}
-                >
-                  {ignoreClicked
-                    ? (
-                      <CheckBox
-                        // checked={checked}
-                        // onChange={(nextChecked) => setChecked(nextChecked)}
-                        checked={isChecked(item.id)}
-                        onChange={
-                          (nextChecked) => checkFunction(nextChecked, item.id)
-                        }
-                        status="danger"
-                      />
-                    )
-                    : <></>}
-
-                  <TouchableOpacity
-                    onPress={() => onEditMouvement(item)}
-                    style={{
-                      flex: 1,
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                    }}
-                  >
-                    <View
-                      style={{
-                        flex: 1,
-                        alignItems: 'flex-start',
-                        marginLeft: 20,
-                      }}
-                    >
-                      <Amount amount={item.valeur} category="h5" />
-                      <Text
-                        style={{ justifyContent: 'center' }}
-                        category="h6"
-                        status="basic"
-                      >
-                        {item.category}
-                      </Text>
-                    </View>
-
-                    <View
-                      style={{
-                        flex: 1,
-                        alignItems: 'center',
-                        flexDirection: 'column',
-                        justifyContent: 'space-evenly',
-                        paddingLeft: 10,
-                      }}
-                    >
-                      <Text category="h6" status="basic">{item.date}</Text>
-                      <Text category="p1" appearance="hint">Libellé du mouvement</Text>
-                    </View>
-
-                  </TouchableOpacity>
-                </Card>
-              ))}
-            </>
-          )
-          : (
-            <>
-              {/**
+        <>
+          {/**
                Mouvements affectés
                */}
-              <Button
-                size="large"
-                onPress={() => setIgnoreClicked(!ignoreClicked)}
-                appearance={ignoreClicked ? 'filled' : 'outline'}
-                status="danger"
-                style={{ marginTop: 20 }}
-              >
-                Ignorer des mouvements
-              </Button>
-              {mouvementData.map((item) => (
-                <Card
-                  key={item.id}
-                  style={{
-                    marginVertical: 20,
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                  }}
-                >
-                  {ignoreClicked
-                    ? (
-                      <CheckBox
+          <Button
+            size="large"
+            onPress={() => setIgnoreClicked(!ignoreClicked)}
+            appearance={ignoreClicked ? 'filled' : 'outline'}
+            status="danger"
+            style={{ marginTop: 20 }}
+          >
+            Ignorer des mouvements
+          </Button>
+          {bankMouvement.map((item) => (
+            <Card
+              key={item.id}
+              style={{
+                marginVertical: 20,
+                flexDirection: 'row',
+                alignItems: 'center',
+              }}
+            >
+              {ignoreClicked
+                ? (
+                  <CheckBox
                               // checked={checked}
                               // onChange={(nextChecked) => setChecked(nextChecked)}
-                        checked={isChecked(item.id)}
-                        onChange={
+                    checked={isChecked(item.id)}
+                    onChange={
                                 (nextChecked) => checkFunction(nextChecked, item.id)
                               }
-                        status="danger"
-                      />
-                    )
-                    : <></>}
+                    status="danger"
+                  />
+                )
+                : <></>}
 
-                  <TouchableOpacity
-                    onPress={() => onEditMouvement(item)}
-                    style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}
+              <TouchableOpacity
+                onPress={() => onEditMouvement(item)}
+                style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}
+              >
+                <View
+                  style={{
+                    flex: 1,
+                    alignItems: 'flex-start',
+                    marginLeft: 20,
+                  }}
+                >
+                  <Amount amount={item.amount} category="h5" />
+                  <Text
+                    style={{ justifyContent: 'center' }}
+                    category="h6"
+                    status={item.realEstateId ? ('success') : ('warning')}
                   >
-                    <View
-                      style={{
-                        flex: 1,
-                        alignItems: 'flex-start',
-                        marginLeft: 20,
-                      }}
-                    >
-                      <Amount amount={item.valeur} category="h5" />
-                      <Text
-                        style={{ justifyContent: 'center' }}
-                        category="h6"
-                        status={item.typeMouvement === 'Validé' ? ('success') : ('warning')}
-                      >
-                        {item.typeMouvement}
-                      </Text>
-                    </View>
+                    {item.typeMouvement}
+                  </Text>
+                </View>
 
-                    <View
-                      style={{
-                        flex: 1,
-                        alignItems: 'center',
-                        flexDirection: 'column',
-                        justifyContent: 'space-evenly',
-                        paddingLeft: 10,
-                      }}
-                    >
-                      <Text category="h6" status="basic">{item.date}</Text>
-                      <Text category="p1" appearance="hint">Libellé du mouvement</Text>
-                    </View>
+                <View
+                  style={{
+                    flex: 1,
+                    alignItems: 'center',
+                    flexDirection: 'column',
+                    justifyContent: 'space-evenly',
+                    paddingLeft: 10,
+                  }}
+                >
+                  <Text category="h6" status="basic">{item.date}</Text>
+                  <Text category="p1" appearance="hint">{item.description}</Text>
+                </View>
 
-                  </TouchableOpacity>
-                </Card>
-              ))}
-              {/**
+              </TouchableOpacity>
+            </Card>
+          ))}
+          {/**
                 if data.length = 0 then show message below
                 else hide
               */}
-              <View style={{ alignItems: 'center', marginVertical: 20 }}>
-                <Text category="h4" style={{ marginBottom: 10 }}>Bon Travail!</Text>
-                <Text category="p1">Vous avez affecté tous vos mouvements bancaires.</Text>
-              </View>
-              {ignoreClicked
-                ? (
-                  <></>
-                )
-                : (
-                  <>
-                    <Separator />
-                    <Card
-                      style={{ marginVertical: 20 }}
-                    >
-                      <TouchableOpacity
-                        onPress={() => setAffecte(!affecte)}
-                        style={{
-                          flexDirection: 'row',
-                          alignItems: 'center',
-                          justifyContent: 'space-between',
-                          backgroundColor: theme['color-basic-100'],
-                        }}
-                      >
-                        <Text category="h6" status="basic">Mouvements affectés</Text>
-                        <IconUIKitten
-                          name="arrow-ios-forward"
-                          fill="#000"
-                          style={{
-                            height: 20, width: 20, alignItems: 'center',
-                          }}
-                        />
-                      </TouchableOpacity>
-                    </Card>
-                    <Card
-                      style={{ marginVertical: 20, marginBottom: 60 }}
-                    >
-                      <TouchableOpacity
-                        onPress={() => onIgnorerMouvement(bien.id)}
-                        style={{
-                          flexDirection: 'row',
-                          alignItems: 'center',
-                          justifyContent: 'space-between',
-                          backgroundColor: theme['color-basic-100'],
-                        }}
-                      >
-                        <Text category="h6" status="basic">Mouvements ignorés</Text>
-                        <IconUIKitten
-                          name="arrow-ios-forward"
-                          fill="#000"
-                          style={{
-                            height: 20, width: 20, alignItems: 'center',
-                          }}
-                        />
-                      </TouchableOpacity>
-                    </Card>
-                  </>
-                )}
+          <View style={{ alignItems: 'center', marginVertical: 20 }}>
+            <Text category="h4" style={{ marginBottom: 10 }}>Bon Travail!</Text>
+            <Text category="p1">Vous avez affecté tous vos mouvements bancaires.</Text>
+          </View>
+          {ignoreClicked
+            ? (
+              <></>
+            )
+            : (
+              <>
+                <Separator />
+                <Card
+                  style={{ marginVertical: 20 }}
+                >
+                  <TouchableOpacity
+                    onPress={() => setAffecte(!affecte)}
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      backgroundColor: theme['color-basic-100'],
+                    }}
+                  >
+                    <Text category="h6" status="basic">Mouvements affectés</Text>
+                    <IconUIKitten
+                      name="arrow-ios-forward"
+                      fill="#000"
+                      style={{
+                        height: 20, width: 20, alignItems: 'center',
+                      }}
+                    />
+                  </TouchableOpacity>
+                </Card>
+                <Card
+                  style={{ marginVertical: 20, marginBottom: 60 }}
+                >
+                  <TouchableOpacity
+                    onPress={() => onIgnorerMouvement(bien.id)}
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      backgroundColor: theme['color-basic-100'],
+                    }}
+                  >
+                    <Text category="h6" status="basic">Mouvements ignorés</Text>
+                    <IconUIKitten
+                      name="arrow-ios-forward"
+                      fill="#000"
+                      style={{
+                        height: 20, width: 20, alignItems: 'center',
+                      }}
+                    />
+                  </TouchableOpacity>
+                </Card>
+              </>
+            )}
 
-            </>
-          )}
+        </>
 
       </MaxWidthContainer>
 

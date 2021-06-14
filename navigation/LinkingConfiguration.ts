@@ -75,7 +75,7 @@ export default {
               'ma-tresorerie': '/',
               'ma-tresorerie-2': '/ma-tresorerie-2/:id',
               'mouv-bancaires': ':id/mouv-bancaires/:idCompte',
-              'ignorer-mouvement': '/ignorer-mouvement/:id',
+              'ignorer-mouvement': ':id/ignorer-mouvement/:idCompte',
             },
           },
           faq: 'faq',

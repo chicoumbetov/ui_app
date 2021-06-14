@@ -27,6 +27,7 @@ import ActionSheet from '../../components/ActionSheet/ActionSheet';
 import EditMouvement from './Components/EditMouvement';
 import WebView from '../../components/WebView';
 import { useBankAccountList } from '../../src/API/BankAccount';
+import { useCreateRealEstateBankAccount } from '../../src/API/RealEstateBankAccount';
 
 const MaTresorerie2 = () => {
   const { loading } = useRealEstateList();
@@ -40,6 +41,8 @@ const MaTresorerie2 = () => {
 
   const route = useRoute<RouteProp<TabMaTresorerieParamList, 'ma-tresorerie-2'>>();
   // console.log('mon-budget data', route.params);
+
+  const createRealEstateBankAccount = useCreateRealEstateBankAccount();
   const { bien, refetch: refetchBien, loading: loadingBien } = useGetRealEstate(route.params.id);
   const { data } = useBankAccountList();
   console.log('oui', bien.bankAccounts?.items?.length);
@@ -153,8 +156,20 @@ const MaTresorerie2 = () => {
               size="large"
               onPress={async () => {
                 if (toggle) {
-                  if (checkedAccounts.length > 0) {
-                    console.log(checkedAccounts);
+                  if (checkedAccounts.length > 0 && data && data.listBankAccounts && data.listBankAccounts.items) {
+                    data.listBankAccounts.items.map(async (item) => {
+                      if (checkedAccounts.includes(item.id)) {
+                        await createRealEstateBankAccount({
+                          variables: {
+                            input: {
+                              realEstateId: route.params.id,
+                              bankAccountId: item.id,
+                            },
+                          },
+                        });
+                        console.log('item : ', item);
+                      }
+                    });
                   } else {
                     setAddingAccounts(true);
                     const response = await API.get('omedomrest', '/budgetinsight/connect-url', {});

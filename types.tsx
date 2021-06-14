@@ -80,9 +80,7 @@ export type TabMaTresorerieParamList = {
   'ma-tresorerie-2': { id: string };
   'mouv-bancaires': { id: string, idCompte: string };
   'ignorer-mouvement': { id: string, idCompte: string };
-
-  TresoMouvement_page1: undefined;
-  TresoMouvement_page2: undefined;
+  'affecter-mouvement': { id: string, idCompte: string };
 
   AjoutCompte: undefined;
 

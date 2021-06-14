@@ -36,15 +36,6 @@ const IgnorerMouvement = () => {
         },
       }}
     >
-
-      <Text
-        category="h1"
-        status="basic"
-        style={{ marginBottom: 20 }}
-      >
-        Ma Trésorerie
-      </Text>
-
       <CompteHeader title={bien.name} />
 
       <View style={{
@@ -57,7 +48,10 @@ const IgnorerMouvement = () => {
       </View>
 
       <Text
-        category="h2"
+        category="s2"
+        style={{
+          marginBottom: 20, paddingTop: 30,
+        }}
       >
         Mouvements ignorés
       </Text>

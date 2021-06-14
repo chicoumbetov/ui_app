@@ -13,12 +13,11 @@ import {
 } from 'react-native';
 
 import { Icon as IconUIKitten } from '@ui-kitten/components/ui/icon/icon.component';
-import { useLinkTo, useRoute } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { RouteProp } from '@react-navigation/core/lib/typescript/src/types';
 import CompteHeader from '../../components/CompteHeader/CompteHeader';
 import MaxWidthContainer from '../../components/MaxWidthContainer';
 
-import mouvementData from '../../mockData/mouvementData';
 import ActionSheet from '../../components/ActionSheet/ActionSheet';
 import EditMouvement from './Components/EditMouvement';
 import Card from '../../components/Card';
@@ -28,13 +27,12 @@ import { BudgetLineType } from '../../src/API';
 import Separator from '../../components/Separator';
 import Amount from '../../components/Amount';
 import {
-  getBankMouvementByBiId,
   useGetBankMovementByBankAccountId,
 } from '../../src/API/BankMouvement';
 
 const MouvBancaires = () => {
   const theme = useTheme();
-  const linkTo = useLinkTo();
+  const navigation = useNavigation();
   const route = useRoute<RouteProp<TabMaTresorerieParamList, 'mouv-bancaires'>>();
   const { bien } = useGetRealEstate(route.params.id);
   const { bankMouvement } = useGetBankMovementByBankAccountId(route.params.idCompte);
@@ -50,7 +48,6 @@ const MouvBancaires = () => {
   const [checked, setChecked] = React.useState<string[]>([]);
 
   const [ignoreClicked, setIgnoreClicked] = useState(false);
-  const [affecte, setAffecte] = useState(false);
 
   const isChecked = (id:string): boolean => checked.indexOf(id) > -1;
 
@@ -65,7 +62,11 @@ const MouvBancaires = () => {
   };
 
   const onIgnorerMouvement = (id?: string) => {
-    linkTo(`/ma-tresorerie/ignorer-mouvement/${id}`);
+    navigation.navigate('ignorer-mouvement', { idCompte: id, id: route.params.id });
+  };
+
+  const onAffecterMouvement = (id?: string) => {
+    navigation.navigate('affecter-mouvement', { idCompte: id, id: route.params.id });
   };
 
   const [thisamount, setAmount] = useState(0);
@@ -127,21 +128,13 @@ const MouvBancaires = () => {
             marginBottom: 20, paddingTop: 30,
           }}
         >
-          {`Mouvements bancaires ${affecte ? ('affectés') : ('')}`}
+          Mouvements bancaires
         </Text>
         <Text category="p2" appearance="hint">
-          {affecte
-            ? ('Vous pouvez modifier une affectation en sélectionnant le mouvement bancaire.')
-            : ('Vous pouvez affecter ou ignorer les mouvements bancaires liés à ce compte bancaire.')}
+          Vous pouvez affecter ou ignorer les mouvements bancaires liés à ce compte bancaire.
         </Text>
 
-        {/**
-         Mouvements affectés
-        */}
         <>
-          {/**
-               Mouvements affectés
-               */}
           <Button
             size="large"
             onPress={() => setIgnoreClicked(!ignoreClicked)}
@@ -227,26 +220,23 @@ const MouvBancaires = () => {
               <>
                 <Separator />
                 <Card
-                  style={{ marginVertical: 20 }}
+                  onPress={() => { onAffecterMouvement(bien.id); }}
+                  style={{
+                    marginVertical: 20,
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    backgroundColor: theme['color-basic-100'],
+                  }}
                 >
-                  <TouchableOpacity
-                    onPress={() => setAffecte(!affecte)}
+                  <Text category="h6" status="basic">Mouvements affectés</Text>
+                  <IconUIKitten
+                    name="arrow-ios-forward"
+                    fill="#000"
                     style={{
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                      backgroundColor: theme['color-basic-100'],
+                      height: 20, width: 20, alignItems: 'center',
                     }}
-                  >
-                    <Text category="h6" status="basic">Mouvements affectés</Text>
-                    <IconUIKitten
-                      name="arrow-ios-forward"
-                      fill="#000"
-                      style={{
-                        height: 20, width: 20, alignItems: 'center',
-                      }}
-                    />
-                  </TouchableOpacity>
+                  />
                 </Card>
                 <Card
                   style={{ marginVertical: 20, marginBottom: 60 }}

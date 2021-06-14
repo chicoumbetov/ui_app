@@ -27,7 +27,8 @@ import { BudgetLineType } from '../../src/API';
 import Separator from '../../components/Separator';
 import Amount from '../../components/Amount';
 import {
-  useGetBankMovementByBankAccountId,
+  useGetBankMouvement,
+  useGetBankMovementByBankAccountId, useUpdateBankMovement,
 } from '../../src/API/BankMouvement';
 
 const MouvBancaires = () => {
@@ -36,7 +37,14 @@ const MouvBancaires = () => {
   const route = useRoute<RouteProp<TabMaTresorerieParamList, 'mouv-bancaires'>>();
   const { bien } = useGetRealEstate(route.params.id);
   const { bankMouvement } = useGetBankMovementByBankAccountId(route.params.idCompte);
+  const useUpdateBankMouvement = useUpdateBankMovement();
   console.log('mouvement ', bankMouvement);
+  const movementPasAffect = bankMouvement.filter((item) => {
+    if (item.ignored || item.realEstateId) {
+      return false;
+    }
+    return item;
+  });
 
   // const [compte] = useState(comptesData);
   const [currentMvt, setCurrentMvt] = useState();
@@ -60,7 +68,6 @@ const MouvBancaires = () => {
     setChecked(newCheckedState);
     console.log('check ', checked);
   };
-
   const onIgnorerMouvement = (id?: string) => {
     navigation.navigate('ignorer-mouvement', { idCompte: id, id: route.params.id });
   };
@@ -93,6 +100,20 @@ const MouvBancaires = () => {
         return false;
       }));
     }
+  };
+
+  const ignorerMovement = () => {
+    checked.reduce(async (promise, id) => {
+      await promise;
+      useUpdateBankMouvement.updateBankMovement({
+        variables: {
+          input: {
+            id,
+            ignored: true,
+          },
+        },
+      });
+    }, Promise.resolve());
   };
 
   return (
@@ -137,14 +158,14 @@ const MouvBancaires = () => {
         <>
           <Button
             size="large"
-            onPress={() => setIgnoreClicked(!ignoreClicked)}
+            onPress={() => { ignorerMovement(); setIgnoreClicked(!ignoreClicked); }}
             appearance={ignoreClicked ? 'filled' : 'outline'}
             status="danger"
             style={{ marginTop: 20 }}
           >
             Ignorer des mouvements
           </Button>
-          {bankMouvement.map((item) => (
+          {movementPasAffect.map((item) => (
             <Card
               key={item.id}
               style={{
@@ -182,9 +203,9 @@ const MouvBancaires = () => {
                   <Text
                     style={{ justifyContent: 'center' }}
                     category="h6"
-                    status={item.realEstateId ? ('success') : ('warning')}
+                    status="warning"
                   >
-                    {item.typeMouvement}
+                    En attente
                   </Text>
                 </View>
 

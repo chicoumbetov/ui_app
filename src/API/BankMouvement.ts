@@ -1,15 +1,25 @@
 import { DocumentNode } from 'apollo-link';
 import gql from 'graphql-tag';
 import { useMutation, useQuery } from 'react-apollo';
-import { getBankMovementByBankAccountId, listBankMovements } from '../graphql/queries';
+import {
+  getBankMovement,
+  getBankMovementByBankAccountId,
+  listBankMovements,
+} from '../graphql/queries';
 import {
   BankMovement,
   GetBankMovementByBankAccountIdQuery,
   GetBankMovementByBankAccountIdQueryVariables,
+  GetBankMovementQuery,
+  GetBankMovementQueryVariables,
+  GetRealEstateQueryVariables,
   ListBankMovementsQuery,
-  ListBankMovementsQueryVariables, UpdateBankMovementMutation, UpdateBankMovementMutationVariables,
+  ListBankMovementsQueryVariables, RealEstate,
+  UpdateBankMovementMutation,
+  UpdateBankMovementMutationVariables,
 } from '../API';
 import * as mutations from '../graphql/mutations';
+import { GetRealEstateQuery } from './RealEstate';
 
 const listBankMouvementsQuery = <DocumentNode>gql(listBankMovements);
 
@@ -22,6 +32,8 @@ export function useBankMouvementList() {
 }
 
 const getBankMovementByBankAccountIdQuery = <DocumentNode>gql(getBankMovementByBankAccountId);
+
+const getBankMovementQuery = <DocumentNode>gql(getBankMovement);
 
 export function useGetBankMovementByBankAccountId(bankAccountId: string) {
   const {
@@ -51,30 +63,30 @@ export function useUpdateBankMovement() {
     {
       update: (cache, { data: mutationData }) => {
         if (mutationData) {
-          const { updateBankMovementByBankAccountId: newData } = mutationData;
+          const { updateBankMovement: newData } = mutationData;
           if (newData) {
             // Read query from cache
             const cacheData = cache.readQuery<
-            GetBankMovementByBankAccountIdQuery,
-            GetBankMovementByBankAccountIdQueryVariables
+            GetBankMovementQuery,
+            GetBankMovementQueryVariables
             >({
-              query: getBankMovementByBankAccountIdQuery,
+              query: getBankMovementQuery,
               variables: {
-                id: newData.bankAccountId,
+                id: newData.id,
               },
             });
 
             // Add newly created item to the cache copy
-            if (cacheData && cacheData.getBankMovementByBankAccountId) {
-              cacheData.getBankMovementByBankAccountId = newData;
+            if (cacheData && cacheData.getBankMovement) {
+              cacheData.getBankMovement = newData;
               // Overwrite the cache with the new results
               cache.writeQuery<
-              GetBankMovementByBankAccountIdQuery,
-              GetBankMovementByBankAccountIdQueryVariables
+              GetBankMovementQuery,
+              GetBankMovementQueryVariables
               >({
-                query: getBankMovementByBankAccountIdQuery,
+                query: getBankMovementQuery,
                 variables: {
-                  id: newData.bankAccountId,
+                  id: newData.id,
                 },
                 data: cacheData,
               });
@@ -84,4 +96,19 @@ export function useUpdateBankMovement() {
       },
     });
   return { updateBankMovement, mutationLoading };
+}
+
+export function useGetBankMouvement(id: string) {
+  const {
+    loading, data, fetchMore, refetch,
+  } = useQuery<GetBankMovementQuery, GetBankMovementQueryVariables>(getBankMovementQuery, {
+    variables: {
+      id,
+    },
+    fetchPolicy: 'cache-and-network',
+  });
+
+  return {
+    loading, bankMovement: <BankMovement>data?.getBankMovement, fetchMore, refetch,
+  };
 }

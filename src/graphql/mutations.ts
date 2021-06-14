@@ -201,6 +201,7 @@ export const createRealEstate = /* GraphQL */ `
         items {
           id
           realEstateId
+          bankMouvementId
           budgetLineId
           type
           category
@@ -348,6 +349,7 @@ export const updateRealEstate = /* GraphQL */ `
         items {
           id
           realEstateId
+          bankMouvementId
           budgetLineId
           type
           category
@@ -495,6 +497,7 @@ export const deleteRealEstate = /* GraphQL */ `
         items {
           id
           realEstateId
+          bankMouvementId
           budgetLineId
           type
           category
@@ -1315,6 +1318,7 @@ export const createBudgetLineDeadline = /* GraphQL */ `
     createBudgetLineDeadline(input: $input, condition: $condition) {
       id
       realEstateId
+      bankMouvementId
       budgetLineId
       type
       category
@@ -1425,6 +1429,61 @@ export const createBudgetLineDeadline = /* GraphQL */ `
           typeImpot
           admins
           shared
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+      }
+      bankMouvement {
+        id
+        bankAccountId
+        realEstateId
+        biId
+        description
+        amount
+        budgetLineDeadlineId
+        ignored
+        date
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+        realEstate {
+          id
+          name
+          iconUri
+          purchaseYear
+          type
+          ownName
+          company
+          detentionPart
+          typeImpot
+          admins
+          shared
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+        budgetLineDeadline {
+          nextToken
+          startedAt
+        }
+        bankAccount {
+          id
+          bank
+          accountOwner
+          name
+          iban
+          bic
+          balance
+          biId
+          biConnectionId
+          biState
           _version
           _deleted
           _lastChangedAt
@@ -1443,6 +1502,7 @@ export const updateBudgetLineDeadline = /* GraphQL */ `
     updateBudgetLineDeadline(input: $input, condition: $condition) {
       id
       realEstateId
+      bankMouvementId
       budgetLineId
       type
       category
@@ -1560,6 +1620,61 @@ export const updateBudgetLineDeadline = /* GraphQL */ `
           updatedAt
         }
       }
+      bankMouvement {
+        id
+        bankAccountId
+        realEstateId
+        biId
+        description
+        amount
+        budgetLineDeadlineId
+        ignored
+        date
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+        realEstate {
+          id
+          name
+          iconUri
+          purchaseYear
+          type
+          ownName
+          company
+          detentionPart
+          typeImpot
+          admins
+          shared
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+        budgetLineDeadline {
+          nextToken
+          startedAt
+        }
+        bankAccount {
+          id
+          bank
+          accountOwner
+          name
+          iban
+          bic
+          balance
+          biId
+          biConnectionId
+          biState
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+      }
     }
   }
 `;
@@ -1571,6 +1686,7 @@ export const deleteBudgetLineDeadline = /* GraphQL */ `
     deleteBudgetLineDeadline(input: $input, condition: $condition) {
       id
       realEstateId
+      bankMouvementId
       budgetLineId
       type
       category
@@ -1681,6 +1797,61 @@ export const deleteBudgetLineDeadline = /* GraphQL */ `
           typeImpot
           admins
           shared
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+      }
+      bankMouvement {
+        id
+        bankAccountId
+        realEstateId
+        biId
+        description
+        amount
+        budgetLineDeadlineId
+        ignored
+        date
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+        realEstate {
+          id
+          name
+          iconUri
+          purchaseYear
+          type
+          ownName
+          company
+          detentionPart
+          typeImpot
+          admins
+          shared
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+        budgetLineDeadline {
+          nextToken
+          startedAt
+        }
+        bankAccount {
+          id
+          bank
+          accountOwner
+          name
+          iban
+          bic
+          balance
+          biId
+          biConnectionId
+          biState
           _version
           _deleted
           _lastChangedAt
@@ -2252,51 +2423,16 @@ export const createBankMovement = /* GraphQL */ `
         }
       }
       budgetLineDeadline {
-        id
-        realEstateId
-        budgetLineId
-        type
-        category
-        amount
-        frequency
-        date
-        infoCredit {
-          amount
-          interest
-          assurance
-        }
-        tenantId
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-        realEstate {
-          id
-          name
-          iconUri
-          purchaseYear
-          type
-          ownName
-          company
-          detentionPart
-          typeImpot
-          admins
-          shared
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-        }
-        budgetLine {
+        items {
           id
           realEstateId
+          bankMouvementId
+          budgetLineId
           type
           category
           amount
           frequency
-          nextDueDate
+          date
           tenantId
           _version
           _deleted
@@ -2304,6 +2440,8 @@ export const createBankMovement = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        nextToken
+        startedAt
       }
       bankAccount {
         id
@@ -2414,51 +2552,16 @@ export const updateBankMovement = /* GraphQL */ `
         }
       }
       budgetLineDeadline {
-        id
-        realEstateId
-        budgetLineId
-        type
-        category
-        amount
-        frequency
-        date
-        infoCredit {
-          amount
-          interest
-          assurance
-        }
-        tenantId
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-        realEstate {
-          id
-          name
-          iconUri
-          purchaseYear
-          type
-          ownName
-          company
-          detentionPart
-          typeImpot
-          admins
-          shared
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-        }
-        budgetLine {
+        items {
           id
           realEstateId
+          bankMouvementId
+          budgetLineId
           type
           category
           amount
           frequency
-          nextDueDate
+          date
           tenantId
           _version
           _deleted
@@ -2466,6 +2569,8 @@ export const updateBankMovement = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        nextToken
+        startedAt
       }
       bankAccount {
         id
@@ -2576,51 +2681,16 @@ export const deleteBankMovement = /* GraphQL */ `
         }
       }
       budgetLineDeadline {
-        id
-        realEstateId
-        budgetLineId
-        type
-        category
-        amount
-        frequency
-        date
-        infoCredit {
-          amount
-          interest
-          assurance
-        }
-        tenantId
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-        realEstate {
-          id
-          name
-          iconUri
-          purchaseYear
-          type
-          ownName
-          company
-          detentionPart
-          typeImpot
-          admins
-          shared
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-        }
-        budgetLine {
+        items {
           id
           realEstateId
+          bankMouvementId
+          budgetLineId
           type
           category
           amount
           frequency
-          nextDueDate
+          date
           tenantId
           _version
           _deleted
@@ -2628,6 +2698,8 @@ export const deleteBankMovement = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        nextToken
+        startedAt
       }
       bankAccount {
         id
@@ -2664,7 +2736,6 @@ export const createNotification = /* GraphQL */ `
   ) {
     createNotification(input: $input, condition: $condition) {
       id
-      owner
       userId
       category
       text
@@ -2705,7 +2776,6 @@ export const updateNotification = /* GraphQL */ `
   ) {
     updateNotification(input: $input, condition: $condition) {
       id
-      owner
       userId
       category
       text
@@ -2746,7 +2816,6 @@ export const deleteNotification = /* GraphQL */ `
   ) {
     deleteNotification(input: $input, condition: $condition) {
       id
-      owner
       userId
       category
       text
@@ -2787,7 +2856,6 @@ export const createBillingHistory = /* GraphQL */ `
   ) {
     createBillingHistory(input: $input, condition: $condition) {
       id
-      owner
       userId
       date
       nextRenewDate
@@ -2830,7 +2898,6 @@ export const updateBillingHistory = /* GraphQL */ `
   ) {
     updateBillingHistory(input: $input, condition: $condition) {
       id
-      owner
       userId
       date
       nextRenewDate
@@ -2873,7 +2940,6 @@ export const deleteBillingHistory = /* GraphQL */ `
   ) {
     deleteBillingHistory(input: $input, condition: $condition) {
       id
-      owner
       userId
       date
       nextRenewDate
@@ -2884,6 +2950,123 @@ export const deleteBillingHistory = /* GraphQL */ `
       _deleted
       _lastChangedAt
       createdAt
+      updatedAt
+      user {
+        id
+        lastname
+        firstname
+        avatarUri
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+        email
+        privateProfile {
+          phoneNumber
+          optIn
+          birthDate
+          subscription
+        }
+        expoToken
+        biUser
+        biToken
+      }
+    }
+  }
+`;
+export const createNotificationReceipts = /* GraphQL */ `
+  mutation CreateNotificationReceipts(
+    $input: CreateNotificationReceiptsInput!
+    $condition: ModelNotificationReceiptsConditionInput
+  ) {
+    createNotificationReceipts(input: $input, condition: $condition) {
+      id
+      userId
+      expoToken
+      receiptId
+      createdAt
+      _version
+      _deleted
+      _lastChangedAt
+      updatedAt
+      user {
+        id
+        lastname
+        firstname
+        avatarUri
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+        email
+        privateProfile {
+          phoneNumber
+          optIn
+          birthDate
+          subscription
+        }
+        expoToken
+        biUser
+        biToken
+      }
+    }
+  }
+`;
+export const updateNotificationReceipts = /* GraphQL */ `
+  mutation UpdateNotificationReceipts(
+    $input: UpdateNotificationReceiptsInput!
+    $condition: ModelNotificationReceiptsConditionInput
+  ) {
+    updateNotificationReceipts(input: $input, condition: $condition) {
+      id
+      userId
+      expoToken
+      receiptId
+      createdAt
+      _version
+      _deleted
+      _lastChangedAt
+      updatedAt
+      user {
+        id
+        lastname
+        firstname
+        avatarUri
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+        email
+        privateProfile {
+          phoneNumber
+          optIn
+          birthDate
+          subscription
+        }
+        expoToken
+        biUser
+        biToken
+      }
+    }
+  }
+`;
+export const deleteNotificationReceipts = /* GraphQL */ `
+  mutation DeleteNotificationReceipts(
+    $input: DeleteNotificationReceiptsInput!
+    $condition: ModelNotificationReceiptsConditionInput
+  ) {
+    deleteNotificationReceipts(input: $input, condition: $condition) {
+      id
+      userId
+      expoToken
+      receiptId
+      createdAt
+      _version
+      _deleted
+      _lastChangedAt
       updatedAt
       user {
         id

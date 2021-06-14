@@ -351,6 +351,7 @@ export const getRealEstate = /* GraphQL */ `
         items {
           id
           realEstateId
+          bankMouvementId
           budgetLineId
           type
           category
@@ -1117,81 +1118,12 @@ export const syncBudgetLines = /* GraphQL */ `
     }
   }
 `;
-export const listBudgetLineDeadlines = /* GraphQL */ `
-  query ListBudgetLineDeadlines(
-    $filter: ModelBudgetLineDeadlineFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listBudgetLineDeadlines(
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        id
-        realEstateId
-        budgetLineId
-        type
-        category
-        amount
-        frequency
-        date
-        infoCredit {
-          amount
-          interest
-          assurance
-        }
-        tenantId
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-        realEstate {
-          id
-          name
-          iconUri
-          purchaseYear
-          type
-          ownName
-          company
-          detentionPart
-          typeImpot
-          admins
-          shared
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-        }
-        budgetLine {
-          id
-          realEstateId
-          type
-          category
-          amount
-          frequency
-          nextDueDate
-          tenantId
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-        }
-      }
-      nextToken
-      startedAt
-    }
-  }
-`;
 export const getBudgetLineDeadline = /* GraphQL */ `
   query GetBudgetLineDeadline($id: ID!) {
     getBudgetLineDeadline(id: $id) {
       id
       realEstateId
+      bankMouvementId
       budgetLineId
       type
       category
@@ -1309,25 +1241,79 @@ export const getBudgetLineDeadline = /* GraphQL */ `
           updatedAt
         }
       }
+      bankMouvement {
+        id
+        bankAccountId
+        realEstateId
+        biId
+        description
+        amount
+        budgetLineDeadlineId
+        ignored
+        date
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+        realEstate {
+          id
+          name
+          iconUri
+          purchaseYear
+          type
+          ownName
+          company
+          detentionPart
+          typeImpot
+          admins
+          shared
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+        budgetLineDeadline {
+          nextToken
+          startedAt
+        }
+        bankAccount {
+          id
+          bank
+          accountOwner
+          name
+          iban
+          bic
+          balance
+          biId
+          biConnectionId
+          biState
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+      }
     }
   }
 `;
-export const syncBudgetLineDeadlines = /* GraphQL */ `
-  query SyncBudgetLineDeadlines(
+export const listBudgetLineDeadlines = /* GraphQL */ `
+  query ListBudgetLineDeadlines(
     $filter: ModelBudgetLineDeadlineFilterInput
     $limit: Int
     $nextToken: String
-    $lastSync: AWSTimestamp
   ) {
-    syncBudgetLineDeadlines(
+    listBudgetLineDeadlines(
       filter: $filter
       limit: $limit
       nextToken: $nextToken
-      lastSync: $lastSync
     ) {
       items {
         id
         realEstateId
+        bankMouvementId
         budgetLineId
         type
         category
@@ -1372,6 +1358,111 @@ export const syncBudgetLineDeadlines = /* GraphQL */ `
           frequency
           nextDueDate
           tenantId
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+        bankMouvement {
+          id
+          bankAccountId
+          realEstateId
+          biId
+          description
+          amount
+          budgetLineDeadlineId
+          ignored
+          date
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const syncBudgetLineDeadlines = /* GraphQL */ `
+  query SyncBudgetLineDeadlines(
+    $filter: ModelBudgetLineDeadlineFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncBudgetLineDeadlines(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        realEstateId
+        bankMouvementId
+        budgetLineId
+        type
+        category
+        amount
+        frequency
+        date
+        infoCredit {
+          amount
+          interest
+          assurance
+        }
+        tenantId
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+        realEstate {
+          id
+          name
+          iconUri
+          purchaseYear
+          type
+          ownName
+          company
+          detentionPart
+          typeImpot
+          admins
+          shared
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+        budgetLine {
+          id
+          realEstateId
+          type
+          category
+          amount
+          frequency
+          nextDueDate
+          tenantId
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+        bankMouvement {
+          id
+          bankAccountId
+          realEstateId
+          biId
+          description
+          amount
+          budgetLineDeadlineId
+          ignored
+          date
           _version
           _deleted
           _lastChangedAt
@@ -1977,51 +2068,16 @@ export const getBankMovement = /* GraphQL */ `
         }
       }
       budgetLineDeadline {
-        id
-        realEstateId
-        budgetLineId
-        type
-        category
-        amount
-        frequency
-        date
-        infoCredit {
-          amount
-          interest
-          assurance
-        }
-        tenantId
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-        realEstate {
-          id
-          name
-          iconUri
-          purchaseYear
-          type
-          ownName
-          company
-          detentionPart
-          typeImpot
-          admins
-          shared
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-        }
-        budgetLine {
+        items {
           id
           realEstateId
+          bankMouvementId
+          budgetLineId
           type
           category
           amount
           frequency
-          nextDueDate
+          date
           tenantId
           _version
           _deleted
@@ -2029,6 +2085,8 @@ export const getBankMovement = /* GraphQL */ `
           createdAt
           updatedAt
         }
+        nextToken
+        startedAt
       }
       bankAccount {
         id
@@ -2099,20 +2157,8 @@ export const listBankMovements = /* GraphQL */ `
           updatedAt
         }
         budgetLineDeadline {
-          id
-          realEstateId
-          budgetLineId
-          type
-          category
-          amount
-          frequency
-          date
-          tenantId
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
+          nextToken
+          startedAt
         }
         bankAccount {
           id
@@ -2186,20 +2232,8 @@ export const listBankMovementByBiId = /* GraphQL */ `
           updatedAt
         }
         budgetLineDeadline {
-          id
-          realEstateId
-          budgetLineId
-          type
-          category
-          amount
-          frequency
-          date
-          tenantId
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
+          nextToken
+          startedAt
         }
         bankAccount {
           id
@@ -2271,20 +2305,8 @@ export const syncBankMovements = /* GraphQL */ `
           updatedAt
         }
         budgetLineDeadline {
-          id
-          realEstateId
-          budgetLineId
-          type
-          category
-          amount
-          frequency
-          date
-          tenantId
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
+          nextToken
+          startedAt
         }
         bankAccount {
           id
@@ -2313,7 +2335,6 @@ export const getNotification = /* GraphQL */ `
   query GetNotification($id: ID!) {
     getNotification(id: $id) {
       id
-      owner
       userId
       category
       text
@@ -2356,7 +2377,6 @@ export const listNotifications = /* GraphQL */ `
     listNotifications(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        owner
         userId
         category
         text
@@ -2402,7 +2422,6 @@ export const syncNotifications = /* GraphQL */ `
     ) {
       items {
         id
-        owner
         userId
         category
         text
@@ -2437,7 +2456,6 @@ export const getBillingHistory = /* GraphQL */ `
   query GetBillingHistory($id: ID!) {
     getBillingHistory(id: $id) {
       id
-      owner
       userId
       date
       nextRenewDate
@@ -2482,7 +2500,6 @@ export const listBillingHistorys = /* GraphQL */ `
     listBillingHistorys(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        owner
         userId
         date
         nextRenewDate
@@ -2530,7 +2547,6 @@ export const syncBillingHistories = /* GraphQL */ `
     ) {
       items {
         id
-        owner
         userId
         date
         nextRenewDate
@@ -2541,6 +2557,128 @@ export const syncBillingHistories = /* GraphQL */ `
         _deleted
         _lastChangedAt
         createdAt
+        updatedAt
+        user {
+          id
+          lastname
+          firstname
+          avatarUri
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+          email
+          expoToken
+          biUser
+          biToken
+        }
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const getNotificationReceipts = /* GraphQL */ `
+  query GetNotificationReceipts($id: ID!) {
+    getNotificationReceipts(id: $id) {
+      id
+      userId
+      expoToken
+      receiptId
+      createdAt
+      _version
+      _deleted
+      _lastChangedAt
+      updatedAt
+      user {
+        id
+        lastname
+        firstname
+        avatarUri
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+        email
+        privateProfile {
+          phoneNumber
+          optIn
+          birthDate
+          subscription
+        }
+        expoToken
+        biUser
+        biToken
+      }
+    }
+  }
+`;
+export const listNotificationReceiptss = /* GraphQL */ `
+  query ListNotificationReceiptss(
+    $filter: ModelNotificationReceiptsFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listNotificationReceiptss(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        userId
+        expoToken
+        receiptId
+        createdAt
+        _version
+        _deleted
+        _lastChangedAt
+        updatedAt
+        user {
+          id
+          lastname
+          firstname
+          avatarUri
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+          email
+          expoToken
+          biUser
+          biToken
+        }
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const syncNotificationReceipts = /* GraphQL */ `
+  query SyncNotificationReceipts(
+    $filter: ModelNotificationReceiptsFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncNotificationReceipts(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        userId
+        expoToken
+        receiptId
+        createdAt
+        _version
+        _deleted
+        _lastChangedAt
         updatedAt
         user {
           id

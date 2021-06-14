@@ -6,20 +6,25 @@ import { useLinkTo } from '@react-navigation/native';
 import { Icon as IconUIKitten } from '@ui-kitten/components/ui/icon/icon.component';
 
 import Card from '../../../components/Card';
-import { RealEstateItem } from '../../../src/API/RealEstate';
+import { RealEstateBankAccount } from '../../../src/API';
 
-type MonBienProps = { compte: RealEstateItem, supprimer : boolean };
+type MonBienProps = { compte: RealEstateBankAccount,
+  supprimer?: boolean,
+  add?: boolean,
+  onCheck?: (checked: boolean) => void,
+  checked?: boolean };
 
 const OwnerCompte = (props: MonBienProps) => {
-  const { compte, supprimer } = props;
+  const {
+    compte, supprimer = false, add = false, checked = false, onCheck,
+  } = props;
+  console.log(compte);
 
   const linkTo = useLinkTo();
   const theme = useTheme();
   const onTresoMouvement = (id: string) => {
     linkTo(`/ma-tresorerie/mouv-bancaires/${id}`);
   };
-
-  const [checked, setChecked] = React.useState(false);
 
   return (
     <Card
@@ -31,15 +36,32 @@ const OwnerCompte = (props: MonBienProps) => {
         style={styles.container}
       >
 
-        {supprimer ? (
+        {supprimer && (
           <View style={{ justifyContent: 'center', paddingHorizontal: 14, width: 50 }}>
             <CheckBox
               checked={checked}
               status="danger"
-              onChange={(nextChecked) => setChecked(nextChecked)}
+              onChange={(nextChecked) => {
+                if (onCheck) {
+                  onCheck(nextChecked);
+                }
+              }}
             />
           </View>
-        ) : (<></>)}
+        )}
+        {add && (
+          <View style={{ justifyContent: 'center', paddingHorizontal: 14, width: 50 }}>
+            <CheckBox
+              checked={checked}
+              status="success"
+              onChange={(nextChecked) => {
+                if (onCheck) {
+                  onCheck(nextChecked);
+                }
+              }}
+            />
+          </View>
+        )}
 
         <View style={{ justifyContent: 'center', paddingHorizontal: 14, flex: 1 }}>
           <Text category="h6">

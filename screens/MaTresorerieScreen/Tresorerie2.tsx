@@ -26,19 +26,41 @@ import { TabMaTresorerieParamList } from '../../types';
 import ActionSheet from '../../components/ActionSheet/ActionSheet';
 import EditMouvement from './Components/EditMouvement';
 import WebView from '../../components/WebView';
+import { useBankAccountList } from '../../src/API/BankAccount';
 
 const MaTresorerie2 = () => {
-  const { loading, data } = useRealEstateList();
+  const { loading } = useRealEstateList();
   // const [compte] = useState(comptesData);
 
   const [toggle, setToggle] = useState(false);
   const [newAccountLink, setNewAccountLink] = useState<string | undefined>();
   const [supprim, setSupprim] = useState(false);
   const [addingAccounts, setAddingAccounts] = useState(false);
+  const [checkedAccounts, setCheckedAccounts] = useState<string[]>([]);
 
   const route = useRoute<RouteProp<TabMaTresorerieParamList, 'ma-tresorerie-2'>>();
   // console.log('mon-budget data', route.params);
-  const { bien } = useGetRealEstate(route.params.id);
+  const { bien, refetch: refetchBien, loading: loadingBien } = useGetRealEstate(route.params.id);
+  const { data } = useBankAccountList();
+  console.log('oui', bien.bankAccounts?.items?.length);
+  if (bien.bankAccounts?.items?.length === 0 && !toggle) {
+    setToggle(true);
+  }
+
+  let buttonText = '';
+  if (toggle) {
+    if (checkedAccounts.length <= 0) {
+      buttonText = '+ Ajouter un autre compte bancaire';
+    } else if (checkedAccounts.length === 1) {
+      buttonText = 'Lier le compte bancaire';
+    } else {
+      buttonText = 'Lier les comptes bancaires';
+    }
+  } else if (data?.listBankAccounts?.items && data?.listBankAccounts?.items?.length <= 0) {
+    buttonText = 'Lier un compte bancaire';
+  } else {
+    buttonText = 'Lier un autre compte bancaire';
+  }
 
   return (
     <>
@@ -68,13 +90,13 @@ const MaTresorerie2 = () => {
           Comptes bancaires
         </Text>
         {toggle
-          ? <Text category="p2" appearance="hint">Ajoutez un compte pour consulter votre trésorerie</Text>
-          : <Text category="p2" appearance="hint">Sélectionner le compte pour consulter votre trésorerie</Text>}
+          ? (<Text category="p2" appearance="hint">Ajoutez un compte pour consulter votre trésorerie</Text>)
+          : (<Text category="p2" appearance="hint">Sélectionner le compte pour consulter votre trésorerie</Text>)}
         {loading
           ? <ActivityIndicator />
-          : (
+          : (!toggle ? (
             <>
-              {data?.listRealEstates?.items?.map(
+              {bien.bankAccounts?.items?.map(
                 (item) => item && (
                 <OwnerCompte
                   key={item.id}
@@ -84,6 +106,29 @@ const MaTresorerie2 = () => {
                 ),
               )}
             </>
+          ) : (
+            <>
+              {data?.listBankAccounts?.items?.map(
+                (item) => item && (
+                <OwnerCompte
+                  key={item.id}
+                  compte={item}
+                  supprimer={supprim}
+                  add
+                  checked={checkedAccounts.indexOf(item.id) > -1}
+                  onCheck={(checked) => {
+                    const nextCheckedAccounts = checkedAccounts.filter((id) => id !== item.id);
+                    if (checked) {
+                      nextCheckedAccounts.push(item.id);
+                    }
+                    setCheckedAccounts(nextCheckedAccounts);
+                  }}
+                />
+                ),
+              )}
+            </>
+          )
+
           )}
 
         <TouchableOpacity
@@ -107,18 +152,25 @@ const MaTresorerie2 = () => {
             <Button
               size="large"
               onPress={async () => {
-                setAddingAccounts(true);
-                const response = await API.get('omedomrest', '/budgetinsight/connect-url', {});
-                setAddingAccounts(false);
-                setNewAccountLink(response.connectUrl);
+                if (toggle) {
+                  if (checkedAccounts.length > 0) {
+                    console.log(checkedAccounts);
+                  } else {
+                    setAddingAccounts(true);
+                    const response = await API.get('omedomrest', '/budgetinsight/connect-url', {});
+                    setAddingAccounts(false);
+                    setNewAccountLink(response.connectUrl);
+                  }
+                } else {
+                  setToggle(true);
+                  await refetchBien();
+                }
               }}
               style={{
                 paddingVertical: 20, marginBottom: 30, borderTopWidth: 1, borderTopColor: '#b5b5b5',
               }}
             >
-              {toggle
-                ? 'Lier un compte bancaire'
-                : 'Lier un autre compte bancaire'}
+              {buttonText}
             </Button>
           )}
 

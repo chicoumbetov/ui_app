@@ -331,3 +331,17 @@ type NotificationReceipts @model
     receiptId: String!
     createdAt: AWSDateTime
 }
+type NotificationReceipts @model
+@auth(rules: [
+    {allow: owner, ownerField: "userId"}
+    { allow: private, provider: iam }
+])
+@key(name: "notificationReceiptsByUser", fields: ["userId","createdAt"])
+{
+    id: ID!
+    userId: ID!
+    user: User @connection (fields: ["userId"])
+    expoToken: String!
+    receiptId: String!
+    createdAt: AWSDateTime
+}

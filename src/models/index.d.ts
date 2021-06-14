@@ -262,3 +262,14 @@ export declare class NotificationReceipts {
   constructor(init: ModelInit<NotificationReceipts>);
   static copyOf(source: NotificationReceipts, mutator: (draft: MutableModel<NotificationReceipts>) => MutableModel<NotificationReceipts> | void): NotificationReceipts;
 }
+
+export declare class NotificationReceipts {
+  readonly id: string;
+  readonly userId: string;
+  readonly user?: User;
+  readonly expoToken: string;
+  readonly receiptId: string;
+  readonly createdAt?: string;
+  constructor(init: ModelInit<NotificationReceipts>);
+  static copyOf(source: NotificationReceipts, mutator: (draft: MutableModel<NotificationReceipts>) => MutableModel<NotificationReceipts> | void): NotificationReceipts;
+}

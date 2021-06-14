@@ -21,7 +21,10 @@ export function useGetBudgetLineDeadLine(id: string) {
   const getBudgetLineDeadLineQuery = <DocumentNode>gql(getBudgetLineDeadline);
   const {
     loading, data, fetchMore, refetch,
-  } = useQuery<GetBudgetLineDeadlineQuery, GetBudgetLineDeadlineQueryVariables>(getBudgetLineDeadLineQuery, {
+  } = useQuery<
+  GetBudgetLineDeadlineQuery,
+  GetBudgetLineDeadlineQueryVariables
+  >(getBudgetLineDeadLineQuery, {
     variables: {
       id,
     },
@@ -35,8 +38,10 @@ export function useGetBudgetLineDeadLine(id: string) {
 
 export function useUpdateBudgetLineDeadlineMutation() {
   // eslint-disable-next-line @typescript-eslint/no-shadow
-  const [updateBudgetLineDeadline, { loading: mutationLoading }] = useMutation<UpdateBudgetLineDeadlineMutation,
-  UpdateBudgetLineDeadlineMutationVariables>(gql(mutations.updateBudgetLineDeadline),
+  const [updateBudgetLineDeadline, { loading: mutationLoading }] = useMutation<
+  UpdateBudgetLineDeadlineMutation,
+  UpdateBudgetLineDeadlineMutationVariables
+  >(gql(mutations.updateBudgetLineDeadline),
     {
       update: (cache, { data: mutationData }) => {
         const getRealEstatesQuery = <DocumentNode>gql(getRealEstate);
@@ -52,7 +57,8 @@ export function useUpdateBudgetLineDeadlineMutation() {
             });
 
             // Add newly created item to the cache copy
-            if (cacheData && cacheData.getRealEstate && cacheData.getRealEstate.budgetLines) {
+            if (cacheData && cacheData.getRealEstate
+                && cacheData.getRealEstate.budgetLines) {
               cacheData
                 .getRealEstate
                 .budgetLines
@@ -124,8 +130,10 @@ export function useDeleteBudgetLineDeadlineMutation() {
 
 export function useCreateBudgetLineDeadlineMutation() {
   const getRealEstatesQuery = <DocumentNode>gql(getRealEstate);
-  const [createBudgetLineDeadLine, { loading: mutationLoading }] = useMutation<CreateBudgetLineDeadlineMutation,
-  CreateBudgetLineDeadlineMutationVariables>(gql(mutations.createBudgetLineDeadline),
+  const [createBudgetLineDeadLine, { loading: mutationLoading }] = useMutation<
+  CreateBudgetLineDeadlineMutation,
+  CreateBudgetLineDeadlineMutationVariables
+  >(gql(mutations.createBudgetLineDeadline),
     {
       update: (cache, { data: mutationData }) => {
         if (mutationData) {

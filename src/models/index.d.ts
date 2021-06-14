@@ -158,8 +158,8 @@ export declare class BankMovement {
   readonly biId: number;
   readonly description?: string;
   readonly amount: number;
-  readonly budgetLineDeadlineId?: string;
-  readonly budgetLineDeadline?: BudgetLineDeadline;
+  readonly budgetLineDeadlineId?: (string | null)[];
+  readonly budgetLineDeadline?: (BudgetLineDeadline | null)[];
   readonly ignored?: boolean;
   readonly date?: string;
   constructor(init: ModelInit<BankMovement>);
@@ -194,6 +194,7 @@ export declare class RealEstateBankAccount {
 export declare class BudgetLineDeadline {
   readonly id: string;
   readonly realEstate?: RealEstate;
+  readonly bankMouvement?: BankMovement;
   readonly budgetLineId: string;
   readonly budgetLine?: BudgetLine;
   readonly type: BudgetLineType | keyof typeof BudgetLineType;
@@ -228,7 +229,6 @@ export declare class PendingInvitation {
 
 export declare class Notification {
   readonly id: string;
-  readonly owner?: string;
   readonly userId: string;
   readonly user?: User;
   readonly category: string;
@@ -241,7 +241,6 @@ export declare class Notification {
 
 export declare class BillingHistory {
   readonly id: string;
-  readonly owner?: string;
   readonly userId: string;
   readonly user?: User;
   readonly date: string;
@@ -251,4 +250,15 @@ export declare class BillingHistory {
   readonly paid?: boolean;
   constructor(init: ModelInit<BillingHistory>);
   static copyOf(source: BillingHistory, mutator: (draft: MutableModel<BillingHistory>) => MutableModel<BillingHistory> | void): BillingHistory;
+}
+
+export declare class NotificationReceipts {
+  readonly id: string;
+  readonly userId: string;
+  readonly user?: User;
+  readonly expoToken: string;
+  readonly receiptId: string;
+  readonly createdAt?: string;
+  constructor(init: ModelInit<NotificationReceipts>);
+  static copyOf(source: NotificationReceipts, mutator: (draft: MutableModel<NotificationReceipts>) => MutableModel<NotificationReceipts> | void): NotificationReceipts;
 }

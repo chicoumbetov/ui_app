@@ -118,10 +118,13 @@ type BudgetLineDeadline
 ])
 @key(name: "budgetLineDeadlineByRealEstate", fields: ["realEstateId", "date"])
 @key(name: "budgetLineDeadlineByBudgetLine", fields: ["budgetLineId", "date"])
+@key(name: "budgetLineDeadlineByBankMovement", fields: ["bankMouvementId", "date"])
 @model {
   id: ID!
   realEstateId: ID!
   realEstate: RealEstate @connection (fields: ["realEstateId"])
+  bankMouvementId: ID
+  bankMouvement: BankMovement @connection (fields: ["bankMouvementId"])
   budgetLineId: ID!
   budgetLine: BudgetLine @connection (fields: ["budgetLineId"])
   type: BudgetLineType!
@@ -274,8 +277,8 @@ type BankMovement @model
   biId: Int!
   description: String
   amount: Float!
-  budgetLineDeadlineId: ID
-  budgetLineDeadline: BudgetLineDeadline @connection (fields: ["budgetLineDeadlineId"])
+  budgetLineDeadlineId: [ID]
+  budgetLineDeadline: [BudgetLineDeadline] @connection (keyName:"budgetLineDeadlineByBankMovement", fields: ["id"])
   ignored: Boolean
   date: AWSDate
 }
@@ -283,34 +286,48 @@ type BankMovement @model
 #should only be available for all operations to user linked through utilisateur connection
 type Notification @model
 @auth(rules: [
-  {allow: owner, ownerField: "owner"}
+    {allow: owner, ownerField: "userId"}
+    { allow: private, provider: iam }
 ])
 @key(name: "notificationByUser", fields: ["userId","createdAt"])
 {
-  id: ID!
-  owner: String
-  userId: ID!
-  user: User @connection (fields: ["userId"])
-  category: String!
-  text: String!
-  params: AWSJSON
-  createdAt: AWSDateTime
+    id: ID!
+    userId: ID!
+    user: User @connection (fields: ["userId"])
+    category: String!
+    text: String!
+    params: AWSJSON
+    createdAt: AWSDateTime
 }
 
 type BillingHistory @model
 @auth(rules: [
-  {allow: owner, ownerField: "owner"}
+    {allow: owner, ownerField: "userId"}
+    { allow: private, provider: iam }
 ])
 @key(name: "billingHistoryByUser", fields: ["userId","date"])
 {
-  id: ID!
-  owner: String
-  userId: ID!
-  user: User @connection (fields: ["userId"])
-  date: AWSDateTime!
-  nextRenewDate: AWSDate
-  subscription: SubscriptionType
-  amount: Float!
-  paid: Boolean
+    id: ID!
+    userId: ID!
+    user: User @connection (fields: ["userId"])
+    date: AWSDateTime!
+    nextRenewDate: AWSDate
+    subscription: SubscriptionType
+    amount: Float!
+    paid: Boolean
 }
 
+type NotificationReceipts @model
+@auth(rules: [
+    {allow: owner, ownerField: "userId"}
+    { allow: private, provider: iam }
+])
+@key(name: "notificationReceiptsByUser", fields: ["userId","createdAt"])
+{
+    id: ID!
+    userId: ID!
+    user: User @connection (fields: ["userId"])
+    expoToken: String!
+    receiptId: String!
+    createdAt: AWSDateTime
+}

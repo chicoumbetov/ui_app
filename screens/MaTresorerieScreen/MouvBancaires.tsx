@@ -36,15 +36,32 @@ const MouvBancaires = () => {
 
   // const [compte] = useState(comptesData);
   const [currentMvt, setCurrentMvt] = useState();
-  const [budget, setBudget] = useState(bien?.budgetLineDeadlines?.items);
 
-  const [checked, setChecked] = React.useState(false);
+  const [budget, setBudget] = useState(bien?.budgetLineDeadlines?.items);
+  // console.log('mmmm :', bien?.budgetLineDeadlines?.items?.map((item) => item?.amount));
+
+  // const [checked, setChecked] = React.useState(false);
+  const [checked, setChecked] = React.useState<string[]>([]);
+
   const [ignoreClicked, setIgnoreClicked] = useState(false);
   const [affecte, setAffecte] = useState(false);
+
+  const isChecked = (id:string): boolean => checked.indexOf(id) > -1;
+
+  const checkFunction = (nextChecked: boolean, id:string) => {
+    const newCheckedState = checked.filter((currentId) => currentId !== id);
+    if (nextChecked) {
+      newCheckedState.push(id);
+    }
+
+    setChecked(newCheckedState);
+    console.log('check ', checked);
+  };
 
   const onIgnorerMouvement = (id?: string) => {
     linkTo(`/ma-tresorerie/ignorer-mouvement/${id}`);
   };
+
   const [thisamount, setAmount] = useState(0);
 
   const onEditMouvement = (items) => {
@@ -111,6 +128,10 @@ const MouvBancaires = () => {
             ? ('Vous pouvez modifier une affectation en sélectionnant le mouvement bancaire.')
             : ('Vous pouvez affecter ou ignorer les mouvements bancaires liés à ce compte bancaire.')}
         </Text>
+
+        {/**
+         Mouvements affectés
+        */}
         {affecte
           ? (
             <>
@@ -126,8 +147,12 @@ const MouvBancaires = () => {
                   {ignoreClicked
                     ? (
                       <CheckBox
-                        checked={checked}
-                        onChange={(nextChecked) => setChecked(nextChecked)}
+                        // checked={checked}
+                        // onChange={(nextChecked) => setChecked(nextChecked)}
+                        checked={isChecked(item.id)}
+                        onChange={
+                          (nextChecked) => checkFunction(nextChecked, item.id)
+                        }
                         status="danger"
                       />
                     )
@@ -178,6 +203,9 @@ const MouvBancaires = () => {
           )
           : (
             <>
+              {/**
+               Mouvements affectés
+               */}
               <Button
                 size="large"
                 onPress={() => setIgnoreClicked(!ignoreClicked)}
@@ -199,8 +227,12 @@ const MouvBancaires = () => {
                   {ignoreClicked
                     ? (
                       <CheckBox
-                        checked={checked}
-                        onChange={(nextChecked) => setChecked(nextChecked)}
+                              // checked={checked}
+                              // onChange={(nextChecked) => setChecked(nextChecked)}
+                        checked={isChecked(item.id)}
+                        onChange={
+                                (nextChecked) => checkFunction(nextChecked, item.id)
+                              }
                         status="danger"
                       />
                     )

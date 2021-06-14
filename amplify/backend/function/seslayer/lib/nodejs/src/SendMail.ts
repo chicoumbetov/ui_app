@@ -26,7 +26,7 @@ export function sendEmail(recipientEmail, name) {
       },
       Subject: {
         Charset: 'UTF-8',
-        Data: `Hell o, ${name}!`,
+        Data: `Hello, ${name}!`,
       },
     },
   };

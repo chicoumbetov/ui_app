@@ -22,7 +22,8 @@ type MonBudgetProps = { budget: BudgetLineDeadline[], amount: number };
 
 const EditMouvement = (props: MonBudgetProps) => {
   const { budget, amount } = props;
-  console.log(budget, 'ouiiiiiiiiiiiiiiiiiii');
+  // console.log('budget :', budget);
+  // console.log('amount : ', amount);
   const theme = useTheme();
 
   const updateBudgetLineDeadLine = useUpdateBudgetLineDeadlineMutation();
@@ -55,7 +56,7 @@ const EditMouvement = (props: MonBudgetProps) => {
     }
 
     setedit(neweditState);
-    console.log(edit);
+    console.log('edit :', edit);
   };
 
   const isChecked = (id:string): boolean => checked.indexOf(id) > -1;
@@ -135,7 +136,9 @@ const EditMouvement = (props: MonBudgetProps) => {
                 >
                   <CheckBox
                     checked={isChecked(item.id)}
-                    onChange={(nextChecked) => checkFunction(nextChecked, item.id, item.amount)}
+                    onChange={
+                      (nextChecked) => checkFunction(nextChecked, item.id, item.amount)
+                    }
                     style={{ marginRight: 20 }}
                   />
                   <View style={{
@@ -152,7 +155,14 @@ const EditMouvement = (props: MonBudgetProps) => {
                     >
                       {item.category}
                     </Text>
-                    {isEdited(item.id) ? (<TextInputComp name="amount" defaultValue={item.amount} keyboardType="numeric" onChangeValue={(v) => setNewAmount(v)} />) : (
+                    {isEdited(item.id) ? (
+                      <TextInputComp
+                        name="amount"
+                        defaultValue={item.amount}
+                        keyboardType="numeric"
+                        onChangeValue={(v) => setNewAmount(v)}
+                      />
+                    ) : (
                       <Text
                         category="c1"
                         status={item.type === BudgetLineType.Expense

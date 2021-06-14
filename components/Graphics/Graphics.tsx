@@ -73,9 +73,10 @@ const Graphics = (data: MesBiensDataProps) => {
 
           {victory.map((item) => item
             .map((expenseLabel) => (
-              <View style={{
-                flex: 1, flexDirection: 'row', marginTop: 10, alignItems: 'center',
-              }}
+              <View
+                style={{
+                  flex: 1, flexDirection: 'row', marginTop: 10, alignItems: 'center',
+                }}
               >
                 <View
                   style={{

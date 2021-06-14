@@ -103,6 +103,7 @@ const DeclarationImpots = () => {
           />
           {tenantsList ? (
             <>
+              {/**
               <FSelect
                 name="idTenant"
                 data={tenantsList}
@@ -111,6 +112,7 @@ const DeclarationImpots = () => {
                 appearance="default"
                 status="primary"
               />
+ */}
               <TextInput
                 label="Année de l'écheance"
                 name="anneeEcheance"

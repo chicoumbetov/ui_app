@@ -34,7 +34,7 @@ const DeclarationImpots = () => {
 
   useEffect(() => {
     if (route && (route.params === undefined
-        || route.params.idTenant === undefined
+        // || route.params.idTenant === undefined
         || route.params.idBien === undefined
         || route.params.anneeEcheance === undefined)) {
       navigation.dispatch(
@@ -50,25 +50,25 @@ const DeclarationImpots = () => {
     // console.log('Decl impots 2 set New doc');
   }, [route.params]);
 
-  const tenant = bien.tenants?.find(
-    (item) => (item?.id === route.params.idTenant),
+  /**
+  const tenant = bien.find(
+    (item) => (bien.id === route.params.idBien),
   );
-  const bailStartDate = DateUtils.parseToDateObj(tenant?.startDate);
-  bailStartDate.setHours(0, 0, 0, 0);
-  const bailEndDate = DateUtils.parseToDateObj(tenant?.endDate);
-  bailEndDate.setHours(0, 0, 0, 0);
+  */
 
-  const startYear = new Date(bailStartDate.valueOf());
-  const endYear = new Date(bailEndDate.valueOf());
-  // console.log('start end year', startYear.getFullYear(), endYear.getFullYear());
+  const paramsAskedDate = DateUtils.parseToDateObj(route.params.anneeEcheance).getFullYear();
+  const paramsCreatedDate = DateUtils.parseToDateObj(bien.createdAt).getFullYear();
+
+  // console.log('date created at 2 ', paramsAskedDate);
+  // console.log('date created at 333 ', paramsCreatedDate);
 
   useEffect(() => {
     (async () => {
       // console.log('Decl impots 2');
       if (!newDocument && bien) {
-        if (tenant) {
-          const key = `declaration_${tenant.id}_${moment(route.params.anneeEcheance).format('YYYY')}`;
-          const documentMonth = route.params.anneeEcheance;
+        if (bien.id === route.params.idBien) {
+          const key = `declaration_${bien.name}_${moment(route.params.anneeEcheance).format('YYYY')}`;
+
           const previousYear = route.params.anneeEcheance - 1;
           // console.log(documentMonth);
           const document = await getDocumentByKey(client, key);
@@ -82,9 +82,6 @@ const DeclarationImpots = () => {
             const result = await pdfGenerator(pdfTemplateDeclaration, {
               bien,
               user,
-              tenant,
-              startDate: moment(tenant.startDate).format('DD/MM/YYYY'),
-              endDate: moment(tenant.endDate).format('DD/MM/YYYY'),
               year: route.params.anneeEcheance,
               previousYear,
             });
@@ -132,8 +129,8 @@ const DeclarationImpots = () => {
       {newDocument
         ? (
           <>
-            { (route.params.anneeEcheance >= startYear.getFullYear()
-                && endYear.getFullYear() >= route.params.anneeEcheance)
+            { (paramsAskedDate >= paramsCreatedDate
+            && paramsAskedDate <= paramsCreatedDate)
               ? (
                 <View style={{ padding: 27 }}>
                   <Text category="h2" style={{ marginBottom: 30 }}>Votre document est prêt</Text>
@@ -142,10 +139,11 @@ const DeclarationImpots = () => {
               ) : (
                 <View style={{ padding: 27 }}>
                   <Text>
-                    {`${tenant?.lastname} ${tenant?.firstname} n'a pas loué à l'année de ${route.params.anneeEcheance}`}
+
+                    {`${bien.name} n'était pas crée en ${route.params.anneeEcheance}`}
                   </Text>
                   <Text style={{ paddingTop: 5 }}>
-                    {`Location était entre ${moment(bailStartDate).format('DD/MM/YYYY')} et ${moment(bailEndDate).format('DD/MM/YYYY')} `}
+                    {`${bien.name} a été ajoutée dans l'application en ${paramsCreatedDate}`}
                   </Text>
                 </View>
 

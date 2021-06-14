@@ -10,7 +10,7 @@ import { Icon, Text, useTheme } from '@ui-kitten/components';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { useLinkTo, useNavigation } from '@react-navigation/native';
 import { Icon as IconUIKitten } from '@ui-kitten/components/ui/icon/icon.component';
-import moment from 'moment';
+
 import CompteHeader from '../../../components/CompteHeader/CompteHeader';
 import GraphicsII from '../../../components/Graphics/GraphicsII';
 import Graphics from '../../../components/Graphics/Graphics';
@@ -58,6 +58,19 @@ const MonBien = (props: MonBienProps) => {
    */
   const currentYear = new Date().getFullYear();
   const currentMonth = new Date().getMonth();
+
+  const allDataLastIncome = bienDetail?.bien?.budgetLineDeadlines?.items
+      && bienDetail?.bien?.budgetLineDeadlines?.items?.filter((item) => {
+        if (item?.type === BudgetLineType.Income
+          && !item?._deleted
+        ) {
+          console.log('income: ', item);
+          return item;
+        }
+        return false;
+      }).pop();
+
+  console.log('allData Income: ', allDataLastIncome);
 
   const allDataNextExpense = bienDetail?.bien?.budgetLineDeadlines?.items
   && bienDetail?.bien?.budgetLineDeadlines?.items?.filter((item) => {
@@ -183,7 +196,7 @@ const MonBien = (props: MonBienProps) => {
                   }}
                 />
               </View>
-              <Text category="h4" status="success">+ allIncomes €</Text>
+              <Text category="h4" status="success">{`+ ${allDataLastIncome?.amount} €`}</Text>
             </View>
 
             {/**
@@ -234,7 +247,7 @@ const MonBien = (props: MonBienProps) => {
             >
               <View style={styles.oneThirdBlock}>
                 <Text category="h6" appearance="hint" style={styles.text}>Dernier mouvement</Text>
-                <Text category="h4" status="success" style={{ marginVertical: 14 }}>+ allIncomes €</Text>
+                <Text category="h4" status="success" style={{ marginVertical: 14 }}>{`+ ${allDataLastIncome?.amount} €`}</Text>
                 <TouchableOpacity onPress={() => {}}>
                   <Text category="h6" status="info">Affecter</Text>
                 </TouchableOpacity>

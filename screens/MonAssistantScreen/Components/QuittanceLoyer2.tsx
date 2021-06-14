@@ -62,6 +62,14 @@ const QuittanceLoyer2 = () => {
   const bailEndDate = DateUtils.parseToDateObj(tenant?.endDate);
   bailEndDate.setHours(0, 0, 0, 0);
 
+  const paramsDate = DateUtils.parseToDateObj(route.params.date);
+
+  // console.log('bailStartDate', moment(bailStartDate).format('DD/MM/YYYY'));
+  // console.log('bailEndDate', moment(bailEndDate).format('DD/MM/YYYY'));
+  // console.log('route.params : ', moment(route.params.date).format('DD/MM/YYYY'));
+
+  // console.log('compare:', moment(bailEndDate).format('DD/MM/YYYY') >= moment(route.params.date).format('DD/MM/YYYY'));
+
   useEffect(() => {
     (async () => {
       if (!newDocument && bien) {
@@ -144,8 +152,8 @@ const QuittanceLoyer2 = () => {
         ? (
 
           <>
-            { (route.params.date >= bailStartDate
-                && bailEndDate >= route.params.date)
+            { (bailStartDate <= paramsDate
+                && bailEndDate >= paramsDate)
               ? (
                 <View style={{ paddingHorizontal: 27 }}>
                   <Text category="h2" style={{ marginVertical: 30 }}>Votre document est prêt</Text>
@@ -154,11 +162,11 @@ const QuittanceLoyer2 = () => {
               ) : (
                 <>
                   <Text style={{ padding: 27, paddingBottom: 5 }}>
-                    {`${tenant?.lastname} ${tenant?.firstname} n'a pas loué le `}
+                    {`${tenant?.lastname} ${tenant?.firstname} n'était pas locataire de votre bien sur la période du `}
                     {moment(route.params.date).format('DD/MM/YYYY')}
                   </Text>
                   <Text style={{ paddingHorizontal: 27 }}>
-                    {`Location était entre ${moment(bailStartDate).format('DD/MM/YYYY')} et ${moment(bailEndDate).format('DD/MM/YYYY')} `}
+                    {`${tenant?.lastname} ${tenant?.firstname} a été locataire de votre bien sur la période du  ${moment(bailStartDate).format('DD/MM/YYYY')} au ${moment(bailEndDate).format('DD/MM/YYYY')} `}
                   </Text>
                 </>
               )}

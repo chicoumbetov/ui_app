@@ -43,7 +43,8 @@ const MouvBancaires = () => {
   const useUpdateBankMouvement = useUpdateBankMovement();
   console.log(bankMouvement);
   const movementPasAffect = bankMouvement.filter((item) => {
-    if (item.ignored) {
+    if (item.ignored
+        || (item.budgetLineDeadline?.items && item.budgetLineDeadline?.items?.length > 0)) {
       return false;
     }
     return item;
@@ -241,7 +242,7 @@ const MouvBancaires = () => {
               <>
                 <Separator />
                 <Card
-                  onPress={() => { onAffecterMouvement(bien.id); }}
+                  onPress={() => { onAffecterMouvement(bankAccount.id); }}
                   style={{
                     marginVertical: 20,
                     flexDirection: 'row',

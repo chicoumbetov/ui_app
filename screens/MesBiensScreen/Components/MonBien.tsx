@@ -4,7 +4,7 @@
  * @author: Shynggys UMBETOV
  */
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Icon, Text, useTheme } from '@ui-kitten/components';
 
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
@@ -19,21 +19,27 @@ import RotatingIcon from '../../../components/Icon/RotatingIcon';
 import MaxWidthContainer from '../../../components/MaxWidthContainer';
 import { RealEstateItem, useGetRealEstate } from '../../../src/API/RealEstate';
 import Card from '../../../components/Card';
-import { BudgetLineType } from '../../../src/API';
+import { BankMovement, BudgetLineType, RealEstate } from '../../../src/API';
 // import { useGetBudgetLineDeadLine } from '../../../src/API/BudgetLineDeadLine';
 import DateUtils from '../../../utils/DateUtils';
 
-type MonBienProps = { bien: RealEstateItem };
+type MonBienProps = { biens: RealEstateItem };
 
 const MonBien = (props: MonBienProps) => {
-  const { bien } = props;
-  const bienDetail = useGetRealEstate(bien?.id);
+  const { biens } = props;
+  const { bienget } = useGetRealEstate(biens?.id);
+
   // const budgetLineDeadLine = useGetBudgetLineDeadLine(bien?.id);
   const linkTo = useLinkTo();
 
   const navigation = useNavigation();
   const [opened, setOpened] = useState(false);
   const theme = useTheme();
+  const [bienCharger, setBienCharger] = useState<RealEstate>();
+  useEffect(() => {
+    setBienCharger(bienget);
+  }, [bienget]);
+  console.log('------------------------', bienCharger);
 
   /**
    *   Rentabilité
@@ -59,8 +65,8 @@ const MonBien = (props: MonBienProps) => {
   const currentYear = new Date().getFullYear();
   const currentMonth = new Date().getMonth();
 
-  const allDataLastIncome = bienDetail?.bien?.budgetLineDeadlines?.items
-      && bienDetail?.bien?.budgetLineDeadlines?.items?.filter((item) => {
+  const allDataLastIncome = bienCharger?.bien?.budgetLineDeadlines?.items
+      && bienCharger?.bien?.budgetLineDeadlines?.items?.filter((item) => {
         if (item?.type === BudgetLineType.Income
           && !item?._deleted
         ) {
@@ -72,8 +78,8 @@ const MonBien = (props: MonBienProps) => {
 
   console.log('allData Income: ', allDataLastIncome);
 
-  const allDataNextExpense = bienDetail?.bien?.budgetLineDeadlines?.items
-  && bienDetail?.bien?.budgetLineDeadlines?.items?.filter((item) => {
+  const allDataNextExpense = bienCharger?.budgetLineDeadlines?.items
+  && bienCharger?.budgetLineDeadlines?.items?.filter((item) => {
     // years for all existing Eau expenses in whole period
     const allYears = DateUtils.parseToDateObj(item?.date).getFullYear();
     const allMonths = DateUtils.parseToDateObj(item?.date).getMonth();
@@ -107,8 +113,8 @@ const MonBien = (props: MonBienProps) => {
   /**
    * Get all expenses of current year
    */
-  if (bienDetail?.bien?.budgetLineDeadlines?.items) {
-    bienDetail.bien?.budgetLineDeadlines?.items.forEach((item) => {
+  if (bienCharger?.budgetLineDeadlines?.items) {
+    bienCharger?.budgetLineDeadlines?.items.forEach((item) => {
       // years for all existing Eau expenses in whole period
       const allYears = DateUtils.parseToDateObj(item?.date).getFullYear();
       if (item?.category
@@ -167,7 +173,7 @@ const MonBien = (props: MonBienProps) => {
       <Card onPress={() => setOpened(!opened)} style={{ marginVertical: 15 }}>
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
           <View style={{ flex: 1, flexWrap: 'wrap' }}>
-            <CompteHeader title={bien?.name} />
+            <CompteHeader title={biens?.name} />
           </View>
 
           <RotatingIcon name="arrow-ios-downward-outline" uikitten state={opened} width={24} height={25} fill="#b5b5b5" />
@@ -281,7 +287,7 @@ const MonBien = (props: MonBienProps) => {
               </View>
             </View>
 
-            <TouchableOpacity onPress={() => onDetailsBiens(bien.id)} style={styles.button}>
+            <TouchableOpacity onPress={() => onDetailsBiens(biens.id)} style={styles.button}>
               <Text category="h6" status="basic">Accéder au bien</Text>
               <Icon
                 name="chevron-right-outline"

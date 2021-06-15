@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Text,
 } from '@ui-kitten/components';
@@ -29,15 +29,19 @@ const AffecterMouvement = () => {
   const { bien } = useGetRealEstate(route.params.id);
   const { bankMouvement } = useGetBankMovementByBankAccountId(route.params.idCompte);
   const { bankAccount } = useGetBankAccount(route.params.idCompte);
+  const [movementAffecte, setMovementAffecte] = useState<BankMovement[]>();
 
   console.log('affecté', bankMouvement);
 
-  const movementAffecte = bankMouvement.filter((item) => {
-    if (item.budgetLineDeadlineId) {
-      return item;
-    }
-    return false;
-  });
+  useEffect(() => {
+    const currentMovementAffecte = bankMouvement.filter((item) => {
+      if ((item.budgetLineDeadline?.items && item.budgetLineDeadline?.items?.length > 0)) {
+        return item;
+      }
+      return false;
+    });
+    setMovementAffecte(currentMovementAffecte);
+  }, [bankMouvement]);
 
   const [currentMvt, setCurrentMvt] = useState<BankMovement>();
 
@@ -82,7 +86,7 @@ const AffecterMouvement = () => {
       <View
         style={{ marginBottom: 40 }}
       >
-        {movementAffecte.map((item) => (
+        {movementAffecte && movementAffecte.map((item) => (
           <Card
             key={item.id}
             style={{

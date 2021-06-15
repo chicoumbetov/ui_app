@@ -4,7 +4,7 @@
  * @author: Shynggys UMBETOV
  */
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Text } from '@ui-kitten/components';
 import {
   Alert,
@@ -28,6 +28,7 @@ import EditMouvement from './Components/EditMouvement';
 import WebView from '../../components/WebView';
 import { useBankAccountList } from '../../src/API/BankAccount';
 import { useCreateRealEstateBankAccount } from '../../src/API/RealEstateBankAccount';
+import { RealEstate } from '../../src/API';
 
 const MaTresorerie2 = () => {
   // const [compte] = useState(comptesData);
@@ -42,11 +43,18 @@ const MaTresorerie2 = () => {
   // console.log('mon-budget data', route.params);
 
   const createRealEstateBankAccount = useCreateRealEstateBankAccount();
-  const { bien, refetch: refetchBien, loading: loadingBien } = useGetRealEstate(route.params.id);
+  const { bienget, refetch: refetchBien, loading: loadingBien } = useGetRealEstate(route.params.id);
   const { data } = useBankAccountList();
-  if (bien) {
-    console.log('oui', bien.bankAccounts?.items?.length);
-    if (bien.bankAccounts?.items?.length === 0 && !toggle) {
+
+  const [bienCharger, setBienCharger] = useState<RealEstate>();
+  useEffect(() => {
+    setBienCharger(bienget);
+  }, [bienget]);
+  console.log('------------------------', bienCharger);
+
+  if (bienCharger) {
+    console.log('oui', bienCharger.bankAccounts?.items?.length);
+    if (bienCharger.bankAccounts?.items?.length === 0 && !toggle) {
       setToggle(true);
     }
   }
@@ -86,7 +94,7 @@ const MaTresorerie2 = () => {
         </Text>
         <CompteHeader
           title={
-            bien?.name
+            bienCharger?.name
           }
         />
         <Text category="s2" status="basic" style={{ marginVertical: 20 }}>
@@ -99,7 +107,7 @@ const MaTresorerie2 = () => {
           ? <ActivityIndicator />
           : (!toggle ? (
             <>
-              {bien.bankAccounts?.items?.map(
+              {bienCharger?.bankAccounts?.items?.map(
                 (item) => item && (
                 <OwnerCompte
                   key={item.id}
@@ -169,7 +177,7 @@ const MaTresorerie2 = () => {
                         });
                       }
                     });
-                    console.log('item : ', bien.bankAccounts?.items);
+                    console.log('item : ', bienCharger?.bankAccounts?.items);
                     setToggle(false);
                   } else {
                     setAddingAccounts(true);

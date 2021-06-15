@@ -37,22 +37,25 @@ import { useGetUserByIDList } from '../../src/API/User';
 import DocumentComponent from '../../components/DocumentComponent';
 import { useDeleteDocumentMutation, useDocumentList } from '../../src/API/Document';
 import { usePendingInvitationsList } from '../../src/API/PendingInvitation';
-import { BudgetLineType } from '../../src/API';
+import { BudgetLineType, RealEstate } from '../../src/API';
 
 function DetailsBien() {
   const navigation = useNavigation();
   const linkTo = useLinkTo();
   const theme = useTheme();
   const route = useRoute<RouteProp<TabMesBiensParamList, 'detail-bien'>>();
-  const { bien } = useGetRealEstate(route.params.id);
+  const { bienget } = useGetRealEstate(route.params.id);
   const { pendingInvitations } = usePendingInvitationsList();
   const { documentList } = useDocumentList();
   // console.log('detail bien document', documentList);
-
+  const [bienCharger, setBienCharger] = useState<RealEstate>();
+  useEffect(() => {
+    setBienCharger(bienget);
+  }, [bienget]);
   const [typeRevenu, setTypeRevenu] = useState<string>();
   // console.log(route.params.id);
 
-  const users = useGetUserByIDList(Array.prototype.concat(bien?.admins, bien?.shared));
+  const users = useGetUserByIDList(Array.prototype.concat(bienCharger?.admins, bienCharger?.shared));
   const invitateUserId = pendingInvitations?.filter(
     (item) => item?.realEstateId === route.params.id,
   );
@@ -60,7 +63,7 @@ function DetailsBien() {
   // console.log(users, invitateUserId);
 
   useEffect(() => {
-    switch (bien?.type) {
+    switch (bienCharger?.type) {
       default:
         setTypeRevenu('Type de bien');
         break;
@@ -137,14 +140,14 @@ function DetailsBien() {
       }],
     );
   };
-  const lastAmount = bien?.budgetLines?.items?.filter((item) => {
+  const lastAmount = bienCharger?.budgetLines?.items?.filter((item) => {
     if (item?.type === BudgetLineType.Income && !item?._deleted) {
       return item;
     }
     return false;
   }).pop()?.amount;
 
-  const lastExpense = bien?.budgetLines?.items?.filter((item) => {
+  const lastExpense = bienCharger?.budgetLines?.items?.filter((item) => {
     if (item?.type === BudgetLineType.Expense && !item?._deleted) {
       return item;
     }
@@ -196,7 +199,7 @@ function DetailsBien() {
             style={{ marginRight: 12, marginBottom: 10 }}
           />
           <Text category="h2" status="basic">
-            {bien?.name}
+            {bienCharger?.name}
           </Text>
         </View>
 
@@ -287,7 +290,7 @@ function DetailsBien() {
 
         {/**   2   */}
         <Card
-          onPress={() => allerMesRapports(bien.id)}
+          onPress={() => allerMesRapports(bienCharger?.id)}
           style={[styles.docs, {
             alignItems: 'center',
             justifyContent: 'center',
@@ -340,13 +343,13 @@ function DetailsBien() {
           {/* use SectionList to render several accounts with its types and details */}
           <Text category="h6" status="basic">Localisation</Text>
           <Text category="h6" appearance="hint" style={{ marginTop: 6 }}>
-            {`${bien?.address?.address} ${bien?.address?.postalCode} ${bien?.address?.city}`}
+            {`${bienCharger?.address?.address} ${bienCharger?.address?.postalCode} ${bienCharger?.address?.city}`}
           </Text>
           <View style={{ borderBottomWidth: 0.5, borderBottomColor: '#b5b5b5', marginVertical: 15 }} />
 
           <Text category="h6" status="basic" style={{ marginTop: 8 }}>Date d'acquisition</Text>
           <Text category="h6" appearance="hint" style={{ marginTop: 5 }}>
-            {bien?.purchaseYear || undefined}
+            {bienCharger?.purchaseYear || undefined}
           </Text>
           <View style={{ borderBottomWidth: 0.3, borderBottomColor: '#b5b5b5', marginVertical: 15 }} />
 
@@ -358,13 +361,13 @@ function DetailsBien() {
 
           <Text category="h6" status="basic" style={{ marginTop: 10 }}>Mode de détention</Text>
           <Text category="h6" appearance="hint" style={{ marginTop: 5 }}>
-            {bien?.ownName ? 'Nom propre' : 'Société'}
+            {bienCharger?.ownName ? 'Nom propre' : 'Société'}
           </Text>
           <View style={{ borderBottomWidth: 0.5, borderBottomColor: '#b5b5b5', marginVertical: 15 }} />
 
           <Text category="h6" status="basic" style={{ marginTop: 8 }}>Nombre de parts</Text>
           <Text category="h6" appearance="hint" style={{ marginTop: 5 }}>
-            {`${bien?.detentionPart || undefined} %`}
+            {`${bienCharger?.detentionPart || undefined} %`}
           </Text>
         </Card>
 
@@ -392,7 +395,7 @@ function DetailsBien() {
             {clientData.prenom}
           </Text>
            */}
-        {bien?.tenants?.map((tenant) => {
+        {bienCharger?.tenants?.map((tenant) => {
           const { id } = tenant;
           return (
             <Card style={styles.compteSection} key={id}>

@@ -15,6 +15,7 @@ import {
 import { Icon as IconUIKitten } from '@ui-kitten/components/ui/icon/icon.component';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { RouteProp } from '@react-navigation/core/lib/typescript/src/types';
+import moment from 'moment';
 import CompteHeader from '../../components/CompteHeader/CompteHeader';
 import MaxWidthContainer from '../../components/MaxWidthContainer';
 
@@ -40,8 +41,9 @@ const MouvBancaires = () => {
   const { bankMouvement } = useGetBankMovementByBankAccountId(route.params.idCompte);
   const { bankAccount } = useGetBankAccount(route.params.idCompte);
   const useUpdateBankMouvement = useUpdateBankMovement();
+  console.log(bankMouvement);
   const movementPasAffect = bankMouvement.filter((item) => {
-    if (item.ignored || item.realEstateId) {
+    if (item.ignored) {
       return false;
     }
     return item;
@@ -216,7 +218,7 @@ const MouvBancaires = () => {
                     paddingLeft: 10,
                   }}
                 >
-                  <Text category="h6" status="basic">{item.date}</Text>
+                  <Text category="h6" status="basic">{`${moment(item.date).format('DD/MM/YYYY')}`}</Text>
                   <Text category="p1" appearance="hint">{item.description}</Text>
                 </View>
 
@@ -261,7 +263,7 @@ const MouvBancaires = () => {
                   style={{ marginVertical: 20, marginBottom: 60 }}
                 >
                   <TouchableOpacity
-                    onPress={() => onIgnorerMouvement(bien.id)}
+                    onPress={() => onIgnorerMouvement(bankAccount.id)}
                     style={{
                       flexDirection: 'row',
                       alignItems: 'center',

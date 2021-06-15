@@ -390,7 +390,6 @@ export const getRealEstate = /* GraphQL */ `
           biId
           description
           amount
-          budgetLineDeadlineId
           ignored
           date
           _version
@@ -1248,7 +1247,6 @@ export const getBudgetLineDeadline = /* GraphQL */ `
         biId
         description
         amount
-        budgetLineDeadlineId
         ignored
         date
         _version
@@ -1371,7 +1369,6 @@ export const listBudgetLineDeadlines = /* GraphQL */ `
           biId
           description
           amount
-          budgetLineDeadlineId
           ignored
           date
           _version
@@ -1460,7 +1457,6 @@ export const syncBudgetLineDeadlines = /* GraphQL */ `
           biId
           description
           amount
-          budgetLineDeadlineId
           ignored
           date
           _version
@@ -1842,7 +1838,6 @@ export const getBankAccount = /* GraphQL */ `
           biId
           description
           amount
-          budgetLineDeadlineId
           ignored
           date
           _version
@@ -1999,7 +1994,6 @@ export const getBankMovement = /* GraphQL */ `
       biId
       description
       amount
-      budgetLineDeadlineId
       ignored
       date
       _version
@@ -2130,7 +2124,6 @@ export const listBankMovements = /* GraphQL */ `
         biId
         description
         amount
-        budgetLineDeadlineId
         ignored
         date
         _version
@@ -2207,7 +2200,6 @@ export const getBankMovementByBankAccountId = /* GraphQL */ `
         biId
         description
         amount
-        budgetLineDeadlineId
         ignored
         date
         _version
@@ -2282,7 +2274,6 @@ export const listBankMovementByBiId = /* GraphQL */ `
         biId
         description
         amount
-        budgetLineDeadlineId
         ignored
         date
         _version
@@ -2355,7 +2346,6 @@ export const syncBankMovements = /* GraphQL */ `
         biId
         description
         amount
-        budgetLineDeadlineId
         ignored
         date
         _version

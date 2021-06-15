@@ -67,9 +67,9 @@ const EditMouvement = (props: MonBudgetProps) => {
     const newCheckedState = checked.filter((current) => current.id !== id);
     if (nextChecked) {
       newCheckedState.push({ id, _version });
-      setAmountMouvement(Math.abs(amountMouvement) - thisAmount);
+      setAmountMouvement(amountMouvement - thisAmount);
     } else {
-      setAmountMouvement(Math.abs(amountMouvement) + thisAmount);
+      setAmountMouvement(amountMouvement + thisAmount);
     }
 
     setChecked(newCheckedState);
@@ -77,15 +77,6 @@ const EditMouvement = (props: MonBudgetProps) => {
   };
 
   const affecteMovement = async () => {
-    await useUpdateBankMouvement.updateBankMovement({
-      variables: {
-        input: {
-          id: movement.id,
-          ignored: true,
-          _version: movement._version,
-        },
-      },
-    });
     checked.reduce(async (promise, current) => {
       await promise;
       await updateBudgetLineDeadLine.updateBudgetLineDeadline({
@@ -197,7 +188,7 @@ const EditMouvement = (props: MonBudgetProps) => {
                         status={item.type === BudgetLineType.Expense
                           ? ('danger') : ('success')}
                       >
-                        {item.type === BudgetLineType.Expense ? ('-') : ('+')}
+                        {item.type === BudgetLineType.Expense ? ('') : ('+')}
                         {item.amount}
                       </Text>
 

@@ -240,7 +240,6 @@ export const createRealEstate = /* GraphQL */ `
           biId
           description
           amount
-          budgetLineDeadlineId
           ignored
           date
           _version
@@ -388,7 +387,6 @@ export const updateRealEstate = /* GraphQL */ `
           biId
           description
           amount
-          budgetLineDeadlineId
           ignored
           date
           _version
@@ -536,7 +534,6 @@ export const deleteRealEstate = /* GraphQL */ `
           biId
           description
           amount
-          budgetLineDeadlineId
           ignored
           date
           _version
@@ -1443,7 +1440,6 @@ export const createBudgetLineDeadline = /* GraphQL */ `
         biId
         description
         amount
-        budgetLineDeadlineId
         ignored
         date
         _version
@@ -1627,7 +1623,6 @@ export const updateBudgetLineDeadline = /* GraphQL */ `
         biId
         description
         amount
-        budgetLineDeadlineId
         ignored
         date
         _version
@@ -1811,7 +1806,6 @@ export const deleteBudgetLineDeadline = /* GraphQL */ `
         biId
         description
         amount
-        budgetLineDeadlineId
         ignored
         date
         _version
@@ -2211,7 +2205,6 @@ export const createBankAccount = /* GraphQL */ `
           biId
           description
           amount
-          budgetLineDeadlineId
           ignored
           date
           _version
@@ -2269,7 +2262,6 @@ export const updateBankAccount = /* GraphQL */ `
           biId
           description
           amount
-          budgetLineDeadlineId
           ignored
           date
           _version
@@ -2327,7 +2319,6 @@ export const deleteBankAccount = /* GraphQL */ `
           biId
           description
           amount
-          budgetLineDeadlineId
           ignored
           date
           _version
@@ -2354,7 +2345,6 @@ export const createBankMovement = /* GraphQL */ `
       biId
       description
       amount
-      budgetLineDeadlineId
       ignored
       date
       _version
@@ -2483,7 +2473,6 @@ export const updateBankMovement = /* GraphQL */ `
       biId
       description
       amount
-      budgetLineDeadlineId
       ignored
       date
       _version
@@ -2612,7 +2601,6 @@ export const deleteBankMovement = /* GraphQL */ `
       biId
       description
       amount
-      budgetLineDeadlineId
       ignored
       date
       _version

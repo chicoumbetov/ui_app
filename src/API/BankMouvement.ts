@@ -31,7 +31,98 @@ export function useBankMouvementList() {
   return { loading, refetch, bankMouvementList: data };
 }
 
-const getBankMovementByBankAccountIdQuery = <DocumentNode>gql(getBankMovementByBankAccountId);
+const getBankMovementByBankAccountIdQuery = <DocumentNode>gql(`query GetBankMovementByBankAccountId(
+    $bankAccountId: ID
+$date: ModelStringKeyConditionInput
+$sortDirection: ModelSortDirection
+$filter: ModelBankMovementFilterInput
+$limit: Int
+$nextToken: String
+) {
+  getBankMovementByBankAccountId(
+      bankAccountId: $bankAccountId
+  date: $date
+  sortDirection: $sortDirection
+  filter: $filter
+  limit: $limit
+  nextToken: $nextToken
+) {
+    items {
+      id
+      bankAccountId
+      realEstateId
+      biId
+      description
+      amount
+      ignored
+      date
+      _version
+      _deleted
+      _lastChangedAt
+      createdAt
+      updatedAt
+      realEstate {
+        id
+        name
+        iconUri
+        purchaseYear
+        type
+            ownName
+        company
+        detentionPart
+        typeImpot
+        admins
+        shared
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+      }
+      budgetLineDeadline {
+      items {
+          id
+          realEstateId
+          bankMouvementId
+          budgetLineId
+          type
+          category
+          amount
+          frequency
+          date
+          tenantId
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+        nextToken
+        startedAt
+      }
+      bankAccount {
+        id
+        bank
+        accountOwner
+        name
+        iban
+        bic
+        balance
+        biId
+        biConnectionId
+        biState
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+      }
+    }
+    nextToken
+    startedAt
+  }
+}
+`);
 
 const getBankMovementQuery = <DocumentNode>gql(getBankMovement);
 

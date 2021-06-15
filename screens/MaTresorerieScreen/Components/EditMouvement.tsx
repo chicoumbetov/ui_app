@@ -9,7 +9,7 @@ import {
 import React, { useState } from 'react';
 import moment from 'moment';
 import Icon from '../../../components/Icon';
-import { BudgetLineDeadline, BudgetLineType } from '../../../src/API';
+import { BankMovement, BudgetLineDeadline, BudgetLineType } from '../../../src/API';
 // import { useDeleteBudgetLineMutation } from '../../../src/API/BudgetLine';
 import {
   useDeleteBudgetLineDeadlineMutation,
@@ -17,24 +17,26 @@ import {
 } from '../../../src/API/BudgetLineDeadLine';
 import TextInputComp from '../../../components/Form/TextInput';
 import Amount from '../../../components/Amount';
+import { useUpdateBankMovement } from '../../../src/API/BankMouvement';
 
-type MonBudgetProps = { budget: BudgetLineDeadline[], amount: number };
+type MonBudgetProps = { budget?: (BudgetLineDeadline | null)[], movement: BankMovement, onSaved?: () => void };
 
 const EditMouvement = (props: MonBudgetProps) => {
-  const { budget, amount } = props;
+  const { budget, movement, onSaved } = props;
   // console.log('budget :', budget);
   // console.log('amount : ', amount);
   const theme = useTheme();
 
   const updateBudgetLineDeadLine = useUpdateBudgetLineDeadlineMutation();
 
-  const [checked, setChecked] = React.useState<string[]>([]);
+  const [checked, setChecked] = React.useState<Array<{ id:string, _version:number }>>([]);
   const [edit, setedit] = React.useState<string[]>([]);
 
-  const [amountMouvement, setAmountMouvement] = useState(amount);
+  const [amountMouvement, setAmountMouvement] = useState(movement.amount || 0);
   const [newAmount, setNewAmount] = useState();
 
   const deleteBudgetLine = useDeleteBudgetLineDeadlineMutation();
+  const useUpdateBankMouvement = useUpdateBankMovement();
 
   const isEdited = (id:string): boolean => edit.indexOf(id) > -1;
 
@@ -59,19 +61,46 @@ const EditMouvement = (props: MonBudgetProps) => {
     console.log('edit :', edit);
   };
 
-  const isChecked = (id:string): boolean => checked.indexOf(id) > -1;
+  const isChecked = (id:string): boolean => checked.filter((item) => item.id === id).length > 0;
 
-  const checkFunction = (nextChecked: boolean, id:string, thisAmount: number) => {
-    const newCheckedState = checked.filter((currentId) => currentId !== id);
+  const checkFunction = (nextChecked: boolean, id:string, thisAmount: number, _version:number) => {
+    const newCheckedState = checked.filter((current) => current.id !== id);
     if (nextChecked) {
-      newCheckedState.push(id);
-      setAmountMouvement(amountMouvement - thisAmount);
+      newCheckedState.push({ id, _version });
+      setAmountMouvement(Math.abs(amountMouvement) - thisAmount);
     } else {
-      setAmountMouvement(amountMouvement + thisAmount);
+      setAmountMouvement(Math.abs(amountMouvement) + thisAmount);
     }
 
     setChecked(newCheckedState);
     console.log(checked);
+  };
+
+  const affecteMovement = async () => {
+    await useUpdateBankMouvement.updateBankMovement({
+      variables: {
+        input: {
+          id: movement.id,
+          ignored: true,
+          _version: movement._version,
+        },
+      },
+    });
+    checked.reduce(async (promise, current) => {
+      await promise;
+      await updateBudgetLineDeadLine.updateBudgetLineDeadline({
+        variables: {
+          input: {
+            id: current.id,
+            bankMouvementId: movement.id,
+            _version: current._version,
+          },
+        },
+      });
+    }, Promise.resolve());
+    if (onSaved) {
+      onSaved();
+    }
   };
 
   const supprimerLeRevenue = async (item) => {
@@ -103,9 +132,9 @@ const EditMouvement = (props: MonBudgetProps) => {
     <View style={styles.container}>
 
       <View style={{ marginVertical: 20, alignItems: 'center' }}>
-        <Amount amount={amount} category="h2" />
-        <Text category="h6" status="basic" style={{ marginVertical: 10 }}>10/03/2021</Text>
-        <Text category="h6" appearance="hint">Libéllé du mouvement</Text>
+        <Amount amount={movement.amount || 0} category="h2" />
+        <Text category="h6" status="basic" style={{ marginVertical: 10 }}>{moment(movement.date).format('DD/MM/YYYY')}</Text>
+        <Text category="h6" appearance="hint">{movement.description || ''}</Text>
       </View>
       <ScrollView
         style={{ paddingTop: 20, borderTopWidth: 1, borderTopColor: '#b5b5b5' }}
@@ -119,7 +148,7 @@ const EditMouvement = (props: MonBudgetProps) => {
               Affectation
             </Text>
             <Text category="h2" style={{ marginVertical: 10 }}>
-              {`${budget[0].type === BudgetLineType.Expense
+              {`${(movement.amount || 0) < 0
                 ? ('Charges') : ('Revenus')} enregistés dans votre budget`}
             </Text>
             <Text category="p1" appearance="hint">
@@ -137,7 +166,7 @@ const EditMouvement = (props: MonBudgetProps) => {
                   <CheckBox
                     checked={isChecked(item.id)}
                     onChange={
-                      (nextChecked) => checkFunction(nextChecked, item.id, item.amount)
+                      (nextChecked) => checkFunction(nextChecked, item.id, item.amount, item._version)
                     }
                     style={{ marginRight: 20 }}
                   />
@@ -230,7 +259,7 @@ const EditMouvement = (props: MonBudgetProps) => {
               </Card>
             ))}
             {checked.length > 0 ? (amountMouvement === 0
-              ? (<Button status="success" style={{ marginVertical: 20 }}>Enregistrer</Button>)
+              ? (<Button status="success" style={{ marginVertical: 20 }} onPress={() => affecteMovement()}>Enregistrer</Button>)
               : (
                 <>
                   <Text category="p1" status="basic" style={{ marginVertical: 20 }}>

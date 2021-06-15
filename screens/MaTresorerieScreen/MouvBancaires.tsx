@@ -23,13 +23,14 @@ import EditMouvement from './Components/EditMouvement';
 import Card from '../../components/Card';
 import { TabMaTresorerieParamList } from '../../types';
 import { useGetRealEstate } from '../../src/API/RealEstate';
-import { BudgetLineType } from '../../src/API';
+import { BankMovement, BudgetLineDeadline, BudgetLineType } from '../../src/API';
 import Separator from '../../components/Separator';
 import Amount from '../../components/Amount';
 import {
   useGetBankMouvement,
   useGetBankMovementByBankAccountId, useUpdateBankMovement,
 } from '../../src/API/BankMouvement';
+import { useGetBankAccount } from '../../src/API/BankAccount';
 
 const MouvBancaires = () => {
   const theme = useTheme();
@@ -37,8 +38,8 @@ const MouvBancaires = () => {
   const route = useRoute<RouteProp<TabMaTresorerieParamList, 'mouv-bancaires'>>();
   const { bien } = useGetRealEstate(route.params.id);
   const { bankMouvement } = useGetBankMovementByBankAccountId(route.params.idCompte);
+  const { bankAccount } = useGetBankAccount(route.params.idCompte);
   const useUpdateBankMouvement = useUpdateBankMovement();
-  console.log('mouvement ', bankMouvement);
   const movementPasAffect = bankMouvement.filter((item) => {
     if (item.ignored || item.realEstateId) {
       return false;
@@ -47,26 +48,24 @@ const MouvBancaires = () => {
   });
 
   // const [compte] = useState(comptesData);
-  const [currentMvt, setCurrentMvt] = useState();
+  const [currentMvt, setCurrentMvt] = useState<BankMovement>();
 
-  const [budget, setBudget] = useState(bien?.budgetLineDeadlines?.items);
   // console.log('mmmm :', bien?.budgetLineDeadlines?.items?.map((item) => item?.amount));
 
-  // const [checked, setChecked] = React.useState(false);
-  const [checked, setChecked] = React.useState<string[]>([]);
+  const [checked, setChecked] = React.useState<Array<{ id:string, _version:number }>>([]);
 
   const [ignoreClicked, setIgnoreClicked] = useState(false);
 
-  const isChecked = (id:string): boolean => checked.indexOf(id) > -1;
+  const isChecked = (id:string): boolean => checked.filter((item) => item.id === id).length > 0;
 
-  const checkFunction = (nextChecked: boolean, id:string) => {
-    const newCheckedState = checked.filter((currentId) => currentId !== id);
+  const checkFunction = (nextChecked: boolean, id:string, _version:number) => {
+    const newCheckedState = checked.filter((current) => current.id !== id);
     if (nextChecked) {
-      newCheckedState.push(id);
+      newCheckedState.push({ id, _version });
     }
 
     setChecked(newCheckedState);
-    console.log('check ', checked);
+    console.log('check ', checked.includes({ id, _version }));
   };
   const onIgnorerMouvement = (id?: string) => {
     navigation.navigate('ignorer-mouvement', { idCompte: id, id: route.params.id });
@@ -76,40 +75,40 @@ const MouvBancaires = () => {
     navigation.navigate('affecter-mouvement', { idCompte: id, id: route.params.id });
   };
 
-  const [thisamount, setAmount] = useState(0);
-
-  const onEditMouvement = (items) => {
+  const onEditMouvement = (items: BankMovement) => {
     setCurrentMvt(items);
-    setAmount(items.valeur);
-
-    if (items.valeur < 0) {
-      console.log(items.valeur);
-      setBudget(bien?.budgetLineDeadlines?.items.filter((item) => {
-        // eslint-disable-next-line no-underscore-dangle
-        if (item?.type === BudgetLineType.Expense && !item?._deleted) {
-          return item;
-        }
-        return false;
-      }));
-    } else {
-      setBudget(bien?.budgetLineDeadlines?.items.filter((item) => {
-        // eslint-disable-next-line no-underscore-dangle
-        if (item?.type === BudgetLineType.Income && !item?._deleted) {
-          return item;
-        }
-        return false;
-      }));
-    }
   };
 
+  let budget: (BudgetLineDeadline | null)[] | undefined = [];
+  if (currentMvt !== undefined && currentMvt.amount) {
+    if (currentMvt.amount < 0) {
+      budget = bien?.budgetLineDeadlines?.items?.filter((item) => {
+        // eslint-disable-next-line no-underscore-dangle
+        if (item?.type === BudgetLineType.Expense && !item?._deleted && !item.bankMouvementId) {
+          return item;
+        }
+        return false;
+      });
+    } else {
+      budget = bien?.budgetLineDeadlines?.items?.filter((item) => {
+        // eslint-disable-next-line no-underscore-dangle
+        if (item?.type === BudgetLineType.Income && !item?._deleted && !item.bankMouvementId) {
+          return item;
+        }
+        return false;
+      });
+    }
+  }
+
   const ignorerMovement = () => {
-    checked.reduce(async (promise, id) => {
+    checked.reduce(async (promise, current) => {
       await promise;
-      useUpdateBankMouvement.updateBankMovement({
+      await useUpdateBankMouvement.updateBankMovement({
         variables: {
           input: {
-            id,
+            id: current.id,
             ignored: true,
+            _version: current._version,
           },
         },
       });
@@ -138,9 +137,9 @@ const MouvBancaires = () => {
           borderBottomColor: '#b5b5b5',
         }}
         >
-          <Text category="h6" status="basic">Monsieur Dupont Matthieu</Text>
-          <Text category="h6" appearance="hint">FR76**************583</Text>
-          <Text category="h6" status="basic">Société Générale</Text>
+          <Text category="h6" status="basic">{bankAccount?.name || ''}</Text>
+          <Text category="h6" appearance="hint">{bankAccount?.iban || ''}</Text>
+          <Text category="h6" status="basic">{bankAccount?.bank || ''}</Text>
         </View>
 
         <Text
@@ -177,11 +176,10 @@ const MouvBancaires = () => {
               {ignoreClicked
                 ? (
                   <CheckBox
-                              // checked={checked}
-                              // onChange={(nextChecked) => setChecked(nextChecked)}
+
                     checked={isChecked(item.id)}
                     onChange={
-                                (nextChecked) => checkFunction(nextChecked, item.id)
+                                (nextChecked) => checkFunction(nextChecked, item.id, item._version)
                               }
                     status="danger"
                   />
@@ -288,7 +286,22 @@ const MouvBancaires = () => {
 
       </MaxWidthContainer>
 
-      <ActionSheet title="test" before={<></>} noSafeArea scrollable={false} visible={currentMvt !== undefined} onClose={() => setCurrentMvt(undefined)}><EditMouvement budget={budget} amount={thisamount} /></ActionSheet>
+      <ActionSheet
+        title="test"
+        before={<></>}
+        noSafeArea
+        scrollable={false}
+        visible={currentMvt !== undefined}
+        onClose={() => setCurrentMvt(undefined)}
+      >
+        {currentMvt !== undefined && (
+        <EditMouvement
+          budget={budget}
+          movement={currentMvt}
+          onSaved={() => setCurrentMvt(undefined)}
+        />
+        )}
+      </ActionSheet>
     </>
   );
 };

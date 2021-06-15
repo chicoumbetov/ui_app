@@ -110,7 +110,7 @@ const MonBudgetCard = (props: MonBudgetProps) => {
           <Text category="h3" style={{ justifyContent: 'center', flexWrap: 'wrap' }}>
             {`${budget.category}`}
           </Text>
-          <Text category="c1" status={budget.type === BudgetLineType.Income ? ('success') : ('danger')}>{`${budget.type === BudgetLineType.Income ? ('+') : ('-')} ${budget.amount} €`}</Text>
+          <Text category="c1" status={budget.type === BudgetLineType.Income ? ('success') : ('danger')}>{`${budget.type === BudgetLineType.Income ? ('+') : ('')} ${budget.amount} €`}</Text>
           {budget.tenantId && (
           <Text category="c1" appearance="hint">
             {tenant[0].lastname}

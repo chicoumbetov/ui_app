@@ -92,6 +92,7 @@ export function useDeleteBudgetLineDeadlineMutation() {
       update: (cache, { data: mutationData }) => {
         if (mutationData) {
           const { deleteBudgetLineDeadline: newData } = mutationData;
+          console.log(newData);
           if (newData) {
             // Read query from cache
             const cacheData = cache.readQuery<GetRealEstateQuery, GetRealEstateQueryVariables>({
@@ -102,13 +103,13 @@ export function useDeleteBudgetLineDeadlineMutation() {
             });
 
             // Add newly created item to the cache copy
-            if (cacheData && cacheData.getRealEstate && cacheData.getRealEstate.budgetLines) {
+            if (cacheData && cacheData.getRealEstate && cacheData.getRealEstate.budgetLineDeadlines) {
               cacheData
                 .getRealEstate
-                .budgetLines
+                .budgetLineDeadlines
                 .items = cacheData
                   .getRealEstate
-                  .budgetLines
+                  .budgetLineDeadlines
                   ?.items
                   ?.filter((item) => item?.id !== newData.id);
 

@@ -125,7 +125,7 @@ const ParametrerAjoutCharges = () => {
           input: {
             id: route.params.idBudgetLine,
             category: category1,
-            amount,
+            amount: -Math.abs(amount),
             frequency,
             nextDueDate,
             infoCredit,
@@ -139,7 +139,7 @@ const ParametrerAjoutCharges = () => {
           input: {
             realEstateId: route.params.id,
             category: category1,
-            amount,
+            amount: -Math.abs(amount),
             frequency,
             nextDueDate,
             infoCredit,
@@ -157,7 +157,7 @@ const ParametrerAjoutCharges = () => {
                 realEstateId: route.params.id,
                 type: BudgetLineType.Expense,
                 category,
-                amount,
+                amount: -Math.abs(amount),
                 frequency,
                 date: DateUtils.addMonths(nextDueDate, -DateUtils.frequencyToMonths(frequency) * i),
               },

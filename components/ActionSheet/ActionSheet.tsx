@@ -39,8 +39,8 @@ const ActionSheet = (props: ActionSheetProps) => {
     title, children, before, visible, onClose,
   } = props;
   const { window } = useDimensions();
-  const [visibleState, setVisible] = useState(visible);
-  const [visibleModalState, setVisibleModal] = useState(visible);
+  const [visibleState, setVisible] = useState(false);
+  const [visibleModalState, setVisibleModal] = useState(false);
 
   useEffect(() => {
     if (visible !== visibleState) {

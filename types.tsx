@@ -70,7 +70,7 @@ export type TabMesBiensParamList = {
   'partager-bien': { id: string };
   'modifier-characteristique': { id: string };
   'ajout-bien-screen': undefined;
-  'mes-rapports': undefined;
+  'mes-rapports': { id: string };
   'mes-rapports-biens1': { id: string };
   'mes-rapports-biens2': { id: string };
 };
@@ -98,9 +98,9 @@ export type TabMonAssistantParamList = {
 };
 
 export type TabMesChargesParamList = {
-  'mes-charges': undefined;
-  MesCharges2: undefined;
-  MesCharges3: undefined;
+  'mes-charges': { id: string };
+  'mes-charges-2': { id: string };
+  'mes-charges-3': { id: string };
 };
 
 export type AjoutBienParamList = {

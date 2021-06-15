@@ -25,6 +25,23 @@ type ProfileInfo {
   address: Address
   birthDate: AWSDate
   subscription: SubscriptionType
+  notificationParams: NotificationParams
+}
+
+type NotificationParams {
+  echeanceFacture: NotificationParam
+  loyer: NotificationParam
+  debitBancaire: NotificationParam
+  creditBancaire: NotificationParam
+  soldeNegatif: NotificationParam
+  retardLoyer: NotificationParam
+  mauvaiseRenta: NotificationParam
+  autre: NotificationParam
+}
+
+type NotificationParam {
+  push: Boolean
+  email: Boolean
 }
 
 type RealEstate @model
@@ -265,7 +282,6 @@ type BankMovement @model
   { allow: private, provider: iam }
 ])
 @key(name: "bankMovementByBankAccount", fields: ["bankAccountId","date"], queryField:"getBankMovementByBankAccountId")
-@key(name: "bankMovementByBudgetLineDeadline", fields: ["budgetLineDeadlineId","date"])
 @key(name: "bankMovementByRealEstate", fields: ["realEstateId","date"])
 @key(name: "bankMovementByBiId", fields: ["biId"], queryField:"listBankMovementByBiId")
 {
@@ -277,7 +293,6 @@ type BankMovement @model
   biId: Int!
   description: String
   amount: Float!
-  budgetLineDeadlineId: [ID]
   budgetLineDeadline: [BudgetLineDeadline] @connection (keyName:"budgetLineDeadlineByBankMovement", fields: ["id"])
   ignored: Boolean
   date: AWSDate

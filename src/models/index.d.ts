@@ -48,6 +48,7 @@ export declare class ProfileInfo {
   readonly address?: Address;
   readonly birthDate?: string;
   readonly subscription?: SubscriptionType | keyof typeof SubscriptionType;
+  readonly notificationParams?: NotificationParams;
   constructor(init: ModelInit<ProfileInfo>);
 }
 
@@ -58,6 +59,24 @@ export declare class Address {
   readonly city: string;
   readonly country: string;
   constructor(init: ModelInit<Address>);
+}
+
+export declare class NotificationParams {
+  readonly echeanceFacture?: NotificationParam;
+  readonly loyer?: NotificationParam;
+  readonly debitBancaire?: NotificationParam;
+  readonly creditBancaire?: NotificationParam;
+  readonly soldeNegatif?: NotificationParam;
+  readonly retardLoyer?: NotificationParam;
+  readonly mauvaiseRenta?: NotificationParam;
+  readonly autre?: NotificationParam;
+  constructor(init: ModelInit<NotificationParams>);
+}
+
+export declare class NotificationParam {
+  readonly push?: boolean;
+  readonly email?: boolean;
+  constructor(init: ModelInit<NotificationParam>);
 }
 
 export declare class MortgageLoanInfo {
@@ -158,7 +177,6 @@ export declare class BankMovement {
   readonly biId: number;
   readonly description?: string;
   readonly amount: number;
-  readonly budgetLineDeadlineId?: (string | null)[];
   readonly budgetLineDeadline?: (BudgetLineDeadline | null)[];
   readonly ignored?: boolean;
   readonly date?: string;

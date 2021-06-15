@@ -17,8 +17,14 @@ import MaxWidthContainer from '../../../components/MaxWidthContainer';
 const MesCharges2 = () => {
   const route = useRoute();
   const { params } = useRoute();
+  console.log('params', params);
   const navigation = useNavigation();
   // const declarationImpotsForm = useForm<DeclarationImpotsForm>();
+
+  const currentYear = new Date().getFullYear();
+  const currentMonth = new Date().getMonth();
+  const previousYear = currentYear - 1;
+  console.log('params', previousYear, currentYear, currentMonth);
 
   const [selectedIndex, setSelectedIndex] = React.useState(0);
 
@@ -26,7 +32,7 @@ const MesCharges2 = () => {
   console.log('titlePass', titlePass);
 
   const onMesCharges3 = (titlePass) => {
-    navigation.navigate('MesCharges3', { ...titlePass });
+    navigation.navigate('mes-charges-3', { ...titlePass });
     console.log('insideMesCharges3', { ...titlePass });
   };
 
@@ -47,15 +53,15 @@ const MesCharges2 = () => {
     }
   };
   const [range, setRange] = React.useState({});
+
   useEffect(() => {
-    console.log('useEffect test of MesCharges 2');
+    console.log('useEffect test of MesCharges 2', range);
   });
 
   return (
     <MaxWidthContainer outerViewProps={{
       style: {
         padding: 22,
-        backgroundColor: '#f6f6f6',
       },
     }}
     >

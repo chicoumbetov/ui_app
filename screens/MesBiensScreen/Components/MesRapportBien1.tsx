@@ -1,22 +1,29 @@
 import React, { useEffect } from 'react';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import {
   Button, Layout, Radio, RadioGroup, Text,
 } from '@ui-kitten/components';
 // import { useForm } from 'react-hook-form';
 import { StyleSheet, View } from 'react-native';
+import { RouteProp } from '@react-navigation/core/lib/typescript/src/types';
 import MaxWidthContainer from '../../../components/MaxWidthContainer';
 // import Form from '../../../components/Form/Form';
 import TextInput from '../../../components/Form/TextInput';
-
-type DeclarationImpotsForm = {
-  bien: string;
-  anneeEcheance: string;
-};
+import { useGetRealEstate } from '../../../src/API/RealEstate';
+import { TabMesBiensParamList } from '../../../types';
+import DatePicker from '../../../components/Form/DatePicker';
 
 const MesRapportBien1 = () => {
   const navigation = useNavigation();
   // const declarationImpotsForm = useForm<DeclarationImpotsForm>();
+
+  const route = useRoute<RouteProp<TabMesBiensParamList, 'mes-rapports-biens1'>>();
+  // const bienDetail = useGetRealEstate(route.params.id);
+  console.log('bienDetail', route.params.id);
+  const currentYear = new Date().getFullYear();
+  const previousYear = currentYear - 1;
+  const currentMonth = new Date().getMonth();
+  console.log(currentYear, previousYear, currentMonth);
 
   const [selectedIndex, setSelectedIndex] = React.useState(0);
 
@@ -24,15 +31,10 @@ const MesRapportBien1 = () => {
     navigation.navigate('mes-rapports-biens2');
   };
 
-  useEffect(() => {
-    console.log('useEffect of Mes Rapport Bien 1');
-  });
-
   return (
     <MaxWidthContainer outerViewProps={{
       style: {
         padding: 22,
-        backgroundColor: '#f6f6f6',
       },
     }}
     >
@@ -66,6 +68,7 @@ const MesRapportBien1 = () => {
           placeholder="dd/mm/yyyy"
           icon="calendar-outline"
         />
+        <DatePicker name="start" />
       </Layout>
 
       <View style={styles.buttonRight}>

@@ -553,14 +553,6 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "budgetLineDeadlineId": {
-                    "name": "budgetLineDeadlineId",
-                    "isArray": true,
-                    "type": "ID",
-                    "isRequired": false,
-                    "attributes": [],
-                    "isArrayNullable": true
-                },
                 "budgetLineDeadline": {
                     "name": "budgetLineDeadline",
                     "isArray": true,
@@ -606,16 +598,6 @@ export const schema = {
                             "date"
                         ],
                         "queryField": "getBankMovementByBankAccountId"
-                    }
-                },
-                {
-                    "type": "key",
-                    "properties": {
-                        "name": "bankMovementByBudgetLineDeadline",
-                        "fields": [
-                            "budgetLineDeadlineId",
-                            "date"
-                        ]
                     }
                 },
                 {
@@ -1714,6 +1696,15 @@ export const schema = {
                     },
                     "isRequired": false,
                     "attributes": []
+                },
+                "notificationParams": {
+                    "name": "notificationParams",
+                    "isArray": false,
+                    "type": {
+                        "nonModel": "NotificationParams"
+                    },
+                    "isRequired": false,
+                    "attributes": []
                 }
             }
         },
@@ -1753,6 +1744,102 @@ export const schema = {
                     "isArray": false,
                     "type": "String",
                     "isRequired": true,
+                    "attributes": []
+                }
+            }
+        },
+        "NotificationParams": {
+            "name": "NotificationParams",
+            "fields": {
+                "echeanceFacture": {
+                    "name": "echeanceFacture",
+                    "isArray": false,
+                    "type": {
+                        "nonModel": "NotificationParam"
+                    },
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "loyer": {
+                    "name": "loyer",
+                    "isArray": false,
+                    "type": {
+                        "nonModel": "NotificationParam"
+                    },
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "debitBancaire": {
+                    "name": "debitBancaire",
+                    "isArray": false,
+                    "type": {
+                        "nonModel": "NotificationParam"
+                    },
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "creditBancaire": {
+                    "name": "creditBancaire",
+                    "isArray": false,
+                    "type": {
+                        "nonModel": "NotificationParam"
+                    },
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "soldeNegatif": {
+                    "name": "soldeNegatif",
+                    "isArray": false,
+                    "type": {
+                        "nonModel": "NotificationParam"
+                    },
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "retardLoyer": {
+                    "name": "retardLoyer",
+                    "isArray": false,
+                    "type": {
+                        "nonModel": "NotificationParam"
+                    },
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "mauvaiseRenta": {
+                    "name": "mauvaiseRenta",
+                    "isArray": false,
+                    "type": {
+                        "nonModel": "NotificationParam"
+                    },
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "autre": {
+                    "name": "autre",
+                    "isArray": false,
+                    "type": {
+                        "nonModel": "NotificationParam"
+                    },
+                    "isRequired": false,
+                    "attributes": []
+                }
+            }
+        },
+        "NotificationParam": {
+            "name": "NotificationParam",
+            "fields": {
+                "push": {
+                    "name": "push",
+                    "isArray": false,
+                    "type": "Boolean",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "email": {
+                    "name": "email",
+                    "isArray": false,
+                    "type": "Boolean",
+                    "isRequired": false,
                     "attributes": []
                 }
             }
@@ -1942,5 +2029,5 @@ export const schema = {
             }
         }
     },
-    "version": "fd5fdfee0278bf9221e278a8caca744d"
+    "version": "fdbc53f9a9e0891cdf0ce68d3df61d2e"
 };

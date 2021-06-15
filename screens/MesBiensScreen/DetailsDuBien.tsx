@@ -90,7 +90,7 @@ function DetailsBien() {
   };
 
   const allerMesRapports = () => {
-    navigation.navigate('mes-rapports');
+    navigation.navigate('mes-rapports', { id: route.params.id });
   };
 
   const allerMonAssistant = () => {
@@ -287,7 +287,7 @@ function DetailsBien() {
 
         {/**   2   */}
         <Card
-          onPress={allerMesRapports}
+          onPress={() => allerMesRapports(bien.id)}
           style={[styles.docs, {
             alignItems: 'center',
             justifyContent: 'center',

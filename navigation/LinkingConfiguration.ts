@@ -23,9 +23,10 @@ export default {
                   'ajout-charge': '/bien/:id/budget/ajout-charge',
                   'modifier-charge': '/bien/:id/budget/modifier-charge/:idBudgetLine',
 
-                  'mes-rapports': '/mes-rapports',
-                  'mes-rapports-biens1': '/mes-rapports-biens1',
-                  'mes-rapports-biens2': '/mes-rapports-biens2',
+                  'mes-rapports': '/biens/mes-rapports/:id',
+
+                  'mes-rapports-biens1': '/mes-rapports-biens1/:id',
+                  'mes-rapports-biens2': '/mes-rapports-biens2/:id',
                   'modifier-characteristique': '/bien/:id/modifier-characteristique',
                   'partager-bien': '/bien/:id/partager-bien',
                 },
@@ -34,6 +35,8 @@ export default {
                 path: 'mes-charges',
                 screens: {
                   'mes-charges': '/',
+                  'mes-charges-2': '/mes-charges-2/:id',
+                  'mes-charges-3': '/mes-charges-3/:id',
                 },
               },
               'tableau-de-bord': {

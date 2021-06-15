@@ -104,11 +104,16 @@ const MonBien = (props: MonBienProps) => {
     [key: string]: { value: number, percentage: number, label: string }
   } = {};
 
+  /**
+   * Get all expenses of current year
+   */
   if (bienDetail?.bien?.budgetLineDeadlines?.items) {
     bienDetail.bien?.budgetLineDeadlines?.items.forEach((item) => {
       // years for all existing Eau expenses in whole period
       const allYears = DateUtils.parseToDateObj(item?.date).getFullYear();
-      if (item?.category && allYears === currentYear && item.type === BudgetLineType.Expense) {
+      if (item?.category
+          && allYears === currentYear
+          && item.type === BudgetLineType.Expense) {
         /** If any expoense doesnt exist */
         if (allCurrentCategories[item?.category] === undefined) {
           /**
@@ -196,7 +201,7 @@ const MonBien = (props: MonBienProps) => {
                   }}
                 />
               </View>
-              <Text category="h4" status="success">{`+ ${allDataLastIncome?.amount} €`}</Text>
+              <Text category="h4" status="success">{`+ ${allDataLastIncome?.amount || '0'} €`}</Text>
             </View>
 
             {/**
@@ -247,7 +252,7 @@ const MonBien = (props: MonBienProps) => {
             >
               <View style={styles.oneThirdBlock}>
                 <Text category="h6" appearance="hint" style={styles.text}>Dernier mouvement</Text>
-                <Text category="h4" status="success" style={{ marginVertical: 14 }}>{`+ ${allDataLastIncome?.amount} €`}</Text>
+                <Text category="h4" status="success" style={{ marginVertical: 14 }}>{`+ ${allDataLastIncome?.amount || '0'} €`}</Text>
                 <TouchableOpacity onPress={() => {}}>
                   <Text category="h6" status="info">Affecter</Text>
                 </TouchableOpacity>

@@ -75,7 +75,7 @@ const Graphics = (data: MesBiensDataProps) => {
             .map((expenseLabel) => (
               <View
                 style={{
-                  flex: 1, flexDirection: 'row', marginTop: 10, alignItems: 'center',
+                  flex: 1, flexDirection: 'row     ', marginTop: 10, alignItems: 'center',
                 }}
               >
                 <View

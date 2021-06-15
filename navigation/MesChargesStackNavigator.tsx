@@ -18,11 +18,11 @@ export default function MesChargesStackNavigator() {
         component={MesCharges1}
       />
       <Stack.Screen
-        name="MesCharges2"
+        name="mes-charges-2"
         component={MesCharges2}
       />
       <Stack.Screen
-        name="MesCharges3"
+        name="mes-charges-3"
         component={MesCharges3}
       />
 

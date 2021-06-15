@@ -38,11 +38,11 @@ type ModifierCharacteristiquesForm = {
 const Informations = () => {
   const modifierCharacteristiquesForm = useForm<ModifierCharacteristiquesForm>();
   const route = useRoute<RouteProp<TabMesBiensParamList, 'detail-bien'>>();
-  const navigation = useNavigation();
+  // const navigation = useNavigation();
 
   const updateRealEstate = useUpdateRealEstateMutation();
   const onPress = async (data: ModifierCharacteristiquesForm) => {
-    console.log('characteristiques data: ', data);
+    // console.log('characteristiques data: ', data);
 
     const user = await Auth.currentAuthenticatedUser();
     const {

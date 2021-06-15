@@ -9,6 +9,9 @@ import { Icon as IconUIKitten } from '@ui-kitten/components/ui/icon/icon.compone
 import { useNavigation } from '@react-navigation/native';
 import MaxWidthContainer from '../../components/MaxWidthContainer';
 import Card from '../../components/Card';
+import { useGetRealEstate, useRealEstateList } from '../../src/API/RealEstate';
+import { BudgetLineType } from '../../src/API';
+import DateUtils from '../../utils/DateUtils';
 
 const DATA = [
   {
@@ -36,10 +39,55 @@ const DATA = [
 const MesCharges1 = () => {
   const navigation = useNavigation();
   const theme = useTheme();
-  const [charges] = useState(DATA);
+  // const [charges] = useState(DATA);
+  const biensDetails = useRealEstateList();
 
-  const onMesCharges2 = (item) => {
-    navigation.navigate('MesCharges2', { title: item.title });
+  const houseBudgetLineDeadlines = biensDetails.data?.listRealEstates?.items?.map(
+    (item) => item?.budgetLineDeadlines,
+  );
+
+  const currentYear = new Date().getFullYear();
+
+  /** Object with 3 attributes and its key */
+  const allCurrentCategories: {
+    [key: string]: { value: number, percentage: number, label: string }
+  } = {};
+
+  console.log('AAAAAAAAA');
+
+  if (houseBudgetLineDeadlines) {
+    houseBudgetLineDeadlines.forEach((item) => {
+      item?.items.forEach((itemBudget) => {
+        const allYears = DateUtils.parseToDateObj(itemBudget?.date).getFullYear();
+        if (itemBudget?.category
+        && allYears === currentYear
+        && itemBudget.type === BudgetLineType.Expense) {
+          console.log('itemBudget: ', itemBudget);
+          if (allCurrentCategories[itemBudget?.category] === undefined) {
+            /**
+             * initial values and then calculate percentage starting from 0
+             */
+            allCurrentCategories[itemBudget?.category] = {
+              value: itemBudget?.amount || 0,
+              percentage: 0,
+              label: itemBudget?.category,
+            };
+          } else {
+            /** else If any expoense exist then we add to allCurrentCategories variable */
+            allCurrentCategories[itemBudget?.category].value += itemBudget?.amount || 0;
+          }
+        }
+      });
+      return false;
+    });
+  }
+  const labels = Object.values(allCurrentCategories);
+  const totalExpenses = Object.values(allCurrentCategories).reduce((t, { value }) => t + value, 0);
+  console.log('allCurrentCategories', Object.values(allCurrentCategories));
+  console.log('totalExpenses', totalExpenses);
+
+  const onMesCharges2 = (lbl) => {
+    navigation.navigate('mes-charges-2', { title: lbl.label });
   };
 
   return (
@@ -61,7 +109,7 @@ const MesCharges1 = () => {
       >
         Choisissez votre charge
       </Text>
-
+      {/**
       {charges.map(
         (item) => (
           <Card
@@ -92,6 +140,37 @@ const MesCharges1 = () => {
           </Card>
         ),
       )}
+      */}
+      <Text>Real dinamic :</Text>
+      {labels.map((lbl, index) => (
+        <Card
+          key={index}
+          style={{
+            padding: 23,
+            marginVertical: 10,
+          }}
+        >
+          <TouchableOpacity
+            onPress={() => { onMesCharges2(lbl); }}
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+            }}
+          >
+            <Text category="h5" status="basic">{lbl.label}</Text>
+
+            <IconUIKitten
+              name="arrow-ios-forward"
+              fill={theme['text-hint-color']}
+              style={{
+                height: 17, width: 17,
+              }}
+            />
+
+          </TouchableOpacity>
+        </Card>
+      ))}
+
     </MaxWidthContainer>
 
   );

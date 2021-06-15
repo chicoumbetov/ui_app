@@ -386,7 +386,158 @@ export function useUpdateRealEstateMutation() {
 }
 
 export function useGetRealEstate(id: string) {
-  const getRealEstatesQuery = <DocumentNode>gql(getRealEstate);
+  const getRealEstatesQuery = <DocumentNode>gql(`
+  query GetRealEstate($id: ID!) {
+    getRealEstate(id: $id) {
+      id
+      name
+      iconUri
+      purchaseYear
+      type
+      ownName
+      company
+      detentionPart
+      typeImpot
+      admins
+      shared
+      address {
+        address
+        additionalAddress
+        postalCode
+        city
+        country
+      }
+      tenants {
+        id
+        amount
+        rentalCharges
+        managementFees
+        lastname
+        firstname
+        email
+        startDate
+        endDate
+      }
+      _version
+      _deleted
+      _lastChangedAt
+      createdAt
+      updatedAt
+      pendingInvitations {
+        items {
+          id
+          realEstateId
+          email
+          type
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+        nextToken
+        startedAt
+      }
+      documents {
+        items {
+          id
+          realEstateId
+          name
+          key
+          s3file
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+        nextToken
+        startedAt
+      }
+      budgetLines {
+        items {
+          id
+          realEstateId
+          type
+          category
+          amount
+          frequency
+          nextDueDate
+          tenantId
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+        nextToken
+        startedAt
+      }
+      budgetLineDeadlines {
+        items {
+          id
+          realEstateId
+          bankMouvementId
+          budgetLineId
+          type
+          category
+          amount
+          frequency
+          date
+          tenantId
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+        nextToken
+        startedAt
+      }
+      bankAccounts {
+        items {
+          id
+          realEstateId
+          bankAccountId
+          bankAccount {
+            id
+            bank
+            accountOwner
+            name
+            iban
+            bic
+            balance
+          }
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+        nextToken
+        startedAt
+      }
+      bankMovements {
+        items {
+          id
+          bankAccountId
+          realEstateId
+          biId
+          description
+          amount
+          ignored
+          date
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+        nextToken
+        startedAt
+      }
+    }
+  }`);
   const {
     loading, data, fetchMore, refetch,
   } = useQuery<GetRealEstateQuery, GetRealEstateQueryVariables>(getRealEstatesQuery, {

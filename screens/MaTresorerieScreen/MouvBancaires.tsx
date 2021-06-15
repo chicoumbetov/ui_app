@@ -4,7 +4,7 @@
  * @author: Shynggys UMBETOV
  */
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Button, CheckBox, Text, useTheme,
 } from '@ui-kitten/components';
@@ -24,7 +24,9 @@ import EditMouvement from './Components/EditMouvement';
 import Card from '../../components/Card';
 import { TabMaTresorerieParamList } from '../../types';
 import { useGetRealEstate } from '../../src/API/RealEstate';
-import { BankMovement, BudgetLineDeadline, BudgetLineType } from '../../src/API';
+import {
+  BankMovement, BudgetLineDeadline, BudgetLineType, RealEstate,
+} from '../../src/API';
 import Separator from '../../components/Separator';
 import Amount from '../../components/Amount';
 import {
@@ -37,18 +39,24 @@ const MouvBancaires = () => {
   const theme = useTheme();
   const navigation = useNavigation();
   const route = useRoute<RouteProp<TabMaTresorerieParamList, 'mouv-bancaires'>>();
-  const { bien } = useGetRealEstate(route.params.id);
+  const { bienget } = useGetRealEstate(route.params.id);
   const { bankMouvement } = useGetBankMovementByBankAccountId(route.params.idCompte);
   const { bankAccount } = useGetBankAccount(route.params.idCompte);
   const useUpdateBankMouvement = useUpdateBankMovement();
-  console.log(bankMouvement);
-  const movementPasAffect = bankMouvement.filter((item) => {
+
+  const [bankMovementCharger, setBankMovementCharger] = useState<BankMovement[]>();
+
+  useEffect(() => {
+    setBankMovementCharger(bankMouvement);
+  }, [bankMouvement]);
+  const movementPasAffect = bankMovementCharger?.filter((item) => {
     if (item.ignored
         || (item.budgetLineDeadline?.items && item.budgetLineDeadline?.items?.length > 0)) {
       return false;
     }
     return item;
   });
+  console.log(movementPasAffect);
 
   // const [compte] = useState(comptesData);
   const [currentMvt, setCurrentMvt] = useState<BankMovement>();
@@ -85,7 +93,7 @@ const MouvBancaires = () => {
   let budget: (BudgetLineDeadline | null)[] | undefined = [];
   if (currentMvt !== undefined && currentMvt.amount) {
     if (currentMvt.amount < 0) {
-      budget = bien?.budgetLineDeadlines?.items?.filter((item) => {
+      budget = bienget?.budgetLineDeadlines?.items?.filter((item) => {
         // eslint-disable-next-line no-underscore-dangle
         if (item?.type === BudgetLineType.Expense && !item?._deleted && !item.bankMouvementId) {
           return item;
@@ -93,7 +101,7 @@ const MouvBancaires = () => {
         return false;
       });
     } else {
-      budget = bien?.budgetLineDeadlines?.items?.filter((item) => {
+      budget = bienget?.budgetLineDeadlines?.items?.filter((item) => {
         // eslint-disable-next-line no-underscore-dangle
         if (item?.type === BudgetLineType.Income && !item?._deleted && !item.bankMouvementId) {
           return item;
@@ -130,7 +138,7 @@ const MouvBancaires = () => {
         }}
       >
 
-        <CompteHeader title={bien?.name} />
+        <CompteHeader title={bienget?.name} />
 
         <View style={{
           marginTop: 20,
@@ -167,7 +175,7 @@ const MouvBancaires = () => {
           >
             Ignorer des mouvements
           </Button>
-          {movementPasAffect.map((item) => (
+          {movementPasAffect?.map((item) => (
             <Card
               key={item.id}
               style={{

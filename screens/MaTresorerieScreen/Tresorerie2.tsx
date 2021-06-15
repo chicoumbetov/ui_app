@@ -28,7 +28,7 @@ import EditMouvement from './Components/EditMouvement';
 import WebView from '../../components/WebView';
 import { useBankAccountList } from '../../src/API/BankAccount';
 import { useCreateRealEstateBankAccount } from '../../src/API/RealEstateBankAccount';
-import { RealEstate } from '../../src/API';
+import { BankAccount, ListBankAccountsQuery, RealEstate } from '../../src/API';
 
 const MaTresorerie2 = () => {
   // const [compte] = useState(comptesData);
@@ -46,11 +46,13 @@ const MaTresorerie2 = () => {
   const { bienget, refetch: refetchBien, loading: loadingBien } = useGetRealEstate(route.params.id);
   const { data } = useBankAccountList();
 
+  const [bankAccountCharger, setbankAccountCharger] = useState<ListBankAccountsQuery>();
   const [bienCharger, setBienCharger] = useState<RealEstate>();
   useEffect(() => {
+    setbankAccountCharger(data);
     setBienCharger(bienget);
   }, [bienget]);
-  console.log('------------------------', bienCharger);
+  console.log('------------------------', bienCharger?.bankAccounts?.items);
 
   if (bienCharger) {
     console.log('oui', bienCharger.bankAccounts?.items?.length);
@@ -67,7 +69,7 @@ const MaTresorerie2 = () => {
     } else {
       buttonText = 'Lier les comptes bancaires';
     }
-  } else if (data?.listBankAccounts?.items && data?.listBankAccounts?.items?.length <= 0) {
+  } else if (bankAccountCharger?.listBankAccounts?.items && bankAccountCharger?.listBankAccounts?.items?.length <= 0) {
     buttonText = 'Lier un compte bancaire';
   } else {
     buttonText = 'Lier un autre compte bancaire';
@@ -119,7 +121,7 @@ const MaTresorerie2 = () => {
             </>
           ) : (
             <>
-              {data?.listBankAccounts?.items?.map(
+              {bankAccountCharger?.listBankAccounts?.items?.map(
                 (item) => item && (
                 <OwnerCompte
                   key={item.id}
@@ -164,8 +166,8 @@ const MaTresorerie2 = () => {
               size="large"
               onPress={async () => {
                 if (toggle) {
-                  if (checkedAccounts.length > 0 && data && data.listBankAccounts && data.listBankAccounts.items) {
-                    data.listBankAccounts.items.map(async (item) => {
+                  if (checkedAccounts.length > 0 && bankAccountCharger && bankAccountCharger.listBankAccounts && bankAccountCharger.listBankAccounts.items) {
+                    bankAccountCharger.listBankAccounts.items.map(async (item) => {
                       if (checkedAccounts.includes(item.id)) {
                         await createRealEstateBankAccount({
                           variables: {

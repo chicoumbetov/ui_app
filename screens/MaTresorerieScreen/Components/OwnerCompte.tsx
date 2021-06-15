@@ -69,13 +69,13 @@ const OwnerCompte = (props: MonBienProps) => {
 
         <View style={{ justifyContent: 'center', paddingHorizontal: 14, flex: 1 }}>
           <Text category="h6">
-            {compte.name}
+            {compte.name || ''}
           </Text>
           <Text category="p2" appearance="hint">
-            {compte.iban}
+            {compte.iban || ''}
           </Text>
           <Text category="p2" status="basic">
-            {compte.bank}
+            {compte.bank || ''}
           </Text>
         </View>
 

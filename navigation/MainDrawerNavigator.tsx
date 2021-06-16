@@ -11,6 +11,7 @@ import {
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useNavigationState } from '@react-navigation/native';
 import BottomTabNavigator from './BottomTabNavigator';
 import CustomDrawer from './CustomDrawer';
 
@@ -36,13 +37,13 @@ const getTitleFromName = (name?:string) => {
 
 const MainDrawerNavigator = () => {
   const insets = useSafeAreaInsets();
+  const navigationState = useNavigationState((state) => state);
   return (
     <Drawer.Navigator
       drawerContent={(props) => <CustomDrawer {...props} />}
       initialRouteName="TableauDeBordDrawer"
       screenOptions={({ navigation }) => {
-        const state = navigation.dangerouslyGetState();
-        const { showBack, currentRouteName } = getStackInfos(state);
+        const { showBack, currentRouteName } = getStackInfos(navigationState);
         return {
           title: getTitleFromName(currentRouteName),
           headerLeft: () => (

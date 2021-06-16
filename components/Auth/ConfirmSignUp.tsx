@@ -41,7 +41,7 @@ const MyConfirmSignUp = ({
         outerViewProps={{
           showsVerticalScrollIndicator: false,
         }}
-        innerViewProps={{ style: { flex: 1 } }}
+        innerViewProps={{ style: { flex: 1, marginBottom: 20 } }}
         maxWidth={450}
       >
         <Layout style={{

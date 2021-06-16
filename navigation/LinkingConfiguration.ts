@@ -48,6 +48,7 @@ export default {
               },
               'mon-assistant-nav': {
                 path: 'mon-assistant',
+                initialRouteName: 'mon-assistant',
                 screens: {
                   'mon-assistant': '/',
                   'declaration-impots': '/declaration-impots',
@@ -58,6 +59,11 @@ export default {
               },
               notifications: {
                 path: 'notifications',
+                initialRouteName: 'notifications',
+                screens: {
+                  notifications: '/',
+                  'notifications-params': '/parametres',
+                },
               },
             },
           },

@@ -3,7 +3,7 @@ import {
   StyleProp, Switch, TextInput, TextInputProps, TextStyle, ViewStyle,
 } from 'react-native';
 import {
-  InputProps, RadioProps, SelectProps, ToggleProps, DatepickerProps, Datepicker,
+  InputProps, RadioProps, CheckBoxProps, SelectProps, ToggleProps, DatepickerProps, Datepicker,
 } from '@ui-kitten/components';
 import { ValidationRuleConfig } from './validation';
 import { IconName } from '../Icon/Icon';
@@ -12,7 +12,7 @@ import { IconName } from '../Icon/Icon';
 export interface ErrorMap {
   [key: string]: FieldError | undefined;
 }
-export type PossibleFields = TextInput | SelectHandles | Switch | AutoCompleteHandles | Datepicker;
+export type PossibleFields = TextInput | SelectHandles | Switch | Datepicker;
 export type ChangeValueCallbackType = (v?: string | boolean | number) => void;
 export type FormChildProp = {
   name: string;
@@ -72,6 +72,15 @@ export type RadioFormProps = {
   label?: string | ((props:any) => JSX.Element);
   defaultValue?: boolean;
 } & RadioProps & Omit<FormChildProp, 'label'>;
+
+// Checkbox Types
+export type CheckboxFormProps = {
+  labelPosition?: 'before' | 'after';
+  labelStyle?: StyleProp<TextStyle>;
+  style?: StyleProp<ViewStyle>;
+  label?: string | ((props:any) => JSX.Element);
+  defaultValue?: boolean;
+} & CheckBoxProps & Omit<FormChildProp, 'label'>;
 
 // PhoneNumberInput
 export type PhoneNumberInputFormProps = Exclude<TextInputProps, 'onChangeText'> & {

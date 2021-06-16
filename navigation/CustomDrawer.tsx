@@ -21,7 +21,9 @@ import {
 import {
   ImageProps, TouchableOpacity, View,
 } from 'react-native';
-import { InitialState, useLinkTo } from '@react-navigation/native';
+import {
+  DrawerActions, InitialState, useLinkTo, useNavigation,
+} from '@react-navigation/native';
 import Auth from '@aws-amplify/auth';
 import { DrawerContentComponentProps } from '@react-navigation/drawer/src/types';
 import { RenderProp } from '@ui-kitten/components/devsupport';
@@ -29,9 +31,11 @@ import { RenderProp } from '@ui-kitten/components/devsupport';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useDimensions } from '@react-native-community/hooks';
 // import comptesData from '../mockData/comptesData';
+import * as WebBrowser from 'expo-web-browser';
 import Icon, { IconName } from '../components/Icon/Icon';
 import AutoAvatar from '../components/AutoAvatar';
 import { useUser } from '../src/API/UserContext';
+import debounce from '../utils/debounce';
 
 /**
  * 2. Icons
@@ -90,6 +94,7 @@ const ChargeIcon = IconGenerator({ name: 'trending-up-outline', uikitten: true }
 const PaperIcon = IconGenerator({ name: 'file-text-outline', uikitten: true });
 
 const EmailIcon = IconGenerator({ name: 'email-outline', uikitten: true });
+const CadenaIcon = IconGenerator({ name: 'lock-outline', uikitten: true });
 
 function findIndexByRouteName(name?: string) {
   switch (name) {
@@ -144,6 +149,15 @@ const CustomDrawer = (props: DrawerContentComponentProps) => {
   const inset = useSafeAreaInsets();
   const linkTo = useLinkTo();
   const { window } = useDimensions();
+
+  const navigation = useNavigation();
+
+  const closeDrawer = React.useCallback(
+    debounce(() => {
+      navigation.dispatch(DrawerActions.closeDrawer());
+    }, 50),
+    [navigation],
+  );
   return (
     <View style={{ flex: 1, marginTop: inset.top, marginBottom: inset.bottom }}>
       <Layout level="4" style={{ flex: 1, justifyContent: 'space-between' }}>
@@ -204,6 +218,10 @@ const CustomDrawer = (props: DrawerContentComponentProps) => {
               case 8:
                 linkTo('/contact');
                 break;
+              case 9:
+                WebBrowser.openBrowserAsync('https://omedom.com/legal/?simple=1');
+                closeDrawer();
+                break;
             }
           }}
         >
@@ -245,6 +263,10 @@ const CustomDrawer = (props: DrawerContentComponentProps) => {
           <DrawerItem
             title="Contact"
             accessoryLeft={EmailIcon}
+          />
+          <DrawerItem
+            title="Légal"
+            accessoryLeft={CadenaIcon}
           />
         </Drawer>
       </Layout>

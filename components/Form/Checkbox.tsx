@@ -2,12 +2,12 @@ import * as React from 'react';
 import { View, StyleSheet } from 'react-native';
 
 import { useEffect, useState } from 'react';
-import { Radio, Text } from '@ui-kitten/components';
+import { CheckBox, Text } from '@ui-kitten/components';
 import { FalsyFC, FalsyText } from '@ui-kitten/components/devsupport';
-import { RadioFormProps } from './types';
+import { CheckboxFormProps } from './types';
 
-const RadioComp = React.forwardRef<Radio, RadioFormProps>(
-  (props: RadioFormProps, ref): React.ReactElement => {
+const CheckboxComp = React.forwardRef<CheckBox, CheckboxFormProps>(
+  (props: CheckboxFormProps, ref): React.ReactElement => {
     const {
       label, labelStyle, error, style, onChangeValue, defaultValue = false, labelPosition = 'before', ...switchProps
     } = props;
@@ -41,7 +41,7 @@ const RadioComp = React.forwardRef<Radio, RadioFormProps>(
           {labelPosition === 'before' && (
           <FalsyFC component={finalLabel} />
           )}
-          <Radio {...switchProps} onChange={toggleSwitch} checked={isEnabled} ref={ref} />
+          <CheckBox {...switchProps} onChange={toggleSwitch} checked={isEnabled} ref={ref} />
 
           {labelPosition === 'after' && (
 
@@ -57,9 +57,9 @@ const RadioComp = React.forwardRef<Radio, RadioFormProps>(
   },
 );
 
-RadioComp.displayName = 'Radio';
+CheckboxComp.displayName = 'Checkbox';
 
-export default RadioComp;
+export default CheckboxComp;
 
 const styles = StyleSheet.create({
   container: {

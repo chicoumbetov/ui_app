@@ -11,7 +11,6 @@ import { BottomTabParamList } from '../types';
 
 import { BottomNavigation } from '../components/UIKittenRewrite/BottomNavigation';
 import MonAssistantStackNavigator from './MonAssistantStackNavigator';
-import Notifications from '../screens/NotificationsScreen/Notifications';
 import MesBiensStackNavigator from './MesBiensStackNavigator';
 import MesChargesStackNavigator from './MesChargesStackNavigator';
 import { getStackInfos } from './Utils';
@@ -22,6 +21,7 @@ import TrendingUPColor from '../assets/Icones_couleurs_2/trendingUpIcon.svg';
 import GridColor from '../assets/Icones_couleurs_2/squareIcon.svg';
 import FileTextColor from '../assets/Icones_couleurs_2/fileTextIcon.svg';
 import HomeColor from '../assets/Icones_couleurs_2/homeIcon.svg';
+import NotificationsStackNavigator from './NotificationsStackNavigator';
 
 const HomeIcon = () => (
   <HomeColor height={20} width={20} />
@@ -103,7 +103,7 @@ export default function BottomTabNavigator() {
       />
       <BottomTab.Screen
         name="notifications"
-        component={Notifications}
+        component={NotificationsStackNavigator}
       />
 
     </BottomTab.Navigator>

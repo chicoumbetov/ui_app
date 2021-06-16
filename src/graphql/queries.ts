@@ -31,6 +31,13 @@ export const userByBiUser = /* GraphQL */ `
         privateProfile {
           phoneNumber
           optIn
+          address {
+            address
+            additionalAddress
+            postalCode
+            city
+            country
+          }
           birthDate
           subscription
         }
@@ -72,6 +79,13 @@ export const userByEmail = /* GraphQL */ `
         privateProfile {
           phoneNumber
           optIn
+          address {
+            address
+            additionalAddress
+            postalCode
+            city
+            country
+          }
           birthDate
           subscription
         }
@@ -111,6 +125,13 @@ export const syncUsers = /* GraphQL */ `
         privateProfile {
           phoneNumber
           optIn
+          address {
+            address
+            additionalAddress
+            postalCode
+            city
+            country
+          }
           birthDate
           subscription
         }
@@ -148,6 +169,40 @@ export const getUser = /* GraphQL */ `
         }
         birthDate
         subscription
+        notificationParams {
+          echeanceFacture {
+            push
+            email
+          }
+          loyer {
+            push
+            email
+          }
+          debitBancaire {
+            push
+            email
+          }
+          creditBancaire {
+            push
+            email
+          }
+          soldeNegatif {
+            push
+            email
+          }
+          retardLoyer {
+            push
+            email
+          }
+          mauvaiseRenta {
+            push
+            email
+          }
+          autre {
+            push
+            email
+          }
+        }
       }
       expoToken
       biUser
@@ -176,84 +231,19 @@ export const listUsers = /* GraphQL */ `
         privateProfile {
           phoneNumber
           optIn
+          address {
+            address
+            additionalAddress
+            postalCode
+            city
+            country
+          }
           birthDate
           subscription
         }
         expoToken
         biUser
         biToken
-      }
-      nextToken
-      startedAt
-    }
-  }
-`;
-export const listRealEstates = /* GraphQL */ `
-  query ListRealEstates(
-    $filter: ModelRealEstateFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listRealEstates(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        name
-        iconUri
-        purchaseYear
-        type
-        ownName
-        company
-        detentionPart
-        typeImpot
-        admins
-        shared
-        address {
-          address
-          additionalAddress
-          postalCode
-          city
-          country
-        }
-        tenants {
-          id
-          amount
-          rentalCharges
-          managementFees
-          lastname
-          firstname
-          email
-          startDate
-          endDate
-        }
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-        pendingInvitations {
-          nextToken
-          startedAt
-        }
-        documents {
-          nextToken
-          startedAt
-        }
-        budgetLines {
-          nextToken
-          startedAt
-        }
-        budgetLineDeadlines {
-          nextToken
-          startedAt
-        }
-        bankAccounts {
-          nextToken
-          startedAt
-        }
-        bankMovements {
-          nextToken
-          startedAt
-        }
       }
       nextToken
       startedAt
@@ -308,6 +298,24 @@ export const getRealEstate = /* GraphQL */ `
           _lastChangedAt
           createdAt
           updatedAt
+          realEstate {
+            id
+            name
+            iconUri
+            purchaseYear
+            type
+            ownName
+            company
+            detentionPart
+            typeImpot
+            admins
+            shared
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
         }
         nextToken
         startedAt
@@ -324,6 +332,24 @@ export const getRealEstate = /* GraphQL */ `
           _lastChangedAt
           createdAt
           updatedAt
+          realEstate {
+            id
+            name
+            iconUri
+            purchaseYear
+            type
+            ownName
+            company
+            detentionPart
+            typeImpot
+            admins
+            shared
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
         }
         nextToken
         startedAt
@@ -337,12 +363,37 @@ export const getRealEstate = /* GraphQL */ `
           amount
           frequency
           nextDueDate
+          infoCredit {
+            borrowedCapital
+            loadStartDate
+            duration
+            interestRate
+            assuranceRate
+          }
           tenantId
           _version
           _deleted
           _lastChangedAt
           createdAt
           updatedAt
+          realEstate {
+            id
+            name
+            iconUri
+            purchaseYear
+            type
+            ownName
+            company
+            detentionPart
+            typeImpot
+            admins
+            shared
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
         }
         nextToken
         startedAt
@@ -358,12 +409,65 @@ export const getRealEstate = /* GraphQL */ `
           amount
           frequency
           date
+          infoCredit {
+            amount
+            interest
+            assurance
+          }
           tenantId
           _version
           _deleted
           _lastChangedAt
           createdAt
           updatedAt
+          realEstate {
+            id
+            name
+            iconUri
+            purchaseYear
+            type
+            ownName
+            company
+            detentionPart
+            typeImpot
+            admins
+            shared
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
+          budgetLine {
+            id
+            realEstateId
+            type
+            category
+            amount
+            frequency
+            nextDueDate
+            tenantId
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
+          bankMouvement {
+            id
+            bankAccountId
+            realEstateId
+            biId
+            description
+            amount
+            ignored
+            date
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
         }
         nextToken
         startedAt
@@ -378,6 +482,41 @@ export const getRealEstate = /* GraphQL */ `
           _lastChangedAt
           createdAt
           updatedAt
+          realEstate {
+            id
+            name
+            iconUri
+            purchaseYear
+            type
+            ownName
+            company
+            detentionPart
+            typeImpot
+            admins
+            shared
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
+          bankAccount {
+            id
+            bank
+            accountOwner
+            name
+            iban
+            bic
+            balance
+            biId
+            biConnectionId
+            biState
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
         }
         nextToken
         startedAt
@@ -397,10 +536,201 @@ export const getRealEstate = /* GraphQL */ `
           _lastChangedAt
           createdAt
           updatedAt
+          realEstate {
+            id
+            name
+            iconUri
+            purchaseYear
+            type
+            ownName
+            company
+            detentionPart
+            typeImpot
+            admins
+            shared
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
+          budgetLineDeadline {
+            nextToken
+            startedAt
+          }
+          bankAccount {
+            id
+            bank
+            accountOwner
+            name
+            iban
+            bic
+            balance
+            biId
+            biConnectionId
+            biState
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
         }
         nextToken
         startedAt
       }
+    }
+  }
+`;
+export const listRealEstates = /* GraphQL */ `
+  query ListRealEstates(
+    $filter: ModelRealEstateFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listRealEstates(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        name
+        iconUri
+        purchaseYear
+        type
+        ownName
+        company
+        detentionPart
+        typeImpot
+        admins
+        shared
+        address {
+          address
+          additionalAddress
+          postalCode
+          city
+          country
+        }
+        tenants {
+          id
+          amount
+          rentalCharges
+          managementFees
+          lastname
+          firstname
+          email
+          startDate
+          endDate
+        }
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+        pendingInvitations {
+          items {
+            id
+            realEstateId
+            email
+            type
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
+          nextToken
+          startedAt
+        }
+        documents {
+          items {
+            id
+            realEstateId
+            name
+            key
+            s3file
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
+          nextToken
+          startedAt
+        }
+        budgetLines {
+          items {
+            id
+            realEstateId
+            type
+            category
+            amount
+            frequency
+            nextDueDate
+            tenantId
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
+          nextToken
+          startedAt
+        }
+        budgetLineDeadlines {
+          items {
+            id
+            realEstateId
+            bankMouvementId
+            budgetLineId
+            type
+            category
+            amount
+            frequency
+            date
+            tenantId
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
+          nextToken
+          startedAt
+        }
+        bankAccounts {
+          items {
+            id
+            realEstateId
+            bankAccountId
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
+          nextToken
+          startedAt
+        }
+        bankMovements {
+          items {
+            id
+            bankAccountId
+            realEstateId
+            biId
+            description
+            amount
+            ignored
+            date
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
+          nextToken
+          startedAt
+        }
+      }
+      nextToken
+      startedAt
     }
   }
 `;
@@ -453,26 +783,106 @@ export const syncRealEstates = /* GraphQL */ `
         createdAt
         updatedAt
         pendingInvitations {
+          items {
+            id
+            realEstateId
+            email
+            type
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
           nextToken
           startedAt
         }
         documents {
+          items {
+            id
+            realEstateId
+            name
+            key
+            s3file
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
           nextToken
           startedAt
         }
         budgetLines {
+          items {
+            id
+            realEstateId
+            type
+            category
+            amount
+            frequency
+            nextDueDate
+            tenantId
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
           nextToken
           startedAt
         }
         budgetLineDeadlines {
+          items {
+            id
+            realEstateId
+            bankMouvementId
+            budgetLineId
+            type
+            category
+            amount
+            frequency
+            date
+            tenantId
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
           nextToken
           startedAt
         }
         bankAccounts {
+          items {
+            id
+            realEstateId
+            bankAccountId
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
           nextToken
           startedAt
         }
         bankMovements {
+          items {
+            id
+            bankAccountId
+            realEstateId
+            biId
+            description
+            amount
+            ignored
+            date
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
           nextToken
           startedAt
         }
@@ -530,26 +940,106 @@ export const getPendingInvitation = /* GraphQL */ `
         createdAt
         updatedAt
         pendingInvitations {
+          items {
+            id
+            realEstateId
+            email
+            type
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
           nextToken
           startedAt
         }
         documents {
+          items {
+            id
+            realEstateId
+            name
+            key
+            s3file
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
           nextToken
           startedAt
         }
         budgetLines {
+          items {
+            id
+            realEstateId
+            type
+            category
+            amount
+            frequency
+            nextDueDate
+            tenantId
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
           nextToken
           startedAt
         }
         budgetLineDeadlines {
+          items {
+            id
+            realEstateId
+            bankMouvementId
+            budgetLineId
+            type
+            category
+            amount
+            frequency
+            date
+            tenantId
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
           nextToken
           startedAt
         }
         bankAccounts {
+          items {
+            id
+            realEstateId
+            bankAccountId
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
           nextToken
           startedAt
         }
         bankMovements {
+          items {
+            id
+            bankAccountId
+            realEstateId
+            biId
+            description
+            amount
+            ignored
+            date
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
           nextToken
           startedAt
         }
@@ -590,11 +1080,53 @@ export const listPendingInvitations = /* GraphQL */ `
           typeImpot
           admins
           shared
+          address {
+            address
+            additionalAddress
+            postalCode
+            city
+            country
+          }
+          tenants {
+            id
+            amount
+            rentalCharges
+            managementFees
+            lastname
+            firstname
+            email
+            startDate
+            endDate
+          }
           _version
           _deleted
           _lastChangedAt
           createdAt
           updatedAt
+          pendingInvitations {
+            nextToken
+            startedAt
+          }
+          documents {
+            nextToken
+            startedAt
+          }
+          budgetLines {
+            nextToken
+            startedAt
+          }
+          budgetLineDeadlines {
+            nextToken
+            startedAt
+          }
+          bankAccounts {
+            nextToken
+            startedAt
+          }
+          bankMovements {
+            nextToken
+            startedAt
+          }
         }
       }
       nextToken
@@ -639,11 +1171,53 @@ export const pendingInvitationByEmail = /* GraphQL */ `
           typeImpot
           admins
           shared
+          address {
+            address
+            additionalAddress
+            postalCode
+            city
+            country
+          }
+          tenants {
+            id
+            amount
+            rentalCharges
+            managementFees
+            lastname
+            firstname
+            email
+            startDate
+            endDate
+          }
           _version
           _deleted
           _lastChangedAt
           createdAt
           updatedAt
+          pendingInvitations {
+            nextToken
+            startedAt
+          }
+          documents {
+            nextToken
+            startedAt
+          }
+          budgetLines {
+            nextToken
+            startedAt
+          }
+          budgetLineDeadlines {
+            nextToken
+            startedAt
+          }
+          bankAccounts {
+            nextToken
+            startedAt
+          }
+          bankMovements {
+            nextToken
+            startedAt
+          }
         }
       }
       nextToken
@@ -686,11 +1260,53 @@ export const syncPendingInvitations = /* GraphQL */ `
           typeImpot
           admins
           shared
+          address {
+            address
+            additionalAddress
+            postalCode
+            city
+            country
+          }
+          tenants {
+            id
+            amount
+            rentalCharges
+            managementFees
+            lastname
+            firstname
+            email
+            startDate
+            endDate
+          }
           _version
           _deleted
           _lastChangedAt
           createdAt
           updatedAt
+          pendingInvitations {
+            nextToken
+            startedAt
+          }
+          documents {
+            nextToken
+            startedAt
+          }
+          budgetLines {
+            nextToken
+            startedAt
+          }
+          budgetLineDeadlines {
+            nextToken
+            startedAt
+          }
+          bankAccounts {
+            nextToken
+            startedAt
+          }
+          bankMovements {
+            nextToken
+            startedAt
+          }
         }
       }
       nextToken
@@ -747,26 +1363,106 @@ export const getDocument = /* GraphQL */ `
         createdAt
         updatedAt
         pendingInvitations {
+          items {
+            id
+            realEstateId
+            email
+            type
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
           nextToken
           startedAt
         }
         documents {
+          items {
+            id
+            realEstateId
+            name
+            key
+            s3file
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
           nextToken
           startedAt
         }
         budgetLines {
+          items {
+            id
+            realEstateId
+            type
+            category
+            amount
+            frequency
+            nextDueDate
+            tenantId
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
           nextToken
           startedAt
         }
         budgetLineDeadlines {
+          items {
+            id
+            realEstateId
+            bankMouvementId
+            budgetLineId
+            type
+            category
+            amount
+            frequency
+            date
+            tenantId
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
           nextToken
           startedAt
         }
         bankAccounts {
+          items {
+            id
+            realEstateId
+            bankAccountId
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
           nextToken
           startedAt
         }
         bankMovements {
+          items {
+            id
+            bankAccountId
+            realEstateId
+            biId
+            description
+            amount
+            ignored
+            date
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
           nextToken
           startedAt
         }
@@ -804,11 +1500,53 @@ export const listDocuments = /* GraphQL */ `
           typeImpot
           admins
           shared
+          address {
+            address
+            additionalAddress
+            postalCode
+            city
+            country
+          }
+          tenants {
+            id
+            amount
+            rentalCharges
+            managementFees
+            lastname
+            firstname
+            email
+            startDate
+            endDate
+          }
           _version
           _deleted
           _lastChangedAt
           createdAt
           updatedAt
+          pendingInvitations {
+            nextToken
+            startedAt
+          }
+          documents {
+            nextToken
+            startedAt
+          }
+          budgetLines {
+            nextToken
+            startedAt
+          }
+          budgetLineDeadlines {
+            nextToken
+            startedAt
+          }
+          bankAccounts {
+            nextToken
+            startedAt
+          }
+          bankMovements {
+            nextToken
+            startedAt
+          }
         }
       }
       nextToken
@@ -854,11 +1592,53 @@ export const documentByKey = /* GraphQL */ `
           typeImpot
           admins
           shared
+          address {
+            address
+            additionalAddress
+            postalCode
+            city
+            country
+          }
+          tenants {
+            id
+            amount
+            rentalCharges
+            managementFees
+            lastname
+            firstname
+            email
+            startDate
+            endDate
+          }
           _version
           _deleted
           _lastChangedAt
           createdAt
           updatedAt
+          pendingInvitations {
+            nextToken
+            startedAt
+          }
+          documents {
+            nextToken
+            startedAt
+          }
+          budgetLines {
+            nextToken
+            startedAt
+          }
+          budgetLineDeadlines {
+            nextToken
+            startedAt
+          }
+          bankAccounts {
+            nextToken
+            startedAt
+          }
+          bankMovements {
+            nextToken
+            startedAt
+          }
         }
       }
       nextToken
@@ -902,63 +1682,53 @@ export const syncDocuments = /* GraphQL */ `
           typeImpot
           admins
           shared
+          address {
+            address
+            additionalAddress
+            postalCode
+            city
+            country
+          }
+          tenants {
+            id
+            amount
+            rentalCharges
+            managementFees
+            lastname
+            firstname
+            email
+            startDate
+            endDate
+          }
           _version
           _deleted
           _lastChangedAt
           createdAt
           updatedAt
-        }
-      }
-      nextToken
-      startedAt
-    }
-  }
-`;
-export const listBudgetLines = /* GraphQL */ `
-  query ListBudgetLines(
-    $filter: ModelBudgetLineFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listBudgetLines(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        realEstateId
-        type
-        category
-        amount
-        frequency
-        nextDueDate
-        infoCredit {
-          borrowedCapital
-          loadStartDate
-          duration
-          interestRate
-          assuranceRate
-        }
-        tenantId
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-        realEstate {
-          id
-          name
-          iconUri
-          purchaseYear
-          type
-          ownName
-          company
-          detentionPart
-          typeImpot
-          admins
-          shared
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
+          pendingInvitations {
+            nextToken
+            startedAt
+          }
+          documents {
+            nextToken
+            startedAt
+          }
+          budgetLines {
+            nextToken
+            startedAt
+          }
+          budgetLineDeadlines {
+            nextToken
+            startedAt
+          }
+          bankAccounts {
+            nextToken
+            startedAt
+          }
+          bankMovements {
+            nextToken
+            startedAt
+          }
         }
       }
       nextToken
@@ -1032,30 +1802,211 @@ export const getBudgetLine = /* GraphQL */ `
         createdAt
         updatedAt
         pendingInvitations {
+          items {
+            id
+            realEstateId
+            email
+            type
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
           nextToken
           startedAt
         }
         documents {
+          items {
+            id
+            realEstateId
+            name
+            key
+            s3file
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
           nextToken
           startedAt
         }
         budgetLines {
+          items {
+            id
+            realEstateId
+            type
+            category
+            amount
+            frequency
+            nextDueDate
+            tenantId
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
           nextToken
           startedAt
         }
         budgetLineDeadlines {
+          items {
+            id
+            realEstateId
+            bankMouvementId
+            budgetLineId
+            type
+            category
+            amount
+            frequency
+            date
+            tenantId
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
           nextToken
           startedAt
         }
         bankAccounts {
+          items {
+            id
+            realEstateId
+            bankAccountId
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
           nextToken
           startedAt
         }
         bankMovements {
+          items {
+            id
+            bankAccountId
+            realEstateId
+            biId
+            description
+            amount
+            ignored
+            date
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
           nextToken
           startedAt
         }
       }
+    }
+  }
+`;
+export const listBudgetLines = /* GraphQL */ `
+  query ListBudgetLines(
+    $filter: ModelBudgetLineFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listBudgetLines(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        realEstateId
+        type
+        category
+        amount
+        frequency
+        nextDueDate
+        infoCredit {
+          borrowedCapital
+          loadStartDate
+          duration
+          interestRate
+          assuranceRate
+          amortizationTable {
+            dueDate
+            amount
+            interest
+            assurance
+            amortizedCapital
+          }
+        }
+        tenantId
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+        realEstate {
+          id
+          name
+          iconUri
+          purchaseYear
+          type
+          ownName
+          company
+          detentionPart
+          typeImpot
+          admins
+          shared
+          address {
+            address
+            additionalAddress
+            postalCode
+            city
+            country
+          }
+          tenants {
+            id
+            amount
+            rentalCharges
+            managementFees
+            lastname
+            firstname
+            email
+            startDate
+            endDate
+          }
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+          pendingInvitations {
+            nextToken
+            startedAt
+          }
+          documents {
+            nextToken
+            startedAt
+          }
+          budgetLines {
+            nextToken
+            startedAt
+          }
+          budgetLineDeadlines {
+            nextToken
+            startedAt
+          }
+          bankAccounts {
+            nextToken
+            startedAt
+          }
+          bankMovements {
+            nextToken
+            startedAt
+          }
+        }
+      }
+      nextToken
+      startedAt
     }
   }
 `;
@@ -1086,6 +2037,13 @@ export const syncBudgetLines = /* GraphQL */ `
           duration
           interestRate
           assuranceRate
+          amortizationTable {
+            dueDate
+            amount
+            interest
+            assurance
+            amortizedCapital
+          }
         }
         tenantId
         _version
@@ -1105,11 +2063,53 @@ export const syncBudgetLines = /* GraphQL */ `
           typeImpot
           admins
           shared
+          address {
+            address
+            additionalAddress
+            postalCode
+            city
+            country
+          }
+          tenants {
+            id
+            amount
+            rentalCharges
+            managementFees
+            lastname
+            firstname
+            email
+            startDate
+            endDate
+          }
           _version
           _deleted
           _lastChangedAt
           createdAt
           updatedAt
+          pendingInvitations {
+            nextToken
+            startedAt
+          }
+          documents {
+            nextToken
+            startedAt
+          }
+          budgetLines {
+            nextToken
+            startedAt
+          }
+          budgetLineDeadlines {
+            nextToken
+            startedAt
+          }
+          bankAccounts {
+            nextToken
+            startedAt
+          }
+          bankMovements {
+            nextToken
+            startedAt
+          }
         }
       }
       nextToken
@@ -1176,26 +2176,106 @@ export const getBudgetLineDeadline = /* GraphQL */ `
         createdAt
         updatedAt
         pendingInvitations {
+          items {
+            id
+            realEstateId
+            email
+            type
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
           nextToken
           startedAt
         }
         documents {
+          items {
+            id
+            realEstateId
+            name
+            key
+            s3file
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
           nextToken
           startedAt
         }
         budgetLines {
+          items {
+            id
+            realEstateId
+            type
+            category
+            amount
+            frequency
+            nextDueDate
+            tenantId
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
           nextToken
           startedAt
         }
         budgetLineDeadlines {
+          items {
+            id
+            realEstateId
+            bankMouvementId
+            budgetLineId
+            type
+            category
+            amount
+            frequency
+            date
+            tenantId
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
           nextToken
           startedAt
         }
         bankAccounts {
+          items {
+            id
+            realEstateId
+            bankAccountId
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
           nextToken
           startedAt
         }
         bankMovements {
+          items {
+            id
+            bankAccountId
+            realEstateId
+            biId
+            description
+            amount
+            ignored
+            date
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
           nextToken
           startedAt
         }
@@ -1214,6 +2294,13 @@ export const getBudgetLineDeadline = /* GraphQL */ `
           duration
           interestRate
           assuranceRate
+          amortizationTable {
+            dueDate
+            amount
+            interest
+            assurance
+            amortizedCapital
+          }
         }
         tenantId
         _version
@@ -1233,11 +2320,53 @@ export const getBudgetLineDeadline = /* GraphQL */ `
           typeImpot
           admins
           shared
+          address {
+            address
+            additionalAddress
+            postalCode
+            city
+            country
+          }
+          tenants {
+            id
+            amount
+            rentalCharges
+            managementFees
+            lastname
+            firstname
+            email
+            startDate
+            endDate
+          }
           _version
           _deleted
           _lastChangedAt
           createdAt
           updatedAt
+          pendingInvitations {
+            nextToken
+            startedAt
+          }
+          documents {
+            nextToken
+            startedAt
+          }
+          budgetLines {
+            nextToken
+            startedAt
+          }
+          budgetLineDeadlines {
+            nextToken
+            startedAt
+          }
+          bankAccounts {
+            nextToken
+            startedAt
+          }
+          bankMovements {
+            nextToken
+            startedAt
+          }
         }
       }
       bankMouvement {
@@ -1266,13 +2395,72 @@ export const getBudgetLineDeadline = /* GraphQL */ `
           typeImpot
           admins
           shared
+          address {
+            address
+            additionalAddress
+            postalCode
+            city
+            country
+          }
+          tenants {
+            id
+            amount
+            rentalCharges
+            managementFees
+            lastname
+            firstname
+            email
+            startDate
+            endDate
+          }
           _version
           _deleted
           _lastChangedAt
           createdAt
           updatedAt
+          pendingInvitations {
+            nextToken
+            startedAt
+          }
+          documents {
+            nextToken
+            startedAt
+          }
+          budgetLines {
+            nextToken
+            startedAt
+          }
+          budgetLineDeadlines {
+            nextToken
+            startedAt
+          }
+          bankAccounts {
+            nextToken
+            startedAt
+          }
+          bankMovements {
+            nextToken
+            startedAt
+          }
         }
         budgetLineDeadline {
+          items {
+            id
+            realEstateId
+            bankMouvementId
+            budgetLineId
+            type
+            category
+            amount
+            frequency
+            date
+            tenantId
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
           nextToken
           startedAt
         }
@@ -1292,6 +2480,14 @@ export const getBudgetLineDeadline = /* GraphQL */ `
           _lastChangedAt
           createdAt
           updatedAt
+          realEstates {
+            nextToken
+            startedAt
+          }
+          movements {
+            nextToken
+            startedAt
+          }
         }
       }
     }
@@ -1341,11 +2537,53 @@ export const listBudgetLineDeadlines = /* GraphQL */ `
           typeImpot
           admins
           shared
+          address {
+            address
+            additionalAddress
+            postalCode
+            city
+            country
+          }
+          tenants {
+            id
+            amount
+            rentalCharges
+            managementFees
+            lastname
+            firstname
+            email
+            startDate
+            endDate
+          }
           _version
           _deleted
           _lastChangedAt
           createdAt
           updatedAt
+          pendingInvitations {
+            nextToken
+            startedAt
+          }
+          documents {
+            nextToken
+            startedAt
+          }
+          budgetLines {
+            nextToken
+            startedAt
+          }
+          budgetLineDeadlines {
+            nextToken
+            startedAt
+          }
+          bankAccounts {
+            nextToken
+            startedAt
+          }
+          bankMovements {
+            nextToken
+            startedAt
+          }
         }
         budgetLine {
           id
@@ -1355,12 +2593,37 @@ export const listBudgetLineDeadlines = /* GraphQL */ `
           amount
           frequency
           nextDueDate
+          infoCredit {
+            borrowedCapital
+            loadStartDate
+            duration
+            interestRate
+            assuranceRate
+          }
           tenantId
           _version
           _deleted
           _lastChangedAt
           createdAt
           updatedAt
+          realEstate {
+            id
+            name
+            iconUri
+            purchaseYear
+            type
+            ownName
+            company
+            detentionPart
+            typeImpot
+            admins
+            shared
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
         }
         bankMouvement {
           id
@@ -1376,6 +2639,45 @@ export const listBudgetLineDeadlines = /* GraphQL */ `
           _lastChangedAt
           createdAt
           updatedAt
+          realEstate {
+            id
+            name
+            iconUri
+            purchaseYear
+            type
+            ownName
+            company
+            detentionPart
+            typeImpot
+            admins
+            shared
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
+          budgetLineDeadline {
+            nextToken
+            startedAt
+          }
+          bankAccount {
+            id
+            bank
+            accountOwner
+            name
+            iban
+            bic
+            balance
+            biId
+            biConnectionId
+            biState
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
         }
       }
       nextToken
@@ -1429,11 +2731,53 @@ export const syncBudgetLineDeadlines = /* GraphQL */ `
           typeImpot
           admins
           shared
+          address {
+            address
+            additionalAddress
+            postalCode
+            city
+            country
+          }
+          tenants {
+            id
+            amount
+            rentalCharges
+            managementFees
+            lastname
+            firstname
+            email
+            startDate
+            endDate
+          }
           _version
           _deleted
           _lastChangedAt
           createdAt
           updatedAt
+          pendingInvitations {
+            nextToken
+            startedAt
+          }
+          documents {
+            nextToken
+            startedAt
+          }
+          budgetLines {
+            nextToken
+            startedAt
+          }
+          budgetLineDeadlines {
+            nextToken
+            startedAt
+          }
+          bankAccounts {
+            nextToken
+            startedAt
+          }
+          bankMovements {
+            nextToken
+            startedAt
+          }
         }
         budgetLine {
           id
@@ -1443,12 +2787,37 @@ export const syncBudgetLineDeadlines = /* GraphQL */ `
           amount
           frequency
           nextDueDate
+          infoCredit {
+            borrowedCapital
+            loadStartDate
+            duration
+            interestRate
+            assuranceRate
+          }
           tenantId
           _version
           _deleted
           _lastChangedAt
           createdAt
           updatedAt
+          realEstate {
+            id
+            name
+            iconUri
+            purchaseYear
+            type
+            ownName
+            company
+            detentionPart
+            typeImpot
+            admins
+            shared
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
         }
         bankMouvement {
           id
@@ -1464,6 +2833,45 @@ export const syncBudgetLineDeadlines = /* GraphQL */ `
           _lastChangedAt
           createdAt
           updatedAt
+          realEstate {
+            id
+            name
+            iconUri
+            purchaseYear
+            type
+            ownName
+            company
+            detentionPart
+            typeImpot
+            admins
+            shared
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
+          budgetLineDeadline {
+            nextToken
+            startedAt
+          }
+          bankAccount {
+            id
+            bank
+            accountOwner
+            name
+            iban
+            bic
+            balance
+            biId
+            biConnectionId
+            biState
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
         }
       }
       nextToken
@@ -1518,26 +2926,106 @@ export const getRealEstateBankAccount = /* GraphQL */ `
         createdAt
         updatedAt
         pendingInvitations {
+          items {
+            id
+            realEstateId
+            email
+            type
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
           nextToken
           startedAt
         }
         documents {
+          items {
+            id
+            realEstateId
+            name
+            key
+            s3file
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
           nextToken
           startedAt
         }
         budgetLines {
+          items {
+            id
+            realEstateId
+            type
+            category
+            amount
+            frequency
+            nextDueDate
+            tenantId
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
           nextToken
           startedAt
         }
         budgetLineDeadlines {
+          items {
+            id
+            realEstateId
+            bankMouvementId
+            budgetLineId
+            type
+            category
+            amount
+            frequency
+            date
+            tenantId
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
           nextToken
           startedAt
         }
         bankAccounts {
+          items {
+            id
+            realEstateId
+            bankAccountId
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
           nextToken
           startedAt
         }
         bankMovements {
+          items {
+            id
+            bankAccountId
+            realEstateId
+            biId
+            description
+            amount
+            ignored
+            date
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
           nextToken
           startedAt
         }
@@ -1559,10 +3047,35 @@ export const getRealEstateBankAccount = /* GraphQL */ `
         createdAt
         updatedAt
         realEstates {
+          items {
+            id
+            realEstateId
+            bankAccountId
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
           nextToken
           startedAt
         }
         movements {
+          items {
+            id
+            bankAccountId
+            realEstateId
+            biId
+            description
+            amount
+            ignored
+            date
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
           nextToken
           startedAt
         }
@@ -1602,11 +3115,53 @@ export const listRealEstateBankAccounts = /* GraphQL */ `
           typeImpot
           admins
           shared
+          address {
+            address
+            additionalAddress
+            postalCode
+            city
+            country
+          }
+          tenants {
+            id
+            amount
+            rentalCharges
+            managementFees
+            lastname
+            firstname
+            email
+            startDate
+            endDate
+          }
           _version
           _deleted
           _lastChangedAt
           createdAt
           updatedAt
+          pendingInvitations {
+            nextToken
+            startedAt
+          }
+          documents {
+            nextToken
+            startedAt
+          }
+          budgetLines {
+            nextToken
+            startedAt
+          }
+          budgetLineDeadlines {
+            nextToken
+            startedAt
+          }
+          bankAccounts {
+            nextToken
+            startedAt
+          }
+          bankMovements {
+            nextToken
+            startedAt
+          }
         }
         bankAccount {
           id
@@ -1624,6 +3179,14 @@ export const listRealEstateBankAccounts = /* GraphQL */ `
           _lastChangedAt
           createdAt
           updatedAt
+          realEstates {
+            nextToken
+            startedAt
+          }
+          movements {
+            nextToken
+            startedAt
+          }
         }
       }
       nextToken
@@ -1669,11 +3232,53 @@ export const listRealEstatesByBankAccount = /* GraphQL */ `
           typeImpot
           admins
           shared
+          address {
+            address
+            additionalAddress
+            postalCode
+            city
+            country
+          }
+          tenants {
+            id
+            amount
+            rentalCharges
+            managementFees
+            lastname
+            firstname
+            email
+            startDate
+            endDate
+          }
           _version
           _deleted
           _lastChangedAt
           createdAt
           updatedAt
+          pendingInvitations {
+            nextToken
+            startedAt
+          }
+          documents {
+            nextToken
+            startedAt
+          }
+          budgetLines {
+            nextToken
+            startedAt
+          }
+          budgetLineDeadlines {
+            nextToken
+            startedAt
+          }
+          bankAccounts {
+            nextToken
+            startedAt
+          }
+          bankMovements {
+            nextToken
+            startedAt
+          }
         }
         bankAccount {
           id
@@ -1691,6 +3296,14 @@ export const listRealEstatesByBankAccount = /* GraphQL */ `
           _lastChangedAt
           createdAt
           updatedAt
+          realEstates {
+            nextToken
+            startedAt
+          }
+          movements {
+            nextToken
+            startedAt
+          }
         }
       }
       nextToken
@@ -1732,11 +3345,53 @@ export const syncRealEstateBankAccounts = /* GraphQL */ `
           typeImpot
           admins
           shared
+          address {
+            address
+            additionalAddress
+            postalCode
+            city
+            country
+          }
+          tenants {
+            id
+            amount
+            rentalCharges
+            managementFees
+            lastname
+            firstname
+            email
+            startDate
+            endDate
+          }
           _version
           _deleted
           _lastChangedAt
           createdAt
           updatedAt
+          pendingInvitations {
+            nextToken
+            startedAt
+          }
+          documents {
+            nextToken
+            startedAt
+          }
+          budgetLines {
+            nextToken
+            startedAt
+          }
+          budgetLineDeadlines {
+            nextToken
+            startedAt
+          }
+          bankAccounts {
+            nextToken
+            startedAt
+          }
+          bankMovements {
+            nextToken
+            startedAt
+          }
         }
         bankAccount {
           id
@@ -1754,43 +3409,14 @@ export const syncRealEstateBankAccounts = /* GraphQL */ `
           _lastChangedAt
           createdAt
           updatedAt
-        }
-      }
-      nextToken
-      startedAt
-    }
-  }
-`;
-export const listBankAccounts = /* GraphQL */ `
-  query ListBankAccounts(
-    $filter: ModelBankAccountFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listBankAccounts(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        bank
-        accountOwner
-        name
-        iban
-        bic
-        balance
-        biId
-        biConnectionId
-        biState
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-        realEstates {
-          nextToken
-          startedAt
-        }
-        movements {
-          nextToken
-          startedAt
+          realEstates {
+            nextToken
+            startedAt
+          }
+          movements {
+            nextToken
+            startedAt
+          }
         }
       }
       nextToken
@@ -1826,6 +3452,41 @@ export const getBankAccount = /* GraphQL */ `
           _lastChangedAt
           createdAt
           updatedAt
+          realEstate {
+            id
+            name
+            iconUri
+            purchaseYear
+            type
+            ownName
+            company
+            detentionPart
+            typeImpot
+            admins
+            shared
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
+          bankAccount {
+            id
+            bank
+            accountOwner
+            name
+            iban
+            bic
+            balance
+            biId
+            biConnectionId
+            biState
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
         }
         nextToken
         startedAt
@@ -1845,10 +3506,111 @@ export const getBankAccount = /* GraphQL */ `
           _lastChangedAt
           createdAt
           updatedAt
+          realEstate {
+            id
+            name
+            iconUri
+            purchaseYear
+            type
+            ownName
+            company
+            detentionPart
+            typeImpot
+            admins
+            shared
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
+          budgetLineDeadline {
+            nextToken
+            startedAt
+          }
+          bankAccount {
+            id
+            bank
+            accountOwner
+            name
+            iban
+            bic
+            balance
+            biId
+            biConnectionId
+            biState
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
         }
         nextToken
         startedAt
       }
+    }
+  }
+`;
+export const listBankAccounts = /* GraphQL */ `
+  query ListBankAccounts(
+    $filter: ModelBankAccountFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listBankAccounts(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        bank
+        accountOwner
+        name
+        iban
+        bic
+        balance
+        biId
+        biConnectionId
+        biState
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+        realEstates {
+          items {
+            id
+            realEstateId
+            bankAccountId
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
+          nextToken
+          startedAt
+        }
+        movements {
+          items {
+            id
+            bankAccountId
+            realEstateId
+            biId
+            description
+            amount
+            ignored
+            date
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
+          nextToken
+          startedAt
+        }
+      }
+      nextToken
+      startedAt
     }
   }
 `;
@@ -1884,10 +3646,35 @@ export const listBankAccountByBiId = /* GraphQL */ `
         createdAt
         updatedAt
         realEstates {
+          items {
+            id
+            realEstateId
+            bankAccountId
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
           nextToken
           startedAt
         }
         movements {
+          items {
+            id
+            bankAccountId
+            realEstateId
+            biId
+            description
+            amount
+            ignored
+            date
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
           nextToken
           startedAt
         }
@@ -1929,10 +3716,35 @@ export const listBankAccountByBiConnectionId = /* GraphQL */ `
         createdAt
         updatedAt
         realEstates {
+          items {
+            id
+            realEstateId
+            bankAccountId
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
           nextToken
           startedAt
         }
         movements {
+          items {
+            id
+            bankAccountId
+            realEstateId
+            biId
+            description
+            amount
+            ignored
+            date
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
           nextToken
           startedAt
         }
@@ -1972,10 +3784,35 @@ export const syncBankAccounts = /* GraphQL */ `
         createdAt
         updatedAt
         realEstates {
+          items {
+            id
+            realEstateId
+            bankAccountId
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
           nextToken
           startedAt
         }
         movements {
+          items {
+            id
+            bankAccountId
+            realEstateId
+            biId
+            description
+            amount
+            ignored
+            date
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
           nextToken
           startedAt
         }
@@ -2037,26 +3874,106 @@ export const getBankMovement = /* GraphQL */ `
         createdAt
         updatedAt
         pendingInvitations {
+          items {
+            id
+            realEstateId
+            email
+            type
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
           nextToken
           startedAt
         }
         documents {
+          items {
+            id
+            realEstateId
+            name
+            key
+            s3file
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
           nextToken
           startedAt
         }
         budgetLines {
+          items {
+            id
+            realEstateId
+            type
+            category
+            amount
+            frequency
+            nextDueDate
+            tenantId
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
           nextToken
           startedAt
         }
         budgetLineDeadlines {
+          items {
+            id
+            realEstateId
+            bankMouvementId
+            budgetLineId
+            type
+            category
+            amount
+            frequency
+            date
+            tenantId
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
           nextToken
           startedAt
         }
         bankAccounts {
+          items {
+            id
+            realEstateId
+            bankAccountId
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
           nextToken
           startedAt
         }
         bankMovements {
+          items {
+            id
+            bankAccountId
+            realEstateId
+            biId
+            description
+            amount
+            ignored
+            date
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
           nextToken
           startedAt
         }
@@ -2072,12 +3989,65 @@ export const getBankMovement = /* GraphQL */ `
           amount
           frequency
           date
+          infoCredit {
+            amount
+            interest
+            assurance
+          }
           tenantId
           _version
           _deleted
           _lastChangedAt
           createdAt
           updatedAt
+          realEstate {
+            id
+            name
+            iconUri
+            purchaseYear
+            type
+            ownName
+            company
+            detentionPart
+            typeImpot
+            admins
+            shared
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
+          budgetLine {
+            id
+            realEstateId
+            type
+            category
+            amount
+            frequency
+            nextDueDate
+            tenantId
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
+          bankMouvement {
+            id
+            bankAccountId
+            realEstateId
+            biId
+            description
+            amount
+            ignored
+            date
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
         }
         nextToken
         startedAt
@@ -2099,10 +4069,35 @@ export const getBankMovement = /* GraphQL */ `
         createdAt
         updatedAt
         realEstates {
+          items {
+            id
+            realEstateId
+            bankAccountId
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
           nextToken
           startedAt
         }
         movements {
+          items {
+            id
+            bankAccountId
+            realEstateId
+            biId
+            description
+            amount
+            ignored
+            date
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
           nextToken
           startedAt
         }
@@ -2143,13 +4138,72 @@ export const listBankMovements = /* GraphQL */ `
           typeImpot
           admins
           shared
+          address {
+            address
+            additionalAddress
+            postalCode
+            city
+            country
+          }
+          tenants {
+            id
+            amount
+            rentalCharges
+            managementFees
+            lastname
+            firstname
+            email
+            startDate
+            endDate
+          }
           _version
           _deleted
           _lastChangedAt
           createdAt
           updatedAt
+          pendingInvitations {
+            nextToken
+            startedAt
+          }
+          documents {
+            nextToken
+            startedAt
+          }
+          budgetLines {
+            nextToken
+            startedAt
+          }
+          budgetLineDeadlines {
+            nextToken
+            startedAt
+          }
+          bankAccounts {
+            nextToken
+            startedAt
+          }
+          bankMovements {
+            nextToken
+            startedAt
+          }
         }
         budgetLineDeadline {
+          items {
+            id
+            realEstateId
+            bankMouvementId
+            budgetLineId
+            type
+            category
+            amount
+            frequency
+            date
+            tenantId
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
           nextToken
           startedAt
         }
@@ -2169,6 +4223,14 @@ export const listBankMovements = /* GraphQL */ `
           _lastChangedAt
           createdAt
           updatedAt
+          realEstates {
+            nextToken
+            startedAt
+          }
+          movements {
+            nextToken
+            startedAt
+          }
         }
       }
       nextToken
@@ -2219,13 +4281,72 @@ export const getBankMovementByBankAccountId = /* GraphQL */ `
           typeImpot
           admins
           shared
+          address {
+            address
+            additionalAddress
+            postalCode
+            city
+            country
+          }
+          tenants {
+            id
+            amount
+            rentalCharges
+            managementFees
+            lastname
+            firstname
+            email
+            startDate
+            endDate
+          }
           _version
           _deleted
           _lastChangedAt
           createdAt
           updatedAt
+          pendingInvitations {
+            nextToken
+            startedAt
+          }
+          documents {
+            nextToken
+            startedAt
+          }
+          budgetLines {
+            nextToken
+            startedAt
+          }
+          budgetLineDeadlines {
+            nextToken
+            startedAt
+          }
+          bankAccounts {
+            nextToken
+            startedAt
+          }
+          bankMovements {
+            nextToken
+            startedAt
+          }
         }
         budgetLineDeadline {
+          items {
+            id
+            realEstateId
+            bankMouvementId
+            budgetLineId
+            type
+            category
+            amount
+            frequency
+            date
+            tenantId
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
           nextToken
           startedAt
         }
@@ -2245,6 +4366,14 @@ export const getBankMovementByBankAccountId = /* GraphQL */ `
           _lastChangedAt
           createdAt
           updatedAt
+          realEstates {
+            nextToken
+            startedAt
+          }
+          movements {
+            nextToken
+            startedAt
+          }
         }
       }
       nextToken
@@ -2293,13 +4422,72 @@ export const listBankMovementByBiId = /* GraphQL */ `
           typeImpot
           admins
           shared
+          address {
+            address
+            additionalAddress
+            postalCode
+            city
+            country
+          }
+          tenants {
+            id
+            amount
+            rentalCharges
+            managementFees
+            lastname
+            firstname
+            email
+            startDate
+            endDate
+          }
           _version
           _deleted
           _lastChangedAt
           createdAt
           updatedAt
+          pendingInvitations {
+            nextToken
+            startedAt
+          }
+          documents {
+            nextToken
+            startedAt
+          }
+          budgetLines {
+            nextToken
+            startedAt
+          }
+          budgetLineDeadlines {
+            nextToken
+            startedAt
+          }
+          bankAccounts {
+            nextToken
+            startedAt
+          }
+          bankMovements {
+            nextToken
+            startedAt
+          }
         }
         budgetLineDeadline {
+          items {
+            id
+            realEstateId
+            bankMouvementId
+            budgetLineId
+            type
+            category
+            amount
+            frequency
+            date
+            tenantId
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
           nextToken
           startedAt
         }
@@ -2319,6 +4507,14 @@ export const listBankMovementByBiId = /* GraphQL */ `
           _lastChangedAt
           createdAt
           updatedAt
+          realEstates {
+            nextToken
+            startedAt
+          }
+          movements {
+            nextToken
+            startedAt
+          }
         }
       }
       nextToken
@@ -2365,13 +4561,72 @@ export const syncBankMovements = /* GraphQL */ `
           typeImpot
           admins
           shared
+          address {
+            address
+            additionalAddress
+            postalCode
+            city
+            country
+          }
+          tenants {
+            id
+            amount
+            rentalCharges
+            managementFees
+            lastname
+            firstname
+            email
+            startDate
+            endDate
+          }
           _version
           _deleted
           _lastChangedAt
           createdAt
           updatedAt
+          pendingInvitations {
+            nextToken
+            startedAt
+          }
+          documents {
+            nextToken
+            startedAt
+          }
+          budgetLines {
+            nextToken
+            startedAt
+          }
+          budgetLineDeadlines {
+            nextToken
+            startedAt
+          }
+          bankAccounts {
+            nextToken
+            startedAt
+          }
+          bankMovements {
+            nextToken
+            startedAt
+          }
         }
         budgetLineDeadline {
+          items {
+            id
+            realEstateId
+            bankMouvementId
+            budgetLineId
+            type
+            category
+            amount
+            frequency
+            date
+            tenantId
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
           nextToken
           startedAt
         }
@@ -2391,6 +4646,14 @@ export const syncBankMovements = /* GraphQL */ `
           _lastChangedAt
           createdAt
           updatedAt
+          realEstates {
+            nextToken
+            startedAt
+          }
+          movements {
+            nextToken
+            startedAt
+          }
         }
       }
       nextToken
@@ -2425,6 +4688,13 @@ export const getNotification = /* GraphQL */ `
         privateProfile {
           phoneNumber
           optIn
+          address {
+            address
+            additionalAddress
+            postalCode
+            city
+            country
+          }
           birthDate
           subscription
         }
@@ -2464,6 +4734,12 @@ export const listNotifications = /* GraphQL */ `
           createdAt
           updatedAt
           email
+          privateProfile {
+            phoneNumber
+            optIn
+            birthDate
+            subscription
+          }
           expoToken
           biUser
           biToken
@@ -2509,6 +4785,12 @@ export const syncNotifications = /* GraphQL */ `
           createdAt
           updatedAt
           email
+          privateProfile {
+            phoneNumber
+            optIn
+            birthDate
+            subscription
+          }
           expoToken
           biUser
           biToken
@@ -2548,6 +4830,13 @@ export const getBillingHistory = /* GraphQL */ `
         privateProfile {
           phoneNumber
           optIn
+          address {
+            address
+            additionalAddress
+            postalCode
+            city
+            country
+          }
           birthDate
           subscription
         }
@@ -2589,6 +4878,12 @@ export const listBillingHistorys = /* GraphQL */ `
           createdAt
           updatedAt
           email
+          privateProfile {
+            phoneNumber
+            optIn
+            birthDate
+            subscription
+          }
           expoToken
           biUser
           biToken
@@ -2636,6 +4931,12 @@ export const syncBillingHistories = /* GraphQL */ `
           createdAt
           updatedAt
           email
+          privateProfile {
+            phoneNumber
+            optIn
+            birthDate
+            subscription
+          }
           expoToken
           biUser
           biToken
@@ -2672,6 +4973,13 @@ export const getNotificationReceipts = /* GraphQL */ `
         privateProfile {
           phoneNumber
           optIn
+          address {
+            address
+            additionalAddress
+            postalCode
+            city
+            country
+          }
           birthDate
           subscription
         }
@@ -2714,6 +5022,12 @@ export const listNotificationReceiptss = /* GraphQL */ `
           createdAt
           updatedAt
           email
+          privateProfile {
+            phoneNumber
+            optIn
+            birthDate
+            subscription
+          }
           expoToken
           biUser
           biToken
@@ -2758,6 +5072,12 @@ export const syncNotificationReceipts = /* GraphQL */ `
           createdAt
           updatedAt
           email
+          privateProfile {
+            phoneNumber
+            optIn
+            birthDate
+            subscription
+          }
           expoToken
           biUser
           biToken

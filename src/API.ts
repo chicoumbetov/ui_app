@@ -110,17 +110,17 @@ export type ModelSizeInput = {
 
 export type User = {
   __typename: "User",
-  id?: string,
+  id: string,
   lastname?: string | null,
   firstname?: string | null,
   avatarUri?: string | null,
-  _version?: number,
+  _version: number,
   _deleted?: boolean | null,
-  _lastChangedAt?: number,
-  createdAt?: string,
-  updatedAt?: string,
+  _lastChangedAt: number,
+  createdAt: string,
+  updatedAt: string,
   email?: string | null,
-  privateProfile?: ProfileInfo,
+  privateProfile?: ProfileInfo | null,
   expoToken?: Array< string > | null,
   biUser?: string | null,
   biToken?: string | null,
@@ -130,31 +130,31 @@ export type ProfileInfo = {
   __typename: "ProfileInfo",
   phoneNumber?: string | null,
   optIn?: boolean | null,
-  address?: Address,
+  address?: Address | null,
   birthDate?: string | null,
   subscription?: SubscriptionType | null,
-  notificationParams?: NotificationParams,
+  notificationParams?: NotificationParams | null,
 };
 
 export type Address = {
   __typename: "Address",
-  address?: string,
+  address: string,
   additionalAddress?: string | null,
-  postalCode?: string,
-  city?: string,
-  country?: string,
+  postalCode: string,
+  city: string,
+  country: string,
 };
 
 export type NotificationParams = {
   __typename: "NotificationParams",
-  echeanceFacture?: NotificationParam,
-  loyer?: NotificationParam,
-  debitBancaire?: NotificationParam,
-  creditBancaire?: NotificationParam,
-  soldeNegatif?: NotificationParam,
-  retardLoyer?: NotificationParam,
-  mauvaiseRenta?: NotificationParam,
-  autre?: NotificationParam,
+  echeanceFacture?: NotificationParam | null,
+  loyer?: NotificationParam | null,
+  debitBancaire?: NotificationParam | null,
+  creditBancaire?: NotificationParam | null,
+  soldeNegatif?: NotificationParam | null,
+  retardLoyer?: NotificationParam | null,
+  mauvaiseRenta?: NotificationParam | null,
+  autre?: NotificationParam | null,
 };
 
 export type NotificationParam = {
@@ -177,7 +177,7 @@ export type UpdateUserInput = {
 };
 
 export type DeleteUserInput = {
-  id?: string | null,
+  id: string,
   _version?: number | null,
 };
 
@@ -294,42 +294,42 @@ export type ModelTaxTypeInput = {
 
 export type RealEstate = {
   __typename: "RealEstate",
-  id?: string,
-  name?: string,
-  iconUri?: string,
+  id: string,
+  name: string,
+  iconUri: string,
   purchaseYear?: number | null,
   type?: RealEstateType | null,
   ownName?: boolean | null,
   company?: CompanyType | null,
   detentionPart?: number | null,
   typeImpot?: TaxType | null,
-  admins?: Array< string >,
+  admins: Array< string >,
   shared?: Array< string > | null,
-  address?: Address,
+  address?: Address | null,
   tenants?:  Array<TenantInfo | null > | null,
-  _version?: number,
+  _version: number,
   _deleted?: boolean | null,
-  _lastChangedAt?: number,
-  createdAt?: string,
-  updatedAt?: string,
-  pendingInvitations?: ModelPendingInvitationConnection,
-  documents?: ModelDocumentConnection,
-  budgetLines?: ModelBudgetLineConnection,
-  budgetLineDeadlines?: ModelBudgetLineDeadlineConnection,
-  bankAccounts?: ModelRealEstateBankAccountConnection,
-  bankMovements?: ModelBankMovementConnection,
+  _lastChangedAt: number,
+  createdAt: string,
+  updatedAt: string,
+  pendingInvitations?: ModelPendingInvitationConnection | null,
+  documents?: ModelDocumentConnection | null,
+  budgetLines?: ModelBudgetLineConnection | null,
+  budgetLineDeadlines?: ModelBudgetLineDeadlineConnection | null,
+  bankAccounts?: ModelRealEstateBankAccountConnection | null,
+  bankMovements?: ModelBankMovementConnection | null,
 };
 
 export type TenantInfo = {
   __typename: "TenantInfo",
-  id?: string,
-  amount?: number,
+  id: string,
+  amount: number,
   rentalCharges?: number | null,
   managementFees?: number | null,
-  lastname?: string,
-  firstname?: string,
-  email?: string,
-  startDate?: string,
+  lastname: string,
+  firstname: string,
+  email: string,
+  startDate: string,
   endDate?: string | null,
 };
 
@@ -342,16 +342,16 @@ export type ModelPendingInvitationConnection = {
 
 export type PendingInvitation = {
   __typename: "PendingInvitation",
-  id?: string,
-  realEstateId?: string,
-  email?: string,
-  type?: InvitationType,
-  _version?: number,
+  id: string,
+  realEstateId: string,
+  email: string,
+  type: InvitationType,
+  _version: number,
   _deleted?: boolean | null,
-  _lastChangedAt?: number,
-  createdAt?: string,
-  updatedAt?: string,
-  realEstate?: RealEstate,
+  _lastChangedAt: number,
+  createdAt: string,
+  updatedAt: string,
+  realEstate?: RealEstate | null,
 };
 
 export enum InvitationType {
@@ -369,17 +369,17 @@ export type ModelDocumentConnection = {
 
 export type Document = {
   __typename: "Document",
-  id?: string,
-  realEstateId?: string,
-  name?: string,
+  id: string,
+  realEstateId: string,
+  name: string,
   key?: string | null,
-  s3file?: string,
-  _version?: number,
+  s3file: string,
+  _version: number,
   _deleted?: boolean | null,
-  _lastChangedAt?: number,
-  createdAt?: string,
-  updatedAt?: string,
-  realEstate?: RealEstate,
+  _lastChangedAt: number,
+  createdAt: string,
+  updatedAt: string,
+  realEstate?: RealEstate | null,
 };
 
 export type ModelBudgetLineConnection = {
@@ -391,21 +391,21 @@ export type ModelBudgetLineConnection = {
 
 export type BudgetLine = {
   __typename: "BudgetLine",
-  id?: string,
-  realEstateId?: string,
-  type?: BudgetLineType,
-  category?: string,
-  amount?: number,
-  frequency?: Frequency,
+  id: string,
+  realEstateId: string,
+  type: BudgetLineType,
+  category: string,
+  amount: number,
+  frequency: Frequency,
   nextDueDate?: string | null,
-  infoCredit?: MortgageLoanInfo,
+  infoCredit?: MortgageLoanInfo | null,
   tenantId?: string | null,
-  _version?: number,
+  _version: number,
   _deleted?: boolean | null,
-  _lastChangedAt?: number,
-  createdAt?: string,
-  updatedAt?: string,
-  realEstate?: RealEstate,
+  _lastChangedAt: number,
+  createdAt: string,
+  updatedAt: string,
+  realEstate?: RealEstate | null,
 };
 
 export enum BudgetLineType {
@@ -424,7 +424,7 @@ export enum Frequency {
 
 export type MortgageLoanInfo = {
   __typename: "MortgageLoanInfo",
-  borrowedCapital?: number,
+  borrowedCapital: number,
   loadStartDate?: string | null,
   duration?: number | null,
   interestRate?: number | null,
@@ -450,25 +450,25 @@ export type ModelBudgetLineDeadlineConnection = {
 
 export type BudgetLineDeadline = {
   __typename: "BudgetLineDeadline",
-  id?: string,
-  realEstateId?: string,
+  id: string,
+  realEstateId: string,
   bankMouvementId?: string | null,
-  budgetLineId?: string,
-  type?: BudgetLineType,
-  category?: string,
-  amount?: number,
-  frequency?: Frequency,
+  budgetLineId: string,
+  type: BudgetLineType,
+  category: string,
+  amount: number,
+  frequency: Frequency,
   date?: string | null,
-  infoCredit?: MortgageLoanDeadlineInfo,
+  infoCredit?: MortgageLoanDeadlineInfo | null,
   tenantId?: string | null,
-  _version?: number,
+  _version: number,
   _deleted?: boolean | null,
-  _lastChangedAt?: number,
-  createdAt?: string,
-  updatedAt?: string,
-  realEstate?: RealEstate,
-  budgetLine?: BudgetLine,
-  bankMouvement?: BankMovement,
+  _lastChangedAt: number,
+  createdAt: string,
+  updatedAt: string,
+  realEstate?: RealEstate | null,
+  budgetLine?: BudgetLine | null,
+  bankMouvement?: BankMovement | null,
 };
 
 export type MortgageLoanDeadlineInfo = {
@@ -480,43 +480,43 @@ export type MortgageLoanDeadlineInfo = {
 
 export type BankMovement = {
   __typename: "BankMovement",
-  id?: string,
-  bankAccountId?: string,
+  id: string,
+  bankAccountId: string,
   realEstateId?: string | null,
-  biId?: number,
+  biId: number,
   description?: string | null,
   amount?: number,
   ignored?: boolean | null,
   date?: string | null,
-  _version?: number,
+  _version: number,
   _deleted?: boolean | null,
-  _lastChangedAt?: number,
-  createdAt?: string,
-  updatedAt?: string,
-  realEstate?: RealEstate,
-  budgetLineDeadline?: ModelBudgetLineDeadlineConnection,
-  bankAccount?: BankAccount,
+  _lastChangedAt: number,
+  createdAt: string,
+  updatedAt: string,
+  realEstate?: RealEstate | null,
+  budgetLineDeadline?: ModelBudgetLineDeadlineConnection | null,
+  bankAccount: BankAccount,
 };
 
 export type BankAccount = {
   __typename: "BankAccount",
-  id?: string,
+  id: string,
   bank?: string | null,
   accountOwner?: string | null,
   name?: string | null,
   iban?: string | null,
   bic?: string | null,
-  balance?: number,
-  biId?: number,
-  biConnectionId?: number,
+  balance: number,
+  biId: number,
+  biConnectionId: number,
   biState?: string | null,
-  _version?: number,
+  _version: number,
   _deleted?: boolean | null,
-  _lastChangedAt?: number,
-  createdAt?: string,
-  updatedAt?: string,
-  realEstates?: ModelRealEstateBankAccountConnection,
-  movements?: ModelBankMovementConnection,
+  _lastChangedAt: number,
+  createdAt: string,
+  updatedAt: string,
+  realEstates?: ModelRealEstateBankAccountConnection | null,
+  movements?: ModelBankMovementConnection | null,
 };
 
 export type ModelRealEstateBankAccountConnection = {
@@ -528,16 +528,16 @@ export type ModelRealEstateBankAccountConnection = {
 
 export type RealEstateBankAccount = {
   __typename: "RealEstateBankAccount",
-  id?: string,
-  realEstateId?: string,
-  bankAccountId?: string,
-  _version?: number,
+  id: string,
+  realEstateId: string,
+  bankAccountId: string,
+  _version: number,
   _deleted?: boolean | null,
-  _lastChangedAt?: number,
-  createdAt?: string,
-  updatedAt?: string,
-  realEstate?: RealEstate,
-  bankAccount?: BankAccount,
+  _lastChangedAt: number,
+  createdAt: string,
+  updatedAt: string,
+  realEstate?: RealEstate | null,
+  bankAccount: BankAccount,
 };
 
 export type ModelBankMovementConnection = {
@@ -565,7 +565,7 @@ export type UpdateRealEstateInput = {
 };
 
 export type DeleteRealEstateInput = {
-  id?: string | null,
+  id: string,
   _version?: number | null,
 };
 
@@ -616,7 +616,7 @@ export type UpdatePendingInvitationInput = {
 };
 
 export type DeletePendingInvitationInput = {
-  id?: string | null,
+  id: string,
   _version?: number | null,
 };
 
@@ -649,7 +649,7 @@ export type UpdateDocumentInput = {
 };
 
 export type DeleteDocumentInput = {
-  id?: string | null,
+  id: string,
   _version?: number | null,
 };
 
@@ -720,7 +720,7 @@ export type UpdateBudgetLineInput = {
 };
 
 export type DeleteBudgetLineInput = {
-  id?: string | null,
+  id: string,
   _version?: number | null,
 };
 
@@ -776,7 +776,7 @@ export type UpdateBudgetLineDeadlineInput = {
 };
 
 export type DeleteBudgetLineDeadlineInput = {
-  id?: string | null,
+  id: string,
   _version?: number | null,
 };
 
@@ -803,7 +803,7 @@ export type UpdateRealEstateBankAccountInput = {
 };
 
 export type DeleteRealEstateBankAccountInput = {
-  id?: string | null,
+  id: string,
   _version?: number | null,
 };
 
@@ -851,7 +851,7 @@ export type UpdateBankAccountInput = {
 };
 
 export type DeleteBankAccountInput = {
-  id?: string | null,
+  id: string,
   _version?: number | null,
 };
 
@@ -893,7 +893,7 @@ export type UpdateBankMovementInput = {
 };
 
 export type DeleteBankMovementInput = {
-  id?: string | null,
+  id: string,
   _version?: number | null,
 };
 
@@ -919,17 +919,17 @@ export type ModelNotificationConditionInput = {
 
 export type Notification = {
   __typename: "Notification",
-  id?: string,
-  userId?: string,
-  category?: string,
-  text?: string,
+  id: string,
+  userId: string,
+  category: string,
+  text: string,
   params?: string | null,
   createdAt?: string | null,
-  _version?: number,
+  _version: number,
   _deleted?: boolean | null,
-  _lastChangedAt?: number,
-  updatedAt?: string,
-  user?: User,
+  _lastChangedAt: number,
+  updatedAt: string,
+  user?: User | null,
 };
 
 export type UpdateNotificationInput = {
@@ -943,7 +943,7 @@ export type UpdateNotificationInput = {
 };
 
 export type DeleteNotificationInput = {
-  id?: string | null,
+  id: string,
   _version?: number | null,
 };
 
@@ -976,19 +976,19 @@ export type ModelSubscriptionTypeInput = {
 
 export type BillingHistory = {
   __typename: "BillingHistory",
-  id?: string,
-  userId?: string,
-  date?: string,
+  id: string,
+  userId: string,
+  date: string,
   nextRenewDate?: string | null,
   subscription?: SubscriptionType | null,
-  amount?: number,
+  amount: number,
   paid?: boolean | null,
-  _version?: number,
+  _version: number,
   _deleted?: boolean | null,
-  _lastChangedAt?: number,
-  createdAt?: string,
-  updatedAt?: string,
-  user?: User,
+  _lastChangedAt: number,
+  createdAt: string,
+  updatedAt: string,
+  user?: User | null,
 };
 
 export type UpdateBillingHistoryInput = {
@@ -1003,7 +1003,7 @@ export type UpdateBillingHistoryInput = {
 };
 
 export type DeleteBillingHistoryInput = {
-  id?: string | null,
+  id: string,
   _version?: number | null,
 };
 
@@ -1027,16 +1027,16 @@ export type ModelNotificationReceiptsConditionInput = {
 
 export type NotificationReceipts = {
   __typename: "NotificationReceipts",
-  id?: string,
-  userId?: string,
-  expoToken?: string,
-  receiptId?: string,
+  id: string,
+  userId: string,
+  expoToken: string,
+  receiptId: string,
   createdAt?: string | null,
-  _version?: number,
+  _version: number,
   _deleted?: boolean | null,
-  _lastChangedAt?: number,
-  updatedAt?: string,
-  user?: User,
+  _lastChangedAt: number,
+  updatedAt: string,
+  user?: User | null,
 };
 
 export type UpdateNotificationReceiptsInput = {
@@ -1049,7 +1049,7 @@ export type UpdateNotificationReceiptsInput = {
 };
 
 export type DeleteNotificationReceiptsInput = {
-  id?: string | null,
+  id: string,
   _version?: number | null,
 };
 
@@ -1279,7 +1279,7 @@ export type ModelNotificationReceiptsConnection = {
 };
 
 export type CreateUserMutationVariables = {
-  input?: CreateUserInput,
+  input: CreateUserInput,
   condition?: ModelUserConditionInput | null,
 };
 
@@ -1318,7 +1318,7 @@ export type CreateUserMutation = {
 };
 
 export type UpdateUserMutationVariables = {
-  input?: UpdateUserInput,
+  input: UpdateUserInput,
   condition?: ModelUserConditionInput | null,
 };
 
@@ -1357,7 +1357,7 @@ export type UpdateUserMutation = {
 };
 
 export type DeleteUserMutationVariables = {
-  input?: DeleteUserInput,
+  input: DeleteUserInput,
   condition?: ModelUserConditionInput | null,
 };
 
@@ -1396,7 +1396,7 @@ export type DeleteUserMutation = {
 };
 
 export type CreateRealEstateMutationVariables = {
-  input?: CreateRealEstateInput,
+  input: CreateRealEstateInput,
   condition?: ModelRealEstateConditionInput | null,
 };
 
@@ -1559,7 +1559,7 @@ export type CreateRealEstateMutation = {
 };
 
 export type UpdateRealEstateMutationVariables = {
-  input?: UpdateRealEstateInput,
+  input: UpdateRealEstateInput,
   condition?: ModelRealEstateConditionInput | null,
 };
 
@@ -1722,7 +1722,7 @@ export type UpdateRealEstateMutation = {
 };
 
 export type DeleteRealEstateMutationVariables = {
-  input?: DeleteRealEstateInput,
+  input: DeleteRealEstateInput,
   condition?: ModelRealEstateConditionInput | null,
 };
 
@@ -1885,7 +1885,7 @@ export type DeleteRealEstateMutation = {
 };
 
 export type CreatePendingInvitationMutationVariables = {
-  input?: CreatePendingInvitationInput,
+  input: CreatePendingInvitationInput,
   condition?: ModelPendingInvitationConditionInput | null,
 };
 
@@ -1974,7 +1974,7 @@ export type CreatePendingInvitationMutation = {
 };
 
 export type UpdatePendingInvitationMutationVariables = {
-  input?: UpdatePendingInvitationInput,
+  input: UpdatePendingInvitationInput,
   condition?: ModelPendingInvitationConditionInput | null,
 };
 
@@ -2063,7 +2063,7 @@ export type UpdatePendingInvitationMutation = {
 };
 
 export type DeletePendingInvitationMutationVariables = {
-  input?: DeletePendingInvitationInput,
+  input: DeletePendingInvitationInput,
   condition?: ModelPendingInvitationConditionInput | null,
 };
 
@@ -2152,7 +2152,7 @@ export type DeletePendingInvitationMutation = {
 };
 
 export type CreateDocumentMutationVariables = {
-  input?: CreateDocumentInput,
+  input: CreateDocumentInput,
   condition?: ModelDocumentConditionInput | null,
 };
 
@@ -2242,7 +2242,7 @@ export type CreateDocumentMutation = {
 };
 
 export type UpdateDocumentMutationVariables = {
-  input?: UpdateDocumentInput,
+  input: UpdateDocumentInput,
   condition?: ModelDocumentConditionInput | null,
 };
 
@@ -2332,7 +2332,7 @@ export type UpdateDocumentMutation = {
 };
 
 export type DeleteDocumentMutationVariables = {
-  input?: DeleteDocumentInput,
+  input: DeleteDocumentInput,
   condition?: ModelDocumentConditionInput | null,
 };
 
@@ -2422,7 +2422,7 @@ export type DeleteDocumentMutation = {
 };
 
 export type CreateBudgetLineMutationVariables = {
-  input?: CreateBudgetLineInput,
+  input: CreateBudgetLineInput,
   condition?: ModelBudgetLineConditionInput | null,
 };
 
@@ -2531,7 +2531,7 @@ export type CreateBudgetLineMutation = {
 };
 
 export type UpdateBudgetLineMutationVariables = {
-  input?: UpdateBudgetLineInput,
+  input: UpdateBudgetLineInput,
   condition?: ModelBudgetLineConditionInput | null,
 };
 
@@ -2640,7 +2640,7 @@ export type UpdateBudgetLineMutation = {
 };
 
 export type DeleteBudgetLineMutationVariables = {
-  input?: DeleteBudgetLineInput,
+  input: DeleteBudgetLineInput,
   condition?: ModelBudgetLineConditionInput | null,
 };
 
@@ -2749,7 +2749,7 @@ export type DeleteBudgetLineMutation = {
 };
 
 export type CreateBudgetLineDeadlineMutationVariables = {
-  input?: CreateBudgetLineDeadlineInput,
+  input: CreateBudgetLineDeadlineInput,
   condition?: ModelBudgetLineDeadlineConditionInput | null,
 };
 
@@ -2951,7 +2951,7 @@ export type CreateBudgetLineDeadlineMutation = {
 };
 
 export type UpdateBudgetLineDeadlineMutationVariables = {
-  input?: UpdateBudgetLineDeadlineInput,
+  input: UpdateBudgetLineDeadlineInput,
   condition?: ModelBudgetLineDeadlineConditionInput | null,
 };
 
@@ -3153,7 +3153,7 @@ export type UpdateBudgetLineDeadlineMutation = {
 };
 
 export type DeleteBudgetLineDeadlineMutationVariables = {
-  input?: DeleteBudgetLineDeadlineInput,
+  input: DeleteBudgetLineDeadlineInput,
   condition?: ModelBudgetLineDeadlineConditionInput | null,
 };
 
@@ -3355,7 +3355,7 @@ export type DeleteBudgetLineDeadlineMutation = {
 };
 
 export type CreateRealEstateBankAccountMutationVariables = {
-  input?: CreateRealEstateBankAccountInput,
+  input: CreateRealEstateBankAccountInput,
   condition?: ModelRealEstateBankAccountConditionInput | null,
 };
 
@@ -3471,7 +3471,7 @@ export type CreateRealEstateBankAccountMutation = {
 };
 
 export type UpdateRealEstateBankAccountMutationVariables = {
-  input?: UpdateRealEstateBankAccountInput,
+  input: UpdateRealEstateBankAccountInput,
   condition?: ModelRealEstateBankAccountConditionInput | null,
 };
 
@@ -3587,7 +3587,7 @@ export type UpdateRealEstateBankAccountMutation = {
 };
 
 export type DeleteRealEstateBankAccountMutationVariables = {
-  input?: DeleteRealEstateBankAccountInput,
+  input: DeleteRealEstateBankAccountInput,
   condition?: ModelRealEstateBankAccountConditionInput | null,
 };
 
@@ -3703,7 +3703,7 @@ export type DeleteRealEstateBankAccountMutation = {
 };
 
 export type CreateBankAccountMutationVariables = {
-  input?: CreateBankAccountInput,
+  input: CreateBankAccountInput,
   condition?: ModelBankAccountConditionInput | null,
 };
 
@@ -3766,7 +3766,7 @@ export type CreateBankAccountMutation = {
 };
 
 export type UpdateBankAccountMutationVariables = {
-  input?: UpdateBankAccountInput,
+  input: UpdateBankAccountInput,
   condition?: ModelBankAccountConditionInput | null,
 };
 
@@ -3829,7 +3829,7 @@ export type UpdateBankAccountMutation = {
 };
 
 export type DeleteBankAccountMutationVariables = {
-  input?: DeleteBankAccountInput,
+  input: DeleteBankAccountInput,
   condition?: ModelBankAccountConditionInput | null,
 };
 
@@ -3892,7 +3892,7 @@ export type DeleteBankAccountMutation = {
 };
 
 export type CreateBankMovementMutationVariables = {
-  input?: CreateBankMovementInput,
+  input: CreateBankMovementInput,
   condition?: ModelBankMovementConditionInput | null,
 };
 
@@ -4036,7 +4036,7 @@ export type CreateBankMovementMutation = {
 };
 
 export type UpdateBankMovementMutationVariables = {
-  input?: UpdateBankMovementInput,
+  input: UpdateBankMovementInput,
   condition?: ModelBankMovementConditionInput | null,
 };
 
@@ -4180,7 +4180,7 @@ export type UpdateBankMovementMutation = {
 };
 
 export type DeleteBankMovementMutationVariables = {
-  input?: DeleteBankMovementInput,
+  input: DeleteBankMovementInput,
   condition?: ModelBankMovementConditionInput | null,
 };
 
@@ -4324,7 +4324,7 @@ export type DeleteBankMovementMutation = {
 };
 
 export type CreateNotificationMutationVariables = {
-  input?: CreateNotificationInput,
+  input: CreateNotificationInput,
   condition?: ModelNotificationConditionInput | null,
 };
 
@@ -4368,7 +4368,7 @@ export type CreateNotificationMutation = {
 };
 
 export type UpdateNotificationMutationVariables = {
-  input?: UpdateNotificationInput,
+  input: UpdateNotificationInput,
   condition?: ModelNotificationConditionInput | null,
 };
 
@@ -4412,7 +4412,7 @@ export type UpdateNotificationMutation = {
 };
 
 export type DeleteNotificationMutationVariables = {
-  input?: DeleteNotificationInput,
+  input: DeleteNotificationInput,
   condition?: ModelNotificationConditionInput | null,
 };
 
@@ -4456,7 +4456,7 @@ export type DeleteNotificationMutation = {
 };
 
 export type CreateBillingHistoryMutationVariables = {
-  input?: CreateBillingHistoryInput,
+  input: CreateBillingHistoryInput,
   condition?: ModelBillingHistoryConditionInput | null,
 };
 
@@ -4502,7 +4502,7 @@ export type CreateBillingHistoryMutation = {
 };
 
 export type UpdateBillingHistoryMutationVariables = {
-  input?: UpdateBillingHistoryInput,
+  input: UpdateBillingHistoryInput,
   condition?: ModelBillingHistoryConditionInput | null,
 };
 
@@ -4548,7 +4548,7 @@ export type UpdateBillingHistoryMutation = {
 };
 
 export type DeleteBillingHistoryMutationVariables = {
-  input?: DeleteBillingHistoryInput,
+  input: DeleteBillingHistoryInput,
   condition?: ModelBillingHistoryConditionInput | null,
 };
 
@@ -4594,7 +4594,7 @@ export type DeleteBillingHistoryMutation = {
 };
 
 export type CreateNotificationReceiptsMutationVariables = {
-  input?: CreateNotificationReceiptsInput,
+  input: CreateNotificationReceiptsInput,
   condition?: ModelNotificationReceiptsConditionInput | null,
 };
 
@@ -4637,7 +4637,7 @@ export type CreateNotificationReceiptsMutation = {
 };
 
 export type UpdateNotificationReceiptsMutationVariables = {
-  input?: UpdateNotificationReceiptsInput,
+  input: UpdateNotificationReceiptsInput,
   condition?: ModelNotificationReceiptsConditionInput | null,
 };
 
@@ -4680,7 +4680,7 @@ export type UpdateNotificationReceiptsMutation = {
 };
 
 export type DeleteNotificationReceiptsMutationVariables = {
-  input?: DeleteNotificationReceiptsInput,
+  input: DeleteNotificationReceiptsInput,
   condition?: ModelNotificationReceiptsConditionInput | null,
 };
 
@@ -4839,7 +4839,7 @@ export type SyncUsersQuery = {
 };
 
 export type GetUserQueryVariables = {
-  id?: string,
+  id: string,
 };
 
 export type GetUserQuery = {
@@ -4913,91 +4913,8 @@ export type ListUsersQuery = {
   } | null,
 };
 
-export type ListRealEstatesQueryVariables = {
-  filter?: ModelRealEstateFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type ListRealEstatesQuery = {
-  listRealEstates?:  {
-    __typename: "ModelRealEstateConnection",
-    items?:  Array< {
-      __typename: "RealEstate",
-      id: string,
-      name: string,
-      iconUri: string,
-      purchaseYear?: number | null,
-      type?: RealEstateType | null,
-      ownName?: boolean | null,
-      company?: CompanyType | null,
-      detentionPart?: number | null,
-      typeImpot?: TaxType | null,
-      admins: Array< string >,
-      shared?: Array< string > | null,
-      address?:  {
-        __typename: "Address",
-        address: string,
-        additionalAddress?: string | null,
-        postalCode: string,
-        city: string,
-        country: string,
-      } | null,
-      tenants?:  Array< {
-        __typename: "TenantInfo",
-        id: string,
-        amount: number,
-        rentalCharges?: number | null,
-        managementFees?: number | null,
-        lastname: string,
-        firstname: string,
-        email: string,
-        startDate: string,
-        endDate?: string | null,
-      } | null > | null,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-      createdAt: string,
-      updatedAt: string,
-      pendingInvitations?:  {
-        __typename: "ModelPendingInvitationConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      documents?:  {
-        __typename: "ModelDocumentConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      budgetLines?:  {
-        __typename: "ModelBudgetLineConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      budgetLineDeadlines?:  {
-        __typename: "ModelBudgetLineDeadlineConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      bankAccounts?:  {
-        __typename: "ModelRealEstateBankAccountConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      bankMovements?:  {
-        __typename: "ModelBankMovementConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-    } | null > | null,
-    nextToken?: string | null,
-    startedAt?: number | null,
-  } | null,
-};
-
 export type GetRealEstateQueryVariables = {
-  id?: string,
+  id: string,
 };
 
 export type GetRealEstateQuery = {
@@ -5158,6 +5075,89 @@ export type GetRealEstateQuery = {
   } | null,
 };
 
+export type ListRealEstatesQueryVariables = {
+  filter?: ModelRealEstateFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListRealEstatesQuery = {
+  listRealEstates?:  {
+    __typename: "ModelRealEstateConnection",
+    items?:  Array< {
+      __typename: "RealEstate",
+      id: string,
+      name: string,
+      iconUri: string,
+      purchaseYear?: number | null,
+      type?: RealEstateType | null,
+      ownName?: boolean | null,
+      company?: CompanyType | null,
+      detentionPart?: number | null,
+      typeImpot?: TaxType | null,
+      admins: Array< string >,
+      shared?: Array< string > | null,
+      address?:  {
+        __typename: "Address",
+        address: string,
+        additionalAddress?: string | null,
+        postalCode: string,
+        city: string,
+        country: string,
+      } | null,
+      tenants?:  Array< {
+        __typename: "TenantInfo",
+        id: string,
+        amount: number,
+        rentalCharges?: number | null,
+        managementFees?: number | null,
+        lastname: string,
+        firstname: string,
+        email: string,
+        startDate: string,
+        endDate?: string | null,
+      } | null > | null,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+      createdAt: string,
+      updatedAt: string,
+      pendingInvitations?:  {
+        __typename: "ModelPendingInvitationConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      documents?:  {
+        __typename: "ModelDocumentConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      budgetLines?:  {
+        __typename: "ModelBudgetLineConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      budgetLineDeadlines?:  {
+        __typename: "ModelBudgetLineDeadlineConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      bankAccounts?:  {
+        __typename: "ModelRealEstateBankAccountConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      bankMovements?:  {
+        __typename: "ModelBankMovementConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+    } | null > | null,
+    nextToken?: string | null,
+    startedAt?: number | null,
+  } | null,
+};
+
 export type SyncRealEstatesQueryVariables = {
   filter?: ModelRealEstateFilterInput | null,
   limit?: number | null,
@@ -5243,7 +5243,7 @@ export type SyncRealEstatesQuery = {
 };
 
 export type GetPendingInvitationQueryVariables = {
-  id?: string,
+  id: string,
 };
 
 export type GetPendingInvitationQuery = {
@@ -5469,7 +5469,7 @@ export type SyncPendingInvitationsQuery = {
 };
 
 export type GetDocumentQueryVariables = {
-  id?: string,
+  id: string,
 };
 
 export type GetDocumentQuery = {
@@ -5698,65 +5698,8 @@ export type SyncDocumentsQuery = {
   } | null,
 };
 
-export type ListBudgetLinesQueryVariables = {
-  filter?: ModelBudgetLineFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type ListBudgetLinesQuery = {
-  listBudgetLines?:  {
-    __typename: "ModelBudgetLineConnection",
-    items?:  Array< {
-      __typename: "BudgetLine",
-      id: string,
-      realEstateId: string,
-      type: BudgetLineType,
-      category: string,
-      amount: number,
-      frequency: Frequency,
-      nextDueDate?: string | null,
-      infoCredit?:  {
-        __typename: "MortgageLoanInfo",
-        borrowedCapital: number,
-        loadStartDate?: string | null,
-        duration?: number | null,
-        interestRate?: number | null,
-        assuranceRate?: number | null,
-      } | null,
-      tenantId?: string | null,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-      createdAt: string,
-      updatedAt: string,
-      realEstate?:  {
-        __typename: "RealEstate",
-        id: string,
-        name: string,
-        iconUri: string,
-        purchaseYear?: number | null,
-        type?: RealEstateType | null,
-        ownName?: boolean | null,
-        company?: CompanyType | null,
-        detentionPart?: number | null,
-        typeImpot?: TaxType | null,
-        admins: Array< string >,
-        shared?: Array< string > | null,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
-        createdAt: string,
-        updatedAt: string,
-      } | null,
-    } | null > | null,
-    nextToken?: string | null,
-    startedAt?: number | null,
-  } | null,
-};
-
 export type GetBudgetLineQueryVariables = {
-  id?: string,
+  id: string,
 };
 
 export type GetBudgetLineQuery = {
@@ -5863,6 +5806,63 @@ export type GetBudgetLineQuery = {
   } | null,
 };
 
+export type ListBudgetLinesQueryVariables = {
+  filter?: ModelBudgetLineFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListBudgetLinesQuery = {
+  listBudgetLines?:  {
+    __typename: "ModelBudgetLineConnection",
+    items?:  Array< {
+      __typename: "BudgetLine",
+      id: string,
+      realEstateId: string,
+      type: BudgetLineType,
+      category: string,
+      amount: number,
+      frequency: Frequency,
+      nextDueDate?: string | null,
+      infoCredit?:  {
+        __typename: "MortgageLoanInfo",
+        borrowedCapital: number,
+        loadStartDate?: string | null,
+        duration?: number | null,
+        interestRate?: number | null,
+        assuranceRate?: number | null,
+      } | null,
+      tenantId?: string | null,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+      createdAt: string,
+      updatedAt: string,
+      realEstate?:  {
+        __typename: "RealEstate",
+        id: string,
+        name: string,
+        iconUri: string,
+        purchaseYear?: number | null,
+        type?: RealEstateType | null,
+        ownName?: boolean | null,
+        company?: CompanyType | null,
+        detentionPart?: number | null,
+        typeImpot?: TaxType | null,
+        admins: Array< string >,
+        shared?: Array< string > | null,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
+    } | null > | null,
+    nextToken?: string | null,
+    startedAt?: number | null,
+  } | null,
+};
+
 export type SyncBudgetLinesQueryVariables = {
   filter?: ModelBudgetLineFilterInput | null,
   limit?: number | null,
@@ -5922,7 +5922,7 @@ export type SyncBudgetLinesQuery = {
 };
 
 export type GetBudgetLineDeadlineQueryVariables = {
-  id?: string,
+  id: string,
 };
 
 export type GetBudgetLineDeadlineQuery = {
@@ -6302,7 +6302,7 @@ export type SyncBudgetLineDeadlinesQuery = {
 };
 
 export type GetRealEstateBankAccountQueryVariables = {
-  id?: string,
+  id: string,
 };
 
 export type GetRealEstateBankAccountQuery = {
@@ -6606,50 +6606,8 @@ export type SyncRealEstateBankAccountsQuery = {
   } | null,
 };
 
-export type ListBankAccountsQueryVariables = {
-  filter?: ModelBankAccountFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type ListBankAccountsQuery = {
-  listBankAccounts?:  {
-    __typename: "ModelBankAccountConnection",
-    items?:  Array< {
-      __typename: "BankAccount",
-      id: string,
-      bank?: string | null,
-      accountOwner?: string | null,
-      name?: string | null,
-      iban?: string | null,
-      bic?: string | null,
-      balance: number,
-      biId: number,
-      biConnectionId: number,
-      biState?: string | null,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-      createdAt: string,
-      updatedAt: string,
-      realEstates?:  {
-        __typename: "ModelRealEstateBankAccountConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-      movements?:  {
-        __typename: "ModelBankMovementConnection",
-        nextToken?: string | null,
-        startedAt?: number | null,
-      } | null,
-    } | null > | null,
-    nextToken?: string | null,
-    startedAt?: number | null,
-  } | null,
-};
-
 export type GetBankAccountQueryVariables = {
-  id?: string,
+  id: string,
 };
 
 export type GetBankAccountQuery = {
@@ -6707,6 +6665,48 @@ export type GetBankAccountQuery = {
       nextToken?: string | null,
       startedAt?: number | null,
     } | null,
+  } | null,
+};
+
+export type ListBankAccountsQueryVariables = {
+  filter?: ModelBankAccountFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListBankAccountsQuery = {
+  listBankAccounts?:  {
+    __typename: "ModelBankAccountConnection",
+    items?:  Array< {
+      __typename: "BankAccount",
+      id: string,
+      bank?: string | null,
+      accountOwner?: string | null,
+      name?: string | null,
+      iban?: string | null,
+      bic?: string | null,
+      balance: number,
+      biId: number,
+      biConnectionId: number,
+      biState?: string | null,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+      createdAt: string,
+      updatedAt: string,
+      realEstates?:  {
+        __typename: "ModelRealEstateBankAccountConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      movements?:  {
+        __typename: "ModelBankMovementConnection",
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+    } | null > | null,
+    nextToken?: string | null,
+    startedAt?: number | null,
   } | null,
 };
 
@@ -6842,7 +6842,7 @@ export type SyncBankAccountsQuery = {
 };
 
 export type GetBankMovementQueryVariables = {
-  id?: string,
+  id: string,
 };
 
 export type GetBankMovementQuery = {
@@ -7279,7 +7279,7 @@ export type SyncBankMovementsQuery = {
 };
 
 export type GetNotificationQueryVariables = {
-  id?: string,
+  id: string,
 };
 
 export type GetNotificationQuery = {
@@ -7409,7 +7409,7 @@ export type SyncNotificationsQuery = {
 };
 
 export type GetBillingHistoryQueryVariables = {
-  id?: string,
+  id: string,
 };
 
 export type GetBillingHistoryQuery = {
@@ -7545,7 +7545,7 @@ export type SyncBillingHistoriesQuery = {
 };
 
 export type GetNotificationReceiptsQueryVariables = {
-  id?: string,
+  id: string,
 };
 
 export type GetNotificationReceiptsQuery = {

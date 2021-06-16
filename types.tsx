@@ -97,6 +97,11 @@ export type TabMonAssistantParamList = {
   'quittance-loyer-2': { idBien: string, idTenant: string, date: string };
 };
 
+export type TabNotificationParamList = {
+  'notifications': undefined;
+  'notifications-params': undefined;
+};
+
 export type TabMesChargesParamList = {
   'mes-charges': { id: string };
   'mes-charges-2': { id: string };

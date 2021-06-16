@@ -74,8 +74,6 @@ const PhoneNumberInputComp = React.forwardRef<PhoneInput, PhoneNumberInputFormPr
             placeholderTextColor: theme['text-hint-color'],
           }}
           countryPickerButtonStyle={{
-            width: 65,
-            paddingRight: 10,
           }}
           placeholder={placeholder}
           countryPickerProps={{

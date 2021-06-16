@@ -1429,6 +1429,12 @@
                   }
                 }
               }
+            },
+            "size": {
+              "medium": {
+                "paddingHorizontal": 0,
+                "textMarginHorizontal": 0
+              }
             }
           }
         }

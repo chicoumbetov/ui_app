@@ -70,7 +70,16 @@ export default function MaxWidthContainer(props: MaxWidthContainerProps): JSX.El
       scrollViewStyle,
     ]);
 
-    finalOuterProps = { style: finalScrollViewStyle, contentContainerStyle: finalOuterViewStyle, ...otherOuterViewProps };
+    finalOuterProps = {
+      style: finalScrollViewStyle,
+      contentContainerStyle: finalOuterViewStyle,
+      ...otherOuterViewProps,
+    };
+    /* if (withScrollView === 'keyboardAware') {
+      finalOuterProps = {
+        enableOnAndroid: true, enableAutomaticScroll: true, extraHeight: 20, ...finalOuterProps,
+      };
+    } */
   }
 
   /**

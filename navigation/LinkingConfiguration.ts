@@ -84,6 +84,7 @@ export default {
               'ma-tresorerie': '/',
               'ma-tresorerie-2': '/ma-tresorerie-2/:id',
               'mouv-bancaires': ':id/mouv-bancaires/:idCompte',
+              'affecter-mouvement': ':id/affecter-mouvement/:idCompte',
               'ignorer-mouvement': ':id/ignorer-mouvement/:idCompte',
             },
           },

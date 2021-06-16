@@ -54,7 +54,7 @@ function MesBiens() {
           : (
             <>
               {data?.listRealEstates?.items?.map(
-                (item) => item && <MonBien key={item.id} bien={item} />,
+                (item) => item && <MonBien key={item.id} biens={item} />,
               )}
             </>
           )}

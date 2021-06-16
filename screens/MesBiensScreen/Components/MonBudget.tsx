@@ -34,7 +34,7 @@ function MonBudget() {
   const linkTo = useLinkTo();
   const route = useRoute<RouteProp<TabMesBiensParamList, 'mon-budget'>>();
   // console.log('mon-budget data', route.params);
-  const { bien } = useGetRealEstate(route.params.id);
+  const { bienget } = useGetRealEstate(route.params.id);
   // console.log('data mon-budget: ', data?.getRealEstate);
 
   const allerTresorerie = () => {
@@ -49,14 +49,14 @@ function MonBudget() {
     navigation.navigate('ajout-charge', { id: route.params.id });
   };
 
-  const revenus = bien?.budgetLines?.items && bien?.budgetLines?.items.filter((item) => {
+  const revenus = bienget?.budgetLines?.items && bienget?.budgetLines?.items.filter((item) => {
     if (item?.type === BudgetLineType.Income && !item?._deleted) {
       return item;
     }
     return false;
   });
 
-  const charges = bien?.budgetLines?.items && bien?.budgetLines?.items.filter((item) => {
+  const charges = bienget?.budgetLines?.items && bienget?.budgetLines?.items.filter((item) => {
     if (item?.type === BudgetLineType.Expense && !item?._deleted) {
       return item;
     }
@@ -79,7 +79,7 @@ function MonBudget() {
         <Text category="h1" style={{ marginVertical: 20 }}>
           Mon Budget
         </Text>
-        <CompteHeader title={bien?.name} />
+        <CompteHeader title={bienget?.name} />
       </View>
 
       <Separator />
@@ -112,7 +112,7 @@ function MonBudget() {
          />
         */}
         {revenus && revenus.map(
-          (item) => item && <MonBudgetCard key={item.id} budget={item} realEstate={bien} />,
+          (item) => item && <MonBudgetCard key={item.id} budget={item} realEstate={bienget} />,
         )}
 
         <Button

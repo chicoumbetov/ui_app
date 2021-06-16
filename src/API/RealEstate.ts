@@ -525,7 +525,6 @@ export function useGetRealEstate(id: string) {
           biId
           description
           amount
-          budgetLineDeadlineId
           ignored
           date
           _version
@@ -549,7 +548,7 @@ export function useGetRealEstate(id: string) {
   });
 
   return {
-    loading, bien: <RealEstate>data?.getRealEstate, fetchMore, refetch,
+    loading, bienget: <RealEstate>data?.getRealEstate, fetchMore, refetch,
   };
 }
 

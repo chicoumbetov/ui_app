@@ -67,7 +67,7 @@ $nextToken: String
         iconUri
         purchaseYear
         type
-            ownName
+        ownName
         company
         detentionPart
         typeImpot
@@ -80,7 +80,7 @@ $nextToken: String
         updatedAt
       }
       budgetLineDeadline {
-      items {
+        items {
           id
           realEstateId
           bankMouvementId

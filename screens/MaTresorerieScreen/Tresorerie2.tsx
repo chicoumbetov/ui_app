@@ -4,7 +4,7 @@
  * @author: Shynggys UMBETOV
  */
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Text } from '@ui-kitten/components';
 import {
   Alert,
@@ -28,6 +28,7 @@ import EditMouvement from './Components/EditMouvement';
 import WebView from '../../components/WebView';
 import { useBankAccountList } from '../../src/API/BankAccount';
 import { useCreateRealEstateBankAccount } from '../../src/API/RealEstateBankAccount';
+import { BankAccount, ListBankAccountsQuery, RealEstate } from '../../src/API';
 
 const MaTresorerie2 = () => {
   // const [compte] = useState(comptesData);
@@ -42,11 +43,20 @@ const MaTresorerie2 = () => {
   // console.log('mon-budget data', route.params);
 
   const createRealEstateBankAccount = useCreateRealEstateBankAccount();
-  const { bien, refetch: refetchBien, loading: loadingBien } = useGetRealEstate(route.params.id);
+  const { bienget, refetch: refetchBien, loading: loadingBien } = useGetRealEstate(route.params.id);
   const { data } = useBankAccountList();
-  if (bien) {
-    console.log('oui', bien.bankAccounts?.items?.length);
-    if (bien.bankAccounts?.items?.length === 0 && !toggle) {
+
+  const [bankAccountCharger, setbankAccountCharger] = useState<ListBankAccountsQuery>();
+  const [bienCharger, setBienCharger] = useState<RealEstate>();
+  useEffect(() => {
+    setbankAccountCharger(data);
+    setBienCharger(bienget);
+  }, [bienget]);
+  console.log('------------------------', bienCharger?.bankAccounts?.items);
+
+  if (bienCharger) {
+    console.log('oui', bienCharger.bankAccounts?.items?.length);
+    if (bienCharger.bankAccounts?.items?.length === 0 && !toggle) {
       setToggle(true);
     }
   }
@@ -59,7 +69,7 @@ const MaTresorerie2 = () => {
     } else {
       buttonText = 'Lier les comptes bancaires';
     }
-  } else if (data?.listBankAccounts?.items && data?.listBankAccounts?.items?.length <= 0) {
+  } else if (bankAccountCharger?.listBankAccounts?.items && bankAccountCharger?.listBankAccounts?.items?.length <= 0) {
     buttonText = 'Lier un compte bancaire';
   } else {
     buttonText = 'Lier un autre compte bancaire';
@@ -86,7 +96,7 @@ const MaTresorerie2 = () => {
         </Text>
         <CompteHeader
           title={
-            bien?.name
+            bienCharger?.name
           }
         />
         <Text category="s2" status="basic" style={{ marginVertical: 20 }}>
@@ -99,7 +109,7 @@ const MaTresorerie2 = () => {
           ? <ActivityIndicator />
           : (!toggle ? (
             <>
-              {bien.bankAccounts?.items?.map(
+              {bienCharger?.bankAccounts?.items?.map(
                 (item) => item && (
                 <OwnerCompte
                   key={item.id}
@@ -111,7 +121,7 @@ const MaTresorerie2 = () => {
             </>
           ) : (
             <>
-              {data?.listBankAccounts?.items?.map(
+              {bankAccountCharger?.listBankAccounts?.items?.map(
                 (item) => item && (
                 <OwnerCompte
                   key={item.id}
@@ -156,8 +166,8 @@ const MaTresorerie2 = () => {
               size="large"
               onPress={async () => {
                 if (toggle) {
-                  if (checkedAccounts.length > 0 && data && data.listBankAccounts && data.listBankAccounts.items) {
-                    data.listBankAccounts.items.map(async (item) => {
+                  if (checkedAccounts.length > 0 && bankAccountCharger && bankAccountCharger.listBankAccounts && bankAccountCharger.listBankAccounts.items) {
+                    bankAccountCharger.listBankAccounts.items.map(async (item) => {
                       if (checkedAccounts.includes(item.id)) {
                         await createRealEstateBankAccount({
                           variables: {
@@ -169,7 +179,7 @@ const MaTresorerie2 = () => {
                         });
                       }
                     });
-                    console.log('item : ', bien.bankAccounts?.items);
+                    console.log('item : ', bienCharger?.bankAccounts?.items);
                     setToggle(false);
                   } else {
                     setAddingAccounts(true);

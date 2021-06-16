@@ -12,7 +12,7 @@ import { TabMesBiensParamList } from '../../../types';
 
 const MesRapports = () => {
   const route = useRoute<RouteProp<TabMesBiensParamList, 'mes-rapports'>>();
-  const { bien } = useGetRealEstate(route.params.id);
+  const { bienget } = useGetRealEstate(route.params.id);
 
   const linkTo = useLinkTo();
   const theme = useTheme();
@@ -57,7 +57,7 @@ const MesRapports = () => {
        * Par biens
        * */}
       <Card
-        onPress={() => allerMesRapportBiens1(bien.id)}
+        onPress={() => allerMesRapportBiens1(bienget.id)}
         style={
           styles.docs
         }

@@ -62,7 +62,7 @@ const ParametrerAjoutCharges = () => {
 
   const route = useRoute<RouteProp<TabMesBiensParamList, 'ajout-revenu'> | RouteProp<TabMesBiensParamList, 'modifier-revenu'>>();
   const navigation = useNavigation();
-  const { bien } = useGetRealEstate(route.params.id);
+  const { bienget } = useGetRealEstate(route.params.id);
 
   const [frequenceShow, setFrequenceShow] = useState(false);
   const [montantShow, setMontantShow] = useState(false);
@@ -78,7 +78,7 @@ const ParametrerAjoutCharges = () => {
 
   if (route.params.idBudgetLine) {
     // get budgetLine that is clicked
-    currentBudgetLine = bien.budgetLines?.items?.filter(
+    currentBudgetLine = bienget.budgetLines?.items?.filter(
       (item) => item?.id === route.params.idBudgetLine,
     ).pop();
     currentBudgetLine.amount = currentBudgetLine.amount.toString();
@@ -187,7 +187,7 @@ const ParametrerAjoutCharges = () => {
         <Text category="h1" style={{ marginBottom: 20 }}>
           Paramétrer votre budget
         </Text>
-        <CompteHeader title={bien?.name} />
+        <CompteHeader title={bienget?.name} />
       </View>
       <Separator />
 

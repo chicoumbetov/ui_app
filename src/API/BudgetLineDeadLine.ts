@@ -38,13 +38,13 @@ export function useGetBudgetLineDeadLine(id: string) {
 
 export function useUpdateBudgetLineDeadlineMutation() {
   // eslint-disable-next-line @typescript-eslint/no-shadow
+  const getRealEstatesQuery = <DocumentNode>gql(getRealEstate);
   const [updateBudgetLineDeadline, { loading: mutationLoading }] = useMutation<
   UpdateBudgetLineDeadlineMutation,
   UpdateBudgetLineDeadlineMutationVariables
   >(gql(mutations.updateBudgetLineDeadline),
     {
       update: (cache, { data: mutationData }) => {
-        const getRealEstatesQuery = <DocumentNode>gql(getRealEstate);
         if (mutationData) {
           const { updateBudgetLineDeadline: newData } = mutationData;
           if (newData) {
@@ -58,13 +58,13 @@ export function useUpdateBudgetLineDeadlineMutation() {
 
             // Add newly created item to the cache copy
             if (cacheData && cacheData.getRealEstate
-                && cacheData.getRealEstate.budgetLines) {
+                && cacheData.getRealEstate.budgetLineDeadlines) {
               cacheData
                 .getRealEstate
-                .budgetLines
+                .budgetLineDeadlines
                 .items = cacheData
                   .getRealEstate
-                  .budgetLines
+                  .budgetLineDeadlines
                   ?.items
                   ?.filter((item) => item?.id !== newData.id);
 

@@ -39,7 +39,7 @@ const PartagerBien = () => {
   const route = useRoute<RouteProp<TabMesBiensParamList, 'partager-bien'>>();
   const shareRealEstateForm = useForm<ShareRealEstateForm>();
 
-  const { bien } = useGetRealEstate(route.params.id);
+  const { bienget } = useGetRealEstate(route.params.id);
 
   const createPendingInvitation = useCreatePendingInvitationMutation();
 
@@ -75,7 +75,7 @@ const PartagerBien = () => {
         >
           <MaisonVert height={40} width={40} style={{ marginRight: 12 }} />
           <Text category="h4" status="basic">
-            {bien?.name}
+            {bienget?.name}
           </Text>
         </View>
       </Layout>

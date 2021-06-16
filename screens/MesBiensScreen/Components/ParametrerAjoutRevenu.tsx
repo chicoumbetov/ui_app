@@ -59,7 +59,7 @@ const ParametrerAjoutRevenu = () => {
   const route = useRoute<RouteProp<TabMesBiensParamList, 'ajout-revenu'> | RouteProp<TabMesBiensParamList, 'modifier-revenu'>>();
   const navigation = useNavigation();
   // console.log('route ajout revenu', route.params);
-  const { bien } = useGetRealEstate(route.params.id);
+  const { bienget } = useGetRealEstate(route.params.id);
 
   const [frequenceShow, setFrequenceShow] = useState(false);
   const [montantShow, setMontantShow] = useState(false);
@@ -71,7 +71,7 @@ const ParametrerAjoutRevenu = () => {
 
   if (route.params.idBudgetLine) {
     // get budgetLine that is clicked
-    currentBudgetLine = bien.budgetLines?.items?.filter(
+    currentBudgetLine = bienget.budgetLines?.items?.filter(
       (item) => item?.id === route.params.idBudgetLine,
     ).pop();
     currentBudgetLine.amount = currentBudgetLine.amount.toString();
@@ -83,7 +83,7 @@ const ParametrerAjoutRevenu = () => {
     if (currentBudgetLine?.category === 'Loyer') {
       // on cherche le locataire
       // get tenant by his tenantId for current budgetLine
-      const tenant = bien.tenants?.filter(
+      const tenant = bienget.tenants?.filter(
         (item) => item?.id === currentBudgetLine.tenantId,
       ).pop();
       useEffect(() => {
@@ -117,7 +117,7 @@ const ParametrerAjoutRevenu = () => {
       if (data.category === 'Loyer' && currentBudgetLine.tenantId) {
         let tenantId: string | null = null;
         if (tenant) {
-          tenantId = await updateTenant(bien, {
+          tenantId = await updateTenant(bienget, {
             id: currentBudgetLine.tenantId,
             ...tenant,
             amount,
@@ -153,7 +153,7 @@ const ParametrerAjoutRevenu = () => {
     } else if (data.category === 'Loyer') {
       let tenantId: string | null = null;
       if (tenant) {
-        tenantId = await addTenant(bien, {
+        tenantId = await addTenant(bienget, {
           ...tenant,
           amount,
         });
@@ -246,7 +246,7 @@ const ParametrerAjoutRevenu = () => {
         <Text category="h1" style={{ marginBottom: 20 }}>
           Paramétrer votre budget
         </Text>
-        <CompteHeader title={bien?.name} />
+        <CompteHeader title={bienget?.name} />
       </Layout>
       <Separator />
 

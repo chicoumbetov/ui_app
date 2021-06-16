@@ -79,8 +79,9 @@ const MonBien = (props: MonBienProps) => {
   // console.log('allData Income: ', allDataLastIncome);
 
   const allDataNextExpense = bienCharger?.budgetLineDeadlines?.items
-  && bienCharger?.budgetLineDeadlines?.items?.filter((item) => {
+  && bienCharger?.budgetLineDeadlines?.items?.map((item) => {
     // years for all existing Eau expenses in whole period
+    console.log('--------------------', item);
     const allYears = DateUtils.parseToDateObj(item?.date).getFullYear();
     const allMonths = DateUtils.parseToDateObj(item?.date).getMonth();
 

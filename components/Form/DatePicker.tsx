@@ -34,7 +34,9 @@ const i18n : I18nConfig = {
 };
 const localeDateService = new NativeDateService('ru', { i18n, startDayOfWeek: 1 });
 
-const DatepickerComp = React.forwardRef<Datepicker, DatePickerFormProps>(
+const DatepickerComp = React.forwardRef<
+Datepicker, DatePickerFormProps
+>(
   (props: DatePickerFormProps, ref): React.ReactElement => {
     const {
       label,

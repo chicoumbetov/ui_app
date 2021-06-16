@@ -10,7 +10,7 @@ import { useNavigation } from '@react-navigation/native';
 import MaxWidthContainer from '../../components/MaxWidthContainer';
 import Card from '../../components/Card';
 import { useGetRealEstate, useRealEstateList } from '../../src/API/RealEstate';
-import { BudgetLineType } from '../../src/API';
+import { BudgetLineDeadline, BudgetLineType } from '../../src/API';
 import DateUtils from '../../utils/DateUtils';
 
 const DATA = [
@@ -41,11 +41,15 @@ const MesCharges1 = () => {
   const theme = useTheme();
   // const [charges] = useState(DATA);
   const biensDetails = useRealEstateList();
-
+  const listDeadLine : BudgetLineDeadline[] = [];
   const houseBudgetLineDeadlines = biensDetails.data?.listRealEstates?.items?.map(
     (item) => item?.budgetLineDeadlines,
   );
-
+  biensDetails.data?.listRealEstates?.items?.map((item) => {
+    const test = useGetRealEstate(item.id).bienget.budgetLineDeadlines?.items;
+    listDeadLine.push(test);
+  });
+  console.log('*************', listDeadLine);
   // const currentYear = new Date().getFullYear();
 
   /** Object with 3 attributes and its key */
@@ -70,10 +74,9 @@ const MesCharges1 = () => {
               value: itemBudget?.amount || 0,
               label: itemBudget?.category,
             };
-          } else {
-            /** else If any expoense exist then we add to allCurrentCategories variable */
-            allCurrentCategories[itemBudget?.category].value += itemBudget?.amount || 0;
           }
+          /** else If any expoense exist then we add to allCurrentCategories variable */
+          allCurrentCategories[itemBudget?.category].value += itemBudget?.amount || 0;
         }
       });
       return false;
@@ -84,8 +87,8 @@ const MesCharges1 = () => {
   console.log('allCurrentCategories', Object.values(allCurrentCategories));
   console.log('totalExpenses', totalExpenses);
 
-  const onMesCharges2 = (lbl) => {
-    navigation.navigate('mes-charges-2', { value: lbl.value, label: lbl.label });
+  const onMesCharges2 = (listDeadline) => {
+    navigation.navigate('mes-charges-2', listDeadline);
   };
 
   return (
@@ -111,7 +114,7 @@ const MesCharges1 = () => {
       {labels.map((lbl, index) => (
         <Card
           key={index}
-          onPress={() => { onMesCharges2(lbl); }}
+          onPress={() => { onMesCharges2(listDeadLine); }}
           style={{
             padding: 23,
             marginVertical: 10,

@@ -3,7 +3,8 @@ import {
   StyleProp, Switch, TextInput, TextInputProps, TextStyle, ViewStyle,
 } from 'react-native';
 import {
-  InputProps, RadioProps, CheckBoxProps, SelectProps, ToggleProps, DatepickerProps, Datepicker,
+  InputProps, RadioProps, CheckBoxProps,
+  SelectProps, ToggleProps, DatepickerProps, Datepicker, RangeDatepickerProps,
 } from '@ui-kitten/components';
 import { ValidationRuleConfig } from './validation';
 import { IconName } from '../Icon/Icon';
@@ -89,6 +90,14 @@ export type PhoneNumberInputFormProps = Exclude<TextInputProps, 'onChangeText'> 
 } & FormChildProp;
 
 export type DatePickerFormProps = Exclude<DatepickerProps, 'onChangeText'> & {
+  icon?: string;
+  labelStyle?: StyleProp<TextStyle>;
+  containerStyle?: StyleProp<ViewStyle>;
+  defaultValue?: string;
+  labelBefore?: boolean;
+} & FormChildProp;
+
+export type RangeDatePickerFormProps = Exclude<RangeDatepickerProps, 'onChangeText'> & {
   icon?: string;
   labelStyle?: StyleProp<TextStyle>;
   containerStyle?: StyleProp<ViewStyle>;

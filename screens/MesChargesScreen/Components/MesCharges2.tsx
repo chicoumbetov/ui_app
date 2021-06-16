@@ -2,7 +2,7 @@ import React, {
   useState,
 } from 'react';
 import {
-  RadioGroup, Radio, Text, Button,
+  RadioGroup, Radio, Text, Button, RangeDatepicker,
 } from '@ui-kitten/components';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { StyleSheet, View } from 'react-native';
@@ -37,14 +37,17 @@ const MesCharges2 = () => {
 
   const titlePass = allDataByCategory?.label;
 
-  const onMesCharges3 = (titlePass) => {
-    navigation.navigate('mes-charges-3', { ...titlePass });
-    console.log('insideMesCharges3', { ...titlePass });
+  const onMesCharges3 = (allDataByCategory) => {
+    navigation.navigate('mes-charges-3', { ...allDataByCategory });
+    console.log('insideMesCharges3', { ...allDataByCategory });
   };
 
   const [radioText, setRadioText] = useState("l'année");
   const [dateStart, setDateStart] = useState<Date>(firstDayCurrentYear);
   const [dateEnd, setDateEnd] = useState<Date>(lastDayCurrentYear);
+
+  const dateRange = { startDate: dateStart, endDate: dateEnd };
+  const [range, setRange] = React.useState(dateRange);
 
   const checkRadio = (i) => {
     switch (i) {
@@ -118,23 +121,46 @@ const MesCharges2 = () => {
           </Text>
         </View>
         <FDatepicker
-          name="currentYearStart"
-          placeholder="currentYearStart"
+          name="dateStart"
+          placeholder="Date start"
+          date={dateStart}
           defaultValue={dateStart.toString()}
           style={{ marginHorizontal: 10 }}
+          onSelect={(next) => setDateStart(next)}
         />
         <FDatepicker
-          name="currentYearEnd"
-          placeholder="currentYearEnd"
+          name="dateEnd"
+          placeholder="Date end"
           defaultValue={dateEnd.toString()}
+          onSelect={(nextDate) => setDateEnd(nextDate)}
+          onChangeValue={(nextDate) => setDateEnd(nextDate)}
         />
 
       </View>
-      {/**
-      <Datepicker />
-      */}
+      <RangeDatepicker
+        range={range}
+        onChangeValue={(nextDate) => setRange(nextDate)}
+        onSelect={
+          (nextRange) => setRange({ startDate: nextRange.startDate, endDate: nextRange.endDate })
+        }
+        style={{
+          shadowColor: 'rgba(190, 190, 190, 0.5)',
+          shadowOffset: {
+            width: 0,
+            height: 1,
+          },
+          shadowRadius: 2,
+          shadowOpacity: 1,
+          elevation: 2,
+        }}
+      />
+
       <View style={styles.buttonRight}>
-        <Button onPress={() => onMesCharges3(titlePass)} size="large" style={{ width: 173 }}>
+        <Button
+          onPress={() => onMesCharges3(allDataByCategory)}
+          size="large"
+          style={{ width: 173 }}
+        >
           Valider
         </Button>
       </View>

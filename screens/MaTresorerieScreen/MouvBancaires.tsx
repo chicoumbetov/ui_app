@@ -234,14 +234,18 @@ const MouvBancaires = () => {
               </TouchableOpacity>
             </Card>
           ))}
+
           {/**
                 if data.length = 0 then show message below
                 else hide
               */}
+          {!movementPasAffect && (
           <View style={{ alignItems: 'center', marginVertical: 20 }}>
             <Text category="h4" style={{ marginBottom: 10 }}>Bon Travail!</Text>
             <Text category="p1">Vous avez affecté tous vos mouvements bancaires.</Text>
           </View>
+          )}
+
           {ignoreClicked
             ? (
               <></>

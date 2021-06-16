@@ -138,7 +138,7 @@ const EditMouvement = (props: MonBudgetProps) => {
             >
               Affectation
             </Text>
-            <Text category="h2" style={{ marginVertical: 10 }}>
+            <Text category="s2" style={{ marginVertical: 10 }}>
               {`${(movement.amount || 0) < 0
                 ? ('Charges') : ('Revenus')} enregistés dans votre budget`}
             </Text>

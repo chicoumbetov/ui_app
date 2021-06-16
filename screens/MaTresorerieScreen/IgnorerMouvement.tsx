@@ -31,7 +31,7 @@ const IgnorerMouvement = () => {
   // const theme = useTheme();
   // const [client] = useState(comptesData);
   const route = useRoute<RouteProp<TabMaTresorerieParamList, 'ignorer-mouvement'>>();
-  const { bien } = useGetRealEstate(route.params.id);
+  const { bienget } = useGetRealEstate(route.params.id);
   console.log(route.params);
   const { bankMouvement } = useGetBankMovementByBankAccountId(route.params.idCompte);
   const { bankAccount } = useGetBankAccount(route.params.idCompte);
@@ -54,7 +54,7 @@ const IgnorerMouvement = () => {
           },
         }}
       >
-        <CompteHeader title={bien.name} />
+        <CompteHeader title={bienget.name} />
 
         <View style={{
           marginVertical: 20, paddingBottom: 20, alignItems: 'center', borderBottomWidth: 2.5, borderBottomColor: '#f4f4f4',
@@ -145,7 +145,6 @@ const IgnorerMouvement = () => {
       >
         {currentMvt !== undefined && (
           <MouvementAffecter
-            budget={[]}
             movement={currentMvt}
             onSaved={() => setCurrentMvt(undefined)}
           />

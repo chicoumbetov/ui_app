@@ -45,10 +45,6 @@ function MesBiens() {
           Mes Biens
         </Text>
 
-        {/**
-        <MonBien />
-        <MonBien />
-        */}
         {loading
           ? <ActivityIndicator />
           : (

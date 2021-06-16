@@ -19,18 +19,16 @@ import TextInputComp from '../../../components/Form/TextInput';
 import Amount from '../../../components/Amount';
 import { useUpdateBankMovement } from '../../../src/API/BankMouvement';
 
-type MonBudgetProps = { budget?: (BudgetLineDeadline | null)[], movement: BankMovement, onSaved?: () => void };
+type MonBudgetProps = { movement: BankMovement, onSaved?: () => void };
 
 const MouvementAffecter = (props: MonBudgetProps) => {
-  const { budget, movement, onSaved } = props;
-
-  const theme = useTheme();
+  const { movement, onSaved } = props;
 
   const updateBudgetLineDeadLine = useUpdateBudgetLineDeadlineMutation();
 
   const updateBankMouvement = useUpdateBankMovement();
 
-  const annulerAffectation = async () => {
+  const annulerAffectation = async (ignored: boolean) => {
     Alert.alert(
       'Suppression de revenue',
       '',
@@ -41,16 +39,31 @@ const MouvementAffecter = (props: MonBudgetProps) => {
       {
         text: 'Valider',
         onPress: async () => {
-          await updateBankMouvement.updateBankMovement({
-            variables: {
-              input: {
-                id: movement.id,
-                ignored: false,
-                // eslint-disable-next-line no-underscore-dangle
-                _version: movement._version,
+          if (ignored) {
+            await updateBankMouvement.updateBankMovement({
+              variables: {
+                input: {
+                  id: movement.id,
+                  ignored: false,
+                  // eslint-disable-next-line no-underscore-dangle
+                  _version: movement._version,
+                },
               },
-            },
-          });
+            });
+          } else {
+            movement.budgetLineDeadline?.items?.reduce(async (promise, current) => {
+              await promise;
+              await updateBudgetLineDeadLine.updateBudgetLineDeadline({
+                variables: {
+                  input: {
+                    id: current.id,
+                    bankMouvementId: null,
+                    _version: current._version,
+                  },
+                },
+              });
+            }, Promise.resolve());
+          }
           if (onSaved) {
             onSaved();
           }
@@ -74,12 +87,25 @@ const MouvementAffecter = (props: MonBudgetProps) => {
         <View>
           <Text category="h3" status="basic" style={{ marginVertical: 10 }}>Affectation</Text>
           <Text category="h6" status="basic" style={{ marginVertical: 10 }}>Mouvement ignoré</Text>
-          <Button onPress={() => annulerAffectation()}>Annuler l'affectation</Button>
+          <Button onPress={() => annulerAffectation(true)}>Annuler l'affectation</Button>
         </View>
 
       ) : (
-        <>
-        </>
+        <View>
+          <Text category="h3" status="basic" style={{ marginVertical: 10 }}>Affectation</Text>
+          <Text category="h6" status="basic" style={{ marginVertical: 10 }}>Mouvement ignoré</Text>
+          {movement.budgetLineDeadline?.items?.map((deadLine) => (
+            <>
+              <Text category="h3" status="basic" style={{ marginVertical: 10 }}>{deadLine?.category}</Text>
+              <Amount amount={deadLine?.amount} category="h5" />
+              <Text category="h3" status="basic" style={{ marginVertical: 10 }}>Fréquence: </Text>
+              <Text category="h3" status="basic" style={{ marginVertical: 10 }}>{deadLine?.frequency}</Text>
+              <Text category="h3" status="basic" style={{ marginVertical: 10 }}>Echeance: </Text>
+              <Text category="h3" status="basic" style={{ marginVertical: 10 }}>{moment(deadLine?.date).format('DD/MM/YYYY')}</Text>
+            </>
+          ))}
+          <Button onPress={() => annulerAffectation(false)}>Annuler l'affectation</Button>
+        </View>
       )}
 
     </View>

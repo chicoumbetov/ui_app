@@ -17,11 +17,9 @@ import Card from '../../components/Card';
 
 import { TabMaTresorerieParamList } from '../../types';
 
-// import comptesData from '../../mockData/comptesData';
-import mouvementData from '../../mockData/mouvementData';
 import { useGetBankMovementByBankAccountId } from '../../src/API/BankMouvement';
 import { useGetBankAccount } from '../../src/API/BankAccount';
-import EditMouvement from './Components/EditMouvement';
+
 import ActionSheet from '../../components/ActionSheet/ActionSheet';
 import { BankMovement } from '../../src/API';
 import MouvementAffecter from './Components/MouvementAffecter';

@@ -10,7 +10,7 @@ import React, { useState } from 'react';
 import moment from 'moment';
 import Icon from '../../../components/Icon';
 import { BankMovement, BudgetLineDeadline, BudgetLineType } from '../../../src/API';
-// import { useDeleteBudgetLineMutation } from '../../../src/API/BudgetLine';
+
 import {
   useDeleteBudgetLineDeadlineMutation,
   useUpdateBudgetLineDeadlineMutation,

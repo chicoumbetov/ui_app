@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import {
-  Button, CalendarViewModes, Layout, Modal, Text,
+  Button, CalendarViewModes, Modal, Text,
 } from '@ui-kitten/components';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { RouteProp } from '@react-navigation/core/lib/typescript/src/types';
@@ -16,7 +16,7 @@ import Form from '../../components/Form/Form';
 import DatePicker from '../../components/Form/DatePicker';
 import { AvailableValidationRules } from '../../components/Form/validation';
 import { useUser } from '../../src/API/UserContext';
-import Radio from '../../components/Form/Radio';
+
 import WebView from '../../components/WebView';
 
 type ModifierInfo2Form = {

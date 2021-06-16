@@ -23,6 +23,7 @@ export function useGetBankAccount(id: string) {
     variables: {
       id,
     },
+    fetchPolicy: 'cache-and-network',
   });
 
   return {

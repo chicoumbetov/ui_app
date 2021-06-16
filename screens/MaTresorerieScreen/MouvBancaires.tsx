@@ -49,12 +49,12 @@ const MouvBancaires = () => {
   const [bankAccountCharger, setBankAccountCharger] = useState<BankAccount>();
 
   useEffect(() => {
-    setBankMovementCharger(bankMouvement);
-  }, [bankMouvement]);
-
-  useEffect(() => {
     setBankAccountCharger(bankAccount);
   }, [bankAccount]);
+
+  useEffect(() => {
+    setBankMovementCharger(bankMouvement);
+  }, [bankMouvement]);
 
   const movementPasAffect = bankMovementCharger?.filter((item) => {
     if (item.ignored
@@ -63,7 +63,7 @@ const MouvBancaires = () => {
     }
     return item;
   });
-  console.log(bankAccountCharger);
+  console.log('dfslbnkm,l;vm:;l,sdv', movementPasAffect);
 
   // const [compte] = useState(comptesData);
   const [currentMvt, setCurrentMvt] = useState<BankMovement>();
@@ -173,6 +173,7 @@ const MouvBancaires = () => {
         </Text>
 
         <>
+          {!(movementPasAffect && movementPasAffect.length === 0) && (
           <Button
             size="large"
             onPress={() => { ignorerMovement(); setIgnoreClicked(!ignoreClicked); }}
@@ -182,6 +183,7 @@ const MouvBancaires = () => {
           >
             Ignorer des mouvements
           </Button>
+          )}
           {movementPasAffect?.map((item) => (
             <Card
               key={item.id}
@@ -246,7 +248,7 @@ const MouvBancaires = () => {
                 if data.length = 0 then show message below
                 else hide
               */}
-          {!movementPasAffect && (
+          {(movementPasAffect && movementPasAffect.length === 0) && (
           <View style={{ alignItems: 'center', marginVertical: 20 }}>
             <Text category="h4" style={{ marginBottom: 10 }}>Bon Travail!</Text>
             <Text category="p1">Vous avez affecté tous vos mouvements bancaires.</Text>
@@ -261,7 +263,7 @@ const MouvBancaires = () => {
               <>
                 <Separator />
                 <Card
-                  onPress={() => { onAffecterMouvement(bankAccountCharger.id); }}
+                  onPress={() => { onAffecterMouvement(bankAccountCharger?.id); }}
                   style={{
                     marginVertical: 20,
                     flexDirection: 'row',
@@ -283,7 +285,7 @@ const MouvBancaires = () => {
                   style={{ marginVertical: 20, marginBottom: 60 }}
                 >
                   <TouchableOpacity
-                    onPress={() => onIgnorerMouvement(bankAccountCharger.id)}
+                    onPress={() => onIgnorerMouvement(bankAccountCharger?.id)}
                     style={{
                       flexDirection: 'row',
                       alignItems: 'center',

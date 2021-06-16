@@ -48,6 +48,7 @@ function DetailsBien() {
   const { pendingInvitations } = usePendingInvitationsList();
   const { documentList } = useDocumentList();
   // console.log('detail bien document', documentList);
+
   const [bienCharger, setBienCharger] = useState<RealEstate>();
   useEffect(() => {
     setBienCharger(bienget);

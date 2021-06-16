@@ -39,7 +39,7 @@ const MonBien = (props: MonBienProps) => {
   useEffect(() => {
     setBienCharger(bienget);
   }, [bienget]);
-  console.log('------------------------', bienCharger);
+  console.log('bienCharger : ', bienCharger);
 
   /**
    *   Rentabilité
@@ -65,8 +65,8 @@ const MonBien = (props: MonBienProps) => {
   const currentYear = new Date().getFullYear();
   const currentMonth = new Date().getMonth();
 
-  const allDataLastIncome = bienCharger?.bien?.budgetLineDeadlines?.items
-      && bienCharger?.bien?.budgetLineDeadlines?.items?.filter((item) => {
+  const allDataLastIncome = bienCharger?.budgetLineDeadlines?.items
+      && bienCharger?.budgetLineDeadlines?.items?.filter((item) => {
         if (item?.type === BudgetLineType.Income
           && !item?._deleted
         ) {
@@ -148,7 +148,7 @@ const MonBien = (props: MonBienProps) => {
       .round((allCurrentCategories[property].value / totalExpenses) * 100);
   });
 
-  // console.log('allCurrentCategories', allCurrentCategories);
+  console.log('allCurrentCategories', allCurrentCategories);
 
   /** Redirections */
   const allerTresorerie = () => {

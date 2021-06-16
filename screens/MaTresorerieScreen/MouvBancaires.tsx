@@ -25,6 +25,7 @@ import Card from '../../components/Card';
 import { TabMaTresorerieParamList } from '../../types';
 import { useGetRealEstate } from '../../src/API/RealEstate';
 import {
+  BankAccount,
   BankMovement, BudgetLineDeadline, BudgetLineType, RealEstate,
 } from '../../src/API';
 import Separator from '../../components/Separator';
@@ -45,10 +46,16 @@ const MouvBancaires = () => {
   const useUpdateBankMouvement = useUpdateBankMovement();
 
   const [bankMovementCharger, setBankMovementCharger] = useState<BankMovement[]>();
+  const [bankAccountCharger, setBankAccountCharger] = useState<BankAccount>();
 
   useEffect(() => {
     setBankMovementCharger(bankMouvement);
   }, [bankMouvement]);
+
+  useEffect(() => {
+    setBankAccountCharger(bankAccount);
+  }, [bankAccount]);
+
   const movementPasAffect = bankMovementCharger?.filter((item) => {
     if (item.ignored
         || (item.budgetLineDeadline?.items && item.budgetLineDeadline?.items?.length > 0)) {
@@ -56,7 +63,7 @@ const MouvBancaires = () => {
     }
     return item;
   });
-  console.log(movementPasAffect);
+  console.log(bankAccountCharger);
 
   // const [compte] = useState(comptesData);
   const [currentMvt, setCurrentMvt] = useState<BankMovement>();
@@ -148,9 +155,9 @@ const MouvBancaires = () => {
           borderBottomColor: '#b5b5b5',
         }}
         >
-          <Text category="h6" status="basic">{bankAccount?.name || ''}</Text>
-          <Text category="h6" appearance="hint">{bankAccount?.iban || ''}</Text>
-          <Text category="h6" status="basic">{bankAccount?.bank || ''}</Text>
+          <Text category="h6" status="basic">{bankAccountCharger?.name || ''}</Text>
+          <Text category="h6" appearance="hint">{bankAccountCharger?.iban || ''}</Text>
+          <Text category="h6" status="basic">{bankAccountCharger?.bank || ''}</Text>
         </View>
 
         <Text
@@ -254,7 +261,7 @@ const MouvBancaires = () => {
               <>
                 <Separator />
                 <Card
-                  onPress={() => { onAffecterMouvement(bankAccount.id); }}
+                  onPress={() => { onAffecterMouvement(bankAccountCharger.id); }}
                   style={{
                     marginVertical: 20,
                     flexDirection: 'row',
@@ -276,7 +283,7 @@ const MouvBancaires = () => {
                   style={{ marginVertical: 20, marginBottom: 60 }}
                 >
                   <TouchableOpacity
-                    onPress={() => onIgnorerMouvement(bankAccount.id)}
+                    onPress={() => onIgnorerMouvement(bankAccountCharger.id)}
                     style={{
                       flexDirection: 'row',
                       alignItems: 'center',

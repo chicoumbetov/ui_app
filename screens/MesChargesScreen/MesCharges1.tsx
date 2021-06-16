@@ -46,11 +46,11 @@ const MesCharges1 = () => {
     (item) => item?.budgetLineDeadlines,
   );
 
-  const currentYear = new Date().getFullYear();
+  // const currentYear = new Date().getFullYear();
 
   /** Object with 3 attributes and its key */
   const allCurrentCategories: {
-    [key: string]: { value: number, percentage: number, label: string }
+    [key: string]: { value: number, label: string }
   } = {};
 
   console.log('AAAAAAAAA');
@@ -58,9 +58,8 @@ const MesCharges1 = () => {
   if (houseBudgetLineDeadlines) {
     houseBudgetLineDeadlines.forEach((item) => {
       item?.items.forEach((itemBudget) => {
-        const allYears = DateUtils.parseToDateObj(itemBudget?.date).getFullYear();
+        // const allYears = DateUtils.parseToDateObj(itemBudget?.date).getFullYear();
         if (itemBudget?.category
-        && allYears === currentYear
         && itemBudget.type === BudgetLineType.Expense) {
           console.log('itemBudget: ', itemBudget);
           if (allCurrentCategories[itemBudget?.category] === undefined) {
@@ -69,7 +68,6 @@ const MesCharges1 = () => {
              */
             allCurrentCategories[itemBudget?.category] = {
               value: itemBudget?.amount || 0,
-              percentage: 0,
               label: itemBudget?.category,
             };
           } else {
@@ -87,7 +85,7 @@ const MesCharges1 = () => {
   console.log('totalExpenses', totalExpenses);
 
   const onMesCharges2 = (lbl) => {
-    navigation.navigate('mes-charges-2', { title: lbl.label });
+    navigation.navigate('mes-charges-2', { value: lbl.value, label: lbl.label });
   };
 
   return (
@@ -109,65 +107,26 @@ const MesCharges1 = () => {
       >
         Choisissez votre charge
       </Text>
-      {/**
-      {charges.map(
-        (item) => (
-          <Card
-            key={item.id}
-            style={{
-              padding: 23,
-              marginVertical: 10,
-            }}
-          >
-            <TouchableOpacity
-              onPress={() => { onMesCharges2(item); }}
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-              }}
-            >
-              <Text category="h5" status="basic">{item.title}</Text>
 
-              <IconUIKitten
-                name="arrow-ios-forward"
-                fill={theme['text-hint-color']}
-                style={{
-                  height: 17, width: 17,
-                }}
-              />
-
-            </TouchableOpacity>
-          </Card>
-        ),
-      )}
-      */}
-      <Text>Real dinamic :</Text>
       {labels.map((lbl, index) => (
         <Card
-          key={index}
+          key={lbl.id}
+          onPress={() => { onMesCharges2(lbl); }}
           style={{
             padding: 23,
             marginVertical: 10,
+            flexDirection: 'row',
+            justifyContent: 'space-between',
           }}
         >
-          <TouchableOpacity
-            onPress={() => { onMesCharges2(lbl); }}
+          <Text category="h5" status="basic">{lbl.label}</Text>
+          <IconUIKitten
+            name="arrow-ios-forward"
+            fill={theme['text-hint-color']}
             style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
+              height: 17, width: 17,
             }}
-          >
-            <Text category="h5" status="basic">{lbl.label}</Text>
-
-            <IconUIKitten
-              name="arrow-ios-forward"
-              fill={theme['text-hint-color']}
-              style={{
-                height: 17, width: 17,
-              }}
-            />
-
-          </TouchableOpacity>
+          />
         </Card>
       ))}
 

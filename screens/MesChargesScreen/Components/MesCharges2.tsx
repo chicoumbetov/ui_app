@@ -1,35 +1,42 @@
 import React, {
   useEffect, useState,
-  // useState
 } from 'react';
 import {
-  Layout, RadioGroup, Radio, Text, Button, Datepicker, RangeDatepicker,
+  Layout, RadioGroup, Radio, Text, Button, RangeDatepicker,
 } from '@ui-kitten/components';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { StyleSheet, View } from 'react-native';
-// import { useForm } from 'react-hook-form';
-import TextInputComp from '../../../components/Form/TextInput';
 
 import MaxWidthContainer from '../../../components/MaxWidthContainer';
-
-// type DeclarationImpotsForm = { bien: string; anneeEcheance: string; };
+import FDatepicker from '../../../components/Form/DatePicker';
 
 const MesCharges2 = () => {
-  const route = useRoute();
   const { params } = useRoute();
   console.log('params', params);
+  const allDataByCategory = params;
   const navigation = useNavigation();
   // const declarationImpotsForm = useForm<DeclarationImpotsForm>();
 
-  const currentYear = new Date().getFullYear();
-  const currentMonth = new Date().getMonth();
-  const previousYear = currentYear - 1;
-  console.log('params', previousYear, currentYear, currentMonth);
+  const firstDayCurrentYear = new Date(new Date().getFullYear(), 0, 1);
+  const lastDayCurrentYear = new Date(new Date().getFullYear(), 11, 31);
+
+  const firstDayPreviousYear = new Date(new Date().getFullYear() - 1, 0, 1);
+  const lastDayPreviousYear = new Date(new Date().getFullYear() - 1, 11, 31);
+
+  const startCurrentMonth = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+  const lastCurrentMonth = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0);
+
+  const [currentYearStart, setCurrentYearStart] = React.useState(firstDayCurrentYear);
+  const [currentYearEnd, setCurrentYearEnd] = React.useState(lastDayCurrentYear);
+
+  console.log('params', 'firstDayCurrentYear:', firstDayCurrentYear, 'lastDayCurrentYear:', lastDayCurrentYear);
+  console.log('params', 'firstDayPreviousYear:', firstDayPreviousYear, 'lastDayPreviousYear:', lastDayPreviousYear);
+  console.log('params', 'startCurrentMonth:', startCurrentMonth);
+  console.log('params', 'lastCurrentMonth:', lastCurrentMonth);
 
   const [selectedIndex, setSelectedIndex] = React.useState(0);
 
-  const titlePass = params;
-  console.log('titlePass', titlePass);
+  const titlePass = allDataByCategory?.label;
 
   const onMesCharges3 = (titlePass) => {
     navigation.navigate('mes-charges-3', { ...titlePass });
@@ -42,7 +49,7 @@ const MesCharges2 = () => {
     switch (i) {
       case 0:
         setRadioText("l'année");
-        setRange({});
+        setRange({ currentYear });
         break;
       case 1:
         setRadioText("l'année -1");
@@ -52,6 +59,7 @@ const MesCharges2 = () => {
         break;
     }
   };
+
   const [range, setRange] = React.useState({});
 
   useEffect(() => {
@@ -68,7 +76,7 @@ const MesCharges2 = () => {
       <Text category="h1" status="basic">
         Charge
         {' '}
-        {route.params.title}
+        {titlePass}
       </Text>
 
       <RadioGroup
@@ -102,6 +110,15 @@ const MesCharges2 = () => {
         <RangeDatepicker
           range={range}
           onSelect={(nextRange) => setRange(nextRange)}
+          style={{ flex: 1 }}
+        />
+        <FDatepicker
+          name="currentYearStart"
+          placeholder="currentYearStart"
+        />
+        <FDatepicker
+          name="currentYearEnd"
+          placeholder="currentYearEnd"
         />
 
       </Layout>

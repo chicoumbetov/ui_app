@@ -1,41 +1,41 @@
 {
     "AWSTemplateFormatVersion": "2010-09-09",
     "Description": "API Gateway resource stack creation using Amplify CLI",
-    
+
     "Parameters": {
         "env": {
             "Type": "String"
         },
-    
-    
+
+
           "functiontransactionWebHookName": {
             "Type": "String",
             "Default": "functiontransactionWebHookName"
           },
 
-          
+
           "functiontransactionWebHookArn": {
             "Type": "String",
             "Default": "functiontransactionWebHookArn"
           },
 
-          
-          
-    
+
+
+
           "functionbudgetinsightName": {
             "Type": "String",
             "Default": "functionbudgetinsightName"
           },
 
-          
+
           "functionbudgetinsightArn": {
             "Type": "String",
             "Default": "functionbudgetinsightArn"
           }
 
-          
-          
-    
+
+
+
     },
      "Conditions": {
         "ShouldNotCreateEnvResources": {
@@ -48,11 +48,11 @@
         }
     },
     "Resources": {
-        
-        
-        
-        
-        
+
+
+
+
+
       "omedomrest": {
         "Type": "AWS::ApiGateway::RestApi",
         "Properties": {
@@ -97,7 +97,7 @@
               "https"
             ],
             "paths": {
-              
+
               "/webhooks": {
                 "options": {
                   "consumes": [
@@ -165,7 +165,7 @@
                       }
                     }
                   },
-                  
+
                   "x-amazon-apigateway-integration": {
                     "responses": {
                       "default": {
@@ -181,12 +181,12 @@
                               "Ref": "AWS::Region"
                             },
                             ":lambda:path/2015-03-31/functions/",
-                            
+
                             {
 
                                 "Ref": "functiontransactionWebHookArn"
                             },
-                            
+
                             "/invocations"
                           ]
                         ]
@@ -264,7 +264,8 @@
                       }
                     }
                   },
-                  
+
+
                   "x-amazon-apigateway-integration": {
                     "responses": {
                       "default": {
@@ -280,12 +281,12 @@
                             "Ref": "AWS::Region"
                           },
                           ":lambda:path/2015-03-31/functions/",
-                          
+
                           {
 
                             "Ref": "functiontransactionWebHookArn"
                           },
-                          
+
                           "/invocations"
                         ]
                       ]
@@ -296,7 +297,7 @@
                   }
                 }
               },
-              
+
               "/budgetinsight": {
                 "options": {
                   "consumes": [
@@ -364,13 +365,13 @@
                       }
                     }
                   },
-                  
+
                     "security": [
                         {
                           "sigv4": []
                         }
                       ],
-                  
+
                   "x-amazon-apigateway-integration": {
                     "responses": {
                       "default": {
@@ -386,12 +387,12 @@
                               "Ref": "AWS::Region"
                             },
                             ":lambda:path/2015-03-31/functions/",
-                            
+
                             {
 
                                 "Ref": "functionbudgetinsightArn"
                             },
-                            
+
                             "/invocations"
                           ]
                         ]
@@ -469,13 +470,13 @@
                       }
                     }
                   },
-                  
+
                     "security": [
                         {
                           "sigv4": []
                         }
                       ],
-                  
+
                   "x-amazon-apigateway-integration": {
                     "responses": {
                       "default": {
@@ -491,12 +492,12 @@
                             "Ref": "AWS::Region"
                           },
                           ":lambda:path/2015-03-31/functions/",
-                          
+
                           {
 
                             "Ref": "functionbudgetinsightArn"
                           },
-                          
+
                           "/invocations"
                         ]
                       ]
@@ -507,7 +508,7 @@
                   }
                 }
               }
-              
+
             },
             "securityDefinitions": {
               "sigv4": {
@@ -548,17 +549,17 @@
         }
       },
 
-      
-        
+
+
 
         "functiontransactionWebHookPermissionomedomrest": {
             "Type": "AWS::Lambda::Permission",
             "Properties": {
-                "FunctionName": 
+                "FunctionName":
                     {
                         "Ref":  "functiontransactionWebHookName"
                     },
-                    
+
                     "Action": "lambda:InvokeFunction",
                 "Principal": "apigateway.amazonaws.com",
                 "SourceArn": {
@@ -583,16 +584,16 @@
                 }
             }
         },
-        
+
 
         "functionbudgetinsightPermissionomedomrest": {
             "Type": "AWS::Lambda::Permission",
             "Properties": {
-                "FunctionName": 
+                "FunctionName":
                     {
                         "Ref":  "functionbudgetinsightName"
                     },
-                    
+
                     "Action": "lambda:InvokeFunction",
                 "Principal": "apigateway.amazonaws.com",
                 "SourceArn": {
@@ -617,8 +618,8 @@
                 }
             }
         },
-        
-        
+
+
 
       "DeploymentAPIGWomedomrestaf1fb488": {
         "Type": "AWS::ApiGateway::Deployment",

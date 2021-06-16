@@ -104,8 +104,8 @@ export type TabNotificationParamList = {
 
 export type TabMesChargesParamList = {
   'mes-charges': { id: string };
-  'mes-charges-2': { id: string };
-  'mes-charges-3': { id: string };
+  'mes-charges-2': { value: string, percentage: string, label: string };
+  'mes-charges-3': { value: string, percentage: string, label: string };
 };
 
 export type AjoutBienParamList = {

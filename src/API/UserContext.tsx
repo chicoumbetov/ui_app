@@ -235,8 +235,8 @@ const UserProvider: React.FC = ({ children }) => {
         id: cognitoUser?.attributes.sub,
         lastname: cognitoUser?.attributes.family_name,
         firstname: cognitoUser?.attributes.given_name,
+        email: cognitoUser?.attributes.email,
         privateProfile: {
-          email: cognitoUser?.attributes.email,
           phoneNumber: cognitoUser?.attributes.phone_number,
           optIn: cognitoUser?.attributes['custom:optIn'] === 'true',
         },

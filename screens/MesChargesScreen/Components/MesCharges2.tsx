@@ -1,8 +1,8 @@
 import React, {
-  useEffect, useState,
+  useState,
 } from 'react';
 import {
-  Layout, RadioGroup, Radio, Text, Button, RangeDatepicker,
+  RadioGroup, Radio, Text, Button,
 } from '@ui-kitten/components';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { StyleSheet, View } from 'react-native';
@@ -12,7 +12,7 @@ import FDatepicker from '../../../components/Form/DatePicker';
 
 const MesCharges2 = () => {
   const { params } = useRoute();
-  console.log('params', params);
+  console.log('params from useRoute', params);
   const allDataByCategory = params;
   const navigation = useNavigation();
   // const declarationImpotsForm = useForm<DeclarationImpotsForm>();
@@ -26,13 +26,12 @@ const MesCharges2 = () => {
   const startCurrentMonth = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
   const lastCurrentMonth = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0);
 
-  const [currentYearStart, setCurrentYearStart] = React.useState(firstDayCurrentYear);
-  const [currentYearEnd, setCurrentYearEnd] = React.useState(lastDayCurrentYear);
-
-  console.log('params', 'firstDayCurrentYear:', firstDayCurrentYear, 'lastDayCurrentYear:', lastDayCurrentYear);
-  console.log('params', 'firstDayPreviousYear:', firstDayPreviousYear, 'lastDayPreviousYear:', lastDayPreviousYear);
-  console.log('params', 'startCurrentMonth:', startCurrentMonth);
-  console.log('params', 'lastCurrentMonth:', lastCurrentMonth);
+  // console.log('lastDayCurrentYear:', lastDayCurrentYear);
+  // console.log('firstDayCurrentYear:', firstDayCurrentYear);
+  // console.log('firstDayPreviousYear:', firstDayPreviousYear);
+  // console.log('lastDayPreviousYear:', lastDayPreviousYear);
+  // console.log('startCurrentMonth:', startCurrentMonth);
+  // console.log('lastCurrentMonth:', lastCurrentMonth);
 
   const [selectedIndex, setSelectedIndex] = React.useState(0);
 
@@ -44,27 +43,40 @@ const MesCharges2 = () => {
   };
 
   const [radioText, setRadioText] = useState("l'année");
+  const [dateStart, setDateStart] = useState<Date>(firstDayCurrentYear);
+  const [dateEnd, setDateEnd] = useState<Date>(lastDayCurrentYear);
 
   const checkRadio = (i) => {
     switch (i) {
       case 0:
         setRadioText("l'année");
-        setRange({ currentYear });
+        setDateStart(firstDayCurrentYear);
+        setDateEnd(lastDayCurrentYear);
         break;
       case 1:
         setRadioText("l'année -1");
+        setDateStart(firstDayPreviousYear);
+        setDateEnd(lastDayPreviousYear);
         break;
       case 2:
         setRadioText('le mois');
+        setDateStart(startCurrentMonth);
+        setDateEnd(lastCurrentMonth);
         break;
     }
   };
 
-  const [range, setRange] = React.useState({});
+  const websiteElements = () => (
+    <FDatepicker
+      name="currentYearStart"
+      placeholder="currentYearStart"
+      defaultValue={dateStart.toString()}
+      style={{ marginHorizontal: 10 }}
+    />
+  );
 
-  useEffect(() => {
-    console.log('useEffect test of MesCharges 2', range);
-  });
+  console.log('log: ', dateStart, dateEnd);
+  console.log('eeeee: ', dateStart.toString());
 
   return (
     <MaxWidthContainer outerViewProps={{
@@ -83,7 +95,6 @@ const MesCharges2 = () => {
         selectedIndex={selectedIndex}
         onChange={(index) => {
           setSelectedIndex(index); checkRadio(index);
-          console.log(range);
         }}
         style={styles.containerRadio}
       >
@@ -98,30 +109,27 @@ const MesCharges2 = () => {
         </Radio>
       </RadioGroup>
 
-      <Layout style={{ flexDirection: 'row', backgroundColor: 'transparent', alignItems: 'center' }}>
-        <View style={{ marginRight: 15 }}>
+      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+        <View style={{ flex: 1, marginRight: 15 }}>
           <Text category="h5">
             Selectionner
             {' '}
             {radioText}
           </Text>
         </View>
-
-        <RangeDatepicker
-          range={range}
-          onSelect={(nextRange) => setRange(nextRange)}
-          style={{ flex: 1 }}
-        />
         <FDatepicker
           name="currentYearStart"
           placeholder="currentYearStart"
+          defaultValue={dateStart.toString()}
+          style={{ marginHorizontal: 10 }}
         />
         <FDatepicker
           name="currentYearEnd"
           placeholder="currentYearEnd"
+          defaultValue={dateEnd.toString()}
         />
 
-      </Layout>
+      </View>
       {/**
       <Datepicker />
       */}

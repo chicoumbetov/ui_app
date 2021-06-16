@@ -219,7 +219,7 @@ function DetailsBien() {
           <View style={styles.oneThirdBlock}>
             <Text category="h6" appearance="hint" style={styles.text}>Dernier mouvement</Text>
             <Text category="h3" status="success" style={{ marginTop: 14 }}>
-              {`+ ${lastAmount} €`}
+              {`+ ${lastAmount || '0'} €`}
             </Text>
           </View>
 
@@ -227,7 +227,7 @@ function DetailsBien() {
             <Text category="h6" appearance="hint" style={styles.text}>
               Prochaine dépense
             </Text>
-            <Text category="h3" status="danger" style={{ marginTop: 14 }}>{`- ${lastExpense} €`}</Text>
+            <Text category="h3" status="danger" style={{ marginTop: 14 }}>{`${lastExpense || '0'} €`}</Text>
           </View>
 
           <View style={styles.oneThirdBlock}>

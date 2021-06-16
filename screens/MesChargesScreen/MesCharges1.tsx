@@ -53,7 +53,7 @@ const MesCharges1 = () => {
     [key: string]: { value: number, label: string }
   } = {};
 
-  console.log('AAAAAAAAA');
+  // console.log('AAAAAAAAA');
 
   if (houseBudgetLineDeadlines) {
     houseBudgetLineDeadlines.forEach((item) => {
@@ -61,7 +61,7 @@ const MesCharges1 = () => {
         // const allYears = DateUtils.parseToDateObj(itemBudget?.date).getFullYear();
         if (itemBudget?.category
         && itemBudget.type === BudgetLineType.Expense) {
-          console.log('itemBudget: ', itemBudget);
+          // console.log('itemBudget: ', itemBudget);
           if (allCurrentCategories[itemBudget?.category] === undefined) {
             /**
              * initial values and then calculate percentage starting from 0
@@ -110,7 +110,7 @@ const MesCharges1 = () => {
 
       {labels.map((lbl, index) => (
         <Card
-          key={lbl.id}
+          key={index}
           onPress={() => { onMesCharges2(lbl); }}
           style={{
             padding: 23,

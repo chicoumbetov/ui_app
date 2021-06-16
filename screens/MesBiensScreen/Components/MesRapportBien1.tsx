@@ -19,11 +19,11 @@ const MesRapportBien1 = () => {
 
   const route = useRoute<RouteProp<TabMesBiensParamList, 'mes-rapports-biens1'>>();
   // const bienDetail = useGetRealEstate(route.params.id);
-  console.log('bienDetail', route.params.id);
+  // console.log('bienDetail', route.params.id);
   const currentYear = new Date().getFullYear();
   const previousYear = currentYear - 1;
   const currentMonth = new Date().getMonth();
-  console.log(currentYear, previousYear, currentMonth);
+  // console.log(currentYear, previousYear, currentMonth);
 
   const [selectedIndex, setSelectedIndex] = React.useState(0);
 

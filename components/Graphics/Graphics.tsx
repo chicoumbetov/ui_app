@@ -73,22 +73,29 @@ const Graphics = (data: MesBiensDataProps) => {
 
           {victory.map((item) => item
             .map((expenseLabel) => (
-              <View
-                style={{
-                  flex: 1, flexDirection: 'row     ', marginTop: 10, alignItems: 'center',
-                }}
-              >
+              <>
                 <View
+                  key={expenseLabel.i}
                   style={{
-                    backgroundColor: colorScale[item.findIndex((value) => value === expenseLabel)],
-                    height: 30,
-                    width: 30,
-                    borderRadius: 30,
-                    marginRight: 10,
+                    flex: 1,
+                    flexDirection: 'row',
+                    marginTop: 10,
+                    alignItems: 'center',
                   }}
-                />
-                <Text category="h6" appearance="hint">{expenseLabel.i}</Text>
-              </View>
+                >
+                  <View
+                    style={{
+                      backgroundColor: colorScale[item
+                        .findIndex((value) => value === expenseLabel)],
+                      height: 30,
+                      width: 30,
+                      borderRadius: 30,
+                      marginRight: 10,
+                    }}
+                  />
+                  <Text category="h6" appearance="hint">{expenseLabel.i}</Text>
+                </View>
+              </>
             )))}
 
         </View>

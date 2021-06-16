@@ -6,7 +6,7 @@ import {
   Alert,
   ScrollView, StyleSheet, TouchableOpacity, View,
 } from 'react-native';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import moment from 'moment';
 import Icon from '../../../components/Icon';
 import { BankMovement, BudgetLineDeadline, BudgetLineType } from '../../../src/API';
@@ -18,6 +18,7 @@ import {
 import TextInputComp from '../../../components/Form/TextInput';
 import Amount from '../../../components/Amount';
 import { useUpdateBankMovement } from '../../../src/API/BankMouvement';
+import Separator from '../../../components/Separator';
 
 type MonBudgetProps = { movement: BankMovement, onSaved?: () => void };
 
@@ -27,6 +28,26 @@ const MouvementAffecter = (props: MonBudgetProps) => {
   const updateBudgetLineDeadLine = useUpdateBudgetLineDeadlineMutation();
 
   const updateBankMouvement = useUpdateBankMovement();
+
+  const frequence = (freq: string) => {
+    switch (freq) {
+      default:
+        return 'Frequence';
+        break;
+      case 'monthly':
+        return 'Mensuelle';
+        break;
+      case 'fortnightly':
+        return 'Bimensuel';
+        break;
+      case 'quarterly':
+        return 'Trimestrielle';
+        break;
+      case 'annual':
+        return 'Annuelle';
+        break;
+    }
+  };
 
   const annulerAffectation = async (ignored: boolean) => {
     Alert.alert(
@@ -75,36 +96,63 @@ const MouvementAffecter = (props: MonBudgetProps) => {
   return (
     <View style={styles.container}>
 
-      <View style={{ marginVertical: 20, alignItems: 'center' }}>
-        <Amount amount={movement.amount || 0} category="h2" />
-        <Text category="h6" status="basic" style={{ marginVertical: 10 }}>{moment(movement.date).format('DD/MM/YYYY')}</Text>
-        <Text category="h6" appearance="hint">{movement.description || ''}</Text>
+      <View style={{
+        marginVertical: 20, alignItems: 'center', paddingBottom: 20, borderBottomWidth: 2, borderBottomColor: '#d3d3d3',
+      }}
+      >
+        <Amount amount={movement.amount || 0} category="h1" />
+        <Text category="h5" status="basic" style={{ marginVertical: 10 }}>{moment(movement.date).format('DD/MM/YYYY')}</Text>
+        <Text category="p2" appearance="hint">{movement.description || ''}</Text>
       </View>
-      <ScrollView
-        style={{ paddingTop: 20, borderTopWidth: 1, borderTopColor: '#b5b5b5' }}
-      />
+
       {movement.ignored ? (
-        <View>
-          <Text category="h3" status="basic" style={{ marginVertical: 10 }}>Affectation</Text>
-          <Text category="h6" status="basic" style={{ marginVertical: 10 }}>Mouvement ignoré</Text>
-          <Button onPress={() => annulerAffectation(true)}>Annuler l'affectation</Button>
-        </View>
+        <>
+          <View style={{
+            alignItems: 'center',
+          }}
+          >
+            <Text category="h3" status="basic" style={{ marginVertical: 10 }}>Affectation</Text>
+            <Text category="h6" status="basic" style={{ marginVertical: 10 }}>Mouvement ignoré</Text>
+          </View>
+          <Separator />
+          <Button
+            style={{ marginTop: 20 }}
+            status="danger"
+            appearance="outline"
+            onPress={() => annulerAffectation(true)}
+          >
+            Annuler l'affectation
+          </Button>
+        </>
 
       ) : (
         <View>
-          <Text category="h3" status="basic" style={{ marginVertical: 10 }}>Affectation</Text>
-          <Text category="h6" status="basic" style={{ marginVertical: 10 }}>Mouvement ignoré</Text>
+          <Text category="h1" status="basic" style={{ marginVertical: 20 }}>Affectation</Text>
           {movement.budgetLineDeadline?.items?.map((deadLine) => (
             <>
-              <Text category="h3" status="basic" style={{ marginVertical: 10 }}>{deadLine?.category}</Text>
+              <Text category="h3" status="basic" style={{ marginTop: 25 }}>{deadLine?.category}</Text>
               <Amount amount={deadLine?.amount} category="h5" />
-              <Text category="h3" status="basic" style={{ marginVertical: 10 }}>Fréquence: </Text>
-              <Text category="h3" status="basic" style={{ marginVertical: 10 }}>{deadLine?.frequency}</Text>
-              <Text category="h3" status="basic" style={{ marginVertical: 10 }}>Echeance: </Text>
-              <Text category="h3" status="basic" style={{ marginVertical: 10 }}>{moment(deadLine?.date).format('DD/MM/YYYY')}</Text>
+              <View style={{ flexDirection: 'row' }}>
+                <Text category="h5" appearance="hint" style={{ marginVertical: 10 }}>Fréquence: </Text>
+                <Text category="h5" status="basic" style={{ marginVertical: 10 }}>{frequence(deadLine.frequency)}</Text>
+              </View>
+
+              <View style={{ flexDirection: 'row' }}>
+                <Text category="h5" appearance="hint" style={{ marginVertical: 10 }}>Echeance: </Text>
+                <Text category="h5" status="basic" style={{ marginVertical: 10 }}>{moment(deadLine?.date).format('DD/MM/YYYY')}</Text>
+              </View>
+
             </>
           ))}
-          <Button onPress={() => annulerAffectation(false)}>Annuler l'affectation</Button>
+          <Separator />
+          <Button
+            style={{ marginTop: 20 }}
+            status="danger"
+            appearance="outline"
+            onPress={() => annulerAffectation(false)}
+          >
+            Annuler l'affectation
+          </Button>
         </View>
       )}
 

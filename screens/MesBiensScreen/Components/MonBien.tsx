@@ -39,7 +39,7 @@ const MonBien = (props: MonBienProps) => {
   useEffect(() => {
     setBienCharger(bienget);
   }, [bienget]);
-  console.log('bienCharger : ', bienCharger);
+  // console.log('bienCharger : ', bienCharger);
 
   /**
    *   Rentabilité
@@ -70,13 +70,13 @@ const MonBien = (props: MonBienProps) => {
         if (item?.type === BudgetLineType.Income
           && !item?._deleted
         ) {
-          console.log('income: ', item);
+          // console.log('income: ', item);
           return item;
         }
         return false;
       }).pop();
 
-  console.log('allData Income: ', allDataLastIncome);
+  // console.log('allData Income: ', allDataLastIncome);
 
   const allDataNextExpense = bienCharger?.budgetLineDeadlines?.items
   && bienCharger?.budgetLineDeadlines?.items?.filter((item) => {
@@ -89,7 +89,7 @@ const MonBien = (props: MonBienProps) => {
         && allYears === currentYear
         && allMonths === currentMonth + 1
     ) {
-      console.log('months: ', item?.amount, DateUtils.parseToDateObj(item?.date));
+      // console.log('months: ', item?.amount, DateUtils.parseToDateObj(item?.date));
 
       return item;
     }
@@ -148,7 +148,7 @@ const MonBien = (props: MonBienProps) => {
       .round((allCurrentCategories[property].value / totalExpenses) * 100);
   });
 
-  console.log('allCurrentCategories', allCurrentCategories);
+  // console.log('allCurrentCategories', allCurrentCategories);
 
   /** Redirections */
   const allerTresorerie = () => {
@@ -226,7 +226,7 @@ const MonBien = (props: MonBienProps) => {
                 style={{ height: 16, width: 16 }}
               />
               <Text category="h4" status="danger">
-                {`- ${(nextexpense) || '0'} €`}
+                {`${(nextexpense) || '0'} €`}
               </Text>
             </View>
 
@@ -269,7 +269,7 @@ const MonBien = (props: MonBienProps) => {
                   Prochaine dépense
                 </Text>
                 <Text category="h4" status="danger">
-                  {`- ${(nextexpense) || '0'} €`}
+                  {`${(nextexpense) || '0'} €`}
                 </Text>
                 <TouchableOpacity onPress={allerTresorerie}>
                   <Text category="h6" status="info">En savoir +</Text>

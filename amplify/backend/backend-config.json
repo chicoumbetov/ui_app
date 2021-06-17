@@ -202,6 +202,13 @@
       "service": "Lambda",
       "dependsOn": [
         {
+          "category": "function",
+          "resourceName": "graphqllayer",
+          "attributes": [
+            "Arn"
+          ]
+        },
+        {
           "category": "api",
           "resourceName": "omedom",
           "attributes": [
@@ -210,6 +217,11 @@
           ]
         }
       ]
+    },
+    "omedomtest": {
+      "providerPlugin": "awscloudformation",
+      "service": "LambdaLayer",
+      "build": true
     }
   }
 }

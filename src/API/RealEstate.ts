@@ -313,6 +313,10 @@ export function useRealEstateList() {
       unsubscribe = subscribeToMore<OnUpdateRealEstateSubscription,
       OnUpdateRealEstateSubscriptionVariables>({
         document: gql(subscriptions.onUpdateRealEstate),
+        variables: {
+          admins: user?.id,
+          shared: user?.id,
+        },
         updateQuery: (prev, { subscriptionData }) => {
           console.log(prev);
           console.log(subscriptionData);

@@ -47,6 +47,10 @@
         "graphqllayer": {
           "deploymentBucketName": "amplify-omedom-dev-175444-deployment",
           "s3Key": "amplify-builds/graphqllayer-build.zip"
+        },
+        "waitingUser": {
+          "deploymentBucketName": "amplify-omedom-dev-175444-deployment",
+          "s3Key": "amplify-builds/waitingUser-78677372704c38744475-build.zip"
         }
       }
     },

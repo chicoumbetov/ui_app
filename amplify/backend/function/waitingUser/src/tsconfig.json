@@ -1,0 +1,15 @@
+{
+  "extends": "../../../../../amplify-rules/tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "/opt/nodejs/*": [
+        "../../graphqllayer/lib/nodejs/*",
+      ],
+      "*" : [
+        "*",
+        "../../graphqllayer/lib/nodejs/node_modules/*",
+      ]
+    }
+  }
+}

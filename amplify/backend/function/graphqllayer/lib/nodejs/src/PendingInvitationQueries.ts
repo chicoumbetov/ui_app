@@ -39,8 +39,8 @@ const listPendingInvitationByEmail = async (client: AppSyncClient, pendingEmail:
       },
       fetchPolicy: 'no-cache',
     });
-    if (data.pendingInvitationByEmail.items.length > 0) {
-      return data.pendingInvitationByEmail.items;
+    if (data) {
+      return data;
     }
     return false;
   } catch (e) {

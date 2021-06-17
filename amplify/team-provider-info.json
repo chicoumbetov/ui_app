@@ -46,11 +46,11 @@
         },
         "graphqllayer": {
           "deploymentBucketName": "amplify-omedom-dev-175444-deployment",
-          "s3Key": "amplify-builds/graphqllayer-LambdaLayerVersion383db8aa-build.zip"
+          "s3Key": "amplify-builds/graphqllayer-LambdaLayerVersion5c2a4a39-build.zip"
         },
         "waitingUser": {
           "deploymentBucketName": "amplify-omedom-dev-175444-deployment",
-          "s3Key": "amplify-builds/waitingUser-635234306d4b4b7a7973-build.zip"
+          "s3Key": "amplify-builds/waitingUser-47532b2b426e32313843-build.zip"
         },
         "omedomtest": {
           "deploymentBucketName": "amplify-omedom-dev-175444-deployment",

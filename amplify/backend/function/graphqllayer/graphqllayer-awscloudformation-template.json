@@ -20,7 +20,7 @@
     }
   },
   "Resources": {
-    "LambdaLayerVersion383db8aa": {
+    "LambdaLayerVersion5c2a4a39": {
       "Type": "AWS::Lambda::LayerVersion",
       "Properties": {
         "CompatibleRuntimes": {
@@ -51,13 +51,87 @@
       "DeletionPolicy": "Delete",
       "UpdateReplacePolicy": "Retain"
     },
-    "LambdaLayerPermissionPrivate383db8aa": {
+    "LambdaLayerPermissionPrivate5c2a4a39": {
       "Type": "AWS::Lambda::LayerVersionPermission",
       "Properties": {
         "Action": "lambda:GetLayerVersion",
         "LayerVersionArn": {
-          "Ref": "LambdaLayerVersion383db8aa"
+          "Ref": "LambdaLayerVersion5c2a4a39"
         },
+        "Principal": {
+          "Ref": "AWS::AccountId"
+        }
+      }
+    },
+    "LambdaLayerVersion9eb899ac": {
+      "Type": "AWS::Lambda::LayerVersion",
+      "Properties": {
+        "CompatibleRuntimes": [
+          "nodejs14.x"
+        ],
+        "Content": {
+          "S3Bucket": {
+            "Ref": "deploymentBucketName"
+          },
+          "S3Key": "amplify-builds/graphqllayer-LambdaLayerVersion9eb899ac-build.zip"
+        },
+        "Description": "Updated layer version 2021-06-17T09:48:17.281Z",
+        "LayerName": {
+          "Fn::Sub": [
+            "graphqllayer-${env}",
+            {
+              "env": {
+                "Ref": "env"
+              }
+            }
+          ]
+        }
+      },
+      "DeletionPolicy": "Delete",
+      "UpdateReplacePolicy": "Retain"
+    },
+    "LambdaLayerPermissionPrivate9eb899ac": {
+      "Type": "AWS::Lambda::LayerVersionPermission",
+      "Properties": {
+        "Action": "lambda:GetLayerVersion",
+        "LayerVersionArn": "arn:aws:lambda:eu-west-2:459088793760:layer:graphqllayer-dev:18",
+        "Principal": {
+          "Ref": "AWS::AccountId"
+        }
+      }
+    },
+    "LambdaLayerVersion383db8aa": {
+      "Type": "AWS::Lambda::LayerVersion",
+      "Properties": {
+        "CompatibleRuntimes": [
+          "nodejs14.x"
+        ],
+        "Content": {
+          "S3Bucket": {
+            "Ref": "deploymentBucketName"
+          },
+          "S3Key": "amplify-builds/graphqllayer-LambdaLayerVersion383db8aa-build.zip"
+        },
+        "Description": "Updated layer version 2021-06-17T08:43:13.254Z",
+        "LayerName": {
+          "Fn::Sub": [
+            "graphqllayer-${env}",
+            {
+              "env": {
+                "Ref": "env"
+              }
+            }
+          ]
+        }
+      },
+      "DeletionPolicy": "Delete",
+      "UpdateReplacePolicy": "Retain"
+    },
+    "LambdaLayerPermissionPrivate383db8aa": {
+      "Type": "AWS::Lambda::LayerVersionPermission",
+      "Properties": {
+        "Action": "lambda:GetLayerVersion",
+        "LayerVersionArn": "arn:aws:lambda:eu-west-2:459088793760:layer:graphqllayer-dev:17",
         "Principal": {
           "Ref": "AWS::AccountId"
         }
@@ -227,7 +301,7 @@
   "Outputs": {
     "Arn": {
       "Value": {
-        "Ref": "LambdaLayerVersion383db8aa"
+        "Ref": "LambdaLayerVersion5c2a4a39"
       }
     }
   }

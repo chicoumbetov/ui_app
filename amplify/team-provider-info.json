@@ -50,11 +50,15 @@
         },
         "waitingUser": {
           "deploymentBucketName": "amplify-omedom-dev-175444-deployment",
-          "s3Key": "amplify-builds/waitingUser-646b3449716d66386979-build.zip"
+          "s3Key": "amplify-builds/waitingUser-47687137573968674a78-build.zip"
         },
         "omedomtest": {
           "deploymentBucketName": "amplify-omedom-dev-175444-deployment",
           "s3Key": "amplify-builds/omedomtest-LambdaLayerVersionaad87453-build.zip"
+        },
+        "sendNotification": {
+          "deploymentBucketName": "amplify-omedom-dev-175444-deployment",
+          "s3Key": "amplify-builds/sendNotification-366a4e5339666a475058-build.zip"
         }
       }
     }

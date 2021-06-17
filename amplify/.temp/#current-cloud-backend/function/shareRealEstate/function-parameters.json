@@ -1,0 +1,28 @@
+{
+  "lambdaLayers": [
+    {
+      "type": "ProjectLayer",
+      "resourceName": "seslayer",
+      "version": 8
+    },
+    {
+      "type": "ProjectLayer",
+      "resourceName": "graphqllayer",
+      "version": 15
+    }
+  ],
+  "permissions": {
+    "api": {
+      "omedom": [
+        "Query",
+        "Mutation"
+      ],
+      "omedomrest": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ]
+    }
+  }
+}

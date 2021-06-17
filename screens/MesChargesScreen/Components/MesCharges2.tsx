@@ -1,21 +1,32 @@
 import React, {
-  useState,
 } from 'react';
 import {
-  RadioGroup, Radio, Text, Button, RangeDatepicker,
+  RadioGroup, Radio, Text, Button, RangeDatepicker, CalendarRange,
 } from '@ui-kitten/components';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { StyleSheet, View } from 'react-native';
 
 import MaxWidthContainer from '../../../components/MaxWidthContainer';
-import FDatepicker from '../../../components/Form/DatePicker';
+import { BudgetLineDeadline } from '../../../src/API';
+import { useGetRealEstate, useRealEstateList } from '../../../src/API/RealEstate';
 
 const MesCharges2 = () => {
   const { params } = useRoute();
   console.log('params from useRoute', params);
-  const allDataByCategory = params;
+  const titlePass = params;
+
   const navigation = useNavigation();
-  // const declarationImpotsForm = useForm<DeclarationImpotsForm>();
+
+  /** Sort by houses and their expenses */
+  const biensDetails = useRealEstateList();
+  const listDeadLine : BudgetLineDeadline[] = [];
+  biensDetails.data?.listRealEstates?.items?.map((item) => {
+    const fullSortExpense = useGetRealEstate(item.id).bienget?.budgetLineDeadlines?.items;
+
+    listDeadLine.push(fullSortExpense);
+    return false;
+  });
+  console.log('Trié par les maison ET leurs expenses', listDeadLine);
 
   const firstDayCurrentYear = new Date(new Date().getFullYear(), 0, 1);
   const lastDayCurrentYear = new Date(new Date().getFullYear(), 11, 31);
@@ -26,60 +37,62 @@ const MesCharges2 = () => {
   const startCurrentMonth = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
   const lastCurrentMonth = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0);
 
-  // console.log('lastDayCurrentYear:', lastDayCurrentYear);
-  // console.log('firstDayCurrentYear:', firstDayCurrentYear);
-  // console.log('firstDayPreviousYear:', firstDayPreviousYear);
-  // console.log('lastDayPreviousYear:', lastDayPreviousYear);
-  // console.log('startCurrentMonth:', startCurrentMonth);
-  // console.log('lastCurrentMonth:', lastCurrentMonth);
-
   const [selectedIndex, setSelectedIndex] = React.useState(0);
 
-  const titlePass = allDataByCategory?.label;
+  const dateRange = { startDate: firstDayCurrentYear, endDate: lastDayCurrentYear };
+  const [range, setRange] = React.useState<CalendarRange<Date>>(dateRange);
 
-  const onMesCharges3 = (allDataByCategory) => {
-    navigation.navigate('mes-charges-3', { ...allDataByCategory });
-    console.log('insideMesCharges3', { ...allDataByCategory });
-  };
-
-  const [radioText, setRadioText] = useState("l'année");
-  const [dateStart, setDateStart] = useState<Date>(firstDayCurrentYear);
-  const [dateEnd, setDateEnd] = useState<Date>(lastDayCurrentYear);
-
-  const dateRange = { startDate: dateStart, endDate: dateEnd };
-  const [range, setRange] = React.useState(dateRange);
-
-  const checkRadio = (i) => {
+  const checkRadio = (i: Number) => {
     switch (i) {
       case 0:
-        setRadioText("l'année");
-        setDateStart(firstDayCurrentYear);
-        setDateEnd(lastDayCurrentYear);
+        setRange({ startDate: firstDayCurrentYear, endDate: lastDayCurrentYear });
         break;
       case 1:
-        setRadioText("l'année -1");
-        setDateStart(firstDayPreviousYear);
-        setDateEnd(lastDayPreviousYear);
+        setRange({ startDate: firstDayPreviousYear, endDate: lastDayPreviousYear });
         break;
       case 2:
-        setRadioText('le mois');
-        setDateStart(startCurrentMonth);
-        setDateEnd(lastCurrentMonth);
+        setRange({ startDate: startCurrentMonth, endDate: lastCurrentMonth });
+        break;
+      default:
         break;
     }
   };
 
-  const websiteElements = () => (
-    <FDatepicker
-      name="currentYearStart"
-      placeholder="currentYearStart"
-      defaultValue={dateStart.toString()}
-      style={{ marginHorizontal: 10 }}
-    />
-  );
+  const controlRange = (rangeToTest:CalendarRange<Date>) => {
+    let checkedRange: CalendarRange<Date> = {};
+    let found = false;
 
-  console.log('log: ', dateStart, dateEnd);
-  console.log('eeeee: ', dateStart.toString());
+    for (let i = 0; i <= 2; i++) {
+      switch (i) {
+        case 0:
+          checkedRange = ({ startDate: firstDayCurrentYear, endDate: lastDayCurrentYear });
+          break;
+        case 1:
+          checkedRange = ({ startDate: firstDayPreviousYear, endDate: lastDayPreviousYear });
+          break;
+        case 2:
+          checkedRange = ({ startDate: startCurrentMonth, endDate: lastCurrentMonth });
+          break;
+        default:
+          break;
+      }
+      if (rangeToTest.startDate?.getTime() === checkedRange.startDate?.getTime()
+          && rangeToTest.endDate?.getTime() === checkedRange.endDate?.getTime()) {
+        setSelectedIndex(i);
+        found = true;
+        return;
+      }
+    }
+
+    if (!found) {
+      setSelectedIndex(-1);
+    }
+  };
+
+  const onMesCharges3 = (range) => {
+    navigation.navigate('mes-charges-3', { ...range });
+    console.log('insideMesCharges3', { ...range });
+  };
 
   return (
     <MaxWidthContainer outerViewProps={{
@@ -89,9 +102,7 @@ const MesCharges2 = () => {
     }}
     >
       <Text category="h1" status="basic">
-        Charge
-        {' '}
-        {titlePass}
+        {`Charge ${titlePass?.title}`}
       </Text>
 
       <RadioGroup
@@ -115,51 +126,41 @@ const MesCharges2 = () => {
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
         <View style={{ flex: 1, marginRight: 15 }}>
           <Text category="h5">
-            Selectionner
-            {' '}
-            {radioText}
+            Sélectionnez les dates
           </Text>
         </View>
-        <FDatepicker
-          name="dateStart"
-          placeholder="Date start"
-          date={dateStart}
-          defaultValue={dateStart.toString()}
-          style={{ marginHorizontal: 10 }}
-          onSelect={(next) => setDateStart(next)}
+        <RangeDatepicker
+          range={range}
+          min={new Date(1900, 0, 1)}
+          max={new Date((new Date()).getFullYear() + 1, 0, 1)}
+            // onChangeValue={(nextDate) => console.log('nextDate', nextDate)}
+          onSelect={
+              (nextRange) => {
+                setRange(nextRange);
+                controlRange(nextRange);
+                console.log('nextRange', nextRange);
+              }
+            }
+          style={{
+            shadowColor: 'rgba(190, 190, 190, 0.5)',
+            shadowOffset: {
+              width: 0,
+              height: 1,
+            },
+            shadowRadius: 2,
+            shadowOpacity: 1,
+            elevation: 2,
+            width: 240,
+          }}
         />
-        <FDatepicker
-          name="dateEnd"
-          placeholder="Date end"
-          defaultValue={dateEnd.toString()}
-          onSelect={(nextDate) => setDateEnd(nextDate)}
-          onChangeValue={(nextDate) => setDateEnd(nextDate)}
-        />
-
       </View>
-      <RangeDatepicker
-        range={range}
-        onChangeValue={(nextDate) => setRange(nextDate)}
-        onSelect={
-          (nextRange) => setRange({ startDate: nextRange.startDate, endDate: nextRange.endDate })
-        }
-        style={{
-          shadowColor: 'rgba(190, 190, 190, 0.5)',
-          shadowOffset: {
-            width: 0,
-            height: 1,
-          },
-          shadowRadius: 2,
-          shadowOpacity: 1,
-          elevation: 2,
-        }}
-      />
 
       <View style={styles.buttonRight}>
         <Button
-          onPress={() => onMesCharges3(allDataByCategory)}
+          onPress={() => onMesCharges3(range)}
           size="large"
           style={{ width: 173 }}
+          disabled={!(range.endDate && range.startDate)}
         >
           Valider
         </Button>

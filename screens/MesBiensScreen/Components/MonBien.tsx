@@ -39,7 +39,7 @@ const MonBien = (props: MonBienProps) => {
   useEffect(() => {
     setBienCharger(bienget);
   }, [bienget]);
-  // console.log('bienCharger : ', bienCharger);
+  console.log('bienCharger : ', bienCharger);
 
   /**
    *   Rentabilité
@@ -65,18 +65,16 @@ const MonBien = (props: MonBienProps) => {
   const currentYear = new Date().getFullYear();
   const currentMonth = new Date().getMonth();
 
-  const allDataLastIncome = bienCharger?.budgetLineDeadlines?.items
-      && bienCharger?.budgetLineDeadlines?.items?.filter((item) => {
-        if (item?.type === BudgetLineType.Income
+  const allDataLastIncome = bienCharger?.budgetLineDeadlines?.items?.filter((item) => {
+    if (item?.type === BudgetLineType.Income
           && !item?._deleted
-        ) {
-          // console.log('income: ', item);
-          return item;
-        }
-        return false;
-      }).pop();
+    ) {
+      return item;
+    }
+    return false;
+  }).pop();
 
-  // console.log('allData Income: ', allDataLastIncome);
+  console.log('allData Income: ', allDataLastIncome);
 
   const allDataNextExpense = bienCharger?.budgetLineDeadlines?.items
   && bienCharger?.budgetLineDeadlines?.items?.map((item) => {

@@ -38,6 +38,7 @@ import DocumentComponent from '../../components/DocumentComponent';
 import { useDeleteDocumentMutation, useDocumentList } from '../../src/API/Document';
 import { usePendingInvitationsList } from '../../src/API/PendingInvitation';
 import { BudgetLineType, RealEstate } from '../../src/API';
+import ReadOnly from '../../components/ReadOnly';
 
 function DetailsBien() {
   const navigation = useNavigation();
@@ -372,7 +373,7 @@ function DetailsBien() {
           </Text>
         </Card>
 
-        <TouchableOpacity onPress={allerModifierCharacteristics}>
+        <TouchableOpacity onPress={() => { if (!ReadOnly.readOnly(route.params.id)) { allerModifierCharacteristics(); } }}>
           <Text category="h5" status="info" style={styles.buttonText}>Modifier le bien</Text>
         </TouchableOpacity>
       </View>

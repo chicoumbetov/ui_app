@@ -50,7 +50,7 @@
         },
         "waitingUser": {
           "deploymentBucketName": "amplify-omedom-dev-175444-deployment",
-          "s3Key": "amplify-builds/waitingUser-78677372704c38744475-build.zip"
+          "s3Key": "amplify-builds/waitingUser-635234306d4b4b7a7973-build.zip"
         },
         "omedomtest": {
           "deploymentBucketName": "amplify-omedom-dev-175444-deployment",

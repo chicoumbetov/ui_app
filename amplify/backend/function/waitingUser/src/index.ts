@@ -19,7 +19,7 @@ exports.handler = async (event) => {
   console.log('cest moi', process.env);
   const appSyncClient = getAppSyncClient(process.env);
   await event.Records.reduce(async (promise, record) => {
-    if (record.eventName === 'MODIFY') {
+    if (record.eventName === 'INSERT') {
       const { email } = record.dynamodb.NewImage;
       // This line will wait for the last async function to finish.
       // The first iteration uses an already resolved Promise

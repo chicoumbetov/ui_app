@@ -94,6 +94,7 @@ app.post('/webhooks/account-synced', async (req, res) => {
           description: transaction.original_wording,
           amount: transaction.value,
           date: transaction.date,
+
         });
       }
     });

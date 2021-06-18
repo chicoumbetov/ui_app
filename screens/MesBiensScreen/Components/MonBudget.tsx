@@ -27,6 +27,7 @@ import MonBudgetCard from './MonBudgetCard';
 import { BudgetLineType } from '../../../src/API';
 import Separator from '../../../components/Separator';
 import Button from '../../../components/Button';
+import ReadOnly from '../../../components/ReadOnly';
 
 function MonBudget() {
   const navigation = useNavigation();
@@ -117,6 +118,7 @@ function MonBudget() {
 
         <Button
           size="large"
+          disabled={ReadOnly.readOnly(route.params.id)}
           onPress={() => { allerAjoutRevenu(); }}
           // style={{ marginTop: 25 }}
         >
@@ -152,6 +154,7 @@ function MonBudget() {
 
         <Button
           size="large"
+          disabled={ReadOnly.readOnly(route.params.id)}
           onPress={() => { allerAjoutCharge(); }}
           style={{ marginTop: 25 }}
         >
@@ -174,7 +177,7 @@ function MonBudget() {
         <Layout style={[styles.docs, { marginBottom: 10, justifyContent: 'center' }]}>
 
           <TouchableOpacity
-            onPress={allerTresorerie}
+            onPress={() => { if (!ReadOnly.readOnly(route.params.id)) { allerTresorerie(); } }}
             style={{
               flexDirection: 'row', alignItems: 'center',
             }}

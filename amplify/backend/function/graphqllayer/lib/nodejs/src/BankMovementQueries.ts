@@ -30,7 +30,6 @@ const getBankMovementsByBiId = async (client: AppSyncClient, biId: number) => {
         biId
         description
         amount
-        budgetLineDeadlineId
         ignored
         date
         _version

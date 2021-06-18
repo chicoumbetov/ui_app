@@ -118,6 +118,12 @@ export declare class TenantInfo {
   constructor(init: ModelInit<TenantInfo>);
 }
 
+export declare class UserToken {
+  readonly userId: string;
+  readonly token: string;
+  constructor(init: ModelInit<UserToken>);
+}
+
 export declare class User {
   readonly id: string;
   readonly lastname?: string;
@@ -249,9 +255,10 @@ export declare class Notification {
   readonly id: string;
   readonly userId: string;
   readonly user?: User;
-  readonly category: string;
-  readonly text: string;
-  readonly params?: string;
+  readonly type: string;
+  readonly title: string;
+  readonly body: string;
+  readonly data?: string;
   readonly createdAt?: string;
   constructor(init: ModelInit<Notification>);
   static copyOf(source: Notification, mutator: (draft: MutableModel<Notification>) => MutableModel<Notification> | void): Notification;
@@ -270,13 +277,10 @@ export declare class BillingHistory {
   static copyOf(source: BillingHistory, mutator: (draft: MutableModel<BillingHistory>) => MutableModel<BillingHistory> | void): BillingHistory;
 }
 
-export declare class NotificationReceipts {
+export declare class NotificationTickets {
   readonly id: string;
-  readonly userId: string;
-  readonly user?: User;
-  readonly expoToken: string;
-  readonly receiptId: string;
-  readonly createdAt?: string;
-  constructor(init: ModelInit<NotificationReceipts>);
-  static copyOf(source: NotificationReceipts, mutator: (draft: MutableModel<NotificationReceipts>) => MutableModel<NotificationReceipts> | void): NotificationReceipts;
+  readonly expoTokens?: UserToken[];
+  readonly ticketIds?: string[];
+  constructor(init: ModelInit<NotificationTickets>);
+  static copyOf(source: NotificationTickets, mutator: (draft: MutableModel<NotificationTickets>) => MutableModel<NotificationTickets> | void): NotificationTickets;
 }

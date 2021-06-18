@@ -143,6 +143,21 @@ const MaTresorerie2 = () => {
           )
 
           )}
+        {supprim && (
+        <TouchableOpacity
+          onPress={() => setSupprim(!supprim)}
+          style={{
+            flexDirection: 'row', marginTop: 30, justifyContent: 'flex-end', backgroundColor: 'transparent',
+          }}
+        >
+          <Text
+            category="h5"
+            status="basic"
+          >
+            Annuler
+          </Text>
+        </TouchableOpacity>
+        )}
 
         <TouchableOpacity
           onPress={() => setSupprim(!supprim)}

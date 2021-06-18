@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.sendTemplateEmail = exports.sendEmail = void 0;
+exports.sendBulkTemplateEmail = exports.sendTemplateEmail = exports.sendEmail = void 0;
 const AWS = require('aws-sdk');
 const SES_CONFIG = {
     accessKeyId: 'AKIAWVY6TCCQIKMQNSS7',
@@ -33,7 +33,7 @@ function sendEmail(recipientEmail, name) {
     return AWS_SES.sendEmail(params).promise();
 }
 exports.sendEmail = sendEmail;
-function sendTemplateEmail(recipientEmail, template) {
+function sendTemplateEmail(recipientEmail, template, data) {
     const params = {
         Source: 'no-reply@app.omedom.com',
         Template: template,
@@ -42,8 +42,23 @@ function sendTemplateEmail(recipientEmail, template) {
                 recipientEmail,
             ],
         },
-        TemplateData: '{"name":"pedro"}',
+        TemplateData: JSON.stringify(data),
     };
     return AWS_SES.sendTemplatedEmail(params).promise();
 }
 exports.sendTemplateEmail = sendTemplateEmail;
+function sendBulkTemplateEmail(recipientEmails, template, data) {
+    const Destinations = recipientEmails.map((email) => ({
+        Destination: {
+            ToAddresses: [email],
+        },
+        ReplacementTemplateData: JSON.stringify(data),
+    }));
+    const params = {
+        Source: 'no-reply@app.omedom.com',
+        Template: template,
+        Destinations,
+    };
+    return AWS_SES.sendBulkTemplatedEmail(params).promise();
+}
+exports.sendBulkTemplateEmail = sendBulkTemplateEmail;

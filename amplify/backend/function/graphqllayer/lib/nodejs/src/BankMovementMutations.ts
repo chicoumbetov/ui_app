@@ -25,7 +25,6 @@ const createBankMovement = async (client: AppSyncClient, input: CreateBankMoveme
       biId
       description
       amount
-      budgetLineDeadlineId
       ignored
       date
       _version
@@ -65,7 +64,6 @@ const updateBankMovement = async (client: AppSyncClient, input: UpdateBankMoveme
       biId
       description
       amount
-      budgetLineDeadlineId
       ignored
       date
       _version

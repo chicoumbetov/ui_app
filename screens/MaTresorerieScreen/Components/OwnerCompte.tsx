@@ -53,7 +53,7 @@ const OwnerCompte = (props: MonBienProps) => {
             />
           </View>
         )}
-        {add && (
+        {add && !supprimer && (
           <View style={{ justifyContent: 'center', paddingHorizontal: 14, width: 50 }}>
             <CheckBox
               checked={checked}

@@ -106,7 +106,7 @@ type Document
   name: String!
   key: String
   s3file: String!
-  createdAt: AWSDateTime
+  createdAt: AWSDateTime!
 }
 
 #should only be available for all operations to users in the admins field of RealEstate model and for read operation to users in the shared field of RealEstate model

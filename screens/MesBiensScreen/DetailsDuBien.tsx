@@ -26,19 +26,20 @@ import MaisonVert from '../../assets/Omedom_Icons_svg/Logement/maison_verte.svg'
 // import ManAvatar from '../../assets/Omedom_Icons_svg/Avatars/manAvatar.svg';
 import WomanAvatar from '../../assets/Omedom_Icons_svg/Avatars/womanAvatar.svg';
 
-// import comptesData from '../../mockData/comptesData';
-// import clientData from '../../mockData/clientDATA';
 import { useDeleteRealEstateMutation, useGetRealEstate } from '../../src/API/RealEstate';
 import { TabMesBiensParamList } from '../../types';
-// import { Upload } from '../../utils/S3FileStorage';
+
 import Card from '../../components/Card';
 import Separator from '../../components/Separator';
-import { useGetUserByIDList } from '../../src/API/User';
+
 import DocumentComponent from '../../components/DocumentComponent';
-import { useDeleteDocumentMutation, useDocumentList } from '../../src/API/Document';
-import { usePendingInvitationsList } from '../../src/API/PendingInvitation';
+import { useCreateDocumentMutation, useDeleteDocumentMutation } from '../../src/API/Document';
+
 import { BudgetLineType, RealEstate } from '../../src/API';
 import ReadOnly from '../../components/ReadOnly';
+import { Upload } from '../../utils/S3FileStorage';
+import Amount from '../../components/Amount';
+import DateUtils from '../../utils/DateUtils';
 
 function DetailsBien() {
   const navigation = useNavigation();
@@ -46,8 +47,8 @@ function DetailsBien() {
   const theme = useTheme();
   const route = useRoute<RouteProp<TabMesBiensParamList, 'detail-bien'>>();
   const { bienget } = useGetRealEstate(route.params.id);
-  const { pendingInvitations } = usePendingInvitationsList();
-  const { documentList } = useDocumentList();
+
+  const createDocument = useCreateDocumentMutation();
   // console.log('detail bien document', documentList);
 
   const [bienCharger, setBienCharger] = useState<RealEstate>();
@@ -57,10 +58,17 @@ function DetailsBien() {
   const [typeRevenu, setTypeRevenu] = useState<string>();
   // console.log(route.params.id);
 
-  const users = useGetUserByIDList(Array.prototype.concat(bienCharger?.admins, bienCharger?.shared));
+  const currentYear = new Date().getFullYear();
+  const currentMonth = new Date().getMonth();
+
+  /**
+  const users = useGetUserByIDList(Array.prototype.concat(
+   bienCharger?.admins,
+   bienCharger?.shared));
   const invitateUserId = pendingInvitations?.filter(
     (item) => item?.realEstateId === route.params.id,
   );
+   */
 
   // console.log(users, invitateUserId);
 
@@ -142,21 +150,14 @@ function DetailsBien() {
       }],
     );
   };
+  /**
   const lastAmount = bienCharger?.budgetLines?.items?.filter((item) => {
     if (item?.type === BudgetLineType.Income && !item?._deleted) {
       return item;
     }
     return false;
   }).pop()?.amount;
-
-  const lastExpense = bienCharger?.budgetLines?.items?.filter((item) => {
-    if (item?.type === BudgetLineType.Expense && !item?._deleted) {
-      return item;
-    }
-    return false;
-  }).pop()?.amount;
-
-  // console.log('detail bien', lastAmount);
+  */
 
   const deleteDoc = useDeleteDocumentMutation();
   const supprimerDocument = async () => {
@@ -176,6 +177,35 @@ function DetailsBien() {
       }],
     );
   };
+
+  const allDataNextExpense = bienCharger?.budgetLineDeadlines?.items
+      && bienCharger?.budgetLineDeadlines?.items?.map((item) => {
+        // years for all existing Eau expenses in whole period
+        // console.log('--------------------', item);
+        const allYears = DateUtils.parseToDateObj(item?.date).getFullYear();
+        const allMonths = DateUtils.parseToDateObj(item?.date).getMonth();
+
+        if (item?.type === BudgetLineType.Expense
+            // eslint-disable-next-line no-underscore-dangle
+            && !item?._deleted
+            && allYears === currentYear
+            && allMonths === currentMonth + 1
+        ) {
+          // console.log('months: ', item?.amount, DateUtils.parseToDateObj(item?.date));
+
+          return item;
+        }
+        return false;
+      });
+
+  const nextexpense = allDataNextExpense?.map((d) => d?.amount)
+    .find((m) => m);
+
+  const dernierMovement = bienCharger?.bankMovements?.items?.map(
+    (item) => { if (item?.ignored) { return false; } return item; },
+  );
+  // console.log('last Movement', dernierMovement);
+
   return (
     <MaxWidthContainer
       withScrollView="keyboardAware"
@@ -219,16 +249,20 @@ function DetailsBien() {
         <Card style={{ flexDirection: 'row' }}>
           <View style={styles.oneThirdBlock}>
             <Text category="h6" appearance="hint" style={styles.text}>Dernier mouvement</Text>
-            <Text category="h3" status="success" style={{ marginTop: 14 }}>
-              {`+ ${lastAmount || '0'} €`}
-            </Text>
+            {dernierMovement ? (
+              <Amount amount={dernierMovement[0]?.amount || 0} category="h4" />
+            ) : (
+              <Amount amount={0} category="h4" />
+            )}
           </View>
 
           <View style={styles.oneThirdBlock}>
             <Text category="h6" appearance="hint" style={styles.text}>
               Prochaine dépense
             </Text>
-            <Text category="h3" status="danger" style={{ marginTop: 14 }}>{`${lastExpense || '0'} €`}</Text>
+            <Text category="h3" status="danger" style={{ marginTop: 14 }}>
+              {`${(nextexpense) || '0'} €`}
+            </Text>
           </View>
 
           <View style={styles.oneThirdBlock}>
@@ -373,7 +407,10 @@ function DetailsBien() {
           </Text>
         </Card>
 
-        <TouchableOpacity onPress={() => { if (!ReadOnly.readOnly(route.params.id)) { allerModifierCharacteristics(); } }}>
+        <TouchableOpacity onPress={() => {
+          if (!ReadOnly.readOnly(route.params.id)) { allerModifierCharacteristics(); }
+        }}
+        >
           <Text category="h5" status="info" style={styles.buttonText}>Modifier le bien</Text>
         </TouchableOpacity>
       </View>
@@ -440,7 +477,7 @@ function DetailsBien() {
         <Text category="s2" style={{ marginBottom: 30 }}>
           Documents
         </Text>
-        {documentList?.listDocuments?.items?.map(
+        {bienget?.documents?.items?.map(
           (item) => <DocumentComponent key={item?.id} document={item} />,
         )}
 
@@ -448,19 +485,29 @@ function DetailsBien() {
           <TouchableOpacity
             onPress={
                 async () => {
-                  if (!ReadOnly.readOnly(route.params.id)) {
                   // console.log('should');
-                    const doc = await DocumentPicker.getDocumentAsync();
-                  // const key = await Upload(doc, `biens/${route.params.id}/documents/`);
-                  // console.log(key);
+                  const doc = await DocumentPicker.getDocumentAsync();
+                  const name = doc.type === 'success' ? doc.name : '';
+                  const s3file = await Upload(doc, `biens/${route.params.id}/documents/`);
+                  if (s3file !== false && route.params.id) {
+                    const doc = await createDocument.createDocument({
+                      variables: {
+                        input: {
+                          s3file: s3file.key,
+                          realEstateId: route.params.id,
+                          name,
+                        },
+                      },
+                    });
                   }
+                  // console.log(key);
                 }
 }
           >
             <Text category="h5" status="info" style={styles.buttonText}>Ajouter</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => { if (!ReadOnly.readOnly(route.params.id)) { supprimerDocument(); } }}>
+          <TouchableOpacity onPress={() => { supprimerDocument(); }}>
             <Text category="h5" status="basic" style={styles.buttonText}>Supprimer</Text>
           </TouchableOpacity>
         </View>
@@ -493,12 +540,15 @@ function DetailsBien() {
         </Card>
 
         <View style={styles.button}>
-          <TouchableOpacity onPress={() => { if (!ReadOnly.readOnly(route.params.id)) { allerPartagerBien(); } }}>
+          <TouchableOpacity onPress={() => {
+            if (!ReadOnly.readOnly(route.params.id)) { allerPartagerBien(); }
+          }}
+          >
             <Text category="h5" status="info" style={styles.buttonText}>Ajouter</Text>
           </TouchableOpacity>
 
           <TouchableOpacity onPress={() => {
-            if (!ReadOnly.readOnly(route.params.id)) {}
+            // if (!ReadOnly.readOnly(route.params.id)) {}
             // console.log(useGetInvitateUser.userList);
           }}
           >
@@ -512,7 +562,10 @@ function DetailsBien() {
        */}
       <Separator />
 
-      <TouchableOpacity onPress={() => { if (!ReadOnly.readOnly(route.params.id)) { supprimerLeRevenue(); } }}>
+      <TouchableOpacity onPress={() => {
+        if (!ReadOnly.readOnly(route.params.id)) { supprimerLeRevenue(); }
+      }}
+      >
         <View style={[styles.container, { alignItems: 'center' }]}>
           <Text category="h5" status="danger" style={{ marginVertical: 20 }}>
             Supprimer le bien

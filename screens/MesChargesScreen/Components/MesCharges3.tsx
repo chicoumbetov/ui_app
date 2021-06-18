@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Text, useTheme } from '@ui-kitten/components';
 
-import { StyleSheet, View } from 'react-native';
-import { VictoryPie } from 'victory-native';
+import { View } from 'react-native';
+import { VictoryLabel, VictoryPie } from 'victory-native';
 
 import { useRoute } from '@react-navigation/native';
 import CompteHeader from '../../../components/CompteHeader/CompteHeader';
-import comptesData from '../../../mockData/comptesData';
 import MaxWidthContainer from '../../../components/MaxWidthContainer';
 import { useRealEstateList } from '../../../src/API/RealEstate';
 import DateUtils from '../../../utils/DateUtils';
@@ -21,60 +20,53 @@ const data = [
 const MesCharges3 = () => {
   const theme = useTheme();
   const route = useRoute();
-  console.log('route dans MesCharges 3', route.params);
+  // console.log('route dans MesCharges 3', route.params);
 
+  /** 11111111 */
   const { range, title } = route.params;
-  console.log('dans ', range);
+  // console.log('dans ', range);
 
-  /** Sort by houses and their expenses */
+  /** 22222222222 */
   const biensDetails = useRealEstateList();
 
+  /** 33333333333 */
   const fullSortExpense = biensDetails.data?.listRealEstates?.items?.map(
-    (item) => item?.budgetLineDeadlines?.items,
+    (item) => (item && {
+      ...item,
+      totalValue: item?.budgetLineDeadlines?.items?.filter((x) => (x && x?.category === title
+        // eslint-disable-next-line no-underscore-dangle
+        && !x._deleted
+        && DateUtils.parseToDateObj(x.date) >= range.startDate
+        && DateUtils.parseToDateObj(x.date) <= range.endDate))
+        .reduce((t, x) => t + (x ? x.amount : 0), 0),
+    }),
   );
-  console.log('Tout depènse de tout les maisons', fullSortExpense);
-
-  const total = [];
-
-  fullSortExpense?.map((itemExpense) => {
-    itemExpense.map((x) => {
-      if (x?.category === title
-          // eslint-disable-next-line no-underscore-dangle
-          && !x._deleted
-          && DateUtils.parseToDateObj(x.date) >= range.startDate
-          && DateUtils.parseToDateObj(x.date) <= range.endDate
-      ) {
-        total.push(x);
-      }
-    });
-  });
-  console.log('Trié par les maison ET leurs expenses', total);
 
   /** Object with 3 attributes and its key */
   const allCurrentCategories: {
     [key: string]: { value: number, percentage: number, label: string }
   } = {};
 
-  total && total.forEach((item) => {
-    console.log('maison', item);
-    const name = biensDetails.data?.listRealEstates?.items?.filter((bien) => bien.id === item.realEstateId)[0]?.name;
-    if (allCurrentCategories[name] === undefined) {
-      /**
-       * initial values and then calculate percentage starting from 0
-       */
-      allCurrentCategories[name] = {
-        value: item?.amount || 0,
-        percentage: 0,
-        label: item?.category,
-      };
-    } else {
-      /** else If any expoense exist then we add to allCurrentCategories variable */
-      allCurrentCategories[name].value += item?.amount || 0;
-    }
-  });
+  /** 66666666 */
+  if (fullSortExpense) {
+    fullSortExpense.forEach((item) => {
+      // console.log('maison', item);
+      if (item) {
+        allCurrentCategories[item.name] = {
+          value: item.totalValue || 0,
+          percentage: 0,
+          label: item.name,
+        };
+      }
+    });
+  }
 
-  const totalExpenses = Object.values(allCurrentCategories).reduce((t, { value }) => t + value, 0);
+  /** 4444444 */
+  const totalExpenses = Object.values(allCurrentCategories)
+    .reduce((t, { value }) => t + value, 0);
+  // console.log('totalExpenses', totalExpenses);
 
+  /** 55555 */
   // percentages
   Object.keys(allCurrentCategories).forEach((property) => {
     /** Get only percentage variable number that is coefficient from allCurrentCategories and
@@ -83,25 +75,27 @@ const MesCharges3 = () => {
       .round((allCurrentCategories[property].value / totalExpenses) * 100);
   });
 
-  console.log('allCurrentCategories', Object.keys(allCurrentCategories));
-  const houseName = Object.keys(allCurrentCategories);
+  // console.log('fullSortExpense', fullSortExpense);
+  // console.log('allCurrentCategories', allCurrentCategories);
 
-  const [victoryData] = useState(Object.values(allCurrentCategories));
-  console.log('data :', victoryData);
+  /** 777777777 999999 */
+  const [victorydata, setVictoryData] = useState(Object.entries(allCurrentCategories).map(
+    (item, index) => (
+      { x: 0, y: index === 0 ? 100 : 0, i: item[1].label }),
+  ));
+  // console.log('victorydata :', victorydata);
 
-  const victory = victoryData.map(
-    (val) => (
-      { x: val.value, y: val.percentage, i: val.label }),
-  );
+  /** 8888888 */
+  useEffect(() => {
+    const victory = Object.entries(allCurrentCategories).map(
+      (item) => ({ x: item[1].value, y: item[1].percentage, i: item[1].label }),
+    );
+    setVictoryData(victory); // Setting the data that we want to display
+  }, []);
 
-  console.log('victory', victory);
+  // const [mesCharges] = useState(comptesData);
 
-  const [mesCharges] = useState(comptesData);
-
-  // const navigation = useNavigation();
-  // const onMesCharges1 = () => { navigation.navigate('MesCharges1'); };
-
-  const colorScale = [
+  const colorscale = [
     theme['color-success-400'],
     theme['color-warning-500'],
     theme['color-info-500'],
@@ -117,12 +111,13 @@ const MesCharges3 = () => {
   ];
 
   return (
-    <MaxWidthContainer outerViewProps={{
-      style: {
-        paddingVertical: 24,
-        paddingHorizontal: 21,
-      },
-    }}
+    <MaxWidthContainer
+      outerViewProps={{
+        style: {
+          paddingVertical: 24,
+          paddingHorizontal: 21,
+        },
+      }}
     >
       <Text
         category="h1"
@@ -135,10 +130,9 @@ const MesCharges3 = () => {
       </Text>
       <View style={{
         backgroundColor: theme['color-basic-100'],
-        paddingLeft: 41,
+        paddingHorizontal: 80,
         marginVertical: 12,
-        paddingTop: 30,
-        paddingBottom: 20,
+        paddingVertical: 40,
       }}
       >
         <VictoryPie
@@ -147,18 +141,27 @@ const MesCharges3 = () => {
           endAngle={333}
           cornerRadius={30}
           height={272}
-          width={272}
+          width={320}
           innerRadius={67}
-          data={victory}
-          labels={(datum) => `${datum.datum.y} %`}
-          colorScale={colorScale}
+          data={victorydata}
+          animate={{ easing: 'exp' }}
+          labels={(datum) => [`${Math.round(datum.datum.y)} %`, `${Math.round(datum.datum.x)} €`]}
+          labelComponent={(
+            <VictoryLabel
+              style={[
+                { fill: 'black', fontSize: 16, fontFamily: 'HouschkaRoundedDemiBold' },
+                { fill: '#b5b5b5', fontSize: 16, fontFamily: 'HouschkaRoundedDemiBold' },
+              ]}
+            />
+          )}
+          colorScale={colorscale}
         />
         <View style={{ borderBottomWidth: 1, marginRight: 40, borderBottomColor: '#f5f5f5' }} />
 
-        {houseName.map((g, index) => (
-          <>
+        {victorydata.map((item, index) => (item.i !== ''
+            && (
             <View
-              key={index}
+              key={item.i}
               style={{
                 flex: 1,
                 flexDirection: 'row',
@@ -166,43 +169,19 @@ const MesCharges3 = () => {
                 alignItems: 'center',
               }}
             >
-              <View style={[
-                styles.circles,
-                { backgroundColor: theme['color-info-500'] },
-              ]}
-              />
               <View
                 style={{
-                  backgroundColor: colorScale[g.indexOf(g)],
+                  backgroundColor: colorscale[index],
                   height: 30,
                   width: 30,
                   borderRadius: 30,
                   marginRight: 10,
                 }}
               />
-              <CompteHeader title={g} />
+              <CompteHeader title={item.i} />
             </View>
-          </>
+            )
         ))}
-
-        {/**
-         <View style={{ borderBottomWidth: 1, marginRight: 40, borderBottomColor: '#f5f5f5' }} />
-        <FlatList
-          data={mesCharges}
-          keyExtractor={(item) => item.id}
-          renderItem={(item) => (
-            <Layout style={{ flexDirection: 'row', alignItems: 'center', marginTop: 10 }}>
-              <Layout style={[
-                styles.circles,
-                { backgroundColor: theme['color-info-500'] },
-              ]}
-              />
-              <CompteHeader title={item.item.title} />
-            </Layout>
-          )}
-        />
-        */}
-
       </View>
     </MaxWidthContainer>
 
@@ -210,13 +189,3 @@ const MesCharges3 = () => {
 };
 
 export default MesCharges3;
-
-const styles = StyleSheet.create({
-  circles: {
-    marginTop: 10,
-    height: 20,
-    width: 20,
-    borderRadius: 30,
-    marginRight: 20,
-  },
-});

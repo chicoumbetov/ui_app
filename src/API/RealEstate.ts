@@ -32,7 +32,7 @@ import {
   UpdateRealEstateMutation,
   UpdateRealEstateMutationVariables,
 } from '../API';
-import { getRealEstate, listRealEstates } from '../graphql/queries';
+import { getRealEstate } from '../graphql/queries';
 import * as mutations from '../graphql/mutations';
 import * as subscriptions from '../graphql/subscriptions';
 import { useUser } from './UserContext';
@@ -459,7 +459,7 @@ export function useGetRealEstate(id: string) {
         nextToken
         startedAt
       }
-      documents {
+      documents(sortDirection: DESC) {
         items {
           id
           realEstateId
@@ -484,6 +484,13 @@ export function useGetRealEstate(id: string) {
           amount
           frequency
           nextDueDate
+          infoCredit {
+            borrowedCapital
+            loadStartDate
+            duration
+            interestRate
+            assuranceRate
+          }
           tenantId
           _version
           _deleted
@@ -505,12 +512,32 @@ export function useGetRealEstate(id: string) {
           amount
           frequency
           date
+          infoCredit {
+            amount
+            interest
+            assurance
+          }
           tenantId
           _version
           _deleted
           _lastChangedAt
           createdAt
           updatedAt
+          bankMouvement {
+            id
+            bankAccountId
+            realEstateId
+            biId
+            description
+            amount
+            ignored
+            date
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
         }
         nextToken
         startedAt
@@ -520,6 +547,11 @@ export function useGetRealEstate(id: string) {
           id
           realEstateId
           bankAccountId
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
           bankAccount {
             id
             bank
@@ -528,17 +560,20 @@ export function useGetRealEstate(id: string) {
             iban
             bic
             balance
+            biId
+            biConnectionId
+            biState
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
           }
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
         }
         nextToken
         startedAt
       }
-      bankMovements {
+      bankMovements(sortDirection: DESC) {
         items {
           id
           bankAccountId

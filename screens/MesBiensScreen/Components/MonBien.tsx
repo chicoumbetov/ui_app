@@ -19,8 +19,9 @@ import RotatingIcon from '../../../components/Icon/RotatingIcon';
 import MaxWidthContainer from '../../../components/MaxWidthContainer';
 import { RealEstateItem, useGetRealEstate } from '../../../src/API/RealEstate';
 import Card from '../../../components/Card';
-import { BankMovement, BudgetLineType, RealEstate } from '../../../src/API';
+import { BudgetLineType, RealEstate } from '../../../src/API';
 import DateUtils from '../../../utils/DateUtils';
+import Amount from '../../../components/Amount';
 
 type MonBienProps = { biens: RealEstateItem };
 
@@ -38,7 +39,7 @@ const MonBien = (props: MonBienProps) => {
   useEffect(() => {
     setBienCharger(bienget);
   }, [bienget]);
-  console.log('bienCharger : ', bienCharger);
+  // console.log('bienCharger : ', bienCharger);
 
   /**
    *   Rentabilité
@@ -57,38 +58,25 @@ const MonBien = (props: MonBienProps) => {
    *
    *  Soit : 8 400 - 2 000 x 100/ 100 000 = 6,4%.
    */
-  // let rentability;
+
   /**
    *   Summarizing of each expenses and incomes
    */
   const currentYear = new Date().getFullYear();
   const currentMonth = new Date().getMonth();
 
-  const allDataLastIncome = bienCharger?.budgetLineDeadlines?.items?.filter((item) => {
-    if (item?.type === BudgetLineType.Income
-          && !item?._deleted
-    ) {
-      return item;
-    }
-    return false;
-  }).pop();
-
-  console.log('allData Income: ', allDataLastIncome);
-
   const allDataNextExpense = bienCharger?.budgetLineDeadlines?.items
   && bienCharger?.budgetLineDeadlines?.items?.map((item) => {
     // years for all existing Eau expenses in whole period
-    console.log('--------------------', item);
     const allYears = DateUtils.parseToDateObj(item?.date).getFullYear();
     const allMonths = DateUtils.parseToDateObj(item?.date).getMonth();
 
     if (item?.type === BudgetLineType.Expense
+        // eslint-disable-next-line no-underscore-dangle
         && !item?._deleted
         && allYears === currentYear
         && allMonths === currentMonth + 1
     ) {
-      // console.log('months: ', item?.amount, DateUtils.parseToDateObj(item?.date));
-
       return item;
     }
     return false;
@@ -96,12 +84,6 @@ const MonBien = (props: MonBienProps) => {
 
   const nextexpense = allDataNextExpense?.map((d) => d?.amount)
     .find((m) => m);
-
-  // console.log('item', allDataNextExpense);
-  // console.log('closest date', nextexpense);
-  // console.log('NEXT');
-
-  /** Frais compatible was changed to Frais Divers  and amount was changed from 33 to 9 */
 
   /** Object with 3 attributes and its key */
   const allCurrentCategories: {
@@ -146,7 +128,7 @@ const MonBien = (props: MonBienProps) => {
       .round((allCurrentCategories[property].value / totalExpenses) * 100);
   });
 
-  // console.log('allCurrentCategories', allCurrentCategories);
+  // console.log('allCurrentCategories Mon Bien', allCurrentCategories);
 
   /** Redirections */
   const allerTresorerie = () => {
@@ -160,6 +142,10 @@ const MonBien = (props: MonBienProps) => {
     linkTo(`/mes-biens/bien/${id}`);
   };
 
+  const dernierMovement = bienCharger?.bankMovements?.items?.map(
+    (item) => { if (item?.ignored) { return false; } return item; },
+  );
+  // console.log('last Movement', dernierMovement);
   return (
     <MaxWidthContainer
       withScrollView="keyboardAware"
@@ -205,7 +191,12 @@ const MonBien = (props: MonBienProps) => {
                   }}
                 />
               </View>
-              <Text category="h4" status="success">{`+ ${allDataLastIncome?.amount || '0'} €`}</Text>
+              {dernierMovement ? (
+                <Amount amount={dernierMovement[0]?.amount || 0} category="h4" />
+              ) : (
+                <Amount amount={0} category="h4" />
+              )}
+
             </View>
 
             {/**
@@ -256,7 +247,12 @@ const MonBien = (props: MonBienProps) => {
             >
               <View style={styles.oneThirdBlock}>
                 <Text category="h6" appearance="hint" style={styles.text}>Dernier mouvement</Text>
-                <Text category="h4" status="success" style={{ marginVertical: 14 }}>{`+ ${allDataLastIncome?.amount || '0'} €`}</Text>
+                {dernierMovement ? (
+                  <Amount amount={dernierMovement[0]?.amount || 0} category="h4" />
+                ) : (
+                  <Amount amount={0} category="h4" />
+                )}
+
                 <TouchableOpacity onPress={() => {}}>
                   <Text category="h6" status="info">Affecter</Text>
                 </TouchableOpacity>

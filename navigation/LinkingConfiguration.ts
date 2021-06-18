@@ -35,8 +35,8 @@ export default {
                 path: 'mes-charges',
                 screens: {
                   'mes-charges': '/',
-                  'mes-charges-2': '/mes-charges-2/:id',
-                  'mes-charges-3': '/mes-charges-3/:id',
+                  'mes-charges-2': '/mes-charges-2/:title',
+                  'mes-charges-3': '/mes-charges-3/:title',
                 },
               },
               'tableau-de-bord': {

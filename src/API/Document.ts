@@ -58,7 +58,7 @@ const listDocumentsQuery = <DocumentNode>gql(listDocuments);
 
 export function useDocumentList() {
   const {
-    loading, data, fetchMore, refetch, subscribeToMore,
+    data,
   } = useQuery<ListDocumentsQuery, ListDocumentsQueryVariables>(listDocumentsQuery);
 
   return { documentList: data };
@@ -76,6 +76,26 @@ export async function getDocumentByKey(client: ApolloClient<object>, key: string
 
   return documents.data.documentByKey?.items?.pop();
 }
+
+export const createDocumentQuery = /* GraphQL */ `
+  mutation CreateDocument(
+    $input: CreateDocumentInput!
+    $condition: ModelDocumentConditionInput
+  ) {
+    createDocument(input: $input, condition: $condition) {
+      id
+      realEstateId
+      name
+      key
+      s3file
+      _version
+      _deleted
+      _lastChangedAt
+      createdAt
+      updatedAt
+    }
+  }
+`;
 
 export function useUpdateDocumentMutation() {
   // eslint-disable-next-line @typescript-eslint/no-shadow
@@ -131,7 +151,7 @@ export function useDeleteDocumentMutation() {
 export function useCreateDocumentMutation() {
   const getRealEstatesQuery = <DocumentNode>gql(getRealEstate);
   const [createDocument, { loading: mutationLoading }] = useMutation<CreateDocumentMutation,
-  CreateDocumentMutationVariables>(gql(mutations.createDocument),
+  CreateDocumentMutationVariables>(gql(createDocumentQuery),
     {
       update: (cache, { data: mutationData }) => {
         if (mutationData) {

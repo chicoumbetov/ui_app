@@ -1300,22 +1300,29 @@ export const schema = {
                         "targetName": "userId"
                     }
                 },
-                "category": {
-                    "name": "category",
+                "type": {
+                    "name": "type",
                     "isArray": false,
                     "type": "String",
                     "isRequired": true,
                     "attributes": []
                 },
-                "text": {
-                    "name": "text",
+                "title": {
+                    "name": "title",
                     "isArray": false,
                     "type": "String",
                     "isRequired": true,
                     "attributes": []
                 },
-                "params": {
-                    "name": "params",
+                "body": {
+                    "name": "body",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "data": {
+                    "name": "data",
                     "isArray": false,
                     "type": "AWSJSON",
                     "isRequired": false,
@@ -1494,8 +1501,8 @@ export const schema = {
                 }
             ]
         },
-        "NotificationReceipts": {
-            "name": "NotificationReceipts",
+        "NotificationTickets": {
+            "name": "NotificationTickets",
             "fields": {
                 "id": {
                     "name": "id",
@@ -1504,82 +1511,36 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "userId": {
-                    "name": "userId",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "user": {
-                    "name": "user",
-                    "isArray": false,
+                "expoTokens": {
+                    "name": "expoTokens",
+                    "isArray": true,
                     "type": {
-                        "model": "User"
+                        "nonModel": "UserToken"
                     },
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": [],
-                    "association": {
-                        "connectionType": "HAS_ONE",
-                        "associatedWith": "id",
-                        "targetName": "userId"
-                    }
+                    "isArrayNullable": true
                 },
-                "expoToken": {
-                    "name": "expoToken",
-                    "isArray": false,
+                "ticketIds": {
+                    "name": "ticketIds",
+                    "isArray": true,
                     "type": "String",
                     "isRequired": true,
-                    "attributes": []
-                },
-                "receiptId": {
-                    "name": "receiptId",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "createdAt": {
-                    "name": "createdAt",
-                    "isArray": false,
-                    "type": "AWSDateTime",
-                    "isRequired": false,
-                    "attributes": []
+                    "attributes": [],
+                    "isArrayNullable": true
                 }
             },
             "syncable": true,
-            "pluralName": "NotificationReceipts",
+            "pluralName": "NotificationTickets",
             "attributes": [
                 {
                     "type": "model",
                     "properties": {}
                 },
                 {
-                    "type": "key",
-                    "properties": {
-                        "name": "notificationReceiptsByUser",
-                        "fields": [
-                            "userId",
-                            "createdAt"
-                        ]
-                    }
-                },
-                {
                     "type": "auth",
                     "properties": {
                         "rules": [
-                            {
-                                "provider": "userPools",
-                                "ownerField": "userId",
-                                "allow": "owner",
-                                "identityClaim": "cognito:username",
-                                "operations": [
-                                    "create",
-                                    "update",
-                                    "delete",
-                                    "read"
-                                ]
-                            },
                             {
                                 "allow": "private",
                                 "provider": "iam",
@@ -2027,7 +1988,26 @@ export const schema = {
                     "attributes": []
                 }
             }
+        },
+        "UserToken": {
+            "name": "UserToken",
+            "fields": {
+                "userId": {
+                    "name": "userId",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "token": {
+                    "name": "token",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": []
+                }
+            }
         }
     },
-    "version": "fdbc53f9a9e0891cdf0ce68d3df61d2e"
+    "version": "2edb9513fb359b95c820af443d4ebadd"
 };

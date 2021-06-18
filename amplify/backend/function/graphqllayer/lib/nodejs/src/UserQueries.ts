@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 import {
   GetUserQuery,
-  GetUserQueryVariables,
+  GetUserQueryVariables, SubscriptionType,
   UserByEmailQuery,
   UserByEmailQueryVariables,
 } from '../../../../../../../src/API';
@@ -12,15 +12,103 @@ const getUserById = async (client: AppSyncClient, id: string): Promise<false |
   __typename: 'User',
   id: string,
   biToken?: string | null,
-  biUser?: string | null
+  biUser?: string | null,
+  email?: string | null,
+  expoToken?: Array< string > | null,
+  privateProfile?: {
+    __typename: 'ProfileInfo',
+    notificationParams?: {
+      __typename: 'NotificationParams',
+      echeanceFacture?: {
+        __typename: 'NotificationParam',
+        push?: boolean | null,
+        email?: boolean | null,
+      } | null,
+      loyer?: {
+        __typename: 'NotificationParam',
+        push?: boolean | null,
+        email?: boolean | null,
+      } | null,
+      debitBancaire?: {
+        __typename: 'NotificationParam',
+        push?: boolean | null,
+        email?: boolean | null,
+      } | null,
+      creditBancaire?: {
+        __typename: 'NotificationParam',
+        push?: boolean | null,
+        email?: boolean | null,
+      } | null,
+      soldeNegatif?: {
+        __typename: 'NotificationParam',
+        push?: boolean | null,
+        email?: boolean | null,
+      } | null,
+      retardLoyer?: {
+        __typename: 'NotificationParam',
+        push?: boolean | null,
+        email?: boolean | null,
+      } | null,
+      mauvaiseRenta?: {
+        __typename: 'NotificationParam',
+        push?: boolean | null,
+        email?: boolean | null,
+      } | null,
+      autre?: {
+        __typename: 'NotificationParam',
+        push?: boolean | null,
+        email?: boolean | null,
+      } | null,
+    } | null,
+  } | null,
+  _version: number,
 } | null> => {
   try {
     const { data } = await client.query<GetUserQuery, GetUserQueryVariables>({
       query: gql(`query GetUser($id: ID!) {
         getUser(id: $id) {
           id
+          email
           biToken
           biUser
+          expoToken
+          privateProfile {
+            notificationParams {
+              echeanceFacture {
+                push
+                email
+              }
+              loyer {
+                push
+                email
+              }
+              debitBancaire {
+                push
+                email
+              }
+              creditBancaire {
+                push
+                email
+              }
+              soldeNegatif {
+                push
+                email
+              }
+              retardLoyer {
+                push
+                email
+              }
+              mauvaiseRenta {
+                push
+                email
+              }
+              autre {
+                push
+                email
+              }
+            }
+          }
+          _version
         }
       }`), // use your graphql query here
       variables: {
@@ -35,6 +123,7 @@ const getUserById = async (client: AppSyncClient, id: string): Promise<false |
   } catch (e) {
     console.error(e);
   }
+  return false;
 };
 
 const getUserByEmail = async (client: AppSyncClient, email: string): Promise<false |

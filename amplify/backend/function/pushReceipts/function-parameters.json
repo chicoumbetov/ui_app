@@ -1,4 +1,12 @@
 {
+  "permissions": {
+    "api": {
+      "omedom": [
+        "Query",
+        "Mutation"
+      ]
+    }
+  },
   "lambdaLayers": [
     {
       "type": "ProjectLayer",
@@ -7,13 +15,5 @@
       "version": "Always choose latest version",
       "isLatestVersionSelected": true
     }
-  ],
-  "permissions": {
-    "api": {
-      "omedom": [
-        "Query",
-        "Mutation"
-      ]
-    }
-  }
+  ]
 }

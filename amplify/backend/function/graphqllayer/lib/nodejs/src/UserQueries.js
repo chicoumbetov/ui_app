@@ -8,8 +8,46 @@ const getUserById = async (client, id) => {
             query: graphql_tag_1.default(`query GetUser($id: ID!) {
         getUser(id: $id) {
           id
+          email
           biToken
           biUser
+          expoToken
+          privateProfile {
+            notificationParams {
+              echeanceFacture {
+                push
+                email
+              }
+              loyer {
+                push
+                email
+              }
+              debitBancaire {
+                push
+                email
+              }
+              creditBancaire {
+                push
+                email
+              }
+              soldeNegatif {
+                push
+                email
+              }
+              retardLoyer {
+                push
+                email
+              }
+              mauvaiseRenta {
+                push
+                email
+              }
+              autre {
+                push
+                email
+              }
+            }
+          }
         }
       }`),
             variables: {
@@ -25,6 +63,7 @@ const getUserById = async (client, id) => {
     catch (e) {
         console.error(e);
     }
+    return false;
 };
 exports.getUserById = getUserById;
 const getUserByEmail = async (client, email) => {

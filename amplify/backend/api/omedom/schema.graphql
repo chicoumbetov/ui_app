@@ -309,9 +309,10 @@ type Notification @model
     id: ID!
     userId: ID!
     user: User @connection (fields: ["userId"])
-    category: String!
-    text: String!
-    params: AWSJSON
+    type: String!
+    title: String!
+    body: String!
+    data: AWSJSON
     createdAt: AWSDateTime
 }
 
@@ -332,17 +333,17 @@ type BillingHistory @model
     paid: Boolean
 }
 
-type NotificationReceipts @model
+type NotificationTickets @model
 @auth(rules: [
-    {allow: owner, ownerField: "userId"}
     { allow: private, provider: iam }
 ])
-@key(name: "notificationReceiptsByUser", fields: ["userId","createdAt"])
 {
     id: ID!
-    userId: ID!
-    user: User @connection (fields: ["userId"])
-    expoToken: String!
-    receiptId: String!
-    createdAt: AWSDateTime
+    expoTokens: [UserToken!]
+    ticketIds: [String!]
+}
+
+type UserToken {
+  userId: String!
+  token: String!
 }

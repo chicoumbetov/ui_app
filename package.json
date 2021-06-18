@@ -14,6 +14,8 @@
     "amplify:seslayer": "cd amplify/backend/function/seslayer/lib/nodejs/src && tsc",
     "amplify:shareRealEstate": "cd amplify/backend/function/shareRealEstate/src && tsc",
     "amplify:transactionWebHook": "cd amplify/backend/function/transactionWebHook/src && tsc",
+    "amplify:sendNotification": "cd amplify/backend/function/sendNotification/src && tsc",
+    "amplify:pushReceipts": "cd amplify/backend/function/pushReceipts/src && tsc",
     "amplify:budgetinsightlayer": "cd amplify/backend/function/budgetinsightlayer/lib/nodejs/src && tsc",
     "postinstall": "patch-package"
   },

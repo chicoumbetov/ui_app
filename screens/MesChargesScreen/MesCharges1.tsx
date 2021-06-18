@@ -1,18 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Text, useTheme } from '@ui-kitten/components';
-
-import {
-  TouchableOpacity,
-} from 'react-native';
 
 import { Icon as IconUIKitten } from '@ui-kitten/components/ui/icon/icon.component';
 import { useNavigation } from '@react-navigation/native';
 import MaxWidthContainer from '../../components/MaxWidthContainer';
 import Card from '../../components/Card';
-import { useGetRealEstate, useRealEstateList } from '../../src/API/RealEstate';
-import { BudgetLineDeadline, BudgetLineType } from '../../src/API';
-import DateUtils from '../../utils/DateUtils';
+import { useRealEstateList } from '../../src/API/RealEstate';
+import { BudgetLineType } from '../../src/API';
 
+/**
 const DATA = [
   {
     id: '0',
@@ -35,60 +31,51 @@ const DATA = [
     isChecked: false,
   },
 ];
+ */
 
 const MesCharges1 = () => {
   const navigation = useNavigation();
   const theme = useTheme();
-  // const [charges] = useState(DATA);
   const biensDetails = useRealEstateList();
-  const listDeadLine : BudgetLineDeadline[] = [];
+
   const houseBudgetLineDeadlines = biensDetails.data?.listRealEstates?.items?.map(
     (item) => item?.budgetLineDeadlines,
   );
-  biensDetails.data?.listRealEstates?.items?.map((item) => {
-    const test = useGetRealEstate(item.id).bienget.budgetLineDeadlines?.items;
-    listDeadLine.push(test);
-  });
-  console.log('*************', listDeadLine);
-  // const currentYear = new Date().getFullYear();
 
   /** Object with 3 attributes and its key */
   const allCurrentCategories: {
     [key: string]: { value: number, label: string }
   } = {};
 
-  // console.log('AAAAAAAAA');
-
   if (houseBudgetLineDeadlines) {
     houseBudgetLineDeadlines.forEach((item) => {
       item?.items.forEach((itemBudget) => {
-        // const allYears = DateUtils.parseToDateObj(itemBudget?.date).getFullYear();
         if (itemBudget?.category
         && itemBudget.type === BudgetLineType.Expense) {
           // console.log('itemBudget: ', itemBudget);
           if (allCurrentCategories[itemBudget?.category] === undefined) {
-            /**
-             * initial values and then calculate percentage starting from 0
-             */
             allCurrentCategories[itemBudget?.category] = {
               value: itemBudget?.amount || 0,
               label: itemBudget?.category,
             };
           }
-          /** else If any expoense exist then we add to allCurrentCategories variable */
+
           allCurrentCategories[itemBudget?.category].value += itemBudget?.amount || 0;
         }
       });
       return false;
     });
   }
+
   const labels = Object.values(allCurrentCategories);
   const totalExpenses = Object.values(allCurrentCategories).reduce((t, { value }) => t + value, 0);
+
+  console.log('Trié que par les expenses', houseBudgetLineDeadlines);
   console.log('allCurrentCategories', Object.values(allCurrentCategories));
   console.log('totalExpenses', totalExpenses);
 
-  const onMesCharges2 = (listDeadline) => {
-    navigation.navigate('mes-charges-2', listDeadline);
+  const onMesCharges2 = (labl) => {
+    navigation.navigate('mes-charges-2', { title: labl.label });
   };
 
   return (
@@ -113,8 +100,10 @@ const MesCharges1 = () => {
 
       {labels.map((lbl, index) => (
         <Card
+          // Only do this if items have no stable IDs
+          // https://reactjs.org/docs/lists-and-keys.html#keys
           key={index}
-          onPress={() => { onMesCharges2(listDeadLine); }}
+          onPress={() => { onMesCharges2(lbl); }}
           style={{
             padding: 23,
             marginVertical: 10,

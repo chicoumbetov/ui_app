@@ -13,6 +13,7 @@ import { BudgetLine, BudgetLineType, RealEstate } from '../../../src/API';
 import MaxWidthContainer from '../../../components/MaxWidthContainer';
 import { TabMesBiensParamList } from '../../../types';
 import { useDeleteBudgetLineMutation } from '../../../src/API/BudgetLine';
+import ReadOnly from '../../../components/ReadOnly';
 
 type MonBudgetProps = { budget: BudgetLine, realEstate: RealEstate };
 
@@ -161,14 +162,14 @@ const MonBudgetCard = (props: MonBudgetProps) => {
 
       <View style={styles.button}>
         <TouchableOpacity onPress={
-          () => { budget.type === BudgetLineType.Income ? (allerModifierRevenu()) : (allerModifierCharge()); }
+          () => { if (!ReadOnly.readOnly(route.params.id)) { budget.type === BudgetLineType.Income ? (allerModifierRevenu()) : (allerModifierCharge()); } }
         }
         >
           <Layout style={styles.button}>
             <Text category="h6" status="info" style={styles.buttonTextLeft}>Modifier</Text>
           </Layout>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => supprimerLeRevenue()}>
+        <TouchableOpacity onPress={() => { if (!ReadOnly.readOnly(route.params.id)) { supprimerLeRevenue(); } }}>
           <Layout style={styles.button}>
             <Text category="h6" status="basic">Supprimer</Text>
           </Layout>

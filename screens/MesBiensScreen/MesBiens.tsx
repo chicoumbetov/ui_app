@@ -21,7 +21,7 @@ function MesBiens() {
   // const [compte] = useState(comptesData);
   const { loading, data } = useRealEstateList();
 
-  // console.log('biens', data);
+  console.log('biens', data);
 
   const onAjoutBien = () => {
     linkTo('/mes-biens/ajouter');

@@ -17,6 +17,7 @@
     "amplify:sendNotification": "cd amplify/backend/function/sendNotification/src && tsc",
     "amplify:pushReceipts": "cd amplify/backend/function/pushReceipts/src && tsc",
     "amplify:budgetinsightlayer": "cd amplify/backend/function/budgetinsightlayer/lib/nodejs/src && tsc",
+    "amplify:waitingUser": "cd amplify/backend/function/waitingUser/src && tsc",
     "postinstall": "patch-package"
   },
   "jest": {

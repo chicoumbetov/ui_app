@@ -20,7 +20,6 @@ import MaxWidthContainer from '../../../components/MaxWidthContainer';
 import { RealEstateItem, useGetRealEstate } from '../../../src/API/RealEstate';
 import Card from '../../../components/Card';
 import { BankMovement, BudgetLineType, RealEstate } from '../../../src/API';
-// import { useGetBudgetLineDeadLine } from '../../../src/API/BudgetLineDeadLine';
 import DateUtils from '../../../utils/DateUtils';
 
 type MonBienProps = { biens: RealEstateItem };

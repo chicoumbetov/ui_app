@@ -23,6 +23,8 @@ import {
   ModelRealEstateBankAccountConnection,
   OnCreateRealEstateSubscription,
   OnCreateRealEstateSubscriptionVariables,
+  OnUpdateRealEstateSubscription,
+  OnUpdateRealEstateSubscriptionVariables,
   RealEstate,
   RealEstateType,
   TaxType,
@@ -305,7 +307,26 @@ export function useRealEstateList() {
       unsubscribe();
     };
   }, [user]);
-
+  useEffect(() => {
+    let unsubscribe = () => {};
+    if (user?.id) {
+      unsubscribe = subscribeToMore<OnUpdateRealEstateSubscription,
+      OnUpdateRealEstateSubscriptionVariables>({
+        document: gql(subscriptions.onUpdateRealEstate),
+        variables: {
+          admins: user?.id,
+          shared: user?.id,
+        },
+        updateQuery: (prev, { subscriptionData }) => {
+          console.log(prev);
+          console.log(subscriptionData);
+        },
+      });
+    }
+    return () => {
+      unsubscribe();
+    };
+  }, []);
   return {
     loading, data, fetchMore, refetch,
   };

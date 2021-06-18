@@ -7,8 +7,8 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import { StyleSheet, View } from 'react-native';
 
 import MaxWidthContainer from '../../../components/MaxWidthContainer';
-import { BudgetLineDeadline } from '../../../src/API';
-import { useGetRealEstate, useRealEstateList } from '../../../src/API/RealEstate';
+
+import { useRealEstateList } from '../../../src/API/RealEstate';
 
 const MesCharges2 = () => {
   const { params } = useRoute();
@@ -16,17 +16,6 @@ const MesCharges2 = () => {
   const titlePass = params;
 
   const navigation = useNavigation();
-
-  /** Sort by houses and their expenses */
-  const biensDetails = useRealEstateList();
-  const listDeadLine : BudgetLineDeadline[] = [];
-  biensDetails.data?.listRealEstates?.items?.map((item) => {
-    const fullSortExpense = useGetRealEstate(item.id).bienget?.budgetLineDeadlines?.items;
-
-    listDeadLine.push(fullSortExpense);
-    return false;
-  });
-  console.log('Trié par les maison ET leurs expenses', listDeadLine);
 
   const firstDayCurrentYear = new Date(new Date().getFullYear(), 0, 1);
   const lastDayCurrentYear = new Date(new Date().getFullYear(), 11, 31);
@@ -62,6 +51,7 @@ const MesCharges2 = () => {
     let checkedRange: CalendarRange<Date> = {};
     let found = false;
 
+    // eslint-disable-next-line no-plusplus
     for (let i = 0; i <= 2; i++) {
       switch (i) {
         case 0:
@@ -90,8 +80,8 @@ const MesCharges2 = () => {
   };
 
   const onMesCharges3 = (range) => {
-    navigation.navigate('mes-charges-3', { ...range });
-    console.log('insideMesCharges3', { ...range });
+    // console.log('eeeee', go);
+    navigation.navigate('mes-charges-3', { range, title: titlePass?.title });
   };
 
   return (

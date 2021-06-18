@@ -7,7 +7,9 @@ import {
   listRealEstateBankAccounts,
 } from '../graphql/queries';
 import {
-  CreateRealEstateBankAccountMutation, CreateRealEstateBankAccountMutationVariables,
+  CreateRealEstateBankAccountMutation,
+  CreateRealEstateBankAccountMutationVariables,
+  DeleteRealEstateBankAccountMutation, DeleteRealEstateBankAccountMutationVariables,
   GetRealEstateBankAccountQuery,
   GetRealEstateBankAccountQueryVariables,
   ListRealEstateBankAccountsQuery,
@@ -74,4 +76,10 @@ export function useCreateRealEstateBankAccount() {
   const [createRealEstateBankAccount] = useMutation<CreateRealEstateBankAccountMutation,
   CreateRealEstateBankAccountMutationVariables>(gql(mutations.createRealEstateBankAccount));
   return createRealEstateBankAccount;
+}
+
+export function useDeleteRealEstateBankAccount() {
+  const [deleteRealEstateBankAccount] = useMutation<DeleteRealEstateBankAccountMutation,
+  DeleteRealEstateBankAccountMutationVariables>(gql(mutations.deleteRealEstateBankAccount));
+  return deleteRealEstateBankAccount;
 }

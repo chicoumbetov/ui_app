@@ -15,7 +15,6 @@ const createBankMovement = async (client, input) => {
       biId
       description
       amount
-      budgetLineDeadlineId
       ignored
       date
       _version
@@ -54,7 +53,6 @@ const updateBankMovement = async (client, input) => {
       biId
       description
       amount
-      budgetLineDeadlineId
       ignored
       date
       _version

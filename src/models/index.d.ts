@@ -238,6 +238,7 @@ export declare class Document {
   readonly name: string;
   readonly key?: string;
   readonly s3file: string;
+  readonly createdAt?: string;
   constructor(init: ModelInit<Document>);
   static copyOf(source: Document, mutator: (draft: MutableModel<Document>) => MutableModel<Document> | void): Document;
 }

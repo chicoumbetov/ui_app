@@ -327,10 +327,10 @@ export const getRealEstate = /* GraphQL */ `
           name
           key
           s3file
+          createdAt
           _version
           _deleted
           _lastChangedAt
-          createdAt
           updatedAt
           realEstate {
             id
@@ -646,10 +646,10 @@ export const listRealEstates = /* GraphQL */ `
             name
             key
             s3file
+            createdAt
             _version
             _deleted
             _lastChangedAt
-            createdAt
             updatedAt
           }
           nextToken
@@ -804,10 +804,10 @@ export const syncRealEstates = /* GraphQL */ `
             name
             key
             s3file
+            createdAt
             _version
             _deleted
             _lastChangedAt
-            createdAt
             updatedAt
           }
           nextToken
@@ -961,10 +961,10 @@ export const getPendingInvitation = /* GraphQL */ `
             name
             key
             s3file
+            createdAt
             _version
             _deleted
             _lastChangedAt
-            createdAt
             updatedAt
           }
           nextToken
@@ -1322,10 +1322,10 @@ export const getDocument = /* GraphQL */ `
       name
       key
       s3file
+      createdAt
       _version
       _deleted
       _lastChangedAt
-      createdAt
       updatedAt
       realEstate {
         id
@@ -1384,10 +1384,10 @@ export const getDocument = /* GraphQL */ `
             name
             key
             s3file
+            createdAt
             _version
             _deleted
             _lastChangedAt
-            createdAt
             updatedAt
           }
           nextToken
@@ -1483,10 +1483,10 @@ export const listDocuments = /* GraphQL */ `
         name
         key
         s3file
+        createdAt
         _version
         _deleted
         _lastChangedAt
-        createdAt
         updatedAt
         realEstate {
           id
@@ -1575,10 +1575,10 @@ export const documentByKey = /* GraphQL */ `
         name
         key
         s3file
+        createdAt
         _version
         _deleted
         _lastChangedAt
-        createdAt
         updatedAt
         realEstate {
           id
@@ -1665,10 +1665,10 @@ export const syncDocuments = /* GraphQL */ `
         name
         key
         s3file
+        createdAt
         _version
         _deleted
         _lastChangedAt
-        createdAt
         updatedAt
         realEstate {
           id
@@ -1823,10 +1823,10 @@ export const getBudgetLine = /* GraphQL */ `
             name
             key
             s3file
+            createdAt
             _version
             _deleted
             _lastChangedAt
-            createdAt
             updatedAt
           }
           nextToken
@@ -2197,10 +2197,10 @@ export const getBudgetLineDeadline = /* GraphQL */ `
             name
             key
             s3file
+            createdAt
             _version
             _deleted
             _lastChangedAt
-            createdAt
             updatedAt
           }
           nextToken
@@ -2947,10 +2947,10 @@ export const getRealEstateBankAccount = /* GraphQL */ `
             name
             key
             s3file
+            createdAt
             _version
             _deleted
             _lastChangedAt
-            createdAt
             updatedAt
           }
           nextToken
@@ -3895,10 +3895,10 @@ export const getBankMovement = /* GraphQL */ `
             name
             key
             s3file
+            createdAt
             _version
             _deleted
             _lastChangedAt
-            createdAt
             updatedAt
           }
           nextToken

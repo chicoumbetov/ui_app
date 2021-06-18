@@ -1119,6 +1119,13 @@ export const schema = {
                     "type": "String",
                     "isRequired": true,
                     "attributes": []
+                },
+                "createdAt": {
+                    "name": "createdAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": []
                 }
             },
             "syncable": true,
@@ -1129,7 +1136,8 @@ export const schema = {
                     "properties": {
                         "name": "documentByRealEstate",
                         "fields": [
-                            "realEstateId"
+                            "realEstateId",
+                            "createdAt"
                         ]
                     }
                 },
@@ -2009,5 +2017,5 @@ export const schema = {
             }
         }
     },
-    "version": "2edb9513fb359b95c820af443d4ebadd"
+    "version": "8b9e5fac9c32560d3c025fd06bb3106a"
 };

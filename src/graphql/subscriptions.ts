@@ -277,10 +277,10 @@ export const onCreateRealEstate = /* GraphQL */ `
           name
           key
           s3file
+          createdAt
           _version
           _deleted
           _lastChangedAt
-          createdAt
           updatedAt
           realEstate {
             id
@@ -609,10 +609,10 @@ export const onUpdateRealEstate = /* GraphQL */ `
           name
           key
           s3file
+          createdAt
           _version
           _deleted
           _lastChangedAt
-          createdAt
           updatedAt
           realEstate {
             id
@@ -941,10 +941,10 @@ export const onDeleteRealEstate = /* GraphQL */ `
           name
           key
           s3file
+          createdAt
           _version
           _deleted
           _lastChangedAt
-          createdAt
           updatedAt
           realEstate {
             id
@@ -1265,10 +1265,10 @@ export const onCreatePendingInvitation = /* GraphQL */ `
             name
             key
             s3file
+            createdAt
             _version
             _deleted
             _lastChangedAt
-            createdAt
             updatedAt
           }
           nextToken
@@ -1420,10 +1420,10 @@ export const onUpdatePendingInvitation = /* GraphQL */ `
             name
             key
             s3file
+            createdAt
             _version
             _deleted
             _lastChangedAt
-            createdAt
             updatedAt
           }
           nextToken
@@ -1575,10 +1575,10 @@ export const onDeletePendingInvitation = /* GraphQL */ `
             name
             key
             s3file
+            createdAt
             _version
             _deleted
             _lastChangedAt
-            createdAt
             updatedAt
           }
           nextToken
@@ -1669,10 +1669,10 @@ export const onCreateDocument = /* GraphQL */ `
       name
       key
       s3file
+      createdAt
       _version
       _deleted
       _lastChangedAt
-      createdAt
       updatedAt
       realEstate {
         id
@@ -1731,10 +1731,10 @@ export const onCreateDocument = /* GraphQL */ `
             name
             key
             s3file
+            createdAt
             _version
             _deleted
             _lastChangedAt
-            createdAt
             updatedAt
           }
           nextToken
@@ -1825,10 +1825,10 @@ export const onUpdateDocument = /* GraphQL */ `
       name
       key
       s3file
+      createdAt
       _version
       _deleted
       _lastChangedAt
-      createdAt
       updatedAt
       realEstate {
         id
@@ -1887,10 +1887,10 @@ export const onUpdateDocument = /* GraphQL */ `
             name
             key
             s3file
+            createdAt
             _version
             _deleted
             _lastChangedAt
-            createdAt
             updatedAt
           }
           nextToken
@@ -1981,10 +1981,10 @@ export const onDeleteDocument = /* GraphQL */ `
       name
       key
       s3file
+      createdAt
       _version
       _deleted
       _lastChangedAt
-      createdAt
       updatedAt
       realEstate {
         id
@@ -2043,10 +2043,10 @@ export const onDeleteDocument = /* GraphQL */ `
             name
             key
             s3file
+            createdAt
             _version
             _deleted
             _lastChangedAt
-            createdAt
             updatedAt
           }
           nextToken
@@ -2216,10 +2216,10 @@ export const onCreateBudgetLine = /* GraphQL */ `
             name
             key
             s3file
+            createdAt
             _version
             _deleted
             _lastChangedAt
-            createdAt
             updatedAt
           }
           nextToken
@@ -2389,10 +2389,10 @@ export const onUpdateBudgetLine = /* GraphQL */ `
             name
             key
             s3file
+            createdAt
             _version
             _deleted
             _lastChangedAt
-            createdAt
             updatedAt
           }
           nextToken
@@ -2562,10 +2562,10 @@ export const onDeleteBudgetLine = /* GraphQL */ `
             name
             key
             s3file
+            createdAt
             _version
             _deleted
             _lastChangedAt
-            createdAt
             updatedAt
           }
           nextToken
@@ -2728,10 +2728,10 @@ export const onCreateBudgetLineDeadline = /* GraphQL */ `
             name
             key
             s3file
+            createdAt
             _version
             _deleted
             _lastChangedAt
-            createdAt
             updatedAt
           }
           nextToken
@@ -3104,10 +3104,10 @@ export const onUpdateBudgetLineDeadline = /* GraphQL */ `
             name
             key
             s3file
+            createdAt
             _version
             _deleted
             _lastChangedAt
-            createdAt
             updatedAt
           }
           nextToken
@@ -3480,10 +3480,10 @@ export const onDeleteBudgetLineDeadline = /* GraphQL */ `
             name
             key
             s3file
+            createdAt
             _version
             _deleted
             _lastChangedAt
-            createdAt
             updatedAt
           }
           nextToken
@@ -3844,10 +3844,10 @@ export const onCreateRealEstateBankAccount = /* GraphQL */ `
             name
             key
             s3file
+            createdAt
             _version
             _deleted
             _lastChangedAt
-            createdAt
             updatedAt
           }
           nextToken
@@ -4048,10 +4048,10 @@ export const onUpdateRealEstateBankAccount = /* GraphQL */ `
             name
             key
             s3file
+            createdAt
             _version
             _deleted
             _lastChangedAt
-            createdAt
             updatedAt
           }
           nextToken
@@ -4252,10 +4252,10 @@ export const onDeleteRealEstateBankAccount = /* GraphQL */ `
             name
             key
             s3file
+            createdAt
             _version
             _deleted
             _lastChangedAt
-            createdAt
             updatedAt
           }
           nextToken
@@ -4845,10 +4845,10 @@ export const onCreateBankMovement = /* GraphQL */ `
             name
             key
             s3file
+            createdAt
             _version
             _deleted
             _lastChangedAt
-            createdAt
             updatedAt
           }
           nextToken
@@ -5128,10 +5128,10 @@ export const onUpdateBankMovement = /* GraphQL */ `
             name
             key
             s3file
+            createdAt
             _version
             _deleted
             _lastChangedAt
-            createdAt
             updatedAt
           }
           nextToken
@@ -5411,10 +5411,10 @@ export const onDeleteBankMovement = /* GraphQL */ `
             name
             key
             s3file
+            createdAt
             _version
             _deleted
             _lastChangedAt
-            createdAt
             updatedAt
           }
           nextToken

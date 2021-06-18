@@ -52,12 +52,12 @@ function sendBulkTemplateEmail(recipientEmails, template, data) {
         Destination: {
             ToAddresses: [email],
         },
-        ReplacementTemplateData: JSON.stringify(data),
     }));
     const params = {
         Source: 'no-reply@app.omedom.com',
         Template: template,
         Destinations,
+        DefaultTemplateData: JSON.stringify(data),
     };
     return AWS_SES.sendBulkTemplatedEmail(params).promise();
 }

@@ -48,6 +48,7 @@ const getUserById = async (client, id) => {
               }
             }
           }
+          _version
         }
       }`),
             variables: {

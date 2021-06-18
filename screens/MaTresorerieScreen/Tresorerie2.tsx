@@ -26,8 +26,11 @@ import { TabMaTresorerieParamList } from '../../types';
 import ActionSheet from '../../components/ActionSheet/ActionSheet';
 import EditMouvement from './Components/EditMouvement';
 import WebView from '../../components/WebView';
-import { useBankAccountList } from '../../src/API/BankAccount';
-import { useCreateRealEstateBankAccount } from '../../src/API/RealEstateBankAccount';
+import { useBankAccountList, useDeleteBankAccount } from '../../src/API/BankAccount';
+import {
+  useCreateRealEstateBankAccount,
+  useDeleteRealEstateBankAccount,
+} from '../../src/API/RealEstateBankAccount';
 import { BankAccount, ListBankAccountsQuery, RealEstate } from '../../src/API';
 
 const MaTresorerie2 = () => {
@@ -38,11 +41,14 @@ const MaTresorerie2 = () => {
   const [supprim, setSupprim] = useState(false);
   const [addingAccounts, setAddingAccounts] = useState(false);
   const [checkedAccounts, setCheckedAccounts] = useState<string[]>([]);
+  const [checkedRealEstateAccounts, setCheckedRealEstateAccounts] = useState<string[]>([]);
 
   const route = useRoute<RouteProp<TabMaTresorerieParamList, 'ma-tresorerie-2'>>();
+  const deleteBankAccount = useDeleteBankAccount();
   // console.log('mon-budget data', route.params);
 
   const createRealEstateBankAccount = useCreateRealEstateBankAccount();
+  const deleteRealEstateBankAccount = useDeleteRealEstateBankAccount();
   const { bienget, refetch: refetchBien, loading: loadingBien } = useGetRealEstate(route.params.id);
   const { data } = useBankAccountList();
 
@@ -73,6 +79,31 @@ const MaTresorerie2 = () => {
     buttonText = 'Lier un compte bancaire';
   } else {
     buttonText = 'Lier un autre compte bancaire';
+  }
+  function supprimerCompte() {
+    checkedRealEstateAccounts.reduce(async (promise, id) => {
+      console.log('id1:', id);
+      await promise;
+      await deleteRealEstateBankAccount({
+        variables: {
+          input: {
+            id,
+          },
+        },
+      });
+    }, Promise.resolve());
+
+    checkedAccounts.reduce(async (promise, id) => {
+      console.log('id:', id);
+      await promise;
+      await deleteBankAccount({
+        variables: {
+          input: {
+            id,
+          },
+        },
+      });
+    }, Promise.resolve());
   }
 
   return (
@@ -115,6 +146,18 @@ const MaTresorerie2 = () => {
                   key={item.id}
                   compte={item.bankAccount}
                   supprimer={supprim}
+                  checked={checkedAccounts.indexOf(item.bankAccountId) > -1}
+                  onCheck={(checked) => {
+                    const nextCheckedAccounts = checkedAccounts.filter((id) => id !== item.bankAccountId);
+                    const nextCheckedRealEstateAccounts = checkedRealEstateAccounts.filter((id) => id !== item.id);
+                    if (checked) {
+                      nextCheckedAccounts.push(item.bankAccountId);
+                      nextCheckedRealEstateAccounts.push(item.id);
+                    }
+                    console.log('2222', nextCheckedAccounts);
+                    setCheckedAccounts(nextCheckedAccounts);
+                    setCheckedRealEstateAccounts(nextCheckedRealEstateAccounts);
+                  }}
                 />
                 ),
               )}
@@ -134,6 +177,7 @@ const MaTresorerie2 = () => {
                     if (checked) {
                       nextCheckedAccounts.push(item.id);
                     }
+                    console.log('1111', nextCheckedAccounts);
                     setCheckedAccounts(nextCheckedAccounts);
                   }}
                 />
@@ -160,7 +204,7 @@ const MaTresorerie2 = () => {
         )}
 
         <TouchableOpacity
-          onPress={() => setSupprim(!supprim)}
+          onPress={() => { supprimerCompte(); setSupprim(!supprim); }}
           style={{
             flexDirection: 'row', marginTop: 30, justifyContent: 'flex-end', backgroundColor: 'transparent',
           }}

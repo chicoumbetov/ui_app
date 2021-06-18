@@ -5710,9 +5710,10 @@ export const createNotification = /* GraphQL */ `
     createNotification(input: $input, condition: $condition) {
       id
       userId
-      category
-      text
-      params
+      type
+      title
+      body
+      data
       createdAt
       _version
       _deleted
@@ -5757,9 +5758,10 @@ export const updateNotification = /* GraphQL */ `
     updateNotification(input: $input, condition: $condition) {
       id
       userId
-      category
-      text
-      params
+      type
+      title
+      body
+      data
       createdAt
       _version
       _deleted
@@ -5804,9 +5806,10 @@ export const deleteNotification = /* GraphQL */ `
     deleteNotification(input: $input, condition: $condition) {
       id
       userId
-      category
-      text
-      params
+      type
+      title
+      body
+      data
       createdAt
       _version
       _deleted
@@ -5990,141 +5993,63 @@ export const deleteBillingHistory = /* GraphQL */ `
     }
   }
 `;
-export const createNotificationReceipts = /* GraphQL */ `
-  mutation CreateNotificationReceipts(
-    $input: CreateNotificationReceiptsInput!
-    $condition: ModelNotificationReceiptsConditionInput
+export const createNotificationTickets = /* GraphQL */ `
+  mutation CreateNotificationTickets(
+    $input: CreateNotificationTicketsInput!
+    $condition: ModelNotificationTicketsConditionInput
   ) {
-    createNotificationReceipts(input: $input, condition: $condition) {
+    createNotificationTickets(input: $input, condition: $condition) {
       id
-      userId
-      expoToken
-      receiptId
-      createdAt
+      expoTokens {
+        userId
+        token
+      }
+      ticketIds
       _version
       _deleted
       _lastChangedAt
+      createdAt
       updatedAt
-      user {
-        id
-        lastname
-        firstname
-        avatarUri
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-        email
-        privateProfile {
-          phoneNumber
-          optIn
-          address {
-            address
-            additionalAddress
-            postalCode
-            city
-            country
-          }
-          birthDate
-          subscription
-        }
-        expoToken
-        biUser
-        biToken
-      }
     }
   }
 `;
-export const updateNotificationReceipts = /* GraphQL */ `
-  mutation UpdateNotificationReceipts(
-    $input: UpdateNotificationReceiptsInput!
-    $condition: ModelNotificationReceiptsConditionInput
+export const updateNotificationTickets = /* GraphQL */ `
+  mutation UpdateNotificationTickets(
+    $input: UpdateNotificationTicketsInput!
+    $condition: ModelNotificationTicketsConditionInput
   ) {
-    updateNotificationReceipts(input: $input, condition: $condition) {
+    updateNotificationTickets(input: $input, condition: $condition) {
       id
-      userId
-      expoToken
-      receiptId
-      createdAt
+      expoTokens {
+        userId
+        token
+      }
+      ticketIds
       _version
       _deleted
       _lastChangedAt
+      createdAt
       updatedAt
-      user {
-        id
-        lastname
-        firstname
-        avatarUri
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-        email
-        privateProfile {
-          phoneNumber
-          optIn
-          address {
-            address
-            additionalAddress
-            postalCode
-            city
-            country
-          }
-          birthDate
-          subscription
-        }
-        expoToken
-        biUser
-        biToken
-      }
     }
   }
 `;
-export const deleteNotificationReceipts = /* GraphQL */ `
-  mutation DeleteNotificationReceipts(
-    $input: DeleteNotificationReceiptsInput!
-    $condition: ModelNotificationReceiptsConditionInput
+export const deleteNotificationTickets = /* GraphQL */ `
+  mutation DeleteNotificationTickets(
+    $input: DeleteNotificationTicketsInput!
+    $condition: ModelNotificationTicketsConditionInput
   ) {
-    deleteNotificationReceipts(input: $input, condition: $condition) {
+    deleteNotificationTickets(input: $input, condition: $condition) {
       id
-      userId
-      expoToken
-      receiptId
-      createdAt
+      expoTokens {
+        userId
+        token
+      }
+      ticketIds
       _version
       _deleted
       _lastChangedAt
+      createdAt
       updatedAt
-      user {
-        id
-        lastname
-        firstname
-        avatarUri
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-        email
-        privateProfile {
-          phoneNumber
-          optIn
-          address {
-            address
-            additionalAddress
-            postalCode
-            city
-            country
-          }
-          birthDate
-          subscription
-        }
-        expoToken
-        biUser
-        biToken
-      }
     }
   }
 `;

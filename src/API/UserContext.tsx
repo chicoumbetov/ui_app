@@ -44,9 +44,9 @@ export type UserItem = {
   _lastChangedAt: number,
   createdAt: string,
   updatedAt: string,
+  email?: string | null,
   privateProfile?: {
     __typename: 'ProfileInfo',
-    email?: string | null,
     phoneNumber?: string | null,
     optIn?: boolean | null,
     address?: {
@@ -59,6 +59,49 @@ export type UserItem = {
     } | null,
     birthDate?: string | null,
     subscription?: SubscriptionType | null,
+    notificationParams?: {
+      __typename: 'NotificationParams',
+      echeanceFacture?: {
+        __typename: 'NotificationParam',
+        push?: boolean | null,
+        email?: boolean | null,
+      } | null,
+      loyer?: {
+        __typename: 'NotificationParam',
+        push?: boolean | null,
+        email?: boolean | null,
+      } | null,
+      debitBancaire?: {
+        __typename: 'NotificationParam',
+        push?: boolean | null,
+        email?: boolean | null,
+      } | null,
+      creditBancaire?: {
+        __typename: 'NotificationParam',
+        push?: boolean | null,
+        email?: boolean | null,
+      } | null,
+      soldeNegatif?: {
+        __typename: 'NotificationParam',
+        push?: boolean | null,
+        email?: boolean | null,
+      } | null,
+      retardLoyer?: {
+        __typename: 'NotificationParam',
+        push?: boolean | null,
+        email?: boolean | null,
+      } | null,
+      mauvaiseRenta?: {
+        __typename: 'NotificationParam',
+        push?: boolean | null,
+        email?: boolean | null,
+      } | null,
+      autre?: {
+        __typename: 'NotificationParam',
+        push?: boolean | null,
+        email?: boolean | null,
+      } | null,
+    } | null,
   } | null,
   expoToken?: Array< string > | null,
   biUser?: string | null,
@@ -123,22 +166,13 @@ const UserProvider: React.FC = ({ children }) => {
         }
         setLoading(false);
       },
-      fetchPolicy: 'cache-and-network',
+      fetchPolicy: 'network-only',
     },
   );
   const [cognitoUser, setCognitoUser] = useState<CognitoUserInterface | undefined>();
   const [loading, setLoading] = useState(true);
   const [userIsCreating, setUserIsCreating] = useState(false);
   const client = useApolloClient();
-
-  const { data } = useQuery<
-  GetUserQuery,
-  GetUserQueryVariables
-  >(getUserAuthenticatedAST, {
-    variables: {
-      id: '7fc00da4-c872-4c31-8276-c464d758bd80',
-    },
-  });
 
   const currentUser = async () => {
     console.log('loading current user');

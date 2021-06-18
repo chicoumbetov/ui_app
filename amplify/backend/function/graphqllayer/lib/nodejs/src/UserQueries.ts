@@ -61,6 +61,7 @@ const getUserById = async (client: AppSyncClient, id: string): Promise<false |
       } | null,
     } | null,
   } | null,
+  _version: number,
 } | null> => {
   try {
     const { data } = await client.query<GetUserQuery, GetUserQueryVariables>({
@@ -107,6 +108,7 @@ const getUserById = async (client: AppSyncClient, id: string): Promise<false |
               }
             }
           }
+          _version
         }
       }`), // use your graphql query here
       variables: {

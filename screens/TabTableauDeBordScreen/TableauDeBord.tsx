@@ -4,33 +4,73 @@
  * @author: Shynggys UMBETOV, Amaury
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Icon as IconUIKitten, Text } from '@ui-kitten/components';
 import {
+  Alert,
+  Platform,
   StyleSheet, TouchableOpacity, View,
 } from 'react-native';
 
 import { useLinkTo } from '@react-navigation/native';
 
 // import comptesData from '../../mockData/comptesData';
+import * as Notifications from 'expo-notifications';
+import Constants from 'expo-constants';
 import MaisonVert from '../../assets/Omedom_Icons_svg/Logement/maison_verte.svg';
 import Immeuble from '../../assets/Omedom_Icons_svg/Logement/immeuble.svg';
 import MaxWidthContainer from '../../components/MaxWidthContainer';
 import MonBienResume from '../../components/MonBienResume';
-import { useGetRealEstate, useRealEstateList } from '../../src/API/RealEstate';
+import { useRealEstateList } from '../../src/API/RealEstate';
 import Separator from '../../components/Separator';
 import Card from '../../components/Card';
 import Button from '../../components/Button';
 import ActivityIndicator from '../../components/ActivityIndicator';
 import { BudgetLineType } from '../../src/API';
+import { useUser } from '../../src/API/UserContext';
 
 function TableauDeBord() {
   const linkTo = useLinkTo();
   const { loading, data } = useRealEstateList();
-  // console.log('data: ', data?.listRealEstates?.items?.map((item) => item?.id));
-  // const bienDetail = useGetRealEstate(data?.listRealEstates?.items?.map((item) => item?.id));
+  const { updateUser, user } = useUser();
 
-  // const [compte, setCompte] = useState(comptesData);
+  useEffect(() => {
+    (async () => {
+      if (Platform.OS !== 'web' && Constants.isDevice && updateUser && user) {
+        const { status: existingStatus } = await Notifications.getPermissionsAsync();
+        let finalStatus = existingStatus;
+        if (existingStatus !== 'granted') {
+          const { status } = await Notifications.requestPermissionsAsync();
+          finalStatus = status;
+        }
+        if (finalStatus === 'granted') {
+          const token = (await Notifications.getExpoPushTokenAsync()).data;
+          const newTokens = user?.expoToken || [];
+          console.log(newTokens);
+          if (newTokens.indexOf(token) <= -1) {
+            newTokens.push(token);
+            updateUser({
+              expoToken: newTokens,
+            });
+          }
+        }
+      }
+      // on regarde si on a des biens
+      if (!loading) {
+        if (data?.listRealEstates?.items && data?.listRealEstates?.items.length <= 0) {
+          Alert.alert(
+            'Bienvenue',
+            'Votre compte est désormais crée, vous pouvez désormais ajouter votre premier bien !',
+            [
+              { text: 'Ignorer', style: 'cancel' },
+              { text: 'Ajouter un bien', onPress: () => linkTo('/mes-biens/ajouter') },
+            ],
+            { cancelable: true },
+          );
+        }
+      }
+    })();
+  }, [updateUser, user, loading, data]);
 
   /**
    *   Summarizing of each expenses and incomes

@@ -5626,9 +5626,10 @@ export const onCreateNotification = /* GraphQL */ `
     onCreateNotification(userId: $userId) {
       id
       userId
-      category
-      text
-      params
+      type
+      title
+      body
+      data
       createdAt
       _version
       _deleted
@@ -5670,9 +5671,10 @@ export const onUpdateNotification = /* GraphQL */ `
     onUpdateNotification(userId: $userId) {
       id
       userId
-      category
-      text
-      params
+      type
+      title
+      body
+      data
       createdAt
       _version
       _deleted
@@ -5714,9 +5716,10 @@ export const onDeleteNotification = /* GraphQL */ `
     onDeleteNotification(userId: $userId) {
       id
       userId
-      category
-      text
-      params
+      type
+      title
+      body
+      data
       createdAt
       _version
       _deleted
@@ -5891,132 +5894,54 @@ export const onDeleteBillingHistory = /* GraphQL */ `
     }
   }
 `;
-export const onCreateNotificationReceipts = /* GraphQL */ `
-  subscription OnCreateNotificationReceipts($userId: String) {
-    onCreateNotificationReceipts(userId: $userId) {
+export const onCreateNotificationTickets = /* GraphQL */ `
+  subscription OnCreateNotificationTickets {
+    onCreateNotificationTickets {
       id
-      userId
-      expoToken
-      receiptId
-      createdAt
+      expoTokens {
+        userId
+        token
+      }
+      ticketIds
       _version
       _deleted
       _lastChangedAt
+      createdAt
       updatedAt
-      user {
-        id
-        lastname
-        firstname
-        avatarUri
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-        email
-        privateProfile {
-          phoneNumber
-          optIn
-          address {
-            address
-            additionalAddress
-            postalCode
-            city
-            country
-          }
-          birthDate
-          subscription
-        }
-        expoToken
-        biUser
-        biToken
-      }
     }
   }
 `;
-export const onUpdateNotificationReceipts = /* GraphQL */ `
-  subscription OnUpdateNotificationReceipts($userId: String) {
-    onUpdateNotificationReceipts(userId: $userId) {
+export const onUpdateNotificationTickets = /* GraphQL */ `
+  subscription OnUpdateNotificationTickets {
+    onUpdateNotificationTickets {
       id
-      userId
-      expoToken
-      receiptId
-      createdAt
+      expoTokens {
+        userId
+        token
+      }
+      ticketIds
       _version
       _deleted
       _lastChangedAt
+      createdAt
       updatedAt
-      user {
-        id
-        lastname
-        firstname
-        avatarUri
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-        email
-        privateProfile {
-          phoneNumber
-          optIn
-          address {
-            address
-            additionalAddress
-            postalCode
-            city
-            country
-          }
-          birthDate
-          subscription
-        }
-        expoToken
-        biUser
-        biToken
-      }
     }
   }
 `;
-export const onDeleteNotificationReceipts = /* GraphQL */ `
-  subscription OnDeleteNotificationReceipts($userId: String) {
-    onDeleteNotificationReceipts(userId: $userId) {
+export const onDeleteNotificationTickets = /* GraphQL */ `
+  subscription OnDeleteNotificationTickets {
+    onDeleteNotificationTickets {
       id
-      userId
-      expoToken
-      receiptId
-      createdAt
+      expoTokens {
+        userId
+        token
+      }
+      ticketIds
       _version
       _deleted
       _lastChangedAt
+      createdAt
       updatedAt
-      user {
-        id
-        lastname
-        firstname
-        avatarUri
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-        email
-        privateProfile {
-          phoneNumber
-          optIn
-          address {
-            address
-            additionalAddress
-            postalCode
-            city
-            country
-          }
-          birthDate
-          subscription
-        }
-        expoToken
-        biUser
-        biToken
-      }
     }
   }
 `;

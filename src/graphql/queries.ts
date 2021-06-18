@@ -4666,9 +4666,10 @@ export const getNotification = /* GraphQL */ `
     getNotification(id: $id) {
       id
       userId
-      category
-      text
-      params
+      type
+      title
+      body
+      data
       createdAt
       _version
       _deleted
@@ -4715,9 +4716,10 @@ export const listNotifications = /* GraphQL */ `
       items {
         id
         userId
-        category
-        text
-        params
+        type
+        title
+        body
+        data
         createdAt
         _version
         _deleted
@@ -4766,9 +4768,10 @@ export const syncNotifications = /* GraphQL */ `
       items {
         id
         userId
-        category
-        text
-        params
+        type
+        title
+        body
+        data
         createdAt
         _version
         _deleted
@@ -4947,105 +4950,60 @@ export const syncBillingHistories = /* GraphQL */ `
     }
   }
 `;
-export const getNotificationReceipts = /* GraphQL */ `
-  query GetNotificationReceipts($id: ID!) {
-    getNotificationReceipts(id: $id) {
+export const getNotificationTickets = /* GraphQL */ `
+  query GetNotificationTickets($id: ID!) {
+    getNotificationTickets(id: $id) {
       id
-      userId
-      expoToken
-      receiptId
-      createdAt
+      expoTokens {
+        userId
+        token
+      }
+      ticketIds
       _version
       _deleted
       _lastChangedAt
+      createdAt
       updatedAt
-      user {
-        id
-        lastname
-        firstname
-        avatarUri
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-        email
-        privateProfile {
-          phoneNumber
-          optIn
-          address {
-            address
-            additionalAddress
-            postalCode
-            city
-            country
-          }
-          birthDate
-          subscription
-        }
-        expoToken
-        biUser
-        biToken
-      }
     }
   }
 `;
-export const listNotificationReceiptss = /* GraphQL */ `
-  query ListNotificationReceiptss(
-    $filter: ModelNotificationReceiptsFilterInput
+export const listNotificationTicketss = /* GraphQL */ `
+  query ListNotificationTicketss(
+    $filter: ModelNotificationTicketsFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    listNotificationReceiptss(
+    listNotificationTicketss(
       filter: $filter
       limit: $limit
       nextToken: $nextToken
     ) {
       items {
         id
-        userId
-        expoToken
-        receiptId
-        createdAt
+        expoTokens {
+          userId
+          token
+        }
+        ticketIds
         _version
         _deleted
         _lastChangedAt
+        createdAt
         updatedAt
-        user {
-          id
-          lastname
-          firstname
-          avatarUri
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-          email
-          privateProfile {
-            phoneNumber
-            optIn
-            birthDate
-            subscription
-          }
-          expoToken
-          biUser
-          biToken
-        }
       }
       nextToken
       startedAt
     }
   }
 `;
-export const syncNotificationReceipts = /* GraphQL */ `
-  query SyncNotificationReceipts(
-    $filter: ModelNotificationReceiptsFilterInput
+export const syncNotificationTickets = /* GraphQL */ `
+  query SyncNotificationTickets(
+    $filter: ModelNotificationTicketsFilterInput
     $limit: Int
     $nextToken: String
     $lastSync: AWSTimestamp
   ) {
-    syncNotificationReceipts(
+    syncNotificationTickets(
       filter: $filter
       limit: $limit
       nextToken: $nextToken
@@ -5053,35 +5011,16 @@ export const syncNotificationReceipts = /* GraphQL */ `
     ) {
       items {
         id
-        userId
-        expoToken
-        receiptId
-        createdAt
+        expoTokens {
+          userId
+          token
+        }
+        ticketIds
         _version
         _deleted
         _lastChangedAt
+        createdAt
         updatedAt
-        user {
-          id
-          lastname
-          firstname
-          avatarUri
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-          email
-          privateProfile {
-            phoneNumber
-            optIn
-            birthDate
-            subscription
-          }
-          expoToken
-          biUser
-          biToken
-        }
       }
       nextToken
       startedAt

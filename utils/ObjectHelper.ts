@@ -13,14 +13,14 @@ export function removeKey<T extends Object>(obj: T, key:string | string[]): T {
       Object.entries(obj)
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
         .filter(([k, v]) => key.indexOf(k) <= -1)
-        .map(([k, v]) => [k, v === Object(v) ? removeKey(v, key) : v]),
+        .map(([k, v]) => [k, v === Object(v) && !Array.isArray(v) ? removeKey(v, key) : v]),
     );
   }
   return <T>Object.fromEntries(
     Object.entries(obj)
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
       .filter(([k, v]) => k !== key)
-      .map(([k, v]) => [k, v === Object(v) ? removeKey(v, key) : v]),
+      .map(([k, v]) => [k, v === Object(v) && !Array.isArray(v) ? removeKey(v, key) : v]),
   );
 }
 

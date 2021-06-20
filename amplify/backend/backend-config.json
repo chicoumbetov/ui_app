@@ -244,6 +244,46 @@
           ]
         }
       ]
+    },
+    "testNotification": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "dependsOn": [
+        {
+          "category": "function",
+          "resourceName": "sendNotification",
+          "attributes": [
+            "Name"
+          ]
+        }
+      ]
+    },
+    "sendNotification": {
+      "dependsOn": [
+        {
+          "category": "api",
+          "resourceName": "omedom",
+          "attributes": [
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput"
+          ]
+        },
+        {
+          "category": "function",
+          "resourceName": "graphqllayer",
+          "attributes": [
+            "Arn"
+          ]
+        },
+        {
+          "category": "function",
+          "resourceName": "seslayer",
+          "attributes": [
+            "Arn"
+          ]
+        }
+      ]
     }
   }
 }

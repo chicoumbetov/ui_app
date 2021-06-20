@@ -1124,7 +1124,7 @@ export const schema = {
                     "name": "createdAt",
                     "isArray": false,
                     "type": "AWSDateTime",
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": []
                 }
             },
@@ -2017,5 +2017,5 @@ export const schema = {
             }
         }
     },
-    "version": "8b9e5fac9c32560d3c025fd06bb3106a"
+    "version": "6c81f7b8e4fa34ed659819a462868683"
 };

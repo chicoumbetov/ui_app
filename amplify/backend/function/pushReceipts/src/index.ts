@@ -9,20 +9,22 @@ import getAppSyncClient from '/opt/nodejs/src/AppSyncClient';
 import { Expo } from 'expo-server-sdk';
 import { listNotificationTickets } from '/opt/nodejs/src/NotificationTicketsQueries';
 import { deleteNotificationTicketsMutation } from '/opt/nodejs/src/NotificationTicketsMutation';
+import { getUserById } from '/opt/nodejs/src/UserQueries';
+import { updateUser } from '/opt/nodejs/src/UserMutation';
 
 const AppSyncClient = getAppSyncClient(process.env);
 const expo = new Expo();
 
-exports.handler = async (event) => {
+exports.handler = async () => {
   // on récupère les tickets
-
   const list = await listNotificationTickets(AppSyncClient, 1000);
 
   if (list) {
     const map = list.map(async (ticket) => {
-      if (ticket) {
+      // eslint-disable-next-line no-underscore-dangle
+      if (ticket && !ticket._deleted) {
         const receiptIdChunks = expo.chunkPushNotificationReceiptIds(ticket.ticketIds);
-
+        let i = 0;
         // Like sending notifications, there are different strategies you could use
         // to retrieve batches of receipts from the Expo service.
         // eslint-disable-next-line no-restricted-syntax
@@ -36,16 +38,35 @@ exports.handler = async (event) => {
             // notification and information about an error, if one occurred.
             // eslint-disable-next-line guard-for-in,no-restricted-syntax
             for (const receiptId in receipts) {
-              const { status, details } = receipts[receiptId];
-              if (status === 'error' && details && details?.error === 'DeviceNotRegistered') {
+              const receipt = receipts[receiptId];
+              if (receipt.status === 'error'
+                  && receipt.details?.error === 'DeviceNotRegistered') {
                 // on supprime le token
+                const { userId, token } = ticket.expoTokens[i];
+
+                // eslint-disable-next-line no-await-in-loop
+                const user = await getUserById(AppSyncClient, userId);
+                if (user) {
+                  // eslint-disable-next-line no-await-in-loop
+                  await updateUser(AppSyncClient, {
+                    id: userId,
+                    expoToken: user.expoToken.filter((tok) => tok !== token),
+                    // eslint-disable-next-line no-underscore-dangle
+                    _version: user._version,
+                  });
+                }
               }
+              i += 1;
             }
           } catch (error) {
             console.error(error);
           }
         }
-        deleteNotificationTicketsMutation(AppSyncClient, { id: ticket.id, _version: ticket._version });
+        await deleteNotificationTicketsMutation(
+          AppSyncClient,
+          // eslint-disable-next-line no-underscore-dangle
+          { id: ticket.id, _version: ticket._version },
+        );
       }
     });
     await Promise.all(map);

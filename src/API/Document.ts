@@ -24,6 +24,7 @@ import {
   ListDocumentsQueryVariables,
 } from '../API';
 import * as mutations from '../graphql/mutations';
+import { getRealEstateQuery } from './RealEstate';
 
 export type DocumentItem = {
   __typename: 'Document',
@@ -105,7 +106,6 @@ export function useUpdateDocumentMutation() {
 }
 
 export function useDeleteDocumentMutation() {
-  const getRealEstatesQuery = <DocumentNode>gql(getRealEstate);
   const [deleteDocument] = useMutation<DeleteDocumentMutation,
   DeleteDocumentMutationVariables>(gql(mutations.deleteDocument),
     {
@@ -115,7 +115,7 @@ export function useDeleteDocumentMutation() {
           if (newData) {
             // Read query from cache
             const cacheData = cache.readQuery<GetRealEstateQuery, GetRealEstateQueryVariables>({
-              query: getRealEstatesQuery,
+              query: getRealEstateQuery,
               variables: {
                 id: newData.realEstateId,
               },
@@ -134,7 +134,7 @@ export function useDeleteDocumentMutation() {
 
               // Overwrite the cache with the new results
               cache.writeQuery<GetRealEstateQuery, GetRealEstateQueryVariables>({
-                query: getRealEstatesQuery,
+                query: getRealEstateQuery,
                 variables: {
                   id: newData.realEstateId,
                 },
@@ -149,7 +149,6 @@ export function useDeleteDocumentMutation() {
 }
 
 export function useCreateDocumentMutation() {
-  const getRealEstatesQuery = <DocumentNode>gql(getRealEstate);
   const [createDocument, { loading: mutationLoading }] = useMutation<CreateDocumentMutation,
   CreateDocumentMutationVariables>(gql(createDocumentQuery),
     {
@@ -159,7 +158,7 @@ export function useCreateDocumentMutation() {
           if (newData) {
             // Read query from cache
             const cacheData = cache.readQuery<GetRealEstateQuery, GetRealEstateQueryVariables>({
-              query: getRealEstatesQuery,
+              query: getRealEstateQuery,
               variables: {
                 id: newData.realEstateId,
               },
@@ -167,11 +166,12 @@ export function useCreateDocumentMutation() {
 
             // Add newly created item to the cache copy
             if (cacheData && cacheData.getRealEstate) {
-              cacheData.getRealEstate.documents?.items?.push(newData);
+              // on fait unshift parce qu'on classe les docs par ordre décroissant de création
+              cacheData.getRealEstate.documents?.items?.unshift(newData);
 
               // Overwrite the cache with the new results
               cache.writeQuery<GetRealEstateQuery, GetRealEstateQueryVariables>({
-                query: getRealEstatesQuery,
+                query: getRealEstateQuery,
                 variables: {
                   id: newData.realEstateId,
                 },

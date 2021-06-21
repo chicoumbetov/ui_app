@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "function": {
+      "sendNotification": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ]
+    }
+  },
+  "lambdaLayers": []
+}

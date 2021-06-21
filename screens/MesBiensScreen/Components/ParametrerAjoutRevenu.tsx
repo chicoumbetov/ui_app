@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {
-  Button, Layout, Spinner, Text,
+  Button, Spinner, Text,
 } from '@ui-kitten/components';
 import { StyleSheet, View } from 'react-native';
 
@@ -242,18 +242,18 @@ const ParametrerAjoutRevenu = () => {
       {/**
          *  I. Mon Budget
          */}
-      <Layout style={styles.container}>
+      <View style={styles.container}>
         <Text category="h1" style={{ marginBottom: 20 }}>
           Paramétrer votre budget
         </Text>
         <CompteHeader title={bienget?.name} iconUri={bienget?.iconUri} />
-      </Layout>
+      </View>
       <Separator />
 
       {/**
        *  II. Ajouter revenu
        */}
-      <Layout style={styles.container}>
+      <View style={styles.container}>
         <Text category="s2" status="basic" style={{ marginBottom: 20 }}>
           Ajouter un revenu
         </Text>
@@ -395,7 +395,9 @@ const ParametrerAjoutRevenu = () => {
               ) : (<></>)}
 
             <View style={{ alignItems: 'flex-end', marginTop: 10 }}>
-              {updateBudgetLine.mutationLoading || createBudgetLine.mutationLoading || createBudgetLineDeadLine.mutationLoading
+              {updateBudgetLine.mutationLoading
+              || createBudgetLine.mutationLoading
+              || createBudgetLineDeadLine.mutationLoading
                 ? (
                   <Button
                     onPress={paramBudgetForm.handleSubmit((data) => validateBudget(data))}
@@ -421,7 +423,7 @@ const ParametrerAjoutRevenu = () => {
           </>
         </Form>
 
-      </Layout>
+      </View>
     </MaxWidthContainer>
   );
 };

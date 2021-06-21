@@ -21,11 +21,11 @@ const MonBudgetCard = (props: MonBudgetProps) => {
   const { budget, realEstate } = props;
   const theme = useTheme();
   const linkTo = useLinkTo();
-  console.log(realEstate);
+  console.log('realEstate', realEstate);
   const deleteBudgetLine = useDeleteBudgetLineMutation();
   let tenant;
   if (realEstate) {
-    tenant = realEstate.tenants?.filter((item) => item.id === budget.tenantId);
+    tenant = realEstate.tenants?.filter((item) => item?.id === budget.tenantId);
   }
 
   const allerTresorie = () => {
@@ -164,7 +164,12 @@ const MonBudgetCard = (props: MonBudgetProps) => {
 
       <View style={styles.button}>
         <TouchableOpacity onPress={
-          () => { if (!readOnly) { budget.type === BudgetLineType.Income ? (allerModifierRevenu()) : (allerModifierCharge()); } }
+          () => {
+            if (!readOnly) {
+              budget.type === BudgetLineType.Income
+                ? (allerModifierRevenu()) : (allerModifierCharge());
+            }
+          }
         }
         >
           <Layout style={styles.button}>

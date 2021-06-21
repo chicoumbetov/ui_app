@@ -6,7 +6,7 @@
 
 import React, { useEffect, useState } from 'react';
 import {
-  Text, Icon as IconUIKitten, useTheme,
+  Text, Icon as IconUIKitten, useTheme, CheckBox,
 } from '@ui-kitten/components';
 import {
   Alert,
@@ -22,9 +22,7 @@ import moment from 'moment';
 import Icon from '../../components/Icon';
 import MaxWidthContainer from '../../components/MaxWidthContainer';
 
-import WomanAvatar from '../../assets/Omedom_Icons_svg/Avatars/womanAvatar.svg';
-
-import { useDeleteRealEstateMutation, useGetRealEstate } from '../../src/API/RealEstate';
+import { useDeleteRealEstateMutation, useGetRealEstate, useUpdateRealEstateMutation } from '../../src/API/RealEstate';
 import { TabMesBiensParamList } from '../../types';
 
 import Card from '../../components/Card';
@@ -38,11 +36,12 @@ import ReadOnly from '../../components/ReadOnly';
 import { Upload } from '../../utils/S3FileStorage';
 import Amount from '../../components/Amount';
 import DateUtils from '../../utils/DateUtils';
-import { useUser } from '../../src/API/UserContext';
+
 import AutoAvatar from '../../components/AutoAvatar';
 import ActivityIndicator from '../../components/ActivityIndicator';
 import UserSharedCard from './Components/UserSharedCard';
-import { usePendingInvitationsList } from '../../src/API/PendingInvitation';
+
+import { updateRealEstate } from '../../src/graphql/mutations';
 
 function DetailsBien() {
   const navigation = useNavigation();
@@ -53,9 +52,13 @@ function DetailsBien() {
 
   const createDocument = useCreateDocumentMutation();
   // console.log('detail bien document', documentList);
+  const [supprim, setSupprim] = useState(false);
 
   const [typeRevenu, setTypeRevenu] = useState<string>();
   // console.log(route.params.id);
+
+  const [checkedTenant, setCheckedTenant] = useState<string[]>([]);
+  const [checkedDocument, setCheckedDocument] = useState<string[]>([]);
 
   const currentYear = new Date().getFullYear();
   const currentMonth = new Date().getMonth();
@@ -117,7 +120,7 @@ function DetailsBien() {
   };
 
   const deleteRealEstate = useDeleteRealEstateMutation;
-  const supprimerLeRevenue = async () => {
+  const supprimerLeBien = async () => {
     return false;
     Alert.alert(
       'Suppression de revenue',
@@ -135,35 +138,12 @@ function DetailsBien() {
     );
   };
 
+  const [supprimTenant, setSupprimTenant] = useState(false);
+  const deleteLocataire = useUpdateRealEstateMutation();
   const deleteTenant = async () => {
     return false;
     Alert.alert(
-      'Suppression de revenue',
-      '',
-      [{
-        text: 'Annuler',
-        style: 'cancel',
-      },
-      {
-        text: 'Valider',
-        onPress: () => {},
-      }],
-    );
-  };
-  /**
-  const lastAmount = bienCharger?.budgetLines?.items?.filter((item) => {
-    if (item?.type === BudgetLineType.Income && !item?._deleted) {
-      return item;
-    }
-    return false;
-  }).pop()?.amount;
-  */
-
-  const deleteDoc = useDeleteDocumentMutation();
-  const supprimerDocument = async () => {
-    return false;
-    Alert.alert(
-      'Suppression de revenue',
+      'Suppression de locataire',
       '',
       [{
         text: 'Annuler',
@@ -172,7 +152,42 @@ function DetailsBien() {
       {
         text: 'Valider',
         onPress: async () => {
-          await deleteDoc();
+          checkedTenant.reduce(async (promise, id) => {
+            // console.log('id:', id);
+            await promise;
+            await deleteLocataire({
+              variables: {
+                input: {
+                  id,
+                },
+              },
+            });
+          }, Promise.resolve());
+        },
+      }],
+    );
+  };
+
+  const deleteDoc = useDeleteDocumentMutation();
+  const supprimerDocument = async () => {
+    return false;
+    Alert.alert(
+      'Suppression de document',
+      '',
+      [{
+        text: 'Annuler',
+        style: 'cancel',
+      },
+      {
+        text: 'Valider',
+        onPress: async () => {
+          await deleteDoc({
+            variables: {
+              input: {
+                id: checkedDocument.indexOf(document.documentURI),
+              },
+            },
+          });
         },
       }],
     );
@@ -460,14 +475,42 @@ function DetailsBien() {
                    {clientData.prenom}
                    </Text>
                    */}
-              {bienget?.tenants?.map((tenant) => {
-                const { id } = tenant;
-                return (
-                  <Card style={styles.compteSection} key={id}>
+              {bienget?.tenants?.map((tenant) => (
+                <Card
+                  style={{
+                    paddingVertical: 24,
+                    paddingHorizontal: 26.5,
+                    marginBottom: 10,
+                    alignItems: 'center',
+                    flexDirection: 'row',
+                  }}
+                  key={tenant?.id}
+                >
+                  {supprimTenant && (
+                    <View
+
+                      style={{ justifyContent: 'center', paddingHorizontal: 14, width: 50 }}
+                    >
+                      <CheckBox
+                        checked={checkedTenant.indexOf(tenant?.id) > -1}
+                        onChange={(checked) => {
+                          const nextCheckedTenants = checkedTenant
+                            .filter((id) => id !== tenant?.id);
+                          if (checked) {
+                            nextCheckedTenants.push(tenant?.id);
+                          }
+                          // console.log('nextCheckedAccounts', nextCheckedAccounts);
+                          setCheckedTenant(nextCheckedTenants);
+                        }}
+                        status="danger"
+                      />
+                    </View>
+                  )}
+                  <View style={{ flex: 1 }}>
                     <Text category="h6" status="basic">{`${tenant?.firstname} ${tenant?.lastname}`}</Text>
                     <Text category="h6" appearance="hint">{`${tenant?.amount} €`}</Text>
                     <Text category="h6" appearance="hint" style={{ marginTop: 6 }} />
-                    <View style={{ borderBottomWidth: 0.5, borderBottomColor: '#b5b5b5', marginBottom: 15 }} />
+                    <View style={{ borderBottomWidth: 0.5, borderBottomColor: '#b5b5b5', marginVertical: 15 }} />
 
                     <Text category="h6" status="basic" style={{ marginTop: 7 }}>Date de fin de bail</Text>
                     <Text
@@ -477,14 +520,18 @@ function DetailsBien() {
                         marginTop: 5,
                       }}
                     >
-                      {`${moment(tenant?.endDate).format('L')}`}
+                      {`${moment(tenant?.endDate).format('DD/MM/YYYY')}`}
                     </Text>
-                  </Card>
-                );
-              }) || undefined}
+                  </View>
+                </Card>
+              )) || undefined}
 
               <TouchableOpacity
-                onPress={() => {}}
+                onPress={() => {
+                  if (!readOnly) {
+                    deleteTenant(); setSupprimTenant(!supprimTenant);
+                  }
+                }}
                 style={{
                   flexDirection: 'row',
                   marginTop: 10,
@@ -511,7 +558,22 @@ function DetailsBien() {
                 Documents
               </Text>
               {bienget?.documents?.items?.map(
-                (item) => <DocumentComponent key={item?.id} document={item} />,
+                (item) => item && (
+                <DocumentComponent
+                  key={item?.id}
+                  document={item}
+                  checked={checkedDocument.indexOf(item.id) > -1}
+                  supprimer={supprim}
+                  onCheck={(checked) => {
+                    const nextCheckedAccounts = checkedDocument.filter((id) => id !== item.id);
+                    if (checked) {
+                      nextCheckedAccounts.push(item.id);
+                    }
+                    // console.log('nextCheckedAccounts', nextCheckedAccounts);
+                    setCheckedDocument(nextCheckedAccounts);
+                  }}
+                />
+                ),
               )}
 
               <View style={styles.button}>
@@ -540,8 +602,8 @@ function DetailsBien() {
                   <Text category="h5" status="info" style={styles.buttonText}>Ajouter</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={() => { supprimerDocument(); }}>
-                  <Text category="h5" status="basic" style={styles.buttonText}>Supprimer</Text>
+                <TouchableOpacity onPress={() => { supprimerDocument(); setSupprim(!supprim); }}>
+                  <Text category="h5" status={supprim ? 'danger' : 'basic'} style={styles.buttonText}>Supprimer</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -593,7 +655,7 @@ function DetailsBien() {
       <Separator />
 
       <TouchableOpacity onPress={() => {
-        if (!readOnly) { supprimerLeRevenue(); }
+        if (!readOnly) { supprimerLeBien(); }
       }}
       >
         <View style={[styles.container, { alignItems: 'center' }]}>

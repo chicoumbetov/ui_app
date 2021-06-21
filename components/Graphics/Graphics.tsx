@@ -22,7 +22,7 @@ const Graphics = ({ data }: MesBiensDataProps) => {
     (item, index) => (
       { x: 0, y: index === 0 ? 100 : 0, i: item[1].label }),
   ));
-  console.log('data :', data);
+  // console.log('data :', data);
 
   useEffect(() => {
     const victory = Object.entries(data).map(

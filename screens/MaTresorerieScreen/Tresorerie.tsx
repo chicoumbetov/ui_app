@@ -7,7 +7,7 @@
 import React from 'react';
 import { Text } from '@ui-kitten/components';
 import {
-  TouchableOpacity,
+  View,
 } from 'react-native';
 
 import { Icon as IconUIKitten } from '@ui-kitten/components/ui/icon/icon.component';
@@ -64,17 +64,17 @@ const MaTresorerie = () => {
                   style={{
                     flexDirection: 'column', marginVertical: 10, padding: 17, borderRadius: 10,
                   }}
+                  onPress={() => {
+                    onMaTresorerie2(item.id);
+                  }}
                 >
                   {/**
                          <MonBienResume title={item.title} id={item.id} />
                          */}
-                  <TouchableOpacity
-                    onPress={() => {
-                      onMaTresorerie2(item.id);
-                    }}
+                  <View
                     style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}
                   >
-                    <CompteHeader title={item.name} />
+                    <CompteHeader title={item.name} iconUri={item.iconUri} />
                     <IconUIKitten
                       name="arrow-ios-forward"
                       fill="#b5b5b5"
@@ -82,44 +82,12 @@ const MaTresorerie = () => {
                         height: 16, width: 16, marginRight: 5, marginTop: 8,
                       }}
                     />
-                  </TouchableOpacity>
+                  </View>
                 </Card>
               ),
             )}
           </>
         )}
-      {/**
-        <FlatList<RealEstateItem>
-          data={data?.listRealEstates?.items}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <View style={{
-              flexDirection: 'column', marginTop: 28, padding: 17, borderRadius: 10,
-            }}
-            >
-              <TouchableOpacity
-                onPress={() => {
-                  onMaTresorerie2();
-                }}
-                style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'space-between' }}
-              >
-                <CompteHeader title={item.name} />
-                <IconUIKitten
-                  name="arrow-ios-forward"
-                  fill="#b5b5b5"
-                  style={{
-                    height: 16, width: 16, marginRight: 5, marginTop: 8,
-                  }}
-                />
-              </TouchableOpacity>
-            </View>
-
-          )}
-        />
-      */}
 
     </MaxWidthContainer>
   );

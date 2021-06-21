@@ -66,7 +66,7 @@ const MonBienResume = (props: MonBienProps) => {
         onPress={() => allerDetailsBien(biens.id)}
         style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}
       >
-        <CompteHeader title={biens.name} />
+        <CompteHeader title={bienCharger?.name} iconUri={bienCharger?.iconUri} />
         <IconUIKitten
           name="arrow-ios-forward"
           fill="#b5b5b5"

@@ -5,9 +5,6 @@
  */
 
 import React from 'react';
-import {
-  StyleSheet,
-} from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -42,7 +39,7 @@ const MainDrawerNavigator = () => {
     <Drawer.Navigator
       drawerContent={(props) => <CustomDrawer {...props} />}
       initialRouteName="TableauDeBordDrawer"
-      screenOptions={({ navigation }) => {
+      screenOptions={() => {
         const { showBack, currentRouteName } = getStackInfos(navigationState);
         return {
           title: getTitleFromName(currentRouteName),
@@ -86,18 +83,4 @@ const MainDrawerNavigator = () => {
 
 export default MainDrawerNavigator;
 
-const styles = StyleSheet.create({
-  stack: {
-    flex: 1,
-    shadowColor: '#FFF',
-    shadowOffset: {
-      width: 0,
-      height: 8,
-    },
-    shadowOpacity: 0.44,
-    shadowRadius: 10.32,
-    elevation: 5,
-  },
-  drawerItem: { alignItems: 'flex-start', marginVertical: 0 },
-  drawerLabel: { color: 'white', marginLeft: -16 },
-});
+// const styles = StyleSheet.create({});

@@ -16,7 +16,7 @@ import { RouteProp } from '@react-navigation/core/lib/typescript/src/types';
 import API from '@aws-amplify/api';
 import MaxWidthContainer from '../../components/MaxWidthContainer';
 
-import { useGetRealEstate, useRealEstateList } from '../../src/API/RealEstate';
+import { useGetRealEstate } from '../../src/API/RealEstate';
 import CompteHeader from '../../components/CompteHeader/CompteHeader';
 import OwnerCompte from './Components/OwnerCompte';
 import ActivityIndicator from '../../components/ActivityIndicator';
@@ -24,14 +24,14 @@ import { TabMaTresorerieParamList } from '../../types';
 
 // import comptesData from '../../mockData/comptesData';
 import ActionSheet from '../../components/ActionSheet/ActionSheet';
-import EditMouvement from './Components/EditMouvement';
+
 import WebView from '../../components/WebView';
 import { useBankAccountList, useDeleteBankAccount } from '../../src/API/BankAccount';
 import {
   useCreateRealEstateBankAccount,
   useDeleteRealEstateBankAccount,
 } from '../../src/API/RealEstateBankAccount';
-import { BankAccount, ListBankAccountsQuery, RealEstate } from '../../src/API';
+import { ListBankAccountsQuery, RealEstate } from '../../src/API';
 
 const MaTresorerie2 = () => {
   // const [compte] = useState(comptesData);
@@ -58,10 +58,10 @@ const MaTresorerie2 = () => {
     setbankAccountCharger(data);
     setBienCharger(bienget);
   }, [bienget]);
-  console.log('------------------------', bienCharger?.bankAccounts?.items);
+  // console.log('------------------------', bienCharger?.bankAccounts?.items);
 
   if (bienCharger) {
-    console.log('oui', bienCharger.bankAccounts?.items?.length);
+    // console.log('oui', bienCharger.bankAccounts?.items?.length);
     if (bienCharger.bankAccounts?.items?.length === 0 && !toggle) {
       setToggle(true);
     }
@@ -75,14 +75,15 @@ const MaTresorerie2 = () => {
     } else {
       buttonText = 'Lier les comptes bancaires';
     }
-  } else if (bankAccountCharger?.listBankAccounts?.items && bankAccountCharger?.listBankAccounts?.items?.length <= 0) {
+  } else if (bankAccountCharger?.listBankAccounts?.items
+      && bankAccountCharger?.listBankAccounts?.items?.length <= 0) {
     buttonText = 'Lier un compte bancaire';
   } else {
     buttonText = 'Lier un autre compte bancaire';
   }
   function supprimerCompte() {
     checkedRealEstateAccounts.reduce(async (promise, id) => {
-      console.log('id1:', id);
+      // console.log('id1:', id);
       await promise;
       await deleteRealEstateBankAccount({
         variables: {
@@ -94,7 +95,7 @@ const MaTresorerie2 = () => {
     }, Promise.resolve());
 
     checkedAccounts.reduce(async (promise, id) => {
-      console.log('id:', id);
+      // console.log('id:', id);
       await promise;
       await deleteBankAccount({
         variables: {
@@ -126,9 +127,8 @@ const MaTresorerie2 = () => {
           Ma Trésorerie
         </Text>
         <CompteHeader
-          title={
-            bienCharger?.name
-          }
+          title={bienCharger?.name}
+          iconUri={bienCharger?.iconUri}
         />
         <Text category="s2" status="basic" style={{ marginVertical: 20 }}>
           Comptes bancaires
@@ -148,13 +148,15 @@ const MaTresorerie2 = () => {
                   supprimer={supprim}
                   checked={checkedAccounts.indexOf(item.bankAccountId) > -1}
                   onCheck={(checked) => {
-                    const nextCheckedAccounts = checkedAccounts.filter((id) => id !== item.bankAccountId);
-                    const nextCheckedRealEstateAccounts = checkedRealEstateAccounts.filter((id) => id !== item.id);
+                    const nextCheckedAccounts = checkedAccounts
+                      .filter((id) => id !== item.bankAccountId);
+                    const nextCheckedRealEstateAccounts = checkedRealEstateAccounts
+                      .filter((id) => id !== item.id);
                     if (checked) {
                       nextCheckedAccounts.push(item.bankAccountId);
                       nextCheckedRealEstateAccounts.push(item.id);
                     }
-                    console.log('2222', nextCheckedAccounts);
+                    // console.log('2222', nextCheckedAccounts);
                     setCheckedAccounts(nextCheckedAccounts);
                     setCheckedRealEstateAccounts(nextCheckedRealEstateAccounts);
                   }}
@@ -177,7 +179,7 @@ const MaTresorerie2 = () => {
                     if (checked) {
                       nextCheckedAccounts.push(item.id);
                     }
-                    console.log('1111', nextCheckedAccounts);
+                    // console.log('nextCheckedAccounts', nextCheckedAccounts);
                     setCheckedAccounts(nextCheckedAccounts);
                   }}
                 />
@@ -225,7 +227,12 @@ const MaTresorerie2 = () => {
               size="large"
               onPress={async () => {
                 if (toggle) {
-                  if (checkedAccounts.length > 0 && bankAccountCharger && bankAccountCharger.listBankAccounts && bankAccountCharger.listBankAccounts.items) {
+                  if (
+                    checkedAccounts.length > 0
+                      && bankAccountCharger
+                      && bankAccountCharger.listBankAccounts
+                      && bankAccountCharger.listBankAccounts.items
+                  ) {
                     bankAccountCharger.listBankAccounts.items.map(async (item) => {
                       if (checkedAccounts.includes(item.id)) {
                         await createRealEstateBankAccount({
@@ -238,7 +245,7 @@ const MaTresorerie2 = () => {
                         });
                       }
                     });
-                    console.log('item : ', bienCharger?.bankAccounts?.items);
+                    // console.log('item : ', bienCharger?.bankAccounts?.items);
                     setToggle(false);
                   } else {
                     setAddingAccounts(true);

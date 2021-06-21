@@ -74,7 +74,7 @@ const ParametrerAjoutRevenu = () => {
     currentBudgetLine = bienget.budgetLines?.items?.filter(
       (item) => item?.id === route.params.idBudgetLine,
     ).pop();
-    currentBudgetLine.amount = currentBudgetLine.amount.toString();
+    currentBudgetLine.amount = currentBudgetLine?.amount.toString();
     useEffect(() => {
       setMontantShow(true);
       setFrequenceShow(true);
@@ -84,7 +84,7 @@ const ParametrerAjoutRevenu = () => {
       // on cherche le locataire
       // get tenant by his tenantId for current budgetLine
       const tenant = bienget.tenants?.filter(
-        (item) => item?.id === currentBudgetLine.tenantId,
+        (item) => item?.id === currentBudgetLine?.tenantId,
       ).pop();
       useEffect(() => {
         setRevenuLoyer(true);
@@ -114,7 +114,7 @@ const ParametrerAjoutRevenu = () => {
     } = data;
 
     if (route.params.idBudgetLine) {
-      if (data.category === 'Loyer' && currentBudgetLine.tenantId) {
+      if (data.category === 'Loyer' && currentBudgetLine?.tenantId) {
         let tenantId: string | null = null;
         if (tenant) {
           tenantId = await updateTenant(bienget, {
@@ -246,7 +246,7 @@ const ParametrerAjoutRevenu = () => {
         <Text category="h1" style={{ marginBottom: 20 }}>
           Paramétrer votre budget
         </Text>
-        <CompteHeader title={bienget?.name} />
+        <CompteHeader title={bienget?.name} iconUri={bienget?.iconUri} />
       </Layout>
       <Separator />
 

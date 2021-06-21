@@ -52,6 +52,7 @@ function MonBudget() {
   };
 
   const revenus = bienget?.budgetLines?.items && bienget?.budgetLines?.items.filter((item) => {
+    // eslint-disable-next-line no-underscore-dangle
     if (item?.type === BudgetLineType.Income && !item?._deleted) {
       return item;
     }
@@ -59,6 +60,7 @@ function MonBudget() {
   });
 
   const charges = bienget?.budgetLines?.items && bienget?.budgetLines?.items.filter((item) => {
+    // eslint-disable-next-line no-underscore-dangle
     if (item?.type === BudgetLineType.Expense && !item?._deleted) {
       return item;
     }
@@ -81,7 +83,7 @@ function MonBudget() {
         <Text category="h1" style={{ marginVertical: 20 }}>
           Mon Budget
         </Text>
-        <CompteHeader title={bienget?.name} />
+        <CompteHeader title={bienget?.name} iconUri={bienget?.iconUri} />
       </View>
 
       <Separator />
@@ -151,7 +153,8 @@ function MonBudget() {
           </Text>
         </Layout>
 
-        {charges && charges.map((item) => item && <MonBudgetCard key={item.id} budget={item} />)}
+        {charges && charges.map((item) => item
+            && <MonBudgetCard key={item.id} budget={item} />)}
 
         <Button
           size="large"

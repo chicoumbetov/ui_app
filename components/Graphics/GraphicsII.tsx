@@ -31,7 +31,7 @@ const GraphicsII = () => {
           }}
           interpolation="natural"
           height={250}
-          width={200}
+          width={250}
           animate={{
             duration: 6000,
             onLoad: { duration: 1000 },
@@ -69,6 +69,24 @@ const GraphicsII = () => {
             },
             {
               x: 4, y: 4, label: 'fourth', symbol: 'diamond', fill: 'green',
+            },
+          ]}
+        />
+        <VictoryBar
+          height={250}
+          barWidth={20}
+          data={[
+            {
+              x: 4, y: 1, label: 'yep', symbol: 'star', opacity: 0.5, fill: 'yellow',
+            },
+            {
+              x: 3, y: 2, label: 'yo', symbol: 'circle', opacity: 0.8, fill: 'red',
+            },
+            {
+              x: 2, y: 3, label: 'the', symbol: 'square', fill: 'gold',
+            },
+            {
+              x: 1, y: 4, label: 'air', symbol: 'diamond', fill: 'green',
             },
           ]}
         />

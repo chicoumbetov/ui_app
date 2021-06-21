@@ -52,7 +52,7 @@ const IgnorerMouvement = () => {
           },
         }}
       >
-        <CompteHeader title={bienget.name} />
+        <CompteHeader title={bienget.name} iconUri={bienget.iconUri} />
 
         <View style={{
           marginVertical: 20, paddingBottom: 20, alignItems: 'center', borderBottomWidth: 2.5, borderBottomColor: '#f4f4f4',

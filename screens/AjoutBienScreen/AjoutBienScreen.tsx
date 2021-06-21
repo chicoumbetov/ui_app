@@ -127,8 +127,8 @@ function AjoutBienScreen() {
   const route = useRoute<RouteProp<TabMesBiensParamList, 'ajout-bien-screen'> | RouteProp<TabMesBiensParamList, 'modifier-characteristique'>>();
   let currentRealEstate: AjoutBienForm | undefined;
   if (route.params) {
-    const { bien } = useGetRealEstate(route.params.id);
-    currentRealEstate = bien;
+    const { bienget } = useGetRealEstate(route.params.id);
+    currentRealEstate = bienget;
     // console.log('Ajout bien screen modifier : ', currentRealEstate);
     useEffect(() => {
       setDetentionShow(true);
@@ -205,8 +205,8 @@ function AjoutBienScreen() {
                 Choisir une icone
               </Text>
             </View>
-            <Layout style={{
-              flexDirection: 'row', marginTop: 21, justifyContent: 'space-evenly', marginLeft: -6, backgroundColor: 'transparent',
+            <View style={{
+              flexDirection: 'row', marginTop: 21, justifyContent: 'space-evenly', marginLeft: -6,
             }}
             >
               {['MaisonVerte', 'Immeuble', 'Cabane', 'Bateau', 'Boutique'].map((icon) => (
@@ -214,7 +214,7 @@ function AjoutBienScreen() {
                   <AutoAvatar avatarInfo={`default::${icon}`} style={{ height: 53, width: 53 }} />
                 </TouchableOpacity>
               ))}
-            </Layout>
+            </View>
             <Layout style={{
               flexDirection: 'row', marginTop: 34, justifyContent: 'space-evenly', marginLeft: -6, backgroundColor: 'transparent',
             }}

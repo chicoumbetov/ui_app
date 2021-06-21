@@ -187,7 +187,7 @@ const ParametrerAjoutCharges = () => {
         <Text category="h1" style={{ marginBottom: 20 }}>
           Paramétrer votre budget
         </Text>
-        <CompteHeader title={bienget?.name} />
+        <CompteHeader title={bienget?.name} iconUri={bienget?.iconUri} />
       </View>
       <Separator />
 

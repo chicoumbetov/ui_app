@@ -145,7 +145,7 @@ const QuittanceLoyer2 = () => {
 
       <View style={{ marginVertical: 20, paddingHorizontal: 27 }}>
         <Text category="h1" style={{ marginBottom: 25 }}>Générer une quittance de loyer</Text>
-        <CompteHeader title={bienget?.name} />
+        <CompteHeader title={bienget?.name} iconUri={bienget?.iconUri} />
       </View>
 
       <Separator />

@@ -121,7 +121,7 @@ const DeclarationImpots = () => {
     >
       <View style={{ margin: 27 }}>
         <Text category="h1" style={{ marginBottom: 25 }}>Générer une déclaration d'impôts</Text>
-        <CompteHeader title={bienget?.name} />
+        <CompteHeader title={bienget?.name} iconUri={bienget?.iconUri} />
       </View>
 
       <Separator />

@@ -1,20 +1,20 @@
 import gql from 'graphql-tag';
 import {
-  PendingInvitationByEmailQuery,
-  PendingInvitationByEmailQueryVariables,
+  PendingInvitationsByEmailQuery,
+  PendingInvitationsByEmailQueryVariables,
 } from '../../../../../../../src/API';
 import { AppSyncClient } from './AppSyncClient';
 
-const listPendingInvitationByEmail = async (client: AppSyncClient, pendingEmail: string) => {
+const listPendingInvitationsByEmail = async (client: AppSyncClient, pendingEmail: string) => {
   try {
     const { data } = await client.query<
-    PendingInvitationByEmailQuery,
-    PendingInvitationByEmailQueryVariables
+    PendingInvitationsByEmailQuery,
+    PendingInvitationsByEmailQueryVariables
     >({
-      query: gql(`query PendingInvitationByEmail(
+      query: gql(`query PendingInvitationsByEmail(
     $email: String
   ) {
-    pendingInvitationByEmail(
+    pendingInvitationsByEmail(
       email: $email
     ) {
       items {
@@ -51,5 +51,5 @@ const listPendingInvitationByEmail = async (client: AppSyncClient, pendingEmail:
 };
 
 export {
-  listPendingInvitationByEmail,
+  listPendingInvitationsByEmail,
 };

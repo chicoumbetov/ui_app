@@ -28,11 +28,13 @@ import Button from '../../components/Button';
 import ActivityIndicator from '../../components/ActivityIndicator';
 import { BudgetLineType } from '../../src/API';
 import { useUser } from '../../src/API/UserContext';
+import DateUtils from '../../utils/DateUtils';
 
 function TableauDeBord() {
   const linkTo = useLinkTo();
   const { loading, data } = useRealEstateList();
   const { updateUser, user } = useUser();
+  const biensDetails = useRealEstateList();
 
   useEffect(() => {
     (async () => {
@@ -75,26 +77,55 @@ function TableauDeBord() {
   /**
    *   Summarizing of each expenses and incomes
    */
+  const currentYear = new Date().getFullYear();
+  const currentMonth = new Date().getMonth();
 
-  const allIncomes = data?.listRealEstates?.items
-      && data?.listRealEstates?.items?.filter((item) => {
-        if (item?.type === BudgetLineType.Income && !item?._deleted) {
-          return item;
+  const fullSortExpense = biensDetails.data?.listRealEstates?.items?.map(
+    (item) => item && {
+      ...item,
+      totalExpense: item?.budgetLineDeadlines?.items
+      && item?.budgetLineDeadlines?.items.find((x) => {
+        const allYears = DateUtils.parseToDateObj(x?.date).getFullYear();
+        const allMonths = DateUtils.parseToDateObj(x?.date).getMonth();
+
+        if (x?.type === BudgetLineType.Expense
+            // eslint-disable-next-line no-underscore-dangle
+            && !x?._deleted
+            && allYears === currentYear
+            && allMonths === currentMonth + 1
+        ) {
+          // console.log('xxxxxx', x.amount);
+          return x.amount;
         }
         return false;
-      }).map((item) => item?.amount);
-  // console.log(allIncomes);
+      }),
+    },
+  );
+  // console.log('fullSortExpense2', fullSortExpense);
 
-  const allExpenses = data?.listRealEstates?.items
-      && data?.listRealEstates?.items?.filter((item) => {
-        if (item?.type === BudgetLineType.Expense && !item?._deleted) {
-          return item;
-        }
-        return false;
-      }).map((item) => item?.amount);
+  /** Object with 3 attributes and its key */
+  const allCurrentCategories: {
+    [key: string]: { value: number, date: number }
+  } = {};
 
-  // const sumAllIncomes = allIncomes?.reduce((a, b) => a + b, 0);
-  // const sumAllExpenses = allExpenses?.reduce((a, b) => a + b, 0);
+  if (fullSortExpense) {
+    fullSortExpense.forEach((item) => {
+      // console.log('maison', item);
+      if (item) {
+        allCurrentCategories[item.name] = {
+          value: item.totalExpense?.amount || 0,
+          date: item.totalExpense?.date,
+        };
+      }
+    });
+  }
+  // console.log('allCurrentCategories', Object.values(allCurrentCategories));
+
+  const today = new Date();
+  const closest = Object.values(allCurrentCategories)
+    .reduce((a, b) => (a.date - today < b.date - today ? a : b));
+  const next = closest.value;
+  // console.log('closest', closest.value);
 
   const allerTresorie = () => {
     linkTo('/ma-tresorerie');
@@ -152,7 +183,7 @@ function TableauDeBord() {
             </Text>
 
             <View style={styles.mouvementImage}>
-              <Text category="h3" status="danger">- 160 €</Text>
+              <Text category="h3" status="danger">{`${next || '0'} €`}</Text>
               <MaisonVert height={42} width={44} />
             </View>
           </View>
@@ -186,7 +217,7 @@ function TableauDeBord() {
           : (
             <>
               {data?.listRealEstates?.items?.map(
-                (item) => item && <MonBienResume key={item.id} bien={item} />,
+                (item) => item && <MonBienResume key={item.id} biens={item} />,
               )}
             </>
           )}

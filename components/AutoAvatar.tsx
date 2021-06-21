@@ -25,9 +25,11 @@ import Manoir from '../assets/Omedom_Icons_svg/Logement/manoir.svg';
 import MaisonBleu from '../assets/Omedom_Icons_svg/Logement/maison_bleu.svg';
 import Riad from '../assets/Omedom_Icons_svg/Logement/riad.svg';
 import Voiture from '../assets/Omedom_Icons_svg/Logement/voiture.svg';
+import ActivityIndicator from './ActivityIndicator';
+import WaitUser from '../assets/Omedom_Icons_svg/Avatars/waitUser.svg';
 
 export type AutoAvatarProps = {
-  avatarInfo: string
+  avatarInfo?: string
   style: RequireSome<ImageStyle, 'height' | 'width'>;
 };
 
@@ -36,7 +38,9 @@ export default function AutoAvatar(props: AutoAvatarProps): JSX.Element {
     avatarInfo,
     style,
   } = props;
-
+  if (avatarInfo === undefined) {
+    return <ActivityIndicator />;
+  }
   if (avatarInfo.indexOf('default::') > -1) {
     let SelectedAvatar = ManAvatar;
     switch (avatarInfo) {
@@ -46,6 +50,7 @@ export default function AutoAvatar(props: AutoAvatarProps): JSX.Element {
       case 'default::WomanAvatar':
         SelectedAvatar = WomanAvatar;
         break;
+      case 'default::mainHouse':
       case 'default::Immeuble':
         SelectedAvatar = Immeuble;
         break;
@@ -75,6 +80,9 @@ export default function AutoAvatar(props: AutoAvatarProps): JSX.Element {
         break;
       case 'default::Voiture':
         SelectedAvatar = Voiture;
+        break;
+      case 'default::WaitUser':
+        SelectedAvatar = WaitUser;
         break;
       default:
         break;

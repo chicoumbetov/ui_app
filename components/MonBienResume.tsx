@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Icon, Text,
   // useTheme,
@@ -10,23 +10,63 @@ import CompteHeader from './CompteHeader/CompteHeader';
 
 import { MonBienProps } from '../types';
 import Card from './Card';
+import { useGetRealEstate } from '../src/API/RealEstate';
+import { BudgetLineType, RealEstate } from '../src/API';
+import DateUtils from '../utils/DateUtils';
+import Amount from './Amount';
 
 const MonBienResume = (props: MonBienProps) => {
-  const { bien } = props;
+  const { biens } = props;
   // const theme = useTheme();
   const linkTo = useLinkTo();
+
+  const { bienget } = useGetRealEstate(biens?.id);
+  const [bienCharger, setBienCharger] = useState<RealEstate>();
+  useEffect(() => {
+    setBienCharger(bienget);
+  }, [bienget]);
 
   const allerDetailsBien = (id: string) => {
     linkTo(`/mes-biens/bien/${id}`);
   };
 
+  /**
+     *   Summarizing of each expenses and incomes
+     */
+  const currentYear = new Date().getFullYear();
+  const currentMonth = new Date().getMonth();
+
+  const allDataNextExpense = bienCharger?.budgetLineDeadlines?.items
+        && bienCharger?.budgetLineDeadlines?.items?.map((item) => {
+          // years for all existing Eau expenses in whole period
+          const allYears = DateUtils.parseToDateObj(item?.date).getFullYear();
+          const allMonths = DateUtils.parseToDateObj(item?.date).getMonth();
+
+          if (item?.type === BudgetLineType.Expense
+                // eslint-disable-next-line no-underscore-dangle
+                && !item?._deleted
+                && allYears === currentYear
+                && allMonths === currentMonth + 1
+          ) {
+            return item;
+          }
+          return false;
+        });
+
+  const nextexpense = allDataNextExpense?.map((d) => d?.amount)
+    .find((m) => m);
+
+  const dernierMovement = bienCharger?.bankMovements?.items?.map(
+    (item) => { if (item?.ignored) { return false; } return item; },
+  );
+
   return (
     <Card style={{ marginTop: 27 }}>
       <TouchableOpacity
-        onPress={() => allerDetailsBien(bien.id)}
+        onPress={() => allerDetailsBien(biens.id)}
         style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}
       >
-        <CompteHeader title={bien.name} />
+        <CompteHeader title={bienCharger?.name} iconUri={bienCharger?.iconUri} />
         <IconUIKitten
           name="arrow-ios-forward"
           fill="#b5b5b5"
@@ -70,7 +110,13 @@ const MonBienResume = (props: MonBienProps) => {
               />
             </View>
 
-            <Text category="h5" status="success">+ 10 800 €</Text>
+            <Text category="h5" status="success">
+              {dernierMovement ? (
+                <Amount amount={dernierMovement[0]?.amount || 0} category="h4" />
+              ) : (
+                <Amount amount={0} category="h4" />
+              )}
+            </Text>
           </View>
         </View>
 
@@ -90,7 +136,7 @@ const MonBienResume = (props: MonBienProps) => {
             fill="#b5b5b5"
             style={{ height: 16, width: 16 }}
           />
-          <Text category="h3" status="danger">- 160 €</Text>
+          <Text category="h3" status="danger">{`${(nextexpense) || '0'} €`}</Text>
         </View>
 
         {/**

@@ -29,7 +29,7 @@ import DateUtils from '../../../utils/DateUtils';
 const QuittanceLoyer2 = () => {
   const route = useRoute<RouteProp<TabMonAssistantParamList, 'quittance-loyer-2'>>();
   const navigation = useNavigation();
-  const { bien } = useGetRealEstate(route.params.idBien);
+  const { bienget } = useGetRealEstate(route.params.idBien);
   const createDocument = useCreateDocumentMutation();
   const client = useApolloClient();
   const user = useUser();
@@ -53,7 +53,7 @@ const QuittanceLoyer2 = () => {
     setNewDocument(undefined);
   }, [route.params]);
 
-  const tenant = bien.tenants?.find(
+  const tenant = bienget.tenants?.find(
     (item) => (item?.id === route.params.idTenant),
   );
 
@@ -68,11 +68,12 @@ const QuittanceLoyer2 = () => {
   // console.log('bailEndDate', moment(bailEndDate).format('DD/MM/YYYY'));
   // console.log('route.params : ', moment(route.params.date).format('DD/MM/YYYY'));
 
-  // console.log('compare:', moment(bailEndDate).format('DD/MM/YYYY') >= moment(route.params.date).format('DD/MM/YYYY'));
+  // console.log('compare:',
+  // moment(bailEndDate).format('DD/MM/YYYY') >= moment(route.params.date).format('DD/MM/YYYY'));
 
   useEffect(() => {
     (async () => {
-      if (!newDocument && bien) {
+      if (!newDocument && bienget) {
         const documentDate = DateUtils.parseToDateObj(route.params.date);
         documentDate.setHours(0, 0, 0, 0);
 
@@ -105,20 +106,20 @@ const QuittanceLoyer2 = () => {
             setNewDocument(document);
           } else {
             const result = await pdfGenerator(pdfTemplateQuittance, {
-              bien, user, tenant, date: moment(route.params.date).format('DD/MM/YYYY'), startDate, endDate,
+              bienget, user, tenant, date: moment(route.params.date).format('DD/MM/YYYY'), startDate, endDate,
             });
 
             if (result !== false) {
               // console.log('result', result);
-              const name = `Quittance_Loyer_${bien.name}_${moment(route.params.date).format('MM/YYYY')}.pdf`;
-              const s3file = await Upload(result, `realEstate/${bien.id}/`, name);
+              const name = `Quittance_Loyer_${bienget.name}_${moment(route.params.date).format('MM/YYYY')}.pdf`;
+              const s3file = await Upload(result, `realEstate/${bienget.id}/`, name);
               // console.log(s3file);
-              if (s3file !== false && bien.id) {
+              if (s3file !== false && bienget.id) {
                 const doc = await createDocument.createDocument({
                   variables: {
                     input: {
                       s3file: s3file.key,
-                      realEstateId: bien.id,
+                      realEstateId: bienget.id,
                       key,
                       name,
                     },
@@ -131,7 +132,7 @@ const QuittanceLoyer2 = () => {
         }
       }
     })();
-  }, [bien, newDocument]);
+  }, [bienget, newDocument]);
 
   // const onPdf = () => { navigation.navigate('pdf-screen'); };
   return (
@@ -144,7 +145,7 @@ const QuittanceLoyer2 = () => {
 
       <View style={{ marginVertical: 20, paddingHorizontal: 27 }}>
         <Text category="h1" style={{ marginBottom: 25 }}>Générer une quittance de loyer</Text>
-        <CompteHeader title={bien?.name} />
+        <CompteHeader title={bienget?.name} iconUri={bienget?.iconUri} />
       </View>
 
       <Separator />

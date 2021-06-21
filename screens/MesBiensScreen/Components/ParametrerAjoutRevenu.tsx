@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {
-  Button, Layout, Spinner, Text,
+  Button, Spinner, Text,
 } from '@ui-kitten/components';
 import { StyleSheet, View } from 'react-native';
 
@@ -74,7 +74,7 @@ const ParametrerAjoutRevenu = () => {
     currentBudgetLine = bienget.budgetLines?.items?.filter(
       (item) => item?.id === route.params.idBudgetLine,
     ).pop();
-    currentBudgetLine.amount = currentBudgetLine.amount.toString();
+    currentBudgetLine.amount = currentBudgetLine?.amount.toString();
     useEffect(() => {
       setMontantShow(true);
       setFrequenceShow(true);
@@ -84,7 +84,7 @@ const ParametrerAjoutRevenu = () => {
       // on cherche le locataire
       // get tenant by his tenantId for current budgetLine
       const tenant = bienget.tenants?.filter(
-        (item) => item?.id === currentBudgetLine.tenantId,
+        (item) => item?.id === currentBudgetLine?.tenantId,
       ).pop();
       useEffect(() => {
         setRevenuLoyer(true);
@@ -114,7 +114,7 @@ const ParametrerAjoutRevenu = () => {
     } = data;
 
     if (route.params.idBudgetLine) {
-      if (data.category === 'Loyer' && currentBudgetLine.tenantId) {
+      if (data.category === 'Loyer' && currentBudgetLine?.tenantId) {
         let tenantId: string | null = null;
         if (tenant) {
           tenantId = await updateTenant(bienget, {
@@ -242,18 +242,18 @@ const ParametrerAjoutRevenu = () => {
       {/**
          *  I. Mon Budget
          */}
-      <Layout style={styles.container}>
+      <View style={styles.container}>
         <Text category="h1" style={{ marginBottom: 20 }}>
           Paramétrer votre budget
         </Text>
-        <CompteHeader title={bienget?.name} />
-      </Layout>
+        <CompteHeader title={bienget?.name} iconUri={bienget?.iconUri} />
+      </View>
       <Separator />
 
       {/**
        *  II. Ajouter revenu
        */}
-      <Layout style={styles.container}>
+      <View style={styles.container}>
         <Text category="s2" status="basic" style={{ marginBottom: 20 }}>
           Ajouter un revenu
         </Text>
@@ -395,7 +395,9 @@ const ParametrerAjoutRevenu = () => {
               ) : (<></>)}
 
             <View style={{ alignItems: 'flex-end', marginTop: 10 }}>
-              {updateBudgetLine.mutationLoading || createBudgetLine.mutationLoading || createBudgetLineDeadLine.mutationLoading
+              {updateBudgetLine.mutationLoading
+              || createBudgetLine.mutationLoading
+              || createBudgetLineDeadLine.mutationLoading
                 ? (
                   <Button
                     onPress={paramBudgetForm.handleSubmit((data) => validateBudget(data))}
@@ -421,7 +423,7 @@ const ParametrerAjoutRevenu = () => {
           </>
         </Form>
 
-      </Layout>
+      </View>
     </MaxWidthContainer>
   );
 };

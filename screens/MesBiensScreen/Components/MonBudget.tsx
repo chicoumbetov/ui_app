@@ -36,6 +36,7 @@ function MonBudget() {
   const route = useRoute<RouteProp<TabMesBiensParamList, 'mon-budget'>>();
   // console.log('mon-budget data', route.params);
   const { bienget } = useGetRealEstate(route.params.id);
+  const readOnly = ReadOnly.readOnly(route.params.id);
   // console.log('data mon-budget: ', data?.getRealEstate);
 
   const allerTresorerie = () => {
@@ -51,6 +52,7 @@ function MonBudget() {
   };
 
   const revenus = bienget?.budgetLines?.items && bienget?.budgetLines?.items.filter((item) => {
+    // eslint-disable-next-line no-underscore-dangle
     if (item?.type === BudgetLineType.Income && !item?._deleted) {
       return item;
     }
@@ -58,6 +60,7 @@ function MonBudget() {
   });
 
   const charges = bienget?.budgetLines?.items && bienget?.budgetLines?.items.filter((item) => {
+    // eslint-disable-next-line no-underscore-dangle
     if (item?.type === BudgetLineType.Expense && !item?._deleted) {
       return item;
     }
@@ -80,7 +83,7 @@ function MonBudget() {
         <Text category="h1" style={{ marginVertical: 20 }}>
           Mon Budget
         </Text>
-        <CompteHeader title={bienget?.name} />
+        <CompteHeader title={bienget?.name} iconUri={bienget?.iconUri} />
       </View>
 
       <Separator />
@@ -118,7 +121,7 @@ function MonBudget() {
 
         <Button
           size="large"
-          disabled={ReadOnly.readOnly(route.params.id)}
+          disabled={readOnly}
           onPress={() => { allerAjoutRevenu(); }}
           // style={{ marginTop: 25 }}
         >
@@ -150,11 +153,12 @@ function MonBudget() {
           </Text>
         </Layout>
 
-        {charges && charges.map((item) => item && <MonBudgetCard key={item.id} budget={item} />)}
+        {charges && charges.map((item) => item
+            && <MonBudgetCard key={item.id} budget={item} realEstate={bienget} />)}
 
         <Button
           size="large"
-          disabled={ReadOnly.readOnly(route.params.id)}
+          disabled={readOnly}
           onPress={() => { allerAjoutCharge(); }}
           style={{ marginTop: 25 }}
         >
@@ -177,7 +181,7 @@ function MonBudget() {
         <Layout style={[styles.docs, { marginBottom: 10, justifyContent: 'center' }]}>
 
           <TouchableOpacity
-            onPress={() => { if (!ReadOnly.readOnly(route.params.id)) { allerTresorerie(); } }}
+            onPress={() => { if (!readOnly) { allerTresorerie(); } }}
             style={{
               flexDirection: 'row', alignItems: 'center',
             }}

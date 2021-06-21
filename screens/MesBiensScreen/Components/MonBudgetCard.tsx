@@ -21,11 +21,11 @@ const MonBudgetCard = (props: MonBudgetProps) => {
   const { budget, realEstate } = props;
   const theme = useTheme();
   const linkTo = useLinkTo();
-  console.log(realEstate);
+  console.log('realEstate', realEstate);
   const deleteBudgetLine = useDeleteBudgetLineMutation();
   let tenant;
   if (realEstate) {
-    tenant = realEstate.tenants?.filter((item) => item.id === budget.tenantId);
+    tenant = realEstate.tenants?.filter((item) => item?.id === budget.tenantId);
   }
 
   const allerTresorie = () => {
@@ -63,6 +63,8 @@ const MonBudgetCard = (props: MonBudgetProps) => {
   const allerModifierCharge = () => {
     navigation.navigate('modifier-charge', { idBudgetLine: budget.id, id: route.params.id });
   };
+
+  const readOnly = ReadOnly.readOnly(route.params.id);
 
   const supprimerLeRevenue = async () => {
     Alert.alert(
@@ -162,14 +164,19 @@ const MonBudgetCard = (props: MonBudgetProps) => {
 
       <View style={styles.button}>
         <TouchableOpacity onPress={
-          () => { if (!ReadOnly.readOnly(route.params.id)) { budget.type === BudgetLineType.Income ? (allerModifierRevenu()) : (allerModifierCharge()); } }
+          () => {
+            if (!readOnly) {
+              budget.type === BudgetLineType.Income
+                ? (allerModifierRevenu()) : (allerModifierCharge());
+            }
+          }
         }
         >
           <Layout style={styles.button}>
             <Text category="h6" status="info" style={styles.buttonTextLeft}>Modifier</Text>
           </Layout>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => { if (!ReadOnly.readOnly(route.params.id)) { supprimerLeRevenue(); } }}>
+        <TouchableOpacity onPress={() => { if (!readOnly) { supprimerLeRevenue(); } }}>
           <Layout style={styles.button}>
             <Text category="h6" status="basic">Supprimer</Text>
           </Layout>

@@ -127,9 +127,9 @@ function AjoutBienScreen() {
   const route = useRoute<RouteProp<TabMesBiensParamList, 'ajout-bien-screen'> | RouteProp<TabMesBiensParamList, 'modifier-characteristique'>>();
   let currentRealEstate: AjoutBienForm | undefined;
   if (route.params) {
-    const { bien } = useGetRealEstate(route.params.id);
-    currentRealEstate = bien;
-    console.log('Ajout bien screen modifier : ', currentRealEstate);
+    const { bienget } = useGetRealEstate(route.params.id);
+    currentRealEstate = bienget;
+    // console.log('Ajout bien screen modifier : ', currentRealEstate);
     useEffect(() => {
       setDetentionShow(true);
       setStatutShow(true);
@@ -194,19 +194,19 @@ function AjoutBienScreen() {
 
             />
 
-            <Layout style={{
-              alignItems: 'center', backgroundColor: 'transparent', marginVertical: 34,
+            <View style={{
+              alignItems: 'center', marginVertical: 34,
             }}
             >
               <AutoAvatar avatarInfo={image} style={{ height: 146, width: 146 }} />
-            </Layout>
-            <Layout style={{ marginLeft: 10, backgroundColor: 'transparent' }}>
+            </View>
+            <View style={{ marginLeft: 10 }}>
               <Text category="h5" appearance="hint">
                 Choisir une icone
               </Text>
-            </Layout>
-            <Layout style={{
-              flexDirection: 'row', marginTop: 21, justifyContent: 'space-evenly', marginLeft: -6, backgroundColor: 'transparent',
+            </View>
+            <View style={{
+              flexDirection: 'row', marginTop: 21, justifyContent: 'space-evenly', marginLeft: -6,
             }}
             >
               {['MaisonVerte', 'Immeuble', 'Cabane', 'Bateau', 'Boutique'].map((icon) => (
@@ -214,7 +214,7 @@ function AjoutBienScreen() {
                   <AutoAvatar avatarInfo={`default::${icon}`} style={{ height: 53, width: 53 }} />
                 </TouchableOpacity>
               ))}
-            </Layout>
+            </View>
             <Layout style={{
               flexDirection: 'row', marginTop: 34, justifyContent: 'space-evenly', marginLeft: -6, backgroundColor: 'transparent',
             }}

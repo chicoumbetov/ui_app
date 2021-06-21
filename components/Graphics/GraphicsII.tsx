@@ -1,83 +1,131 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
-import { Layout, Text, useTheme } from '@ui-kitten/components';
-import { VictoryChart, VictoryLine } from 'victory-native';
+import { View } from 'react-native';
+import { Text, useTheme } from '@ui-kitten/components';
+import { VictoryBar, VictoryChart, VictoryLine } from 'victory-native';
 import MaxWidthContainer from '../MaxWidthContainer';
 
 const GraphicsII = () => {
   const theme = useTheme();
   return (
-    <MaxWidthContainer outerViewProps={{
-      style: {
-        backgroundColor: '#f6f6f6',
-      },
-    }}
+    <MaxWidthContainer
+      outerViewProps={{
+        style: {
+          paddingTop: 10,
+          padding: 20,
+          borderRadius: 10,
+        },
+      }}
     >
-      <Layout style={styles.container}>
-        <Layout style={styles.compteSection}>
-          <VictoryChart>
-            <VictoryLine
-              style={{
-                data: { stroke: '#c43a31' },
-                parent: { border: '1px solid #ccc' },
-              }}
-              interpolation="natural"
-              height={283}
-              width={283}
-              data={[
-                { x: 1, y: 2 },
-                { x: 2, y: 3 },
-                { x: 3, y: 5 },
-                { x: 4, y: 4 },
-                { x: 5, y: 7 },
-              ]}
-            />
-          </VictoryChart>
 
-          <Layout style={{ borderBottomWidth: 1, borderBottomColor: '#b5b5b5' }} />
-          <Layout style={{ flexDirection: 'row', marginTop: 10, alignItems: 'center' }}>
-            <Layout style={{
-              backgroundColor: theme['color-info-500'], height: 30, width: 30, borderRadius: 30, marginRight: 10,
-            }}
-            />
-            <Text category="h6" appearance="hint">Total Entrée par mois</Text>
-          </Layout>
-          <Layout style={{ flexDirection: 'row', marginTop: 10, alignItems: 'center' }}>
-            <Layout style={{
-              backgroundColor: theme['color-danger-500'], height: 30, width: 30, borderRadius: 30, marginRight: 10,
-            }}
-            />
-            <Text category="h6" appearance="hint">Total Sorties par mois</Text>
-          </Layout>
-          <Layout style={{ flexDirection: 'row', marginTop: 10, alignItems: 'center' }}>
-            <Layout style={{
-              backgroundColor: theme['color-success-400'], height: 30, width: 30, borderRadius: 30, marginRight: 10,
-            }}
-            />
-            <Text category="h6" appearance="hint">Total Trésorie Cumul</Text>
-          </Layout>
-          <Layout style={{ flexDirection: 'row', marginTop: 10, alignItems: 'center' }}>
-            <Layout style={{
-              backgroundColor: theme['color-warning-500'], height: 30, width: 30, borderRadius: 30, marginRight: 10,
-            }}
-            />
-            <Text category="h6" appearance="hint">Evolution de la trésorerie par mois</Text>
-          </Layout>
-        </Layout>
-      </Layout>
+      <VictoryChart
+        domain={{ x: [0.5, 5.5], y: [0, 10] }}
+        domainPadding={{ x: 100 }}
+        padding={{
+          top: 40, bottom: 80, left: 40, right: 80,
+        }}
+      >
+        <VictoryLine
+          style={{
+            data: { stroke: '#c43a31' },
+            parent: { border: '1px solid #ccc' },
+          }}
+          interpolation="natural"
+          height={250}
+          width={250}
+          animate={{
+            duration: 6000,
+            onLoad: { duration: 1000 },
+          }}
+          categories={{
+            x: ['birds', 'cats', 'dogs', 'fish'],
+          }}
+          data={[
+            {
+              x: 1, y: 1, label: 'first', symbol: 'star', opacity: 0.5, fill: 'blue',
+            },
+            {
+              x: 2, y: 2, label: 'second', symbol: 'circle', opacity: 0.8, fill: 'red',
+            },
+            {
+              x: 3, y: 3, label: 'third', symbol: 'square', fill: 'gold',
+            },
+            {
+              x: 4, y: 4, label: 'fourth', symbol: 'diamond', fill: 'green',
+            },
+          ]}
+        />
+        <VictoryBar
+          height={250}
+          barWidth={20}
+          data={[
+            {
+              x: 1, y: 1, label: 'first', symbol: 'star', opacity: 0.5, fill: 'blue',
+            },
+            {
+              x: 2, y: 2, label: 'second', symbol: 'circle', opacity: 0.8, fill: 'red',
+            },
+            {
+              x: 3, y: 3, label: 'third', symbol: 'square', fill: 'gold',
+            },
+            {
+              x: 4, y: 4, label: 'fourth', symbol: 'diamond', fill: 'green',
+            },
+          ]}
+        />
+        <VictoryBar
+          height={250}
+          barWidth={20}
+          data={[
+            {
+              x: 4, y: 1, label: 'yep', symbol: 'star', opacity: 0.5, fill: 'yellow',
+            },
+            {
+              x: 3, y: 2, label: 'yo', symbol: 'circle', opacity: 0.8, fill: 'red',
+            },
+            {
+              x: 2, y: 3, label: 'the', symbol: 'square', fill: 'gold',
+            },
+            {
+              x: 1, y: 4, label: 'air', symbol: 'diamond', fill: 'green',
+            },
+          ]}
+        />
+      </VictoryChart>
+
+      <View style={{ marginVertical: 20, borderBottomWidth: 0.5, borderBottomColor: '#b5b5b5' }} />
+      <View style={{ flexDirection: 'row', marginTop: 20, alignItems: 'center' }}>
+        <View style={{
+          backgroundColor: theme['color-info-500'], height: 30, width: 30, borderRadius: 30, marginRight: 10,
+        }}
+        />
+        <Text category="h6" appearance="hint">Total Entrée par mois</Text>
+      </View>
+      <View style={{ flexDirection: 'row', marginTop: 20, alignItems: 'center' }}>
+        <View style={{
+          backgroundColor: theme['color-danger-500'], height: 30, width: 30, borderRadius: 30, marginRight: 10,
+        }}
+        />
+        <Text category="h6" appearance="hint">Evolution de la trésorerie par mois</Text>
+      </View>
+      <View style={{ flexDirection: 'row', marginTop: 20, alignItems: 'center' }}>
+        <View style={{
+          backgroundColor: theme['color-success-400'], height: 30, width: 30, borderRadius: 30, marginRight: 10,
+        }}
+        />
+        <Text category="h6" appearance="hint">Delta trésorerie Cumul</Text>
+      </View>
+      <View style={{ flexDirection: 'row', marginTop: 20, alignItems: 'center' }}>
+        <View style={{
+          backgroundColor: theme['color-warning-500'], height: 30, width: 30, borderRadius: 30, marginRight: 10,
+        }}
+        />
+        <Text category="h6" appearance="hint">Evolution de la trésorerie par mois</Text>
+      </View>
+
     </MaxWidthContainer>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: 'transparent',
-  },
-  compteSection: {
-    paddingTop: 10,
-    padding: 10,
-    borderRadius: 10,
-  },
-});
+// const styles = StyleSheet.create({});
 
 export default GraphicsII;

@@ -6,7 +6,7 @@
 
 import React, { useEffect, useState } from 'react';
 import {
-  Text, Icon as IconUIKitten, useTheme,
+  Text, Icon as IconUIKitten, useTheme, CheckBox,
 } from '@ui-kitten/components';
 import {
   Alert,
@@ -22,11 +22,7 @@ import moment from 'moment';
 import Icon from '../../components/Icon';
 import MaxWidthContainer from '../../components/MaxWidthContainer';
 
-import MaisonVert from '../../assets/Omedom_Icons_svg/Logement/maison_verte.svg';
-// import ManAvatar from '../../assets/Omedom_Icons_svg/Avatars/manAvatar.svg';
-import WomanAvatar from '../../assets/Omedom_Icons_svg/Avatars/womanAvatar.svg';
-
-import { useDeleteRealEstateMutation, useGetRealEstate } from '../../src/API/RealEstate';
+import { useDeleteRealEstateMutation, useGetRealEstate, useUpdateRealEstateMutation } from '../../src/API/RealEstate';
 import { TabMesBiensParamList } from '../../types';
 
 import Card from '../../components/Card';
@@ -35,32 +31,39 @@ import Separator from '../../components/Separator';
 import DocumentComponent from '../../components/DocumentComponent';
 import { useCreateDocumentMutation, useDeleteDocumentMutation } from '../../src/API/Document';
 
-import { BudgetLineType, RealEstate } from '../../src/API';
+import { BudgetLineType } from '../../src/API';
 import ReadOnly from '../../components/ReadOnly';
 import { Upload } from '../../utils/S3FileStorage';
 import Amount from '../../components/Amount';
 import DateUtils from '../../utils/DateUtils';
+
+import AutoAvatar from '../../components/AutoAvatar';
+import ActivityIndicator from '../../components/ActivityIndicator';
+import UserSharedCard from './Components/UserSharedCard';
+
+import { updateRealEstate } from '../../src/graphql/mutations';
 
 function DetailsBien() {
   const navigation = useNavigation();
   const linkTo = useLinkTo();
   const theme = useTheme();
   const route = useRoute<RouteProp<TabMesBiensParamList, 'detail-bien'>>();
-  const { bienget } = useGetRealEstate(route.params.id);
+  const { bienget, loading } = useGetRealEstate(route.params.id);
 
   const createDocument = useCreateDocumentMutation();
   // console.log('detail bien document', documentList);
+  const [supprim, setSupprim] = useState(false);
 
-  const [bienCharger, setBienCharger] = useState<RealEstate>();
-  useEffect(() => {
-    setBienCharger(bienget);
-  }, [bienget]);
   const [typeRevenu, setTypeRevenu] = useState<string>();
   // console.log(route.params.id);
+
+  const [checkedTenant, setCheckedTenant] = useState<string[]>([]);
+  const [checkedDocument, setCheckedDocument] = useState<string[]>([]);
 
   const currentYear = new Date().getFullYear();
   const currentMonth = new Date().getMonth();
 
+  const readOnly = ReadOnly.readOnly(route.params.id);
   /**
   const users = useGetUserByIDList(Array.prototype.concat(
    bienCharger?.admins,
@@ -73,7 +76,7 @@ function DetailsBien() {
   // console.log(users, invitateUserId);
 
   useEffect(() => {
-    switch (bienCharger?.type) {
+    switch (bienget?.type) {
       default:
         setTypeRevenu('Type de bien');
         break;
@@ -90,14 +93,14 @@ function DetailsBien() {
         setTypeRevenu('Investissement Locatif Particulier');
         break;
     }
-  }, []);
+  }, [bienget]);
 
   // const [compte, setCompte] = useState(comptesData);
 
   const allerMonBudget = () => {
     navigation.navigate('mon-budget', { id: route.params.id });
   };
-  // console.log('Detail Bien: ', bien);
+  console.log('pending invitation: ', bienget?.pendingInvitations?.items);
   const allerTresorerie = () => {
     linkTo(`/ma-tresorerie/ma-tresorerie-2/${route.params.id}`);
   };
@@ -117,7 +120,7 @@ function DetailsBien() {
   };
 
   const deleteRealEstate = useDeleteRealEstateMutation;
-  const supprimerLeRevenue = async () => {
+  const supprimerLeBien = async () => {
     return false;
     Alert.alert(
       'Suppression de revenue',
@@ -135,35 +138,12 @@ function DetailsBien() {
     );
   };
 
+  const [supprimTenant, setSupprimTenant] = useState(false);
+  const deleteLocataire = useUpdateRealEstateMutation();
   const deleteTenant = async () => {
     return false;
     Alert.alert(
-      'Suppression de revenue',
-      '',
-      [{
-        text: 'Annuler',
-        style: 'cancel',
-      },
-      {
-        text: 'Valider',
-        onPress: () => {},
-      }],
-    );
-  };
-  /**
-  const lastAmount = bienCharger?.budgetLines?.items?.filter((item) => {
-    if (item?.type === BudgetLineType.Income && !item?._deleted) {
-      return item;
-    }
-    return false;
-  }).pop()?.amount;
-  */
-
-  const deleteDoc = useDeleteDocumentMutation();
-  const supprimerDocument = async () => {
-    return false;
-    Alert.alert(
-      'Suppression de revenue',
+      'Suppression de locataire',
       '',
       [{
         text: 'Annuler',
@@ -172,14 +152,49 @@ function DetailsBien() {
       {
         text: 'Valider',
         onPress: async () => {
-          await deleteDoc();
+          checkedTenant.reduce(async (promise, id) => {
+            // console.log('id:', id);
+            await promise;
+            await deleteLocataire({
+              variables: {
+                input: {
+                  id,
+                },
+              },
+            });
+          }, Promise.resolve());
         },
       }],
     );
   };
 
-  const allDataNextExpense = bienCharger?.budgetLineDeadlines?.items
-      && bienCharger?.budgetLineDeadlines?.items?.map((item) => {
+  const deleteDoc = useDeleteDocumentMutation();
+  const supprimerDocument = async () => {
+    return false;
+    Alert.alert(
+      'Suppression de document',
+      '',
+      [{
+        text: 'Annuler',
+        style: 'cancel',
+      },
+      {
+        text: 'Valider',
+        onPress: async () => {
+          await deleteDoc({
+            variables: {
+              input: {
+                id: checkedDocument.indexOf(document.documentURI),
+              },
+            },
+          });
+        },
+      }],
+    );
+  };
+
+  const allDataNextExpense = bienget?.budgetLineDeadlines?.items
+      && bienget?.budgetLineDeadlines?.items?.map((item) => {
         // years for all existing Eau expenses in whole period
         // console.log('--------------------', item);
         const allYears = DateUtils.parseToDateObj(item?.date).getFullYear();
@@ -201,7 +216,7 @@ function DetailsBien() {
   const nextexpense = allDataNextExpense?.map((d) => d?.amount)
     .find((m) => m);
 
-  const dernierMovement = bienCharger?.bankMovements?.items?.map(
+  const dernierMovement = bienget?.bankMovements?.items?.map(
     (item) => { if (item?.ignored) { return false; } return item; },
   );
   // console.log('last Movement', dernierMovement);
@@ -217,63 +232,81 @@ function DetailsBien() {
       {/**
        *  I. Details du bien
        */}
-      <View style={styles.container}>
-        <Text category="h1" status="basic">
-          Détails du bien
-          {/**
-          {route.params.id}
-           */}
-        </Text>
-        <View style={{ alignItems: 'center', marginTop: 30 }}>
-          <MaisonVert
-            height={100}
-            width={100}
-            style={{ marginRight: 12, marginBottom: 10 }}
-          />
-          <Text category="h2" status="basic">
-            {bienCharger?.name}
-          </Text>
-        </View>
+      {loading
+        ? <ActivityIndicator />
+        : (
+          <>
+            <View style={styles.container}>
+              <Text category="h1" status="basic">
+                Détails du bien
+                {/**
+                     {route.params.id}
+                     */}
+              </Text>
+              <View style={{ alignItems: 'center', marginTop: 30 }}>
+                {/** <MaisonVert
+                     height={100}
+                     width={100}
+                     style={{ marginRight: 12, marginBottom: 10 }}
+                     /> */}
+                <AutoAvatar
+                  avatarInfo={bienget?.iconUri}
+                  style={{
+                    height: 100, width: 100, marginRight: 12, marginBottom: 10,
+                  }}
+                />
+                <Text category="h2" status="basic">
+                  {bienget?.name}
+                </Text>
+              </View>
 
-      </View>
+            </View>
+          </>
+        )}
 
       {/**
        *  II. Compteurs
        */}
       <Separator />
-      <View style={styles.container}>
-        <Text category="s2" style={{ marginBottom: 30 }}>
-          Compteurs
-        </Text>
+      {loading
+        ? <ActivityIndicator />
+        : (
+          <>
+            <View style={styles.container}>
+              <Text category="s2" style={{ marginBottom: 30 }}>
+                Compteurs
+              </Text>
 
-        <Card style={{ flexDirection: 'row' }}>
-          <View style={styles.oneThirdBlock}>
-            <Text category="h6" appearance="hint" style={styles.text}>Dernier mouvement</Text>
-            {dernierMovement ? (
-              <Amount amount={dernierMovement[0]?.amount || 0} category="h4" />
-            ) : (
-              <Amount amount={0} category="h4" />
-            )}
-          </View>
+              <Card style={{ flexDirection: 'row' }}>
+                <View style={styles.oneThirdBlock}>
+                  <Text category="h6" appearance="hint" style={styles.text}>Dernier mouvement</Text>
+                  {dernierMovement ? (
+                    <Amount amount={dernierMovement[0]?.amount || 0} category="h4" />
+                  ) : (
+                    <Amount amount={0} category="h4" />
+                  )}
+                </View>
 
-          <View style={styles.oneThirdBlock}>
-            <Text category="h6" appearance="hint" style={styles.text}>
-              Prochaine dépense
-            </Text>
-            <Text category="h3" status="danger" style={{ marginTop: 14 }}>
-              {`${(nextexpense) || '0'} €`}
-            </Text>
-          </View>
+                <View style={styles.oneThirdBlock}>
+                  <Text category="h6" appearance="hint" style={styles.text}>
+                    Prochaine dépense
+                  </Text>
+                  <Text category="h3" status="danger" style={{ marginTop: 14 }}>
+                    {`${(nextexpense) || '0'} €`}
+                  </Text>
+                </View>
 
-          <View style={styles.oneThirdBlock}>
-            <Text category="h6" appearance="hint" style={styles.text}>
-              Réntabilité du bien
-            </Text>
-            <Text category="h3" status="warning" style={{ marginTop: 14 }}>60 %</Text>
-          </View>
-        </Card>
+                <View style={styles.oneThirdBlock}>
+                  <Text category="h6" appearance="hint" style={styles.text}>
+                    Réntabilité du bien
+                  </Text>
+                  <Text category="h3" status="warning" style={{ marginTop: 14 }}>60 %</Text>
+                </View>
+              </Card>
 
-      </View>
+            </View>
+          </>
+        )}
 
       {/**
        *  III. Budget
@@ -326,7 +359,7 @@ function DetailsBien() {
 
         {/**   2   */}
         <Card
-          onPress={() => allerMesRapports(bienCharger?.id)}
+          onPress={() => allerMesRapports()}
           style={[styles.docs, {
             alignItems: 'center',
             justifyContent: 'center',
@@ -371,147 +404,211 @@ function DetailsBien() {
        *  V. Characteristiques
        */}
       <Separator />
-      <View style={styles.container}>
-        <Text category="s2" style={{ marginBottom: 30 }}>
-          Caractéristiques
-        </Text>
-        <Card style={styles.compteSection}>
-          {/* use SectionList to render several accounts with its types and details */}
-          <Text category="h6" status="basic">Localisation</Text>
-          <Text category="h6" appearance="hint" style={{ marginTop: 6 }}>
-            {`${bienCharger?.address?.address} ${bienCharger?.address?.postalCode} ${bienCharger?.address?.city}`}
-          </Text>
-          <View style={{ borderBottomWidth: 0.5, borderBottomColor: '#b5b5b5', marginVertical: 15 }} />
+      {loading
+        ? <ActivityIndicator />
+        : (
+          <View style={styles.container}>
+            <Text category="s2" style={{ marginBottom: 30 }}>
+              Caractéristiques
+            </Text>
+            <Card style={styles.compteSection}>
+              {/* use SectionList to render several accounts with its types and details */}
+              <Text category="h6" status="basic">Localisation</Text>
+              <Text category="h6" appearance="hint" style={{ marginTop: 6 }}>
+                {`${bienget?.address?.address} ${bienget?.address?.postalCode} ${bienget?.address?.city}`}
+              </Text>
+              <View style={{ borderBottomWidth: 0.5, borderBottomColor: '#b5b5b5', marginVertical: 15 }} />
 
-          <Text category="h6" status="basic" style={{ marginTop: 8 }}>Date d'acquisition</Text>
-          <Text category="h6" appearance="hint" style={{ marginTop: 5 }}>
-            {bienCharger?.purchaseYear || undefined}
-          </Text>
-          <View style={{ borderBottomWidth: 0.3, borderBottomColor: '#b5b5b5', marginVertical: 15 }} />
+              <Text category="h6" status="basic" style={{ marginTop: 8 }}>Date d'acquisition</Text>
+              <Text category="h6" appearance="hint" style={{ marginTop: 5 }}>
+                {bienget?.purchaseYear || undefined}
+              </Text>
+              <View style={{ borderBottomWidth: 0.3, borderBottomColor: '#b5b5b5', marginVertical: 15 }} />
 
-          <Text category="h6" status="basic" style={{ marginTop: 8 }}>Type de bien</Text>
-          <Text category="h6" appearance="hint" style={{ marginTop: 5 }}>
-            {`${typeRevenu}`}
-          </Text>
-          <View style={{ borderBottomWidth: 0.5, borderBottomColor: '#b5b5b5', marginVertical: 15 }} />
+              <Text category="h6" status="basic" style={{ marginTop: 8 }}>Type de bien</Text>
+              <Text category="h6" appearance="hint" style={{ marginTop: 5 }}>
+                {`${typeRevenu}`}
+              </Text>
+              <View style={{ borderBottomWidth: 0.5, borderBottomColor: '#b5b5b5', marginVertical: 15 }} />
 
-          <Text category="h6" status="basic" style={{ marginTop: 10 }}>Mode de détention</Text>
-          <Text category="h6" appearance="hint" style={{ marginTop: 5 }}>
-            {bienCharger?.ownName ? 'Nom propre' : 'Société'}
-          </Text>
-          <View style={{ borderBottomWidth: 0.5, borderBottomColor: '#b5b5b5', marginVertical: 15 }} />
+              <Text category="h6" status="basic" style={{ marginTop: 10 }}>Mode de détention</Text>
+              <Text category="h6" appearance="hint" style={{ marginTop: 5 }}>
+                {bienget?.ownName ? 'Nom propre' : 'Société'}
+              </Text>
+              <View style={{ borderBottomWidth: 0.5, borderBottomColor: '#b5b5b5', marginVertical: 15 }} />
 
-          <Text category="h6" status="basic" style={{ marginTop: 8 }}>Nombre de parts</Text>
-          <Text category="h6" appearance="hint" style={{ marginTop: 5 }}>
-            {`${bienCharger?.detentionPart || undefined} %`}
-          </Text>
-        </Card>
+              <Text category="h6" status="basic" style={{ marginTop: 8 }}>Nombre de parts</Text>
+              <Text category="h6" appearance="hint" style={{ marginTop: 5 }}>
+                {`${bienget?.detentionPart || undefined} %`}
+              </Text>
+            </Card>
 
-        <TouchableOpacity onPress={() => {
-          if (!ReadOnly.readOnly(route.params.id)) { allerModifierCharacteristics(); }
-        }}
-        >
-          <Text category="h5" status="info" style={styles.buttonText}>Modifier le bien</Text>
-        </TouchableOpacity>
-      </View>
+            <TouchableOpacity onPress={() => {
+              if (!readOnly) { allerModifierCharacteristics(); }
+            }}
+            >
+              <Text category="h5" status="info" style={styles.buttonText}>Modifier le bien</Text>
+            </TouchableOpacity>
+          </View>
+        )}
 
       {/**
        *  VI. Gestion des locataires
        */}
       <Separator />
-      <View style={styles.container}>
-        <Text category="s2">
-          Mes locataires
-        </Text>
-        <Text category="p2" appearance="hint" style={{ marginBottom: 30 }}>
-          Vous pouvez ajouter ou modifier vos locataires
-          en paramétrant vos revenus de type "Loyer" dans votre espace "Mon Budget".
-        </Text>
+      {loading
+        ? <ActivityIndicator />
+        : (
+          <>
+            <View style={styles.container}>
+              <Text category="s2">
+                Mes locataires
+              </Text>
+              <Text category="p2" appearance="hint" style={{ marginBottom: 30 }}>
+                Vous pouvez ajouter ou modifier vos locataires
+                en paramétrant vos revenus de type "Loyer" dans votre espace "Mon Budget".
+              </Text>
 
-        {/* use SectionList to render several accounts with its types and details */}
-        {/**
-          <Text category="h6" status="basic">
-            {clientData.prenom}
-          </Text>
-           */}
-        {bienCharger?.tenants?.map((tenant) => {
-          const { id } = tenant;
-          return (
-            <Card style={styles.compteSection} key={id}>
-              <Text category="h6" status="basic">{`${tenant?.firstname} ${tenant?.lastname}`}</Text>
-              <Text category="h6" appearance="hint">{`${tenant?.amount} €`}</Text>
-              <Text category="h6" appearance="hint" style={{ marginTop: 6 }} />
-              <View style={{ borderBottomWidth: 0.5, borderBottomColor: '#b5b5b5', marginBottom: 15 }} />
+              {/* use SectionList to render several accounts with its types and details */}
+              {/**
+                   <Text category="h6" status="basic">
+                   {clientData.prenom}
+                   </Text>
+                   */}
+              {bienget?.tenants?.map((tenant) => (
+                <Card
+                  style={{
+                    paddingVertical: 24,
+                    paddingHorizontal: 26.5,
+                    marginBottom: 10,
+                    alignItems: 'center',
+                    flexDirection: 'row',
+                  }}
+                  key={tenant?.id}
+                >
+                  {supprimTenant && (
+                    <View
 
-              <Text category="h6" status="basic" style={{ marginTop: 7 }}>Date de fin de bail</Text>
-              <Text
-                category="h6"
-                appearance="hint"
+                      style={{ justifyContent: 'center', paddingHorizontal: 14, width: 50 }}
+                    >
+                      <CheckBox
+                        checked={checkedTenant.indexOf(tenant?.id) > -1}
+                        onChange={(checked) => {
+                          const nextCheckedTenants = checkedTenant
+                            .filter((id) => id !== tenant?.id);
+                          if (checked) {
+                            nextCheckedTenants.push(tenant?.id);
+                          }
+                          // console.log('nextCheckedAccounts', nextCheckedAccounts);
+                          setCheckedTenant(nextCheckedTenants);
+                        }}
+                        status="danger"
+                      />
+                    </View>
+                  )}
+                  <View style={{ flex: 1 }}>
+                    <Text category="h6" status="basic">{`${tenant?.firstname} ${tenant?.lastname}`}</Text>
+                    <Text category="h6" appearance="hint">{`${tenant?.amount} €`}</Text>
+                    <Text category="h6" appearance="hint" style={{ marginTop: 6 }} />
+                    <View style={{ borderBottomWidth: 0.5, borderBottomColor: '#b5b5b5', marginVertical: 15 }} />
+
+                    <Text category="h6" status="basic" style={{ marginTop: 7 }}>Date de fin de bail</Text>
+                    <Text
+                      category="h6"
+                      appearance="hint"
+                      style={{
+                        marginTop: 5,
+                      }}
+                    >
+                      {`${moment(tenant?.endDate).format('DD/MM/YYYY')}`}
+                    </Text>
+                  </View>
+                </Card>
+              )) || undefined}
+
+              <TouchableOpacity
+                onPress={() => {
+                  if (!readOnly) {
+                    deleteTenant(); setSupprimTenant(!supprimTenant);
+                  }
+                }}
                 style={{
-                  marginTop: 5,
+                  flexDirection: 'row',
+                  marginTop: 10,
+                  justifyContent: 'flex-end',
                 }}
               >
-                {`${moment(tenant?.endDate).format('L')}`}
-              </Text>
-            </Card>
-          );
-        }) || undefined}
+                <Text category="h5" status="basic" style={styles.buttonText}>Supprimer</Text>
+              </TouchableOpacity>
 
-        <View style={styles.button}>
-          <TouchableOpacity onPress={() => {}}>
-            <Text category="h5" status="info" style={styles.buttonText}>Ajouter</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={() => {}}>
-            <Text category="h5" status="basic" style={styles.buttonText}>Supprimer</Text>
-          </TouchableOpacity>
-        </View>
-
-      </View>
+            </View>
+          </>
+        )}
 
       {/**
        *  VII. Documents
        */}
       <Separator />
-      <View style={styles.container}>
-        <Text category="s2" style={{ marginBottom: 30 }}>
-          Documents
-        </Text>
-        {bienget?.documents?.items?.map(
-          (item) => <DocumentComponent key={item?.id} document={item} />,
+      {loading
+        ? <ActivityIndicator />
+        : (
+          <>
+            <View style={styles.container}>
+              <Text category="s2" style={{ marginBottom: 30 }}>
+                Documents
+              </Text>
+              {bienget?.documents?.items?.map(
+                (item) => item && (
+                <DocumentComponent
+                  key={item?.id}
+                  document={item}
+                  checked={checkedDocument.indexOf(item.id) > -1}
+                  supprimer={supprim}
+                  onCheck={(checked) => {
+                    const nextCheckedAccounts = checkedDocument.filter((id) => id !== item.id);
+                    if (checked) {
+                      nextCheckedAccounts.push(item.id);
+                    }
+                    // console.log('nextCheckedAccounts', nextCheckedAccounts);
+                    setCheckedDocument(nextCheckedAccounts);
+                  }}
+                />
+                ),
+              )}
+
+              <View style={styles.button}>
+                <TouchableOpacity
+                  onPress={
+                          async () => {
+                            // console.log('should');
+                            const doc = await DocumentPicker.getDocumentAsync();
+                            const name = doc.type === 'success' ? doc.name : '';
+                            const s3file = await Upload(doc, `biens/${route.params.id}/documents/`);
+                            if (s3file !== false && route.params.id) {
+                              const doc = await createDocument.createDocument({
+                                variables: {
+                                  input: {
+                                    s3file: s3file.key,
+                                    realEstateId: route.params.id,
+                                    name,
+                                  },
+                                },
+                              });
+                            }
+                            // console.log(key);
+                          }
+                        }
+                >
+                  <Text category="h5" status="info" style={styles.buttonText}>Ajouter</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity onPress={() => { supprimerDocument(); setSupprim(!supprim); }}>
+                  <Text category="h5" status={supprim ? 'danger' : 'basic'} style={styles.buttonText}>Supprimer</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </>
         )}
-
-        <View style={styles.button}>
-          <TouchableOpacity
-            onPress={
-                async () => {
-                  // console.log('should');
-                  const doc = await DocumentPicker.getDocumentAsync();
-                  const name = doc.type === 'success' ? doc.name : '';
-                  const s3file = await Upload(doc, `biens/${route.params.id}/documents/`);
-                  if (s3file !== false && route.params.id) {
-                    const doc = await createDocument.createDocument({
-                      variables: {
-                        input: {
-                          s3file: s3file.key,
-                          realEstateId: route.params.id,
-                          name,
-                        },
-                      },
-                    });
-                  }
-                  // console.log(key);
-                }
-}
-          >
-            <Text category="h5" status="info" style={styles.buttonText}>Ajouter</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={() => { supprimerDocument(); }}>
-            <Text category="h5" status="basic" style={styles.buttonText}>Supprimer</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
 
       {/**
        *  VIII. Partager votre bien
@@ -521,34 +618,29 @@ function DetailsBien() {
         <Text category="s2" style={{ marginBottom: 30 }}>
           Partager votre bien
         </Text>
+        {bienget?.admins.map((idAdmin) => (
+          <UserSharedCard idUser={idAdmin} admin key={idAdmin} />
+        ))}
+        {bienget?.shared?.map((idShare) => (
+          <UserSharedCard idUser={idShare} admin={false} key={idShare} />
+        ))}
+        {bienget?.pendingInvitations?.items?.map((pending) => (
+          pending?.type === 'Admin' ? (<UserSharedCard email={pending.email} admin />) : (
+            <UserSharedCard email={pending?.email} admin={false} key={pending?.id} />
+          )
 
-        <Card style={[styles.docs, {
-          justifyContent: 'flex-start',
-        }]}
-        >
-          <WomanAvatar height={50} width={50} style={{ marginRight: 18 }} />
-
-          <View style={{ flexDirection: 'column' }}>
-            <Text category="p1" status="basic">
-              Marie Dupont
-            </Text>
-            <Text category="p2" appearance="hint">
-              Lecture Seule
-            </Text>
-          </View>
-
-        </Card>
+        ))}
 
         <View style={styles.button}>
           <TouchableOpacity onPress={() => {
-            if (!ReadOnly.readOnly(route.params.id)) { allerPartagerBien(); }
+            if (!readOnly) { allerPartagerBien(); }
           }}
           >
             <Text category="h5" status="info" style={styles.buttonText}>Ajouter</Text>
           </TouchableOpacity>
 
           <TouchableOpacity onPress={() => {
-            // if (!ReadOnly.readOnly(route.params.id)) {}
+            if (!readOnly) {}
             // console.log(useGetInvitateUser.userList);
           }}
           >
@@ -563,7 +655,7 @@ function DetailsBien() {
       <Separator />
 
       <TouchableOpacity onPress={() => {
-        if (!ReadOnly.readOnly(route.params.id)) { supprimerLeRevenue(); }
+        if (!readOnly) { supprimerLeBien(); }
       }}
       >
         <View style={[styles.container, { alignItems: 'center' }]}>
@@ -618,7 +710,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginTop: 10,
     justifyContent: 'space-between',
-    backgroundColor: 'transparent',
   },
   buttonText: {
     marginLeft: 6,

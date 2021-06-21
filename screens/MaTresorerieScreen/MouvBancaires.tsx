@@ -26,12 +26,11 @@ import { TabMaTresorerieParamList } from '../../types';
 import { useGetRealEstate } from '../../src/API/RealEstate';
 import {
   BankAccount,
-  BankMovement, BudgetLineDeadline, BudgetLineType, RealEstate,
+  BankMovement, BudgetLineDeadline, BudgetLineType,
 } from '../../src/API';
 import Separator from '../../components/Separator';
 import Amount from '../../components/Amount';
 import {
-  useGetBankMouvement,
   useGetBankMovementByBankAccountId, useUpdateBankMovement,
 } from '../../src/API/BankMouvement';
 import { useGetBankAccount } from '../../src/API/BankAccount';
@@ -63,7 +62,7 @@ const MouvBancaires = () => {
     }
     return item;
   });
-  console.log('dfslbnkm,l;vm:;l,sdv', movementPasAffect);
+  // console.log('dfslbnkm,l;vm:;l,sdv', movementPasAffect);
 
   // const [compte] = useState(comptesData);
   const [currentMvt, setCurrentMvt] = useState<BankMovement>();
@@ -83,7 +82,7 @@ const MouvBancaires = () => {
     }
 
     setChecked(newCheckedState);
-    console.log('check ', checked.includes({ id, _version }));
+    // console.log('check ', checked.includes({ id, _version }));
   };
   const onIgnorerMouvement = (id?: string) => {
     navigation.navigate('ignorer-mouvement', { idCompte: id, id: route.params.id });
@@ -126,6 +125,7 @@ const MouvBancaires = () => {
           input: {
             id: current.id,
             ignored: true,
+            // eslint-disable-next-line no-underscore-dangle
             _version: current._version,
           },
         },
@@ -145,7 +145,7 @@ const MouvBancaires = () => {
         }}
       >
 
-        <CompteHeader title={bienget?.name} />
+        <CompteHeader title={bienget?.name} iconUri={bienget?.iconUri} />
 
         <View style={{
           marginTop: 20,
@@ -196,9 +196,9 @@ const MouvBancaires = () => {
               {ignoreClicked
                 ? (
                   <CheckBox
-
                     checked={isChecked(item.id)}
                     onChange={
+                      // eslint-disable-next-line no-underscore-dangle
                                 (nextChecked) => checkFunction(nextChecked, item.id, item._version)
                               }
                     status="danger"

@@ -6,7 +6,7 @@ import { RealEstateItem } from './src/API/RealEstate';
  * 3. ... types
  * */
 
-export type MonBienProps = { bien: RealEstateItem };
+export type MonBienProps = { biens: RealEstateItem };
 
 export type RootStackParamList = {
   Root: undefined;
@@ -71,8 +71,8 @@ export type TabMesBiensParamList = {
   'modifier-characteristique': { id: string };
   'ajout-bien-screen': undefined;
   'mes-rapports': { id: string };
-  'mes-rapports-biens1': { id: string };
-  'mes-rapports-biens2': { id: string };
+  'mes-rapports-biens1': { range?: Date, id?: string };
+  'mes-rapports-biens2': { range?: Date, id?: string };
 };
 
 export type TabMaTresorerieParamList = {
@@ -81,9 +81,6 @@ export type TabMaTresorerieParamList = {
   'mouv-bancaires': { id: string, idCompte: string };
   'ignorer-mouvement': { id: string, idCompte: string };
   'affecter-mouvement': { id: string, idCompte: string };
-
-  AjoutCompte: undefined;
-
   'treso-mouvement-page1': undefined;
   'treso-mouvement-page2': undefined;
 };

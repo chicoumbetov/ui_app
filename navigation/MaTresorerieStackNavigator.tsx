@@ -6,7 +6,6 @@ import MaTresorerie2 from '../screens/MaTresorerieScreen/Tresorerie2';
 import MouvBancaires from '../screens/MaTresorerieScreen/MouvBancaires';
 import IgnorerMouvement
   from '../screens/MaTresorerieScreen/IgnorerMouvement';
-import AjoutCompte from '../screens/MaTresorerieScreen/Components/AjoutCompte/AjoutCompte';
 import AffecterMouvement from '../screens/MaTresorerieScreen/AffecterMouvement';
 
 const Stack = createStackNavigator<TabMaTresorerieParamList>();
@@ -38,10 +37,6 @@ export default function MaTresorerieStackNavigator() {
       <Stack.Screen
         name="affecter-mouvement"
         component={AffecterMouvement}
-      />
-      <Stack.Screen
-        name="AjoutCompte"
-        component={AjoutCompte}
       />
     </Stack.Navigator>
   );

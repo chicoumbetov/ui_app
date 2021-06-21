@@ -8,7 +8,6 @@ import React from 'react';
 import { Button, Text } from '@ui-kitten/components';
 
 import { useLinkTo } from '@react-navigation/native';
-import { View } from 'react-native';
 import MonBien from './Components/MonBien';
 import MaxWidthContainer from '../../components/MaxWidthContainer';
 import { useRealEstateList } from '../../src/API/RealEstate';
@@ -21,7 +20,7 @@ function MesBiens() {
   // const [compte] = useState(comptesData);
   const { loading, data } = useRealEstateList();
 
-  console.log('biens', data);
+  // console.log('biens', data);
 
   const onAjoutBien = () => {
     linkTo('/mes-biens/ajouter');
@@ -31,39 +30,46 @@ function MesBiens() {
 
     <MaxWidthContainer
       withScrollView="keyboardAware"
+      innerViewProps={{
+        style: { flex: 1, padding: 26 },
+      }}
       outerViewProps={{
         showsVerticalScrollIndicator: false,
       }}
     >
-      <View style={{ flex: 1, padding: 26 }}>
-        <Text
-          category="h1"
-          style={{
-            marginBottom: 20,
-          }}
-        >
-          Mes Biens
-        </Text>
 
-        {loading
-          ? <ActivityIndicator />
-          : (
-            <>
-              {data?.listRealEstates?.items?.map(
-                (item) => item && <MonBien key={item.id} biens={item} />,
-              )}
-            </>
-          )}
+      <Text
+        category="h1"
+        style={{
+          marginBottom: 20,
+        }}
+      >
+        Mes Biens
+      </Text>
 
-        <Button
-          size="large"
-          onPress={() => { onAjoutBien(); }}
-          style={{ marginVertical: 30 }}
-        >
-          Ajouter un nouveau bien
-        </Button>
+      {loading
+        ? <ActivityIndicator />
+        : (
+          <>
+            {data?.listRealEstates?.items?.map(
+              (item) => item
+                    && (
+                    <MonBien
+                      key={item.id}
+                      biens={item}
+                    />
+                    ),
+            )}
+          </>
+        )}
 
-      </View>
+      <Button
+        size="large"
+        onPress={() => { onAjoutBien(); }}
+        style={{ marginVertical: 30 }}
+      >
+        Ajouter un nouveau bien
+      </Button>
 
     </MaxWidthContainer>
   );

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 import { Text, useTheme } from '@ui-kitten/components';
 
 import { VictoryLabel, VictoryPie } from 'victory-native';
@@ -22,7 +22,7 @@ const Graphics = ({ data }: MesBiensDataProps) => {
     (item, index) => (
       { x: 0, y: index === 0 ? 100 : 0, i: item[1].label }),
   ));
-  console.log('data :', data);
+  // console.log('data :', data);
 
   useEffect(() => {
     const victory = Object.entries(data).map(
@@ -54,48 +54,51 @@ const Graphics = ({ data }: MesBiensDataProps) => {
         style: {
           paddingVertical: 24,
           paddingHorizontal: 21,
+          borderRadius: 10,
         },
       }}
     >
 
-      <View style={styles.compteSection}>
-
-        <View style={{ alignItems: 'center', margin: 30 }}>
-          <VictoryPie
-            padAngle={4}
-            startAngle={-27}
-            endAngle={333}
-            cornerRadius={30}
-            height={272}
-            width={320}
-            innerRadius={67}
-            data={victorydata}
-            animate={{ easing: 'exp' }}
-            labels={(datum) => [`${Math.round(datum.datum.y)} %`, `${Math.round(datum.datum.x)} €`]}
-            labelComponent={(
-              <VictoryLabel
-                style={[
-                  { fill: 'black', fontSize: 16, fontFamily: 'HouschkaRoundedDemiBold' },
-                  { fill: '#b5b5b5', fontSize: 16, fontFamily: 'HouschkaRoundedDemiBold' },
-                ]}
-              />
+      <View style={{ alignItems: 'center', margin: 30 }}>
+        <VictoryPie
+          padAngle={4}
+          startAngle={-27}
+          endAngle={333}
+          cornerRadius={30}
+          height={272}
+          width={320}
+          innerRadius={67}
+          data={victorydata}
+          animate={{ easing: 'exp' }}
+          labels={(datum) => [`${Math.round(datum.datum.y)} %`, `${Math.round(datum.datum.x)} €`]}
+          labelComponent={(
+            <VictoryLabel
+              style={[
+                {
+                  fill: 'black', fontSize: 16, fontFamily: 'HouschkaRoundedDemiBold',
+                },
+                {
+                  fill: '#b5b5b5', fontSize: 16, fontFamily: 'HouschkaRoundedDemiBold',
+                },
+              ]}
+            />
             )}
-            colorScale={colorscale}
-          />
-        </View>
-
-        <View style={{
-          borderWidth: 0.5,
-          borderColor: '#b5b5b5',
-          marginVertical: 20,
-        }}
+          colorScale={colorscale}
         />
+      </View>
 
-        {/**
+      <View style={{
+        borderWidth: 0.5,
+        borderColor: '#b5b5b5',
+        marginVertical: 20,
+      }}
+      />
+
+      {/**
           *  Legend of graphic by iteration of colors according on category index
           * */}
 
-        {victorydata.map((item, index) => (item.i !== ''
+      {victorydata.map((item, index) => (item.i !== ''
             && (
             <View
               key={item.i}
@@ -118,27 +121,12 @@ const Graphics = ({ data }: MesBiensDataProps) => {
               <Text category="h6" appearance="hint">{item.i}</Text>
             </View>
             )
-        ))}
-
-      </View>
+      ))}
 
     </MaxWidthContainer>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    marginTop: 10,
-    backgroundColor: 'rgba(246, 246, 246, 0.5)',
-  },
-  compteSection: {
-    paddingTop: 10,
-    padding: 20,
-    borderRadius: 10,
-  },
-  circles: {
-    height: 20, width: 20, borderRadius: 30, marginRight: 10,
-  },
-});
+// const styles = StyleSheet.create({});
 
 export default Graphics;

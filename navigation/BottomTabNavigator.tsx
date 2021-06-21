@@ -1,7 +1,7 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import * as React from 'react';
 
-import { BottomNavigationTab, Icon, useTheme } from '@ui-kitten/components';
+import { BottomNavigationTab, useTheme } from '@ui-kitten/components';
 
 import { SafeAreaView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
@@ -56,7 +56,7 @@ const BottomTabBar = ({ navigation, state }: any) => {
         onSelect={(index) => navigation.navigate(state.routeNames[index])}
       >
         {/* eslint-disable-next-line @typescript-eslint/no-shadow */}
-        <BottomNavigationTab title="Mes Biens" icon={HomeIcon} />
+        <BottomNavigationTab title="Acceuil" icon={HomeIcon} />
         <BottomNavigationTab title="Mes Charges" icon={TrendingUpIcon} />
         <BottomNavigationTab title="Accueil" icon={GridIcon} />
         <BottomNavigationTab title="Mon Assistant" icon={FileIcon} />

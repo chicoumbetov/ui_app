@@ -4,8 +4,8 @@
  * @author: Shynggys UMBETOV
  */
 
-import React, { useEffect, useState } from 'react';
-import { Icon, Text, useTheme } from '@ui-kitten/components';
+import React, { useState } from 'react';
+import { Icon, Text } from '@ui-kitten/components';
 
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { useLinkTo, useNavigation } from '@react-navigation/native';
@@ -19,27 +19,24 @@ import RotatingIcon from '../../../components/Icon/RotatingIcon';
 import MaxWidthContainer from '../../../components/MaxWidthContainer';
 import { RealEstateItem, useGetRealEstate } from '../../../src/API/RealEstate';
 import Card from '../../../components/Card';
-import { BudgetLineType, RealEstate } from '../../../src/API';
+import { BudgetLineType } from '../../../src/API';
 import DateUtils from '../../../utils/DateUtils';
 import Amount from '../../../components/Amount';
+import ActivityIndicator from '../../../components/ActivityIndicator';
 
 type MonBienProps = { biens: RealEstateItem };
 
 const MonBien = (props: MonBienProps) => {
   const { biens } = props;
-  const { bienget } = useGetRealEstate(biens?.id);
+  const { bienget, loading } = useGetRealEstate(biens?.id);
 
   // const budgetLineDeadLine = useGetBudgetLineDeadLine(bien?.id);
   const linkTo = useLinkTo();
 
   const navigation = useNavigation();
   const [opened, setOpened] = useState(false);
-  const theme = useTheme();
-  const [bienCharger, setBienCharger] = useState<RealEstate>();
-  useEffect(() => {
-    setBienCharger(bienget);
-  }, [bienget]);
-  // console.log('bienCharger : ', bienCharger);
+  // const theme = useTheme();
+  // console.log('bienget : ', bienget);
 
   /**
    *   Rentabilité
@@ -65,8 +62,8 @@ const MonBien = (props: MonBienProps) => {
   const currentYear = new Date().getFullYear();
   const currentMonth = new Date().getMonth();
 
-  const allDataNextExpense = bienCharger?.budgetLineDeadlines?.items
-  && bienCharger?.budgetLineDeadlines?.items?.map((item) => {
+  const allDataNextExpense = bienget?.budgetLineDeadlines?.items
+  && bienget?.budgetLineDeadlines?.items?.map((item) => {
     // years for all existing Eau expenses in whole period
     const allYears = DateUtils.parseToDateObj(item?.date).getFullYear();
     const allMonths = DateUtils.parseToDateObj(item?.date).getMonth();
@@ -93,8 +90,8 @@ const MonBien = (props: MonBienProps) => {
   /**
    * Get all expenses of current year
    */
-  if (bienCharger?.budgetLineDeadlines?.items) {
-    bienCharger?.budgetLineDeadlines?.items.forEach((item) => {
+  if (bienget?.budgetLineDeadlines?.items) {
+    bienget?.budgetLineDeadlines?.items.forEach((item) => {
       // years for all existing Eau expenses in whole period
       const allYears = DateUtils.parseToDateObj(item?.date).getFullYear();
       if (item?.category
@@ -142,7 +139,7 @@ const MonBien = (props: MonBienProps) => {
     linkTo(`/mes-biens/bien/${id}`);
   };
 
-  const dernierMovement = bienCharger?.bankMovements?.items?.map(
+  const dernierMovement = bienget?.bankMovements?.items?.map(
     (item) => { if (item?.ignored) { return false; } return item; },
   );
   // console.log('last Movement', dernierMovement);
@@ -154,146 +151,152 @@ const MonBien = (props: MonBienProps) => {
       }}
     >
 
-      <Card onPress={() => setOpened(!opened)} style={{ marginVertical: 15 }}>
-        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-          <View style={{ flex: 1, flexWrap: 'wrap' }}>
-            <CompteHeader title={biens?.name} />
-          </View>
-
-          <RotatingIcon name="arrow-ios-downward-outline" uikitten state={opened} width={24} height={25} fill="#b5b5b5" />
-        </View>
-        {!opened ? (
-          <View style={{
-            flexDirection: 'row',
-            marginTop: 22,
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}
-          >
-            {/**
-                 *
-                 */}
-
-            <View style={{ flexDirection: 'row' }}>
-              <View style={{ flexDirection: 'row' }}>
-                <View style={{ width: 7 }}>
-                  <IconUIKitten
-                    name="arrow-downward"
-                    fill="#b5b5b5"
-                    style={{ height: 16, width: 16 }}
-                  />
-                </View>
-                <IconUIKitten
-                  name="arrow-upward"
-                  fill="#b5b5b5"
-                  style={{
-                    height: 16, width: 16, marginRight: 8,
-                  }}
-                />
-              </View>
-              {dernierMovement ? (
-                <Amount amount={dernierMovement[0]?.amount || 0} category="h4" />
-              ) : (
-                <Amount amount={0} category="h4" />
-              )}
-
-            </View>
-
-            {/**
-                 *
-                 */}
-
-            <View style={{
-              alignItems: 'center',
-              marginRight: 20,
-              flexDirection: 'row',
-            }}
-            >
-              <Icon
-                name="arrow-downward"
-                fill="#b5b5b5"
-                style={{ height: 16, width: 16 }}
-              />
-              <Text category="h4" status="danger">
-                {`${(nextexpense) || '0'} €`}
-              </Text>
-            </View>
-
-            {/**
-                 *
-                 */}
-            <View style={{
-              flexDirection: 'row',
-            }}
-            >
-              <Icon
-                name="trending-up"
-                fill="#b5b5b5"
-                style={{ height: 18, width: 18, marginRight: 2 }}
-              />
-              <Text category="h4" status="warning">60 %</Text>
-            </View>
-
-          </View>
-        ) : (
+      {loading
+        ? <ActivityIndicator />
+        : (
           <>
-            <View style={{
-              borderBottomWidth: 1, marginVertical: 20, borderBottomColor: theme['text-hint-color'],
-            }}
-            />
-            <View style={{
-              flexDirection: 'row',
-            }}
-            >
-              <View style={styles.oneThirdBlock}>
-                <Text category="h6" appearance="hint" style={styles.text}>Dernier mouvement</Text>
-                {dernierMovement ? (
-                  <Amount amount={dernierMovement[0]?.amount || 0} category="h4" />
-                ) : (
-                  <Amount amount={0} category="h4" />
-                )}
+            <Card onPress={() => setOpened(!opened)} style={{ marginVertical: 15 }}>
+              <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                <View style={{ flex: 1, flexWrap: 'wrap' }}>
+                  <CompteHeader title={bienget?.name} iconUri={bienget?.iconUri} />
+                </View>
 
-                <TouchableOpacity onPress={() => {}}>
-                  <Text category="h6" status="info">Affecter</Text>
-                </TouchableOpacity>
+                <RotatingIcon name="arrow-ios-downward-outline" uikitten state={opened} width={24} height={25} fill="#b5b5b5" />
               </View>
+              {!opened ? (
+                <View style={{
+                  flexDirection: 'row',
+                  marginTop: 22,
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}
+                >
+                  {/**
+                 *
+                 */}
 
-              <View style={styles.oneThirdBlock}>
-                <Text category="h6" appearance="hint" style={styles.text}>
-                  Prochaine dépense
-                </Text>
-                <Text category="h4" status="danger">
-                  {`${(nextexpense) || '0'} €`}
-                </Text>
-                <TouchableOpacity onPress={allerTresorerie}>
-                  <Text category="h6" status="info">En savoir +</Text>
-                </TouchableOpacity>
-              </View>
+                  <View style={{ flexDirection: 'row' }}>
+                    <View style={{ flexDirection: 'row' }}>
+                      <View style={{ width: 7 }}>
+                        <IconUIKitten
+                          name="arrow-downward"
+                          fill="#b5b5b5"
+                          style={{ height: 16, width: 16 }}
+                        />
+                      </View>
+                      <IconUIKitten
+                        name="arrow-upward"
+                        fill="#b5b5b5"
+                        style={{
+                          height: 16, width: 16, marginRight: 8,
+                        }}
+                      />
+                    </View>
+                    {dernierMovement ? (
+                      <Amount amount={dernierMovement[0]?.amount || 0} category="h4" />
+                    ) : (
+                      <Amount amount={0} category="h4" />
+                    )}
 
-              <View style={styles.oneThirdBlock}>
-                <Text category="h6" appearance="hint" style={styles.text}>
-                  Réntabilité du bien
-                </Text>
-                <Text category="h4" status="warning" style={{ marginVertical: 14 }}>60 %</Text>
-                <TouchableOpacity onPress={allerMesRapports}>
-                  <Text category="h6" status="info">Mes rapports</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
+                  </View>
 
-            <TouchableOpacity onPress={() => onDetailsBiens(biens.id)} style={styles.button}>
-              <Text category="h6" status="basic">Accéder au bien</Text>
-              <Icon
-                name="chevron-right-outline"
-                fill="#b5b5b5"
-                style={{ height: 18, width: 18, marginRight: 8 }}
-              />
-            </TouchableOpacity>
-            <Graphics data={allCurrentCategories} />
-            <GraphicsII />
+                  {/**
+                 *
+                 */}
+
+                  <View style={{
+                    alignItems: 'center',
+                    marginRight: 20,
+                    flexDirection: 'row',
+                  }}
+                  >
+                    <Icon
+                      name="arrow-downward"
+                      fill="#b5b5b5"
+                      style={{ height: 16, width: 16 }}
+                    />
+                    <Text category="h4" status="danger">
+                      {`${(nextexpense) || '0'} €`}
+                    </Text>
+                  </View>
+
+                  {/**
+                 *
+                 */}
+                  <View style={{
+                    flexDirection: 'row',
+                  }}
+                  >
+                    <Icon
+                      name="trending-up"
+                      fill="#b5b5b5"
+                      style={{ height: 18, width: 18, marginRight: 2 }}
+                    />
+                    <Text category="h4" status="warning">60 %</Text>
+                  </View>
+
+                </View>
+              ) : (
+                <>
+                  <View style={{
+                    borderBottomWidth: 0.5,
+                    borderBottomColor: '#b5b5b5',
+                    marginVertical: 20,
+                  }}
+                  />
+                  <View style={{
+                    flexDirection: 'row',
+                  }}
+                  >
+                    <View style={styles.oneThirdBlock}>
+                      <Text category="h6" appearance="hint" style={styles.text}>Dernier mouvement</Text>
+                      {dernierMovement ? (
+                        <Amount amount={dernierMovement[0]?.amount || 0} category="h4" />
+                      ) : (<></>)}
+
+                      <TouchableOpacity onPress={() => {}}>
+                        <Text category="h6" status="info">Affecter</Text>
+                      </TouchableOpacity>
+                    </View>
+
+                    <View style={styles.oneThirdBlock}>
+                      <Text category="h6" appearance="hint" style={styles.text}>
+                        Prochaine dépense
+                      </Text>
+                      <Text category="h4" status="danger">
+                        {`${(nextexpense) || '0'} €`}
+                      </Text>
+                      <TouchableOpacity onPress={allerTresorerie}>
+                        <Text category="h6" status="info">En savoir +</Text>
+                      </TouchableOpacity>
+                    </View>
+
+                    <View style={styles.oneThirdBlock}>
+                      <Text category="h6" appearance="hint" style={styles.text}>
+                        Réntabilité du bien
+                      </Text>
+                      <Text category="h4" status="warning" style={{ marginVertical: 14 }}>60 %</Text>
+                      <TouchableOpacity onPress={allerMesRapports}>
+                        <Text category="h6" status="info">Mes rapports</Text>
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+
+                  <TouchableOpacity onPress={() => onDetailsBiens(biens.id)} style={styles.button}>
+                    <Text category="h6" status="basic">Accéder au bien</Text>
+                    <Icon
+                      name="chevron-right-outline"
+                      fill="#b5b5b5"
+                      style={{ height: 18, width: 18, marginRight: 8 }}
+                    />
+                  </TouchableOpacity>
+                  <Graphics data={allCurrentCategories} />
+                  <GraphicsII />
+                </>
+              )}
+            </Card>
           </>
         )}
-      </Card>
 
     </MaxWidthContainer>
   );
@@ -303,7 +306,7 @@ export default MonBien;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#f6f6f6',
+    // backgroundColor: '#f6f6f6',
     marginTop: 12,
     paddingTop: 38,
     paddingHorizontal: 26,

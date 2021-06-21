@@ -33,7 +33,8 @@ const MesCharges3 = () => {
   const fullSortExpense = biensDetails.data?.listRealEstates?.items?.map(
     (item) => (item && {
       ...item,
-      totalValue: item?.budgetLineDeadlines?.items?.filter((x) => (x && x?.category === title
+      totalValue: item?.budgetLineDeadlines?.items?.filter((x) => (x
+          && x?.category === title
         // eslint-disable-next-line no-underscore-dangle
         && !x._deleted
         && DateUtils.parseToDateObj(x.date) >= range.startDate
@@ -44,7 +45,7 @@ const MesCharges3 = () => {
 
   /** Object with 3 attributes and its key */
   const allCurrentCategories: {
-    [key: string]: { value: number, percentage: number, label: string }
+    [key: string]: { value: number, percentage: number, label: string, icon?: string }
   } = {};
 
   /** 66666666 */
@@ -56,6 +57,7 @@ const MesCharges3 = () => {
           value: item.totalValue || 0,
           percentage: 0,
           label: item.name,
+          icon: item.iconUri,
         };
       }
     });
@@ -81,14 +83,18 @@ const MesCharges3 = () => {
   /** 777777777 999999 */
   const [victorydata, setVictoryData] = useState(Object.entries(allCurrentCategories).map(
     (item, index) => (
-      { x: 0, y: index === 0 ? 100 : 0, i: item[1].label }),
+      {
+        x: 0, y: index === 0 ? 100 : 0, i: item[1].label, icon: item[1].icon,
+      }),
   ));
   // console.log('victorydata :', victorydata);
 
   /** 8888888 */
   useEffect(() => {
     const victory = Object.entries(allCurrentCategories).map(
-      (item) => ({ x: item[1].value, y: item[1].percentage, i: item[1].label }),
+      (item) => ({
+        x: item[1].value, y: item[1].percentage, i: item[1].label, icon: item[1].icon,
+      }),
     );
     setVictoryData(victory); // Setting the data that we want to display
   }, []);
@@ -178,7 +184,7 @@ const MesCharges3 = () => {
                   marginRight: 10,
                 }}
               />
-              <CompteHeader title={item.i} />
+              <CompteHeader title={item.i} iconUri={item.icon} />
             </View>
             )
         ))}

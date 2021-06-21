@@ -1,7 +1,7 @@
-import { Icon, Text } from '@ui-kitten/components';
+import { CheckBox, Icon, Text } from '@ui-kitten/components';
 import React from 'react';
 import * as Sharing from 'expo-sharing';
-import { Platform } from 'react-native';
+import { Platform, View } from 'react-native';
 import { Storage } from 'aws-amplify';
 import * as FileSystem from 'expo-file-system';
 import { DocumentItem } from '../src/API/Document';
@@ -9,11 +9,15 @@ import Card from './Card';
 import { waitingDirectory } from '../utils/S3FileStorage';
 
 type DocumentProps = {
+  supprimer?: boolean,
   document: DocumentItem | null
-};
+  onCheck?: (checked: boolean) => void,
+  checked?: boolean };
 
 const DocumentComponent = (props: DocumentProps) => {
-  const { document } = props;
+  const {
+    document, supprimer = false, checked = false, onCheck,
+  } = props;
   // console.log('props', props);
 
   const shareDoc = async () => {
@@ -57,6 +61,19 @@ const DocumentComponent = (props: DocumentProps) => {
         flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 15,
       }}
     >
+      {supprimer && (
+      <View style={{ justifyContent: 'center', paddingHorizontal: 14, width: 50 }}>
+        <CheckBox
+          checked={checked}
+          status="danger"
+          onChange={(nextChecked) => {
+            if (onCheck) {
+              onCheck(nextChecked);
+            }
+          }}
+        />
+      </View>
+      )}
       <Text category="p2" style={{ flex: 1 }}>
         {document.name}
       </Text>

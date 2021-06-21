@@ -33,7 +33,8 @@ const MesCharges3 = () => {
   const fullSortExpense = biensDetails.data?.listRealEstates?.items?.map(
     (item) => (item && {
       ...item,
-      totalValue: item?.budgetLineDeadlines?.items?.filter((x) => (x && x?.category === title
+      totalValue: item?.budgetLineDeadlines?.items?.filter((x) => (x
+          && x?.category === title
         // eslint-disable-next-line no-underscore-dangle
         && !x._deleted
         && DateUtils.parseToDateObj(x.date) >= range.startDate

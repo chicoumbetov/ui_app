@@ -66,6 +66,7 @@ function DetailsBien() {
   const currentYear = new Date().getFullYear();
   const currentMonth = new Date().getMonth();
 
+  const readOnly = ReadOnly.readOnly(route.params.id);
   /**
   const users = useGetUserByIDList(Array.prototype.concat(
    bienCharger?.admins,
@@ -419,7 +420,7 @@ function DetailsBien() {
         </Card>
 
         <TouchableOpacity onPress={() => {
-          if (!ReadOnly.readOnly(route.params.id)) { allerModifierCharacteristics(); }
+          if (!readOnly) { allerModifierCharacteristics(); }
         }}
         >
           <Text category="h5" status="info" style={styles.buttonText}>Modifier le bien</Text>
@@ -553,14 +554,14 @@ function DetailsBien() {
 
         <View style={styles.button}>
           <TouchableOpacity onPress={() => {
-            if (!ReadOnly.readOnly(route.params.id)) { allerPartagerBien(); }
+            if (!readOnly) { allerPartagerBien(); }
           }}
           >
             <Text category="h5" status="info" style={styles.buttonText}>Ajouter</Text>
           </TouchableOpacity>
 
           <TouchableOpacity onPress={() => {
-            // if (!ReadOnly.readOnly(route.params.id)) {}
+            if (!readOnly) {}
             // console.log(useGetInvitateUser.userList);
           }}
           >
@@ -575,7 +576,7 @@ function DetailsBien() {
       <Separator />
 
       <TouchableOpacity onPress={() => {
-        if (!ReadOnly.readOnly(route.params.id)) { supprimerLeRevenue(); }
+        if (!readOnly) { supprimerLeRevenue(); }
       }}
       >
         <View style={[styles.container, { alignItems: 'center' }]}>

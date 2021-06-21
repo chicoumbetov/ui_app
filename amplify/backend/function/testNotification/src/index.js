@@ -11,7 +11,7 @@ const lambda = new aws.Lambda({
 });
 
 exports.handler = async (event) => {
-  await lambda.invoke({
+  lambda.invoke({
     FunctionName: process.env.FUNCTION_SENDNOTIFICATION_NAME,
     Payload: JSON.stringify({
       userIds: [
@@ -25,5 +25,24 @@ exports.handler = async (event) => {
       type: 'autre',
     }, null, 2),
     InvocationType: 'Event',
-  }).promise();
+  }, (error, data) => {
+    if (error) {
+      context.done('error', error);
+    }
+    if (data.Payload) {
+      context.succeed(data.Payload);
+    }
+  });
+
+  // TODO implement
+  const response = {
+    statusCode: 200,
+    //  Uncomment below to enable CORS requests
+    //  headers: {
+    //      "Access-Control-Allow-Origin": "*",
+    //      "Access-Control-Allow-Headers": "*"
+    //  },
+    body: JSON.stringify('Hello from Lambda!'),
+  };
+  return response;
 };

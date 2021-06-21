@@ -36,6 +36,7 @@ function MonBudget() {
   const route = useRoute<RouteProp<TabMesBiensParamList, 'mon-budget'>>();
   // console.log('mon-budget data', route.params);
   const { bienget } = useGetRealEstate(route.params.id);
+  const readOnly = ReadOnly.readOnly(route.params.id);
   // console.log('data mon-budget: ', data?.getRealEstate);
 
   const allerTresorerie = () => {
@@ -118,7 +119,7 @@ function MonBudget() {
 
         <Button
           size="large"
-          disabled={ReadOnly.readOnly(route.params.id)}
+          disabled={readOnly}
           onPress={() => { allerAjoutRevenu(); }}
           // style={{ marginTop: 25 }}
         >
@@ -154,7 +155,7 @@ function MonBudget() {
 
         <Button
           size="large"
-          disabled={ReadOnly.readOnly(route.params.id)}
+          disabled={readOnly}
           onPress={() => { allerAjoutCharge(); }}
           style={{ marginTop: 25 }}
         >
@@ -177,7 +178,7 @@ function MonBudget() {
         <Layout style={[styles.docs, { marginBottom: 10, justifyContent: 'center' }]}>
 
           <TouchableOpacity
-            onPress={() => { if (!ReadOnly.readOnly(route.params.id)) { allerTresorerie(); } }}
+            onPress={() => { if (!readOnly) { allerTresorerie(); } }}
             style={{
               flexDirection: 'row', alignItems: 'center',
             }}

@@ -38,8 +38,11 @@ import ReadOnly from '../../components/ReadOnly';
 import { Upload } from '../../utils/S3FileStorage';
 import Amount from '../../components/Amount';
 import DateUtils from '../../utils/DateUtils';
+import { useUser } from '../../src/API/UserContext';
 import AutoAvatar from '../../components/AutoAvatar';
 import ActivityIndicator from '../../components/ActivityIndicator';
+import UserSharedCard from './Components/UserSharedCard';
+import { usePendingInvitationsList } from '../../src/API/PendingInvitation';
 
 function DetailsBien() {
   const navigation = useNavigation();
@@ -553,24 +556,12 @@ function DetailsBien() {
         <Text category="s2" style={{ marginBottom: 30 }}>
           Partager votre bien
         </Text>
-
-        <Card style={[styles.docs, {
-          justifyContent: 'flex-start',
-        }]}
-        >
-          <WomanAvatar height={50} width={50} style={{ marginRight: 18 }} />
-          {/** <AutoAvatar style={{ height: 50, width: 50, marginRight: 18 }}/> */}
-
-          <View style={{ flexDirection: 'column' }}>
-            <Text category="p1" status="basic">
-              Marie Dupont
-            </Text>
-            <Text category="p2" appearance="hint">
-              Lecture Seule
-            </Text>
-          </View>
-
-        </Card>
+        {bienget?.admins.map((idAdmin) => (
+          <UserSharedCard idUser={idAdmin} admin key={idAdmin} />
+        ))}
+        {bienget?.shared?.map((idShare) => (
+          <UserSharedCard idUser={idShare} admin={false} />
+        ))}
 
         <View style={styles.button}>
           <TouchableOpacity onPress={() => {

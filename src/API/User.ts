@@ -1,12 +1,12 @@
 import { useMutation, useQuery } from 'react-apollo';
 import gql from 'graphql-tag';
 import { DocumentNode } from 'apollo-link';
-import { GetRealEstateQuery, useRealEstateList } from './RealEstate';
+import { useRealEstateList } from './RealEstate';
 import {
-  GetRealEstateQueryVariables, GetUserQuery, GetUserQueryVariables,
+  GetUserQuery, GetUserQueryVariables,
   ListUsersQuery,
   ListUsersQueryVariables,
-  ModelUserFilterInput, RealEstate, User, UserByEmailQuery, UserByEmailQueryVariables,
+  ModelUserFilterInput, User, UserByEmailQuery, UserByEmailQueryVariables,
 } from '../API';
 import {
   getRealEstate, getUser, listUsers, userByEmail,
@@ -48,5 +48,35 @@ export function useGetUserByEmail(email: string) {
 
   return {
     loading, user: <User[]>data?.userByEmail?.items, fetchMore, refetch,
+  };
+}
+
+export function useGetUser(id: string) {
+  const getUserQuery = <DocumentNode>gql(`
+  query GetUser($id: ID!) {
+    getUser(id: $id) {
+      id
+      lastname
+      firstname
+      avatarUri
+      _version
+      _deleted
+      _lastChangedAt
+      createdAt
+      updatedAt
+    }
+  }
+`);
+  const {
+    loading, data, fetchMore, refetch,
+  } = useQuery<GetUserQuery, GetUserQueryVariables>(getUserQuery, {
+    variables: {
+      id,
+    },
+    fetchPolicy: 'cache-and-network',
+  });
+
+  return {
+    loading, user: <User>data?.getUser, fetchMore, refetch,
   };
 }

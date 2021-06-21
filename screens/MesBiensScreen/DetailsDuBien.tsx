@@ -97,7 +97,7 @@ function DetailsBien() {
   const allerMonBudget = () => {
     navigation.navigate('mon-budget', { id: route.params.id });
   };
-  // console.log('Detail Bien: ', bien);
+  console.log('pending invitation: ', bienget?.pendingInvitations?.items);
   const allerTresorerie = () => {
     linkTo(`/ma-tresorerie/ma-tresorerie-2/${route.params.id}`);
   };
@@ -560,7 +560,13 @@ function DetailsBien() {
           <UserSharedCard idUser={idAdmin} admin key={idAdmin} />
         ))}
         {bienget?.shared?.map((idShare) => (
-          <UserSharedCard idUser={idShare} admin={false} />
+          <UserSharedCard idUser={idShare} admin={false} key={idShare} />
+        ))}
+        {bienget?.pendingInvitations?.items?.map((pending) => (
+          pending?.type === 'Admin' ? (<UserSharedCard email={pending.email} admin />) : (
+            <UserSharedCard email={pending?.email} admin={false} key={pending?.id} />
+          )
+
         ))}
 
         <View style={styles.button}>

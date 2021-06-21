@@ -12,7 +12,7 @@ import { RouteProp } from '@react-navigation/core/lib/typescript/src/types';
 import { ImagePickerResult } from 'expo-image-picker';
 import MaxWidthContainer from '../../components/MaxWidthContainer';
 
-import ManAvatar from '../../assets/Omedom_Icons_svg/Avatars/manAvatar.svg';
+import ManAvatar from '../../assets/Omedom_Icons_svg/Avatars/manAvatarWait.svg';
 import WomanAvatar from '../../assets/Omedom_Icons_svg/Avatars/womanAvatar.svg';
 import { TabMonCompteParamList } from '../../types';
 import AutoAvatar from '../../components/AutoAvatar';

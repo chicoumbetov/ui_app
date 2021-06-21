@@ -26,6 +26,7 @@ import MaisonBleu from '../assets/Omedom_Icons_svg/Logement/maison_bleu.svg';
 import Riad from '../assets/Omedom_Icons_svg/Logement/riad.svg';
 import Voiture from '../assets/Omedom_Icons_svg/Logement/voiture.svg';
 import ActivityIndicator from './ActivityIndicator';
+import WaitUser from '../assets/Omedom_Icons_svg/Avatars/waitUser.svg';
 
 export type AutoAvatarProps = {
   avatarInfo?: string
@@ -79,6 +80,9 @@ export default function AutoAvatar(props: AutoAvatarProps): JSX.Element {
         break;
       case 'default::Voiture':
         SelectedAvatar = Voiture;
+        break;
+      case 'default::WaitUser':
+        SelectedAvatar = WaitUser;
         break;
       default:
         break;

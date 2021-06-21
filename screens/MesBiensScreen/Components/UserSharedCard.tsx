@@ -11,15 +11,18 @@ import WomanAvatar from '../../../assets/Omedom_Icons_svg/Avatars/womanAvatar.sv
 import { useGetUser } from '../../../src/API/User';
 import ActivityIndicator from '../../../components/ActivityIndicator';
 import { usePendingInvitationsList } from '../../../src/API/PendingInvitation';
+import AutoAvatar from '../../../components/AutoAvatar';
 
 type MonBudgetProps = { idUser?: string, admin?: boolean, email?: string };
 
 const UserSharedCard = (props: MonBudgetProps) => {
-  const { idUser, admin } = props;
+  const {
+    idUser, admin, email,
+  } = props;
   const theme = useTheme();
 
   const { user, loading } = useGetUser(idUser);
-  console.log('idUser', idUser);
+  console.log('idUser', email);
 
   return (
 
@@ -30,17 +33,22 @@ const UserSharedCard = (props: MonBudgetProps) => {
       }}
     >
       {loading ? (
-        <ActivityIndicator />
+        <ActivityIndicator style={{ marginRight: 10 }} />
       ) : (
         <Card style={[styles.docs, {
           justifyContent: 'flex-start',
         }]}
         >
-          <WomanAvatar height={50} width={50} style={{ marginRight: 18 }} />
+          <AutoAvatar
+            avatarInfo={user?.avatarUri || 'default::WaitUser'}
+            style={{
+              height: 50, width: 50, marginRight: 12, marginBottom: 10,
+            }}
+          />
 
           <View style={{ flexDirection: 'column' }}>
             <Text category="p1" status="basic">
-              {user?.firstname}
+              {user?.firstname || email}
             </Text>
             <Text category="p2" appearance="hint">
               {admin ? ('Admin') : ('Lecture Seule')}

@@ -129,7 +129,7 @@ function AjoutBienScreen() {
   if (route.params) {
     const { bien } = useGetRealEstate(route.params.id);
     currentRealEstate = bien;
-    console.log('Ajout bien screen modifier : ', currentRealEstate);
+    // console.log('Ajout bien screen modifier : ', currentRealEstate);
     useEffect(() => {
       setDetentionShow(true);
       setStatutShow(true);
@@ -194,17 +194,17 @@ function AjoutBienScreen() {
 
             />
 
-            <Layout style={{
-              alignItems: 'center', backgroundColor: 'transparent', marginVertical: 34,
+            <View style={{
+              alignItems: 'center', marginVertical: 34,
             }}
             >
               <AutoAvatar avatarInfo={image} style={{ height: 146, width: 146 }} />
-            </Layout>
-            <Layout style={{ marginLeft: 10, backgroundColor: 'transparent' }}>
+            </View>
+            <View style={{ marginLeft: 10 }}>
               <Text category="h5" appearance="hint">
                 Choisir une icone
               </Text>
-            </Layout>
+            </View>
             <Layout style={{
               flexDirection: 'row', marginTop: 21, justifyContent: 'space-evenly', marginLeft: -6, backgroundColor: 'transparent',
             }}

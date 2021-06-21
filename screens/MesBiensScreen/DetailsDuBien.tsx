@@ -22,7 +22,7 @@ import moment from 'moment';
 import Icon from '../../components/Icon';
 import MaxWidthContainer from '../../components/MaxWidthContainer';
 
-import MaisonVert from '../../assets/Omedom_Icons_svg/Logement/maison_verte.svg';
+// import MaisonVert from '../../assets/Omedom_Icons_svg/Logement/maison_verte.svg';
 // import ManAvatar from '../../assets/Omedom_Icons_svg/Avatars/manAvatar.svg';
 import WomanAvatar from '../../assets/Omedom_Icons_svg/Avatars/womanAvatar.svg';
 
@@ -40,6 +40,8 @@ import ReadOnly from '../../components/ReadOnly';
 import { Upload } from '../../utils/S3FileStorage';
 import Amount from '../../components/Amount';
 import DateUtils from '../../utils/DateUtils';
+import { useUser } from '../../src/API/UserContext';
+import AutoAvatar from '../../components/AutoAvatar';
 
 function DetailsBien() {
   const navigation = useNavigation();
@@ -47,6 +49,9 @@ function DetailsBien() {
   const theme = useTheme();
   const route = useRoute<RouteProp<TabMesBiensParamList, 'detail-bien'>>();
   const { bienget } = useGetRealEstate(route.params.id);
+
+  const { user } = useUser();
+  const [avatarImage] = useState(user?.avatarUri || 'default::ManAvatar');
 
   const createDocument = useCreateDocumentMutation();
   // console.log('detail bien document', documentList);
@@ -225,10 +230,16 @@ function DetailsBien() {
            */}
         </Text>
         <View style={{ alignItems: 'center', marginTop: 30 }}>
-          <MaisonVert
+          {/** <MaisonVert
             height={100}
             width={100}
             style={{ marginRight: 12, marginBottom: 10 }}
+          /> */}
+          <AutoAvatar
+            avatarInfo={avatarImage}
+            style={{
+              height: 100, width: 100, marginRight: 12, marginBottom: 10,
+            }}
           />
           <Text category="h2" status="basic">
             {bienCharger?.name}
@@ -457,15 +468,16 @@ function DetailsBien() {
           );
         }) || undefined}
 
-        <View style={styles.button}>
-          <TouchableOpacity onPress={() => {}}>
-            <Text category="h5" status="info" style={styles.buttonText}>Ajouter</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={() => {}}>
-            <Text category="h5" status="basic" style={styles.buttonText}>Supprimer</Text>
-          </TouchableOpacity>
-        </View>
+        <TouchableOpacity
+          onPress={() => {}}
+          style={{
+            flexDirection: 'row',
+            marginTop: 10,
+            justifyContent: 'flex-end',
+          }}
+        >
+          <Text category="h5" status="basic" style={styles.buttonText}>Supprimer</Text>
+        </TouchableOpacity>
 
       </View>
 
@@ -618,7 +630,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginTop: 10,
     justifyContent: 'space-between',
-    backgroundColor: 'transparent',
   },
   buttonText: {
     marginLeft: 6,

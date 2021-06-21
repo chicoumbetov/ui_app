@@ -26,7 +26,7 @@ import DateUtils from '../../../utils/DateUtils';
 const DeclarationImpots = () => {
   const route = useRoute<RouteProp<TabMonAssistantParamList, 'declaration-impots-2'>>();
   const navigation = useNavigation();
-  const { bien } = useGetRealEstate(route.params.idBien);
+  const { bienget } = useGetRealEstate(route.params.idBien);
   const createDocument = useCreateDocumentMutation();
   const client = useApolloClient();
   const user = useUser();
@@ -57,7 +57,7 @@ const DeclarationImpots = () => {
   */
 
   const paramsAskedDate = DateUtils.parseToDateObj(route.params.anneeEcheance).getFullYear();
-  const paramsCreatedDate = DateUtils.parseToDateObj(bien.createdAt).getFullYear();
+  const paramsCreatedDate = DateUtils.parseToDateObj(bienget.createdAt).getFullYear();
 
   // console.log('date created at 2 ', paramsAskedDate);
   // console.log('date created at 333 ', paramsCreatedDate);
@@ -65,9 +65,9 @@ const DeclarationImpots = () => {
   useEffect(() => {
     (async () => {
       // console.log('Decl impots 2');
-      if (!newDocument && bien) {
-        if (bien.id === route.params.idBien) {
-          const key = `declaration_${bien.name}_${moment(route.params.anneeEcheance).format('YYYY')}`;
+      if (!newDocument && bienget) {
+        if (bienget.id === route.params.idBien) {
+          const key = `declaration_${bienget.name}_${moment(route.params.anneeEcheance).format('YYYY')}`;
 
           const previousYear = route.params.anneeEcheance - 1;
           // console.log(documentMonth);
@@ -80,23 +80,23 @@ const DeclarationImpots = () => {
             setNewDocument(document);
           } else {
             const result = await pdfGenerator(pdfTemplateDeclaration, {
-              bien,
+              bienget,
               user,
               year: route.params.anneeEcheance,
               previousYear,
             });
             // console.log('result', result);
             if (result !== false) {
-              const name = `Declaration_impots_${bien.name}_${moment(route.params.anneeEcheance).format('YYYY')}.pdf`;
-              const s3file = await Upload(result, `realEstate/${bien.id}/`, name);
+              const name = `Declaration_impots_${bienget.name}_${moment(route.params.anneeEcheance).format('YYYY')}.pdf`;
+              const s3file = await Upload(result, `realEstate/${bienget.id}/`, name);
               // console.log('s3file', s3file);
 
-              if (s3file !== false && bien.id) {
+              if (s3file !== false && bienget.id) {
                 const doc = await createDocument.createDocument({
                   variables: {
                     input: {
                       s3file: s3file.key,
-                      realEstateId: bien.id,
+                      realEstateId: bienget.id,
                       key,
                       name,
                     },
@@ -109,7 +109,7 @@ const DeclarationImpots = () => {
         }
       }
     })();
-  }, [bien, newDocument]);
+  }, [bienget, newDocument]);
 
   return (
   // const onPdf = () => { navigation.navigate('pdf-screen'); };
@@ -121,7 +121,7 @@ const DeclarationImpots = () => {
     >
       <View style={{ margin: 27 }}>
         <Text category="h1" style={{ marginBottom: 25 }}>Générer une déclaration d'impôts</Text>
-        <CompteHeader title={bien?.name} />
+        <CompteHeader title={bienget?.name} />
       </View>
 
       <Separator />
@@ -140,10 +140,10 @@ const DeclarationImpots = () => {
                 <View style={{ padding: 27 }}>
                   <Text>
 
-                    {`${bien.name} n'était pas crée en ${route.params.anneeEcheance}`}
+                    {`${bienget.name} n'était pas crée en ${route.params.anneeEcheance}`}
                   </Text>
                   <Text style={{ paddingTop: 5 }}>
-                    {`${bien.name} a été ajoutée dans l'application en ${paramsCreatedDate}`}
+                    {`${bienget.name} a été ajoutée dans l'application en ${paramsCreatedDate}`}
                   </Text>
                 </View>
 

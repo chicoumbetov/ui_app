@@ -6,7 +6,7 @@ import {
 import {
   Button, Layout, Modal, Text,
 } from '@ui-kitten/components';
-import { useLinkTo, useNavigation, useRoute } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
 import { RouteProp } from '@react-navigation/core/lib/typescript/src/types';
 import { ImagePickerResult } from 'expo-image-picker';

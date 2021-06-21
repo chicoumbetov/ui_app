@@ -8,11 +8,9 @@ import { StyleSheet, View } from 'react-native';
 
 import MaxWidthContainer from '../../../components/MaxWidthContainer';
 
-import { useRealEstateList } from '../../../src/API/RealEstate';
-
 const MesCharges2 = () => {
   const { params } = useRoute();
-  console.log('params from useRoute', params);
+  // console.log('params from useRoute', params);
   const titlePass = params;
 
   const navigation = useNavigation();
@@ -79,7 +77,7 @@ const MesCharges2 = () => {
     }
   };
 
-  const onMesCharges3 = (range) => {
+  const onMesCharges3 = () => {
     // console.log('eeeee', go);
     navigation.navigate('mes-charges-3', { range, title: titlePass?.title });
   };
@@ -128,7 +126,7 @@ const MesCharges2 = () => {
               (nextRange) => {
                 setRange(nextRange);
                 controlRange(nextRange);
-                console.log('nextRange', nextRange);
+                // console.log('nextRange', nextRange);
               }
             }
           style={{
@@ -147,7 +145,7 @@ const MesCharges2 = () => {
 
       <View style={styles.buttonRight}>
         <Button
-          onPress={() => onMesCharges3(range)}
+          onPress={() => onMesCharges3()}
           size="large"
           style={{ width: 173 }}
           disabled={!(range.endDate && range.startDate)}

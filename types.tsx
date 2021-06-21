@@ -6,7 +6,7 @@ import { RealEstateItem } from './src/API/RealEstate';
  * 3. ... types
  * */
 
-export type MonBienProps = { bien: RealEstateItem };
+export type MonBienProps = { biens: RealEstateItem };
 
 export type RootStackParamList = {
   Root: undefined;

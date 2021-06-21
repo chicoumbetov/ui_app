@@ -113,9 +113,7 @@ const MesCharges2 = () => {
 
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
         <View style={{ flex: 1, marginRight: 15 }}>
-          <Text category="h5">
-            Sélectionnez les dates
-          </Text>
+          <Text category="h5">Sélectionnez les dates</Text>
         </View>
         <RangeDatepicker
           range={range}
@@ -165,7 +163,6 @@ const styles = StyleSheet.create({
   container: {
     padding: 22,
     marginVertical: 12,
-    backgroundColor: '#f6f6f6',
   },
   containerRadio: {
     flexDirection: 'row',

@@ -71,8 +71,8 @@ export type TabMesBiensParamList = {
   'modifier-characteristique': { id: string };
   'ajout-bien-screen': undefined;
   'mes-rapports': { id: string };
-  'mes-rapports-biens1': { id: string };
-  'mes-rapports-biens2': { id: string };
+  'mes-rapports-biens1': { range?: Date, id?: string };
+  'mes-rapports-biens2': { range?: Date, id?: string };
 };
 
 export type TabMaTresorerieParamList = {

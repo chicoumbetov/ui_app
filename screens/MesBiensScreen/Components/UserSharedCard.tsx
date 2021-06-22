@@ -49,7 +49,7 @@ const UserSharedCard = (props: MonBudgetProps) => {
             flexDirection: 'row',
             alignItems: 'center',
             paddingHorizontal: 22,
-            paddingTop: 28,
+            paddingTop: 20,
           }}
         >
           <AutoAvatar

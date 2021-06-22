@@ -98,7 +98,7 @@ function DetailsBien() {
   const allerMonBudget = () => {
     navigation.navigate('mon-budget', { id: route.params.id });
   };
-  console.log('pending invitation: ', bienget?.pendingInvitations?.items);
+  // console.log('pending invitation: ', bienget?.pendingInvitations?.items);
   const allerTresorerie = () => {
     linkTo(`/ma-tresorerie/ma-tresorerie-2/${route.params.id}`);
   };
@@ -168,29 +168,33 @@ function DetailsBien() {
 
   const deleteDoc = useDeleteDocumentMutation();
   const supprimerDocument = async () => {
-    Alert.alert(
-      'Suppression de document',
-      '',
-      [{
-        text: 'Annuler',
-        style: 'cancel',
-      },
-      {
-        text: 'Valider',
-        onPress: async () => {
-          const promises = checkedDocument.map(async (docId) => {
-            await deleteDoc({
-              variables: {
-                input: {
-                  id: docId,
-                },
-              },
-            });
-          });
-          await Promise.all(promises);
+    if (checkedDocument.length > 0) {
+      Alert.alert(
+        'Suppression de document',
+        '',
+        [{
+          text: 'Annuler',
+          style: 'cancel',
         },
-      }],
-    );
+        {
+          text: 'Valider',
+          onPress: async () => {
+            const promises = checkedDocument.map(async (docId) => {
+              await deleteDoc({
+                variables: {
+                  input: {
+                    id: docId,
+                  },
+                },
+              });
+            });
+            await Promise.all(promises);
+          },
+        }],
+      );
+    } else {
+      setSupprim(false);
+    }
   };
 
   const allDataNextExpense = bienget?.budgetLineDeadlines?.items
@@ -488,7 +492,6 @@ function DetailsBien() {
                 >
                   {supprimTenant && (
                     <View
-
                       style={{ justifyContent: 'center', paddingHorizontal: 14, width: 50 }}
                     >
                       <CheckBox
@@ -612,7 +615,6 @@ function DetailsBien() {
             </View>
           </>
         )}
-
       {/**
        *  VIII. Partager votre bien
        */}
@@ -642,7 +644,7 @@ function DetailsBien() {
           </TouchableOpacity>
 
           <TouchableOpacity onPress={() => {
-            if (!readOnly) {}
+            // if (!readOnly) {}
             // console.log(useGetInvitateUser.userList);
           }}
           >

@@ -19,10 +19,12 @@ import TextInputComp from '../../../components/Form/TextInput';
 import Amount from '../../../components/Amount';
 import { useUpdateBankMovement } from '../../../src/API/BankMouvement';
 
-type MonBudgetProps = { budget?: (BudgetLineDeadline | null)[], movement: BankMovement, onSaved?: () => void };
+type MonBudgetProps = { budget?: (BudgetLineDeadline | null)[], movement: BankMovement, onSaved?: () => void, realEstateId: string };
 
 const EditMouvement = (props: MonBudgetProps) => {
-  const { budget, movement, onSaved } = props;
+  const {
+    budget, movement, onSaved, realEstateId,
+  } = props;
   // console.log('budget :', budget);
   // console.log('amount : ', amount);
   const theme = useTheme();
@@ -89,6 +91,14 @@ const EditMouvement = (props: MonBudgetProps) => {
         },
       });
     }, Promise.resolve());
+    await useUpdateBankMouvement.updateBankMovement({
+      variables: {
+        input: {
+          id: movement.id,
+          realEstateId,
+        },
+      },
+    });
     if (onSaved) {
       onSaved();
     }

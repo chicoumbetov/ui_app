@@ -10,7 +10,7 @@ Amplify Params - DO NOT EDIT */
 import { getUserByEmail } from '/opt/nodejs/src/UserQueries';
 import getAppSyncClient from '/opt/nodejs/src/AppSyncClient';
 import { updateRealEstateMutation, getRealEstate } from '/opt/nodejs/src/RealEstateMutation';
-import { listPendingInvitationByEmail } from '/opt/nodejs/src/PendingInvitationQueries';
+import { listPendingInvitationsByEmail } from '/opt/nodejs/src/PendingInvitationQueries';
 import { sendTemplateEmail } from '../../seslayer/lib/nodejs/src/SendMail';
 
 exports.handler = async (event) => {
@@ -25,7 +25,7 @@ exports.handler = async (event) => {
       // The first iteration uses an already resolved Promise
       // so, it will immediately continue.
       await promise;
-      const invitations = await listPendingInvitationByEmail(appSyncClient, email.S);
+      const invitations = await listPendingInvitationsByEmail(appSyncClient, email.S);
       console.log('par ici', invitations);
       if (invitations) {
         invitations.reduce(async (prom, invitation) => {

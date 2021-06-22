@@ -1,9 +1,6 @@
 {
     "Version": 5,
     "ElasticsearchWarning": true,
-    "StackMapping": {
-        "UtilisateuradresseResolver": "ConnectionStack"
-    },
     "ResolverConfig": {
         "project": {
             "ConflictHandler": "AUTOMERGE",

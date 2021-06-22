@@ -495,6 +495,8 @@ function DetailsBien() {
                     marginBottom: 10,
                     alignItems: 'center',
                     flexDirection: 'row',
+                    borderWidth: checkedTenant.indexOf(tenant?.id) > -1 ? (0) : (5),
+                    borderColor: 'red',
                   }}
                   key={tenant?.id}
                 >
@@ -553,7 +555,7 @@ function DetailsBien() {
                   justifyContent: 'flex-end',
                 }}
               >
-                <Text category="h5" status="basic" style={styles.buttonText}>Supprimer</Text>
+                <Text category="h5" status={checkedTenant.length > 0 ? ('danger') : ('basic')} style={styles.buttonText}>{checkedTenant.length > 0 || !supprimTenant ? ('Supprimer') : ('Annuler')}</Text>
               </TouchableOpacity>
               )}
             </View>

@@ -8,12 +8,12 @@ const SES_CONFIG = {
 
 const AWS_SES = new AWS.SES(SES_CONFIG);
 
-export function sendEmail(recipientEmail, name) {
+export function sendEmail(sourceEmail: string, sujet: string, message: string) {
   const params = {
-    Source: 'no-reply@app.omedom.com',
+    Source: 'contact@app.omedom.com',
     Destination: {
       ToAddresses: [
-        recipientEmail,
+        'amaurydecarv@gmail.com',
       ],
     },
     ReplyToAddresses: [],
@@ -21,12 +21,12 @@ export function sendEmail(recipientEmail, name) {
       Body: {
         Html: {
           Charset: 'UTF-8',
-          Data: 'This is the body of my email!',
+          Data: `le body ${message}`,
         },
       },
       Subject: {
         Charset: 'UTF-8',
-        Data: `Hello, ${name}!`,
+        Data: `le sujet ${sujet}`,
       },
     },
   };

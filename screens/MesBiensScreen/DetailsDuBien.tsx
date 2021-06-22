@@ -96,6 +96,7 @@ function DetailsBien() {
   // const [compte, setCompte] = useState(comptesData);
 
   const allerMonBudget = () => {
+    console.log(route.params.id);
     navigation.navigate('mon-budget', { id: route.params.id });
   };
   // console.log('pending invitation: ', bienget?.pendingInvitations?.items);
@@ -323,7 +324,7 @@ function DetailsBien() {
         </Text>
         {/**   1   */}
         <Card
-          onPress={() => allerMonBudget}
+          onPress={() => allerMonBudget()}
           style={[styles.docs, {
             alignItems: 'center',
             justifyContent: 'center',
@@ -348,7 +349,7 @@ function DetailsBien() {
         </Text>
         {/**   1   */}
         <Card
-          onPress={() => allerTresorerie}
+          onPress={() => allerTresorerie()}
           style={[styles.docs, {
             alignItems: 'center',
             justifyContent: 'center',
@@ -384,7 +385,7 @@ function DetailsBien() {
 
         {/**   3   */}
         <Card
-          onPress={() => allerMonAssistant}
+          onPress={() => allerMonAssistant()}
           style={[styles.docs, {
             alignItems: 'center',
             justifyContent: 'center',

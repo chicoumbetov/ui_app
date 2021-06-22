@@ -29,6 +29,7 @@ const UserSharedCard = (props: MonBudgetProps) => {
         showsVerticalScrollIndicator: false,
         style: {
           backgroundColor: 'transparent',
+          marginBottom: 15,
           borderRadius: 15,
           shadowColor: 'rgba(190, 190, 190, 0.5)',
           shadowOffset: {

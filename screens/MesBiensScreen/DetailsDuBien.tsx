@@ -714,7 +714,6 @@ const styles = StyleSheet.create({
   // Ajouter Supprimer buttons
   button: {
     flexDirection: 'row',
-    marginTop: 10,
     justifyContent: 'space-between',
   },
   buttonText: {

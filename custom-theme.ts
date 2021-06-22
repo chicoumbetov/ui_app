@@ -92,7 +92,7 @@ const omedomTheme = {
 
   'text-hint-color': '#b5b5b5',
 
-  'text-font-family': 'HouschkaRoundedMedium',
+  'text-font-family': 'confortaa_Medium',
   'border-radius': 4,
   'border-width': 1,
   'text-subtitle-1-font-size': 15,

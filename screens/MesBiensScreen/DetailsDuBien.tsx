@@ -41,8 +41,6 @@ import AutoAvatar from '../../components/AutoAvatar';
 import ActivityIndicator from '../../components/ActivityIndicator';
 import UserSharedCard from './Components/UserSharedCard';
 
-import { updateRealEstate } from '../../src/graphql/mutations';
-
 function DetailsBien() {
   const navigation = useNavigation();
   const linkTo = useLinkTo();
@@ -106,7 +104,7 @@ function DetailsBien() {
   };
 
   const allerMesRapports = () => {
-    navigation.navigate('mes-rapports', { id: route.params.id });
+    linkTo(`/mes-biens/mes-rapports-biens1/${bienget.id}`);
   };
 
   const allerMonAssistant = () => {
@@ -170,7 +168,6 @@ function DetailsBien() {
 
   const deleteDoc = useDeleteDocumentMutation();
   const supprimerDocument = async () => {
-    return false;
     Alert.alert(
       'Suppression de document',
       '',
@@ -181,13 +178,16 @@ function DetailsBien() {
       {
         text: 'Valider',
         onPress: async () => {
-          await deleteDoc({
-            variables: {
-              input: {
-                id: checkedDocument.indexOf(document.documentURI),
+          const promises = checkedDocument.map(async (docId) => {
+            await deleteDoc({
+              variables: {
+                input: {
+                  id: docId,
+                },
               },
-            },
+            });
           });
+          await Promise.all(promises);
         },
       }],
     );
@@ -216,8 +216,8 @@ function DetailsBien() {
   const nextexpense = allDataNextExpense?.map((d) => d?.amount)
     .find((m) => m);
 
-  const dernierMovement = bienget?.bankMovements?.items?.map(
-    (item) => { if (item?.ignored) { return false; } return item; },
+  const dernierMovement = bienget?.bankMovements?.items?.find(
+    (item) => { if (item?.ignored) { return false; } return true; },
   );
   // console.log('last Movement', dernierMovement);
 
@@ -281,7 +281,7 @@ function DetailsBien() {
                 <View style={styles.oneThirdBlock}>
                   <Text category="h6" appearance="hint" style={styles.text}>Dernier mouvement</Text>
                   {dernierMovement ? (
-                    <Amount amount={dernierMovement[0]?.amount || 0} category="h4" />
+                    <Amount amount={dernierMovement?.amount || 0} category="h4" />
                   ) : (
                     <Amount amount={0} category="h4" />
                   )}
@@ -319,7 +319,7 @@ function DetailsBien() {
         </Text>
         {/**   1   */}
         <Card
-          onPress={allerMonBudget}
+          onPress={() => allerMonBudget}
           style={[styles.docs, {
             alignItems: 'center',
             justifyContent: 'center',
@@ -344,7 +344,7 @@ function DetailsBien() {
         </Text>
         {/**   1   */}
         <Card
-          onPress={allerTresorerie}
+          onPress={() => allerTresorerie}
           style={[styles.docs, {
             alignItems: 'center',
             justifyContent: 'center',
@@ -380,7 +380,7 @@ function DetailsBien() {
 
         {/**   3   */}
         <Card
-          onPress={allerMonAssistant}
+          onPress={() => allerMonAssistant}
           style={[styles.docs, {
             alignItems: 'center',
             justifyContent: 'center',
@@ -602,7 +602,10 @@ function DetailsBien() {
                   <Text category="h5" status="info" style={styles.buttonText}>Ajouter</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={() => { supprimerDocument(); setSupprim(!supprim); }}>
+                <TouchableOpacity onPress={() => {
+                  if (!readOnly) { supprimerDocument(); setSupprim(!supprim); }
+                }}
+                >
                   <Text category="h5" status={supprim ? 'danger' : 'basic'} style={styles.buttonText}>Supprimer</Text>
                 </TouchableOpacity>
               </View>
@@ -628,7 +631,6 @@ function DetailsBien() {
           pending?.type === 'Admin' ? (<UserSharedCard email={pending.email} admin />) : (
             <UserSharedCard email={pending?.email} admin={false} key={pending?.id} />
           )
-
         ))}
 
         <View style={styles.button}>

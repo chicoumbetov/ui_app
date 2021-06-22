@@ -21,7 +21,7 @@ const MonBudgetCard = (props: MonBudgetProps) => {
   const { budget, realEstate } = props;
   const theme = useTheme();
   const linkTo = useLinkTo();
-  console.log('realEstate', realEstate);
+  // console.log('realEstate', realEstate);
   const deleteBudgetLine = useDeleteBudgetLineMutation();
   let tenant;
   if (realEstate) {
@@ -81,6 +81,7 @@ const MonBudgetCard = (props: MonBudgetProps) => {
             variables: {
               input: {
                 id: budget.id,
+                // eslint-disable-next-line no-underscore-dangle
                 _version: budget._version,
               },
             },

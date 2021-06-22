@@ -132,7 +132,7 @@ const MonBien = (props: MonBienProps) => {
     linkTo('/ma-tresorerie');
   };
   const allerMesRapports = () => {
-    navigation.navigate('mes-rapports-biens1');
+    linkTo(`/mes-biens/mes-rapports-biens1/${bienget.id}`);
   };
 
   const onDetailsBiens = (id: string) => {

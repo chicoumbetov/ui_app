@@ -38,7 +38,8 @@ const AffecterMouvement = () => {
 
   useEffect(() => {
     const currentMovementAffecte = bankMouvement.filter((item) => {
-      if ((item.budgetLineDeadline?.items && item.budgetLineDeadline?.items?.length > 0)) {
+      if ((item.budgetLineDeadline?.items && item.budgetLineDeadline?.items?.length > 0)
+          && item.realEstateId === route.params.id) {
         return item;
       }
       return false;

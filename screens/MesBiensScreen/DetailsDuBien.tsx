@@ -140,7 +140,7 @@ function DetailsBien() {
   const [supprimTenant, setSupprimTenant] = useState(false);
   const deleteLocataire = useUpdateRealEstateMutation();
   const deleteTenant = async () => {
-    return false;
+    // return false;
     Alert.alert(
       'Suppression de locataire',
       '',
@@ -151,13 +151,18 @@ function DetailsBien() {
       {
         text: 'Valider',
         onPress: async () => {
+          // reduce needed to do async
           checkedTenant.reduce(async (promise, id) => {
+            // get all tenants of actual real estate
+            const { tenants } = bienget;
+            tenants?.filter((h) => h?.id === id);
             // console.log('id:', id);
             await promise;
-            await deleteLocataire({
+            await deleteLocataire.updateRealEstate({
               variables: {
                 input: {
                   id,
+                  tenants,
                 },
               },
             });
@@ -498,13 +503,19 @@ function DetailsBien() {
                       style={{ justifyContent: 'center', paddingHorizontal: 14, width: 50 }}
                     >
                       <CheckBox
+                          // 1 -> 3
                         checked={checkedTenant.indexOf(tenant?.id) > -1}
-                        onChange={(checked) => {
+                        onChange={(newChecked) => {
+                          // 2
+                          // 4
                           const nextCheckedTenants = checkedTenant
                             .filter((id) => id !== tenant?.id);
-                          if (checked) {
+                          // 2
+                          if (newChecked) {
                             nextCheckedTenants.push(tenant?.id);
                           }
+                          // 2
+                          // 4
                           // console.log('nextCheckedAccounts', nextCheckedAccounts);
                           setCheckedTenant(nextCheckedTenants);
                         }}

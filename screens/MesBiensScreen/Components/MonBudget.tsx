@@ -177,9 +177,8 @@ function MonBudget() {
         </Text>
         {/**   1   */}
         <Layout style={[styles.docs, { marginBottom: 10, justifyContent: 'center' }]}>
-          {!readOnly && (
           <TouchableOpacity
-            onPress={() => { if (!readOnly) { allerTresorerie(); } }}
+            onPress={() => { allerTresorerie(); }}
             style={{
               flexDirection: 'row', alignItems: 'center',
             }}
@@ -190,7 +189,6 @@ function MonBudget() {
             </Text>
 
           </TouchableOpacity>
-          )}
         </Layout>
       </Layout>
 

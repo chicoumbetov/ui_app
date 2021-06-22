@@ -182,20 +182,24 @@ function AjoutBienScreen() {
            Identité 1/3  ( etape1 )
            * */}
           <MotiView
-            animate={{ height: (etape === 0 ? 540 : 0) }}
-            style={{ overflow: 'hidden' }}
+            animate={{ height: (etape === 0 ? 560 : 0) }}
+            style={{
+              overflow: 'hidden',
+              flex: 1,
+              flexDirection: 'column',
+              justifyContent: 'space-between',
+            }}
             transition={{ type: 'timing', duration: 500 }}
           >
-
             <TextInput
-              style={{ marginBottom: 30, marginLeft: 23, marginRight: 22 }}
+              containerStyle={{ marginLeft: 23, marginRight: 22 }}
               name="name"
               placeholder="Le nom du bien"
-
             />
 
             <View style={{
-              alignItems: 'center', marginVertical: 34,
+              alignItems: 'center',
+              marginBottom: 34,
             }}
             >
               <AutoAvatar avatarInfo={image} style={{ height: 146, width: 146 }} />
@@ -278,7 +282,7 @@ function AjoutBienScreen() {
            Identité 2/3  ( etape2 )
            * */}
           <MotiView
-            animate={{ height: (etape === 1 ? 400 : 0) }}
+            animate={{ height: (etape === 1 ? 340 : 0) }}
             style={{
               overflow: 'hidden',
               flexDirection: 'column',
@@ -355,6 +359,7 @@ function AjoutBienScreen() {
             animate={{ maxHeight: (etape === 2 ? 600 : 0) }}
             style={{
               overflow: 'hidden',
+              flex: 1,
               flexDirection: 'column',
               marginHorizontal: 23,
               justifyContent: 'space-between',
@@ -362,10 +367,13 @@ function AjoutBienScreen() {
             transition={{ type: 'timing', duration: 500 }}
           >
             <View style={{
-              flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8,
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              marginBottom: 8,
             }}
             >
-              <Text category="h5" status="basic" style={{ flex: 1, marginRight: 20 }}>
+              <Text category="h5" status="basic" style={{ marginRight: 20 }}>
                 Année d'acquisition
               </Text>
               <TextInput

@@ -446,13 +446,15 @@ function DetailsBien() {
                 {`${bienget?.detentionPart || undefined} %`}
               </Text>
             </Card>
-
+            {!readOnly && (
             <TouchableOpacity onPress={() => {
-              if (!readOnly) { allerModifierCharacteristics(); }
+              allerModifierCharacteristics();
             }}
             >
               <Text category="h5" status="info" style={styles.buttonText}>Modifier le bien</Text>
             </TouchableOpacity>
+            )}
+
           </View>
         )}
 
@@ -528,12 +530,10 @@ function DetailsBien() {
                   </View>
                 </Card>
               )) || undefined}
-
+              {!readOnly && (
               <TouchableOpacity
                 onPress={() => {
-                  if (!readOnly) {
-                    deleteTenant(); setSupprimTenant(!supprimTenant);
-                  }
+                  deleteTenant(); setSupprimTenant(!supprimTenant);
                 }}
                 style={{
                   flexDirection: 'row',
@@ -543,7 +543,7 @@ function DetailsBien() {
               >
                 <Text category="h5" status="basic" style={styles.buttonText}>Supprimer</Text>
               </TouchableOpacity>
-
+              )}
             </View>
           </>
         )}
@@ -604,13 +604,14 @@ function DetailsBien() {
                 >
                   <Text category="h5" status="info" style={styles.buttonText}>Ajouter</Text>
                 </TouchableOpacity>
-
+                {!readOnly && (
                 <TouchableOpacity onPress={() => {
-                  if (!readOnly) { supprimerDocument(); setSupprim(!supprim); }
+                  supprimerDocument(); setSupprim(!supprim);
                 }}
                 >
                   <Text category="h5" status={supprim ? 'danger' : 'basic'} style={styles.buttonText}>Supprimer</Text>
                 </TouchableOpacity>
+                )}
               </View>
             </View>
           </>
@@ -634,32 +635,32 @@ function DetailsBien() {
             <UserSharedCard email={pending?.email} admin={false} key={pending?.id} />
           )
         ))}
-
+        {!readOnly && (
         <View style={styles.button}>
           <TouchableOpacity onPress={() => {
-            if (!readOnly) { allerPartagerBien(); }
+            allerPartagerBien();
           }}
           >
             <Text category="h5" status="info" style={styles.buttonText}>Ajouter</Text>
           </TouchableOpacity>
 
           <TouchableOpacity onPress={() => {
-            // if (!readOnly) {}
             // console.log(useGetInvitateUser.userList);
           }}
           >
             <Text category="h5" status="basic" style={styles.buttonText}>Supprimer</Text>
           </TouchableOpacity>
         </View>
+        )}
       </View>
 
       {/**
        *  Supprimer le bien
        */}
       <Separator />
-
+      {!readOnly && (
       <TouchableOpacity onPress={() => {
-        if (!readOnly) { supprimerLeBien(); }
+        supprimerLeBien();
       }}
       >
         <View style={[styles.container, { alignItems: 'center' }]}>
@@ -669,6 +670,7 @@ function DetailsBien() {
 
         </View>
       </TouchableOpacity>
+      )}
 
     </MaxWidthContainer>
 

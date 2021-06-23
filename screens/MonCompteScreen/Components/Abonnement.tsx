@@ -1,9 +1,11 @@
 import React, { useEffect } from 'react';
-import { StyleSheet, TouchableOpacity } from 'react-native';
-import { Layout, Text } from '@ui-kitten/components';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { Text } from '@ui-kitten/components';
 import { useNavigation } from '@react-navigation/native';
 import MaxWidthContainer from '../../../components/MaxWidthContainer';
+import Card from '../../../components/Card';
 
+/**
 type DataProps = {
   clientData: {
     Client: ClientProps,
@@ -50,6 +52,7 @@ type AdresseProps = {
     pays: string,
   }]
 };
+ */
 
 const AbonnementComp = () => {
   const navigation = useNavigation();
@@ -69,7 +72,7 @@ const AbonnementComp = () => {
 
     <MaxWidthContainer outerViewProps={{
       style: {
-        flex: 1, backgroundColor: 'rgba(246, 246, 246, 0.5)', paddingTop: 32, paddingHorizontal: 28, marginVertical: 13,
+        flex: 1, paddingTop: 32, paddingHorizontal: 28, marginVertical: 13,
       },
     }}
     >
@@ -81,26 +84,26 @@ const AbonnementComp = () => {
       </Text>
 
       {/* use SectionList to render several accounts with its types and details */}
-      <Layout style={styles.compteSection}>
+      <Card style={styles.compteSection}>
 
-        <Layout style={{
-          flex: 1, backgroundColor: 'transparent', borderRightWidth: 0.5, borderRightColor: '#b5b5b5',
+        <View style={{
+          flex: 1, borderRightWidth: 0.5, borderRightColor: '#b5b5b5',
         }}
         >
           <Text category="h5">Formule 3 a 5 biens</Text>
           <Text category="p1" style={{ marginTop: 3 }}>
             Mensuelle
           </Text>
-        </Layout>
+        </View>
 
-        <Layout style={{
-          flex: 1, backgroundColor: 'transparent', alignItems: 'center', justifyContent: 'center',
+        <View style={{
+          flex: 1, alignItems: 'center', justifyContent: 'center',
         }}
         >
           <Text category="h5" style={{ marginLeft: 31 }}>4.90 €TTC/Mois</Text>
-        </Layout>
+        </View>
 
-      </Layout>
+      </Card>
 
       <TouchableOpacity onPress={onPress}>
         <Text category="h5" status="info" style={styles.buttonTextLeft}>Changer de mode de paimenent</Text>

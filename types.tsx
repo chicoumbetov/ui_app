@@ -66,7 +66,6 @@ export type TabMesBiensParamList = {
   'ajout-charge': { id: string };
   'modifier-charge': { id: string, idBudgetLine: string };
 
-  ParametrerAjoutCharges: { id: string };
   'partager-bien': { id: string };
   'modifier-characteristique': { id: string };
   'ajout-bien-screen': undefined;
@@ -100,7 +99,7 @@ export type TabNotificationParamList = {
 };
 
 export type TabMesChargesParamList = {
-  'mes-charges': { id: string };
+  'mes-charges': { id: string, label: string };
   'mes-charges-2': { range: object, title: string };
   'mes-charges-3': { value: string, percentage: string, label: string };
 };

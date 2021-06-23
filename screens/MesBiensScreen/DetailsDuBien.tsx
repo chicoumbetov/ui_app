@@ -140,36 +140,37 @@ function DetailsBien() {
   const [supprimTenant, setSupprimTenant] = useState(false);
   const deleteLocataire = useUpdateRealEstateMutation();
   const deleteTenant = async () => {
-    // return false;
-    Alert.alert(
-      'Suppression de locataire',
-      '',
-      [{
-        text: 'Annuler',
-        style: 'cancel',
-      },
-      {
-        text: 'Valider',
-        onPress: async () => {
-          // reduce needed to do async
-          checkedTenant.reduce(async (promise, id) => {
-            // get all tenants of actual real estate
-            const { tenants } = bienget;
-            tenants?.filter((h) => h?.id === id);
-            // console.log('id:', id);
-            await promise;
-            await deleteLocataire.updateRealEstate({
-              variables: {
-                input: {
-                  id,
-                  tenants,
-                },
-              },
-            });
-          }, Promise.resolve());
+    if (supprimTenant && checkedTenant.length > 0) {
+      Alert.alert(
+        'Suppression de locataire',
+        '',
+        [{
+          text: 'Annuler',
+          style: 'cancel',
         },
-      }],
-    );
+        {
+          text: 'Valider',
+          onPress: async () => {
+          // reduce needed to do async
+            checkedTenant.reduce(async (promise, id) => {
+            // get all tenants of actual real estate
+              const { tenants } = bienget;
+              tenants?.filter((h) => h?.id === id);
+              // console.log('id:', id);
+              await promise;
+              await deleteLocataire.updateRealEstate({
+                variables: {
+                  input: {
+                    id,
+                    tenants,
+                  },
+                },
+              });
+            }, Promise.resolve());
+          },
+        }],
+      );
+    }
   };
 
   const deleteDoc = useDeleteDocumentMutation();
@@ -495,7 +496,7 @@ function DetailsBien() {
                     marginBottom: 10,
                     alignItems: 'center',
                     flexDirection: 'row',
-                    borderWidth: checkedTenant.indexOf(tenant?.id) > -1 ? (0) : (5),
+                    borderWidth: checkedTenant.indexOf(tenant?.id) > -1 ? (1) : (0),
                     borderColor: 'red',
                   }}
                   key={tenant?.id}
@@ -623,7 +624,7 @@ function DetailsBien() {
                   supprimerDocument(); setSupprim(!supprim);
                 }}
                 >
-                  <Text category="h5" status={supprim ? 'danger' : 'basic'} style={styles.buttonText}>Supprimer</Text>
+                  <Text category="h5" status={checkedDocument.length > 0 ? ('danger') : ('basic')} style={styles.buttonText}>{checkedDocument.length > 0 || !supprim ? ('Supprimer') : ('Annuler')}</Text>
                 </TouchableOpacity>
                 )}
               </View>

@@ -35,7 +35,7 @@ const ModifierInfo1 = () => {
   const [passwordError, setPasswordError] = useState(false);
 
   const onPress = async (data: ModifierInfo1Form) => {
-    console.log(data);
+    // console.log(data);
     if (user && updateUser && cognitoUser) {
       const { password, oldPassword, ...otherProps } = data;
       let nextScreen = 'modifier-info-2';
@@ -167,7 +167,14 @@ const ModifierInfo1 = () => {
           />
 
           <View style={styles.buttonRight}>
-            <Button onPress={modifierInfo1Form.handleSubmit((data) => onPress(data), (data) => console.log(data))} disabled={user === null} size="large" style={{ width: 139 }}>
+            <Button
+              onPress={modifierInfo1Form.handleSubmit(
+                (data) => onPress(data), (data) => console.log(data),
+              )}
+              disabled={user === null}
+              size="large"
+              style={{ width: 139 }}
+            >
               Valider
             </Button>
           </View>
@@ -180,11 +187,6 @@ const ModifierInfo1 = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    margin: 21,
-    backgroundColor: 'transparent',
-  },
   buttonRight: { alignItems: 'flex-end', marginTop: 34 },
   title: {
     marginTop: 12,

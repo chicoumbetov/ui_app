@@ -12,7 +12,6 @@ import MonBien from './Components/MonBien';
 import MaxWidthContainer from '../../components/MaxWidthContainer';
 import { useRealEstateList } from '../../src/API/RealEstate';
 import ActivityIndicator from '../../components/ActivityIndicator';
-
 //  import comptesData from '../../mockData/comptesData';
 
 function MesBiens() {
@@ -20,14 +19,13 @@ function MesBiens() {
   // const [compte] = useState(comptesData);
   const { loading, data } = useRealEstateList();
 
-  console.log('biens', data);
+  // console.log('biens', data);
 
   const onAjoutBien = () => {
     linkTo('/mes-biens/ajouter');
   };
 
   return (
-
     <MaxWidthContainer
       withScrollView="keyboardAware"
       innerViewProps={{
@@ -56,7 +54,7 @@ function MesBiens() {
                     && (
                     <MonBien
                       key={item.id}
-                      biens={item}
+                      biens={item.id}
                     />
                     ),
             )}

@@ -9,7 +9,7 @@ import { Icon as IconUIKitten, Text } from '@ui-kitten/components';
 import {
   Alert,
   Platform,
-  StyleSheet, TouchableOpacity, View,
+  StyleSheet, View,
 } from 'react-native';
 
 import { useLinkTo } from '@react-navigation/native';
@@ -35,6 +35,7 @@ function TableauDeBord() {
   const { loading, data } = useRealEstateList();
   const { updateUser, user } = useUser();
   const biensDetails = useRealEstateList();
+  // console.log('biensDetails', biensDetails);
 
   useEffect(() => {
     (async () => {
@@ -48,7 +49,7 @@ function TableauDeBord() {
         if (finalStatus === 'granted') {
           const token = (await Notifications.getExpoPushTokenAsync()).data;
           const newTokens = user?.expoToken || [];
-          console.log(newTokens);
+          // console.log('newTokens', newTokens);
           if (newTokens.indexOf(token) <= -1) {
             newTokens.push(token);
             updateUser({
@@ -105,13 +106,13 @@ function TableauDeBord() {
 
   /** Object with 3 attributes and its key */
   const allCurrentCategories: {
-    [key: string]: { value: number, date: number }
+    [key: string]: { value: number, date: string }
   } = {};
 
   if (fullSortExpense) {
     fullSortExpense.forEach((item) => {
       // console.log('maison', item);
-      if (item) {
+      if (item && item.totalExpense?.date) {
         allCurrentCategories[item.name] = {
           value: item.totalExpense?.amount || 0,
           date: item.totalExpense?.date,
@@ -139,6 +140,7 @@ function TableauDeBord() {
     linkTo('/mes-biens/ajouter');
   };
 
+  // console.log(biensDetails);
   return (
     <MaxWidthContainer
       withScrollView="keyboardAware"
@@ -154,6 +156,7 @@ function TableauDeBord() {
         <Text category="h1">
           Trésorerie
         </Text>
+        {biensDetails.data?.listRealEstates?.items?.length > 0 && (
         <Card style={{
           flexDirection: 'row',
           marginTop: 27,
@@ -190,6 +193,7 @@ function TableauDeBord() {
           </View>
 
         </Card>
+        )}
         <Text
           category="h5"
           status="info"
@@ -239,39 +243,35 @@ function TableauDeBord() {
           Notifications
         </Text>
 
-        <Card style={{ marginTop: 27 }}>
-          <TouchableOpacity
-            onPress={() => {}}
-            style={{
-              marginRight: 20,
-              flexDirection: 'row',
-              backgroundColor: 'transparent',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-            }}
-          >
-
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <View style={{ marginRight: 18 }}>
-                <MaisonVert height={42} width={44} />
-              </View>
-              <Text
-                category="h6"
-                status="basic"
-                style={{ flex: 1 }}
-              >
-                Un mouvement négatif a été détécté
-              </Text>
+        <Card
+          onPress={() => {}}
+          style={{
+            marginTop: 27,
+            marginRight: 20,
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }}
+        >
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <View style={{ marginRight: 18 }}>
+              <MaisonVert height={42} width={44} />
             </View>
-            <IconUIKitten
-              name="arrow-ios-forward"
-              fill="#b5b5b5"
-              style={{
-                height: 20, width: 20, marginRight: 5, alignItems: 'center',
-              }}
-            />
-
-          </TouchableOpacity>
+            <Text
+              category="h6"
+              status="basic"
+              style={{ flex: 1 }}
+            >
+              Un mouvement négatif a été détécté
+            </Text>
+          </View>
+          <IconUIKitten
+            name="arrow-ios-forward"
+            fill="#b5b5b5"
+            style={{
+              height: 20, width: 20, marginRight: 5, alignItems: 'center',
+            }}
+          />
         </Card>
 
         <Text

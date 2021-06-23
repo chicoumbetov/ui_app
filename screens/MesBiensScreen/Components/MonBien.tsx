@@ -8,7 +8,7 @@ import React, { useState } from 'react';
 import { Icon, Text } from '@ui-kitten/components';
 
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
-import { useLinkTo, useNavigation } from '@react-navigation/native';
+import { useLinkTo } from '@react-navigation/native';
 import { Icon as IconUIKitten } from '@ui-kitten/components/ui/icon/icon.component';
 
 import CompteHeader from '../../../components/CompteHeader/CompteHeader';
@@ -17,23 +17,24 @@ import Graphics from '../../../components/Graphics/Graphics';
 
 import RotatingIcon from '../../../components/Icon/RotatingIcon';
 import MaxWidthContainer from '../../../components/MaxWidthContainer';
-import { RealEstateItem, useGetRealEstate } from '../../../src/API/RealEstate';
+import { useGetRealEstate } from '../../../src/API/RealEstate';
 import Card from '../../../components/Card';
 import { BudgetLineType } from '../../../src/API';
 import DateUtils from '../../../utils/DateUtils';
 import Amount from '../../../components/Amount';
 import ActivityIndicator from '../../../components/ActivityIndicator';
 
-type MonBienProps = { biens: RealEstateItem };
+type MonBienProps = { biens: string };
 
 const MonBien = (props: MonBienProps) => {
+  // biens = bien.id
   const { biens } = props;
-  const { bienget, loading } = useGetRealEstate(biens?.id);
+  const { bienget, loading } = useGetRealEstate(biens);
 
   // const budgetLineDeadLine = useGetBudgetLineDeadLine(bien?.id);
   const linkTo = useLinkTo();
 
-  const navigation = useNavigation();
+  // const navigation = useNavigation();
   const [opened, setOpened] = useState(false);
   // const theme = useTheme();
   // console.log('bienget : ', bienget);
@@ -142,7 +143,7 @@ const MonBien = (props: MonBienProps) => {
   const dernierMovement = bienget?.bankMovements?.items?.map(
     (item) => { if (item?.ignored) { return false; } return item; },
   );
-  // console.log('last Movement', dernierMovement);
+  // console.log('last Movement', bienget?.bankMovements);
   return (
     <MaxWidthContainer
       withScrollView="keyboardAware"
@@ -282,7 +283,7 @@ const MonBien = (props: MonBienProps) => {
                     </View>
                   </View>
 
-                  <TouchableOpacity onPress={() => onDetailsBiens(biens.id)} style={styles.button}>
+                  <TouchableOpacity onPress={() => onDetailsBiens(biens)} style={styles.button}>
                     <Text category="h6" status="basic">Accéder au bien</Text>
                     <Icon
                       name="chevron-right-outline"

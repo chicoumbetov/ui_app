@@ -58,7 +58,12 @@ const DocumentComponent = (props: DocumentProps) => {
     <Card
       onPress={() => { shareDoc(); }}
       style={{
-        flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 15,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: 15,
+        borderWidth: checked ? (1) : (0),
+        borderColor: 'red',
       }}
     >
       {supprimer && (

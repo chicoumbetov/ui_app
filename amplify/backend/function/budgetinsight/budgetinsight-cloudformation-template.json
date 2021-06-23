@@ -35,14 +35,6 @@
     "functionomedomBudgetInsightLayerArn": {
       "Type": "String",
       "Default": "functionomedomBudgetInsightLayerArn"
-    },
-    "apiomedomrestApiName": {
-      "Type": "String",
-      "Default": "apiomedomrestApiName"
-    },
-    "apiomedomrestApiId": {
-      "Type": "String",
-      "Default": "apiomedomrestApiId"
     }
   },
   "Conditions": {
@@ -106,12 +98,6 @@
             },
             "API_OMEDOM_GRAPHQLAPIENDPOINTOUTPUT": {
               "Ref": "apiomedomGraphQLAPIEndpointOutput"
-            },
-            "API_OMEDOMREST_APINAME": {
-              "Ref": "apiomedomrestApiName"
-            },
-            "API_OMEDOMREST_APIID": {
-              "Ref": "apiomedomrestApiId"
             }
           }
         },
@@ -313,32 +299,6 @@
                         "Ref": "apiomedomGraphQLAPIIdOutput"
                       },
                       "/types/Mutation/*"
-                    ]
-                  ]
-                }
-              ]
-            },
-            {
-              "Effect": "Allow",
-              "Action": [
-                "apigateway:GET",
-                "apigateway:HEAD",
-                "apigateway:OPTIONS"
-              ],
-              "Resource": [
-                {
-                  "Fn::Join": [
-                    "",
-                    [
-                      "arn:aws:apigateway:",
-                      {
-                        "Ref": "AWS::Region"
-                      },
-                      "::/restapis/",
-                      {
-                        "Ref": "apiomedomrestApiName"
-                      },
-                      "/*"
                     ]
                   ]
                 }

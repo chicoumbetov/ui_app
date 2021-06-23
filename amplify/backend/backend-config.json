@@ -211,20 +211,6 @@
         }
       ]
     },
-    "testNotification": {
-      "build": true,
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda",
-      "dependsOn": [
-        {
-          "category": "function",
-          "resourceName": "sendNotification",
-          "attributes": [
-            "Name"
-          ]
-        }
-      ]
-    },
     "shareRealEstate": {
       "build": true,
       "providerPlugin": "awscloudformation",
@@ -250,6 +236,20 @@
           "resourceName": "omedomSESLayer",
           "attributes": [
             "Arn"
+          ]
+        }
+      ]
+    },
+    "testNotification": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "dependsOn": [
+        {
+          "category": "function",
+          "resourceName": "sendNotification",
+          "attributes": [
+            "Name"
           ]
         }
       ]

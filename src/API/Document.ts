@@ -3,7 +3,7 @@ import gql from 'graphql-tag';
 import { useMutation, useQuery } from 'react-apollo';
 import ApolloClient from 'apollo-client';
 import {
-  documentByKey, getDocument, getRealEstate, listDocuments,
+  documentsByKey, getDocument,
 } from '../graphql/queries';
 import {
   CreateDocumentMutation,
@@ -18,10 +18,8 @@ import {
   UpdateDocumentMutation,
   UpdateDocumentMutationVariables,
   RealEstate,
-  DocumentByKeyQuery,
-  DocumentByKeyQueryVariables,
-  ListDocumentsQuery,
-  ListDocumentsQueryVariables,
+  DocumentsByKeyQuery,
+  DocumentsByKeyQueryVariables,
 } from '../API';
 import * as mutations from '../graphql/mutations';
 import { getRealEstateQuery } from './RealEstate';
@@ -55,19 +53,9 @@ export function useGetDocument(id: string) {
   };
 }
 
-const listDocumentsQuery = <DocumentNode>gql(listDocuments);
-
-export function useDocumentList() {
-  const {
-    data,
-  } = useQuery<ListDocumentsQuery, ListDocumentsQueryVariables>(listDocumentsQuery);
-
-  return { documentList: data };
-}
-
 export async function getDocumentByKey(client: ApolloClient<object>, key: string) {
-  const getDocumentQuery = <DocumentNode>gql(documentByKey);
-  const documents = await client.query<DocumentByKeyQuery, DocumentByKeyQueryVariables>({
+  const getDocumentQuery = <DocumentNode>gql(documentsByKey);
+  const documents = await client.query<DocumentsByKeyQuery, DocumentsByKeyQueryVariables>({
     query: getDocumentQuery,
     variables: {
       key,
@@ -75,7 +63,7 @@ export async function getDocumentByKey(client: ApolloClient<object>, key: string
     fetchPolicy: 'network-only',
   });
 
-  return documents.data.documentByKey?.items?.pop();
+  return documents.data.documentsByKey?.items?.pop();
 }
 
 export const createDocumentQuery = /* GraphQL */ `

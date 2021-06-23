@@ -23,7 +23,7 @@ import { CameraOutput } from '../../components/Camera/Camera';
 
 const Informations = () => {
   const [camera, setCamera] = React.useState(false);
-  const { updateUser, user } = useUser();
+  const { updateUser, user, userIsCreating } = useUser();
   const [avatarImage, setAvatarImage] = useState(user?.avatarUri || 'default::ManAvatar');
   const [selectedNewImage, setSelectedNewImage] = useState<
   ImagePickerResult |
@@ -54,8 +54,9 @@ const Informations = () => {
       await updateUser({
         avatarUri,
       });
-
-      navigation.navigate('mon-compte');
+      if (!userIsCreating) {
+        navigation.navigate('mon-compte');
+      }
     }
   };
 

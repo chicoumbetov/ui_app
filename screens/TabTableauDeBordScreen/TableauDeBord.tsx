@@ -122,8 +122,10 @@ function TableauDeBord() {
   // console.log('allCurrentCategories', Object.values(allCurrentCategories));
 
   const today = new Date();
-  const closest = Object.values(allCurrentCategories).reduce((a, b) => (a.date - today < b.date - today ? a : b));
-  const next = closest.value;
+  const values = Object.values(allCurrentCategories);
+  const closest = values.length > 0 && values
+    .reduce((a, b) => (a.date - today.getTime() < b.date - today.getTime() ? a : b));
+  const next = (closest || { value: 0 }).value;
   // console.log('closest', closest.value);
 
   const allerTresorie = () => {

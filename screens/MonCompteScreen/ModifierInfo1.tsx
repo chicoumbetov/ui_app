@@ -59,7 +59,7 @@ const ModifierInfo1 = () => {
         family_name: otherProps.lastname,
         given_name: otherProps.firstname,
         phone_number: otherProps.privateProfile.phoneNumber,
-        'custom:optIn': otherProps.privateProfile.optIn ? 'true' : 'flse',
+        'custom:optIn': otherProps.privateProfile.optIn ? 'true' : 'false',
         // false => flse sur 4 caractères seulement car le custom attribute a
         // été créer sur max 4 et ne peut plus être modifié
       });

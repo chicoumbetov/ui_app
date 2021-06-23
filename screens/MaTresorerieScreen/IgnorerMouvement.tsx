@@ -17,7 +17,7 @@ import Card from '../../components/Card';
 
 import { TabMaTresorerieParamList } from '../../types';
 
-import { useGetBankMovementByBankAccountId } from '../../src/API/BankMouvement';
+import { useGetBankMovementsByBankAccountId } from '../../src/API/BankMouvement';
 import { useGetBankAccount } from '../../src/API/BankAccount';
 
 import ActionSheet from '../../components/ActionSheet/ActionSheet';
@@ -31,7 +31,7 @@ const IgnorerMouvement = () => {
   const route = useRoute<RouteProp<TabMaTresorerieParamList, 'ignorer-mouvement'>>();
   const { bienget } = useGetRealEstate(route.params.id);
   console.log(route.params);
-  const { bankMouvement } = useGetBankMovementByBankAccountId(route.params.idCompte);
+  const { bankMouvement } = useGetBankMovementsByBankAccountId(route.params.idCompte);
   const { bankAccount } = useGetBankAccount(route.params.idCompte);
   const movementIgnore = bankMouvement.filter((item) => {
     if (item.ignored) {
@@ -125,7 +125,7 @@ const IgnorerMouvement = () => {
                   }}
                 >
                   <Text category="h6" status="basic">{`${moment(item.date).format('DD/MM/YYYY')}`}</Text>
-                  <Text category="p1" appearance="hint">{item.description}</Text>
+                  <Text category="p1" appearance="hint">{item.description || ''}</Text>
                 </View>
 
               </TouchableOpacity>

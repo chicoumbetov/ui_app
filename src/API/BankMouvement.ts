@@ -3,35 +3,19 @@ import gql from 'graphql-tag';
 import { useMutation, useQuery } from 'react-apollo';
 import {
   getBankMovement,
-  getBankMovementByBankAccountId,
-  listBankMovements,
 } from '../graphql/queries';
 import {
   BankMovement,
-  GetBankMovementByBankAccountIdQuery,
-  GetBankMovementByBankAccountIdQueryVariables,
+  GetBankMovementsByBankAccountIdQuery,
+  GetBankMovementsByBankAccountIdQueryVariables,
   GetBankMovementQuery,
   GetBankMovementQueryVariables,
-  GetRealEstateQueryVariables,
-  ListBankMovementsQuery,
-  ListBankMovementsQueryVariables, RealEstate,
   UpdateBankMovementMutation,
   UpdateBankMovementMutationVariables,
 } from '../API';
 import * as mutations from '../graphql/mutations';
-import { GetRealEstateQuery } from './RealEstate';
 
-const listBankMouvementsQuery = <DocumentNode>gql(listBankMovements);
-
-export function useBankMouvementList() {
-  const {
-    loading, data, refetch,
-  } = useQuery<ListBankMovementsQuery, ListBankMovementsQueryVariables>(listBankMouvementsQuery);
-
-  return { loading, refetch, bankMouvementList: data };
-}
-
-const getBankMovementByBankAccountIdQuery = <DocumentNode>gql(`query GetBankMovementByBankAccountId(
+const getBankMovementsByBankAccountIdQuery = <DocumentNode>gql(`query GetBankMovementsByBankAccountId(
     $bankAccountId: ID
 $date: ModelStringKeyConditionInput
 $sortDirection: ModelSortDirection
@@ -39,7 +23,7 @@ $filter: ModelBankMovementFilterInput
 $limit: Int
 $nextToken: String
 ) {
-  getBankMovementByBankAccountId(
+  getBankMovementsByBankAccountId(
       bankAccountId: $bankAccountId
   date: $date
   sortDirection: $sortDirection
@@ -126,13 +110,13 @@ $nextToken: String
 
 const getBankMovementQuery = <DocumentNode>gql(getBankMovement);
 
-export function useGetBankMovementByBankAccountId(bankAccountId: string) {
+export function useGetBankMovementsByBankAccountId(bankAccountId: string) {
   const {
     loading, data, fetchMore, refetch,
   } = useQuery<
-  GetBankMovementByBankAccountIdQuery,
-  GetBankMovementByBankAccountIdQueryVariables
-  >(getBankMovementByBankAccountIdQuery, {
+  GetBankMovementsByBankAccountIdQuery,
+  GetBankMovementsByBankAccountIdQueryVariables
+  >(getBankMovementsByBankAccountIdQuery, {
     variables: {
       bankAccountId,
     },
@@ -140,7 +124,7 @@ export function useGetBankMovementByBankAccountId(bankAccountId: string) {
 
   return {
     loading,
-    bankMouvement: <BankMovement[]>data?.getBankMovementByBankAccountId?.items,
+    bankMouvement: <BankMovement[]>data?.getBankMovementsByBankAccountId?.items,
     fetchMore,
     refetch,
   };

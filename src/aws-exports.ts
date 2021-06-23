@@ -10,9 +10,17 @@ const awsmobile = {
     "oauth": {},
     "aws_appsync_graphqlEndpoint": "https://bxcndlcxcvcfzdsuzxk3tc6qwy.appsync-api.eu-west-3.amazonaws.com/graphql",
     "aws_appsync_region": "eu-west-3",
-    "aws_appsync_authenticationType": "AMAZON_COGNITO_USER_POOLS"
+    "aws_appsync_authenticationType": "AMAZON_COGNITO_USER_POOLS",
+    "aws_cloud_logic_custom": [
+        {
+            "name": "omedomrest",
+            "endpoint": "https://7bh3hwfdw3.execute-api.eu-west-3.amazonaws.com/dev",
+            "region": "eu-west-3"
+        }
+    ],
+    "aws_user_files_s3_bucket": "omedom2e30dda74ff347fe82b756b3ab807beb233211-dev",
+    "aws_user_files_s3_bucket_region": "eu-west-3"
 };
 
 
 export default awsmobile;
-a

@@ -51,7 +51,7 @@ const MySignUp = ({
       phone_number: data.phone_number,
       family_name: data.lastname,
       given_name: data.firstname,
-      'custom:optIn': data.optIn ? 'true' : 'flse',
+      'custom:optIn': data.optIn ? 'true' : 'false',
     });
   };
 

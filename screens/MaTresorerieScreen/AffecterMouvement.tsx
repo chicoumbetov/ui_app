@@ -16,7 +16,7 @@ import CompteHeader from '../../components/CompteHeader/CompteHeader';
 import MaxWidthContainer from '../../components/MaxWidthContainer';
 
 import { TabMaTresorerieParamList } from '../../types';
-import { useGetBankMovementByBankAccountId } from '../../src/API/BankMouvement';
+import { useGetBankMovementsByBankAccountId } from '../../src/API/BankMouvement';
 import { useGetBankAccount } from '../../src/API/BankAccount';
 import { BankMovement } from '../../src/API';
 import Card from '../../components/Card';
@@ -30,7 +30,7 @@ const AffecterMouvement = () => {
   // const [client] = useState(comptesData);
   const route = useRoute<RouteProp<TabMaTresorerieParamList, 'affecter-mouvement'>>();
   const { bienget } = useGetRealEstate(route.params.id);
-  const { bankMouvement } = useGetBankMovementByBankAccountId(route.params.idCompte);
+  const { bankMouvement } = useGetBankMovementsByBankAccountId(route.params.idCompte);
   const { bankAccount } = useGetBankAccount(route.params.idCompte);
   const [movementAffecte, setMovementAffecte] = useState<BankMovement[]>();
 

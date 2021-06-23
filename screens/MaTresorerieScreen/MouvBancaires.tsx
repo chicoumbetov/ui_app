@@ -31,7 +31,7 @@ import {
 import Separator from '../../components/Separator';
 import Amount from '../../components/Amount';
 import {
-  useGetBankMovementByBankAccountId, useUpdateBankMovement,
+  useGetBankMovementsByBankAccountId, useUpdateBankMovement,
 } from '../../src/API/BankMouvement';
 import { useGetBankAccount } from '../../src/API/BankAccount';
 
@@ -40,7 +40,7 @@ const MouvBancaires = () => {
   const navigation = useNavigation();
   const route = useRoute<RouteProp<TabMaTresorerieParamList, 'mouv-bancaires'>>();
   const { bienget } = useGetRealEstate(route.params.id);
-  const { bankMouvement } = useGetBankMovementByBankAccountId(route.params.idCompte);
+  const { bankMouvement } = useGetBankMovementsByBankAccountId(route.params.idCompte);
   const { bankAccount } = useGetBankAccount(route.params.idCompte);
   const useUpdateBankMouvement = useUpdateBankMovement();
 

@@ -30,7 +30,6 @@ exports.handler = async (event) => {
         if (realEstate) {
           console.log('realEstate :', realEstate);
           if (type.S === 'Admin') {
-            // get admins from chosen realEstate
             const { admins } = realEstate;
             const exists = admins.find((admin) => {
               if (admin === user.id) {

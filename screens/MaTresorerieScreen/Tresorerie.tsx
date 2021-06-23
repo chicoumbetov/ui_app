@@ -19,6 +19,7 @@ import { useRealEstateList } from '../../src/API/RealEstate';
 import ActivityIndicator from '../../components/ActivityIndicator';
 
 import Card from '../../components/Card';
+import Button from '../../components/Button';
 
 const MaTresorerie = () => {
   // const [client] = useState(comptesData);
@@ -28,6 +29,10 @@ const MaTresorerie = () => {
 
   const onMaTresorerie2 = (id: string) => {
     linkTo(`/ma-tresorerie/ma-tresorerie-2/${id}`);
+  };
+
+  const onAjoutBien = () => {
+    linkTo('/mes-biens/ajouter');
   };
 
   return (
@@ -51,7 +56,6 @@ const MaTresorerie = () => {
       <Text category="s2">
         Consulter votre trésorerie
       </Text>
-      <Text category="p2" appearance="hint" style={{ marginTop: 15 }}>Sélectionner le bien</Text>
 
       {loading
         ? <ActivityIndicator />
@@ -59,6 +63,7 @@ const MaTresorerie = () => {
           <>
             {data?.listRealEstates?.items?.length > 0 ? (
               <>
+                <Text category="p2" appearance="hint" style={{ marginTop: 15 }}>Sélectionner le bien</Text>
                 {data?.listRealEstates?.items?.map(
                   (item) => item && (
                     <Card
@@ -91,7 +96,15 @@ const MaTresorerie = () => {
               </>
             ) : (
               <>
-                <Text>Vous n'avez pas encore de Biens </Text>
+                <Text category="p2" style={{ marginTop: 20 }}>Vous n'avez pas encore de Biens vous devez d'abord créer un bien pour accéder à cette section</Text>
+
+                <Button
+                  size="large"
+                  onPress={() => { onAjoutBien(); }}
+                  style={{ marginVertical: 25 }}
+                >
+                  Ajouter un nouveau bien
+                </Button>
               </>
             )}
 

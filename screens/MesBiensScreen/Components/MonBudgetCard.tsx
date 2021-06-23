@@ -162,14 +162,12 @@ const MonBudgetCard = (props: MonBudgetProps) => {
           />
         </View>
       </Card>
-
+      {!readOnly && (
       <View style={styles.button}>
         <TouchableOpacity onPress={
           () => {
-            if (!readOnly) {
-              budget.type === BudgetLineType.Income
-                ? (allerModifierRevenu()) : (allerModifierCharge());
-            }
+            budget.type === BudgetLineType.Income
+              ? (allerModifierRevenu()) : (allerModifierCharge());
           }
         }
         >
@@ -177,12 +175,13 @@ const MonBudgetCard = (props: MonBudgetProps) => {
             <Text category="h6" status="info" style={styles.buttonTextLeft}>Modifier</Text>
           </Layout>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => { if (!readOnly) { supprimerLeRevenue(); } }}>
+        <TouchableOpacity onPress={() => { supprimerLeRevenue(); }}>
           <Layout style={styles.button}>
             <Text category="h6" status="basic">Supprimer</Text>
           </Layout>
         </TouchableOpacity>
       </View>
+      )}
     </MaxWidthContainer>
   );
 };

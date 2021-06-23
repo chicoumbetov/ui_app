@@ -34,6 +34,7 @@ import {
 } from '../../../src/API/BudgetLine';
 import DateUtils from '../../../utils/DateUtils';
 import { useCreateBudgetLineDeadlineMutation } from '../../../src/API/BudgetLineDeadLine';
+import ReadOnly from '../../../components/ReadOnly';
 
 type ParamBudgetForm = {
   category: string,
@@ -63,6 +64,7 @@ const ParametrerAjoutCharges = () => {
   const route = useRoute<RouteProp<TabMesBiensParamList, 'ajout-revenu'> | RouteProp<TabMesBiensParamList, 'modifier-revenu'>>();
   const navigation = useNavigation();
   const { bienget } = useGetRealEstate(route.params.id);
+  const readOnly = ReadOnly.readOnly(route.params.id);
 
   const [frequenceShow, setFrequenceShow] = useState(false);
   const [montantShow, setMontantShow] = useState(false);
@@ -415,7 +417,7 @@ const ParametrerAjoutCharges = () => {
                 ) : (<></>)}
 
             </View>
-
+            {!readOnly && (
             <View style={{ marginBottom: 10 }}>
               {updateBudgetLine.mutationLoading || createBudgetLine.mutationLoading ? (
                 <Button
@@ -440,6 +442,8 @@ const ParametrerAjoutCharges = () => {
               )}
 
             </View>
+            )}
+
           </>
         </Form>
 

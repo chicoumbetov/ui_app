@@ -6,10 +6,10 @@
 
 import React from 'react';
 import {
-  Layout, Text, Icon as IconUIKitten, useTheme,
+  Text, Icon as IconUIKitten, useTheme,
 } from '@ui-kitten/components';
 import {
-  StyleSheet, TouchableOpacity, View,
+  StyleSheet, View,
 } from 'react-native';
 import { useLinkTo, useNavigation, useRoute } from '@react-navigation/native';
 import { RouteProp } from '@react-navigation/core/lib/typescript/src/types';
@@ -28,6 +28,7 @@ import { BudgetLineType } from '../../../src/API';
 import Separator from '../../../components/Separator';
 import Button from '../../../components/Button';
 import ReadOnly from '../../../components/ReadOnly';
+import Card from '../../../components/Card';
 
 function MonBudget() {
   const navigation = useNavigation();
@@ -134,10 +135,10 @@ function MonBudget() {
       {/**
        *     Charges
        */}
-      <Layout style={styles.container}>
+      <View style={styles.container}>
 
-        <Layout style={{
-          backgroundColor: 'transparent', flexDirection: 'row', alignItems: 'center', marginBottom: 10,
+        <View style={{
+          flexDirection: 'row', alignItems: 'center', marginBottom: 10,
         }}
         >
           <IconUIKitten
@@ -150,7 +151,7 @@ function MonBudget() {
           <Text category="h2" status="danger">
             Charges
           </Text>
-        </Layout>
+        </View>
 
         {charges && charges.map((item) => item
             && <MonBudgetCard key={item.id} budget={item} realEstate={bienget} />)}
@@ -163,34 +164,39 @@ function MonBudget() {
           + Ajouter une autre charge
         </Button>
         )}
-      </Layout>
+      </View>
 
       <Separator />
 
       {/**
       *       Aller Tresorerie
       */}
-      <Layout style={styles.container}>
+      <View style={styles.container}>
 
         <Text category="h6" status="info" style={{ marginBottom: 20 }}>
           Consulter la trésorerie pour affecter les mouvements bancaires
         </Text>
         {/**   1   */}
-        <Layout style={[styles.docs, { marginBottom: 10, justifyContent: 'center' }]}>
-          <TouchableOpacity
-            onPress={() => { allerTresorerie(); }}
-            style={{
-              flexDirection: 'row', alignItems: 'center',
-            }}
-          >
-            <Icon name="money" size={30} color={theme['color-success-400']} style={{ marginRight: 10 }} />
-            <Text category="h6" status="basic">
-              Ma Trésorerie
-            </Text>
+        <Card
+          onPress={() => { allerTresorerie(); }}
+          style={{
+            marginBottom: 10,
+            flexDirection: 'row',
+            justifyContent: 'center',
+            alignItems: 'center',
 
-          </TouchableOpacity>
-        </Layout>
-      </Layout>
+            paddingHorizontal: 22,
+            paddingVertical: 25,
+          }}
+        >
+
+          <Icon name="money" size={30} color={theme['color-success-400']} style={{ marginRight: 10 }} />
+          <Text category="h6" status="basic">
+            Ma Trésorerie
+          </Text>
+
+        </Card>
+      </View>
 
     </MaxWidthContainer>
   );

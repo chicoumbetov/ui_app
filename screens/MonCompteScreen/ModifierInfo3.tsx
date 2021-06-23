@@ -4,7 +4,7 @@ import {
   StyleSheet, TouchableOpacity, View,
 } from 'react-native';
 import {
-  Button, Layout, Modal, Text,
+  Button, Modal, Text,
 } from '@ui-kitten/components';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
@@ -93,10 +93,10 @@ const Informations = () => {
       }}
     >
 
-      <Text category="h1" style={styles.title}>{route.params?.signUp ? 'Finalisez votre inscription' : 'Modifier vos informations'}</Text>
-      <Text category="h2">Changer votre photo de profil</Text>
-      <Layout style={{
-        alignItems: 'center', backgroundColor: 'transparent', marginVertical: 45, marginTop: 8,
+      <Text category="h2" style={styles.title}>{route.params?.signUp ? 'Finalisez votre inscription' : 'Modifier vos informations'}</Text>
+      <Text category="h3" style={{ marginBottom: 30 }}>Changer votre photo de profil !</Text>
+      <View style={{
+        alignItems: 'center', marginVertical: 40, marginTop: 8,
       }}
       >
         <AutoAvatar
@@ -105,12 +105,12 @@ const Informations = () => {
           }}
           avatarInfo={avatarImage}
         />
-      </Layout>
+      </View>
 
       <Text category="h5" appearance="hint">Choisir une icone</Text>
 
-      <Layout style={{
-        flexDirection: 'row', marginTop: 21, justifyContent: 'space-around', alignItems: 'center', backgroundColor: 'transparent',
+      <View style={{
+        flexDirection: 'row', marginTop: 21, justifyContent: 'space-around', alignItems: 'center',
       }}
       >
         <TouchableOpacity onPress={() => {
@@ -128,20 +128,20 @@ const Informations = () => {
           <WomanAvatar height={50} width={50} />
         </TouchableOpacity>
 
-      </Layout>
+      </View>
 
       {Platform.OS !== 'web' && (
       <TouchableOpacity
         onPress={() => {
           onTakePicture();
         }}
-        style={{ marginVertical: 39 }}
+        style={{ marginVertical: 30 }}
       >
         <Text category="h5" status="info">Prendre une photo</Text>
       </TouchableOpacity>
       )}
 
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: 1 }}>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: 20 }}>
         <TouchableOpacity onPress={() => { pickImage(); }}>
           <Text category="h5" status="info">Ajouter une photo</Text>
         </TouchableOpacity>
@@ -155,7 +155,7 @@ const Informations = () => {
       </View>
 
       <View style={{
-        flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginVertical: 36,
+        flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginVertical: 25,
       }}
       >
         <TouchableOpacity

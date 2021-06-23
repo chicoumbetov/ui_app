@@ -92,6 +92,10 @@ type Document
     mutations: { create: "createDocument", update: null, delete: null }
     subscriptions: null
 )
+@auth(rules: [
+    { allow: private }
+    { allow: private, provider: iam}
+])
 @key(name: "documentsByRealEstate", fields: ["realEstateId", "createdAt"])
 @key(name: "documentsByKey", fields: ["key"], queryField: "documentsByKey") {
   id: ID!
@@ -110,7 +114,10 @@ type BankAccount
         queries: { get: null, list: "listBankAccounts" }
         mutations: { create: "createBankAccount", update: null, delete: null }
     )
-    @auth(rules: [{ allow: owner, ownerField: "accountOwner" }])
+    @auth(rules: [
+        { allow: private }
+        { allow: private, provider: iam}
+    ])
     @key(
         name: "bankAccountsByBiId"
         fields: ["biId"]
@@ -145,6 +152,10 @@ type BankMovement
         mutations: { create: "createBankMovement", update: null, delete: null }
         subscriptions: null
     )
+    @auth(rules: [
+        { allow: private }
+        { allow: private, provider: iam}
+    ])
     @key(
         name: "bankMovementsByBankAccount"
         fields: ["bankAccountId","date"]
@@ -201,6 +212,10 @@ type BudgetLine
     mutations: { create: "createBudgetLine", update: null, delete: null }
     subscriptions: null
   )
+@auth(rules: [
+    { allow: private }
+    { allow: private, provider: iam}
+])
   @key(name: "budgetLinesByRealEstate", fields: ["realEstateId"]) {
   id: ID!
   realEstateId: ID!
@@ -225,6 +240,10 @@ type BudgetLineDeadline
     }
     subscriptions: null
   )
+    @auth(rules: [
+        { allow: private }
+        { allow: private, provider: iam}
+    ])
   @key(
     name: "budgetLineDeadlinesByRealEstate"
     fields: ["realEstateId", "date"]
@@ -295,6 +314,10 @@ type RealEstateBankAccount
     }
     subscriptions: null
   )
+@auth(rules: [
+    {allow: private}
+    { allow: private, provider: iam }
+])
   @key(
     name: "bankAccountsByRealEstate"
     fields: ["realEstateId", "bankAccountId"]

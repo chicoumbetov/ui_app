@@ -15,6 +15,7 @@ const entree = [
   { x: 'juin', y: 100 },
 ];
 const sortie = [
+  { x: 'janvier', y: 300 },
   { x: 'avril', y: 600 },
   { x: 'mai', y: 500 },
   { x: 'juin', y: 700 },
@@ -44,19 +45,43 @@ const evolution = [
 
 const GraphicsII = () => {
   const theme = useTheme();
+
+  /** Object with 3 attributes and its key */
+  const evolutionData: {
+    [key: string]: { moisLabel: number, value: number }
+  } = {};
+
+  const evoEntre = entree.find((e) => e);
+  // sortie.forEach((s) => { if (e.x === s.x) { return e.y - s.y; } })
+
+  const evoSortie = sortie.find((s) => s);
+
+  console.log('evoEnt', evoEntre);
+  console.log('evoSort', evoSortie);
+  console.log('evolutionData', evolutionData);
+
+  const evoRes = evoEntre.y - evoSortie.y;
+  console.log('evoRes', evoRes);
+
+  /**
+  evolutionData[item?.category] = {
+    moisLabel:
+    value: item?.amount || 0,
+  };
+   */
+
   return (
     <MaxWidthContainer
       outerViewProps={{
         style: {
           paddingTop: 10,
-          padding: 20,
           borderRadius: 10,
         },
       }}
     >
 
       <VictoryChart
-        height={1000}
+        height={300}
         // maxDomain={{ y: 0 }}
         // minDomain={{ y: 0 }}
         animate={{
@@ -66,7 +91,7 @@ const GraphicsII = () => {
         /* eslint-disable-next-line max-len */
         // categories={{ x: [ 'janvier', 'fevrier', 'mars', 'avril', 'mai', 'juin', 'juillet', 'aout', 'septembre', 'octobre', 'novembre', 'decembre'], }}
         padding={{
-          top: 20, bottom: 10, left: 90, right: 40,
+          top: 20, bottom: 10, left: 35, right: 10,
         }}
       >
         <VictoryAxis
@@ -74,14 +99,14 @@ const GraphicsII = () => {
           crossAxis
           standalone
           // offsetX={200}
-          tickLabelComponent={<VictoryLabel style={{ fontSize: '30px', fill: '#b5b5b5' }} />}
+          tickLabelComponent={<VictoryLabel style={{ fontSize: '15px', fill: '#b5b5b5' }} />}
         />
         <VictoryAxis
           dependentAxis
           crossAxis
           standalone={false}
           // label="occurrences"
-          tickLabelComponent={<VictoryLabel style={{ fontSize: '30px', fill: '#b5b5b5' }} />}
+          tickLabelComponent={<VictoryLabel style={{ fontSize: '15px', fill: '#b5b5b5' }} />}
           style={{
             // axis: { stroke: '#b5b5b5' },
             grid: { stroke: '#b5b5b5' },
@@ -105,7 +130,7 @@ const GraphicsII = () => {
           data={delta}
         />
         <VictoryBar
-          barWidth={40}
+          barWidth={10}
           alignment="start"
           animate={{
             onExit: {
@@ -123,7 +148,7 @@ const GraphicsII = () => {
           data={entree}
         />
         <VictoryBar
-          barWidth={40}
+          barWidth={10}
           alignment="end"
           style={{ data: { fill: theme['color-info-400'] } }}
           data={sortie}

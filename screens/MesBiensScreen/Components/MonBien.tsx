@@ -58,7 +58,11 @@ const MonBien = (props: MonBienProps) => {
    */
 
   /**
-   *   Summarizing of each expenses and incomes
+   *
+   *
+   *   GRAPHIC I
+   *
+   *
    */
   const currentYear = new Date().getFullYear();
   const currentMonth = new Date().getMonth();
@@ -144,6 +148,16 @@ const MonBien = (props: MonBienProps) => {
     (item) => { if (item?.ignored) { return false; } return item; },
   );
   // console.log('last Movement', bienget?.bankMovements);
+
+  /**
+   *
+   *
+   *   GRAPHIC II
+   *
+   *
+   */
+
+  // bienget.bankMovements?.items?.map((item) => console.log('bank Mouvement', item));
   return (
     <MaxWidthContainer
       withScrollView="keyboardAware"

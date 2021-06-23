@@ -57,35 +57,44 @@ const MaTresorerie = () => {
         ? <ActivityIndicator />
         : (
           <>
-            {data?.listRealEstates?.items?.map(
-              (item) => item && (
-                <Card
-                  key={item.id}
-                  style={{
-                    flexDirection: 'column', marginVertical: 10, padding: 17, borderRadius: 10,
-                  }}
-                  onPress={() => {
-                    onMaTresorerie2(item.id);
-                  }}
-                >
-                  {/**
-                         <MonBienResume title={item.title} id={item.id} />
-                         */}
-                  <View
-                    style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}
-                  >
-                    <CompteHeader title={item.name} iconUri={item.iconUri} />
-                    <IconUIKitten
-                      name="arrow-ios-forward"
-                      fill="#b5b5b5"
+            {data?.listRealEstates?.items?.length > 0 ? (
+              <>
+                {data?.listRealEstates?.items?.map(
+                  (item) => item && (
+                    <Card
+                      key={item.id}
                       style={{
-                        height: 16, width: 16, marginRight: 5, marginTop: 8,
+                        flexDirection: 'column', marginVertical: 10, padding: 17, borderRadius: 10,
                       }}
-                    />
-                  </View>
-                </Card>
-              ),
+                      onPress={() => {
+                        onMaTresorerie2(item.id);
+                      }}
+                    >
+                      {/**
+                           <MonBienResume title={item.title} id={item.id} />
+                           */}
+                      <View
+                        style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}
+                      >
+                        <CompteHeader title={item.name} iconUri={item.iconUri} />
+                        <IconUIKitten
+                          name="arrow-ios-forward"
+                          fill="#b5b5b5"
+                          style={{
+                            height: 16, width: 16, marginRight: 5, marginTop: 8,
+                          }}
+                        />
+                      </View>
+                    </Card>
+                  ),
+                )}
+              </>
+            ) : (
+              <>
+                <Text>Vous n'avez pas encore de Biens </Text>
+              </>
             )}
+
           </>
         )}
 

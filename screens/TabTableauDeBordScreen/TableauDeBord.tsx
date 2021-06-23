@@ -139,6 +139,7 @@ function TableauDeBord() {
     linkTo('/mes-biens/ajouter');
   };
 
+  console.log(biensDetails);
   return (
     <MaxWidthContainer
       withScrollView="keyboardAware"
@@ -154,6 +155,7 @@ function TableauDeBord() {
         <Text category="h1">
           Trésorerie
         </Text>
+        {biensDetails.data?.listRealEstates?.items?.length > 0 && (
         <Card style={{
           flexDirection: 'row',
           marginTop: 27,
@@ -190,6 +192,7 @@ function TableauDeBord() {
           </View>
 
         </Card>
+        )}
         <Text
           category="h5"
           status="info"

@@ -50,7 +50,7 @@ app.post('/webhooks/account-synced', async (req, res) => {
     id, id_connection, name, iban, bic, balance, transactions, } = req.body;
     console.log(req.body);
     const AppSyncClient = AppSyncClient_1.default(process.env);
-    let account = await BankAccountQueries_1.getBankAccountByBIId(AppSyncClient, id);
+    let account = await BankAccountQueries_1.getBankAccountsByBIId(AppSyncClient, id);
     let justCreated = false;
     if (!account) {
         account = await BankAccountMutations_1.createBankAccount(AppSyncClient, {
@@ -60,6 +60,7 @@ app.post('/webhooks/account-synced', async (req, res) => {
             balance,
             biId: id,
             biConnectionId: id_connection,
+            accountOwner: 't',
         });
         justCreated = true;
     }

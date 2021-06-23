@@ -24,13 +24,13 @@
       "Type": "String",
       "Default": "apiomedomGraphQLAPIEndpointOutput"
     },
-    "functiongraphqllayerArn": {
+    "functionomedomGraphQLLayerArn": {
       "Type": "String",
-      "Default": "functiongraphqllayerArn"
+      "Default": "functionomedomGraphQLLayerArn"
     },
-    "functionseslayerArn": {
+    "functionomedomSESLayerArn": {
       "Type": "String",
-      "Default": "functionseslayerArn"
+      "Default": "functionomedomSESLayerArn"
     }
   },
   "Conditions": {
@@ -103,10 +103,10 @@
         "Runtime": "nodejs14.x",
         "Layers": [
           {
-            "Ref": "functiongraphqllayerArn"
+            "Ref": "functionomedomGraphQLLayerArn"
           },
           {
-            "Ref": "functionseslayerArn"
+            "Ref": "functionomedomSESLayerArn"
           }
         ],
         "Timeout": "25"
@@ -118,12 +118,12 @@
         "RoleName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "omedomLambdaRolef4b6825f",
+            "omedomLambdaRoleed07cd18",
             {
               "Fn::Join": [
                 "",
                 [
-                  "omedomLambdaRolef4b6825f",
+                  "omedomLambdaRoleed07cd18",
                   "-",
                   {
                     "Ref": "env"

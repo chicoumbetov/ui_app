@@ -1,11 +1,5 @@
 import { ModelInit, MutableModel, PersistentModelConstructor } from "@aws-amplify/datastore";
 
-export enum SubscriptionType {
-  ONE_TO_TWO = "OneToTwo",
-  TREE_TO_FIVE = "TreeToFive",
-  MORE_THAN_FIVE = "MoreThanFive"
-}
-
 export enum RealEstateType {
   MAIN_HOME = "mainHome",
   SECOND_HOME = "secondHome",
@@ -42,14 +36,10 @@ export enum InvitationType {
   READ_ONLY = "ReadOnly"
 }
 
-export declare class ProfileInfo {
-  readonly phoneNumber?: string;
-  readonly optIn?: boolean;
-  readonly address?: Address;
-  readonly birthDate?: string;
-  readonly subscription?: SubscriptionType | keyof typeof SubscriptionType;
-  readonly notificationParams?: NotificationParams;
-  constructor(init: ModelInit<ProfileInfo>);
+export enum SubscriptionType {
+  ONE_TO_TWO = "OneToTwo",
+  THREE_TO_FIVE = "ThreeToFive",
+  MORE_THAN_FIVE = "MoreThanFive"
 }
 
 export declare class Address {
@@ -59,24 +49,6 @@ export declare class Address {
   readonly city: string;
   readonly country: string;
   constructor(init: ModelInit<Address>);
-}
-
-export declare class NotificationParams {
-  readonly echeanceFacture?: NotificationParam;
-  readonly loyer?: NotificationParam;
-  readonly debitBancaire?: NotificationParam;
-  readonly creditBancaire?: NotificationParam;
-  readonly soldeNegatif?: NotificationParam;
-  readonly retardLoyer?: NotificationParam;
-  readonly mauvaiseRenta?: NotificationParam;
-  readonly autre?: NotificationParam;
-  constructor(init: ModelInit<NotificationParams>);
-}
-
-export declare class NotificationParam {
-  readonly push?: boolean;
-  readonly email?: boolean;
-  constructor(init: ModelInit<NotificationParam>);
 }
 
 export declare class MortgageLoanInfo {
@@ -118,24 +90,67 @@ export declare class TenantInfo {
   constructor(init: ModelInit<TenantInfo>);
 }
 
+export declare class ProfileInfo {
+  readonly phoneNumber?: string;
+  readonly optIn?: boolean;
+  readonly address?: Address;
+  readonly birthDate?: string;
+  readonly subscription?: SubscriptionType | keyof typeof SubscriptionType;
+  readonly notificationParams?: NotificationParams;
+  constructor(init: ModelInit<ProfileInfo>);
+}
+
+export declare class NotificationParams {
+  readonly echeanceFacture?: NotificationParam;
+  readonly loyer?: NotificationParam;
+  readonly debitBancaire?: NotificationParam;
+  readonly creditBancaire?: NotificationParam;
+  readonly soldeNegatif?: NotificationParam;
+  readonly retardLoyer?: NotificationParam;
+  readonly mauvaiseRenta?: NotificationParam;
+  readonly autre?: NotificationParam;
+  constructor(init: ModelInit<NotificationParams>);
+}
+
+export declare class NotificationParam {
+  readonly push?: boolean;
+  readonly email?: boolean;
+  constructor(init: ModelInit<NotificationParam>);
+}
+
 export declare class UserToken {
   readonly userId: string;
   readonly token: string;
   constructor(init: ModelInit<UserToken>);
 }
 
-export declare class User {
+export declare class BankAccount {
   readonly id: string;
-  readonly lastname?: string;
-  readonly firstname?: string;
-  readonly avatarUri?: string;
-  readonly email?: string;
-  readonly privateProfile?: ProfileInfo;
-  readonly expoToken?: string[];
-  readonly biUser?: string;
-  readonly biToken?: string;
-  constructor(init: ModelInit<User>);
-  static copyOf(source: User, mutator: (draft: MutableModel<User>) => MutableModel<User> | void): User;
+  readonly bank?: string;
+  readonly name?: string;
+  readonly iban?: string;
+  readonly bic?: string;
+  readonly balance: number;
+  readonly biId: number;
+  readonly biConnectionId: number;
+  readonly biState?: string;
+  readonly realEstates?: (RealEstateBankAccount | null)[];
+  readonly movements?: (BankMovement | null)[];
+  readonly accountOwner?: string;
+  readonly createdAt?: string;
+  readonly updatedAt?: string;
+  constructor(init: ModelInit<BankAccount>);
+  static copyOf(source: BankAccount, mutator: (draft: MutableModel<BankAccount>) => MutableModel<BankAccount> | void): BankAccount;
+}
+
+export declare class RealEstateBankAccount {
+  readonly id: string;
+  readonly realEstate?: RealEstate;
+  readonly bankAccount: BankAccount;
+  readonly createdAt?: string;
+  readonly updatedAt?: string;
+  constructor(init: ModelInit<RealEstateBankAccount>);
+  static copyOf(source: RealEstateBankAccount, mutator: (draft: MutableModel<RealEstateBankAccount>) => MutableModel<RealEstateBankAccount> | void): RealEstateBankAccount;
 }
 
 export declare class RealEstate {
@@ -146,34 +161,22 @@ export declare class RealEstate {
   readonly type?: RealEstateType | keyof typeof RealEstateType;
   readonly ownName?: boolean;
   readonly company?: CompanyType | keyof typeof CompanyType;
+  readonly address?: Address;
   readonly detentionPart?: number;
   readonly typeImpot?: TaxType | keyof typeof TaxType;
-  readonly budgetLines?: (BudgetLine | null)[];
+  readonly bankAccounts?: (RealEstateBankAccount | null)[];
   readonly bankMovements?: (BankMovement | null)[];
+  readonly budgetLines?: (BudgetLine | null)[];
   readonly budgetLineDeadlines?: (BudgetLineDeadline | null)[];
   readonly documents?: (Document | null)[];
   readonly admins: string[];
   readonly shared?: string[];
   readonly pendingInvitations?: (PendingInvitation | null)[];
-  readonly address?: Address;
   readonly tenants?: (TenantInfo | null)[];
-  readonly bankAccounts?: (RealEstateBankAccount | null)[];
+  readonly createdAt?: string;
+  readonly updatedAt?: string;
   constructor(init: ModelInit<RealEstate>);
   static copyOf(source: RealEstate, mutator: (draft: MutableModel<RealEstate>) => MutableModel<RealEstate> | void): RealEstate;
-}
-
-export declare class BudgetLine {
-  readonly id: string;
-  readonly realEstate?: RealEstate;
-  readonly type: BudgetLineType | keyof typeof BudgetLineType;
-  readonly category: string;
-  readonly amount: number;
-  readonly frequency: Frequency | keyof typeof Frequency;
-  readonly nextDueDate?: string;
-  readonly infoCredit?: MortgageLoanInfo;
-  readonly tenantId?: string;
-  constructor(init: ModelInit<BudgetLine>);
-  static copyOf(source: BudgetLine, mutator: (draft: MutableModel<BudgetLine>) => MutableModel<BudgetLine> | void): BudgetLine;
 }
 
 export declare class BankMovement {
@@ -183,36 +186,13 @@ export declare class BankMovement {
   readonly biId: number;
   readonly description?: string;
   readonly amount: number;
-  readonly budgetLineDeadline?: (BudgetLineDeadline | null)[];
+  readonly budgetLineDeadlines?: (BudgetLineDeadline | null)[];
   readonly ignored?: boolean;
   readonly date?: string;
+  readonly createdAt?: string;
+  readonly updatedAt?: string;
   constructor(init: ModelInit<BankMovement>);
   static copyOf(source: BankMovement, mutator: (draft: MutableModel<BankMovement>) => MutableModel<BankMovement> | void): BankMovement;
-}
-
-export declare class BankAccount {
-  readonly id: string;
-  readonly realEstates?: (RealEstateBankAccount | null)[];
-  readonly bank?: string;
-  readonly accountOwner?: string;
-  readonly name?: string;
-  readonly iban?: string;
-  readonly bic?: string;
-  readonly balance: number;
-  readonly biId: number;
-  readonly biConnectionId: number;
-  readonly biState?: string;
-  readonly movements?: (BankMovement | null)[];
-  constructor(init: ModelInit<BankAccount>);
-  static copyOf(source: BankAccount, mutator: (draft: MutableModel<BankAccount>) => MutableModel<BankAccount> | void): BankAccount;
-}
-
-export declare class RealEstateBankAccount {
-  readonly id: string;
-  readonly realEstate?: RealEstate;
-  readonly bankAccount: BankAccount;
-  constructor(init: ModelInit<RealEstateBankAccount>);
-  static copyOf(source: RealEstateBankAccount, mutator: (draft: MutableModel<RealEstateBankAccount>) => MutableModel<RealEstateBankAccount> | void): RealEstateBankAccount;
 }
 
 export declare class BudgetLineDeadline {
@@ -228,8 +208,26 @@ export declare class BudgetLineDeadline {
   readonly date?: string;
   readonly infoCredit?: MortgageLoanDeadlineInfo;
   readonly tenantId?: string;
+  readonly createdAt?: string;
+  readonly updatedAt?: string;
   constructor(init: ModelInit<BudgetLineDeadline>);
   static copyOf(source: BudgetLineDeadline, mutator: (draft: MutableModel<BudgetLineDeadline>) => MutableModel<BudgetLineDeadline> | void): BudgetLineDeadline;
+}
+
+export declare class BudgetLine {
+  readonly id: string;
+  readonly realEstate?: RealEstate;
+  readonly type: BudgetLineType | keyof typeof BudgetLineType;
+  readonly category: string;
+  readonly amount: number;
+  readonly frequency: Frequency | keyof typeof Frequency;
+  readonly nextDueDate?: string;
+  readonly infoCredit?: MortgageLoanInfo;
+  readonly tenantId?: string;
+  readonly createdAt?: string;
+  readonly updatedAt?: string;
+  constructor(init: ModelInit<BudgetLine>);
+  static copyOf(source: BudgetLine, mutator: (draft: MutableModel<BudgetLine>) => MutableModel<BudgetLine> | void): BudgetLine;
 }
 
 export declare class Document {
@@ -239,6 +237,7 @@ export declare class Document {
   readonly key?: string;
   readonly s3file: string;
   readonly createdAt: string;
+  readonly updatedAt?: string;
   constructor(init: ModelInit<Document>);
   static copyOf(source: Document, mutator: (draft: MutableModel<Document>) => MutableModel<Document> | void): Document;
 }
@@ -248,21 +247,26 @@ export declare class PendingInvitation {
   readonly realEstate?: RealEstate;
   readonly email: string;
   readonly type: InvitationType | keyof typeof InvitationType;
+  readonly createdAt?: string;
+  readonly updatedAt?: string;
   constructor(init: ModelInit<PendingInvitation>);
   static copyOf(source: PendingInvitation, mutator: (draft: MutableModel<PendingInvitation>) => MutableModel<PendingInvitation> | void): PendingInvitation;
 }
 
-export declare class Notification {
+export declare class User {
   readonly id: string;
-  readonly userId: string;
-  readonly user?: User;
-  readonly type: string;
-  readonly title: string;
-  readonly body: string;
-  readonly data?: string;
+  readonly lastname?: string;
+  readonly firstname?: string;
+  readonly avatarUri?: string;
+  readonly email?: string;
+  readonly privateProfile?: ProfileInfo;
+  readonly expoToken?: string[];
+  readonly biUser?: string;
+  readonly biToken?: string;
   readonly createdAt?: string;
-  constructor(init: ModelInit<Notification>);
-  static copyOf(source: Notification, mutator: (draft: MutableModel<Notification>) => MutableModel<Notification> | void): Notification;
+  readonly updatedAt?: string;
+  constructor(init: ModelInit<User>);
+  static copyOf(source: User, mutator: (draft: MutableModel<User>) => MutableModel<User> | void): User;
 }
 
 export declare class BillingHistory {
@@ -274,14 +278,32 @@ export declare class BillingHistory {
   readonly subscription?: SubscriptionType | keyof typeof SubscriptionType;
   readonly amount: number;
   readonly paid?: boolean;
+  readonly createdAt?: string;
+  readonly updatedAt?: string;
   constructor(init: ModelInit<BillingHistory>);
   static copyOf(source: BillingHistory, mutator: (draft: MutableModel<BillingHistory>) => MutableModel<BillingHistory> | void): BillingHistory;
+}
+
+export declare class Notification {
+  readonly id: string;
+  readonly userId: string;
+  readonly user?: User;
+  readonly type: string;
+  readonly title: string;
+  readonly body: string;
+  readonly data?: string;
+  readonly createdAt?: string;
+  readonly updatedAt?: string;
+  constructor(init: ModelInit<Notification>);
+  static copyOf(source: Notification, mutator: (draft: MutableModel<Notification>) => MutableModel<Notification> | void): Notification;
 }
 
 export declare class NotificationTickets {
   readonly id: string;
   readonly expoTokens?: UserToken[];
   readonly ticketIds?: string[];
+  readonly createdAt?: string;
+  readonly updatedAt?: string;
   constructor(init: ModelInit<NotificationTickets>);
   static copyOf(source: NotificationTickets, mutator: (draft: MutableModel<NotificationTickets>) => MutableModel<NotificationTickets> | void): NotificationTickets;
 }

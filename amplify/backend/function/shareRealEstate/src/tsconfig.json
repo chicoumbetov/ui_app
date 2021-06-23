@@ -4,13 +4,13 @@
     "baseUrl": ".",
     "paths": {
       "/opt/nodejs/*": [
-        "../../graphqllayer/lib/nodejs/*",
-        "../../seslayer/lib/nodejs/*"
+        "../../omedomGraphQLLayer/lib/nodejs/*",
+        "../../omedomSESLayer/lib/nodejs/*"
       ],
       "*" : [
         "*",
-        "../../graphqllayer/lib/nodejs/node_modules/*",
-        "../../seslayer/lib/nodejs/node_modules/*"
+        "../../omedomGraphQLLayer/lib/nodejs/node_modules/*",
+        "../../omedomSESLayer/lib/nodejs/node_modules/*"
       ]
     }
   }

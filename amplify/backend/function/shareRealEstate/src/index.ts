@@ -25,46 +25,50 @@ exports.handler = async (event) => {
     if (record.eventName === 'INSERT') {
       const { email, type, realEstateId } = record.dynamodb.NewImage;
       const user = await getUserByEmail(appSyncClient, email.S);
-      const realEstate = await getRealEstate(appSyncClient, realEstateId.S);
-      if (user && realEstate) {
-        console.log('realEstate :', realEstate);
-        if (type.S === 'Admin') {
-          const { admins } = realEstate;
-          const exists = admins.find((admin) => {
-            if (admin === user.id) {
-              return true;
+      if (user) {
+        const realEstate = await getRealEstate(appSyncClient, realEstateId.S);
+        if (realEstate) {
+          console.log('realEstate :', realEstate);
+          if (type.S === 'Admin') {
+            const { admins } = realEstate;
+            const exists = admins.find((admin) => {
+              if (admin === user.id) {
+                return true;
+              }
+              return false;
+            });
+            if (!exists) {
+              admins.push(user.id);
             }
-            return false;
-          });
-          if (!exists) {
-            admins.push(user.id);
+
+            await updateRealEstateMutation(appSyncClient, {
+              id: realEstateId.S,
+              admins,
+              // eslint-disable-next-line no-underscore-dangle
+              _version: realEstate._version,
+            });
+            await sendTemplateEmail(email.S, 'TemplateMailAdminAvecCompte');
+          } else {
+            const shared = realEstate.shared || [];
+            const exists = shared.find((share) => {
+              if (share === user.id) {
+                return true;
+              }
+              return false;
+            });
+            if (exists === undefined) {
+              shared.push(user.id);
+            }
+            await updateRealEstateMutation(appSyncClient, {
+              id: record.dynamodb.NewImage.realEstateId.S,
+              shared,
+              // eslint-disable-next-line no-underscore-dangle
+              _version: realEstate._version,
+            });
           }
 
-          await updateRealEstateMutation(appSyncClient, {
-            id: realEstateId.S,
-            admins,
-            _version: realEstate._version,
-          });
-          await sendTemplateEmail(email.S, 'TemplateMailAdminAvecCompte');
-        } else {
-          const shared = realEstate.shared || [];
-          const exists = shared.find((share) => {
-            if (share === user.id) {
-              return true;
-            }
-            return false;
-          });
-          if (exists === undefined) {
-            shared.push(user.id);
-          }
-          await updateRealEstateMutation(appSyncClient, {
-            id: record.dynamodb.NewImage.realEstateId.S,
-            shared,
-            _version: realEstate._version,
-          });
+          await sendTemplateEmail(email.S, 'TemplateMailLectureAvecCompte');
         }
-
-        await sendTemplateEmail(email.S, 'TemplateMailLectureAvecCompte');
       } else if (type.S === 'Admin') {
         await sendTemplateEmail(email.S, 'TemplateMailAdminSansCompteV2');
       } else {

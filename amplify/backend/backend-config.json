@@ -1,20 +1,10 @@
 {
   "auth": {
-    "omedomfee3bfe0": {
+    "omedomc071f696": {
       "service": "Cognito",
       "providerPlugin": "awscloudformation",
-      "customAuth": false,
-      "dependsOn": [
-        {
-          "category": "function",
-          "resourceName": "omedomfee3bfe0PostConfirmation",
-          "triggerProvider": "Cognito",
-          "attributes": [
-            "Arn",
-            "Name"
-          ]
-        }
-      ]
+      "dependsOn": [],
+      "customAuth": false
     }
   },
   "api": {
@@ -26,7 +16,7 @@
           "defaultAuthentication": {
             "authenticationType": "AMAZON_COGNITO_USER_POOLS",
             "userPoolConfig": {
-              "userPoolId": "authomedomfee3bfe0"
+              "userPoolId": "authomedomc071f696"
             }
           },
           "additionalAuthenticationProviders": [
@@ -60,48 +50,21 @@
       ]
     }
   },
-  "storage": {
-    "omedomdoc": {
-      "service": "S3",
-      "providerPlugin": "awscloudformation"
-    }
-  },
   "function": {
-    "transactionWebHook": {
-      "build": true,
+    "omedomGraphQLLayer": {
       "providerPlugin": "awscloudformation",
-      "service": "Lambda",
-      "dependsOn": [
-        {
-          "category": "function",
-          "resourceName": "budgetinsightlayer",
-          "attributes": [
-            "Arn"
-          ]
-        },
-        {
-          "category": "function",
-          "resourceName": "graphqllayer",
-          "attributes": [
-            "Arn"
-          ]
-        },
-        {
-          "category": "auth",
-          "resourceName": "omedomfee3bfe0",
-          "attributes": [
-            "UserPoolId"
-          ]
-        },
-        {
-          "category": "api",
-          "resourceName": "omedom",
-          "attributes": [
-            "GraphQLAPIIdOutput",
-            "GraphQLAPIEndpointOutput"
-          ]
-        }
-      ]
+      "service": "LambdaLayer",
+      "build": true
+    },
+    "omedomBudgetInsightLayer": {
+      "providerPlugin": "awscloudformation",
+      "service": "LambdaLayer",
+      "build": true
+    },
+    "omedomSESLayer": {
+      "providerPlugin": "awscloudformation",
+      "service": "LambdaLayer",
+      "build": true
     },
     "budgetinsight": {
       "build": true,
@@ -110,7 +73,7 @@
       "dependsOn": [
         {
           "category": "auth",
-          "resourceName": "omedomfee3bfe0",
+          "resourceName": "omedomc071f696",
           "attributes": [
             "UserPoolId"
           ]
@@ -125,103 +88,19 @@
         },
         {
           "category": "function",
-          "resourceName": "budgetinsightlayer",
+          "resourceName": "omedomGraphQLLayer",
           "attributes": [
             "Arn"
           ]
         },
         {
           "category": "function",
-          "resourceName": "graphqllayer",
+          "resourceName": "omedomBudgetInsightLayer",
           "attributes": [
             "Arn"
           ]
         }
       ]
-    },
-    "budgetinsightlayer": {
-      "providerPlugin": "awscloudformation",
-      "service": "LambdaLayer",
-      "build": true
-    },
-    "shareRealEstate": {
-      "build": true,
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda",
-      "dependsOn": [
-        {
-          "category": "api",
-          "resourceName": "omedom",
-          "attributes": [
-            "GraphQLAPIIdOutput",
-            "GraphQLAPIEndpointOutput"
-          ]
-        },
-        {
-          "category": "api",
-          "resourceName": "omedomrest",
-          "attributes": [
-            "ApiName",
-            "ApiId"
-          ]
-        },
-        {
-          "category": "function",
-          "resourceName": "graphqllayer",
-          "attributes": [
-            "Arn"
-          ]
-        },
-        {
-          "category": "function",
-          "resourceName": "seslayer",
-          "attributes": [
-            "Arn"
-          ]
-        }
-      ]
-    },
-    "omedomfee3bfe0PostConfirmation": {
-      "build": true,
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda"
-    },
-    "graphqllayer": {
-      "providerPlugin": "awscloudformation",
-      "service": "LambdaLayer",
-      "build": true
-    },
-    "seslayer": {
-      "providerPlugin": "awscloudformation",
-      "service": "LambdaLayer",
-      "build": true
-    },
-    "waitingUser": {
-      "build": true,
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda",
-      "dependsOn": [
-        {
-          "category": "function",
-          "resourceName": "graphqllayer",
-          "attributes": [
-            "Arn"
-          ]
-        },
-        {
-          "category": "api",
-          "resourceName": "omedom",
-          "attributes": [
-            "GraphQLAPIIdOutput",
-            "GraphQLAPIEndpointOutput"
-          ]
-        }
-      ]
-    },
-    "omedomtest": {
-      "providerPlugin": "awscloudformation",
-      "service": "LambdaLayer",
-      "build": true
     },
     "pushReceipts": {
       "build": true,
@@ -238,7 +117,94 @@
         },
         {
           "category": "function",
-          "resourceName": "graphqllayer",
+          "resourceName": "omedomGraphQLLayer",
+          "attributes": [
+            "Arn"
+          ]
+        }
+      ]
+    },
+    "waitingUser": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "dependsOn": [
+        {
+          "category": "api",
+          "resourceName": "omedom",
+          "attributes": [
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput"
+          ]
+        },
+        {
+          "category": "function",
+          "resourceName": "omedomGraphQLLayer",
+          "attributes": [
+            "Arn"
+          ]
+        }
+      ]
+    },
+    "sendNotification": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "dependsOn": [
+        {
+          "category": "api",
+          "resourceName": "omedom",
+          "attributes": [
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput"
+          ]
+        },
+        {
+          "category": "function",
+          "resourceName": "omedomGraphQLLayer",
+          "attributes": [
+            "Arn"
+          ]
+        },
+        {
+          "category": "function",
+          "resourceName": "omedomSESLayer",
+          "attributes": [
+            "Arn"
+          ]
+        }
+      ]
+    },
+    "transactionWebHook": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "dependsOn": [
+        {
+          "category": "auth",
+          "resourceName": "omedomc071f696",
+          "attributes": [
+            "UserPoolId"
+          ]
+        },
+        {
+          "category": "api",
+          "resourceName": "omedom",
+          "attributes": [
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput"
+          ]
+        },
+        {
+          "category": "function",
+          "resourceName": "omedomGraphQLLayer",
+          "attributes": [
+            "Arn"
+          ]
+        },
+        {
+          "category": "function",
+          "resourceName": "omedomBudgetInsightLayer",
           "attributes": [
             "Arn"
           ]
@@ -259,53 +225,40 @@
         }
       ]
     },
-    "sendNotification": {
-      "dependsOn": [
-        {
-          "category": "api",
-          "resourceName": "omedom",
-          "attributes": [
-            "GraphQLAPIIdOutput",
-            "GraphQLAPIEndpointOutput"
-          ]
-        },
-        {
-          "category": "function",
-          "resourceName": "graphqllayer",
-          "attributes": [
-            "Arn"
-          ]
-        },
-        {
-          "category": "function",
-          "resourceName": "seslayer",
-          "attributes": [
-            "Arn"
-          ]
-        }
-      ]
-    },
-    "omedomAuthorization": {
+    "shareRealEstate": {
       "build": true,
       "providerPlugin": "awscloudformation",
       "service": "Lambda",
       "dependsOn": [
         {
-          "category": "auth",
-          "resourceName": "omedomfee3bfe0",
-          "attributes": [
-            "UserPoolId"
-          ]
-        },
-        {
           "category": "api",
           "resourceName": "omedom",
           "attributes": [
             "GraphQLAPIIdOutput",
             "GraphQLAPIEndpointOutput"
           ]
+        },
+        {
+          "category": "function",
+          "resourceName": "omedomGraphQLLayer",
+          "attributes": [
+            "Arn"
+          ]
+        },
+        {
+          "category": "function",
+          "resourceName": "omedomSESLayer",
+          "attributes": [
+            "Arn"
+          ]
         }
       ]
+    }
+  },
+  "storage": {
+    "omedom": {
+      "service": "S3",
+      "providerPlugin": "awscloudformation"
     }
   }
 }

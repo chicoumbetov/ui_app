@@ -4,13 +4,13 @@
     "baseUrl": ".",
     "paths": {
       "/opt/nodejs/*": [
-        "../../budgetinsightlayer/lib/nodejs/*",
-        "../../graphqllayer/lib/nodejs/*"
+        "../../omedomGraphQLLayer/lib/nodejs/*",
+        "../../omedomBudgetInsightLayer/lib/nodejs/*",
       ],
       "*" : [
         "*",
-        "../../graphqllayer/lib/nodejs/node_modules/*",
-        "../../budgetinsightlayer/lib/nodejs/node_modules/*"
+        "../../omedomGraphQLLayer/lib/nodejs/node_modules/*",
+        "../../omedomBudgetInsightLayer/lib/nodejs/node_modules/*"
       ]
     }
   }

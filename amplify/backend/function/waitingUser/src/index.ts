@@ -11,7 +11,6 @@ import { getUserByEmail } from '/opt/nodejs/src/UserQueries';
 import getAppSyncClient from '/opt/nodejs/src/AppSyncClient';
 import { updateRealEstateMutation, getRealEstate } from '/opt/nodejs/src/RealEstateMutation';
 import { listPendingInvitationsByEmail } from '/opt/nodejs/src/PendingInvitationQueries';
-import { sendTemplateEmail } from '../../seslayer/lib/nodejs/src/SendMail';
 
 exports.handler = async (event) => {
   //eslint-disable-line
@@ -48,6 +47,7 @@ exports.handler = async (event) => {
               await updateRealEstateMutation(appSyncClient, {
                 id: realEstate.id,
                 admins,
+                // eslint-disable-next-line no-underscore-dangle
                 _version: realEstate._version,
               });
               console.log('admins', admins);
@@ -65,6 +65,7 @@ exports.handler = async (event) => {
               await updateRealEstateMutation(appSyncClient, {
                 id: realEstate.id,
                 shared,
+                // eslint-disable-next-line no-underscore-dangle
                 _version: realEstate._version,
               });
             }

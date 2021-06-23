@@ -1,7 +1,7 @@
 export const schema = {
     "models": {
-        "User": {
-            "name": "User",
+        "BankAccount": {
+            "name": "BankAccount",
             "fields": {
                 "id": {
                     "name": "id",
@@ -10,91 +10,149 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "lastname": {
-                    "name": "lastname",
+                "bank": {
+                    "name": "bank",
                     "isArray": false,
                     "type": "String",
                     "isRequired": false,
                     "attributes": []
                 },
-                "firstname": {
-                    "name": "firstname",
+                "name": {
+                    "name": "name",
                     "isArray": false,
                     "type": "String",
                     "isRequired": false,
                     "attributes": []
                 },
-                "avatarUri": {
-                    "name": "avatarUri",
+                "iban": {
+                    "name": "iban",
                     "isArray": false,
                     "type": "String",
                     "isRequired": false,
                     "attributes": []
                 },
-                "email": {
-                    "name": "email",
+                "bic": {
+                    "name": "bic",
                     "isArray": false,
-                    "type": "AWSEmail",
+                    "type": "String",
                     "isRequired": false,
                     "attributes": []
                 },
-                "privateProfile": {
-                    "name": "privateProfile",
+                "balance": {
+                    "name": "balance",
                     "isArray": false,
+                    "type": "Float",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "biId": {
+                    "name": "biId",
+                    "isArray": false,
+                    "type": "Int",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "biConnectionId": {
+                    "name": "biConnectionId",
+                    "isArray": false,
+                    "type": "Int",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "biState": {
+                    "name": "biState",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "realEstates": {
+                    "name": "realEstates",
+                    "isArray": true,
                     "type": {
-                        "nonModel": "ProfileInfo"
+                        "model": "RealEstateBankAccount"
                     },
                     "isRequired": false,
-                    "attributes": []
-                },
-                "expoToken": {
-                    "name": "expoToken",
-                    "isArray": true,
-                    "type": "String",
-                    "isRequired": true,
                     "attributes": [],
-                    "isArrayNullable": true
+                    "isArrayNullable": true,
+                    "association": {
+                        "connectionType": "HAS_MANY",
+                        "associatedWith": "bankAccount"
+                    }
                 },
-                "biUser": {
-                    "name": "biUser",
+                "movements": {
+                    "name": "movements",
+                    "isArray": true,
+                    "type": {
+                        "model": "BankMovement"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "isArrayNullable": true,
+                    "association": {
+                        "connectionType": "HAS_MANY",
+                        "associatedWith": "bankAccount"
+                    }
+                },
+                "accountOwner": {
+                    "name": "accountOwner",
                     "isArray": false,
                     "type": "String",
                     "isRequired": false,
                     "attributes": []
                 },
-                "biToken": {
-                    "name": "biToken",
+                "createdAt": {
+                    "name": "createdAt",
                     "isArray": false,
-                    "type": "String",
+                    "type": "AWSDateTime",
                     "isRequired": false,
-                    "attributes": []
+                    "attributes": [],
+                    "isReadOnly": true
+                },
+                "updatedAt": {
+                    "name": "updatedAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
                 }
             },
             "syncable": true,
-            "pluralName": "Users",
+            "pluralName": "BankAccounts",
             "attributes": [
                 {
                     "type": "model",
-                    "properties": {}
-                },
-                {
-                    "type": "key",
                     "properties": {
-                        "name": "userByBiUser",
-                        "fields": [
-                            "biUser"
-                        ],
-                        "queryField": "userByBiUser"
+                        "queries": {
+                            "get": null,
+                            "list": "listBankAccounts"
+                        },
+                        "mutations": {
+                            "create": "createBankAccount",
+                            "update": null,
+                            "delete": null
+                        }
                     }
                 },
                 {
                     "type": "key",
                     "properties": {
-                        "name": "userByEmail",
+                        "name": "bankAccountsByBiId",
                         "fields": [
-                            "email"
+                            "biId"
                         ],
-                        "queryField": "userByEmail"
+                        "queryField": "listBankAccountsByBiId"
+                    }
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "name": "bankAccountsByBiConnectionId",
+                        "fields": [
+                            "biConnectionId"
+                        ],
+                        "queryField": "listBankAccountsByBiConnectionId"
                     }
                 },
                 {
@@ -103,7 +161,7 @@ export const schema = {
                         "rules": [
                             {
                                 "provider": "userPools",
-                                "ownerField": "id",
+                                "ownerField": "accountOwner",
                                 "allow": "owner",
                                 "identityClaim": "cognito:username",
                                 "operations": [
@@ -112,24 +170,99 @@ export const schema = {
                                     "delete",
                                     "read"
                                 ]
-                            },
-                            {
-                                "allow": "private",
-                                "operations": [
-                                    "read"
-                                ]
-                            },
-                            {
-                                "allow": "private",
-                                "provider": "iam",
-                                "operations": [
-                                    "create",
-                                    "update",
-                                    "delete",
-                                    "read"
-                                ]
                             }
                         ]
+                    }
+                }
+            ]
+        },
+        "RealEstateBankAccount": {
+            "name": "RealEstateBankAccount",
+            "fields": {
+                "id": {
+                    "name": "id",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "realEstate": {
+                    "name": "realEstate",
+                    "isArray": false,
+                    "type": {
+                        "model": "RealEstate"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "association": {
+                        "connectionType": "BELONGS_TO",
+                        "targetName": "realEstateId"
+                    }
+                },
+                "bankAccount": {
+                    "name": "bankAccount",
+                    "isArray": false,
+                    "type": {
+                        "model": "BankAccount"
+                    },
+                    "isRequired": true,
+                    "attributes": [],
+                    "association": {
+                        "connectionType": "BELONGS_TO",
+                        "targetName": "bankAccountId"
+                    }
+                },
+                "createdAt": {
+                    "name": "createdAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                },
+                "updatedAt": {
+                    "name": "updatedAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                }
+            },
+            "syncable": true,
+            "pluralName": "RealEstateBankAccounts",
+            "attributes": [
+                {
+                    "type": "model",
+                    "properties": {
+                        "queries": null,
+                        "mutations": {
+                            "create": "createRealEstateBankAccount",
+                            "update": null,
+                            "delete": null
+                        },
+                        "subscriptions": null
+                    }
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "name": "bankAccountsByRealEstate",
+                        "fields": [
+                            "realEstateId",
+                            "bankAccountId"
+                        ]
+                    }
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "name": "realEstatesByBankAccount",
+                        "fields": [
+                            "bankAccountId",
+                            "realEstateId"
+                        ],
+                        "queryField": "listRealEstatesByBankAccount"
                     }
                 }
             ]
@@ -190,6 +323,15 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
+                "address": {
+                    "name": "address",
+                    "isArray": false,
+                    "type": {
+                        "nonModel": "Address"
+                    },
+                    "isRequired": false,
+                    "attributes": []
+                },
                 "detentionPart": {
                     "name": "detentionPart",
                     "isArray": false,
@@ -206,11 +348,11 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
-                "budgetLines": {
-                    "name": "budgetLines",
+                "bankAccounts": {
+                    "name": "bankAccounts",
                     "isArray": true,
                     "type": {
-                        "model": "BudgetLine"
+                        "model": "RealEstateBankAccount"
                     },
                     "isRequired": false,
                     "attributes": [],
@@ -225,6 +367,20 @@ export const schema = {
                     "isArray": true,
                     "type": {
                         "model": "BankMovement"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "isArrayNullable": true,
+                    "association": {
+                        "connectionType": "HAS_MANY",
+                        "associatedWith": "realEstate"
+                    }
+                },
+                "budgetLines": {
+                    "name": "budgetLines",
+                    "isArray": true,
+                    "type": {
+                        "model": "BudgetLine"
                     },
                     "isRequired": false,
                     "attributes": [],
@@ -292,15 +448,6 @@ export const schema = {
                         "associatedWith": "realEstate"
                     }
                 },
-                "address": {
-                    "name": "address",
-                    "isArray": false,
-                    "type": {
-                        "nonModel": "Address"
-                    },
-                    "isRequired": false,
-                    "attributes": []
-                },
                 "tenants": {
                     "name": "tenants",
                     "isArray": true,
@@ -311,19 +458,21 @@ export const schema = {
                     "attributes": [],
                     "isArrayNullable": true
                 },
-                "bankAccounts": {
-                    "name": "bankAccounts",
-                    "isArray": true,
-                    "type": {
-                        "model": "RealEstateBankAccount"
-                    },
+                "createdAt": {
+                    "name": "createdAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
                     "isRequired": false,
                     "attributes": [],
-                    "isArrayNullable": true,
-                    "association": {
-                        "connectionType": "HAS_MANY",
-                        "associatedWith": "realEstate"
-                    }
+                    "isReadOnly": true
+                },
+                "updatedAt": {
+                    "name": "updatedAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
                 }
             },
             "syncable": true,
@@ -357,129 +506,6 @@ export const schema = {
                                     "read"
                                 ],
                                 "identityClaim": "cognito:username"
-                            },
-                            {
-                                "allow": "private",
-                                "provider": "iam",
-                                "operations": [
-                                    "create",
-                                    "update",
-                                    "delete",
-                                    "read"
-                                ]
-                            }
-                        ]
-                    }
-                }
-            ]
-        },
-        "BudgetLine": {
-            "name": "BudgetLine",
-            "fields": {
-                "id": {
-                    "name": "id",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "realEstate": {
-                    "name": "realEstate",
-                    "isArray": false,
-                    "type": {
-                        "model": "RealEstate"
-                    },
-                    "isRequired": false,
-                    "attributes": [],
-                    "association": {
-                        "connectionType": "BELONGS_TO",
-                        "targetName": "realEstateId"
-                    }
-                },
-                "type": {
-                    "name": "type",
-                    "isArray": false,
-                    "type": {
-                        "enum": "BudgetLineType"
-                    },
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "category": {
-                    "name": "category",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "amount": {
-                    "name": "amount",
-                    "isArray": false,
-                    "type": "Float",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "frequency": {
-                    "name": "frequency",
-                    "isArray": false,
-                    "type": {
-                        "enum": "Frequency"
-                    },
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "nextDueDate": {
-                    "name": "nextDueDate",
-                    "isArray": false,
-                    "type": "AWSDate",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "infoCredit": {
-                    "name": "infoCredit",
-                    "isArray": false,
-                    "type": {
-                        "nonModel": "MortgageLoanInfo"
-                    },
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "tenantId": {
-                    "name": "tenantId",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                }
-            },
-            "syncable": true,
-            "pluralName": "BudgetLines",
-            "attributes": [
-                {
-                    "type": "key",
-                    "properties": {
-                        "name": "budgetLineByRealEstate",
-                        "fields": [
-                            "realEstateId"
-                        ]
-                    }
-                },
-                {
-                    "type": "model",
-                    "properties": {}
-                },
-                {
-                    "type": "auth",
-                    "properties": {
-                        "rules": [
-                            {
-                                "allow": "private",
-                                "operations": [
-                                    "create",
-                                    "update",
-                                    "delete",
-                                    "read"
-                                ]
                             },
                             {
                                 "allow": "private",
@@ -553,8 +579,8 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "budgetLineDeadline": {
-                    "name": "budgetLineDeadline",
+                "budgetLineDeadlines": {
+                    "name": "budgetLineDeadlines",
                     "isArray": true,
                     "type": {
                         "model": "BudgetLineDeadline"
@@ -580,6 +606,22 @@ export const schema = {
                     "type": "AWSDate",
                     "isRequired": false,
                     "attributes": []
+                },
+                "createdAt": {
+                    "name": "createdAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                },
+                "updatedAt": {
+                    "name": "updatedAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
                 }
             },
             "syncable": true,
@@ -587,23 +629,31 @@ export const schema = {
             "attributes": [
                 {
                     "type": "model",
-                    "properties": {}
-                },
-                {
-                    "type": "key",
                     "properties": {
-                        "name": "bankMovementByBankAccount",
-                        "fields": [
-                            "bankAccountId",
-                            "date"
-                        ],
-                        "queryField": "getBankMovementByBankAccountId"
+                        "queries": null,
+                        "mutations": {
+                            "create": "createBankMovement",
+                            "update": null,
+                            "delete": null
+                        },
+                        "subscriptions": null
                     }
                 },
                 {
                     "type": "key",
                     "properties": {
-                        "name": "bankMovementByRealEstate",
+                        "name": "bankMovementsByBankAccount",
+                        "fields": [
+                            "bankAccountId",
+                            "date"
+                        ],
+                        "queryField": "getBankMovementsByBankAccountId"
+                    }
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "name": "bankMovementsByRealEstate",
                         "fields": [
                             "realEstateId",
                             "date"
@@ -613,287 +663,11 @@ export const schema = {
                 {
                     "type": "key",
                     "properties": {
-                        "name": "bankMovementByBiId",
+                        "name": "bankMovementsByBiId",
                         "fields": [
                             "biId"
                         ],
-                        "queryField": "listBankMovementByBiId"
-                    }
-                },
-                {
-                    "type": "auth",
-                    "properties": {
-                        "rules": [
-                            {
-                                "allow": "private",
-                                "operations": [
-                                    "create",
-                                    "update",
-                                    "delete",
-                                    "read"
-                                ]
-                            },
-                            {
-                                "allow": "private",
-                                "provider": "iam",
-                                "operations": [
-                                    "create",
-                                    "update",
-                                    "delete",
-                                    "read"
-                                ]
-                            }
-                        ]
-                    }
-                }
-            ]
-        },
-        "BankAccount": {
-            "name": "BankAccount",
-            "fields": {
-                "id": {
-                    "name": "id",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "realEstates": {
-                    "name": "realEstates",
-                    "isArray": true,
-                    "type": {
-                        "model": "RealEstateBankAccount"
-                    },
-                    "isRequired": false,
-                    "attributes": [],
-                    "isArrayNullable": true,
-                    "association": {
-                        "connectionType": "HAS_MANY",
-                        "associatedWith": "bankAccount"
-                    }
-                },
-                "bank": {
-                    "name": "bank",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "accountOwner": {
-                    "name": "accountOwner",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "name": {
-                    "name": "name",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "iban": {
-                    "name": "iban",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "bic": {
-                    "name": "bic",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "balance": {
-                    "name": "balance",
-                    "isArray": false,
-                    "type": "Float",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "biId": {
-                    "name": "biId",
-                    "isArray": false,
-                    "type": "Int",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "biConnectionId": {
-                    "name": "biConnectionId",
-                    "isArray": false,
-                    "type": "Int",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "biState": {
-                    "name": "biState",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "movements": {
-                    "name": "movements",
-                    "isArray": true,
-                    "type": {
-                        "model": "BankMovement"
-                    },
-                    "isRequired": false,
-                    "attributes": [],
-                    "isArrayNullable": true,
-                    "association": {
-                        "connectionType": "HAS_MANY",
-                        "associatedWith": "bankAccount"
-                    }
-                }
-            },
-            "syncable": true,
-            "pluralName": "BankAccounts",
-            "attributes": [
-                {
-                    "type": "model",
-                    "properties": {}
-                },
-                {
-                    "type": "key",
-                    "properties": {
-                        "name": "bankAccountByBiId",
-                        "fields": [
-                            "biId"
-                        ],
-                        "queryField": "listBankAccountByBiId"
-                    }
-                },
-                {
-                    "type": "key",
-                    "properties": {
-                        "name": "bankAccountByBiConnectionId",
-                        "fields": [
-                            "biConnectionId"
-                        ],
-                        "queryField": "listBankAccountByBiConnectionId"
-                    }
-                },
-                {
-                    "type": "auth",
-                    "properties": {
-                        "rules": [
-                            {
-                                "allow": "private",
-                                "operations": [
-                                    "create",
-                                    "update",
-                                    "delete",
-                                    "read"
-                                ]
-                            },
-                            {
-                                "allow": "private",
-                                "provider": "iam",
-                                "operations": [
-                                    "create",
-                                    "update",
-                                    "delete",
-                                    "read"
-                                ]
-                            }
-                        ]
-                    }
-                }
-            ]
-        },
-        "RealEstateBankAccount": {
-            "name": "RealEstateBankAccount",
-            "fields": {
-                "id": {
-                    "name": "id",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "realEstate": {
-                    "name": "realEstate",
-                    "isArray": false,
-                    "type": {
-                        "model": "RealEstate"
-                    },
-                    "isRequired": false,
-                    "attributes": [],
-                    "association": {
-                        "connectionType": "BELONGS_TO",
-                        "targetName": "realEstateId"
-                    }
-                },
-                "bankAccount": {
-                    "name": "bankAccount",
-                    "isArray": false,
-                    "type": {
-                        "model": "BankAccount"
-                    },
-                    "isRequired": true,
-                    "attributes": [],
-                    "association": {
-                        "connectionType": "BELONGS_TO",
-                        "targetName": "bankAccountId"
-                    }
-                }
-            },
-            "syncable": true,
-            "pluralName": "RealEstateBankAccounts",
-            "attributes": [
-                {
-                    "type": "model",
-                    "properties": {}
-                },
-                {
-                    "type": "key",
-                    "properties": {
-                        "name": "bankAccountByRealEstate",
-                        "fields": [
-                            "realEstateId",
-                            "bankAccountId"
-                        ]
-                    }
-                },
-                {
-                    "type": "key",
-                    "properties": {
-                        "name": "realEstateByBankAccount",
-                        "fields": [
-                            "bankAccountId",
-                            "realEstateId"
-                        ],
-                        "queryField": "listRealEstatesByBankAccount"
-                    }
-                },
-                {
-                    "type": "auth",
-                    "properties": {
-                        "rules": [
-                            {
-                                "allow": "private",
-                                "operations": [
-                                    "create",
-                                    "update",
-                                    "delete",
-                                    "read"
-                                ]
-                            },
-                            {
-                                "allow": "private",
-                                "provider": "iam",
-                                "operations": [
-                                    "create",
-                                    "update",
-                                    "delete",
-                                    "read"
-                                ]
-                            }
-                        ]
+                        "queryField": "listBankMovementsByBiId"
                     }
                 }
             ]
@@ -1009,15 +783,43 @@ export const schema = {
                     "type": "String",
                     "isRequired": false,
                     "attributes": []
+                },
+                "createdAt": {
+                    "name": "createdAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                },
+                "updatedAt": {
+                    "name": "updatedAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
                 }
             },
             "syncable": true,
             "pluralName": "BudgetLineDeadlines",
             "attributes": [
                 {
+                    "type": "model",
+                    "properties": {
+                        "queries": null,
+                        "mutations": {
+                            "create": "createBudgetLineDeadline",
+                            "update": null,
+                            "delete": null
+                        },
+                        "subscriptions": null
+                    }
+                },
+                {
                     "type": "key",
                     "properties": {
-                        "name": "budgetLineDeadlineByRealEstate",
+                        "name": "budgetLineDeadlinesByRealEstate",
                         "fields": [
                             "realEstateId",
                             "date"
@@ -1027,7 +829,7 @@ export const schema = {
                 {
                     "type": "key",
                     "properties": {
-                        "name": "budgetLineDeadlineByBudgetLine",
+                        "name": "budgetLineDeadlinesByBudgetLine",
                         "fields": [
                             "budgetLineId",
                             "date"
@@ -1037,40 +839,131 @@ export const schema = {
                 {
                     "type": "key",
                     "properties": {
-                        "name": "budgetLineDeadlineByBankMovement",
+                        "name": "budgetLineDeadlinesByBankMovement",
                         "fields": [
                             "bankMouvementId",
                             "date"
                         ]
                     }
+                }
+            ]
+        },
+        "BudgetLine": {
+            "name": "BudgetLine",
+            "fields": {
+                "id": {
+                    "name": "id",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
                 },
+                "realEstate": {
+                    "name": "realEstate",
+                    "isArray": false,
+                    "type": {
+                        "model": "RealEstate"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "association": {
+                        "connectionType": "BELONGS_TO",
+                        "targetName": "realEstateId"
+                    }
+                },
+                "type": {
+                    "name": "type",
+                    "isArray": false,
+                    "type": {
+                        "enum": "BudgetLineType"
+                    },
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "category": {
+                    "name": "category",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "amount": {
+                    "name": "amount",
+                    "isArray": false,
+                    "type": "Float",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "frequency": {
+                    "name": "frequency",
+                    "isArray": false,
+                    "type": {
+                        "enum": "Frequency"
+                    },
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "nextDueDate": {
+                    "name": "nextDueDate",
+                    "isArray": false,
+                    "type": "AWSDate",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "infoCredit": {
+                    "name": "infoCredit",
+                    "isArray": false,
+                    "type": {
+                        "nonModel": "MortgageLoanInfo"
+                    },
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "tenantId": {
+                    "name": "tenantId",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "createdAt": {
+                    "name": "createdAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                },
+                "updatedAt": {
+                    "name": "updatedAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                }
+            },
+            "syncable": true,
+            "pluralName": "BudgetLines",
+            "attributes": [
                 {
                     "type": "model",
-                    "properties": {}
+                    "properties": {
+                        "queries": null,
+                        "mutations": {
+                            "create": "createBudgetLine",
+                            "update": null,
+                            "delete": null
+                        },
+                        "subscriptions": null
+                    }
                 },
                 {
-                    "type": "auth",
+                    "type": "key",
                     "properties": {
-                        "rules": [
-                            {
-                                "allow": "private",
-                                "operations": [
-                                    "create",
-                                    "update",
-                                    "delete",
-                                    "read"
-                                ]
-                            },
-                            {
-                                "allow": "private",
-                                "provider": "iam",
-                                "operations": [
-                                    "create",
-                                    "update",
-                                    "delete",
-                                    "read"
-                                ]
-                            }
+                        "name": "budgetLinesByRealEstate",
+                        "fields": [
+                            "realEstateId"
                         ]
                     }
                 }
@@ -1126,15 +1019,35 @@ export const schema = {
                     "type": "AWSDateTime",
                     "isRequired": true,
                     "attributes": []
+                },
+                "updatedAt": {
+                    "name": "updatedAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
                 }
             },
             "syncable": true,
             "pluralName": "Documents",
             "attributes": [
                 {
+                    "type": "model",
+                    "properties": {
+                        "queries": null,
+                        "mutations": {
+                            "create": "createDocument",
+                            "update": null,
+                            "delete": null
+                        },
+                        "subscriptions": null
+                    }
+                },
+                {
                     "type": "key",
                     "properties": {
-                        "name": "documentByRealEstate",
+                        "name": "documentsByRealEstate",
                         "fields": [
                             "realEstateId",
                             "createdAt"
@@ -1144,41 +1057,11 @@ export const schema = {
                 {
                     "type": "key",
                     "properties": {
-                        "name": "documentByKey",
+                        "name": "documentsByKey",
                         "fields": [
                             "key"
                         ],
-                        "queryField": "documentByKey"
-                    }
-                },
-                {
-                    "type": "model",
-                    "properties": {}
-                },
-                {
-                    "type": "auth",
-                    "properties": {
-                        "rules": [
-                            {
-                                "allow": "private",
-                                "operations": [
-                                    "create",
-                                    "update",
-                                    "delete",
-                                    "read"
-                                ]
-                            },
-                            {
-                                "allow": "private",
-                                "provider": "iam",
-                                "operations": [
-                                    "create",
-                                    "update",
-                                    "delete",
-                                    "read"
-                                ]
-                            }
-                        ]
+                        "queryField": "documentsByKey"
                     }
                 }
             ]
@@ -1221,6 +1104,22 @@ export const schema = {
                     },
                     "isRequired": true,
                     "attributes": []
+                },
+                "createdAt": {
+                    "name": "createdAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                },
+                "updatedAt": {
+                    "name": "updatedAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
                 }
             },
             "syncable": true,
@@ -1229,7 +1128,7 @@ export const schema = {
                 {
                     "type": "key",
                     "properties": {
-                        "name": "pendingInvitationByRealEstate",
+                        "name": "pendingInvitationsByRealEstate",
                         "fields": [
                             "realEstateId"
                         ]
@@ -1238,11 +1137,11 @@ export const schema = {
                 {
                     "type": "key",
                     "properties": {
-                        "name": "pendingInvitationByEmail",
+                        "name": "pendingInvitationsByEmail",
                         "fields": [
                             "email"
                         ],
-                        "queryField": "pendingInvitationByEmail"
+                        "queryField": "pendingInvitationsByEmail"
                     }
                 },
                 {
@@ -1255,6 +1154,290 @@ export const schema = {
                         "rules": [
                             {
                                 "allow": "private",
+                                "operations": [
+                                    "create",
+                                    "update",
+                                    "delete",
+                                    "read"
+                                ]
+                            },
+                            {
+                                "allow": "private",
+                                "provider": "iam",
+                                "operations": [
+                                    "create",
+                                    "update",
+                                    "delete",
+                                    "read"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        "User": {
+            "name": "User",
+            "fields": {
+                "id": {
+                    "name": "id",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "lastname": {
+                    "name": "lastname",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "firstname": {
+                    "name": "firstname",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "avatarUri": {
+                    "name": "avatarUri",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "email": {
+                    "name": "email",
+                    "isArray": false,
+                    "type": "AWSEmail",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "privateProfile": {
+                    "name": "privateProfile",
+                    "isArray": false,
+                    "type": {
+                        "nonModel": "ProfileInfo"
+                    },
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "expoToken": {
+                    "name": "expoToken",
+                    "isArray": true,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": [],
+                    "isArrayNullable": true
+                },
+                "biUser": {
+                    "name": "biUser",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "biToken": {
+                    "name": "biToken",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "createdAt": {
+                    "name": "createdAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                },
+                "updatedAt": {
+                    "name": "updatedAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                }
+            },
+            "syncable": true,
+            "pluralName": "Users",
+            "attributes": [
+                {
+                    "type": "model",
+                    "properties": {}
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "name": "userByBiUser",
+                        "fields": [
+                            "biUser"
+                        ],
+                        "queryField": "userByBiUser"
+                    }
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "name": "userByEmail",
+                        "fields": [
+                            "email"
+                        ],
+                        "queryField": "userByEmail"
+                    }
+                },
+                {
+                    "type": "auth",
+                    "properties": {
+                        "rules": [
+                            {
+                                "provider": "userPools",
+                                "ownerField": "id",
+                                "allow": "owner",
+                                "identityClaim": "cognito:username",
+                                "operations": [
+                                    "create",
+                                    "update",
+                                    "delete",
+                                    "read"
+                                ]
+                            },
+                            {
+                                "allow": "private",
+                                "operations": [
+                                    "read"
+                                ]
+                            },
+                            {
+                                "allow": "private",
+                                "provider": "iam",
+                                "operations": [
+                                    "create",
+                                    "update",
+                                    "delete",
+                                    "read"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        "BillingHistory": {
+            "name": "BillingHistory",
+            "fields": {
+                "id": {
+                    "name": "id",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "userId": {
+                    "name": "userId",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "user": {
+                    "name": "user",
+                    "isArray": false,
+                    "type": {
+                        "model": "User"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "association": {
+                        "connectionType": "HAS_ONE",
+                        "associatedWith": "id",
+                        "targetName": "userId"
+                    }
+                },
+                "date": {
+                    "name": "date",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "nextRenewDate": {
+                    "name": "nextRenewDate",
+                    "isArray": false,
+                    "type": "AWSDate",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "subscription": {
+                    "name": "subscription",
+                    "isArray": false,
+                    "type": {
+                        "enum": "SubscriptionType"
+                    },
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "amount": {
+                    "name": "amount",
+                    "isArray": false,
+                    "type": "Float",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "paid": {
+                    "name": "paid",
+                    "isArray": false,
+                    "type": "Boolean",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "createdAt": {
+                    "name": "createdAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                },
+                "updatedAt": {
+                    "name": "updatedAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                }
+            },
+            "syncable": true,
+            "pluralName": "BillingHistories",
+            "attributes": [
+                {
+                    "type": "model",
+                    "properties": {}
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "name": "billingHistoriesByUser",
+                        "fields": [
+                            "userId",
+                            "date"
+                        ],
+                        "queryField": "listBillingHistoriesByUser"
+                    }
+                },
+                {
+                    "type": "auth",
+                    "properties": {
+                        "rules": [
+                            {
+                                "provider": "userPools",
+                                "ownerField": "userId",
+                                "allow": "owner",
+                                "identityClaim": "cognito:username",
                                 "operations": [
                                     "create",
                                     "update",
@@ -1342,6 +1525,14 @@ export const schema = {
                     "type": "AWSDateTime",
                     "isRequired": false,
                     "attributes": []
+                },
+                "updatedAt": {
+                    "name": "updatedAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
                 }
             },
             "syncable": true,
@@ -1354,128 +1545,12 @@ export const schema = {
                 {
                     "type": "key",
                     "properties": {
-                        "name": "notificationByUser",
+                        "name": "notificationsByUser",
                         "fields": [
                             "userId",
                             "createdAt"
-                        ]
-                    }
-                },
-                {
-                    "type": "auth",
-                    "properties": {
-                        "rules": [
-                            {
-                                "provider": "userPools",
-                                "ownerField": "userId",
-                                "allow": "owner",
-                                "identityClaim": "cognito:username",
-                                "operations": [
-                                    "create",
-                                    "update",
-                                    "delete",
-                                    "read"
-                                ]
-                            },
-                            {
-                                "allow": "private",
-                                "provider": "iam",
-                                "operations": [
-                                    "create",
-                                    "update",
-                                    "delete",
-                                    "read"
-                                ]
-                            }
-                        ]
-                    }
-                }
-            ]
-        },
-        "BillingHistory": {
-            "name": "BillingHistory",
-            "fields": {
-                "id": {
-                    "name": "id",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "userId": {
-                    "name": "userId",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "user": {
-                    "name": "user",
-                    "isArray": false,
-                    "type": {
-                        "model": "User"
-                    },
-                    "isRequired": false,
-                    "attributes": [],
-                    "association": {
-                        "connectionType": "HAS_ONE",
-                        "associatedWith": "id",
-                        "targetName": "userId"
-                    }
-                },
-                "date": {
-                    "name": "date",
-                    "isArray": false,
-                    "type": "AWSDateTime",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "nextRenewDate": {
-                    "name": "nextRenewDate",
-                    "isArray": false,
-                    "type": "AWSDate",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "subscription": {
-                    "name": "subscription",
-                    "isArray": false,
-                    "type": {
-                        "enum": "SubscriptionType"
-                    },
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "amount": {
-                    "name": "amount",
-                    "isArray": false,
-                    "type": "Float",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "paid": {
-                    "name": "paid",
-                    "isArray": false,
-                    "type": "Boolean",
-                    "isRequired": false,
-                    "attributes": []
-                }
-            },
-            "syncable": true,
-            "pluralName": "BillingHistories",
-            "attributes": [
-                {
-                    "type": "model",
-                    "properties": {}
-                },
-                {
-                    "type": "key",
-                    "properties": {
-                        "name": "billingHistoryByUser",
-                        "fields": [
-                            "userId",
-                            "date"
-                        ]
+                        ],
+                        "queryField": "listNotificationsByUser"
                     }
                 },
                 {
@@ -1536,6 +1611,22 @@ export const schema = {
                     "isRequired": true,
                     "attributes": [],
                     "isArrayNullable": true
+                },
+                "createdAt": {
+                    "name": "createdAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                },
+                "updatedAt": {
+                    "name": "updatedAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
                 }
             },
             "syncable": true,
@@ -1566,14 +1657,6 @@ export const schema = {
         }
     },
     "enums": {
-        "SubscriptionType": {
-            "name": "SubscriptionType",
-            "values": [
-                "OneToTwo",
-                "TreeToFive",
-                "MoreThanFive"
-            ]
-        },
         "RealEstateType": {
             "name": "RealEstateType",
             "values": [
@@ -1621,62 +1704,17 @@ export const schema = {
                 "Admin",
                 "ReadOnly"
             ]
+        },
+        "SubscriptionType": {
+            "name": "SubscriptionType",
+            "values": [
+                "OneToTwo",
+                "ThreeToFive",
+                "MoreThanFive"
+            ]
         }
     },
     "nonModels": {
-        "ProfileInfo": {
-            "name": "ProfileInfo",
-            "fields": {
-                "phoneNumber": {
-                    "name": "phoneNumber",
-                    "isArray": false,
-                    "type": "AWSPhone",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "optIn": {
-                    "name": "optIn",
-                    "isArray": false,
-                    "type": "Boolean",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "address": {
-                    "name": "address",
-                    "isArray": false,
-                    "type": {
-                        "nonModel": "Address"
-                    },
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "birthDate": {
-                    "name": "birthDate",
-                    "isArray": false,
-                    "type": "AWSDate",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "subscription": {
-                    "name": "subscription",
-                    "isArray": false,
-                    "type": {
-                        "enum": "SubscriptionType"
-                    },
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "notificationParams": {
-                    "name": "notificationParams",
-                    "isArray": false,
-                    "type": {
-                        "nonModel": "NotificationParams"
-                    },
-                    "isRequired": false,
-                    "attributes": []
-                }
-            }
-        },
         "Address": {
             "name": "Address",
             "fields": {
@@ -1713,102 +1751,6 @@ export const schema = {
                     "isArray": false,
                     "type": "String",
                     "isRequired": true,
-                    "attributes": []
-                }
-            }
-        },
-        "NotificationParams": {
-            "name": "NotificationParams",
-            "fields": {
-                "echeanceFacture": {
-                    "name": "echeanceFacture",
-                    "isArray": false,
-                    "type": {
-                        "nonModel": "NotificationParam"
-                    },
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "loyer": {
-                    "name": "loyer",
-                    "isArray": false,
-                    "type": {
-                        "nonModel": "NotificationParam"
-                    },
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "debitBancaire": {
-                    "name": "debitBancaire",
-                    "isArray": false,
-                    "type": {
-                        "nonModel": "NotificationParam"
-                    },
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "creditBancaire": {
-                    "name": "creditBancaire",
-                    "isArray": false,
-                    "type": {
-                        "nonModel": "NotificationParam"
-                    },
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "soldeNegatif": {
-                    "name": "soldeNegatif",
-                    "isArray": false,
-                    "type": {
-                        "nonModel": "NotificationParam"
-                    },
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "retardLoyer": {
-                    "name": "retardLoyer",
-                    "isArray": false,
-                    "type": {
-                        "nonModel": "NotificationParam"
-                    },
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "mauvaiseRenta": {
-                    "name": "mauvaiseRenta",
-                    "isArray": false,
-                    "type": {
-                        "nonModel": "NotificationParam"
-                    },
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "autre": {
-                    "name": "autre",
-                    "isArray": false,
-                    "type": {
-                        "nonModel": "NotificationParam"
-                    },
-                    "isRequired": false,
-                    "attributes": []
-                }
-            }
-        },
-        "NotificationParam": {
-            "name": "NotificationParam",
-            "fields": {
-                "push": {
-                    "name": "push",
-                    "isArray": false,
-                    "type": "Boolean",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "email": {
-                    "name": "email",
-                    "isArray": false,
-                    "type": "Boolean",
-                    "isRequired": false,
                     "attributes": []
                 }
             }
@@ -1997,6 +1939,155 @@ export const schema = {
                 }
             }
         },
+        "ProfileInfo": {
+            "name": "ProfileInfo",
+            "fields": {
+                "phoneNumber": {
+                    "name": "phoneNumber",
+                    "isArray": false,
+                    "type": "AWSPhone",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "optIn": {
+                    "name": "optIn",
+                    "isArray": false,
+                    "type": "Boolean",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "address": {
+                    "name": "address",
+                    "isArray": false,
+                    "type": {
+                        "nonModel": "Address"
+                    },
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "birthDate": {
+                    "name": "birthDate",
+                    "isArray": false,
+                    "type": "AWSDate",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "subscription": {
+                    "name": "subscription",
+                    "isArray": false,
+                    "type": {
+                        "enum": "SubscriptionType"
+                    },
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "notificationParams": {
+                    "name": "notificationParams",
+                    "isArray": false,
+                    "type": {
+                        "nonModel": "NotificationParams"
+                    },
+                    "isRequired": false,
+                    "attributes": []
+                }
+            }
+        },
+        "NotificationParams": {
+            "name": "NotificationParams",
+            "fields": {
+                "echeanceFacture": {
+                    "name": "echeanceFacture",
+                    "isArray": false,
+                    "type": {
+                        "nonModel": "NotificationParam"
+                    },
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "loyer": {
+                    "name": "loyer",
+                    "isArray": false,
+                    "type": {
+                        "nonModel": "NotificationParam"
+                    },
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "debitBancaire": {
+                    "name": "debitBancaire",
+                    "isArray": false,
+                    "type": {
+                        "nonModel": "NotificationParam"
+                    },
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "creditBancaire": {
+                    "name": "creditBancaire",
+                    "isArray": false,
+                    "type": {
+                        "nonModel": "NotificationParam"
+                    },
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "soldeNegatif": {
+                    "name": "soldeNegatif",
+                    "isArray": false,
+                    "type": {
+                        "nonModel": "NotificationParam"
+                    },
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "retardLoyer": {
+                    "name": "retardLoyer",
+                    "isArray": false,
+                    "type": {
+                        "nonModel": "NotificationParam"
+                    },
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "mauvaiseRenta": {
+                    "name": "mauvaiseRenta",
+                    "isArray": false,
+                    "type": {
+                        "nonModel": "NotificationParam"
+                    },
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "autre": {
+                    "name": "autre",
+                    "isArray": false,
+                    "type": {
+                        "nonModel": "NotificationParam"
+                    },
+                    "isRequired": false,
+                    "attributes": []
+                }
+            }
+        },
+        "NotificationParam": {
+            "name": "NotificationParam",
+            "fields": {
+                "push": {
+                    "name": "push",
+                    "isArray": false,
+                    "type": "Boolean",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "email": {
+                    "name": "email",
+                    "isArray": false,
+                    "type": "Boolean",
+                    "isRequired": false,
+                    "attributes": []
+                }
+            }
+        },
         "UserToken": {
             "name": "UserToken",
             "fields": {
@@ -2017,5 +2108,5 @@ export const schema = {
             }
         }
     },
-    "version": "6c81f7b8e4fa34ed659819a462868683"
+    "version": "c1cae6a5694e03a97ac56a00dd4294be"
 };

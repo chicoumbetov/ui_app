@@ -1,7 +1,7 @@
 {
   "permissions": {
     "auth": {
-      "omedomfee3bfe0": [
+      "omedomc071f696": [
         "read"
       ]
     },
@@ -15,13 +15,17 @@
   "lambdaLayers": [
     {
       "type": "ProjectLayer",
-      "resourceName": "budgetinsightlayer",
-      "version": 10
+      "resourceName": "omedomGraphQLLayer",
+      "env": "dev",
+      "version": "Always choose latest version",
+      "isLatestVersionSelected": true
     },
     {
       "type": "ProjectLayer",
-      "resourceName": "graphqllayer",
-      "version": 15
+      "resourceName": "omedomBudgetInsightLayer",
+      "env": "dev",
+      "version": "Always choose latest version",
+      "isLatestVersionSelected": true
     }
   ]
 }

@@ -93,7 +93,7 @@ type Document
     subscriptions: null
 )
 @key(name: "documentsByRealEstate", fields: ["realEstateId", "createdAt"])
-@key(name: "documentByKey", fields: ["key"], queryField: "documentByKey") {
+@key(name: "documentsByKey", fields: ["key"], queryField: "documentsByKey") {
   id: ID!
   realEstateId: ID!
   realEstate: RealEstate @connection (fields: ["realEstateId"])
@@ -112,14 +112,14 @@ type BankAccount
     )
     @auth(rules: [{ allow: owner, ownerField: "accountOwner" }])
     @key(
-        name: "bankAccountByBiId"
+        name: "bankAccountsByBiId"
         fields: ["biId"]
-        queryField: "listBankAccountByBiId"
+        queryField: "listBankAccountsByBiId"
     )
     @key(
-        name: "bankAccountByBiConnectionId"
+        name: "bankAccountsByBiConnectionId"
         fields: ["biConnectionId"]
-        queryField: "listBankAccountByBiConnectionId"
+        queryField: "listBankAccountsByBiConnectionId"
     ) {
     id: ID!
     bank: String
@@ -134,7 +134,7 @@ type BankAccount
         @connection(keyName: "realEstatesByBankAccount", fields: ["id"])
     movements: [BankMovement]
         @connection(keyName:"bankMovementsByBankAccount", fields: ["id"])
-    accountOwner: ID!
+    accountOwner: String
 }
 
 #should only be available for all operations to users in the admins field of RealEstate (linked by BankAccount and RealEstateBankAccount) model
@@ -157,7 +157,7 @@ type BankMovement
     @key(
         name: "bankMovementsByBiId"
         fields: ["biId"]
-        queryField:"listBankMovementByBiId"
+        queryField:"listBankMovementsByBiId"
     ) {
     id: ID!
     bankAccountId: ID!
@@ -179,8 +179,11 @@ type BillingHistory
         {allow: owner, ownerField: "userId" }
         { allow: private, provider: iam }
     ])
-    @key(name: "billingHistoryByUser", fields: ["userId","date"])
-    {
+    @key(
+        name: "billingHistoriesByUser"
+        fields: ["userId","date"]
+        queryField:"listBillingHistoriesByUser"
+    ) {
     id: ID!
     userId: ID!
     user: User @connection (fields: ["userId"])
@@ -260,7 +263,7 @@ type Notification
     @key(
         name: "notificationsByUser"
         fields: ["userId","createdAt"]
-        queryField: "getNotificationsByUser"
+        queryField: "listNotificationsByUser"
     ) {
     id: ID!
     userId: ID!
@@ -498,6 +501,7 @@ input UpdateBankAccountInput {
     biId: Int
     biConnectionId: Int
     biState: String
+    _version: Int
 }
 input DeleteBankAccountInput {
     id: ID!
@@ -513,6 +517,7 @@ input UpdateBankMovementInput {
     budgetLineDeadlineId: ID
     ignored: Boolean
     date: AWSDate
+    _version: Int
 }
 input DeleteBankMovementInput {
     id: ID!
@@ -521,13 +526,14 @@ input DeleteBankMovementInput {
 input UpdateBudgetLineInput {
     id: ID!
     realEstateId: ID
-    type: BudgetLineTypeEnum
+    type: BudgetLineType
     category: String
     amount: Float
-    frequency: FrequencyEnum
+    frequency: Frequency
     nextDueDate: AWSDate
     infoCredit: MortgageLoanInfoInput
     tenantId: String
+    _version: Int
 }
 
 input MortgageLoanInfoInput {
@@ -556,13 +562,14 @@ input UpdateBudgetLineDeadlineInput {
     realEstateId: ID
     bankMouvementId: ID
     budgetLineId: ID
-    type: BudgetLineTypeEnum
+    type: BudgetLineType
     category: String
     amount: Float
-    frequency: FrequencyEnum
+    frequency: Frequency
     date: AWSDate
     infoCredit: MortgageLoanDeadlineInfoInput
     tenantId: String
+    _version: Int
 }
 input MortgageLoanDeadlineInfoInput {
     amount: Float
@@ -579,6 +586,7 @@ input UpdateDocumentInput {
     name: String
     key: String
     s3file: String
+    _version: Int
 }
 input DeleteDocumentInput {
     id: ID!
@@ -588,6 +596,7 @@ input UpdateRealEstateBankAccountInput {
     id: ID!
     realEstateId: ID
     bankAccountId: ID
+    _version: Int
 }
 input DeleteRealEstateBankAccountInput {
     id: ID!

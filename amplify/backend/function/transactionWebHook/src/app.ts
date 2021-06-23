@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and limitations 
 Amplify Params - DO NOT EDIT */
 
 import {
-  getBankAccountByBIId,
+  getBankAccountsByBIId,
   listBankAccountsByBIConnectionId,
 } from '/opt/nodejs/src/BankAccountQueries';
 import getAppSyncClient from '/opt/nodejs/src/AppSyncClient';
@@ -63,7 +63,7 @@ app.post('/webhooks/account-synced', async (req, res) => {
   console.log(req.body);
   const AppSyncClient = getAppSyncClient(process.env);
 
-  let account = await getBankAccountByBIId(AppSyncClient, id);
+  let account = await getBankAccountsByBIId(AppSyncClient, id);
   let justCreated = false;
   if (!account) {
     account = await createBankAccount(AppSyncClient, {

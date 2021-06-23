@@ -24,21 +24,13 @@
       "Type": "String",
       "Default": "apiomedomGraphQLAPIEndpointOutput"
     },
-    "apiomedomrestApiName": {
+    "functionomedomGraphQLLayerArn": {
       "Type": "String",
-      "Default": "apiomedomrestApiName"
+      "Default": "functionomedomGraphQLLayerArn"
     },
-    "apiomedomrestApiId": {
+    "functionomedomSESLayerArn": {
       "Type": "String",
-      "Default": "apiomedomrestApiId"
-    },
-    "functiongraphqllayerArn": {
-      "Type": "String",
-      "Default": "functiongraphqllayerArn"
-    },
-    "functionseslayerArn": {
-      "Type": "String",
-      "Default": "functionseslayerArn"
+      "Default": "functionomedomSESLayerArn"
     }
   },
   "Conditions": {
@@ -99,12 +91,6 @@
             },
             "API_OMEDOM_GRAPHQLAPIENDPOINTOUTPUT": {
               "Ref": "apiomedomGraphQLAPIEndpointOutput"
-            },
-            "API_OMEDOMREST_APINAME": {
-              "Ref": "apiomedomrestApiName"
-            },
-            "API_OMEDOMREST_APIID": {
-              "Ref": "apiomedomrestApiId"
             }
           }
         },
@@ -117,10 +103,10 @@
         "Runtime": "nodejs14.x",
         "Layers": [
           {
-            "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:layer:seslayer-dev:8"
+            "Ref": "functionomedomGraphQLLayerArn"
           },
           {
-            "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:layer:graphqllayer-dev:15"
+            "Ref": "functionomedomSESLayerArn"
           }
         ],
         "Timeout": "25"
@@ -132,12 +118,12 @@
         "RoleName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "omedomLambdaRolea1b74253",
+            "omedomLambdaRoled2d0e59f",
             {
               "Fn::Join": [
                 "",
                 [
-                  "omedomLambdaRolea1b74253",
+                  "omedomLambdaRoled2d0e59f",
                   "-",
                   {
                     "Ref": "env"
@@ -208,118 +194,6 @@
         }
       }
     },
-    "LambdaTriggerPolicyRealEstate": {
-      "DependsOn": [
-        "LambdaExecutionRole"
-      ],
-      "Type": "AWS::IAM::Policy",
-      "Properties": {
-        "PolicyName": "amplify-lambda-execution-policy-RealEstate",
-        "Roles": [
-          {
-            "Ref": "LambdaExecutionRole"
-          }
-        ],
-        "PolicyDocument": {
-          "Version": "2012-10-17",
-          "Statement": [
-            {
-              "Effect": "Allow",
-              "Action": [
-                "dynamodb:DescribeStream",
-                "dynamodb:GetRecords",
-                "dynamodb:GetShardIterator",
-                "dynamodb:ListStreams"
-              ],
-              "Resource": {
-                "Fn::ImportValue": {
-                  "Fn::Sub": "${apiomedomGraphQLAPIIdOutput}:GetAtt:RealEstateTable:StreamArn"
-                }
-              }
-            }
-          ]
-        }
-      }
-    },
-    "LambdaEventSourceMappingRealEstate": {
-      "Type": "AWS::Lambda::EventSourceMapping",
-      "DependsOn": [
-        "LambdaTriggerPolicyRealEstate",
-        "LambdaExecutionRole"
-      ],
-      "Properties": {
-        "BatchSize": 100,
-        "Enabled": true,
-        "EventSourceArn": {
-          "Fn::ImportValue": {
-            "Fn::Sub": "${apiomedomGraphQLAPIIdOutput}:GetAtt:RealEstateTable:StreamArn"
-          }
-        },
-        "FunctionName": {
-          "Fn::GetAtt": [
-            "LambdaFunction",
-            "Arn"
-          ]
-        },
-        "StartingPosition": "LATEST"
-      }
-    },
-    "LambdaTriggerPolicyPendingInvitation": {
-      "DependsOn": [
-        "LambdaExecutionRole"
-      ],
-      "Type": "AWS::IAM::Policy",
-      "Properties": {
-        "PolicyName": "amplify-lambda-execution-policy-PendingInvitation",
-        "Roles": [
-          {
-            "Ref": "LambdaExecutionRole"
-          }
-        ],
-        "PolicyDocument": {
-          "Version": "2012-10-17",
-          "Statement": [
-            {
-              "Effect": "Allow",
-              "Action": [
-                "dynamodb:DescribeStream",
-                "dynamodb:GetRecords",
-                "dynamodb:GetShardIterator",
-                "dynamodb:ListStreams"
-              ],
-              "Resource": {
-                "Fn::ImportValue": {
-                  "Fn::Sub": "${apiomedomGraphQLAPIIdOutput}:GetAtt:PendingInvitationTable:StreamArn"
-                }
-              }
-            }
-          ]
-        }
-      }
-    },
-    "LambdaEventSourceMappingPendingInvitation": {
-      "Type": "AWS::Lambda::EventSourceMapping",
-      "DependsOn": [
-        "LambdaTriggerPolicyPendingInvitation",
-        "LambdaExecutionRole"
-      ],
-      "Properties": {
-        "BatchSize": 100,
-        "Enabled": true,
-        "EventSourceArn": {
-          "Fn::ImportValue": {
-            "Fn::Sub": "${apiomedomGraphQLAPIIdOutput}:GetAtt:PendingInvitationTable:StreamArn"
-          }
-        },
-        "FunctionName": {
-          "Fn::GetAtt": [
-            "LambdaFunction",
-            "Arn"
-          ]
-        },
-        "StartingPosition": "LATEST"
-      }
-    },
     "AmplifyResourcesPolicy": {
       "DependsOn": [
         "LambdaExecutionRole"
@@ -382,39 +256,65 @@
                   ]
                 }
               ]
-            },
-            {
-              "Effect": "Allow",
-              "Action": [
-                "apigateway:POST",
-                "apigateway:PUT",
-                "apigateway:GET",
-                "apigateway:HEAD",
-                "apigateway:OPTIONS",
-                "apigateway:PATCH",
-                "apigateway:DELETE"
-              ],
-              "Resource": [
-                {
-                  "Fn::Join": [
-                    "",
-                    [
-                      "arn:aws:apigateway:",
-                      {
-                        "Ref": "AWS::Region"
-                      },
-                      "::/restapis/",
-                      {
-                        "Ref": "apiomedomrestApiName"
-                      },
-                      "/*"
-                    ]
-                  ]
-                }
-              ]
             }
           ]
         }
+      }
+    },
+    "LambdaTriggerPolicyPendingInvitation": {
+      "DependsOn": [
+        "LambdaExecutionRole"
+      ],
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyName": "amplify-lambda-execution-policy-PendingInvitation",
+        "Roles": [
+          {
+            "Ref": "LambdaExecutionRole"
+          }
+        ],
+        "PolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Action": [
+                "dynamodb:DescribeStream",
+                "dynamodb:GetRecords",
+                "dynamodb:GetShardIterator",
+                "dynamodb:ListStreams"
+              ],
+              "Resource": {
+                "Fn::ImportValue": {
+                  "Fn::Sub": "${apiomedomGraphQLAPIIdOutput}:GetAtt:PendingInvitationTable:StreamArn"
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    "LambdaEventSourceMappingPendingInvitation": {
+      "Type": "AWS::Lambda::EventSourceMapping",
+      "DependsOn": [
+        "LambdaTriggerPolicyPendingInvitation",
+        "LambdaExecutionRole"
+      ],
+      "Properties": {
+        "BatchSize": 100,
+        "Enabled": true,
+        "EventSourceArn": {
+          "Fn::ImportValue": {
+            "Fn::Sub": "${apiomedomGraphQLAPIIdOutput}:GetAtt:PendingInvitationTable:StreamArn"
+          }
+        },
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "LambdaFunction",
+            "Arn"
+          ]
+        },
+        "StartingPosition": "LATEST"
       }
     }
   },

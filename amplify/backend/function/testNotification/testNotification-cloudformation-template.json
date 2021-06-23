@@ -96,12 +96,12 @@
         "RoleName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "omedomLambdaRolea24643e0",
+            "omedomLambdaRole7f486429",
             {
               "Fn::Join": [
                 "",
                 [
-                  "omedomLambdaRolea24643e0",
+                  "omedomLambdaRole7f486429",
                   "-",
                   {
                     "Ref": "env"

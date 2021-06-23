@@ -16,9 +16,9 @@
     "s3Key": {
       "Type": "String"
     },
-    "authomedomfee3bfe0UserPoolId": {
+    "authomedomc071f696UserPoolId": {
       "Type": "String",
-      "Default": "authomedomfee3bfe0UserPoolId"
+      "Default": "authomedomc071f696UserPoolId"
     },
     "apiomedomGraphQLAPIIdOutput": {
       "Type": "String",
@@ -28,13 +28,13 @@
       "Type": "String",
       "Default": "apiomedomGraphQLAPIEndpointOutput"
     },
-    "functionbudgetinsightlayerArn": {
+    "functionomedomGraphQLLayerArn": {
       "Type": "String",
-      "Default": "functionbudgetinsightlayerArn"
+      "Default": "functionomedomGraphQLLayerArn"
     },
-    "functiongraphqllayerArn": {
+    "functionomedomBudgetInsightLayerArn": {
       "Type": "String",
-      "Default": "functiongraphqllayerArn"
+      "Default": "functionomedomBudgetInsightLayerArn"
     }
   },
   "Conditions": {
@@ -90,8 +90,8 @@
             "REGION": {
               "Ref": "AWS::Region"
             },
-            "AUTH_OMEDOMFEE3BFE0_USERPOOLID": {
-              "Ref": "authomedomfee3bfe0UserPoolId"
+            "AUTH_OMEDOMC071F696_USERPOOLID": {
+              "Ref": "authomedomc071f696UserPoolId"
             },
             "API_OMEDOM_GRAPHQLAPIIDOUTPUT": {
               "Ref": "apiomedomGraphQLAPIIdOutput"
@@ -110,10 +110,10 @@
         "Runtime": "nodejs14.x",
         "Layers": [
           {
-            "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:layer:budgetinsightlayer-dev:10"
+            "Ref": "functionomedomGraphQLLayerArn"
           },
           {
-            "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:layer:graphqllayer-dev:15"
+            "Ref": "functionomedomBudgetInsightLayerArn"
           }
         ],
         "Timeout": "25"
@@ -125,12 +125,12 @@
         "RoleName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "omedomLambdaRole9fb3192a",
+            "omedomLambdaRole327a3b3e",
             {
               "Fn::Join": [
                 "",
                 [
-                  "omedomLambdaRole9fb3192a",
+                  "omedomLambdaRole327a3b3e",
                   "-",
                   {
                     "Ref": "env"
@@ -316,7 +316,7 @@
                       },
                       ":userpool/",
                       {
-                        "Ref": "authomedomfee3bfe0UserPoolId"
+                        "Ref": "authomedomc071f696UserPoolId"
                       }
                     ]
                   ]

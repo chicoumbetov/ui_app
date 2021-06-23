@@ -10,7 +10,7 @@
   "lambdaLayers": [
     {
       "type": "ProjectLayer",
-      "resourceName": "graphqllayer",
+      "resourceName": "omedomGraphQLLayer",
       "env": "dev",
       "version": "Always choose latest version",
       "isLatestVersionSelected": true

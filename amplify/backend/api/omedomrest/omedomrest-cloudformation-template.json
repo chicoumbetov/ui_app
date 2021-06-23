@@ -620,7 +620,7 @@
         
         
 
-      "DeploymentAPIGWomedomrestb0c34f15": {
+      "DeploymentAPIGWomedomrest": {
         "Type": "AWS::ApiGateway::Deployment",
         "Properties": {
           "Description": "The Development stage deployment of your API.",

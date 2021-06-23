@@ -2,439 +2,19 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const createUser = /* GraphQL */ `
-  mutation CreateUser(
-    $input: CreateUserInput!
-    $condition: ModelUserConditionInput
-  ) {
-    createUser(input: $input, condition: $condition) {
+export const updateBankAccount = /* GraphQL */ `
+  mutation UpdateBankAccount($input: UpdateBankAccountInput!) {
+    updateBankAccount(input: $input) {
       id
-      lastname
-      firstname
-      avatarUri
-      _version
-      _deleted
-      _lastChangedAt
-      createdAt
-      updatedAt
-      email
-      privateProfile {
-        phoneNumber
-        optIn
-        address {
-          address
-          additionalAddress
-          postalCode
-          city
-          country
-        }
-        birthDate
-        subscription
-        notificationParams {
-          echeanceFacture {
-            push
-            email
-          }
-          loyer {
-            push
-            email
-          }
-          debitBancaire {
-            push
-            email
-          }
-          creditBancaire {
-            push
-            email
-          }
-          soldeNegatif {
-            push
-            email
-          }
-          retardLoyer {
-            push
-            email
-          }
-          mauvaiseRenta {
-            push
-            email
-          }
-          autre {
-            push
-            email
-          }
-        }
-      }
-      expoToken
-      biUser
-      biToken
-    }
-  }
-`;
-export const updateUser = /* GraphQL */ `
-  mutation UpdateUser(
-    $input: UpdateUserInput!
-    $condition: ModelUserConditionInput
-  ) {
-    updateUser(input: $input, condition: $condition) {
-      id
-      lastname
-      firstname
-      avatarUri
-      _version
-      _deleted
-      _lastChangedAt
-      createdAt
-      updatedAt
-      email
-      privateProfile {
-        phoneNumber
-        optIn
-        address {
-          address
-          additionalAddress
-          postalCode
-          city
-          country
-        }
-        birthDate
-        subscription
-        notificationParams {
-          echeanceFacture {
-            push
-            email
-          }
-          loyer {
-            push
-            email
-          }
-          debitBancaire {
-            push
-            email
-          }
-          creditBancaire {
-            push
-            email
-          }
-          soldeNegatif {
-            push
-            email
-          }
-          retardLoyer {
-            push
-            email
-          }
-          mauvaiseRenta {
-            push
-            email
-          }
-          autre {
-            push
-            email
-          }
-        }
-      }
-      expoToken
-      biUser
-      biToken
-    }
-  }
-`;
-export const deleteUser = /* GraphQL */ `
-  mutation DeleteUser(
-    $input: DeleteUserInput!
-    $condition: ModelUserConditionInput
-  ) {
-    deleteUser(input: $input, condition: $condition) {
-      id
-      lastname
-      firstname
-      avatarUri
-      _version
-      _deleted
-      _lastChangedAt
-      createdAt
-      updatedAt
-      email
-      privateProfile {
-        phoneNumber
-        optIn
-        address {
-          address
-          additionalAddress
-          postalCode
-          city
-          country
-        }
-        birthDate
-        subscription
-        notificationParams {
-          echeanceFacture {
-            push
-            email
-          }
-          loyer {
-            push
-            email
-          }
-          debitBancaire {
-            push
-            email
-          }
-          creditBancaire {
-            push
-            email
-          }
-          soldeNegatif {
-            push
-            email
-          }
-          retardLoyer {
-            push
-            email
-          }
-          mauvaiseRenta {
-            push
-            email
-          }
-          autre {
-            push
-            email
-          }
-        }
-      }
-      expoToken
-      biUser
-      biToken
-    }
-  }
-`;
-export const createRealEstate = /* GraphQL */ `
-  mutation CreateRealEstate(
-    $input: CreateRealEstateInput!
-    $condition: ModelRealEstateConditionInput
-  ) {
-    createRealEstate(input: $input, condition: $condition) {
-      id
+      bank
       name
-      iconUri
-      purchaseYear
-      type
-      ownName
-      company
-      detentionPart
-      typeImpot
-      admins
-      shared
-      address {
-        address
-        additionalAddress
-        postalCode
-        city
-        country
-      }
-      tenants {
-        id
-        amount
-        rentalCharges
-        managementFees
-        lastname
-        firstname
-        email
-        startDate
-        endDate
-      }
-      _version
-      _deleted
-      _lastChangedAt
-      createdAt
-      updatedAt
-      pendingInvitations {
-        items {
-          id
-          realEstateId
-          email
-          type
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-          realEstate {
-            id
-            name
-            iconUri
-            purchaseYear
-            type
-            ownName
-            company
-            detentionPart
-            typeImpot
-            admins
-            shared
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-        }
-        nextToken
-        startedAt
-      }
-      documents {
-        items {
-          id
-          realEstateId
-          name
-          key
-          s3file
-          createdAt
-          _version
-          _deleted
-          _lastChangedAt
-          updatedAt
-          realEstate {
-            id
-            name
-            iconUri
-            purchaseYear
-            type
-            ownName
-            company
-            detentionPart
-            typeImpot
-            admins
-            shared
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-        }
-        nextToken
-        startedAt
-      }
-      budgetLines {
-        items {
-          id
-          realEstateId
-          type
-          category
-          amount
-          frequency
-          nextDueDate
-          infoCredit {
-            borrowedCapital
-            loadStartDate
-            duration
-            interestRate
-            assuranceRate
-          }
-          tenantId
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-          realEstate {
-            id
-            name
-            iconUri
-            purchaseYear
-            type
-            ownName
-            company
-            detentionPart
-            typeImpot
-            admins
-            shared
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-        }
-        nextToken
-        startedAt
-      }
-      budgetLineDeadlines {
-        items {
-          id
-          realEstateId
-          bankMouvementId
-          budgetLineId
-          type
-          category
-          amount
-          frequency
-          date
-          infoCredit {
-            amount
-            interest
-            assurance
-          }
-          tenantId
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-          realEstate {
-            id
-            name
-            iconUri
-            purchaseYear
-            type
-            ownName
-            company
-            detentionPart
-            typeImpot
-            admins
-            shared
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          budgetLine {
-            id
-            realEstateId
-            type
-            category
-            amount
-            frequency
-            nextDueDate
-            tenantId
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          bankMouvement {
-            id
-            bankAccountId
-            realEstateId
-            biId
-            description
-            amount
-            ignored
-            date
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-        }
-        nextToken
-        startedAt
-      }
-      bankAccounts {
+      iban
+      bic
+      balance
+      biId
+      biConnectionId
+      biState
+      realEstates {
         items {
           id
           realEstateId
@@ -444,46 +24,11 @@ export const createRealEstate = /* GraphQL */ `
           _lastChangedAt
           createdAt
           updatedAt
-          realEstate {
-            id
-            name
-            iconUri
-            purchaseYear
-            type
-            ownName
-            company
-            detentionPart
-            typeImpot
-            admins
-            shared
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          bankAccount {
-            id
-            bank
-            accountOwner
-            name
-            iban
-            bic
-            balance
-            biId
-            biConnectionId
-            biState
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
         }
         nextToken
         startedAt
       }
-      bankMovements {
+      movements {
         items {
           id
           bankAccountId
@@ -498,278 +43,32 @@ export const createRealEstate = /* GraphQL */ `
           _lastChangedAt
           createdAt
           updatedAt
-          realEstate {
-            id
-            name
-            iconUri
-            purchaseYear
-            type
-            ownName
-            company
-            detentionPart
-            typeImpot
-            admins
-            shared
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          budgetLineDeadline {
-            nextToken
-            startedAt
-          }
-          bankAccount {
-            id
-            bank
-            accountOwner
-            name
-            iban
-            bic
-            balance
-            biId
-            biConnectionId
-            biState
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
         }
         nextToken
         startedAt
       }
-    }
-  }
-`;
-export const updateRealEstate = /* GraphQL */ `
-  mutation UpdateRealEstate(
-    $input: UpdateRealEstateInput!
-    $condition: ModelRealEstateConditionInput
-  ) {
-    updateRealEstate(input: $input, condition: $condition) {
-      id
-      name
-      iconUri
-      purchaseYear
-      type
-      ownName
-      company
-      detentionPart
-      typeImpot
-      admins
-      shared
-      address {
-        address
-        additionalAddress
-        postalCode
-        city
-        country
-      }
-      tenants {
-        id
-        amount
-        rentalCharges
-        managementFees
-        lastname
-        firstname
-        email
-        startDate
-        endDate
-      }
+      accountOwner
       _version
       _deleted
       _lastChangedAt
       createdAt
       updatedAt
-      pendingInvitations {
-        items {
-          id
-          realEstateId
-          email
-          type
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-          realEstate {
-            id
-            name
-            iconUri
-            purchaseYear
-            type
-            ownName
-            company
-            detentionPart
-            typeImpot
-            admins
-            shared
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-        }
-        nextToken
-        startedAt
-      }
-      documents {
-        items {
-          id
-          realEstateId
-          name
-          key
-          s3file
-          createdAt
-          _version
-          _deleted
-          _lastChangedAt
-          updatedAt
-          realEstate {
-            id
-            name
-            iconUri
-            purchaseYear
-            type
-            ownName
-            company
-            detentionPart
-            typeImpot
-            admins
-            shared
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-        }
-        nextToken
-        startedAt
-      }
-      budgetLines {
-        items {
-          id
-          realEstateId
-          type
-          category
-          amount
-          frequency
-          nextDueDate
-          infoCredit {
-            borrowedCapital
-            loadStartDate
-            duration
-            interestRate
-            assuranceRate
-          }
-          tenantId
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-          realEstate {
-            id
-            name
-            iconUri
-            purchaseYear
-            type
-            ownName
-            company
-            detentionPart
-            typeImpot
-            admins
-            shared
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-        }
-        nextToken
-        startedAt
-      }
-      budgetLineDeadlines {
-        items {
-          id
-          realEstateId
-          bankMouvementId
-          budgetLineId
-          type
-          category
-          amount
-          frequency
-          date
-          infoCredit {
-            amount
-            interest
-            assurance
-          }
-          tenantId
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-          realEstate {
-            id
-            name
-            iconUri
-            purchaseYear
-            type
-            ownName
-            company
-            detentionPart
-            typeImpot
-            admins
-            shared
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          budgetLine {
-            id
-            realEstateId
-            type
-            category
-            amount
-            frequency
-            nextDueDate
-            tenantId
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          bankMouvement {
-            id
-            bankAccountId
-            realEstateId
-            biId
-            description
-            amount
-            ignored
-            date
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-        }
-        nextToken
-        startedAt
-      }
-      bankAccounts {
+    }
+  }
+`;
+export const deleteBankAccount = /* GraphQL */ `
+  mutation DeleteBankAccount($input: DeleteBankAccountInput!) {
+    deleteBankAccount(input: $input) {
+      id
+      bank
+      name
+      iban
+      bic
+      balance
+      biId
+      biConnectionId
+      biState
+      realEstates {
         items {
           id
           realEstateId
@@ -779,46 +78,11 @@ export const updateRealEstate = /* GraphQL */ `
           _lastChangedAt
           createdAt
           updatedAt
-          realEstate {
-            id
-            name
-            iconUri
-            purchaseYear
-            type
-            ownName
-            company
-            detentionPart
-            typeImpot
-            admins
-            shared
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          bankAccount {
-            id
-            bank
-            accountOwner
-            name
-            iban
-            bic
-            balance
-            biId
-            biConnectionId
-            biState
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
         }
         nextToken
         startedAt
       }
-      bankMovements {
+      movements {
         items {
           id
           bankAccountId
@@ -833,397 +97,76 @@ export const updateRealEstate = /* GraphQL */ `
           _lastChangedAt
           createdAt
           updatedAt
-          realEstate {
-            id
-            name
-            iconUri
-            purchaseYear
-            type
-            ownName
-            company
-            detentionPart
-            typeImpot
-            admins
-            shared
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          budgetLineDeadline {
-            nextToken
-            startedAt
-          }
-          bankAccount {
-            id
-            bank
-            accountOwner
-            name
-            iban
-            bic
-            balance
-            biId
-            biConnectionId
-            biState
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
         }
         nextToken
         startedAt
       }
-    }
-  }
-`;
-export const deleteRealEstate = /* GraphQL */ `
-  mutation DeleteRealEstate(
-    $input: DeleteRealEstateInput!
-    $condition: ModelRealEstateConditionInput
-  ) {
-    deleteRealEstate(input: $input, condition: $condition) {
-      id
-      name
-      iconUri
-      purchaseYear
-      type
-      ownName
-      company
-      detentionPart
-      typeImpot
-      admins
-      shared
-      address {
-        address
-        additionalAddress
-        postalCode
-        city
-        country
-      }
-      tenants {
-        id
-        amount
-        rentalCharges
-        managementFees
-        lastname
-        firstname
-        email
-        startDate
-        endDate
-      }
+      accountOwner
       _version
       _deleted
       _lastChangedAt
       createdAt
       updatedAt
-      pendingInvitations {
-        items {
-          id
-          realEstateId
-          email
-          type
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-          realEstate {
-            id
-            name
-            iconUri
-            purchaseYear
-            type
-            ownName
-            company
-            detentionPart
-            typeImpot
-            admins
-            shared
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-        }
-        nextToken
-        startedAt
-      }
-      documents {
-        items {
-          id
-          realEstateId
-          name
-          key
-          s3file
-          createdAt
-          _version
-          _deleted
-          _lastChangedAt
-          updatedAt
-          realEstate {
-            id
-            name
-            iconUri
-            purchaseYear
-            type
-            ownName
-            company
-            detentionPart
-            typeImpot
-            admins
-            shared
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-        }
-        nextToken
-        startedAt
-      }
-      budgetLines {
-        items {
-          id
-          realEstateId
-          type
-          category
-          amount
-          frequency
-          nextDueDate
-          infoCredit {
-            borrowedCapital
-            loadStartDate
-            duration
-            interestRate
-            assuranceRate
-          }
-          tenantId
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-          realEstate {
-            id
-            name
-            iconUri
-            purchaseYear
-            type
-            ownName
-            company
-            detentionPart
-            typeImpot
-            admins
-            shared
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-        }
-        nextToken
-        startedAt
-      }
-      budgetLineDeadlines {
-        items {
-          id
-          realEstateId
-          bankMouvementId
-          budgetLineId
-          type
-          category
-          amount
-          frequency
-          date
-          infoCredit {
-            amount
-            interest
-            assurance
-          }
-          tenantId
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-          realEstate {
-            id
-            name
-            iconUri
-            purchaseYear
-            type
-            ownName
-            company
-            detentionPart
-            typeImpot
-            admins
-            shared
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          budgetLine {
-            id
-            realEstateId
-            type
-            category
-            amount
-            frequency
-            nextDueDate
-            tenantId
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          bankMouvement {
-            id
-            bankAccountId
-            realEstateId
-            biId
-            description
-            amount
-            ignored
-            date
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-        }
-        nextToken
-        startedAt
-      }
-      bankAccounts {
-        items {
-          id
-          realEstateId
-          bankAccountId
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-          realEstate {
-            id
-            name
-            iconUri
-            purchaseYear
-            type
-            ownName
-            company
-            detentionPart
-            typeImpot
-            admins
-            shared
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          bankAccount {
-            id
-            bank
-            accountOwner
-            name
-            iban
-            bic
-            balance
-            biId
-            biConnectionId
-            biState
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-        }
-        nextToken
-        startedAt
-      }
-      bankMovements {
-        items {
-          id
-          bankAccountId
-          realEstateId
-          biId
-          description
-          amount
-          ignored
-          date
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-          realEstate {
-            id
-            name
-            iconUri
-            purchaseYear
-            type
-            ownName
-            company
-            detentionPart
-            typeImpot
-            admins
-            shared
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          budgetLineDeadline {
-            nextToken
-            startedAt
-          }
-          bankAccount {
-            id
-            bank
-            accountOwner
-            name
-            iban
-            bic
-            balance
-            biId
-            biConnectionId
-            biState
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-        }
-        nextToken
-        startedAt
-      }
     }
   }
 `;
-export const createPendingInvitation = /* GraphQL */ `
-  mutation CreatePendingInvitation(
-    $input: CreatePendingInvitationInput!
-    $condition: ModelPendingInvitationConditionInput
-  ) {
-    createPendingInvitation(input: $input, condition: $condition) {
+export const updateBankMovement = /* GraphQL */ `
+  mutation UpdateBankMovement($input: UpdateBankMovementInput!) {
+    updateBankMovement(input: $input) {
       id
+      bankAccountId
+      bankAccount {
+        id
+        bank
+        name
+        iban
+        bic
+        balance
+        biId
+        biConnectionId
+        biState
+        realEstates {
+          nextToken
+          startedAt
+        }
+        movements {
+          nextToken
+          startedAt
+        }
+        accountOwner
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+      }
       realEstateId
-      email
-      type
+      biId
+      description
+      amount
+      budgetLineDeadlines {
+        items {
+          id
+          realEstateId
+          bankMouvementId
+          budgetLineId
+          type
+          category
+          amount
+          frequency
+          date
+          tenantId
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+        nextToken
+        startedAt
+      }
+      ignored
+      date
       _version
       _deleted
       _lastChangedAt
@@ -1237,10 +180,6 @@ export const createPendingInvitation = /* GraphQL */ `
         type
         ownName
         company
-        detentionPart
-        typeImpot
-        admins
-        shared
         address {
           address
           additionalAddress
@@ -1248,6 +187,30 @@ export const createPendingInvitation = /* GraphQL */ `
           city
           country
         }
+        detentionPart
+        typeImpot
+        bankAccounts {
+          nextToken
+          startedAt
+        }
+        bankMovements {
+          nextToken
+          startedAt
+        }
+        budgetLines {
+          nextToken
+          startedAt
+        }
+        budgetLineDeadlines {
+          nextToken
+          startedAt
+        }
+        documents {
+          nextToken
+          startedAt
+        }
+        admins
+        shared
         tenants {
           id
           amount
@@ -1265,106 +228,6 @@ export const createPendingInvitation = /* GraphQL */ `
         createdAt
         updatedAt
         pendingInvitations {
-          items {
-            id
-            realEstateId
-            email
-            type
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        documents {
-          items {
-            id
-            realEstateId
-            name
-            key
-            s3file
-            createdAt
-            _version
-            _deleted
-            _lastChangedAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        budgetLines {
-          items {
-            id
-            realEstateId
-            type
-            category
-            amount
-            frequency
-            nextDueDate
-            tenantId
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        budgetLineDeadlines {
-          items {
-            id
-            realEstateId
-            bankMouvementId
-            budgetLineId
-            type
-            category
-            amount
-            frequency
-            date
-            tenantId
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        bankAccounts {
-          items {
-            id
-            realEstateId
-            bankAccountId
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        bankMovements {
-          items {
-            id
-            bankAccountId
-            realEstateId
-            biId
-            description
-            amount
-            ignored
-            date
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
           nextToken
           startedAt
         }
@@ -1372,16 +235,63 @@ export const createPendingInvitation = /* GraphQL */ `
     }
   }
 `;
-export const updatePendingInvitation = /* GraphQL */ `
-  mutation UpdatePendingInvitation(
-    $input: UpdatePendingInvitationInput!
-    $condition: ModelPendingInvitationConditionInput
-  ) {
-    updatePendingInvitation(input: $input, condition: $condition) {
+export const deleteBankMovement = /* GraphQL */ `
+  mutation DeleteBankMovement($input: DeleteBankMovementInput!) {
+    deleteBankMovement(input: $input) {
       id
+      bankAccountId
+      bankAccount {
+        id
+        bank
+        name
+        iban
+        bic
+        balance
+        biId
+        biConnectionId
+        biState
+        realEstates {
+          nextToken
+          startedAt
+        }
+        movements {
+          nextToken
+          startedAt
+        }
+        accountOwner
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+      }
       realEstateId
-      email
-      type
+      biId
+      description
+      amount
+      budgetLineDeadlines {
+        items {
+          id
+          realEstateId
+          bankMouvementId
+          budgetLineId
+          type
+          category
+          amount
+          frequency
+          date
+          tenantId
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+        nextToken
+        startedAt
+      }
+      ignored
+      date
       _version
       _deleted
       _lastChangedAt
@@ -1395,10 +305,6 @@ export const updatePendingInvitation = /* GraphQL */ `
         type
         ownName
         company
-        detentionPart
-        typeImpot
-        admins
-        shared
         address {
           address
           additionalAddress
@@ -1406,6 +312,30 @@ export const updatePendingInvitation = /* GraphQL */ `
           city
           country
         }
+        detentionPart
+        typeImpot
+        bankAccounts {
+          nextToken
+          startedAt
+        }
+        bankMovements {
+          nextToken
+          startedAt
+        }
+        budgetLines {
+          nextToken
+          startedAt
+        }
+        budgetLineDeadlines {
+          nextToken
+          startedAt
+        }
+        documents {
+          nextToken
+          startedAt
+        }
+        admins
+        shared
         tenants {
           id
           amount
@@ -1423,106 +353,6 @@ export const updatePendingInvitation = /* GraphQL */ `
         createdAt
         updatedAt
         pendingInvitations {
-          items {
-            id
-            realEstateId
-            email
-            type
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        documents {
-          items {
-            id
-            realEstateId
-            name
-            key
-            s3file
-            createdAt
-            _version
-            _deleted
-            _lastChangedAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        budgetLines {
-          items {
-            id
-            realEstateId
-            type
-            category
-            amount
-            frequency
-            nextDueDate
-            tenantId
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        budgetLineDeadlines {
-          items {
-            id
-            realEstateId
-            bankMouvementId
-            budgetLineId
-            type
-            category
-            amount
-            frequency
-            date
-            tenantId
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        bankAccounts {
-          items {
-            id
-            realEstateId
-            bankAccountId
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        bankMovements {
-          items {
-            id
-            bankAccountId
-            realEstateId
-            biId
-            description
-            amount
-            ignored
-            date
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
           nextToken
           startedAt
         }
@@ -1530,16 +360,31 @@ export const updatePendingInvitation = /* GraphQL */ `
     }
   }
 `;
-export const deletePendingInvitation = /* GraphQL */ `
-  mutation DeletePendingInvitation(
-    $input: DeletePendingInvitationInput!
-    $condition: ModelPendingInvitationConditionInput
-  ) {
-    deletePendingInvitation(input: $input, condition: $condition) {
+export const updateBudgetLine = /* GraphQL */ `
+  mutation UpdateBudgetLine($input: UpdateBudgetLineInput!) {
+    updateBudgetLine(input: $input) {
       id
       realEstateId
-      email
       type
+      category
+      amount
+      frequency
+      nextDueDate
+      infoCredit {
+        borrowedCapital
+        loadStartDate
+        duration
+        interestRate
+        assuranceRate
+        amortizationTable {
+          dueDate
+          amount
+          interest
+          assurance
+          amortizedCapital
+        }
+      }
+      tenantId
       _version
       _deleted
       _lastChangedAt
@@ -1553,10 +398,6 @@ export const deletePendingInvitation = /* GraphQL */ `
         type
         ownName
         company
-        detentionPart
-        typeImpot
-        admins
-        shared
         address {
           address
           additionalAddress
@@ -1564,6 +405,30 @@ export const deletePendingInvitation = /* GraphQL */ `
           city
           country
         }
+        detentionPart
+        typeImpot
+        bankAccounts {
+          nextToken
+          startedAt
+        }
+        bankMovements {
+          nextToken
+          startedAt
+        }
+        budgetLines {
+          nextToken
+          startedAt
+        }
+        budgetLineDeadlines {
+          nextToken
+          startedAt
+        }
+        documents {
+          nextToken
+          startedAt
+        }
+        admins
+        shared
         tenants {
           id
           amount
@@ -1581,106 +446,813 @@ export const deletePendingInvitation = /* GraphQL */ `
         createdAt
         updatedAt
         pendingInvitations {
-          items {
-            id
-            realEstateId
-            email
-            type
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
           nextToken
           startedAt
         }
-        documents {
-          items {
-            id
-            realEstateId
-            name
-            key
-            s3file
-            createdAt
-            _version
-            _deleted
-            _lastChangedAt
-            updatedAt
-          }
-          nextToken
-          startedAt
+      }
+    }
+  }
+`;
+export const deleteBudgetLine = /* GraphQL */ `
+  mutation DeleteBudgetLine($input: DeleteBudgetLineInput!) {
+    deleteBudgetLine(input: $input) {
+      id
+      realEstateId
+      type
+      category
+      amount
+      frequency
+      nextDueDate
+      infoCredit {
+        borrowedCapital
+        loadStartDate
+        duration
+        interestRate
+        assuranceRate
+        amortizationTable {
+          dueDate
+          amount
+          interest
+          assurance
+          amortizedCapital
         }
-        budgetLines {
-          items {
-            id
-            realEstateId
-            type
-            category
-            amount
-            frequency
-            nextDueDate
-            tenantId
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
+      }
+      tenantId
+      _version
+      _deleted
+      _lastChangedAt
+      createdAt
+      updatedAt
+      realEstate {
+        id
+        name
+        iconUri
+        purchaseYear
+        type
+        ownName
+        company
+        address {
+          address
+          additionalAddress
+          postalCode
+          city
+          country
         }
-        budgetLineDeadlines {
-          items {
-            id
-            realEstateId
-            bankMouvementId
-            budgetLineId
-            type
-            category
-            amount
-            frequency
-            date
-            tenantId
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
+        detentionPart
+        typeImpot
         bankAccounts {
-          items {
-            id
-            realEstateId
-            bankAccountId
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
           nextToken
           startedAt
         }
         bankMovements {
-          items {
-            id
-            bankAccountId
-            realEstateId
-            biId
-            description
-            amount
-            ignored
-            date
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
+          nextToken
+          startedAt
+        }
+        budgetLines {
+          nextToken
+          startedAt
+        }
+        budgetLineDeadlines {
+          nextToken
+          startedAt
+        }
+        documents {
+          nextToken
+          startedAt
+        }
+        admins
+        shared
+        tenants {
+          id
+          amount
+          rentalCharges
+          managementFees
+          lastname
+          firstname
+          email
+          startDate
+          endDate
+        }
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+        pendingInvitations {
+          nextToken
+          startedAt
+        }
+      }
+    }
+  }
+`;
+export const updateBudgetLineDeadline = /* GraphQL */ `
+  mutation UpdateBudgetLineDeadline($input: UpdateBudgetLineDeadlineInput!) {
+    updateBudgetLineDeadline(input: $input) {
+      id
+      realEstateId
+      bankMouvementId
+      bankMouvement {
+        id
+        bankAccountId
+        bankAccount {
+          id
+          bank
+          name
+          iban
+          bic
+          balance
+          biId
+          biConnectionId
+          biState
+          accountOwner
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+        realEstateId
+        biId
+        description
+        amount
+        budgetLineDeadlines {
+          nextToken
+          startedAt
+        }
+        ignored
+        date
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+        realEstate {
+          id
+          name
+          iconUri
+          purchaseYear
+          type
+          ownName
+          company
+          detentionPart
+          typeImpot
+          admins
+          shared
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+      }
+      budgetLineId
+      budgetLine {
+        id
+        realEstateId
+        type
+        category
+        amount
+        frequency
+        nextDueDate
+        infoCredit {
+          borrowedCapital
+          loadStartDate
+          duration
+          interestRate
+          assuranceRate
+        }
+        tenantId
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+        realEstate {
+          id
+          name
+          iconUri
+          purchaseYear
+          type
+          ownName
+          company
+          detentionPart
+          typeImpot
+          admins
+          shared
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+      }
+      type
+      category
+      amount
+      frequency
+      date
+      infoCredit {
+        amount
+        interest
+        assurance
+      }
+      tenantId
+      _version
+      _deleted
+      _lastChangedAt
+      createdAt
+      updatedAt
+      realEstate {
+        id
+        name
+        iconUri
+        purchaseYear
+        type
+        ownName
+        company
+        address {
+          address
+          additionalAddress
+          postalCode
+          city
+          country
+        }
+        detentionPart
+        typeImpot
+        bankAccounts {
+          nextToken
+          startedAt
+        }
+        bankMovements {
+          nextToken
+          startedAt
+        }
+        budgetLines {
+          nextToken
+          startedAt
+        }
+        budgetLineDeadlines {
+          nextToken
+          startedAt
+        }
+        documents {
+          nextToken
+          startedAt
+        }
+        admins
+        shared
+        tenants {
+          id
+          amount
+          rentalCharges
+          managementFees
+          lastname
+          firstname
+          email
+          startDate
+          endDate
+        }
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+        pendingInvitations {
+          nextToken
+          startedAt
+        }
+      }
+    }
+  }
+`;
+export const deleteBudgetLineDeadline = /* GraphQL */ `
+  mutation DeleteBudgetLineDeadline($input: DeleteBudgetLineDeadlineInput!) {
+    deleteBudgetLineDeadline(input: $input) {
+      id
+      realEstateId
+      bankMouvementId
+      bankMouvement {
+        id
+        bankAccountId
+        bankAccount {
+          id
+          bank
+          name
+          iban
+          bic
+          balance
+          biId
+          biConnectionId
+          biState
+          accountOwner
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+        realEstateId
+        biId
+        description
+        amount
+        budgetLineDeadlines {
+          nextToken
+          startedAt
+        }
+        ignored
+        date
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+        realEstate {
+          id
+          name
+          iconUri
+          purchaseYear
+          type
+          ownName
+          company
+          detentionPart
+          typeImpot
+          admins
+          shared
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+      }
+      budgetLineId
+      budgetLine {
+        id
+        realEstateId
+        type
+        category
+        amount
+        frequency
+        nextDueDate
+        infoCredit {
+          borrowedCapital
+          loadStartDate
+          duration
+          interestRate
+          assuranceRate
+        }
+        tenantId
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+        realEstate {
+          id
+          name
+          iconUri
+          purchaseYear
+          type
+          ownName
+          company
+          detentionPart
+          typeImpot
+          admins
+          shared
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+      }
+      type
+      category
+      amount
+      frequency
+      date
+      infoCredit {
+        amount
+        interest
+        assurance
+      }
+      tenantId
+      _version
+      _deleted
+      _lastChangedAt
+      createdAt
+      updatedAt
+      realEstate {
+        id
+        name
+        iconUri
+        purchaseYear
+        type
+        ownName
+        company
+        address {
+          address
+          additionalAddress
+          postalCode
+          city
+          country
+        }
+        detentionPart
+        typeImpot
+        bankAccounts {
+          nextToken
+          startedAt
+        }
+        bankMovements {
+          nextToken
+          startedAt
+        }
+        budgetLines {
+          nextToken
+          startedAt
+        }
+        budgetLineDeadlines {
+          nextToken
+          startedAt
+        }
+        documents {
+          nextToken
+          startedAt
+        }
+        admins
+        shared
+        tenants {
+          id
+          amount
+          rentalCharges
+          managementFees
+          lastname
+          firstname
+          email
+          startDate
+          endDate
+        }
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+        pendingInvitations {
+          nextToken
+          startedAt
+        }
+      }
+    }
+  }
+`;
+export const updateDocument = /* GraphQL */ `
+  mutation UpdateDocument($input: UpdateDocumentInput!) {
+    updateDocument(input: $input) {
+      id
+      realEstateId
+      name
+      key
+      s3file
+      createdAt
+      _version
+      _deleted
+      _lastChangedAt
+      updatedAt
+      realEstate {
+        id
+        name
+        iconUri
+        purchaseYear
+        type
+        ownName
+        company
+        address {
+          address
+          additionalAddress
+          postalCode
+          city
+          country
+        }
+        detentionPart
+        typeImpot
+        bankAccounts {
+          nextToken
+          startedAt
+        }
+        bankMovements {
+          nextToken
+          startedAt
+        }
+        budgetLines {
+          nextToken
+          startedAt
+        }
+        budgetLineDeadlines {
+          nextToken
+          startedAt
+        }
+        documents {
+          nextToken
+          startedAt
+        }
+        admins
+        shared
+        tenants {
+          id
+          amount
+          rentalCharges
+          managementFees
+          lastname
+          firstname
+          email
+          startDate
+          endDate
+        }
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+        pendingInvitations {
+          nextToken
+          startedAt
+        }
+      }
+    }
+  }
+`;
+export const deleteDocument = /* GraphQL */ `
+  mutation DeleteDocument($input: DeleteDocumentInput!) {
+    deleteDocument(input: $input) {
+      id
+      realEstateId
+      name
+      key
+      s3file
+      createdAt
+      _version
+      _deleted
+      _lastChangedAt
+      updatedAt
+      realEstate {
+        id
+        name
+        iconUri
+        purchaseYear
+        type
+        ownName
+        company
+        address {
+          address
+          additionalAddress
+          postalCode
+          city
+          country
+        }
+        detentionPart
+        typeImpot
+        bankAccounts {
+          nextToken
+          startedAt
+        }
+        bankMovements {
+          nextToken
+          startedAt
+        }
+        budgetLines {
+          nextToken
+          startedAt
+        }
+        budgetLineDeadlines {
+          nextToken
+          startedAt
+        }
+        documents {
+          nextToken
+          startedAt
+        }
+        admins
+        shared
+        tenants {
+          id
+          amount
+          rentalCharges
+          managementFees
+          lastname
+          firstname
+          email
+          startDate
+          endDate
+        }
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+        pendingInvitations {
+          nextToken
+          startedAt
+        }
+      }
+    }
+  }
+`;
+export const updateRealEstateBankAccount = /* GraphQL */ `
+  mutation UpdateRealEstateBankAccount(
+    $input: UpdateRealEstateBankAccountInput!
+  ) {
+    updateRealEstateBankAccount(input: $input) {
+      id
+      realEstateId
+      bankAccountId
+      bankAccount {
+        id
+        bank
+        name
+        iban
+        bic
+        balance
+        biId
+        biConnectionId
+        biState
+        realEstates {
+          nextToken
+          startedAt
+        }
+        movements {
+          nextToken
+          startedAt
+        }
+        accountOwner
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+      }
+      _version
+      _deleted
+      _lastChangedAt
+      createdAt
+      updatedAt
+      realEstate {
+        id
+        name
+        iconUri
+        purchaseYear
+        type
+        ownName
+        company
+        address {
+          address
+          additionalAddress
+          postalCode
+          city
+          country
+        }
+        detentionPart
+        typeImpot
+        bankAccounts {
+          nextToken
+          startedAt
+        }
+        bankMovements {
+          nextToken
+          startedAt
+        }
+        budgetLines {
+          nextToken
+          startedAt
+        }
+        budgetLineDeadlines {
+          nextToken
+          startedAt
+        }
+        documents {
+          nextToken
+          startedAt
+        }
+        admins
+        shared
+        tenants {
+          id
+          amount
+          rentalCharges
+          managementFees
+          lastname
+          firstname
+          email
+          startDate
+          endDate
+        }
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+        pendingInvitations {
+          nextToken
+          startedAt
+        }
+      }
+    }
+  }
+`;
+export const deleteRealEstateBankAccount = /* GraphQL */ `
+  mutation DeleteRealEstateBankAccount(
+    $input: DeleteRealEstateBankAccountInput!
+  ) {
+    deleteRealEstateBankAccount(input: $input) {
+      id
+      realEstateId
+      bankAccountId
+      bankAccount {
+        id
+        bank
+        name
+        iban
+        bic
+        balance
+        biId
+        biConnectionId
+        biState
+        realEstates {
+          nextToken
+          startedAt
+        }
+        movements {
+          nextToken
+          startedAt
+        }
+        accountOwner
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+      }
+      _version
+      _deleted
+      _lastChangedAt
+      createdAt
+      updatedAt
+      realEstate {
+        id
+        name
+        iconUri
+        purchaseYear
+        type
+        ownName
+        company
+        address {
+          address
+          additionalAddress
+          postalCode
+          city
+          country
+        }
+        detentionPart
+        typeImpot
+        bankAccounts {
+          nextToken
+          startedAt
+        }
+        bankMovements {
+          nextToken
+          startedAt
+        }
+        budgetLines {
+          nextToken
+          startedAt
+        }
+        budgetLineDeadlines {
+          nextToken
+          startedAt
+        }
+        documents {
+          nextToken
+          startedAt
+        }
+        admins
+        shared
+        tenants {
+          id
+          amount
+          rentalCharges
+          managementFees
+          lastname
+          firstname
+          email
+          startDate
+          endDate
+        }
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+        pendingInvitations {
           nextToken
           startedAt
         }
@@ -1712,10 +1284,6 @@ export const createDocument = /* GraphQL */ `
         type
         ownName
         company
-        detentionPart
-        typeImpot
-        admins
-        shared
         address {
           address
           additionalAddress
@@ -1723,6 +1291,30 @@ export const createDocument = /* GraphQL */ `
           city
           country
         }
+        detentionPart
+        typeImpot
+        bankAccounts {
+          nextToken
+          startedAt
+        }
+        bankMovements {
+          nextToken
+          startedAt
+        }
+        budgetLines {
+          nextToken
+          startedAt
+        }
+        budgetLineDeadlines {
+          nextToken
+          startedAt
+        }
+        documents {
+          nextToken
+          startedAt
+        }
+        admins
+        shared
         tenants {
           id
           amount
@@ -1740,106 +1332,6 @@ export const createDocument = /* GraphQL */ `
         createdAt
         updatedAt
         pendingInvitations {
-          items {
-            id
-            realEstateId
-            email
-            type
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        documents {
-          items {
-            id
-            realEstateId
-            name
-            key
-            s3file
-            createdAt
-            _version
-            _deleted
-            _lastChangedAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        budgetLines {
-          items {
-            id
-            realEstateId
-            type
-            category
-            amount
-            frequency
-            nextDueDate
-            tenantId
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        budgetLineDeadlines {
-          items {
-            id
-            realEstateId
-            bankMouvementId
-            budgetLineId
-            type
-            category
-            amount
-            frequency
-            date
-            tenantId
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        bankAccounts {
-          items {
-            id
-            realEstateId
-            bankAccountId
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        bankMovements {
-          items {
-            id
-            bankAccountId
-            realEstateId
-            biId
-            description
-            amount
-            ignored
-            date
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
           nextToken
           startedAt
         }
@@ -1847,21 +1339,127 @@ export const createDocument = /* GraphQL */ `
     }
   }
 `;
-export const updateDocument = /* GraphQL */ `
-  mutation UpdateDocument(
-    $input: UpdateDocumentInput!
-    $condition: ModelDocumentConditionInput
+export const createBankAccount = /* GraphQL */ `
+  mutation CreateBankAccount(
+    $input: CreateBankAccountInput!
+    $condition: ModelBankAccountConditionInput
   ) {
-    updateDocument(input: $input, condition: $condition) {
+    createBankAccount(input: $input, condition: $condition) {
       id
-      realEstateId
+      bank
       name
-      key
-      s3file
-      createdAt
+      iban
+      bic
+      balance
+      biId
+      biConnectionId
+      biState
+      realEstates {
+        items {
+          id
+          realEstateId
+          bankAccountId
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+        nextToken
+        startedAt
+      }
+      movements {
+        items {
+          id
+          bankAccountId
+          realEstateId
+          biId
+          description
+          amount
+          ignored
+          date
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+        nextToken
+        startedAt
+      }
+      accountOwner
       _version
       _deleted
       _lastChangedAt
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const createBankMovement = /* GraphQL */ `
+  mutation CreateBankMovement(
+    $input: CreateBankMovementInput!
+    $condition: ModelBankMovementConditionInput
+  ) {
+    createBankMovement(input: $input, condition: $condition) {
+      id
+      bankAccountId
+      bankAccount {
+        id
+        bank
+        name
+        iban
+        bic
+        balance
+        biId
+        biConnectionId
+        biState
+        realEstates {
+          nextToken
+          startedAt
+        }
+        movements {
+          nextToken
+          startedAt
+        }
+        accountOwner
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+      }
+      realEstateId
+      biId
+      description
+      amount
+      budgetLineDeadlines {
+        items {
+          id
+          realEstateId
+          bankMouvementId
+          budgetLineId
+          type
+          category
+          amount
+          frequency
+          date
+          tenantId
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+        nextToken
+        startedAt
+      }
+      ignored
+      date
+      _version
+      _deleted
+      _lastChangedAt
+      createdAt
       updatedAt
       realEstate {
         id
@@ -1871,10 +1469,6 @@ export const updateDocument = /* GraphQL */ `
         type
         ownName
         company
-        detentionPart
-        typeImpot
-        admins
-        shared
         address {
           address
           additionalAddress
@@ -1882,6 +1476,30 @@ export const updateDocument = /* GraphQL */ `
           city
           country
         }
+        detentionPart
+        typeImpot
+        bankAccounts {
+          nextToken
+          startedAt
+        }
+        bankMovements {
+          nextToken
+          startedAt
+        }
+        budgetLines {
+          nextToken
+          startedAt
+        }
+        budgetLineDeadlines {
+          nextToken
+          startedAt
+        }
+        documents {
+          nextToken
+          startedAt
+        }
+        admins
+        shared
         tenants {
           id
           amount
@@ -1899,265 +1517,6 @@ export const updateDocument = /* GraphQL */ `
         createdAt
         updatedAt
         pendingInvitations {
-          items {
-            id
-            realEstateId
-            email
-            type
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        documents {
-          items {
-            id
-            realEstateId
-            name
-            key
-            s3file
-            createdAt
-            _version
-            _deleted
-            _lastChangedAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        budgetLines {
-          items {
-            id
-            realEstateId
-            type
-            category
-            amount
-            frequency
-            nextDueDate
-            tenantId
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        budgetLineDeadlines {
-          items {
-            id
-            realEstateId
-            bankMouvementId
-            budgetLineId
-            type
-            category
-            amount
-            frequency
-            date
-            tenantId
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        bankAccounts {
-          items {
-            id
-            realEstateId
-            bankAccountId
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        bankMovements {
-          items {
-            id
-            bankAccountId
-            realEstateId
-            biId
-            description
-            amount
-            ignored
-            date
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-      }
-    }
-  }
-`;
-export const deleteDocument = /* GraphQL */ `
-  mutation DeleteDocument(
-    $input: DeleteDocumentInput!
-    $condition: ModelDocumentConditionInput
-  ) {
-    deleteDocument(input: $input, condition: $condition) {
-      id
-      realEstateId
-      name
-      key
-      s3file
-      createdAt
-      _version
-      _deleted
-      _lastChangedAt
-      updatedAt
-      realEstate {
-        id
-        name
-        iconUri
-        purchaseYear
-        type
-        ownName
-        company
-        detentionPart
-        typeImpot
-        admins
-        shared
-        address {
-          address
-          additionalAddress
-          postalCode
-          city
-          country
-        }
-        tenants {
-          id
-          amount
-          rentalCharges
-          managementFees
-          lastname
-          firstname
-          email
-          startDate
-          endDate
-        }
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-        pendingInvitations {
-          items {
-            id
-            realEstateId
-            email
-            type
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        documents {
-          items {
-            id
-            realEstateId
-            name
-            key
-            s3file
-            createdAt
-            _version
-            _deleted
-            _lastChangedAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        budgetLines {
-          items {
-            id
-            realEstateId
-            type
-            category
-            amount
-            frequency
-            nextDueDate
-            tenantId
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        budgetLineDeadlines {
-          items {
-            id
-            realEstateId
-            bankMouvementId
-            budgetLineId
-            type
-            category
-            amount
-            frequency
-            date
-            tenantId
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        bankAccounts {
-          items {
-            id
-            realEstateId
-            bankAccountId
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        bankMovements {
-          items {
-            id
-            bankAccountId
-            realEstateId
-            biId
-            description
-            amount
-            ignored
-            date
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
           nextToken
           startedAt
         }
@@ -2206,10 +1565,6 @@ export const createBudgetLine = /* GraphQL */ `
         type
         ownName
         company
-        detentionPart
-        typeImpot
-        admins
-        shared
         address {
           address
           additionalAddress
@@ -2217,6 +1572,30 @@ export const createBudgetLine = /* GraphQL */ `
           city
           country
         }
+        detentionPart
+        typeImpot
+        bankAccounts {
+          nextToken
+          startedAt
+        }
+        bankMovements {
+          nextToken
+          startedAt
+        }
+        budgetLines {
+          nextToken
+          startedAt
+        }
+        budgetLineDeadlines {
+          nextToken
+          startedAt
+        }
+        documents {
+          nextToken
+          startedAt
+        }
+        admins
+        shared
         tenants {
           id
           amount
@@ -2234,458 +1613,6 @@ export const createBudgetLine = /* GraphQL */ `
         createdAt
         updatedAt
         pendingInvitations {
-          items {
-            id
-            realEstateId
-            email
-            type
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        documents {
-          items {
-            id
-            realEstateId
-            name
-            key
-            s3file
-            createdAt
-            _version
-            _deleted
-            _lastChangedAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        budgetLines {
-          items {
-            id
-            realEstateId
-            type
-            category
-            amount
-            frequency
-            nextDueDate
-            tenantId
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        budgetLineDeadlines {
-          items {
-            id
-            realEstateId
-            bankMouvementId
-            budgetLineId
-            type
-            category
-            amount
-            frequency
-            date
-            tenantId
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        bankAccounts {
-          items {
-            id
-            realEstateId
-            bankAccountId
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        bankMovements {
-          items {
-            id
-            bankAccountId
-            realEstateId
-            biId
-            description
-            amount
-            ignored
-            date
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-      }
-    }
-  }
-`;
-export const updateBudgetLine = /* GraphQL */ `
-  mutation UpdateBudgetLine(
-    $input: UpdateBudgetLineInput!
-    $condition: ModelBudgetLineConditionInput
-  ) {
-    updateBudgetLine(input: $input, condition: $condition) {
-      id
-      realEstateId
-      type
-      category
-      amount
-      frequency
-      nextDueDate
-      infoCredit {
-        borrowedCapital
-        loadStartDate
-        duration
-        interestRate
-        assuranceRate
-        amortizationTable {
-          dueDate
-          amount
-          interest
-          assurance
-          amortizedCapital
-        }
-      }
-      tenantId
-      _version
-      _deleted
-      _lastChangedAt
-      createdAt
-      updatedAt
-      realEstate {
-        id
-        name
-        iconUri
-        purchaseYear
-        type
-        ownName
-        company
-        detentionPart
-        typeImpot
-        admins
-        shared
-        address {
-          address
-          additionalAddress
-          postalCode
-          city
-          country
-        }
-        tenants {
-          id
-          amount
-          rentalCharges
-          managementFees
-          lastname
-          firstname
-          email
-          startDate
-          endDate
-        }
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-        pendingInvitations {
-          items {
-            id
-            realEstateId
-            email
-            type
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        documents {
-          items {
-            id
-            realEstateId
-            name
-            key
-            s3file
-            createdAt
-            _version
-            _deleted
-            _lastChangedAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        budgetLines {
-          items {
-            id
-            realEstateId
-            type
-            category
-            amount
-            frequency
-            nextDueDate
-            tenantId
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        budgetLineDeadlines {
-          items {
-            id
-            realEstateId
-            bankMouvementId
-            budgetLineId
-            type
-            category
-            amount
-            frequency
-            date
-            tenantId
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        bankAccounts {
-          items {
-            id
-            realEstateId
-            bankAccountId
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        bankMovements {
-          items {
-            id
-            bankAccountId
-            realEstateId
-            biId
-            description
-            amount
-            ignored
-            date
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-      }
-    }
-  }
-`;
-export const deleteBudgetLine = /* GraphQL */ `
-  mutation DeleteBudgetLine(
-    $input: DeleteBudgetLineInput!
-    $condition: ModelBudgetLineConditionInput
-  ) {
-    deleteBudgetLine(input: $input, condition: $condition) {
-      id
-      realEstateId
-      type
-      category
-      amount
-      frequency
-      nextDueDate
-      infoCredit {
-        borrowedCapital
-        loadStartDate
-        duration
-        interestRate
-        assuranceRate
-        amortizationTable {
-          dueDate
-          amount
-          interest
-          assurance
-          amortizedCapital
-        }
-      }
-      tenantId
-      _version
-      _deleted
-      _lastChangedAt
-      createdAt
-      updatedAt
-      realEstate {
-        id
-        name
-        iconUri
-        purchaseYear
-        type
-        ownName
-        company
-        detentionPart
-        typeImpot
-        admins
-        shared
-        address {
-          address
-          additionalAddress
-          postalCode
-          city
-          country
-        }
-        tenants {
-          id
-          amount
-          rentalCharges
-          managementFees
-          lastname
-          firstname
-          email
-          startDate
-          endDate
-        }
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-        pendingInvitations {
-          items {
-            id
-            realEstateId
-            email
-            type
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        documents {
-          items {
-            id
-            realEstateId
-            name
-            key
-            s3file
-            createdAt
-            _version
-            _deleted
-            _lastChangedAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        budgetLines {
-          items {
-            id
-            realEstateId
-            type
-            category
-            amount
-            frequency
-            nextDueDate
-            tenantId
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        budgetLineDeadlines {
-          items {
-            id
-            realEstateId
-            bankMouvementId
-            budgetLineId
-            type
-            category
-            amount
-            frequency
-            date
-            tenantId
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        bankAccounts {
-          items {
-            id
-            realEstateId
-            bankAccountId
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        bankMovements {
-          items {
-            id
-            bankAccountId
-            realEstateId
-            biId
-            description
-            amount
-            ignored
-            date
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
           nextToken
           startedAt
         }
@@ -2702,7 +1629,101 @@ export const createBudgetLineDeadline = /* GraphQL */ `
       id
       realEstateId
       bankMouvementId
+      bankMouvement {
+        id
+        bankAccountId
+        bankAccount {
+          id
+          bank
+          name
+          iban
+          bic
+          balance
+          biId
+          biConnectionId
+          biState
+          accountOwner
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+        realEstateId
+        biId
+        description
+        amount
+        budgetLineDeadlines {
+          nextToken
+          startedAt
+        }
+        ignored
+        date
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+        realEstate {
+          id
+          name
+          iconUri
+          purchaseYear
+          type
+          ownName
+          company
+          detentionPart
+          typeImpot
+          admins
+          shared
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+      }
       budgetLineId
+      budgetLine {
+        id
+        realEstateId
+        type
+        category
+        amount
+        frequency
+        nextDueDate
+        infoCredit {
+          borrowedCapital
+          loadStartDate
+          duration
+          interestRate
+          assuranceRate
+        }
+        tenantId
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+        realEstate {
+          id
+          name
+          iconUri
+          purchaseYear
+          type
+          ownName
+          company
+          detentionPart
+          typeImpot
+          admins
+          shared
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+      }
       type
       category
       amount
@@ -2727,10 +1748,6 @@ export const createBudgetLineDeadline = /* GraphQL */ `
         type
         ownName
         company
-        detentionPart
-        typeImpot
-        admins
-        shared
         address {
           address
           additionalAddress
@@ -2738,6 +1755,30 @@ export const createBudgetLineDeadline = /* GraphQL */ `
           city
           country
         }
+        detentionPart
+        typeImpot
+        bankAccounts {
+          nextToken
+          startedAt
+        }
+        bankMovements {
+          nextToken
+          startedAt
+        }
+        budgetLines {
+          nextToken
+          startedAt
+        }
+        budgetLineDeadlines {
+          nextToken
+          startedAt
+        }
+        documents {
+          nextToken
+          startedAt
+        }
+        admins
+        shared
         tenants {
           id
           amount
@@ -2755,1076 +1796,8 @@ export const createBudgetLineDeadline = /* GraphQL */ `
         createdAt
         updatedAt
         pendingInvitations {
-          items {
-            id
-            realEstateId
-            email
-            type
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
           nextToken
           startedAt
-        }
-        documents {
-          items {
-            id
-            realEstateId
-            name
-            key
-            s3file
-            createdAt
-            _version
-            _deleted
-            _lastChangedAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        budgetLines {
-          items {
-            id
-            realEstateId
-            type
-            category
-            amount
-            frequency
-            nextDueDate
-            tenantId
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        budgetLineDeadlines {
-          items {
-            id
-            realEstateId
-            bankMouvementId
-            budgetLineId
-            type
-            category
-            amount
-            frequency
-            date
-            tenantId
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        bankAccounts {
-          items {
-            id
-            realEstateId
-            bankAccountId
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        bankMovements {
-          items {
-            id
-            bankAccountId
-            realEstateId
-            biId
-            description
-            amount
-            ignored
-            date
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-      }
-      budgetLine {
-        id
-        realEstateId
-        type
-        category
-        amount
-        frequency
-        nextDueDate
-        infoCredit {
-          borrowedCapital
-          loadStartDate
-          duration
-          interestRate
-          assuranceRate
-          amortizationTable {
-            dueDate
-            amount
-            interest
-            assurance
-            amortizedCapital
-          }
-        }
-        tenantId
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-        realEstate {
-          id
-          name
-          iconUri
-          purchaseYear
-          type
-          ownName
-          company
-          detentionPart
-          typeImpot
-          admins
-          shared
-          address {
-            address
-            additionalAddress
-            postalCode
-            city
-            country
-          }
-          tenants {
-            id
-            amount
-            rentalCharges
-            managementFees
-            lastname
-            firstname
-            email
-            startDate
-            endDate
-          }
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-          pendingInvitations {
-            nextToken
-            startedAt
-          }
-          documents {
-            nextToken
-            startedAt
-          }
-          budgetLines {
-            nextToken
-            startedAt
-          }
-          budgetLineDeadlines {
-            nextToken
-            startedAt
-          }
-          bankAccounts {
-            nextToken
-            startedAt
-          }
-          bankMovements {
-            nextToken
-            startedAt
-          }
-        }
-      }
-      bankMouvement {
-        id
-        bankAccountId
-        realEstateId
-        biId
-        description
-        amount
-        ignored
-        date
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-        realEstate {
-          id
-          name
-          iconUri
-          purchaseYear
-          type
-          ownName
-          company
-          detentionPart
-          typeImpot
-          admins
-          shared
-          address {
-            address
-            additionalAddress
-            postalCode
-            city
-            country
-          }
-          tenants {
-            id
-            amount
-            rentalCharges
-            managementFees
-            lastname
-            firstname
-            email
-            startDate
-            endDate
-          }
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-          pendingInvitations {
-            nextToken
-            startedAt
-          }
-          documents {
-            nextToken
-            startedAt
-          }
-          budgetLines {
-            nextToken
-            startedAt
-          }
-          budgetLineDeadlines {
-            nextToken
-            startedAt
-          }
-          bankAccounts {
-            nextToken
-            startedAt
-          }
-          bankMovements {
-            nextToken
-            startedAt
-          }
-        }
-        budgetLineDeadline {
-          items {
-            id
-            realEstateId
-            bankMouvementId
-            budgetLineId
-            type
-            category
-            amount
-            frequency
-            date
-            tenantId
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        bankAccount {
-          id
-          bank
-          accountOwner
-          name
-          iban
-          bic
-          balance
-          biId
-          biConnectionId
-          biState
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-          realEstates {
-            nextToken
-            startedAt
-          }
-          movements {
-            nextToken
-            startedAt
-          }
-        }
-      }
-    }
-  }
-`;
-export const updateBudgetLineDeadline = /* GraphQL */ `
-  mutation UpdateBudgetLineDeadline(
-    $input: UpdateBudgetLineDeadlineInput!
-    $condition: ModelBudgetLineDeadlineConditionInput
-  ) {
-    updateBudgetLineDeadline(input: $input, condition: $condition) {
-      id
-      realEstateId
-      bankMouvementId
-      budgetLineId
-      type
-      category
-      amount
-      frequency
-      date
-      infoCredit {
-        amount
-        interest
-        assurance
-      }
-      tenantId
-      _version
-      _deleted
-      _lastChangedAt
-      createdAt
-      updatedAt
-      realEstate {
-        id
-        name
-        iconUri
-        purchaseYear
-        type
-        ownName
-        company
-        detentionPart
-        typeImpot
-        admins
-        shared
-        address {
-          address
-          additionalAddress
-          postalCode
-          city
-          country
-        }
-        tenants {
-          id
-          amount
-          rentalCharges
-          managementFees
-          lastname
-          firstname
-          email
-          startDate
-          endDate
-        }
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-        pendingInvitations {
-          items {
-            id
-            realEstateId
-            email
-            type
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        documents {
-          items {
-            id
-            realEstateId
-            name
-            key
-            s3file
-            createdAt
-            _version
-            _deleted
-            _lastChangedAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        budgetLines {
-          items {
-            id
-            realEstateId
-            type
-            category
-            amount
-            frequency
-            nextDueDate
-            tenantId
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        budgetLineDeadlines {
-          items {
-            id
-            realEstateId
-            bankMouvementId
-            budgetLineId
-            type
-            category
-            amount
-            frequency
-            date
-            tenantId
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        bankAccounts {
-          items {
-            id
-            realEstateId
-            bankAccountId
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        bankMovements {
-          items {
-            id
-            bankAccountId
-            realEstateId
-            biId
-            description
-            amount
-            ignored
-            date
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-      }
-      budgetLine {
-        id
-        realEstateId
-        type
-        category
-        amount
-        frequency
-        nextDueDate
-        infoCredit {
-          borrowedCapital
-          loadStartDate
-          duration
-          interestRate
-          assuranceRate
-          amortizationTable {
-            dueDate
-            amount
-            interest
-            assurance
-            amortizedCapital
-          }
-        }
-        tenantId
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-        realEstate {
-          id
-          name
-          iconUri
-          purchaseYear
-          type
-          ownName
-          company
-          detentionPart
-          typeImpot
-          admins
-          shared
-          address {
-            address
-            additionalAddress
-            postalCode
-            city
-            country
-          }
-          tenants {
-            id
-            amount
-            rentalCharges
-            managementFees
-            lastname
-            firstname
-            email
-            startDate
-            endDate
-          }
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-          pendingInvitations {
-            nextToken
-            startedAt
-          }
-          documents {
-            nextToken
-            startedAt
-          }
-          budgetLines {
-            nextToken
-            startedAt
-          }
-          budgetLineDeadlines {
-            nextToken
-            startedAt
-          }
-          bankAccounts {
-            nextToken
-            startedAt
-          }
-          bankMovements {
-            nextToken
-            startedAt
-          }
-        }
-      }
-      bankMouvement {
-        id
-        bankAccountId
-        realEstateId
-        biId
-        description
-        amount
-        ignored
-        date
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-        realEstate {
-          id
-          name
-          iconUri
-          purchaseYear
-          type
-          ownName
-          company
-          detentionPart
-          typeImpot
-          admins
-          shared
-          address {
-            address
-            additionalAddress
-            postalCode
-            city
-            country
-          }
-          tenants {
-            id
-            amount
-            rentalCharges
-            managementFees
-            lastname
-            firstname
-            email
-            startDate
-            endDate
-          }
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-          pendingInvitations {
-            nextToken
-            startedAt
-          }
-          documents {
-            nextToken
-            startedAt
-          }
-          budgetLines {
-            nextToken
-            startedAt
-          }
-          budgetLineDeadlines {
-            nextToken
-            startedAt
-          }
-          bankAccounts {
-            nextToken
-            startedAt
-          }
-          bankMovements {
-            nextToken
-            startedAt
-          }
-        }
-        budgetLineDeadline {
-          items {
-            id
-            realEstateId
-            bankMouvementId
-            budgetLineId
-            type
-            category
-            amount
-            frequency
-            date
-            tenantId
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        bankAccount {
-          id
-          bank
-          accountOwner
-          name
-          iban
-          bic
-          balance
-          biId
-          biConnectionId
-          biState
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-          realEstates {
-            nextToken
-            startedAt
-          }
-          movements {
-            nextToken
-            startedAt
-          }
-        }
-      }
-    }
-  }
-`;
-export const deleteBudgetLineDeadline = /* GraphQL */ `
-  mutation DeleteBudgetLineDeadline(
-    $input: DeleteBudgetLineDeadlineInput!
-    $condition: ModelBudgetLineDeadlineConditionInput
-  ) {
-    deleteBudgetLineDeadline(input: $input, condition: $condition) {
-      id
-      realEstateId
-      bankMouvementId
-      budgetLineId
-      type
-      category
-      amount
-      frequency
-      date
-      infoCredit {
-        amount
-        interest
-        assurance
-      }
-      tenantId
-      _version
-      _deleted
-      _lastChangedAt
-      createdAt
-      updatedAt
-      realEstate {
-        id
-        name
-        iconUri
-        purchaseYear
-        type
-        ownName
-        company
-        detentionPart
-        typeImpot
-        admins
-        shared
-        address {
-          address
-          additionalAddress
-          postalCode
-          city
-          country
-        }
-        tenants {
-          id
-          amount
-          rentalCharges
-          managementFees
-          lastname
-          firstname
-          email
-          startDate
-          endDate
-        }
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-        pendingInvitations {
-          items {
-            id
-            realEstateId
-            email
-            type
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        documents {
-          items {
-            id
-            realEstateId
-            name
-            key
-            s3file
-            createdAt
-            _version
-            _deleted
-            _lastChangedAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        budgetLines {
-          items {
-            id
-            realEstateId
-            type
-            category
-            amount
-            frequency
-            nextDueDate
-            tenantId
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        budgetLineDeadlines {
-          items {
-            id
-            realEstateId
-            bankMouvementId
-            budgetLineId
-            type
-            category
-            amount
-            frequency
-            date
-            tenantId
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        bankAccounts {
-          items {
-            id
-            realEstateId
-            bankAccountId
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        bankMovements {
-          items {
-            id
-            bankAccountId
-            realEstateId
-            biId
-            description
-            amount
-            ignored
-            date
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-      }
-      budgetLine {
-        id
-        realEstateId
-        type
-        category
-        amount
-        frequency
-        nextDueDate
-        infoCredit {
-          borrowedCapital
-          loadStartDate
-          duration
-          interestRate
-          assuranceRate
-          amortizationTable {
-            dueDate
-            amount
-            interest
-            assurance
-            amortizedCapital
-          }
-        }
-        tenantId
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-        realEstate {
-          id
-          name
-          iconUri
-          purchaseYear
-          type
-          ownName
-          company
-          detentionPart
-          typeImpot
-          admins
-          shared
-          address {
-            address
-            additionalAddress
-            postalCode
-            city
-            country
-          }
-          tenants {
-            id
-            amount
-            rentalCharges
-            managementFees
-            lastname
-            firstname
-            email
-            startDate
-            endDate
-          }
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-          pendingInvitations {
-            nextToken
-            startedAt
-          }
-          documents {
-            nextToken
-            startedAt
-          }
-          budgetLines {
-            nextToken
-            startedAt
-          }
-          budgetLineDeadlines {
-            nextToken
-            startedAt
-          }
-          bankAccounts {
-            nextToken
-            startedAt
-          }
-          bankMovements {
-            nextToken
-            startedAt
-          }
-        }
-      }
-      bankMouvement {
-        id
-        bankAccountId
-        realEstateId
-        biId
-        description
-        amount
-        ignored
-        date
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-        realEstate {
-          id
-          name
-          iconUri
-          purchaseYear
-          type
-          ownName
-          company
-          detentionPart
-          typeImpot
-          admins
-          shared
-          address {
-            address
-            additionalAddress
-            postalCode
-            city
-            country
-          }
-          tenants {
-            id
-            amount
-            rentalCharges
-            managementFees
-            lastname
-            firstname
-            email
-            startDate
-            endDate
-          }
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-          pendingInvitations {
-            nextToken
-            startedAt
-          }
-          documents {
-            nextToken
-            startedAt
-          }
-          budgetLines {
-            nextToken
-            startedAt
-          }
-          budgetLineDeadlines {
-            nextToken
-            startedAt
-          }
-          bankAccounts {
-            nextToken
-            startedAt
-          }
-          bankMovements {
-            nextToken
-            startedAt
-          }
-        }
-        budgetLineDeadline {
-          items {
-            id
-            realEstateId
-            bankMouvementId
-            budgetLineId
-            type
-            category
-            amount
-            frequency
-            date
-            tenantId
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        bankAccount {
-          id
-          bank
-          accountOwner
-          name
-          iban
-          bic
-          balance
-          biId
-          biConnectionId
-          biState
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-          realEstates {
-            nextToken
-            startedAt
-          }
-          movements {
-            nextToken
-            startedAt
-          }
         }
       }
     }
@@ -3839,6 +1812,31 @@ export const createRealEstateBankAccount = /* GraphQL */ `
       id
       realEstateId
       bankAccountId
+      bankAccount {
+        id
+        bank
+        name
+        iban
+        bic
+        balance
+        biId
+        biConnectionId
+        biState
+        realEstates {
+          nextToken
+          startedAt
+        }
+        movements {
+          nextToken
+          startedAt
+        }
+        accountOwner
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+      }
       _version
       _deleted
       _lastChangedAt
@@ -3852,10 +1850,6 @@ export const createRealEstateBankAccount = /* GraphQL */ `
         type
         ownName
         company
-        detentionPart
-        typeImpot
-        admins
-        shared
         address {
           address
           additionalAddress
@@ -3863,6 +1857,30 @@ export const createRealEstateBankAccount = /* GraphQL */ `
           city
           country
         }
+        detentionPart
+        typeImpot
+        bankAccounts {
+          nextToken
+          startedAt
+        }
+        bankMovements {
+          nextToken
+          startedAt
+        }
+        budgetLines {
+          nextToken
+          startedAt
+        }
+        budgetLineDeadlines {
+          nextToken
+          startedAt
+        }
+        documents {
+          nextToken
+          startedAt
+        }
+        admins
+        shared
         tenants {
           id
           amount
@@ -3880,156 +1898,6 @@ export const createRealEstateBankAccount = /* GraphQL */ `
         createdAt
         updatedAt
         pendingInvitations {
-          items {
-            id
-            realEstateId
-            email
-            type
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        documents {
-          items {
-            id
-            realEstateId
-            name
-            key
-            s3file
-            createdAt
-            _version
-            _deleted
-            _lastChangedAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        budgetLines {
-          items {
-            id
-            realEstateId
-            type
-            category
-            amount
-            frequency
-            nextDueDate
-            tenantId
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        budgetLineDeadlines {
-          items {
-            id
-            realEstateId
-            bankMouvementId
-            budgetLineId
-            type
-            category
-            amount
-            frequency
-            date
-            tenantId
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        bankAccounts {
-          items {
-            id
-            realEstateId
-            bankAccountId
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        bankMovements {
-          items {
-            id
-            bankAccountId
-            realEstateId
-            biId
-            description
-            amount
-            ignored
-            date
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-      }
-      bankAccount {
-        id
-        bank
-        accountOwner
-        name
-        iban
-        bic
-        balance
-        biId
-        biConnectionId
-        biState
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-        realEstates {
-          items {
-            id
-            realEstateId
-            bankAccountId
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        movements {
-          items {
-            id
-            bankAccountId
-            realEstateId
-            biId
-            description
-            amount
-            ignored
-            date
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
           nextToken
           startedAt
         }
@@ -4037,32 +1905,25 @@ export const createRealEstateBankAccount = /* GraphQL */ `
     }
   }
 `;
-export const updateRealEstateBankAccount = /* GraphQL */ `
-  mutation UpdateRealEstateBankAccount(
-    $input: UpdateRealEstateBankAccountInput!
-    $condition: ModelRealEstateBankAccountConditionInput
+export const createUser = /* GraphQL */ `
+  mutation CreateUser(
+    $input: CreateUserInput!
+    $condition: ModelUserConditionInput
   ) {
-    updateRealEstateBankAccount(input: $input, condition: $condition) {
+    createUser(input: $input, condition: $condition) {
       id
-      realEstateId
-      bankAccountId
+      lastname
+      firstname
+      avatarUri
       _version
       _deleted
       _lastChangedAt
       createdAt
       updatedAt
-      realEstate {
-        id
-        name
-        iconUri
-        purchaseYear
-        type
-        ownName
-        company
-        detentionPart
-        typeImpot
-        admins
-        shared
+      email
+      privateProfile {
+        phoneNumber
+        optIn
         address {
           address
           additionalAddress
@@ -4070,206 +1931,34 @@ export const updateRealEstateBankAccount = /* GraphQL */ `
           city
           country
         }
-        tenants {
-          id
-          amount
-          rentalCharges
-          managementFees
-          lastname
-          firstname
-          email
-          startDate
-          endDate
-        }
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-        pendingInvitations {
-          items {
-            id
-            realEstateId
-            email
-            type
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        documents {
-          items {
-            id
-            realEstateId
-            name
-            key
-            s3file
-            createdAt
-            _version
-            _deleted
-            _lastChangedAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        budgetLines {
-          items {
-            id
-            realEstateId
-            type
-            category
-            amount
-            frequency
-            nextDueDate
-            tenantId
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        budgetLineDeadlines {
-          items {
-            id
-            realEstateId
-            bankMouvementId
-            budgetLineId
-            type
-            category
-            amount
-            frequency
-            date
-            tenantId
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        bankAccounts {
-          items {
-            id
-            realEstateId
-            bankAccountId
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        bankMovements {
-          items {
-            id
-            bankAccountId
-            realEstateId
-            biId
-            description
-            amount
-            ignored
-            date
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
+        birthDate
+        subscription
       }
-      bankAccount {
-        id
-        bank
-        accountOwner
-        name
-        iban
-        bic
-        balance
-        biId
-        biConnectionId
-        biState
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-        realEstates {
-          items {
-            id
-            realEstateId
-            bankAccountId
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        movements {
-          items {
-            id
-            bankAccountId
-            realEstateId
-            biId
-            description
-            amount
-            ignored
-            date
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-      }
+      expoToken
+      biUser
+      biToken
     }
   }
 `;
-export const deleteRealEstateBankAccount = /* GraphQL */ `
-  mutation DeleteRealEstateBankAccount(
-    $input: DeleteRealEstateBankAccountInput!
-    $condition: ModelRealEstateBankAccountConditionInput
+export const updateUser = /* GraphQL */ `
+  mutation UpdateUser(
+    $input: UpdateUserInput!
+    $condition: ModelUserConditionInput
   ) {
-    deleteRealEstateBankAccount(input: $input, condition: $condition) {
+    updateUser(input: $input, condition: $condition) {
       id
-      realEstateId
-      bankAccountId
+      lastname
+      firstname
+      avatarUri
       _version
       _deleted
       _lastChangedAt
       createdAt
       updatedAt
-      realEstate {
-        id
-        name
-        iconUri
-        purchaseYear
-        type
-        ownName
-        company
-        detentionPart
-        typeImpot
-        admins
-        shared
+      email
+      privateProfile {
+        phoneNumber
+        optIn
         address {
           address
           additionalAddress
@@ -4277,202 +1966,73 @@ export const deleteRealEstateBankAccount = /* GraphQL */ `
           city
           country
         }
-        tenants {
-          id
-          amount
-          rentalCharges
-          managementFees
-          lastname
-          firstname
-          email
-          startDate
-          endDate
-        }
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-        pendingInvitations {
-          items {
-            id
-            realEstateId
-            email
-            type
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        documents {
-          items {
-            id
-            realEstateId
-            name
-            key
-            s3file
-            createdAt
-            _version
-            _deleted
-            _lastChangedAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        budgetLines {
-          items {
-            id
-            realEstateId
-            type
-            category
-            amount
-            frequency
-            nextDueDate
-            tenantId
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        budgetLineDeadlines {
-          items {
-            id
-            realEstateId
-            bankMouvementId
-            budgetLineId
-            type
-            category
-            amount
-            frequency
-            date
-            tenantId
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        bankAccounts {
-          items {
-            id
-            realEstateId
-            bankAccountId
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        bankMovements {
-          items {
-            id
-            bankAccountId
-            realEstateId
-            biId
-            description
-            amount
-            ignored
-            date
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
+        birthDate
+        subscription
       }
-      bankAccount {
-        id
-        bank
-        accountOwner
-        name
-        iban
-        bic
-        balance
-        biId
-        biConnectionId
-        biState
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-        realEstates {
-          items {
-            id
-            realEstateId
-            bankAccountId
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        movements {
-          items {
-            id
-            bankAccountId
-            realEstateId
-            biId
-            description
-            amount
-            ignored
-            date
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-      }
+      expoToken
+      biUser
+      biToken
     }
   }
 `;
-export const createBankAccount = /* GraphQL */ `
-  mutation CreateBankAccount(
-    $input: CreateBankAccountInput!
-    $condition: ModelBankAccountConditionInput
+export const deleteUser = /* GraphQL */ `
+  mutation DeleteUser(
+    $input: DeleteUserInput!
+    $condition: ModelUserConditionInput
   ) {
-    createBankAccount(input: $input, condition: $condition) {
+    deleteUser(input: $input, condition: $condition) {
       id
-      bank
-      accountOwner
+      lastname
+      firstname
+      avatarUri
+      _version
+      _deleted
+      _lastChangedAt
+      createdAt
+      updatedAt
+      email
+      privateProfile {
+        phoneNumber
+        optIn
+        address {
+          address
+          additionalAddress
+          postalCode
+          city
+          country
+        }
+        birthDate
+        subscription
+      }
+      expoToken
+      biUser
+      biToken
+    }
+  }
+`;
+export const createRealEstate = /* GraphQL */ `
+  mutation CreateRealEstate(
+    $input: CreateRealEstateInput!
+    $condition: ModelRealEstateConditionInput
+  ) {
+    createRealEstate(input: $input, condition: $condition) {
+      id
       name
-      iban
-      bic
-      balance
-      biId
-      biConnectionId
-      biState
-      _version
-      _deleted
-      _lastChangedAt
-      createdAt
-      updatedAt
-      realEstates {
+      iconUri
+      purchaseYear
+      type
+      ownName
+      company
+      address {
+        address
+        additionalAddress
+        postalCode
+        city
+        country
+      }
+      detentionPart
+      typeImpot
+      bankAccounts {
         items {
           id
           realEstateId
@@ -4482,46 +2042,11 @@ export const createBankAccount = /* GraphQL */ `
           _lastChangedAt
           createdAt
           updatedAt
-          realEstate {
-            id
-            name
-            iconUri
-            purchaseYear
-            type
-            ownName
-            company
-            detentionPart
-            typeImpot
-            admins
-            shared
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          bankAccount {
-            id
-            bank
-            accountOwner
-            name
-            iban
-            bic
-            balance
-            biId
-            biConnectionId
-            biState
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
         }
         nextToken
         startedAt
       }
-      movements {
+      bankMovements {
         items {
           id
           bankAccountId
@@ -4536,45 +2061,95 @@ export const createBankAccount = /* GraphQL */ `
           _lastChangedAt
           createdAt
           updatedAt
-          realEstate {
-            id
-            name
-            iconUri
-            purchaseYear
-            type
-            ownName
-            company
-            detentionPart
-            typeImpot
-            admins
-            shared
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          budgetLineDeadline {
-            nextToken
-            startedAt
-          }
-          bankAccount {
-            id
-            bank
-            accountOwner
-            name
-            iban
-            bic
-            balance
-            biId
-            biConnectionId
-            biState
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
+        }
+        nextToken
+        startedAt
+      }
+      budgetLines {
+        items {
+          id
+          realEstateId
+          type
+          category
+          amount
+          frequency
+          nextDueDate
+          tenantId
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+        nextToken
+        startedAt
+      }
+      budgetLineDeadlines {
+        items {
+          id
+          realEstateId
+          bankMouvementId
+          budgetLineId
+          type
+          category
+          amount
+          frequency
+          date
+          tenantId
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+        nextToken
+        startedAt
+      }
+      documents {
+        items {
+          id
+          realEstateId
+          name
+          key
+          s3file
+          createdAt
+          _version
+          _deleted
+          _lastChangedAt
+          updatedAt
+        }
+        nextToken
+        startedAt
+      }
+      admins
+      shared
+      tenants {
+        id
+        amount
+        rentalCharges
+        managementFees
+        lastname
+        firstname
+        email
+        startDate
+        endDate
+      }
+      _version
+      _deleted
+      _lastChangedAt
+      createdAt
+      updatedAt
+      pendingInvitations {
+        items {
+          id
+          realEstateId
+          email
+          type
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
         }
         nextToken
         startedAt
@@ -4582,28 +2157,29 @@ export const createBankAccount = /* GraphQL */ `
     }
   }
 `;
-export const updateBankAccount = /* GraphQL */ `
-  mutation UpdateBankAccount(
-    $input: UpdateBankAccountInput!
-    $condition: ModelBankAccountConditionInput
+export const updateRealEstate = /* GraphQL */ `
+  mutation UpdateRealEstate(
+    $input: UpdateRealEstateInput!
+    $condition: ModelRealEstateConditionInput
   ) {
-    updateBankAccount(input: $input, condition: $condition) {
+    updateRealEstate(input: $input, condition: $condition) {
       id
-      bank
-      accountOwner
       name
-      iban
-      bic
-      balance
-      biId
-      biConnectionId
-      biState
-      _version
-      _deleted
-      _lastChangedAt
-      createdAt
-      updatedAt
-      realEstates {
+      iconUri
+      purchaseYear
+      type
+      ownName
+      company
+      address {
+        address
+        additionalAddress
+        postalCode
+        city
+        country
+      }
+      detentionPart
+      typeImpot
+      bankAccounts {
         items {
           id
           realEstateId
@@ -4613,46 +2189,11 @@ export const updateBankAccount = /* GraphQL */ `
           _lastChangedAt
           createdAt
           updatedAt
-          realEstate {
-            id
-            name
-            iconUri
-            purchaseYear
-            type
-            ownName
-            company
-            detentionPart
-            typeImpot
-            admins
-            shared
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          bankAccount {
-            id
-            bank
-            accountOwner
-            name
-            iban
-            bic
-            balance
-            biId
-            biConnectionId
-            biState
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
         }
         nextToken
         startedAt
       }
-      movements {
+      bankMovements {
         items {
           id
           bankAccountId
@@ -4667,45 +2208,95 @@ export const updateBankAccount = /* GraphQL */ `
           _lastChangedAt
           createdAt
           updatedAt
-          realEstate {
-            id
-            name
-            iconUri
-            purchaseYear
-            type
-            ownName
-            company
-            detentionPart
-            typeImpot
-            admins
-            shared
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          budgetLineDeadline {
-            nextToken
-            startedAt
-          }
-          bankAccount {
-            id
-            bank
-            accountOwner
-            name
-            iban
-            bic
-            balance
-            biId
-            biConnectionId
-            biState
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
+        }
+        nextToken
+        startedAt
+      }
+      budgetLines {
+        items {
+          id
+          realEstateId
+          type
+          category
+          amount
+          frequency
+          nextDueDate
+          tenantId
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+        nextToken
+        startedAt
+      }
+      budgetLineDeadlines {
+        items {
+          id
+          realEstateId
+          bankMouvementId
+          budgetLineId
+          type
+          category
+          amount
+          frequency
+          date
+          tenantId
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+        nextToken
+        startedAt
+      }
+      documents {
+        items {
+          id
+          realEstateId
+          name
+          key
+          s3file
+          createdAt
+          _version
+          _deleted
+          _lastChangedAt
+          updatedAt
+        }
+        nextToken
+        startedAt
+      }
+      admins
+      shared
+      tenants {
+        id
+        amount
+        rentalCharges
+        managementFees
+        lastname
+        firstname
+        email
+        startDate
+        endDate
+      }
+      _version
+      _deleted
+      _lastChangedAt
+      createdAt
+      updatedAt
+      pendingInvitations {
+        items {
+          id
+          realEstateId
+          email
+          type
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
         }
         nextToken
         startedAt
@@ -4713,28 +2304,29 @@ export const updateBankAccount = /* GraphQL */ `
     }
   }
 `;
-export const deleteBankAccount = /* GraphQL */ `
-  mutation DeleteBankAccount(
-    $input: DeleteBankAccountInput!
-    $condition: ModelBankAccountConditionInput
+export const deleteRealEstate = /* GraphQL */ `
+  mutation DeleteRealEstate(
+    $input: DeleteRealEstateInput!
+    $condition: ModelRealEstateConditionInput
   ) {
-    deleteBankAccount(input: $input, condition: $condition) {
+    deleteRealEstate(input: $input, condition: $condition) {
       id
-      bank
-      accountOwner
       name
-      iban
-      bic
-      balance
-      biId
-      biConnectionId
-      biState
-      _version
-      _deleted
-      _lastChangedAt
-      createdAt
-      updatedAt
-      realEstates {
+      iconUri
+      purchaseYear
+      type
+      ownName
+      company
+      address {
+        address
+        additionalAddress
+        postalCode
+        city
+        country
+      }
+      detentionPart
+      typeImpot
+      bankAccounts {
         items {
           id
           realEstateId
@@ -4744,46 +2336,11 @@ export const deleteBankAccount = /* GraphQL */ `
           _lastChangedAt
           createdAt
           updatedAt
-          realEstate {
-            id
-            name
-            iconUri
-            purchaseYear
-            type
-            ownName
-            company
-            detentionPart
-            typeImpot
-            admins
-            shared
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          bankAccount {
-            id
-            bank
-            accountOwner
-            name
-            iban
-            bic
-            balance
-            biId
-            biConnectionId
-            biState
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
         }
         nextToken
         startedAt
       }
-      movements {
+      bankMovements {
         items {
           id
           bankAccountId
@@ -4798,45 +2355,95 @@ export const deleteBankAccount = /* GraphQL */ `
           _lastChangedAt
           createdAt
           updatedAt
-          realEstate {
-            id
-            name
-            iconUri
-            purchaseYear
-            type
-            ownName
-            company
-            detentionPart
-            typeImpot
-            admins
-            shared
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          budgetLineDeadline {
-            nextToken
-            startedAt
-          }
-          bankAccount {
-            id
-            bank
-            accountOwner
-            name
-            iban
-            bic
-            balance
-            biId
-            biConnectionId
-            biState
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
+        }
+        nextToken
+        startedAt
+      }
+      budgetLines {
+        items {
+          id
+          realEstateId
+          type
+          category
+          amount
+          frequency
+          nextDueDate
+          tenantId
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+        nextToken
+        startedAt
+      }
+      budgetLineDeadlines {
+        items {
+          id
+          realEstateId
+          bankMouvementId
+          budgetLineId
+          type
+          category
+          amount
+          frequency
+          date
+          tenantId
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+        nextToken
+        startedAt
+      }
+      documents {
+        items {
+          id
+          realEstateId
+          name
+          key
+          s3file
+          createdAt
+          _version
+          _deleted
+          _lastChangedAt
+          updatedAt
+        }
+        nextToken
+        startedAt
+      }
+      admins
+      shared
+      tenants {
+        id
+        amount
+        rentalCharges
+        managementFees
+        lastname
+        firstname
+        email
+        startDate
+        endDate
+      }
+      _version
+      _deleted
+      _lastChangedAt
+      createdAt
+      updatedAt
+      pendingInvitations {
+        items {
+          id
+          realEstateId
+          email
+          type
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
         }
         nextToken
         startedAt
@@ -4844,20 +2451,16 @@ export const deleteBankAccount = /* GraphQL */ `
     }
   }
 `;
-export const createBankMovement = /* GraphQL */ `
-  mutation CreateBankMovement(
-    $input: CreateBankMovementInput!
-    $condition: ModelBankMovementConditionInput
+export const createPendingInvitation = /* GraphQL */ `
+  mutation CreatePendingInvitation(
+    $input: CreatePendingInvitationInput!
+    $condition: ModelPendingInvitationConditionInput
   ) {
-    createBankMovement(input: $input, condition: $condition) {
+    createPendingInvitation(input: $input, condition: $condition) {
       id
-      bankAccountId
       realEstateId
-      biId
-      description
-      amount
-      ignored
-      date
+      email
+      type
       _version
       _deleted
       _lastChangedAt
@@ -4871,10 +2474,6 @@ export const createBankMovement = /* GraphQL */ `
         type
         ownName
         company
-        detentionPart
-        typeImpot
-        admins
-        shared
         address {
           address
           additionalAddress
@@ -4882,6 +2481,30 @@ export const createBankMovement = /* GraphQL */ `
           city
           country
         }
+        detentionPart
+        typeImpot
+        bankAccounts {
+          nextToken
+          startedAt
+        }
+        bankMovements {
+          nextToken
+          startedAt
+        }
+        budgetLines {
+          nextToken
+          startedAt
+        }
+        budgetLineDeadlines {
+          nextToken
+          startedAt
+        }
+        documents {
+          nextToken
+          startedAt
+        }
+        admins
+        shared
         tenants {
           id
           amount
@@ -4899,230 +2522,6 @@ export const createBankMovement = /* GraphQL */ `
         createdAt
         updatedAt
         pendingInvitations {
-          items {
-            id
-            realEstateId
-            email
-            type
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        documents {
-          items {
-            id
-            realEstateId
-            name
-            key
-            s3file
-            createdAt
-            _version
-            _deleted
-            _lastChangedAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        budgetLines {
-          items {
-            id
-            realEstateId
-            type
-            category
-            amount
-            frequency
-            nextDueDate
-            tenantId
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        budgetLineDeadlines {
-          items {
-            id
-            realEstateId
-            bankMouvementId
-            budgetLineId
-            type
-            category
-            amount
-            frequency
-            date
-            tenantId
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        bankAccounts {
-          items {
-            id
-            realEstateId
-            bankAccountId
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        bankMovements {
-          items {
-            id
-            bankAccountId
-            realEstateId
-            biId
-            description
-            amount
-            ignored
-            date
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-      }
-      budgetLineDeadline {
-        items {
-          id
-          realEstateId
-          bankMouvementId
-          budgetLineId
-          type
-          category
-          amount
-          frequency
-          date
-          infoCredit {
-            amount
-            interest
-            assurance
-          }
-          tenantId
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-          realEstate {
-            id
-            name
-            iconUri
-            purchaseYear
-            type
-            ownName
-            company
-            detentionPart
-            typeImpot
-            admins
-            shared
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          budgetLine {
-            id
-            realEstateId
-            type
-            category
-            amount
-            frequency
-            nextDueDate
-            tenantId
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          bankMouvement {
-            id
-            bankAccountId
-            realEstateId
-            biId
-            description
-            amount
-            ignored
-            date
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-        }
-        nextToken
-        startedAt
-      }
-      bankAccount {
-        id
-        bank
-        accountOwner
-        name
-        iban
-        bic
-        balance
-        biId
-        biConnectionId
-        biState
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-        realEstates {
-          items {
-            id
-            realEstateId
-            bankAccountId
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        movements {
-          items {
-            id
-            bankAccountId
-            realEstateId
-            biId
-            description
-            amount
-            ignored
-            date
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
           nextToken
           startedAt
         }
@@ -5130,20 +2529,16 @@ export const createBankMovement = /* GraphQL */ `
     }
   }
 `;
-export const updateBankMovement = /* GraphQL */ `
-  mutation UpdateBankMovement(
-    $input: UpdateBankMovementInput!
-    $condition: ModelBankMovementConditionInput
+export const updatePendingInvitation = /* GraphQL */ `
+  mutation UpdatePendingInvitation(
+    $input: UpdatePendingInvitationInput!
+    $condition: ModelPendingInvitationConditionInput
   ) {
-    updateBankMovement(input: $input, condition: $condition) {
+    updatePendingInvitation(input: $input, condition: $condition) {
       id
-      bankAccountId
       realEstateId
-      biId
-      description
-      amount
-      ignored
-      date
+      email
+      type
       _version
       _deleted
       _lastChangedAt
@@ -5157,10 +2552,6 @@ export const updateBankMovement = /* GraphQL */ `
         type
         ownName
         company
-        detentionPart
-        typeImpot
-        admins
-        shared
         address {
           address
           additionalAddress
@@ -5168,6 +2559,30 @@ export const updateBankMovement = /* GraphQL */ `
           city
           country
         }
+        detentionPart
+        typeImpot
+        bankAccounts {
+          nextToken
+          startedAt
+        }
+        bankMovements {
+          nextToken
+          startedAt
+        }
+        budgetLines {
+          nextToken
+          startedAt
+        }
+        budgetLineDeadlines {
+          nextToken
+          startedAt
+        }
+        documents {
+          nextToken
+          startedAt
+        }
+        admins
+        shared
         tenants {
           id
           amount
@@ -5185,230 +2600,6 @@ export const updateBankMovement = /* GraphQL */ `
         createdAt
         updatedAt
         pendingInvitations {
-          items {
-            id
-            realEstateId
-            email
-            type
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        documents {
-          items {
-            id
-            realEstateId
-            name
-            key
-            s3file
-            createdAt
-            _version
-            _deleted
-            _lastChangedAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        budgetLines {
-          items {
-            id
-            realEstateId
-            type
-            category
-            amount
-            frequency
-            nextDueDate
-            tenantId
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        budgetLineDeadlines {
-          items {
-            id
-            realEstateId
-            bankMouvementId
-            budgetLineId
-            type
-            category
-            amount
-            frequency
-            date
-            tenantId
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        bankAccounts {
-          items {
-            id
-            realEstateId
-            bankAccountId
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        bankMovements {
-          items {
-            id
-            bankAccountId
-            realEstateId
-            biId
-            description
-            amount
-            ignored
-            date
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-      }
-      budgetLineDeadline {
-        items {
-          id
-          realEstateId
-          bankMouvementId
-          budgetLineId
-          type
-          category
-          amount
-          frequency
-          date
-          infoCredit {
-            amount
-            interest
-            assurance
-          }
-          tenantId
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-          realEstate {
-            id
-            name
-            iconUri
-            purchaseYear
-            type
-            ownName
-            company
-            detentionPart
-            typeImpot
-            admins
-            shared
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          budgetLine {
-            id
-            realEstateId
-            type
-            category
-            amount
-            frequency
-            nextDueDate
-            tenantId
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          bankMouvement {
-            id
-            bankAccountId
-            realEstateId
-            biId
-            description
-            amount
-            ignored
-            date
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-        }
-        nextToken
-        startedAt
-      }
-      bankAccount {
-        id
-        bank
-        accountOwner
-        name
-        iban
-        bic
-        balance
-        biId
-        biConnectionId
-        biState
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-        realEstates {
-          items {
-            id
-            realEstateId
-            bankAccountId
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        movements {
-          items {
-            id
-            bankAccountId
-            realEstateId
-            biId
-            description
-            amount
-            ignored
-            date
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
           nextToken
           startedAt
         }
@@ -5416,20 +2607,16 @@ export const updateBankMovement = /* GraphQL */ `
     }
   }
 `;
-export const deleteBankMovement = /* GraphQL */ `
-  mutation DeleteBankMovement(
-    $input: DeleteBankMovementInput!
-    $condition: ModelBankMovementConditionInput
+export const deletePendingInvitation = /* GraphQL */ `
+  mutation DeletePendingInvitation(
+    $input: DeletePendingInvitationInput!
+    $condition: ModelPendingInvitationConditionInput
   ) {
-    deleteBankMovement(input: $input, condition: $condition) {
+    deletePendingInvitation(input: $input, condition: $condition) {
       id
-      bankAccountId
       realEstateId
-      biId
-      description
-      amount
-      ignored
-      date
+      email
+      type
       _version
       _deleted
       _lastChangedAt
@@ -5443,10 +2630,6 @@ export const deleteBankMovement = /* GraphQL */ `
         type
         ownName
         company
-        detentionPart
-        typeImpot
-        admins
-        shared
         address {
           address
           additionalAddress
@@ -5454,6 +2637,30 @@ export const deleteBankMovement = /* GraphQL */ `
           city
           country
         }
+        detentionPart
+        typeImpot
+        bankAccounts {
+          nextToken
+          startedAt
+        }
+        bankMovements {
+          nextToken
+          startedAt
+        }
+        budgetLines {
+          nextToken
+          startedAt
+        }
+        budgetLineDeadlines {
+          nextToken
+          startedAt
+        }
+        documents {
+          nextToken
+          startedAt
+        }
+        admins
+        shared
         tenants {
           id
           amount
@@ -5471,377 +2678,9 @@ export const deleteBankMovement = /* GraphQL */ `
         createdAt
         updatedAt
         pendingInvitations {
-          items {
-            id
-            realEstateId
-            email
-            type
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
           nextToken
           startedAt
         }
-        documents {
-          items {
-            id
-            realEstateId
-            name
-            key
-            s3file
-            createdAt
-            _version
-            _deleted
-            _lastChangedAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        budgetLines {
-          items {
-            id
-            realEstateId
-            type
-            category
-            amount
-            frequency
-            nextDueDate
-            tenantId
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        budgetLineDeadlines {
-          items {
-            id
-            realEstateId
-            bankMouvementId
-            budgetLineId
-            type
-            category
-            amount
-            frequency
-            date
-            tenantId
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        bankAccounts {
-          items {
-            id
-            realEstateId
-            bankAccountId
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        bankMovements {
-          items {
-            id
-            bankAccountId
-            realEstateId
-            biId
-            description
-            amount
-            ignored
-            date
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-      }
-      budgetLineDeadline {
-        items {
-          id
-          realEstateId
-          bankMouvementId
-          budgetLineId
-          type
-          category
-          amount
-          frequency
-          date
-          infoCredit {
-            amount
-            interest
-            assurance
-          }
-          tenantId
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-          realEstate {
-            id
-            name
-            iconUri
-            purchaseYear
-            type
-            ownName
-            company
-            detentionPart
-            typeImpot
-            admins
-            shared
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          budgetLine {
-            id
-            realEstateId
-            type
-            category
-            amount
-            frequency
-            nextDueDate
-            tenantId
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          bankMouvement {
-            id
-            bankAccountId
-            realEstateId
-            biId
-            description
-            amount
-            ignored
-            date
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-        }
-        nextToken
-        startedAt
-      }
-      bankAccount {
-        id
-        bank
-        accountOwner
-        name
-        iban
-        bic
-        balance
-        biId
-        biConnectionId
-        biState
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-        realEstates {
-          items {
-            id
-            realEstateId
-            bankAccountId
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-        movements {
-          items {
-            id
-            bankAccountId
-            realEstateId
-            biId
-            description
-            amount
-            ignored
-            date
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
-      }
-    }
-  }
-`;
-export const createNotification = /* GraphQL */ `
-  mutation CreateNotification(
-    $input: CreateNotificationInput!
-    $condition: ModelNotificationConditionInput
-  ) {
-    createNotification(input: $input, condition: $condition) {
-      id
-      userId
-      type
-      title
-      body
-      data
-      createdAt
-      _version
-      _deleted
-      _lastChangedAt
-      updatedAt
-      user {
-        id
-        lastname
-        firstname
-        avatarUri
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-        email
-        privateProfile {
-          phoneNumber
-          optIn
-          address {
-            address
-            additionalAddress
-            postalCode
-            city
-            country
-          }
-          birthDate
-          subscription
-        }
-        expoToken
-        biUser
-        biToken
-      }
-    }
-  }
-`;
-export const updateNotification = /* GraphQL */ `
-  mutation UpdateNotification(
-    $input: UpdateNotificationInput!
-    $condition: ModelNotificationConditionInput
-  ) {
-    updateNotification(input: $input, condition: $condition) {
-      id
-      userId
-      type
-      title
-      body
-      data
-      createdAt
-      _version
-      _deleted
-      _lastChangedAt
-      updatedAt
-      user {
-        id
-        lastname
-        firstname
-        avatarUri
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-        email
-        privateProfile {
-          phoneNumber
-          optIn
-          address {
-            address
-            additionalAddress
-            postalCode
-            city
-            country
-          }
-          birthDate
-          subscription
-        }
-        expoToken
-        biUser
-        biToken
-      }
-    }
-  }
-`;
-export const deleteNotification = /* GraphQL */ `
-  mutation DeleteNotification(
-    $input: DeleteNotificationInput!
-    $condition: ModelNotificationConditionInput
-  ) {
-    deleteNotification(input: $input, condition: $condition) {
-      id
-      userId
-      type
-      title
-      body
-      data
-      createdAt
-      _version
-      _deleted
-      _lastChangedAt
-      updatedAt
-      user {
-        id
-        lastname
-        firstname
-        avatarUri
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-        email
-        privateProfile {
-          phoneNumber
-          optIn
-          address {
-            address
-            additionalAddress
-            postalCode
-            city
-            country
-          }
-          birthDate
-          subscription
-        }
-        expoToken
-        biUser
-        biToken
       }
     }
   }
@@ -5878,13 +2717,6 @@ export const createBillingHistory = /* GraphQL */ `
         privateProfile {
           phoneNumber
           optIn
-          address {
-            address
-            additionalAddress
-            postalCode
-            city
-            country
-          }
           birthDate
           subscription
         }
@@ -5927,13 +2759,6 @@ export const updateBillingHistory = /* GraphQL */ `
         privateProfile {
           phoneNumber
           optIn
-          address {
-            address
-            additionalAddress
-            postalCode
-            city
-            country
-          }
           birthDate
           subscription
         }
@@ -5976,13 +2801,129 @@ export const deleteBillingHistory = /* GraphQL */ `
         privateProfile {
           phoneNumber
           optIn
-          address {
-            address
-            additionalAddress
-            postalCode
-            city
-            country
-          }
+          birthDate
+          subscription
+        }
+        expoToken
+        biUser
+        biToken
+      }
+    }
+  }
+`;
+export const createNotification = /* GraphQL */ `
+  mutation CreateNotification(
+    $input: CreateNotificationInput!
+    $condition: ModelNotificationConditionInput
+  ) {
+    createNotification(input: $input, condition: $condition) {
+      id
+      userId
+      type
+      title
+      body
+      data
+      createdAt
+      _version
+      _deleted
+      _lastChangedAt
+      updatedAt
+      user {
+        id
+        lastname
+        firstname
+        avatarUri
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+        email
+        privateProfile {
+          phoneNumber
+          optIn
+          birthDate
+          subscription
+        }
+        expoToken
+        biUser
+        biToken
+      }
+    }
+  }
+`;
+export const updateNotification = /* GraphQL */ `
+  mutation UpdateNotification(
+    $input: UpdateNotificationInput!
+    $condition: ModelNotificationConditionInput
+  ) {
+    updateNotification(input: $input, condition: $condition) {
+      id
+      userId
+      type
+      title
+      body
+      data
+      createdAt
+      _version
+      _deleted
+      _lastChangedAt
+      updatedAt
+      user {
+        id
+        lastname
+        firstname
+        avatarUri
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+        email
+        privateProfile {
+          phoneNumber
+          optIn
+          birthDate
+          subscription
+        }
+        expoToken
+        biUser
+        biToken
+      }
+    }
+  }
+`;
+export const deleteNotification = /* GraphQL */ `
+  mutation DeleteNotification(
+    $input: DeleteNotificationInput!
+    $condition: ModelNotificationConditionInput
+  ) {
+    deleteNotification(input: $input, condition: $condition) {
+      id
+      userId
+      type
+      title
+      body
+      data
+      createdAt
+      _version
+      _deleted
+      _lastChangedAt
+      updatedAt
+      user {
+        id
+        lastname
+        firstname
+        avatarUri
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+        email
+        privateProfile {
+          phoneNumber
+          optIn
           birthDate
           subscription
         }

@@ -16,9 +16,9 @@
     "s3Key": {
       "Type": "String"
     },
-    "authomedomfee3bfe0UserPoolId": {
+    "authomedomc071f696UserPoolId": {
       "Type": "String",
-      "Default": "authomedomfee3bfe0UserPoolId"
+      "Default": "authomedomc071f696UserPoolId"
     },
     "apiomedomGraphQLAPIIdOutput": {
       "Type": "String",
@@ -28,9 +28,13 @@
       "Type": "String",
       "Default": "apiomedomGraphQLAPIEndpointOutput"
     },
-    "functionbudgetinsightlayerArn": {
+    "functionomedomGraphQLLayerArn": {
       "Type": "String",
-      "Default": "functionbudgetinsightlayerArn"
+      "Default": "functionomedomGraphQLLayerArn"
+    },
+    "functionomedomBudgetInsightLayerArn": {
+      "Type": "String",
+      "Default": "functionomedomBudgetInsightLayerArn"
     },
     "apiomedomrestApiName": {
       "Type": "String",
@@ -39,10 +43,6 @@
     "apiomedomrestApiId": {
       "Type": "String",
       "Default": "apiomedomrestApiId"
-    },
-    "functiongraphqllayerArn": {
-      "Type": "String",
-      "Default": "functiongraphqllayerArn"
     }
   },
   "Conditions": {
@@ -98,8 +98,8 @@
             "REGION": {
               "Ref": "AWS::Region"
             },
-            "AUTH_OMEDOMFEE3BFE0_USERPOOLID": {
-              "Ref": "authomedomfee3bfe0UserPoolId"
+            "AUTH_OMEDOMC071F696_USERPOOLID": {
+              "Ref": "authomedomc071f696UserPoolId"
             },
             "API_OMEDOM_GRAPHQLAPIIDOUTPUT": {
               "Ref": "apiomedomGraphQLAPIIdOutput"
@@ -124,10 +124,10 @@
         "Runtime": "nodejs14.x",
         "Layers": [
           {
-            "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:layer:budgetinsightlayer-dev:10"
+            "Ref": "functionomedomGraphQLLayerArn"
           },
           {
-            "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:layer:graphqllayer-dev:15"
+            "Ref": "functionomedomBudgetInsightLayerArn"
           }
         ],
         "Timeout": "25"
@@ -139,12 +139,12 @@
         "RoleName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "omedomLambdaRole24a4db36",
+            "omedomLambdaRole0a70bd7c",
             {
               "Fn::Join": [
                 "",
                 [
-                  "omedomLambdaRole24a4db36",
+                  "omedomLambdaRole0a70bd7c",
                   "-",
                   {
                     "Ref": "env"
@@ -263,7 +263,7 @@
                       },
                       ":userpool/",
                       {
-                        "Ref": "authomedomfee3bfe0UserPoolId"
+                        "Ref": "authomedomc071f696UserPoolId"
                       }
                     ]
                   ]
@@ -313,6 +313,32 @@
                         "Ref": "apiomedomGraphQLAPIIdOutput"
                       },
                       "/types/Mutation/*"
+                    ]
+                  ]
+                }
+              ]
+            },
+            {
+              "Effect": "Allow",
+              "Action": [
+                "apigateway:GET",
+                "apigateway:HEAD",
+                "apigateway:OPTIONS"
+              ],
+              "Resource": [
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:aws:apigateway:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      "::/restapis/",
+                      {
+                        "Ref": "apiomedomrestApiName"
+                      },
+                      "/*"
                     ]
                   ]
                 }

@@ -52,71 +52,71 @@ export const typographies: Typographies = {
 
   body: {
     fontSize: 24,
-    fontFamily: 'Houschka_Rounded_Alt_Light_Regular',
+    fontFamily: 'confortaa_Regular',
   },
   regularText: {
     fontSize: 16,
-    fontFamily: 'HouschkaRoundedDemiBold',
+    fontFamily: 'confortaa_SemiBold',
   },
   caption: {
     fontSize: 11,
     lineHeight: 13,
-    fontFamily: 'Houschka_Rounded_Alt_Light_Regular',
+    fontFamily: 'confortaa_Regular',
   },
   footnote: {
     fontSize: 12,
     lineHeight: 18,
-    fontFamily: 'Houschka_Rounded_Alt_Light_Regular',
+    fontFamily: 'confortaa_Regular',
   },
   headline: {
     fontSize: 20,
     lineHeight: 22,
-    fontFamily: 'HouschkaRoundedDemiBold',
+    fontFamily: 'confortaa_SemiBold',
   },
   subhead: {
     fontSize: 14,
     lineHeight: 20,
-    fontFamily: 'HouschkaRoundedDemiBold',
+    fontFamily: 'confortaa_SemiBold',
   },
   title1: {
     fontSize: 15,
     lineHeight: 15,
-    fontFamily: 'HouschkaRoundedDemiBold',
+    fontFamily: 'confortaa_SemiBold',
   },
   title2: {
-    fontFamily: 'HouschkaRoundedDemiBold',
+    fontFamily: 'confortaa_SemiBold',
     fontSize: 15,
   },
   title4: {
     fontSize: 28,
     lineHeight: 34,
-    fontFamily: 'HouschkaRoundedDemiBold',
+    fontFamily: 'confortaa_SemiBold',
   },
   title3: {
     fontSize: 20,
     lineHeight: 26,
-    fontFamily: 'HouschkaRoundedDemiBold',
+    fontFamily: 'confortaa_SemiBold',
   },
   subtitle: {
     fontSize: 15,
     lineHeight: 16,
-    fontFamily: 'HouschkaRoundedDemiBold',
+    fontFamily: 'confortaa_SemiBold',
   },
   description: {
     fontSize: 16,
     lineHeight: 18,
-    fontFamily: 'HouschkaRoundedDemiBold',
+    fontFamily: 'confortaa_SemiBold',
   },
   label: {
     fontSize: 16,
-    fontFamily: 'HouschkaRoundedDemiBold',
+    fontFamily: 'confortaa_SemiBold',
   },
   input: {
     fontSize: 20,
-    fontFamily: 'HouschkaRoundedDemiBold',
+    fontFamily: 'confortaa_SemiBold',
   },
   error: {
-    fontFamily: 'HouschkaRoundedDemiBold',
+    fontFamily: 'confortaa_SemiBold',
     fontSize: 14,
   },
 };

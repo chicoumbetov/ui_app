@@ -1,16 +1,13 @@
-import { Layout, Text, useTheme } from '@ui-kitten/components';
-import React, { useEffect, useState } from 'react';
-import {
-  StyleSheet, TouchableOpacity, View, Alert,
-} from 'react-native';
+import { Text } from '@ui-kitten/components';
+import React from 'react';
+import { View } from 'react-native';
 
 import Card from '../../../components/Card';
-import { User } from '../../../src/API';
+
 import MaxWidthContainer from '../../../components/MaxWidthContainer';
-import WomanAvatar from '../../../assets/Omedom_Icons_svg/Avatars/womanAvatar.svg';
 import { useGetUser } from '../../../src/API/User';
 import ActivityIndicator from '../../../components/ActivityIndicator';
-import { usePendingInvitationsList } from '../../../src/API/PendingInvitation';
+
 import AutoAvatar from '../../../components/AutoAvatar';
 
 type MonBudgetProps = { idUser?: string, admin?: boolean, email?: string };
@@ -19,7 +16,7 @@ const UserSharedCard = (props: MonBudgetProps) => {
   const {
     idUser, admin, email,
   } = props;
-  const theme = useTheme();
+  // const theme = useTheme();
 
   const { user, loading } = useGetUser(idUser);
   console.log('idUser', email);
@@ -30,19 +27,36 @@ const UserSharedCard = (props: MonBudgetProps) => {
       withScrollView="keyboardAware"
       outerViewProps={{
         showsVerticalScrollIndicator: false,
+        style: {
+          backgroundColor: 'transparent',
+          marginBottom: 15,
+          borderRadius: 15,
+          shadowColor: 'rgba(190, 190, 190, 0.5)',
+          shadowOffset: {
+            width: 0,
+            height: 1,
+          },
+          shadowRadius: 2,
+          shadowOpacity: 1,
+          elevation: 2,
+        },
       }}
     >
       {loading ? (
         <ActivityIndicator style={{ marginRight: 10 }} />
       ) : (
-        <Card style={[styles.docs, {
-          justifyContent: 'flex-start',
-        }]}
+        <Card
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            paddingHorizontal: 22,
+            paddingTop: 20,
+          }}
         >
           <AutoAvatar
             avatarInfo={user?.avatarUri || 'default::WaitUser'}
             style={{
-              height: 50, width: 50, marginRight: 12, marginBottom: 10,
+              height: 50, width: 50, borderRadius: 50, marginRight: 12, marginBottom: 10,
             }}
           />
 
@@ -64,19 +78,4 @@ const UserSharedCard = (props: MonBudgetProps) => {
 
 export default UserSharedCard;
 
-const styles = StyleSheet.create({
-
-  // Footer
-  button: {
-    flexDirection: 'row', marginVertical: 10, justifyContent: 'space-between', backgroundColor: 'transparent',
-  },
-  buttonTextLeft: {
-    marginLeft: 6,
-  },
-  docs: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingHorizontal: 22,
-    paddingTop: 28,
-  },
-});
+// const styles = StyleSheet.create({});

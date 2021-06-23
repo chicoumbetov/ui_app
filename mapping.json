@@ -1,45 +1,45 @@
 {
   "strict": {
-    "text-font-family": "HouschkaRoundedMedium",
-    "text-label-font-size": 20,
+    "text-font-family": "confortaa_Medium",
+    "text-label-font-size": 18,
 
-    "text-label-font-family": "Houschka_Rounded_Alt_Light_Regular",
+    "text-label-font-family": "confortaa_Regular",
     "size-small": 30,
     "size-large": 55,
     "border-radius": 7,
 
-    "text-heading-1-font-size": 25,
-    "text-heading-1-font-family": "HouschkaRoundedDemiBold",
+    "text-heading-1-font-size": 23,
+    "text-heading-1-font-family": "confortaa_SemiBold",
 
-    "text-heading-2-font-size": 21,
-    "text-heading-2-font-family": "HouschkaRoundedMedium",
+    "text-heading-2-font-size": 19,
+    "text-heading-2-font-family": "confortaa_Medium",
 
-    "text-heading-3-font-size": 19,
-    "text-heading-3-font-family": "HouschkaRoundedDemiBold",
+    "text-heading-3-font-size": 17,
+    "text-heading-3-font-family": "confortaa_SemiBold",
 
-    "text-heading-4-font-size": 22,
-    "text-heading-4-font-family": "HouschkaRoundedDemiBold",
+    "text-heading-4-font-size": 20,
+    "text-heading-4-font-family": "confortaa_SemiBold",
 
-    "text-heading-5-font-size": 17,
-    "text-heading-5-font-family": "HouschkaRoundedDemiBold",
+    "text-heading-5-font-size": 15,
+    "text-heading-5-font-family": "confortaa_SemiBold",
 
-    "text-heading-6-font-size": 16,
-    "text-heading-6-font-family": "HouschkaRoundedDemiBold",
+    "text-heading-6-font-size": 14,
+    "text-heading-6-font-family": "confortaa_SemiBold",
 
-    "text-subtitle-1-font-size": 11,
-    "text-subtitle-1-font-family": "HouschkaRoundedMedium",
+    "text-subtitle-1-font-size": 9,
+    "text-subtitle-1-font-family": "confortaa_Medium",
 
-    "text-subtitle-2-font-size": 20,
-    "text-subtitle-2-font-family": "Houschka_Rounded_Alt_Light_Regular",
+    "text-subtitle-2-font-size": 18,
+    "text-subtitle-2-font-family": "confortaa_Regular",
 
-    "text-paragraph-1-font-size": 17,
-    "text-paragraph-1-font-family": "HouschkaRoundedMedium",
+    "text-paragraph-1-font-size": 15,
+    "text-paragraph-1-font-family": "confortaa_Medium",
 
-    "text-paragraph-2-font-size": 15,
-    "text-paragraph-2-font-family": "HouschkaRoundedMedium",
+    "text-paragraph-2-font-size": 13,
+    "text-paragraph-2-font-family": "confortaa_Medium",
 
-    "text-caption-1-font-size": 15,
-    "text-caption-1-font-family": "HouschkaRoundedDemiBold"
+    "text-caption-1-font-size": 13,
+    "text-caption-1-font-family": "confortaa_SemiBold"
   },
   "components": {
     "BottomNavigationTab": {

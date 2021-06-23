@@ -323,6 +323,7 @@ const MouvBancaires = () => {
           budget={budget}
           movement={currentMvt}
           onSaved={() => setCurrentMvt(undefined)}
+          realEstateId={route.params.id}
         />
         )}
       </ActionSheet>

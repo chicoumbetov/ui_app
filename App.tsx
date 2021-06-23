@@ -52,6 +52,16 @@ const fonts = {
   Houschka_Rounded_Alt_Light_Regular: require('./assets/fonts/Houschka_Rounded_Alt_Light_Regular.ttf'),
   // eslint-disable-next-line global-require
   Houschka_Rounded_Alt_Bold_Regular: require('./assets/fonts/Houschka_Rounded_Alt_Bold_Regular.ttf'),
+  // eslint-disable-next-line global-require
+  confortaa_Bold: require('./assets/fonts/Comfortaa-Bold.ttf'),
+  // eslint-disable-next-line global-require
+  confortaa_Light: require('./assets/fonts/Comfortaa-Light.ttf'),
+  // eslint-disable-next-line global-require
+  confortaa_Medium: require('./assets/fonts/Comfortaa-Medium.ttf'),
+  // eslint-disable-next-line global-require
+  confortaa_Regular: require('./assets/fonts/Comfortaa-Regular.ttf'),
+  // eslint-disable-next-line global-require
+  confortaa_SemiBold: require('./assets/fonts/Comfortaa-SemiBold.ttf'),
 };
 
 I18n.setLanguage('fr');

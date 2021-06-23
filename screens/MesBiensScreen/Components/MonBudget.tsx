@@ -118,16 +118,15 @@ function MonBudget() {
         {revenus && revenus.map(
           (item) => item && <MonBudgetCard key={item.id} budget={item} realEstate={bienget} />,
         )}
-
+        {!readOnly && (
         <Button
           size="large"
-          disabled={readOnly}
           onPress={() => { allerAjoutRevenu(); }}
           // style={{ marginTop: 25 }}
         >
           + Ajouter un autre revenu
         </Button>
-
+        )}
       </View>
 
       <Separator />
@@ -155,16 +154,15 @@ function MonBudget() {
 
         {charges && charges.map((item) => item
             && <MonBudgetCard key={item.id} budget={item} realEstate={bienget} />)}
-
+        {!readOnly && (
         <Button
           size="large"
-          disabled={readOnly}
           onPress={() => { allerAjoutCharge(); }}
           style={{ marginTop: 25 }}
         >
           + Ajouter une autre charge
         </Button>
-
+        )}
       </Layout>
 
       <Separator />
@@ -179,9 +177,8 @@ function MonBudget() {
         </Text>
         {/**   1   */}
         <Layout style={[styles.docs, { marginBottom: 10, justifyContent: 'center' }]}>
-
           <TouchableOpacity
-            onPress={() => { if (!readOnly) { allerTresorerie(); } }}
+            onPress={() => { allerTresorerie(); }}
             style={{
               flexDirection: 'row', alignItems: 'center',
             }}
@@ -192,7 +189,6 @@ function MonBudget() {
             </Text>
 
           </TouchableOpacity>
-
         </Layout>
       </Layout>
 

@@ -41,8 +41,6 @@ import AutoAvatar from '../../components/AutoAvatar';
 import ActivityIndicator from '../../components/ActivityIndicator';
 import UserSharedCard from './Components/UserSharedCard';
 
-import { updateRealEstate } from '../../src/graphql/mutations';
-
 function DetailsBien() {
   const navigation = useNavigation();
   const linkTo = useLinkTo();
@@ -98,15 +96,16 @@ function DetailsBien() {
   // const [compte, setCompte] = useState(comptesData);
 
   const allerMonBudget = () => {
+    console.log(route.params.id);
     navigation.navigate('mon-budget', { id: route.params.id });
   };
-  console.log('pending invitation: ', bienget?.pendingInvitations?.items);
+  // console.log('pending invitation: ', bienget?.pendingInvitations?.items);
   const allerTresorerie = () => {
     linkTo(`/ma-tresorerie/ma-tresorerie-2/${route.params.id}`);
   };
 
   const allerMesRapports = () => {
-    navigation.navigate('mes-rapports', { id: route.params.id });
+    linkTo(`/mes-biens/mes-rapports-biens1/${bienget.id}`);
   };
 
   const allerMonAssistant = () => {
@@ -141,7 +140,7 @@ function DetailsBien() {
   const [supprimTenant, setSupprimTenant] = useState(false);
   const deleteLocataire = useUpdateRealEstateMutation();
   const deleteTenant = async () => {
-    return false;
+    // return false;
     Alert.alert(
       'Suppression de locataire',
       '',
@@ -152,13 +151,18 @@ function DetailsBien() {
       {
         text: 'Valider',
         onPress: async () => {
+          // reduce needed to do async
           checkedTenant.reduce(async (promise, id) => {
+            // get all tenants of actual real estate
+            const { tenants } = bienget;
+            tenants?.filter((h) => h?.id === id);
             // console.log('id:', id);
             await promise;
-            await deleteLocataire({
+            await deleteLocataire.updateRealEstate({
               variables: {
                 input: {
                   id,
+                  tenants,
                 },
               },
             });
@@ -170,27 +174,33 @@ function DetailsBien() {
 
   const deleteDoc = useDeleteDocumentMutation();
   const supprimerDocument = async () => {
-    return false;
-    Alert.alert(
-      'Suppression de document',
-      '',
-      [{
-        text: 'Annuler',
-        style: 'cancel',
-      },
-      {
-        text: 'Valider',
-        onPress: async () => {
-          await deleteDoc({
-            variables: {
-              input: {
-                id: checkedDocument.indexOf(document.documentURI),
-              },
-            },
-          });
+    if (checkedDocument.length > 0) {
+      Alert.alert(
+        'Suppression de document',
+        '',
+        [{
+          text: 'Annuler',
+          style: 'cancel',
         },
-      }],
-    );
+        {
+          text: 'Valider',
+          onPress: async () => {
+            const promises = checkedDocument.map(async (docId) => {
+              await deleteDoc({
+                variables: {
+                  input: {
+                    id: docId,
+                  },
+                },
+              });
+            });
+            await Promise.all(promises);
+          },
+        }],
+      );
+    } else {
+      setSupprim(false);
+    }
   };
 
   const allDataNextExpense = bienget?.budgetLineDeadlines?.items
@@ -216,8 +226,8 @@ function DetailsBien() {
   const nextexpense = allDataNextExpense?.map((d) => d?.amount)
     .find((m) => m);
 
-  const dernierMovement = bienget?.bankMovements?.items?.map(
-    (item) => { if (item?.ignored) { return false; } return item; },
+  const dernierMovement = bienget?.bankMovements?.items?.find(
+    (item) => { if (item?.ignored) { return false; } return true; },
   );
   // console.log('last Movement', dernierMovement);
 
@@ -281,7 +291,7 @@ function DetailsBien() {
                 <View style={styles.oneThirdBlock}>
                   <Text category="h6" appearance="hint" style={styles.text}>Dernier mouvement</Text>
                   {dernierMovement ? (
-                    <Amount amount={dernierMovement[0]?.amount || 0} category="h4" />
+                    <Amount amount={dernierMovement?.amount || 0} category="h4" />
                   ) : (
                     <Amount amount={0} category="h4" />
                   )}
@@ -319,7 +329,7 @@ function DetailsBien() {
         </Text>
         {/**   1   */}
         <Card
-          onPress={allerMonBudget}
+          onPress={() => allerMonBudget()}
           style={[styles.docs, {
             alignItems: 'center',
             justifyContent: 'center',
@@ -344,7 +354,7 @@ function DetailsBien() {
         </Text>
         {/**   1   */}
         <Card
-          onPress={allerTresorerie}
+          onPress={() => allerTresorerie()}
           style={[styles.docs, {
             alignItems: 'center',
             justifyContent: 'center',
@@ -380,7 +390,7 @@ function DetailsBien() {
 
         {/**   3   */}
         <Card
-          onPress={allerMonAssistant}
+          onPress={() => allerMonAssistant()}
           style={[styles.docs, {
             alignItems: 'center',
             justifyContent: 'center',
@@ -442,13 +452,15 @@ function DetailsBien() {
                 {`${bienget?.detentionPart || undefined} %`}
               </Text>
             </Card>
-
+            {!readOnly && (
             <TouchableOpacity onPress={() => {
-              if (!readOnly) { allerModifierCharacteristics(); }
+              allerModifierCharacteristics();
             }}
             >
               <Text category="h5" status="info" style={styles.buttonText}>Modifier le bien</Text>
             </TouchableOpacity>
+            )}
+
           </View>
         )}
 
@@ -483,22 +495,29 @@ function DetailsBien() {
                     marginBottom: 10,
                     alignItems: 'center',
                     flexDirection: 'row',
+                    borderWidth: checkedTenant.indexOf(tenant?.id) > -1 ? (0) : (5),
+                    borderColor: 'red',
                   }}
                   key={tenant?.id}
                 >
                   {supprimTenant && (
                     <View
-
                       style={{ justifyContent: 'center', paddingHorizontal: 14, width: 50 }}
                     >
                       <CheckBox
+                          // 1 -> 3
                         checked={checkedTenant.indexOf(tenant?.id) > -1}
-                        onChange={(checked) => {
+                        onChange={(newChecked) => {
+                          // 2
+                          // 4
                           const nextCheckedTenants = checkedTenant
                             .filter((id) => id !== tenant?.id);
-                          if (checked) {
+                          // 2
+                          if (newChecked) {
                             nextCheckedTenants.push(tenant?.id);
                           }
+                          // 2
+                          // 4
                           // console.log('nextCheckedAccounts', nextCheckedAccounts);
                           setCheckedTenant(nextCheckedTenants);
                         }}
@@ -525,12 +544,10 @@ function DetailsBien() {
                   </View>
                 </Card>
               )) || undefined}
-
+              {!readOnly && (
               <TouchableOpacity
                 onPress={() => {
-                  if (!readOnly) {
-                    deleteTenant(); setSupprimTenant(!supprimTenant);
-                  }
+                  deleteTenant(); setSupprimTenant(!supprimTenant);
                 }}
                 style={{
                   flexDirection: 'row',
@@ -538,9 +555,9 @@ function DetailsBien() {
                   justifyContent: 'flex-end',
                 }}
               >
-                <Text category="h5" status="basic" style={styles.buttonText}>Supprimer</Text>
+                <Text category="h5" status={checkedTenant.length > 0 ? ('danger') : ('basic')} style={styles.buttonText}>{checkedTenant.length > 0 || !supprimTenant ? ('Supprimer') : ('Annuler')}</Text>
               </TouchableOpacity>
-
+              )}
             </View>
           </>
         )}
@@ -601,15 +618,18 @@ function DetailsBien() {
                 >
                   <Text category="h5" status="info" style={styles.buttonText}>Ajouter</Text>
                 </TouchableOpacity>
-
-                <TouchableOpacity onPress={() => { supprimerDocument(); setSupprim(!supprim); }}>
+                {!readOnly && (
+                <TouchableOpacity onPress={() => {
+                  supprimerDocument(); setSupprim(!supprim);
+                }}
+                >
                   <Text category="h5" status={supprim ? 'danger' : 'basic'} style={styles.buttonText}>Supprimer</Text>
                 </TouchableOpacity>
+                )}
               </View>
             </View>
           </>
         )}
-
       {/**
        *  VIII. Partager votre bien
        */}
@@ -628,34 +648,33 @@ function DetailsBien() {
           pending?.type === 'Admin' ? (<UserSharedCard email={pending.email} admin />) : (
             <UserSharedCard email={pending?.email} admin={false} key={pending?.id} />
           )
-
         ))}
-
+        {!readOnly && (
         <View style={styles.button}>
           <TouchableOpacity onPress={() => {
-            if (!readOnly) { allerPartagerBien(); }
+            allerPartagerBien();
           }}
           >
             <Text category="h5" status="info" style={styles.buttonText}>Ajouter</Text>
           </TouchableOpacity>
 
           <TouchableOpacity onPress={() => {
-            if (!readOnly) {}
             // console.log(useGetInvitateUser.userList);
           }}
           >
             <Text category="h5" status="basic" style={styles.buttonText}>Supprimer</Text>
           </TouchableOpacity>
         </View>
+        )}
       </View>
 
       {/**
        *  Supprimer le bien
        */}
       <Separator />
-
+      {!readOnly && (
       <TouchableOpacity onPress={() => {
-        if (!readOnly) { supprimerLeBien(); }
+        supprimerLeBien();
       }}
       >
         <View style={[styles.container, { alignItems: 'center' }]}>
@@ -665,6 +684,7 @@ function DetailsBien() {
 
         </View>
       </TouchableOpacity>
+      )}
 
     </MaxWidthContainer>
 
@@ -708,7 +728,6 @@ const styles = StyleSheet.create({
   // Ajouter Supprimer buttons
   button: {
     flexDirection: 'row',
-    marginTop: 10,
     justifyContent: 'space-between',
   },
   buttonText: {

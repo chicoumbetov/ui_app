@@ -5,6 +5,7 @@ import {
   VictoryAxis, VictoryBar, VictoryChart, VictoryGroup, VictoryLabel, VictoryLine, VictoryScatter,
 } from 'victory-native';
 import moment from 'moment';
+import 'moment/min/locales'; // Import all moment-locales -- it's just 400kb
 import MaxWidthContainer from '../MaxWidthContainer';
 import DateUtils from '../../utils/DateUtils';
 import { useListBankMovement } from '../../src/API/BankMouvement';
@@ -104,7 +105,7 @@ const GraphicsII = (props: GraphicsIIProps) => {
     >
 
       <VictoryChart
-        height={300}
+        height={350}
         width={500}
         domainPadding={{ x: 20 }}
         standalone
@@ -117,36 +118,43 @@ const GraphicsII = (props: GraphicsIIProps) => {
           crossAxis
           standalone
           offsetX={50}
+          style={{
+            ticks: { stroke: '#b5b5b5', size: 8 },
+          }}
           tickLabelComponent={(
             <VictoryLabel
               textAnchor="end"
               style={{
-                fontSize: '15px', fill: '#b5b5b5', angle: -45,
+                fontSize: '10px', fill: '#b5b5b5', angle: -45,
               }}
             />
-)}
+          )}
           tickValues={evolutionData.map(({ moisLabel }) => moisLabel)}
           fixLabelOverlap
         />
         <VictoryAxis
           dependentAxis
           crossAxis
-          tickLabelComponent={<VictoryLabel style={{ fontSize: '15px', fill: '#b5b5b5' }} />}
+          tickLabelComponent={(
+            <VictoryLabel
+              style={{ fontSize: '10px', fill: '#b5b5b5' }}
+            />
+          )}
           style={{
-            // axis: { stroke: '#b5b5b5' },
+            ticks: { stroke: '#b5b5b5', size: 8 },
           }}
           domainPadding={{ y: 10 }}
         />
         <VictoryBar
           alignment="start"
-          cornerRadius={8}
+          cornerRadius={{ top: 8, bottom: 8 }}
           style={{ data: { fill: theme['color-danger-500'] } }}
           data={evolutionData.map(({ expense, moisLabel }) => ({ x: moisLabel, y: -expense }))}
         />
         <VictoryBar
           // barWidth={10}
           alignment="end"
-          cornerRadius={8}
+          cornerRadius={{ top: 8, bottom: 8 }}
           style={{ data: { fill: theme['color-info-600'] } }}
           data={evolutionData.map(({ income, moisLabel }) => ({ x: moisLabel, y: income }))}
         />

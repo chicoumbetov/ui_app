@@ -99,7 +99,7 @@ const ModifierInfo2 = () => {
             labelBefore
             icon="calendar-outline"
             startView={CalendarViewModes.YEAR}
-            style={{ width: 159 }}
+            style={{ width: 180, maxWidth: 180 }}
             size="medium"
           />
 
@@ -187,11 +187,6 @@ const ModifierInfo2 = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    margin: 21,
-    backgroundColor: 'transparent',
-  },
   buttonRight: { alignItems: 'flex-end', marginTop: 34 },
   title: {
     marginTop: 12,

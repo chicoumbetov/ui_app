@@ -7,6 +7,7 @@ import {
 import moment from 'moment';
 import MaxWidthContainer from '../MaxWidthContainer';
 import DateUtils from '../../utils/DateUtils';
+import { useListBankMovement } from '../../src/API/BankMouvement';
 
 const bankMovements = [
   { date: '2021-01-21', amount: 500 },
@@ -25,10 +26,13 @@ const bankMovements = [
 type GraphicsIIProps = {
   dateStart: Date;
   dateEnd: Date;
+  id: string
 };
 
 const GraphicsII = (props: GraphicsIIProps) => {
-  const { dateStart, dateEnd } = props;
+  const { dateStart, dateEnd, id } = props;
+  const listBankMovement = useListBankMovement();
+  console.log('oui oui :', listBankMovement.data);
   const theme = useTheme();
 
   /** Object with 3 attributes and its key */

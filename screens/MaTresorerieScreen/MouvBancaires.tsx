@@ -54,10 +54,11 @@ const MouvBancaires = () => {
   useEffect(() => {
     setBankMovementCharger(bankMouvement);
   }, [bankMouvement]);
+  console.log(bankMouvement);
 
   const movementPasAffect = bankMovementCharger?.filter((item) => {
     if (item.ignored
-        || (item.budgetLineDeadline?.items && item.budgetLineDeadline?.items?.length > 0)) {
+        || (item.budgetLineDeadlines?.items && item.budgetLineDeadlines?.items?.length > 0)) {
       return false;
     }
     return item;
@@ -119,6 +120,7 @@ const MouvBancaires = () => {
 
   const ignorerMovement = () => {
     checked.reduce(async (promise, current) => {
+      console.log('current :', current);
       await promise;
       await useUpdateBankMouvement.updateBankMovement({
         variables: {

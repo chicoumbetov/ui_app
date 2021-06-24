@@ -115,7 +115,7 @@ type BankAccount
         mutations: { create: "createBankAccount", update: null, delete: null }
     )
     @auth(rules: [
-        { allow: private }
+        { allow: owner, ownerField: "accountOwner" }
         { allow: private, provider: iam}
     ])
     @key(

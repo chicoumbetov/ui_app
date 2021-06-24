@@ -117,8 +117,11 @@ const MesRapportBien1 = () => {
         </Radio>
       </RadioGroup>
 
-      <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-        <Text category="h5" style={{ marginRight: 15 }}>Sélectionnez les dates</Text>
+      <View style={{
+        flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
+      }}
+      >
+        <Text category="h5" style={{ marginRight: 15, flex: 1 }}>Sélectionnez les dates</Text>
         <RangeDatepicker
           range={range}
           min={new Date(1900, 0, 1)}
@@ -140,7 +143,7 @@ const MesRapportBien1 = () => {
             shadowRadius: 2,
             shadowOpacity: 1,
             elevation: 2,
-            width: 240,
+            // flex: 1,
           }}
         />
       </View>

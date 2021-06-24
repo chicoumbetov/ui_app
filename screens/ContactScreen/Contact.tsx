@@ -1,10 +1,11 @@
 import React from 'react';
 import { Button, Text } from '@ui-kitten/components';
 
-import { View } from 'react-native';
+import { Alert, View } from 'react-native';
 
 import { useForm } from 'react-hook-form';
 
+import { useLinkTo } from '@react-navigation/native';
 import contactDATA from '../../mockData/contactDATA';
 import TextInput from '../../components/Form/TextInput';
 import SelectComp from '../../components/Form/Select';
@@ -23,12 +24,21 @@ function Contact() {
   // const navigation = useNavigation();
   const contactMessageForm = useForm<ContactMessageForm>();
   const { user } = useUser();
+  const linkTo = useLinkTo();
   // console.log('user :', user.email);
   const ContactSend = async (data : ContactMessageForm) => {
     // console.log('data : ', data);
 
     await sendEmail(user?.email, data.type, data.message);
     // navigation.pop();
+    Alert.alert(
+      'Votre message a été envoyé avec success !',
+      '',
+      [
+        { text: 'Ok', onPress: () => linkTo('/tableau-de-bord') },
+      ],
+      { cancelable: true },
+    );
   };
   return (
     <MaxWidthContainer

@@ -31,7 +31,7 @@ import Separator from '../../components/Separator';
 import DocumentComponent from '../../components/DocumentComponent';
 import { useCreateDocumentMutation, useDeleteDocumentMutation } from '../../src/API/Document';
 
-import { BudgetLineType } from '../../src/API';
+import { BudgetLineType, TenantInfo, TenantInfoInput } from '../../src/API';
 import ReadOnly from '../../components/ReadOnly';
 import { Upload } from '../../utils/S3FileStorage';
 import Amount from '../../components/Amount';
@@ -40,6 +40,8 @@ import DateUtils from '../../utils/DateUtils';
 import AutoAvatar from '../../components/AutoAvatar';
 import ActivityIndicator from '../../components/ActivityIndicator';
 import UserSharedCard from './Components/UserSharedCard';
+import { removeKey, removeKeyArray } from '../../utils/ObjectHelper';
+import { useDeleteTenant, useDeleteTenantMutation } from '../../src/API/Tenant';
 
 function DetailsBien() {
   const navigation = useNavigation();
@@ -139,6 +141,7 @@ function DetailsBien() {
 
   const [supprimTenant, setSupprimTenant] = useState(false);
   const deleteLocataire = useUpdateRealEstateMutation();
+  const useDeleteTenant = useDeleteTenantMutation();
   const deleteTenant = async () => {
     if (supprimTenant && checkedTenant.length > 0) {
       Alert.alert(
@@ -152,21 +155,7 @@ function DetailsBien() {
           text: 'Valider',
           onPress: async () => {
           // reduce needed to do async
-            checkedTenant.reduce(async (promise, id) => {
-            // get all tenants of actual real estate
-              const { tenants } = bienget;
-              tenants?.filter((h) => h?.id === id);
-              // console.log('id:', id);
-              await promise;
-              await deleteLocataire.updateRealEstate({
-                variables: {
-                  input: {
-                    id,
-                    tenants,
-                  },
-                },
-              });
-            }, Promise.resolve());
+            await useDeleteTenant(bienget, checkedTenant);
           },
         }],
       );

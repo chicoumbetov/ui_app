@@ -18,6 +18,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { MotiView } from 'moti';
 import { useLinkTo, useRoute } from '@react-navigation/native';
 import { RouteProp } from '@react-navigation/core/lib/typescript/src/types';
+import { ImagePickerResult } from 'expo-image-picker';
 import { colors } from '../../assets/styles';
 import Form from '../../components/Form/Form';
 import SelectComp from '../../components/Form/Select';
@@ -37,6 +38,7 @@ import {
 import { CompanyType, RealEstateType, TaxType } from '../../src/API';
 import { useUser } from '../../src/API/UserContext';
 import { TabMesBiensParamList } from '../../types';
+import { CameraOutput } from '../../components/Camera/Camera';
 
 type AjoutBienForm = {
   name: string,
@@ -62,17 +64,13 @@ function AjoutBienScreen() {
   const createRealEstate = useCreateRealEstateMutation();
   const linkTo = useLinkTo();
 
-  const ajoutBienForm = useForm<AjoutBienForm>();
+  const [selectedNewImage, setSelectedNewImage] = useState<
+  ImagePickerResult |
+  CameraOutput |
+  undefined
+  >();
 
-  const pickImage = async () => {
-    try {
-      const result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      });
-    } catch (e) {
-      console.log('pickImage error: ', e);
-    }
-  };
+  const ajoutBienForm = useForm<AjoutBienForm>();
 
   const onAjoutBien = async (data: AjoutBienForm) => {
     if (route.params) {
@@ -85,6 +83,7 @@ function AjoutBienScreen() {
             admins: [
               user.id,
             ],
+            // eslint-disable-next-line no-underscore-dangle
             _version: currentRealEstate._version,
           },
         },
@@ -109,7 +108,6 @@ function AjoutBienScreen() {
    *Variable pour gérer l'affichage des trois grandes partie
    * */
   const [etape, setEtape] = useState(0);
-
   /**
    *Variable pour gérer la date
    * */
@@ -136,6 +134,20 @@ function AjoutBienScreen() {
       setPourcentageDetentionShow(true);
     });
   }
+
+  const pickImage = async () => {
+    try {
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      });
+      if (!result.cancelled) {
+        setImage(result.uri);
+        setSelectedNewImage(result);
+      }
+    } catch (e) {
+      console.log('pickImage error: ', e);
+    }
+  };
 
   return (
     <MaxWidthContainer
@@ -185,7 +197,6 @@ function AjoutBienScreen() {
             animate={{ height: (etape === 0 ? 560 : 0) }}
             style={{
               overflow: 'hidden',
-              flex: 1,
               flexDirection: 'column',
               justifyContent: 'space-between',
             }}

@@ -155,8 +155,8 @@ const MesCharges3 = () => {
           labelComponent={(
             <VictoryLabel
               style={[
-                { fill: 'black', fontSize: 16, fontFamily: 'HouschkaRoundedDemiBold' },
-                { fill: '#b5b5b5', fontSize: 16, fontFamily: 'HouschkaRoundedDemiBold' },
+                { fill: 'black', fontSize: 16, fontFamily: 'confortaa_SemiBold' },
+                { fill: '#b5b5b5', fontSize: 16, fontFamily: 'confortaa_SemiBold' },
               ]}
             />
           )}

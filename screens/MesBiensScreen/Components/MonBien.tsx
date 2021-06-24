@@ -58,10 +58,17 @@ const MonBien = (props: MonBienProps) => {
    */
 
   /**
-   *   Summarizing of each expenses and incomes
+   *
+   *
+   *   GRAPHIC I
+   *
+   *
    */
   const currentYear = new Date().getFullYear();
   const currentMonth = new Date().getMonth();
+
+  const firstDayCurrentYear = new Date(new Date().getFullYear(), 0, 1);
+  const lastDayCurrentYear = new Date(new Date().getFullYear(), 11, 31);
 
   const allDataNextExpense = bienget?.budgetLineDeadlines?.items
   && bienget?.budgetLineDeadlines?.items?.map((item) => {
@@ -144,6 +151,16 @@ const MonBien = (props: MonBienProps) => {
     (item) => { if (item?.ignored) { return false; } return item; },
   );
   // console.log('last Movement', bienget?.bankMovements);
+
+  /**
+   *
+   *
+   *   GRAPHIC II
+   *
+   *
+   */
+
+  // bienget.bankMovements?.items?.map((item) => console.log('bank Mouvement', item));
   return (
     <MaxWidthContainer
       withScrollView="keyboardAware"
@@ -292,7 +309,11 @@ const MonBien = (props: MonBienProps) => {
                     />
                   </TouchableOpacity>
                   <Graphics data={allCurrentCategories} />
-                  <GraphicsII />
+                  <GraphicsII
+                    dateStart={firstDayCurrentYear}
+                    dateEnd={lastDayCurrentYear}
+                    id={bienget.id}
+                  />
                 </>
               )}
             </Card>

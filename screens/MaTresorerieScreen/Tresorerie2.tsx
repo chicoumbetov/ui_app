@@ -41,7 +41,7 @@ const MaTresorerie2 = () => {
   const [supprim, setSupprim] = useState(false);
   const [addingAccounts, setAddingAccounts] = useState(false);
   const [checkedAccounts, setCheckedAccounts] = useState<string[]>([]);
-  const [checkedRealEstateAccounts, setCheckedRealEstateAccounts] = useState<string[]>([]);
+  const [checkedRealEstateAccounts, setCheckedRealEstateAccounts] = React.useState<Array<{ id:string, _version:number }>>([]);
 
   const route = useRoute<RouteProp<TabMaTresorerieParamList, 'ma-tresorerie-2'>>();
   const deleteBankAccount = useDeleteBankAccount();
@@ -82,13 +82,14 @@ const MaTresorerie2 = () => {
     buttonText = 'Lier un autre compte bancaire';
   }
   function supprimerCompte() {
-    checkedRealEstateAccounts.reduce(async (promise, id) => {
+    checkedRealEstateAccounts.reduce(async (promise, current) => {
       // console.log('id1:', id);
       await promise;
       await deleteRealEstateBankAccount({
         variables: {
           input: {
-            id,
+            id: current.id,
+            _version: current._version,
           },
         },
       });

@@ -35,20 +35,6 @@ export const onCreateBankMovement = /* GraphQL */ `
         }
         detentionPart
         typeImpot
-        bankAccounts {
-          items {
-            id
-            realEstateId
-            bankAccountId
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
         admins
         shared
         tenants {
@@ -157,18 +143,7 @@ export const onCreateBankMovement = /* GraphQL */ `
           nextToken
           startedAt
         }
-      }
-      bankAccount {
-        id
-        bank
-        name
-        iban
-        bic
-        balance
-        biId
-        biConnectionId
-        biState
-        realEstates {
+        bankAccounts {
           items {
             id
             realEstateId
@@ -182,6 +157,17 @@ export const onCreateBankMovement = /* GraphQL */ `
           nextToken
           startedAt
         }
+      }
+      bankAccount {
+        id
+        bank
+        name
+        iban
+        bic
+        balance
+        biId
+        biConnectionId
+        biState
         accountOwner
         _version
         _deleted
@@ -198,6 +184,20 @@ export const onCreateBankMovement = /* GraphQL */ `
             amount
             ignored
             date
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
+          nextToken
+          startedAt
+        }
+        realEstates {
+          items {
+            id
+            realEstateId
+            bankAccountId
             _version
             _deleted
             _lastChangedAt
@@ -318,20 +318,6 @@ export const onUpdateBankMovement = /* GraphQL */ `
         }
         detentionPart
         typeImpot
-        bankAccounts {
-          items {
-            id
-            realEstateId
-            bankAccountId
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
         admins
         shared
         tenants {
@@ -440,18 +426,7 @@ export const onUpdateBankMovement = /* GraphQL */ `
           nextToken
           startedAt
         }
-      }
-      bankAccount {
-        id
-        bank
-        name
-        iban
-        bic
-        balance
-        biId
-        biConnectionId
-        biState
-        realEstates {
+        bankAccounts {
           items {
             id
             realEstateId
@@ -465,6 +440,17 @@ export const onUpdateBankMovement = /* GraphQL */ `
           nextToken
           startedAt
         }
+      }
+      bankAccount {
+        id
+        bank
+        name
+        iban
+        bic
+        balance
+        biId
+        biConnectionId
+        biState
         accountOwner
         _version
         _deleted
@@ -481,6 +467,20 @@ export const onUpdateBankMovement = /* GraphQL */ `
             amount
             ignored
             date
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
+          nextToken
+          startedAt
+        }
+        realEstates {
+          items {
+            id
+            realEstateId
+            bankAccountId
             _version
             _deleted
             _lastChangedAt
@@ -615,20 +615,6 @@ export const onCreateBudgetLine = /* GraphQL */ `
         }
         detentionPart
         typeImpot
-        bankAccounts {
-          items {
-            id
-            realEstateId
-            bankAccountId
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
         admins
         shared
         tenants {
@@ -728,6 +714,20 @@ export const onCreateBudgetLine = /* GraphQL */ `
             frequency
             date
             tenantId
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
+          nextToken
+          startedAt
+        }
+        bankAccounts {
+          items {
+            id
+            realEstateId
+            bankAccountId
             _version
             _deleted
             _lastChangedAt
@@ -788,20 +788,6 @@ export const onUpdateBudgetLine = /* GraphQL */ `
         }
         detentionPart
         typeImpot
-        bankAccounts {
-          items {
-            id
-            realEstateId
-            bankAccountId
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
         admins
         shared
         tenants {
@@ -901,6 +887,20 @@ export const onUpdateBudgetLine = /* GraphQL */ `
             frequency
             date
             tenantId
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
+          nextToken
+          startedAt
+        }
+        bankAccounts {
+          items {
+            id
+            realEstateId
+            bankAccountId
             _version
             _deleted
             _lastChangedAt
@@ -954,20 +954,6 @@ export const onCreateBudgetLineDeadline = /* GraphQL */ `
         }
         detentionPart
         typeImpot
-        bankAccounts {
-          items {
-            id
-            realEstateId
-            bankAccountId
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
         admins
         shared
         tenants {
@@ -1076,6 +1062,20 @@ export const onCreateBudgetLineDeadline = /* GraphQL */ `
           nextToken
           startedAt
         }
+        bankAccounts {
+          items {
+            id
+            realEstateId
+            bankAccountId
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
+          nextToken
+          startedAt
+        }
       }
       bankMouvement {
         id
@@ -1108,10 +1108,6 @@ export const onCreateBudgetLineDeadline = /* GraphQL */ `
           }
           detentionPart
           typeImpot
-          bankAccounts {
-            nextToken
-            startedAt
-          }
           admins
           shared
           tenants {
@@ -1150,6 +1146,10 @@ export const onCreateBudgetLineDeadline = /* GraphQL */ `
             nextToken
             startedAt
           }
+          bankAccounts {
+            nextToken
+            startedAt
+          }
         }
         bankAccount {
           id
@@ -1161,10 +1161,6 @@ export const onCreateBudgetLineDeadline = /* GraphQL */ `
           biId
           biConnectionId
           biState
-          realEstates {
-            nextToken
-            startedAt
-          }
           accountOwner
           _version
           _deleted
@@ -1172,6 +1168,10 @@ export const onCreateBudgetLineDeadline = /* GraphQL */ `
           createdAt
           updatedAt
           movements {
+            nextToken
+            startedAt
+          }
+          realEstates {
             nextToken
             startedAt
           }
@@ -1243,10 +1243,6 @@ export const onCreateBudgetLineDeadline = /* GraphQL */ `
           }
           detentionPart
           typeImpot
-          bankAccounts {
-            nextToken
-            startedAt
-          }
           admins
           shared
           tenants {
@@ -1282,6 +1278,10 @@ export const onCreateBudgetLineDeadline = /* GraphQL */ `
             startedAt
           }
           budgetLineDeadlines {
+            nextToken
+            startedAt
+          }
+          bankAccounts {
             nextToken
             startedAt
           }
@@ -1330,20 +1330,6 @@ export const onUpdateBudgetLineDeadline = /* GraphQL */ `
         }
         detentionPart
         typeImpot
-        bankAccounts {
-          items {
-            id
-            realEstateId
-            bankAccountId
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
         admins
         shared
         tenants {
@@ -1452,6 +1438,20 @@ export const onUpdateBudgetLineDeadline = /* GraphQL */ `
           nextToken
           startedAt
         }
+        bankAccounts {
+          items {
+            id
+            realEstateId
+            bankAccountId
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
+          nextToken
+          startedAt
+        }
       }
       bankMouvement {
         id
@@ -1484,10 +1484,6 @@ export const onUpdateBudgetLineDeadline = /* GraphQL */ `
           }
           detentionPart
           typeImpot
-          bankAccounts {
-            nextToken
-            startedAt
-          }
           admins
           shared
           tenants {
@@ -1526,6 +1522,10 @@ export const onUpdateBudgetLineDeadline = /* GraphQL */ `
             nextToken
             startedAt
           }
+          bankAccounts {
+            nextToken
+            startedAt
+          }
         }
         bankAccount {
           id
@@ -1537,10 +1537,6 @@ export const onUpdateBudgetLineDeadline = /* GraphQL */ `
           biId
           biConnectionId
           biState
-          realEstates {
-            nextToken
-            startedAt
-          }
           accountOwner
           _version
           _deleted
@@ -1548,6 +1544,10 @@ export const onUpdateBudgetLineDeadline = /* GraphQL */ `
           createdAt
           updatedAt
           movements {
+            nextToken
+            startedAt
+          }
+          realEstates {
             nextToken
             startedAt
           }
@@ -1619,10 +1619,6 @@ export const onUpdateBudgetLineDeadline = /* GraphQL */ `
           }
           detentionPart
           typeImpot
-          bankAccounts {
-            nextToken
-            startedAt
-          }
           admins
           shared
           tenants {
@@ -1661,6 +1657,10 @@ export const onUpdateBudgetLineDeadline = /* GraphQL */ `
             nextToken
             startedAt
           }
+          bankAccounts {
+            nextToken
+            startedAt
+          }
         }
       }
     }
@@ -1696,20 +1696,6 @@ export const onCreateDocument = /* GraphQL */ `
         }
         detentionPart
         typeImpot
-        bankAccounts {
-          items {
-            id
-            realEstateId
-            bankAccountId
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
         admins
         shared
         tenants {
@@ -1809,6 +1795,20 @@ export const onCreateDocument = /* GraphQL */ `
             frequency
             date
             tenantId
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
+          nextToken
+          startedAt
+        }
+        bankAccounts {
+          items {
+            id
+            realEstateId
+            bankAccountId
             _version
             _deleted
             _lastChangedAt
@@ -1852,20 +1852,6 @@ export const onUpdateDocument = /* GraphQL */ `
         }
         detentionPart
         typeImpot
-        bankAccounts {
-          items {
-            id
-            realEstateId
-            bankAccountId
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
         admins
         shared
         tenants {
@@ -1965,6 +1951,20 @@ export const onUpdateDocument = /* GraphQL */ `
             frequency
             date
             tenantId
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
+          nextToken
+          startedAt
+        }
+        bankAccounts {
+          items {
+            id
+            realEstateId
+            bankAccountId
             _version
             _deleted
             _lastChangedAt
@@ -2006,20 +2006,6 @@ export const onCreateRealEstateBankAccount = /* GraphQL */ `
         }
         detentionPart
         typeImpot
-        bankAccounts {
-          items {
-            id
-            realEstateId
-            bankAccountId
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
         admins
         shared
         tenants {
@@ -2128,18 +2114,7 @@ export const onCreateRealEstateBankAccount = /* GraphQL */ `
           nextToken
           startedAt
         }
-      }
-      bankAccount {
-        id
-        bank
-        name
-        iban
-        bic
-        balance
-        biId
-        biConnectionId
-        biState
-        realEstates {
+        bankAccounts {
           items {
             id
             realEstateId
@@ -2153,6 +2128,17 @@ export const onCreateRealEstateBankAccount = /* GraphQL */ `
           nextToken
           startedAt
         }
+      }
+      bankAccount {
+        id
+        bank
+        name
+        iban
+        bic
+        balance
+        biId
+        biConnectionId
+        biState
         accountOwner
         _version
         _deleted
@@ -2169,6 +2155,20 @@ export const onCreateRealEstateBankAccount = /* GraphQL */ `
             amount
             ignored
             date
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
+          nextToken
+          startedAt
+        }
+        realEstates {
+          items {
+            id
+            realEstateId
+            bankAccountId
             _version
             _deleted
             _lastChangedAt
@@ -2210,20 +2210,6 @@ export const onUpdateRealEstateBankAccount = /* GraphQL */ `
         }
         detentionPart
         typeImpot
-        bankAccounts {
-          items {
-            id
-            realEstateId
-            bankAccountId
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
         admins
         shared
         tenants {
@@ -2332,18 +2318,7 @@ export const onUpdateRealEstateBankAccount = /* GraphQL */ `
           nextToken
           startedAt
         }
-      }
-      bankAccount {
-        id
-        bank
-        name
-        iban
-        bic
-        balance
-        biId
-        biConnectionId
-        biState
-        realEstates {
+        bankAccounts {
           items {
             id
             realEstateId
@@ -2357,6 +2332,17 @@ export const onUpdateRealEstateBankAccount = /* GraphQL */ `
           nextToken
           startedAt
         }
+      }
+      bankAccount {
+        id
+        bank
+        name
+        iban
+        bic
+        balance
+        biId
+        biConnectionId
+        biState
         accountOwner
         _version
         _deleted
@@ -2373,6 +2359,20 @@ export const onUpdateRealEstateBankAccount = /* GraphQL */ `
             amount
             ignored
             date
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
+          nextToken
+          startedAt
+        }
+        realEstates {
+          items {
+            id
+            realEstateId
+            bankAccountId
             _version
             _deleted
             _lastChangedAt
@@ -2603,55 +2603,6 @@ export const onCreateRealEstate = /* GraphQL */ `
       }
       detentionPart
       typeImpot
-      bankAccounts {
-        items {
-          id
-          realEstateId
-          bankAccountId
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-          realEstate {
-            id
-            name
-            iconUri
-            purchaseYear
-            type
-            ownName
-            company
-            detentionPart
-            typeImpot
-            admins
-            shared
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          bankAccount {
-            id
-            bank
-            name
-            iban
-            bic
-            balance
-            biId
-            biConnectionId
-            biState
-            accountOwner
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-        }
-        nextToken
-        startedAt
-      }
       admins
       shared
       tenants {
@@ -2903,6 +2854,55 @@ export const onCreateRealEstate = /* GraphQL */ `
             frequency
             nextDueDate
             tenantId
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
+        }
+        nextToken
+        startedAt
+      }
+      bankAccounts {
+        items {
+          id
+          realEstateId
+          bankAccountId
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+          realEstate {
+            id
+            name
+            iconUri
+            purchaseYear
+            type
+            ownName
+            company
+            detentionPart
+            typeImpot
+            admins
+            shared
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
+          bankAccount {
+            id
+            bank
+            name
+            iban
+            bic
+            balance
+            biId
+            biConnectionId
+            biState
+            accountOwner
             _version
             _deleted
             _lastChangedAt
@@ -2935,55 +2935,6 @@ export const onUpdateRealEstate = /* GraphQL */ `
       }
       detentionPart
       typeImpot
-      bankAccounts {
-        items {
-          id
-          realEstateId
-          bankAccountId
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-          realEstate {
-            id
-            name
-            iconUri
-            purchaseYear
-            type
-            ownName
-            company
-            detentionPart
-            typeImpot
-            admins
-            shared
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          bankAccount {
-            id
-            bank
-            name
-            iban
-            bic
-            balance
-            biId
-            biConnectionId
-            biState
-            accountOwner
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-        }
-        nextToken
-        startedAt
-      }
       admins
       shared
       tenants {
@@ -3235,6 +3186,55 @@ export const onUpdateRealEstate = /* GraphQL */ `
             frequency
             nextDueDate
             tenantId
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
+        }
+        nextToken
+        startedAt
+      }
+      bankAccounts {
+        items {
+          id
+          realEstateId
+          bankAccountId
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+          realEstate {
+            id
+            name
+            iconUri
+            purchaseYear
+            type
+            ownName
+            company
+            detentionPart
+            typeImpot
+            admins
+            shared
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
+          bankAccount {
+            id
+            bank
+            name
+            iban
+            bic
+            balance
+            biId
+            biConnectionId
+            biState
+            accountOwner
             _version
             _deleted
             _lastChangedAt
@@ -3267,55 +3267,6 @@ export const onDeleteRealEstate = /* GraphQL */ `
       }
       detentionPart
       typeImpot
-      bankAccounts {
-        items {
-          id
-          realEstateId
-          bankAccountId
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-          realEstate {
-            id
-            name
-            iconUri
-            purchaseYear
-            type
-            ownName
-            company
-            detentionPart
-            typeImpot
-            admins
-            shared
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          bankAccount {
-            id
-            bank
-            name
-            iban
-            bic
-            balance
-            biId
-            biConnectionId
-            biState
-            accountOwner
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-        }
-        nextToken
-        startedAt
-      }
       admins
       shared
       tenants {
@@ -3567,6 +3518,55 @@ export const onDeleteRealEstate = /* GraphQL */ `
             frequency
             nextDueDate
             tenantId
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
+        }
+        nextToken
+        startedAt
+      }
+      bankAccounts {
+        items {
+          id
+          realEstateId
+          bankAccountId
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+          realEstate {
+            id
+            name
+            iconUri
+            purchaseYear
+            type
+            ownName
+            company
+            detentionPart
+            typeImpot
+            admins
+            shared
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
+          bankAccount {
+            id
+            bank
+            name
+            iban
+            bic
+            balance
+            biId
+            biConnectionId
+            biState
+            accountOwner
             _version
             _deleted
             _lastChangedAt
@@ -3609,20 +3609,6 @@ export const onCreatePendingInvitation = /* GraphQL */ `
         }
         detentionPart
         typeImpot
-        bankAccounts {
-          items {
-            id
-            realEstateId
-            bankAccountId
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
         admins
         shared
         tenants {
@@ -3722,6 +3708,20 @@ export const onCreatePendingInvitation = /* GraphQL */ `
             frequency
             date
             tenantId
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
+          nextToken
+          startedAt
+        }
+        bankAccounts {
+          items {
+            id
+            realEstateId
+            bankAccountId
             _version
             _deleted
             _lastChangedAt
@@ -3764,20 +3764,6 @@ export const onUpdatePendingInvitation = /* GraphQL */ `
         }
         detentionPart
         typeImpot
-        bankAccounts {
-          items {
-            id
-            realEstateId
-            bankAccountId
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
         admins
         shared
         tenants {
@@ -3877,6 +3863,20 @@ export const onUpdatePendingInvitation = /* GraphQL */ `
             frequency
             date
             tenantId
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
+          nextToken
+          startedAt
+        }
+        bankAccounts {
+          items {
+            id
+            realEstateId
+            bankAccountId
             _version
             _deleted
             _lastChangedAt
@@ -3919,20 +3919,6 @@ export const onDeletePendingInvitation = /* GraphQL */ `
         }
         detentionPart
         typeImpot
-        bankAccounts {
-          items {
-            id
-            realEstateId
-            bankAccountId
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          nextToken
-          startedAt
-        }
         admins
         shared
         tenants {
@@ -4041,13 +4027,27 @@ export const onDeletePendingInvitation = /* GraphQL */ `
           nextToken
           startedAt
         }
+        bankAccounts {
+          items {
+            id
+            realEstateId
+            bankAccountId
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
+          nextToken
+          startedAt
+        }
       }
     }
   }
 `;
 export const onCreateBankAccount = /* GraphQL */ `
-  subscription OnCreateBankAccount {
-    onCreateBankAccount {
+  subscription OnCreateBankAccount($accountOwner: String) {
+    onCreateBankAccount(accountOwner: $accountOwner) {
       id
       bank
       name
@@ -4057,55 +4057,6 @@ export const onCreateBankAccount = /* GraphQL */ `
       biId
       biConnectionId
       biState
-      realEstates {
-        items {
-          id
-          realEstateId
-          bankAccountId
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-          realEstate {
-            id
-            name
-            iconUri
-            purchaseYear
-            type
-            ownName
-            company
-            detentionPart
-            typeImpot
-            admins
-            shared
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-          bankAccount {
-            id
-            bank
-            name
-            iban
-            bic
-            balance
-            biId
-            biConnectionId
-            biState
-            accountOwner
-            _version
-            _deleted
-            _lastChangedAt
-            createdAt
-            updatedAt
-          }
-        }
-        nextToken
-        startedAt
-      }
       accountOwner
       _version
       _deleted
@@ -4165,6 +4116,55 @@ export const onCreateBankAccount = /* GraphQL */ `
           budgetLineDeadlines {
             nextToken
             startedAt
+          }
+        }
+        nextToken
+        startedAt
+      }
+      realEstates {
+        items {
+          id
+          realEstateId
+          bankAccountId
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+          realEstate {
+            id
+            name
+            iconUri
+            purchaseYear
+            type
+            ownName
+            company
+            detentionPart
+            typeImpot
+            admins
+            shared
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
+          bankAccount {
+            id
+            bank
+            name
+            iban
+            bic
+            balance
+            biId
+            biConnectionId
+            biState
+            accountOwner
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
           }
         }
         nextToken

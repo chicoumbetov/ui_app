@@ -58,7 +58,7 @@
         },
         "omedomAuthorization": {
           "deploymentBucketName": "amplify-omedom-dev-233211-deployment",
-          "s3Key": "amplify-builds/omedomAuthorization-72687541412f66595a63-build.zip"
+          "s3Key": "amplify-builds/omedomAuthorization-6f69526656344246366d-build.zip"
         }
       }
     }

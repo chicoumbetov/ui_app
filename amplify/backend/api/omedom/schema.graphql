@@ -115,7 +115,7 @@ type BankAccount
         mutations: { create: "createBankAccount", update: null, delete: null }
     )
     @auth(rules: [
-        { allow: private }
+        { allow: owner, ownerField: "accountOwner" }
         { allow: private, provider: iam}
     ])
     @key(
@@ -450,67 +450,67 @@ type UserToken {
 }
 
 type Query {
-    getBankAccount(id: ID!): BankAccount
-    getBankMovement(id: ID!): BankMovement
-    getBudgetLine(id: ID!): BudgetLine
-    getBudgetLineDeadline(id: ID!): BudgetLineDeadline
-    getDocument(id: ID!): Document
-    getRealEstateBankAccount(id: ID!): RealEstateBankAccount
+    getBankAccount(id: ID!): BankAccount @aws_iam @aws_cognito_user_pools
+    getBankMovement(id: ID!): BankMovement @aws_iam @aws_cognito_user_pools
+    getBudgetLine(id: ID!): BudgetLine @aws_iam @aws_cognito_user_pools
+    getBudgetLineDeadline(id: ID!): BudgetLineDeadline @aws_iam @aws_cognito_user_pools
+    getDocument(id: ID!): Document @aws_iam @aws_cognito_user_pools
+    getRealEstateBankAccount(id: ID!): RealEstateBankAccount @aws_iam @aws_cognito_user_pools
 }
 
 type Mutation {
-    updateBankAccount(input: UpdateBankAccountInput!): BankAccount
-    deleteBankAccount(input: DeleteBankAccountInput!): BankAccount
+    updateBankAccount(input: UpdateBankAccountInput!): BankAccount @aws_iam @aws_cognito_user_pools
+    deleteBankAccount(input: DeleteBankAccountInput!): BankAccount @aws_iam @aws_cognito_user_pools
 
-    updateBankMovement(input: UpdateBankMovementInput!): BankMovement
-    deleteBankMovement(input: DeleteBankMovementInput!): BankMovement
+    updateBankMovement(input: UpdateBankMovementInput!): BankMovement @aws_iam @aws_cognito_user_pools
+    deleteBankMovement(input: DeleteBankMovementInput!): BankMovement @aws_iam @aws_cognito_user_pools
 
-    updateBudgetLine(input: UpdateBudgetLineInput!): BudgetLine
-    deleteBudgetLine(input: DeleteBudgetLineInput!): BudgetLine
+    updateBudgetLine(input: UpdateBudgetLineInput!): BudgetLine @aws_iam @aws_cognito_user_pools
+    deleteBudgetLine(input: DeleteBudgetLineInput!): BudgetLine @aws_iam @aws_cognito_user_pools
 
     updateBudgetLineDeadline(
         input: UpdateBudgetLineDeadlineInput!
-    ): BudgetLineDeadline
+    ): BudgetLineDeadline @aws_iam @aws_cognito_user_pools
     deleteBudgetLineDeadline(
         input: DeleteBudgetLineDeadlineInput!
-    ): BudgetLineDeadline
+    ): BudgetLineDeadline @aws_iam @aws_cognito_user_pools
 
-    updateDocument(input: UpdateDocumentInput!): Document
-    deleteDocument(input: DeleteDocumentInput!): Document
+    updateDocument(input: UpdateDocumentInput!): Document @aws_iam @aws_cognito_user_pools
+    deleteDocument(input: DeleteDocumentInput!): Document @aws_iam @aws_cognito_user_pools
 
     updateRealEstateBankAccount(
         input: UpdateRealEstateBankAccountInput!
-    ): RealEstateBankAccount
+    ): RealEstateBankAccount @aws_iam @aws_cognito_user_pools
     deleteRealEstateBankAccount(
         input: DeleteRealEstateBankAccountInput!
-    ): RealEstateBankAccount
+    ): RealEstateBankAccount @aws_iam @aws_cognito_user_pools
 }
 
 type Subscription {
     onCreateBankMovement(bankAccountId: ID!): BankMovement
-    @aws_subscribe(mutations: ["createBankMovement"])
+    @aws_subscribe(mutations: ["createBankMovement"]) @aws_iam @aws_cognito_user_pools
     onUpdateBankMovement(bankAccountId: ID!): BankMovement
-    @aws_subscribe(mutations: ["updateBankMovement"])
+    @aws_subscribe(mutations: ["updateBankMovement"]) @aws_iam @aws_cognito_user_pools
 
     onCreateBudgetLine(realEstateId: ID!): BudgetLine
-    @aws_subscribe(mutations: ["createBudgetLine"])
+    @aws_subscribe(mutations: ["createBudgetLine"]) @aws_iam @aws_cognito_user_pools
     onUpdateBudgetLine(realEstateId: ID!): BudgetLine
-    @aws_subscribe(mutations: ["updateBudgetLine"])
+    @aws_subscribe(mutations: ["updateBudgetLine"]) @aws_iam @aws_cognito_user_pools
 
     onCreateBudgetLineDeadline(realEstateId: ID!): BudgetLineDeadline
-    @aws_subscribe(mutations: ["createBudgetLineDeadline"])
+    @aws_subscribe(mutations: ["createBudgetLineDeadline"]) @aws_iam @aws_cognito_user_pools
     onUpdateBudgetLineDeadline(realEstateId: ID!): BudgetLineDeadline
-    @aws_subscribe(mutations: ["updateBudgetLineDeadline"])
+    @aws_subscribe(mutations: ["updateBudgetLineDeadline"]) @aws_iam @aws_cognito_user_pools
 
     onCreateDocument(realEstateId: ID!): Document
-    @aws_subscribe(mutations: ["createDocument"])
+    @aws_subscribe(mutations: ["createDocument"]) @aws_iam @aws_cognito_user_pools
     onUpdateDocument(realEstateId: ID!): Document
-    @aws_subscribe(mutations: ["updateDocument"])
+    @aws_subscribe(mutations: ["updateDocument"]) @aws_iam @aws_cognito_user_pools
 
     onCreateRealEstateBankAccount(realEstateId: ID!): RealEstateBankAccount
-    @aws_subscribe(mutations: ["createRealEstateBankAccount"])
+    @aws_subscribe(mutations: ["createRealEstateBankAccount"]) @aws_iam @aws_cognito_user_pools
     onUpdateRealEstateBankAccount(realEstateId: ID!): RealEstateBankAccount
-    @aws_subscribe(mutations: ["updateRealEstateBankAccount"])
+    @aws_subscribe(mutations: ["updateRealEstateBankAccount"]) @aws_iam @aws_cognito_user_pools
 }
 
 input UpdateBankAccountInput {
@@ -524,10 +524,11 @@ input UpdateBankAccountInput {
     biId: Int
     biConnectionId: Int
     biState: String
-    _version: Int
+    _version: Int!
 }
 input DeleteBankAccountInput {
     id: ID!
+    _version: Int!
 }
 
 input UpdateBankMovementInput {
@@ -540,10 +541,11 @@ input UpdateBankMovementInput {
     budgetLineDeadlineId: ID
     ignored: Boolean
     date: AWSDate
-    _version: Int
+    _version: Int!
 }
 input DeleteBankMovementInput {
     id: ID!
+    _version: Int!
 }
 
 input UpdateBudgetLineInput {
@@ -556,7 +558,7 @@ input UpdateBudgetLineInput {
     nextDueDate: AWSDate
     infoCredit: MortgageLoanInfoInput
     tenantId: String
-    _version: Int
+    _version: Int!
 }
 
 input MortgageLoanInfoInput {
@@ -578,6 +580,7 @@ input AmortizationTableInput {
 
 input DeleteBudgetLineInput {
     id: ID!
+    _version: Int!
 }
 
 input UpdateBudgetLineDeadlineInput {
@@ -592,7 +595,7 @@ input UpdateBudgetLineDeadlineInput {
     date: AWSDate
     infoCredit: MortgageLoanDeadlineInfoInput
     tenantId: String
-    _version: Int
+    _version: Int!
 }
 input MortgageLoanDeadlineInfoInput {
     amount: Float
@@ -601,6 +604,7 @@ input MortgageLoanDeadlineInfoInput {
 }
 input DeleteBudgetLineDeadlineInput {
     id: ID!
+    _version: Int!
 }
 
 input UpdateDocumentInput {
@@ -609,18 +613,20 @@ input UpdateDocumentInput {
     name: String
     key: String
     s3file: String
-    _version: Int
+    _version: Int!
 }
 input DeleteDocumentInput {
     id: ID!
+    _version: Int!
 }
 
 input UpdateRealEstateBankAccountInput {
     id: ID!
     realEstateId: ID
     bankAccountId: ID
-    _version: Int
+    _version: Int!
 }
 input DeleteRealEstateBankAccountInput {
     id: ID!
+    _version: Int!
 }

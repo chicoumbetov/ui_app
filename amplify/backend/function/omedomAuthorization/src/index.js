@@ -38,7 +38,9 @@ const authorizerDocument = require('./functions/AuthorizerDocument');
 const authorizerRealEstateBankAccount = require('./functions/AuthorizerRealEstateBankAccount');
 
 exports.handler = async (event) => {
-  console.log(event);
+  if (event.identity.userArn && event.identity.userArn.indexOf('arn:aws:iam') > -1) {
+    return event.prev.result;
+  }
   const authorizationTypes = {
     getBankAccount: () => authorizerBankAccount(event, ['admins', 'shared']),
     updateBankAccount: () => authorizerBankAccount(event, ['admins']),
@@ -75,7 +77,7 @@ exports.handler = async (event) => {
     onUpdateRealEstateBankAccount: () => authorizerRealEstateBankAccount(event, ['admins', 'shared']),
   };
 
-  const isAuthorized = true;// await authorizationTypes[event.fieldName]();
+  const isAuthorized = await authorizationTypes[event.fieldName]();
   console.log(`Operation ${event.fieldName} is authorized: ${isAuthorized}`);
   if (!isAuthorized) {
     return { unauthorized: true };

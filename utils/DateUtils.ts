@@ -29,9 +29,18 @@ const frequencyToMonths = (frequence: Frequency) => {
 
 const daysInMonth = (month: number, year: number) => new Date(year, month + 1, 0).getDate();
 
+const lastDayOfMonthDate = (date: Date) => {
+  const returnDate = new Date(date.getTime());
+  returnDate.setMonth(returnDate.getMonth() + 1);
+  returnDate.setDate(0);
+  returnDate.setHours(23, 59, 59);
+  return returnDate;
+};
+
 export default {
   parseToDateObj,
   addMonths,
   frequencyToMonths,
   daysInMonth,
+  lastDayOfMonthDate,
 };

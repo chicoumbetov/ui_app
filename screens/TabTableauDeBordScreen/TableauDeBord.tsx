@@ -247,24 +247,23 @@ function TableauDeBord() {
           onPress={() => {}}
           style={{
             marginTop: 27,
-            marginRight: 20,
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'space-between',
           }}
         >
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <View style={{ marginRight: 18 }}>
-              <MaisonVert height={42} width={44} />
-            </View>
-            <Text
-              category="h6"
-              status="basic"
-              style={{ flex: 1 }}
-            >
-              Un mouvement négatif a été détécté
-            </Text>
+
+          <View style={{ marginRight: 10 }}>
+            <MaisonVert height={42} width={44} />
           </View>
+          <Text
+            category="h6"
+            status="basic"
+            style={{ flex: 1, flexWrap: 'wrap', marginRight: 10 }}
+          >
+            Un mouvement négatif a été détécté
+          </Text>
+
           <IconUIKitten
             name="arrow-ios-forward"
             fill="#b5b5b5"

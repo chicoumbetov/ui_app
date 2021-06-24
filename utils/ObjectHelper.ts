@@ -12,14 +12,14 @@ export function removeKey<T extends Object>(obj: T, key:string | string[]): T {
     return <T>Object.fromEntries(
       Object.entries(obj)
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        .filter(([k, v]) => key.indexOf(k) <= -1)
+        .filter(([k]) => key.indexOf(k) <= -1)
         .map(([k, v]) => [k, v === Object(v) && !Array.isArray(v) ? removeKey(v, key) : v]),
     );
   }
   return <T>Object.fromEntries(
     Object.entries(obj)
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      .filter(([k, v]) => k !== key)
+      .filter(([k]) => k !== key)
       .map(([k, v]) => [k, v === Object(v) && !Array.isArray(v) ? removeKey(v, key) : v]),
   );
 }
@@ -34,4 +34,4 @@ export default {
   removeKeyArray,
 };
 
-console.log(removeKey([{ test: 'aa', test2: 'ab' }, { test: 'ac', test2: 'ad' }], 'test2'));
+// console.log(removeKey([{ test: 'aa', test2: 'ab' }, { test: 'ac', test2: 'ad' }], 'test2'));

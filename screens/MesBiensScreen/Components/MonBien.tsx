@@ -67,6 +67,9 @@ const MonBien = (props: MonBienProps) => {
   const currentYear = new Date().getFullYear();
   const currentMonth = new Date().getMonth();
 
+  const firstDayCurrentYear = new Date(new Date().getFullYear(), 0, 1);
+  const lastDayCurrentYear = new Date(new Date().getFullYear(), 11, 31);
+
   const allDataNextExpense = bienget?.budgetLineDeadlines?.items
   && bienget?.budgetLineDeadlines?.items?.map((item) => {
     // years for all existing Eau expenses in whole period
@@ -306,7 +309,10 @@ const MonBien = (props: MonBienProps) => {
                     />
                   </TouchableOpacity>
                   <Graphics data={allCurrentCategories} />
-                  <GraphicsII />
+                  <GraphicsII
+                    dateStart={firstDayCurrentYear}
+                    dateEnd={lastDayCurrentYear}
+                  />
                 </>
               )}
             </Card>

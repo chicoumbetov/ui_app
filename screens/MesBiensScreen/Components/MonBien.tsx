@@ -312,6 +312,7 @@ const MonBien = (props: MonBienProps) => {
                   <GraphicsII
                     dateStart={firstDayCurrentYear}
                     dateEnd={lastDayCurrentYear}
+                    id={bienget.id}
                   />
                 </>
               )}

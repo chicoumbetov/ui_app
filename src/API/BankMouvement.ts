@@ -204,10 +204,12 @@ export type GetMovementByRealEstateQuery = {
   } | null,
 };
 
-const listBankMovementsByRealEstateQuery = <DocumentNode>gql(`
-query listBankMovementsByRealEstateQuery($id: ID!, $start: string!, $end: string!) {
-  getRealEstate(id: $id, start: $start, end: $end) {
-    bankMovements(sortDirection: DESC, date: {between: [“2021-01-01T00:00:00", “2021-05-30T00:00:00”]}, filter: {ignored: {ne: true}}) {
+const listBankMovementsByRealEstateQuery = <DocumentNode>gql(`query listBankMovementsByRealEstateQuery(
+$id: ID!
+$start: String!
+$end: String!) {
+  getRealEstate(id: $id) {
+    bankMovements(sortDirection: DESC, date: {between: [$start, $end]}, filter: {ignored: {ne: true}}) {
       items {
         _deleted
         _lastChangedAt

@@ -31,7 +31,10 @@ type GraphicsIIProps = {
 
 const GraphicsII = (props: GraphicsIIProps) => {
   const { dateStart, dateEnd, id } = props;
-  const listBankMovement = useListBankMovement();
+  const start = dateStart.toDateString();
+  const end = dateEnd.toDateString();
+  console.log(start);
+  const listBankMovement = useListBankMovement(id, start, end);
   console.log('oui oui :', listBankMovement.data);
   const theme = useTheme();
 

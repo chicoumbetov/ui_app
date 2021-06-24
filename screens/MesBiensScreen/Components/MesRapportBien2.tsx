@@ -38,8 +38,10 @@ const MesRapportBien2 = () => {
 
   /** 11111111 */
   const { range, id } = route.params;
-  // console.log('dans ', id, range);
+  console.log('dans ', id, range);
   const { bienget } = useGetRealEstate(id);
+  const start = range.startDate;
+  const end = range.endDate;
 
   /** Object with 3 attributes and its key */
   const allCurrentCategories: {
@@ -106,7 +108,7 @@ const MesRapportBien2 = () => {
       </Card>
       <Text category="s2" style={{ marginHorizontal: 22, marginVertical: 15 }}>Etat de trésorerie</Text>
       <Card style={{ margin: 22 }}>
-        <GraphicsII />
+        <GraphicsII dateStart={start} dateEnd={end} />
       </Card>
 
     </MaxWidthContainer>

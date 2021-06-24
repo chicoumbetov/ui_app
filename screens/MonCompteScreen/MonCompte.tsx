@@ -24,16 +24,16 @@ export default function MonCompte() {
       outerViewProps={{
         showsVerticalScrollIndicator: false,
         style: {
-          paddingHorizontal: 46, paddingTop: 37,
+          paddingTop: 37,
         },
       }}
     >
 
-      <Text category="h1">
+      <Text category="h1" style={{ paddingHorizontal: 20 }}>
         Mon Compte
       </Text>
       <View style={{
-        alignItems: 'center', backgroundColor: 'transparent', marginTop: 41, marginBottom: 34,
+        alignItems: 'center', marginTop: 41, marginBottom: 34, paddingHorizontal: 20,
       }}
       >
         <AutoAvatar

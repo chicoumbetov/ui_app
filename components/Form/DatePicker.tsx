@@ -67,9 +67,7 @@ Datepicker, DatePickerFormProps
     return (
       <View style={[styles.container, containerStyle, labelBefore ? { flexDirection: 'row', alignItems: 'center' } : {}]}>
         {labelBefore && (
-        <View style={{ marginRight: 20 }}>
-          <Text category="label">{label}</Text>
-        </View>
+          <Text category="label" style={{ flex: 1 }}>{label}</Text>
         )}
         <Datepicker
           label={labelBefore ? undefined : label}
@@ -89,6 +87,7 @@ Datepicker, DatePickerFormProps
             shadowRadius: 2,
             shadowOpacity: 1,
             elevation: 2,
+            marginLeft: labelBefore ? 20 : 0,
           }}
           min={new Date(1900, 0, 1)}
           size="medium"
@@ -118,6 +117,7 @@ const styles = StyleSheet.create({
     marginVertical: 8,
     flexDirection: 'row',
     marginBottom: 20,
+    // justifyContent: 'space-between',
   },
   input: {
     flex: 1,

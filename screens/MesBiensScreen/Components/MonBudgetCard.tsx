@@ -23,10 +23,8 @@ const MonBudgetCard = (props: MonBudgetProps) => {
   const linkTo = useLinkTo();
   // console.log('realEstate', realEstate);
   const deleteBudgetLine = useDeleteBudgetLineMutation();
-  let tenant;
-  if (realEstate) {
-    tenant = realEstate.tenants?.filter((item) => item?.id === budget.tenantId);
-  }
+
+  const tenant = realEstate.tenants?.filter((item) => item?.id === budget.tenantId);
 
   const allerTresorie = () => {
     linkTo('/ma-tresorerie');
@@ -115,9 +113,9 @@ const MonBudgetCard = (props: MonBudgetProps) => {
             {`${budget.category}`}
           </Text>
           <Text category="c1" status={budget.type === BudgetLineType.Income ? ('success') : ('danger')}>{`${budget.type === BudgetLineType.Income ? ('+') : ('')} ${budget.amount} €`}</Text>
-          {budget.tenantId && (
+          {budget.tenantId && tenant !== undefined && (
           <Text category="c1" appearance="hint">
-            {tenant[0].lastname}
+            {tenant[0]?.lastname || 'pas de locataire'}
           </Text>
           )}
 

@@ -108,7 +108,6 @@ function AjoutBienScreen() {
    *Variable pour gérer l'affichage des trois grandes partie
    * */
   const [etape, setEtape] = useState(0);
-
   /**
    *Variable pour gérer la date
    * */
@@ -198,7 +197,6 @@ function AjoutBienScreen() {
             animate={{ height: (etape === 0 ? 560 : 0) }}
             style={{
               overflow: 'hidden',
-              flex: 1,
               flexDirection: 'column',
               justifyContent: 'space-between',
             }}

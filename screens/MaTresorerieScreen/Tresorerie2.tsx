@@ -84,7 +84,7 @@ const MaTresorerie2 = () => {
   }
   function supprimerCompte() {
     checkedRealEstateAccounts.reduce(async (promise, current) => {
-      // console.log('id1:', id);
+      console.log('id1:', current.id);
       await promise;
       await deleteRealEstateBankAccount({
         variables: {
@@ -92,18 +92,6 @@ const MaTresorerie2 = () => {
             id: current.id,
             // eslint-disable-next-line no-underscore-dangle
             _version: current._version,
-          },
-        },
-      });
-    }, Promise.resolve());
-
-    checkedAccounts.reduce(async (promise, id) => {
-      // console.log('id:', id);
-      await promise;
-      await deleteBankAccount({
-        variables: {
-          input: {
-            id,
           },
         },
       });
@@ -154,10 +142,10 @@ const MaTresorerie2 = () => {
                     const nextCheckedAccounts = checkedAccounts
                       .filter((id) => id !== item.bankAccountId);
                     const nextCheckedRealEstateAccounts = checkedRealEstateAccounts
-                      .filter((id) => id !== item.id);
+                      .filter((id) => id.id !== item.id);
                     if (checked) {
                       nextCheckedAccounts.push(item.bankAccountId);
-                      nextCheckedRealEstateAccounts.push(item.id);
+                      nextCheckedRealEstateAccounts.push({ id: item.id, _version: item._version });
                     }
                     // console.log('2222', nextCheckedAccounts);
                     setCheckedAccounts(nextCheckedAccounts);

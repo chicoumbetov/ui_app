@@ -22,7 +22,7 @@ import moment from 'moment';
 import Icon from '../../components/Icon';
 import MaxWidthContainer from '../../components/MaxWidthContainer';
 
-import { useDeleteRealEstateMutation, useGetRealEstate, useUpdateRealEstateMutation } from '../../src/API/RealEstate';
+import { useDeleteRealEstateMutation, useGetRealEstate } from '../../src/API/RealEstate';
 import { TabMesBiensParamList } from '../../types';
 
 import Card from '../../components/Card';
@@ -584,10 +584,10 @@ function DetailsBien() {
 
               <View style={{
                 flexDirection: 'row',
-                justifyContent: 'flex-end',
+                justifyContent: 'space-between',
               }}
               >
-                {/**
+
                 <TouchableOpacity
                   onPress={
                           async () => {
@@ -612,7 +612,7 @@ function DetailsBien() {
                 >
                   <Text category="h5" status="info" style={styles.buttonText}>Ajouter</Text>
                 </TouchableOpacity>
-                */}
+
                 {!readOnly && (
                 <TouchableOpacity onPress={() => {
                   supprimerDocument(); setSupprim(!supprim);
@@ -621,6 +621,19 @@ function DetailsBien() {
                   <Text category="h5" status={checkedDocument.length > 0 ? ('danger') : ('basic')} style={styles.buttonText}>{checkedDocument.length > 0 || !supprim ? ('Supprimer') : ('Annuler')}</Text>
                 </TouchableOpacity>
                 )}
+              </View>
+              <View style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+              }}
+              >
+
+                <TouchableOpacity
+                  onPress={() => {}}
+                >
+                  <Text category="h5" status="info" style={styles.buttonText}>Prendre un photo</Text>
+                </TouchableOpacity>
+
               </View>
             </View>
           </>

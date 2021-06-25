@@ -19,6 +19,7 @@ import TextInputComp from '../../../components/Form/TextInput';
 import Amount from '../../../components/Amount';
 import { useUpdateBankMovement } from '../../../src/API/BankMouvement';
 import Separator from '../../../components/Separator';
+import BudgetLineDeadLineCard from './BudgetLineDeadLineCard';
 
 type MonBudgetProps = { movement: BankMovement, onSaved?: () => void };
 
@@ -72,7 +73,7 @@ const MouvementAffecter = (props: MonBudgetProps) => {
               },
             });
           } else {
-            movement.budgetLineDeadline?.items?.reduce(async (promise, current) => {
+            movement.budgetLineDeadlines?.items?.reduce(async (promise, current) => {
               await promise;
               await updateBudgetLineDeadLine.updateBudgetLineDeadline({
                 variables: {
@@ -128,21 +129,8 @@ const MouvementAffecter = (props: MonBudgetProps) => {
       ) : (
         <View>
           <Text category="h1" status="basic" style={{ marginVertical: 20 }}>Affectation</Text>
-          {movement.budgetLineDeadline?.items?.map((deadLine) => (
-            <>
-              <Text category="h3" status="basic" style={{ marginTop: 25 }}>{deadLine?.category}</Text>
-              <Amount amount={deadLine?.amount} category="h5" />
-              <View style={{ flexDirection: 'row' }}>
-                <Text category="h5" appearance="hint" style={{ marginVertical: 10 }}>Fréquence: </Text>
-                <Text category="h5" status="basic" style={{ marginVertical: 10 }}>{frequence(deadLine.frequency)}</Text>
-              </View>
-
-              <View style={{ flexDirection: 'row' }}>
-                <Text category="h5" appearance="hint" style={{ marginVertical: 10 }}>Echeance: </Text>
-                <Text category="h5" status="basic" style={{ marginVertical: 10 }}>{moment(deadLine?.date).format('DD/MM/YYYY')}</Text>
-              </View>
-
-            </>
+          {movement.budgetLineDeadlines?.items?.map((deadLine) => (
+            deadLine && (<BudgetLineDeadLineCard item={deadLine} editable={false} />)
           ))}
           <Separator />
           <Button

@@ -17,9 +17,12 @@ Amplify Params - DO NOT EDIT */
 import BIApiClient from '/opt/nodejs/src/BIApiClient';
 import getAppSyncClient from '/opt/nodejs/src/AppSyncClient';
 import { getUserById } from '/opt/nodejs/src/UserQueries';
-import { listBankAccountsByBIConnectionId } from '/opt/nodejs/src/BankAccountQueries';
 import {
-  createBankAccount,
+  getBankAccountsById,
+  listBankAccountsByBIConnectionId,
+} from '/opt/nodejs/src/BankAccountQueries';
+import {
+  createBankAccount, deleteBankAccount,
   updateBankAccount,
 } from '/opt/nodejs/src/BankAccountMutations';
 import { createRealEstateBankAccount } from '/opt/nodejs/src/RealEstateBankAccountMutations';
@@ -172,6 +175,40 @@ app.get('/budgetinsight/create-accounts', async (req, res) => {
       success: false, error: e,
     });
   } */
+});
+
+app.get('/budgetinsight/disable-accounts', async (req, res) => {
+  const uuid = req.apiGateway.event.requestContext.identity
+    .cognitoAuthenticationProvider.split(':').pop();
+
+  const { BANK_ACCOUNT_ID } = req.query;
+
+  // try {
+  const bankAccount = await getBankAccountsById(AppSyncClient, BANK_ACCOUNT_ID);
+  const user = await getUserById(AppSyncClient, uuid);
+  if (user && bankAccount) {
+    const disable = await client.disableBankAccount(user.biToken, bankAccount.biId);
+    // on vérifie que ce soit bien le bon utilisateur BI qui essaye d'ajouter des comptes
+    if (disable) {
+      await deleteBankAccount(AppSyncClient, {
+        id: bankAccount.id,
+        // eslint-disable-next-line no-underscore-dangle
+        _version: bankAccount._version,
+      });
+
+      res.json({
+        success: true,
+      });
+    } else {
+      res.json({
+        success: false, error: 'Utilisateur non autorisé',
+      });
+    }
+  } else {
+    res.json({
+      success: false, error: 'Utilisateur introuvable',
+    });
+  }
 });
 
 app.listen(3000, () => {

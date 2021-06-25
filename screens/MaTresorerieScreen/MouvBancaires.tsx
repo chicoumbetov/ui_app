@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 
 import { Icon as IconUIKitten } from '@ui-kitten/components/ui/icon/icon.component';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { useLinkTo, useNavigation, useRoute } from '@react-navigation/native';
 import { RouteProp } from '@react-navigation/core/lib/typescript/src/types';
 import moment from 'moment';
 import CompteHeader from '../../components/CompteHeader/CompteHeader';
@@ -37,7 +37,7 @@ import { useGetBankAccount } from '../../src/API/BankAccount';
 
 const MouvBancaires = () => {
   const theme = useTheme();
-  const navigation = useNavigation();
+  const linkTo = useLinkTo();
   const route = useRoute<RouteProp<TabMaTresorerieParamList, 'mouv-bancaires'>>();
   const { bienget } = useGetRealEstate(route.params.id);
   const { bankMouvement } = useGetBankMovementsByBankAccountId(route.params.idCompte);
@@ -86,11 +86,11 @@ const MouvBancaires = () => {
     // console.log('check ', checked.includes({ id, _version }));
   };
   const onIgnorerMouvement = (id?: string) => {
-    navigation.navigate('ignorer-mouvement', { idCompte: id, id: route.params.id });
+    linkTo(`/ma-tresorerie/${route.params.id}/mes-comptes/${id}/mouvements-bancaires/ignores/`);
   };
 
   const onAffecterMouvement = (id?: string) => {
-    navigation.navigate('affecter-mouvement', { idCompte: id, id: route.params.id });
+    linkTo(`/ma-tresorerie/${route.params.id}/mes-comptes/${id}/mouvements-bancaires/affectes/`);
   };
 
   const onEditMouvement = (items: BankMovement) => {

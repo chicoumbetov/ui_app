@@ -66,7 +66,12 @@ export function useUpdateBudgetLineDeadlineMutation() {
                   .getRealEstate
                   .budgetLineDeadlines
                   ?.items
-                  ?.filter((item) => item?.id !== newData.id);
+                  ?.map((item) => {
+                    if (item?.id === newData.id) {
+                      return newData;
+                    }
+                    return item;
+                  });
 
               // Overwrite the cache with the new results
               cache.writeQuery<GetRealEstateQuery, GetRealEstateQueryVariables>({

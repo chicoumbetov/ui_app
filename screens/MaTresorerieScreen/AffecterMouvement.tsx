@@ -30,7 +30,7 @@ const AffecterMouvement = () => {
   // const [client] = useState(comptesData);
   const route = useRoute<RouteProp<TabMaTresorerieParamList, 'affecter-mouvement'>>();
   const { bienget } = useGetRealEstate(route.params.id);
-  const { bankMouvement } = useGetBankMovementsByBankAccountId(route.params.idCompte);
+  const { bankMouvement, refetch } = useGetBankMovementsByBankAccountId(route.params.idCompte);
   const { bankAccount } = useGetBankAccount(route.params.idCompte);
   const [movementAffecte, setMovementAffecte] = useState<BankMovement[]>();
 
@@ -38,7 +38,7 @@ const AffecterMouvement = () => {
 
   useEffect(() => {
     const currentMovementAffecte = bankMouvement.filter((item) => {
-      if ((item.budgetLineDeadline?.items && item.budgetLineDeadline?.items?.length > 0)
+      if ((item.budgetLineDeadlines?.items && item.budgetLineDeadlines?.items?.length > 0)
           && item.realEstateId === route.params.id) {
         return item;
       }
@@ -124,9 +124,9 @@ const AffecterMouvement = () => {
                     appearance="basic"
                     numberOfLines={1}
                   >
-                    {`${item.budgetLineDeadline?.items?.map((deadLine) => (
+                    {`${item.budgetLineDeadlines?.items?.map((deadLine) => (
                       deadLine?.category
-                    ))}`}
+                    )).join(', ')}`}
 
                   </Text>
                 </View>
@@ -161,7 +161,10 @@ const AffecterMouvement = () => {
         {currentMvt !== undefined && (
           <MouvementAffecter
             movement={currentMvt}
-            onSaved={() => setCurrentMvt(undefined)}
+            onSaved={() => {
+              setCurrentMvt(undefined);
+              refetch();
+            }}
           />
         )}
       </ActionSheet>

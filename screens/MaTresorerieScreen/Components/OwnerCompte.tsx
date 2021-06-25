@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { CheckBox, Text, useTheme } from '@ui-kitten/components';
 
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { useLinkTo, useRoute } from '@react-navigation/native';
 import { Icon as IconUIKitten } from '@ui-kitten/components/ui/icon/icon.component';
 
 import { RouteProp } from '@react-navigation/core/lib/typescript/src/types';
@@ -22,12 +22,12 @@ const OwnerCompte = (props: MonBienProps) => {
   } = props;
   // console.log(compte);
   const route = useRoute<RouteProp<TabMaTresorerieParamList, 'ma-tresorerie-2'>>();
-  const navigation = useNavigation();
+  const linkTo = useLinkTo();
 
   // const linkTo = useLinkTo();
   const theme = useTheme();
   const onTresoMouvement = (id: string) => {
-    navigation.navigate('mouv-bancaires', { idCompte: id, id: route.params.id });
+    linkTo(`/ma-tresorerie/${route.params.id}/mes-comptes/${id}/mouvements-bancaires/`);
   };
 
   return (

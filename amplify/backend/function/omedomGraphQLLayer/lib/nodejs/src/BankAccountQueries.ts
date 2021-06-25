@@ -1,5 +1,6 @@
 import gql from 'graphql-tag';
 import {
+  GetBankAccountQuery, GetBankAccountQueryVariables,
   ListBankAccountsByBiConnectionIdQuery,
   ListBankAccountsByBiConnectionIdQueryVariables,
   ListBankAccountsByBiIdQuery,
@@ -46,6 +47,49 @@ const getBankAccountsByBIId = async (client: AppSyncClient, biId: number) => {
     });
     if (data.listBankAccountsByBiId.items.length > 0) {
       return data.listBankAccountsByBiId.items[0];
+    }
+    return false;
+  } catch (e) {
+    console.error(e);
+    return false;
+  }
+};
+
+const getBankAccountsById = async (client: AppSyncClient, id: string) => {
+  try {
+    const { data } = await client.query<
+    GetBankAccountQuery,
+    GetBankAccountQueryVariables
+    >({
+      query: gql(`query GetBankAccount(
+    $id: Int
+  ) {
+    getBankAccount(
+      id: $id
+    ) {
+      id
+      bank
+      accountOwner
+      iban
+      bic
+      balance
+      biId
+      biConnectionId
+      biState
+      _version
+      _deleted
+      _lastChangedAt
+      createdAt
+      updatedAt
+    }
+  }`), // use your graphql query here
+      variables: {
+        id,
+      },
+      fetchPolicy: 'no-cache',
+    });
+    if (data.getBankAccount) {
+      return data.getBankAccount;
     }
     return false;
   } catch (e) {
@@ -104,5 +148,6 @@ const listBankAccountsByBIConnectionId = async (client: AppSyncClient, biConnect
 
 export {
   getBankAccountsByBIId,
+  getBankAccountsById,
   listBankAccountsByBIConnectionId,
 };

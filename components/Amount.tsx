@@ -1,7 +1,9 @@
 import * as React from 'react';
 import { Text } from '@ui-kitten/components';
+import { TextProps } from '@ui-kitten/components/ui/text/text.component';
+import Formatter from '../utils/Formatter';
 
-export type AmountProps = { amount : number, category : string };
+export type AmountProps = { amount : number } & Pick<TextProps, 'category'>;
 
 export default function Amount(props: AmountProps) {
   const { amount, category } = props;
@@ -10,18 +12,16 @@ export default function Amount(props: AmountProps) {
       <Text category={category} status="success">
         +
         {' '}
-        {amount}
-        {' '}
-        €
+        {Formatter.currencyFormatter.format(amount)}
       </Text>
     );
   }
 
   return (
     <Text category={category} status="danger">
-      {amount}
+      -
       {' '}
-      €
+      {Formatter.currencyFormatter.format(-amount)}
     </Text>
   );
 }

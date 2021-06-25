@@ -41,7 +41,7 @@ const MouvBancaires = () => {
   const route = useRoute<RouteProp<TabMaTresorerieParamList, 'mouv-bancaires'>>();
   const { bienget } = useGetRealEstate(route.params.id);
   const {
-    bankMouvement, fetchMore: fetchMoreBankMovements, nextToken, startedAt,
+    bankMouvement, fetchMoreBankMovements, nextToken,
   } = useGetBankMovementsByBankAccountId(route.params.idCompte);
   const { bankAccount } = useGetBankAccount(route.params.idCompte);
   const useUpdateBankMouvement = useUpdateBankMovement();
@@ -248,28 +248,8 @@ const MouvBancaires = () => {
             </Card>
           ))}
           {nextToken && (
-          <Button onPress={() => fetchMoreBankMovements({
-            variables: {
-              nextToken,
-            },
-            updateQuery: (prev, { fetchMoreResult }) => {
-              if (!fetchMoreResult) return prev;
-              return {
-                ...prev,
-                getBankMovementsByBankAccountId: {
-                  ...prev.getBankMovementsByBankAccountId,
-                  items: [
-                    ...prev.getBankMovementsByBankAccountId.items,
-                    ...fetchMoreResult.getBankMovementsByBankAccountId?.items,
-                  ],
-                  nextToken: fetchMoreResult.getBankMovementsByBankAccountId?.nextToken,
-                  startedAt: fetchMoreResult.getBankMovementsByBankAccountId?.startedAt,
-                },
-              };
-            },
-          })}
-          >
-            Load more
+          <Button appearance="ghost" onPress={() => fetchMoreBankMovements()}>
+            Charger plus de mouvements
           </Button>
           )}
 

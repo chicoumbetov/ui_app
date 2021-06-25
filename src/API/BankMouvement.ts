@@ -127,7 +127,27 @@ export function useGetBankMovementsByBankAccountId(bankAccountId: string) {
     bankMouvement: <BankMovement[]>data?.getBankMovementsByBankAccountId?.items,
     nextToken: data?.getBankMovementsByBankAccountId?.nextToken,
     startedAt: data?.getBankMovementsByBankAccountId?.startedAt,
-    fetchMore,
+    fetchMoreBankMovements: () => (fetchMore({
+      variables: {
+        nextToken: data?.getBankMovementsByBankAccountId?.nextToken,
+      },
+      updateQuery: (prev, { fetchMoreResult }) => {
+        if (!fetchMoreResult) return prev;
+        return {
+          ...prev,
+          getBankMovementsByBankAccountId: {
+            ...prev.getBankMovementsByBankAccountId,
+            items: [
+              ...prev.getBankMovementsByBankAccountId.items,
+              ...fetchMoreResult.getBankMovementsByBankAccountId?.items,
+            ],
+            nextToken: fetchMoreResult.getBankMovementsByBankAccountId?.nextToken,
+            startedAt: fetchMoreResult.getBankMovementsByBankAccountId?.startedAt,
+          },
+        };
+      },
+    })),
+    nextToken: data?.getBankMovementsByBankAccountId?.nextToken,
     refetch,
   };
 }

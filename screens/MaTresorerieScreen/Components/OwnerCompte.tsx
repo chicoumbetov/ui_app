@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { CheckBox, Text, useTheme } from '@ui-kitten/components';
 
@@ -14,19 +14,23 @@ import { useGetBankMovementsByBankAccountId } from '../../../src/API/BankMouveme
 type MonBienProps = { compte: BankAccount,
   supprimer?: boolean,
   add?: boolean,
-  onCheck?: (checked: boolean) => void,
-  checked?: boolean };
+  onCheck?: (checked: boolean) => void, };
 
 const OwnerCompte = (props: MonBienProps) => {
   const {
-    compte, supprimer = false, add = false, checked = false, onCheck,
+    compte, supprimer = false, add = false, onCheck,
   } = props;
   // console.log(compte);
   const route = useRoute<RouteProp<TabMaTresorerieParamList, 'ma-tresorerie-2'>>();
   const linkTo = useLinkTo();
+  const [checked, setChecked] = useState(false);
 
   const { bankMouvement } = useGetBankMovementsByBankAccountId(compte.id);
-
+  console.log('compte :', compte.realEstates?.items?.filter((item) => !item._deleted));
+  let bankAccountRealEstatate = false;
+  if (compte.realEstates) {
+    compte.realEstates?.items?.map((item) => { if (!item._deleted) { bankAccountRealEstatate = true; } });
+  }
   const movementPasAffect = bankMouvement?.filter((item) => {
     if (item.ignored
         || (item.budgetLineDeadlines?.items && item.budgetLineDeadlines?.items?.length > 0)) {
@@ -52,7 +56,7 @@ const OwnerCompte = (props: MonBienProps) => {
         style={styles.container}
       >
 
-        {supprimer && (
+        {supprimer && !bankAccountRealEstatate && (
           <View style={{ justifyContent: 'center', paddingHorizontal: 14, width: 50 }}>
             <CheckBox
               checked={checked}
@@ -60,6 +64,7 @@ const OwnerCompte = (props: MonBienProps) => {
               onChange={(nextChecked) => {
                 if (onCheck) {
                   onCheck(nextChecked);
+                  setChecked(nextChecked);
                 }
               }}
             />
@@ -73,6 +78,7 @@ const OwnerCompte = (props: MonBienProps) => {
               onChange={(nextChecked) => {
                 if (onCheck) {
                   onCheck(nextChecked);
+                  setChecked(nextChecked);
                 }
               }}
             />

@@ -53,20 +53,14 @@ const MaTresorerie2 = () => {
   const { bienget, refetch: refetchBien, loading: loadingBien } = useGetRealEstate(route.params.id);
   const { data } = useBankAccountList();
 
-  const [bankAccountCharger, setbankAccountCharger] = useState<ListBankAccountsQuery>();
-  const [bienCharger, setBienCharger] = useState<RealEstate>();
-  useEffect(() => {
-    setbankAccountCharger(data);
-    setBienCharger(bienget);
-  }, [bienget]);
   // console.log('------------------------', bienCharger?.bankAccounts?.items);
 
-  if (bienCharger) {
-    // console.log('oui', bienCharger.bankAccounts?.items?.length);
-    if (bienCharger.bankAccounts?.items?.length === 0 && !toggle) {
-      setToggle(true);
-    }
+  if (bienget.bankAccounts?.items?.length === 0 && !toggle) {
+    setToggle(true);
   }
+
+  const realEstateBankAccount = bienget.bankAccounts?.items?.filter((item) => { if (!item._deleted) { return item; } return false; });
+  console.log(data?.listBankAccounts?.items);
   let buttonText = '';
   if (toggle) {
     if (checkedAccounts.length <= 0) {
@@ -76,8 +70,8 @@ const MaTresorerie2 = () => {
     } else {
       buttonText = 'Lier les comptes bancaires';
     }
-  } else if (bankAccountCharger?.listBankAccounts?.items
-      && bankAccountCharger?.listBankAccounts?.items?.length <= 0) {
+  } else if (data?.listBankAccounts?.items
+      && data?.listBankAccounts?.items?.length <= 0) {
     buttonText = 'Lier un compte bancaire';
   } else {
     buttonText = 'Lier un autre compte bancaire';
@@ -96,6 +90,7 @@ const MaTresorerie2 = () => {
         },
       });
     }, Promise.resolve());
+    refetchBien();
   }
 
   return (
@@ -118,8 +113,8 @@ const MaTresorerie2 = () => {
           Ma Trésorerie
         </Text>
         <CompteHeader
-          title={bienCharger?.name}
-          iconUri={bienCharger?.iconUri}
+          title={bienget?.name}
+          iconUri={bienget?.iconUri}
         />
         <Text category="s2" status="basic" style={{ marginVertical: 20 }}>
           Comptes bancaires
@@ -131,24 +126,18 @@ const MaTresorerie2 = () => {
           ? <View style={{ justifyContent: 'center', alignItems: 'center' }}><ActivityIndicator /></View>
           : (!toggle ? (
             <>
-              {bienCharger?.bankAccounts?.items?.map(
+              {realEstateBankAccount?.map(
                 (item) => item && (
                 <OwnerCompte
                   key={item.id}
                   compte={item.bankAccount}
                   supprimer={supprim}
-                  checked={checkedAccounts.indexOf(item.bankAccountId) > -1}
                   onCheck={(checked) => {
-                    const nextCheckedAccounts = checkedAccounts
-                      .filter((id) => id !== item.bankAccountId);
                     const nextCheckedRealEstateAccounts = checkedRealEstateAccounts
                       .filter((id) => id.id !== item.id);
                     if (checked) {
-                      nextCheckedAccounts.push(item.bankAccountId);
                       nextCheckedRealEstateAccounts.push({ id: item.id, _version: item._version });
                     }
-                    // console.log('2222', nextCheckedAccounts);
-                    setCheckedAccounts(nextCheckedAccounts);
                     setCheckedRealEstateAccounts(nextCheckedRealEstateAccounts);
                   }}
                 />
@@ -157,14 +146,13 @@ const MaTresorerie2 = () => {
             </>
           ) : (
             <>
-              {bankAccountCharger?.listBankAccounts?.items?.map(
+              {data?.listBankAccounts?.items?.map(
                 (item) => item && (
                 <OwnerCompte
                   key={item.id}
                   compte={item}
                   supprimer={supprim}
                   add
-                  checked={checkedAccounts.indexOf(item.id) > -1}
                   onCheck={(checked) => {
                     const nextCheckedAccounts = checkedAccounts.filter((id) => id !== item.id);
                     if (checked) {
@@ -220,11 +208,11 @@ const MaTresorerie2 = () => {
                 if (toggle) {
                   if (
                     checkedAccounts.length > 0
-                      && bankAccountCharger
-                      && bankAccountCharger.listBankAccounts
-                      && bankAccountCharger.listBankAccounts.items
+                      && data
+                      && data.listBankAccounts
+                      && data.listBankAccounts.items
                   ) {
-                    bankAccountCharger.listBankAccounts.items.map(async (item) => {
+                    data.listBankAccounts.items.map(async (item) => {
                       if (checkedAccounts.includes(item.id)) {
                         await createRealEstateBankAccount({
                           variables: {
@@ -246,7 +234,6 @@ const MaTresorerie2 = () => {
                   }
                 } else {
                   setToggle(true);
-                  await refetchBien();
                 }
               }}
               style={{

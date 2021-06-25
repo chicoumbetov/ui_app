@@ -9,32 +9,30 @@
       "UnauthRoleName": "amplify-omedom-dev-233211-unauthRole",
       "StackName": "amplify-omedom-dev-233211",
       "StackId": "arn:aws:cloudformation:eu-west-3:459088793760:stack/amplify-omedom-dev-233211/4f95b9e0-d3a1-11eb-b94e-06e7796eb1ec",
-      "AmplifyAppId": "dqyd5ovlx14gx"
+      "AmplifyAppId": "dqyd5ovlx14gx",
+      "AuthTriggerTemplateURL": "",
+      "APIGatewayAuthURL": "https://s3.amazonaws.com/amplify-omedom-dev-233211-deployment/amplify-cfn-templates/api/APIGatewayAuthStack.json"
     },
     "categories": {
       "auth": {
         "omedomc071f696": {}
       },
       "function": {
+        "omedomGraphQLLayer": {
+          "deploymentBucketName": "amplify-omedom-dev-233211-deployment",
+          "s3Key": "amplify-builds/omedomGraphQLLayer-LambdaLayerVersiona068a58e-build.zip"
+        },
+        "omedomBudgetInsightLayer": {
+          "deploymentBucketName": "amplify-omedom-dev-233211-deployment",
+          "s3Key": "amplify-builds/omedomBudgetInsightLayer-LambdaLayerVersiona068a58e-build.zip"
+        },
         "omedomSESLayer": {
           "deploymentBucketName": "amplify-omedom-dev-233211-deployment",
           "s3Key": "amplify-builds/omedomSESLayer-LambdaLayerVersion1a505744-build.zip"
         },
-        "omedomBudgetInsightLayer": {
-          "deploymentBucketName": "amplify-omedom-dev-233211-deployment",
-          "s3Key": "amplify-builds/omedomBudgetInsightLayer-LambdaLayerVersion736a30b7-build.zip"
-        },
-        "omedomGraphQLLayer": {
-          "deploymentBucketName": "amplify-omedom-dev-233211-deployment",
-          "s3Key": "amplify-builds/omedomGraphQLLayer-LambdaLayerVersion11a72c5a-build.zip"
-        },
         "budgetinsight": {
           "deploymentBucketName": "amplify-omedom-dev-233211-deployment",
-          "s3Key": "amplify-builds/budgetinsight-5944776e552f76786b6a-build.zip"
-        },
-        "sendNotification": {
-          "deploymentBucketName": "amplify-omedom-dev-233211-deployment",
-          "s3Key": "amplify-builds/sendNotification-67744972396951517268-build.zip"
+          "s3Key": "amplify-builds/budgetinsight-6a7532662b7730547633-build.zip"
         },
         "pushReceipts": {
           "deploymentBucketName": "amplify-omedom-dev-233211-deployment",
@@ -44,17 +42,21 @@
           "deploymentBucketName": "amplify-omedom-dev-233211-deployment",
           "s3Key": "amplify-builds/waitingUser-7958645875746d507764-build.zip"
         },
+        "sendNotification": {
+          "deploymentBucketName": "amplify-omedom-dev-233211-deployment",
+          "s3Key": "amplify-builds/sendNotification-67744972396951517268-build.zip"
+        },
         "transactionWebHook": {
           "deploymentBucketName": "amplify-omedom-dev-233211-deployment",
           "s3Key": "amplify-builds/transactionWebHook-314d5363765a47385362-build.zip"
         },
-        "testNotification": {
-          "deploymentBucketName": "amplify-omedom-dev-233211-deployment",
-          "s3Key": "amplify-builds/testNotification-4b636c65336e31774750-build.zip"
-        },
         "shareRealEstate": {
           "deploymentBucketName": "amplify-omedom-dev-233211-deployment",
           "s3Key": "amplify-builds/shareRealEstate-2f586c7634515a336665-build.zip"
+        },
+        "testNotification": {
+          "deploymentBucketName": "amplify-omedom-dev-233211-deployment",
+          "s3Key": "amplify-builds/testNotification-4b636c65336e31774750-build.zip"
         },
         "omedomAuthorization": {
           "deploymentBucketName": "amplify-omedom-dev-233211-deployment",

@@ -125,6 +125,8 @@ export function useGetBankMovementsByBankAccountId(bankAccountId: string) {
   return {
     loading,
     bankMouvement: <BankMovement[]>data?.getBankMovementsByBankAccountId?.items,
+    nextToken: data?.getBankMovementsByBankAccountId?.nextToken,
+    startedAt: data?.getBankMovementsByBankAccountId?.startedAt,
     fetchMore,
     refetch,
   };

@@ -6,6 +6,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Platform } from 'react-native';
 import AppLoading from 'expo-app-loading';
 import { Layout, ApplicationProvider, IconRegistry } from '@ui-kitten/components';
+import 'moment/locale/fr';
 
 import * as eva from '@eva-design/eva';
 

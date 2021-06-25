@@ -28,20 +28,27 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/Icones_omedom/logo.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.djbuch.omedom"
     },
     "web": {
-      "favicon": "./assets/favicon-32x32.png",
+      "favicon": "./assets/favicon-web-32x32.png",
       "background_color": "#ffffff",
       "splash": {
-        "image": "./assets/favicon-32x32.png",
+        "image": "./assets/favicon-web-32x32.png",
         "background_color": "#ffffff",
         "resizeMode": "cover"
       }
     },
     "packagerOpts": {
       "config": "metro.config.js",
-      "sourceExts": ["js", "jsx", "ts", "tsx", "svg"]
+      "sourceExts": [
+        "js",
+        "jsx",
+        "ts",
+        "tsx",
+        "svg"
+      ]
     }
   }
 }

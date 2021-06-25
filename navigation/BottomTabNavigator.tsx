@@ -56,7 +56,7 @@ const BottomTabBar = ({ navigation, state }: any) => {
         onSelect={(index) => navigation.navigate(state.routeNames[index])}
       >
         {/* eslint-disable-next-line @typescript-eslint/no-shadow */}
-        <BottomNavigationTab title="Acceuil" icon={HomeIcon} />
+        <BottomNavigationTab title="Mes Biens" icon={HomeIcon} />
         <BottomNavigationTab title="Mes Charges" icon={TrendingUpIcon} />
         <BottomNavigationTab title="Accueil" icon={GridIcon} />
         <BottomNavigationTab title="Mon Assistant" icon={FileIcon} />

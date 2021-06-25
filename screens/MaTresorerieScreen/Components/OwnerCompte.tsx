@@ -9,6 +9,7 @@ import { RouteProp } from '@react-navigation/core/lib/typescript/src/types';
 import Card from '../../../components/Card';
 import { BankAccount } from '../../../src/API';
 import { TabMaTresorerieParamList } from '../../../types';
+import { useGetBankMovementsByBankAccountId } from '../../../src/API/BankMouvement';
 
 type MonBienProps = { compte: BankAccount,
   supprimer?: boolean,
@@ -23,6 +24,17 @@ const OwnerCompte = (props: MonBienProps) => {
   // console.log(compte);
   const route = useRoute<RouteProp<TabMaTresorerieParamList, 'ma-tresorerie-2'>>();
   const linkTo = useLinkTo();
+
+  const { bankMouvement } = useGetBankMovementsByBankAccountId(compte.id);
+
+  const movementPasAffect = bankMouvement?.filter((item) => {
+    if (item.ignored
+        || (item.budgetLineDeadlines?.items && item.budgetLineDeadlines?.items?.length > 0)) {
+      return false;
+    }
+    return item;
+  });
+  // console.log('Ownner Compte : ', movementPasAffect.length);
 
   // const linkTo = useLinkTo();
   const theme = useTheme();
@@ -91,7 +103,7 @@ const OwnerCompte = (props: MonBienProps) => {
             borderRadius: 30,
           }}
           >
-            <Text status="control">12</Text>
+            <Text status="control">{movementPasAffect.length}</Text>
           </View>
 
           <IconUIKitten

@@ -242,17 +242,20 @@ $end: String!) {
   }
 }
 `);
+
 export function useListBankMovement(id: string, start: string, end: string) {
   const {
     loading, data, fetchMore, refetch,
-  } = useQuery<GetMovementByRealEstateQuery, GetMovementByRealEstateQueryVariables>(listBankMovementsByRealEstateQuery, {
+  } = useQuery<
+  GetMovementByRealEstateQuery, GetMovementByRealEstateQueryVariables
+  >(listBankMovementsByRealEstateQuery, {
     variables: {
       id,
       start,
       end,
     },
   });
-  console.log('non non ', data);
+  console.log('useListBankMovement data: ', data);
   return {
     loading, data, fetchMore, refetch,
   };

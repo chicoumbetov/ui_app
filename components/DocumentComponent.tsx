@@ -1,5 +1,5 @@
 import { CheckBox, Icon, Text } from '@ui-kitten/components';
-import React from 'react';
+import React, { useState } from 'react';
 import * as Sharing from 'expo-sharing';
 import { Platform, View } from 'react-native';
 import { Storage } from 'aws-amplify';
@@ -7,6 +7,7 @@ import * as FileSystem from 'expo-file-system';
 import { DocumentItem } from '../src/API/Document';
 import Card from './Card';
 import { waitingDirectory } from '../utils/S3FileStorage';
+import ActivityIndicator from './ActivityIndicator';
 
 type DocumentProps = {
   supprimer?: boolean,
@@ -20,8 +21,11 @@ const DocumentComponent = (props: DocumentProps) => {
   } = props;
   // console.log('props', props);
 
+  const [sharing, setSharing] = useState(false);
+
   const shareDoc = async () => {
     if (document) {
+      setSharing(true);
       try {
         const url = await Storage.get(document.s3file);
         if (Platform.OS === 'web') {
@@ -40,15 +44,16 @@ const DocumentComponent = (props: DocumentProps) => {
 
           const downloaded = await FileSystem.downloadAsync(
             url as string,
-            directory + encodeURIComponent(document.name),
+            directory + encodeURIComponent(document.name.replaceAll('/', '_')),
           );
           if (downloaded.uri) {
             await Sharing.shareAsync(downloaded.uri);
             await FileSystem.deleteAsync(downloaded.uri);
           }
         }
+        setSharing(false);
       } catch (e) {
-        console.log(e);
+        console.log('Document Component error : ', e);
       }
     }
   };
@@ -82,7 +87,8 @@ const DocumentComponent = (props: DocumentProps) => {
       <Text category="p2" style={{ flex: 1 }}>
         {document.name}
       </Text>
-      <Icon name="eye" fill="#b5b5b5" style={{ height: 20, width: 20 }} />
+      {sharing ? <ActivityIndicator style={{ height: 20, width: 20 }} />
+        : <Icon name="eye" fill="#b5b5b5" style={{ height: 20, width: 20 }} />}
     </Card>
   ) : (<></>)
   );

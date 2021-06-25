@@ -34,9 +34,9 @@ const GraphicsII = (props: GraphicsIIProps) => {
   const { dateStart, dateEnd, id } = props;
   const start = moment(dateStart).format('YYYY-MM-DDTHH:mm:ss').toString();
   const end = moment(dateEnd).format('YYYY-MM-DDTHH:mm:ss').toString();
-  // console.log(start);
+  console.log(start, end, id);
   const listBankMovement = useListBankMovement(id, start, end);
-  // console.log('oui oui :', listBankMovement.data);
+  console.log('oui oui :', listBankMovement);
   const theme = useTheme();
   const [width, setWidth] = useState(0);
   const [shown, setShown] = useState(false);

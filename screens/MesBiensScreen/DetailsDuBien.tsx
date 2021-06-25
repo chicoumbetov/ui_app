@@ -582,7 +582,12 @@ function DetailsBien() {
                 ),
               )}
 
-              <View style={styles.button}>
+              <View style={{
+                flexDirection: 'row',
+                justifyContent: 'flex-end',
+              }}
+              >
+                {/**
                 <TouchableOpacity
                   onPress={
                           async () => {
@@ -607,6 +612,7 @@ function DetailsBien() {
                 >
                   <Text category="h5" status="info" style={styles.buttonText}>Ajouter</Text>
                 </TouchableOpacity>
+                */}
                 {!readOnly && (
                 <TouchableOpacity onPress={() => {
                   supprimerDocument(); setSupprim(!supprim);

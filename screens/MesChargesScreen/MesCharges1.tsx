@@ -135,16 +135,10 @@ const MesCharges1 = () => {
             category="h5"
             status="basic"
           >
-            Vous n'avez pas encore de Biens.
-            Vous devez d'abord créer un bien pour accéder à cette section
+            Vous n'avez pas encore de biens.
+            Vous devez d'abord créer un bien pour accéder à cette section.
+            Vous n'avez pas de charges pour ce maison.
           </Text>
-          <Button
-            size="large"
-            onPress={() => { onAjoutBien(); }}
-            style={{ marginVertical: 25 }}
-          >
-            Ajouter un nouveau bien
-          </Button>
         </>
       )}
 

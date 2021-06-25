@@ -101,15 +101,22 @@ const MesRapportBien2 = () => {
         </Text>
         <CompteHeader title={bienget?.name} iconUri={bienget?.iconUri} />
       </View>
-
-      <Separator />
-      <Card style={{ margin: 22 }}>
-        <Graphics data={allCurrentCategories} />
-      </Card>
-      <Text category="s2" style={{ marginHorizontal: 22, marginVertical: 15 }}>Etat de trésorerie</Text>
-      <Card style={{ margin: 22 }}>
-        <GraphicsII dateStart={start} dateEnd={end} />
-      </Card>
+      {bienget.budgetLineDeadlines?.items?.find((y) => y) ? (
+        <>
+          <Separator />
+          <Card style={{ margin: 22 }}>
+            <Graphics data={allCurrentCategories} />
+          </Card>
+          <Text category="s2" style={{ marginHorizontal: 22, marginVertical: 15 }}>Etat de trésorerie</Text>
+          <Card style={{ margin: 22 }}>
+            <GraphicsII dateStart={start} dateEnd={end} id={bienget.id} />
+          </Card>
+        </>
+      ) : (
+        <View style={{ paddingLeft: 22 }}>
+          <Text>Vous n'avez pas des charges </Text>
+        </View>
+      )}
 
     </MaxWidthContainer>
   );

@@ -41,6 +41,7 @@ const MaTresorerie2 = () => {
   const [supprim, setSupprim] = useState(false);
   const [addingAccounts, setAddingAccounts] = useState(false);
   const [checkedAccounts, setCheckedAccounts] = useState<string[]>([]);
+  // eslint-disable-next-line max-len
   const [checkedRealEstateAccounts, setCheckedRealEstateAccounts] = React.useState<Array<{ id:string, _version:number }>>([]);
 
   const route = useRoute<RouteProp<TabMaTresorerieParamList, 'ma-tresorerie-2'>>();
@@ -89,6 +90,7 @@ const MaTresorerie2 = () => {
         variables: {
           input: {
             id: current.id,
+            // eslint-disable-next-line no-underscore-dangle
             _version: current._version,
           },
         },
@@ -138,7 +140,7 @@ const MaTresorerie2 = () => {
           ? (<Text category="p2" appearance="hint">Ajoutez un compte pour consulter votre trésorerie</Text>)
           : (<Text category="p2" appearance="hint">Sélectionner le compte pour consulter votre trésorerie</Text>)}
         {loadingBien
-          ? <ActivityIndicator />
+          ? <View style={{ justifyContent: 'center', alignItems: 'center' }}><ActivityIndicator /></View>
           : (!toggle ? (
             <>
               {bienCharger?.bankAccounts?.items?.map(

@@ -56,11 +56,11 @@ const BottomTabBar = ({ navigation, state }: any) => {
         onSelect={(index) => navigation.navigate(state.routeNames[index])}
       >
         {/* eslint-disable-next-line @typescript-eslint/no-shadow */}
-        <BottomNavigationTab title="Mes Biens" icon={HomeIcon} />
-        <BottomNavigationTab title="Mes Charges" icon={TrendingUpIcon} />
-        <BottomNavigationTab title="Accueil" icon={GridIcon} />
-        <BottomNavigationTab title="Mon Assistant" icon={FileIcon} />
-        <BottomNavigationTab title="Notifications" icon={BellIcon} />
+        <BottomNavigationTab title="Mes Biens" appearance="custom" icon={HomeIcon} />
+        <BottomNavigationTab title="Mes Charges" appearance="custom" icon={TrendingUpIcon} />
+        <BottomNavigationTab title="Accueil" appearance="custom" icon={GridIcon} />
+        <BottomNavigationTab title="Mon Assistant" appearance="custom" icon={FileIcon} />
+        <BottomNavigationTab title="Notifications" appearance="custom" icon={BellIcon} />
       </BottomNavigation>
     </SafeAreaView>
   );

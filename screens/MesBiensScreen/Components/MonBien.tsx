@@ -308,12 +308,16 @@ const MonBien = (props: MonBienProps) => {
                       style={{ height: 18, width: 18, marginRight: 8 }}
                     />
                   </TouchableOpacity>
-                  <Graphics data={allCurrentCategories} />
-                  <GraphicsII
-                    dateStart={firstDayCurrentYear}
-                    dateEnd={lastDayCurrentYear}
-                    id={bienget.id}
-                  />
+                  {bienget?.budgetLineDeadlines?.items?.find((t) => t) && (
+                    <>
+                      <Graphics data={allCurrentCategories} />
+                      <GraphicsII
+                        dateStart={firstDayCurrentYear}
+                        dateEnd={lastDayCurrentYear}
+                        id={bienget.id}
+                      />
+                    </>
+                  )}
                 </>
               )}
             </Card>

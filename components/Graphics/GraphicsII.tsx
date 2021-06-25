@@ -6,6 +6,7 @@ import {
 } from 'victory-native';
 import moment from 'moment';
 import VisibilitySensor from '@svanboxel/visibility-sensor-react-native';
+import { MotiView } from 'moti';
 import DateUtils from '../../utils/DateUtils';
 import { useListBankMovement } from '../../src/API/BankMouvement';
 
@@ -33,9 +34,9 @@ const GraphicsII = (props: GraphicsIIProps) => {
   const { dateStart, dateEnd, id } = props;
   const start = moment(dateStart).format('YYYY-MM-DDTHH:mm:ss').toString();
   const end = moment(dateEnd).format('YYYY-MM-DDTHH:mm:ss').toString();
-  console.log(start);
+  // console.log(start);
   const listBankMovement = useListBankMovement(id, start, end);
-  console.log('oui oui :', listBankMovement.data);
+  // console.log('oui oui :', listBankMovement.data);
   const theme = useTheme();
   const [width, setWidth] = useState(0);
   const [shown, setShown] = useState(false);
@@ -114,76 +115,74 @@ const GraphicsII = (props: GraphicsIIProps) => {
         <ScrollView horizontal style={{ height: 350 }}>
           <View style={{ width, height: 350 }}>
             {shown && (
-            <VictoryChart
-              height={350}
-              width={width}
-              domainPadding={{ x: 20 }}
-              standalone
-              animate={{
-                duration: animationDuration,
-              }}
-            >
-              <VictoryAxis
-          // theme={{ }}
-                crossAxis
+            <MotiView transition={{ type: 'timing', duration: animationDuration }} from={{ opacity: 0 }} animate={{ opacity: 1 }}>
+              <VictoryChart
+                height={350}
+                width={width}
+                domainPadding={{ x: 20 }}
                 standalone
-                offsetX={50}
-                style={{
-                  ticks: { stroke: '#b5b5b5', size: 8 },
-                }}
-                tickLabelComponent={(
-                  <VictoryLabel
-                    textAnchor="end"
-                    style={{
-                      fontSize: '9px', fill: '#b5b5b5', angle: -45,
-                    }}
-                  />
+              >
+                <VictoryAxis
+                  crossAxis
+                  standalone
+                  offsetX={50}
+                  style={{
+                    ticks: { stroke: '#b5b5b5', size: 8 },
+                  }}
+                  tickLabelComponent={(
+                    <VictoryLabel
+                      textAnchor="end"
+                      style={{
+                        fontSize: '9px', fill: '#b5b5b5', angle: -45,
+                      }}
+                    />
           )}
-                tickValues={evolutionData.map(({ moisLabel }) => moisLabel)}
-                fixLabelOverlap
-              />
-              <VictoryAxis
-                dependentAxis
-                crossAxis
-                tickLabelComponent={(
-                  <VictoryLabel
-                    style={{ fontSize: '9px', fill: '#b5b5b5' }}
-                  />
+                  tickValues={evolutionData.map(({ moisLabel }) => moisLabel)}
+                  fixLabelOverlap
+                />
+                <VictoryAxis
+                  dependentAxis
+                  crossAxis
+                  tickLabelComponent={(
+                    <VictoryLabel
+                      style={{ fontSize: '9px', fill: '#b5b5b5' }}
+                    />
           )}
-                style={{
-                  ticks: { stroke: '#b5b5b5', size: 8 },
-                }}
-                domainPadding={{ y: 10 }}
-              />
-              <VictoryBar
-                alignment="start"
-                cornerRadius={{ top: 8, bottom: 8 }}
-                barWidth={16}
-                style={{ data: { fill: theme['color-danger-500'] } }}
-                data={
+                  style={{
+                    ticks: { stroke: '#b5b5b5', size: 8 },
+                  }}
+                  domainPadding={{ y: 10 }}
+                />
+                <VictoryBar
+                  alignment="start"
+                  cornerRadius={{ top: 8, bottom: 8 }}
+                  barWidth={16}
+                  style={{ data: { fill: theme['color-danger-500'] } }}
+                  data={
                   evolutionData.map(({ expense, moisLabel }) => ({ x: moisLabel, y: -expense }))
                 }
-              />
-              <VictoryBar
+                />
+                <VictoryBar
           // barWidth={10}
-                alignment="end"
-                cornerRadius={{ top: 8, bottom: 8 }}
-                barWidth={16}
-                style={{ data: { fill: theme['color-info-600'] } }}
-                data={evolutionData.map(({ income, moisLabel }) => ({ x: moisLabel, y: income }))}
-              />
-              <VictoryGroup
-                data={evolutionData.map(({ cumul, moisLabel }) => ({ x: moisLabel, y: cumul }))}
-              >
-                <VictoryLine
-                  style={{
-                    data: {
-                      stroke: theme['color-warning-500'],
-                    },
-                  }}
-                  interpolation="monotoneX"
+                  alignment="end"
+                  cornerRadius={{ top: 8, bottom: 8 }}
+                  barWidth={16}
+                  style={{ data: { fill: theme['color-info-600'] } }}
+                  data={evolutionData.map(({ income, moisLabel }) => ({ x: moisLabel, y: income }))}
                 />
-                <VictoryScatter
+                <VictoryGroup
+                  data={evolutionData.map(({ cumul, moisLabel }) => ({ x: moisLabel, y: cumul }))}
+                >
+                  <VictoryLine
+                    style={{
+                      data: {
+                        stroke: theme['color-warning-500'],
+                      },
+                    }}
+                    interpolation="monotoneX"
+                  />
+                  <VictoryScatter
+                  /**
                   animate={{
                     onLoad: {
                       duration: animationDuration,
@@ -191,23 +190,25 @@ const GraphicsII = (props: GraphicsIIProps) => {
                       after: () => ({ opacity: 1 }),
                     },
                   }}
-                  style={{
-                    data: { fill: '#000000', opacity: ({ datum }) => datum.opacity },
-                  }}
-                />
-              </VictoryGroup>
-              <VictoryGroup
-                data={evolutionData.map(({ delta, moisLabel }) => ({ x: moisLabel, y: delta }))}
-              >
-                <VictoryLine
-                  style={{
-                    data: {
-                      stroke: theme['color-success-400'],
-                    },
-                  }}
-                  interpolation="monotoneX"
-                />
-                <VictoryScatter
+                  */
+                    style={{
+                      data: { fill: '#000000', opacity: ({ datum }) => datum.opacity },
+                    }}
+                  />
+                </VictoryGroup>
+                <VictoryGroup
+                  data={evolutionData.map(({ delta, moisLabel }) => ({ x: moisLabel, y: delta }))}
+                >
+                  <VictoryLine
+                    style={{
+                      data: {
+                        stroke: theme['color-success-400'],
+                      },
+                    }}
+                    interpolation="monotoneX"
+                  />
+                  <VictoryScatter
+                  /**
                   animate={{
                     onLoad: {
                       duration: animationDuration,
@@ -215,12 +216,14 @@ const GraphicsII = (props: GraphicsIIProps) => {
                       after: () => ({ opacity: 1 }),
                     },
                   }}
-                  style={{
-                    data: { fill: '#000000', opacity: ({ datum }) => datum.opacity },
-                  }}
-                />
-              </VictoryGroup>
-            </VictoryChart>
+                  */
+                    style={{
+                      data: { fill: '#000000', opacity: ({ datum }) => datum.opacity },
+                    }}
+                  />
+                </VictoryGroup>
+              </VictoryChart>
+            </MotiView>
             )}
           </View>
         </ScrollView>

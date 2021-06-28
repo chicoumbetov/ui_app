@@ -21,7 +21,16 @@ const CompteHeader = ({ title, iconUri }: TitleProps) => (
     }}
   >
     {/** <MaisonVerte height={40} width={40} style={{ marginRight: 10 }} /> */}
-    <AutoAvatar avatarInfo={iconUri} style={{ height: 40, width: 40, marginRight: 10 }} />
+    <AutoAvatar
+      avatarInfo={iconUri}
+      style={{
+        height: 40,
+        width: 40,
+        marginRight: 10,
+        borderRadius: 20,
+        overflow: 'hidden',
+      }}
+    />
 
     <Text category="h3" style={{ paddingTop: 13 }}>
       {title}

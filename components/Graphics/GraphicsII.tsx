@@ -1,12 +1,12 @@
-import React from 'react';
-import { View } from 'react-native';
+import React, { useState } from 'react';
+import { ScrollView, View } from 'react-native';
 import { Text, useTheme } from '@ui-kitten/components';
 import {
   VictoryAxis, VictoryBar, VictoryChart, VictoryGroup, VictoryLabel, VictoryLine, VictoryScatter,
 } from 'victory-native';
 import moment from 'moment';
-import 'moment/min/locales'; // Import all moment-locales -- it's just 400kb
-import MaxWidthContainer from '../MaxWidthContainer';
+import VisibilitySensor from '@svanboxel/visibility-sensor-react-native';
+import { MotiView } from 'moti';
 import DateUtils from '../../utils/DateUtils';
 import { useListBankMovement } from '../../src/API/BankMouvement';
 
@@ -32,12 +32,14 @@ type GraphicsIIProps = {
 
 const GraphicsII = (props: GraphicsIIProps) => {
   const { dateStart, dateEnd, id } = props;
-  const start = dateStart.toDateString();
-  const end = dateEnd.toDateString();
-  console.log(start);
+  const start = moment(dateStart).format('YYYY-MM-DDTHH:mm:ss').toString();
+  const end = moment(dateEnd).format('YYYY-MM-DDTHH:mm:ss').toString();
+  console.log(start, end, id);
   const listBankMovement = useListBankMovement(id, start, end);
-  console.log('oui oui :', listBankMovement.data);
+  console.log('oui oui :', listBankMovement);
   const theme = useTheme();
+  const [width, setWidth] = useState(0);
+  const [shown, setShown] = useState(false);
 
   /** Object with 3 attributes and its key */
   const evolutionData: [
@@ -95,118 +97,137 @@ const GraphicsII = (props: GraphicsIIProps) => {
   const animationDuration = 500;
 
   return (
-    <MaxWidthContainer
-      outerViewProps={{
-        style: {
-          paddingTop: 10,
-          borderRadius: 10,
-        },
+    <View
+      style={{
+        paddingTop: 10,
+        borderRadius: 10,
+      }}
+      onLayout={(event) => {
+        setWidth(Math.max(500, event.nativeEvent.layout.width));
       }}
     >
-
-      <VictoryChart
-        height={350}
-        width={500}
-        domainPadding={{ x: 20 }}
-        standalone
-        animate={{
-          duration: animationDuration,
-        }}
+      <VisibilitySensor onChange={(visible) => {
+        if (visible && !shown) {
+          setShown(true);
+        }
+      }}
       >
-        <VictoryAxis
-          // theme={{ }}
-          crossAxis
-          standalone
-          offsetX={50}
-          style={{
-            ticks: { stroke: '#b5b5b5', size: 8 },
-          }}
-          tickLabelComponent={(
-            <VictoryLabel
-              textAnchor="end"
-              style={{
-                fontSize: '10px', fill: '#b5b5b5', angle: -45,
-              }}
-            />
+        <ScrollView horizontal style={{ height: 350 }}>
+          <View style={{ width, height: 350 }}>
+            {shown && (
+            <MotiView transition={{ type: 'timing', duration: animationDuration }} from={{ opacity: 0 }} animate={{ opacity: 1 }}>
+              <VictoryChart
+                height={350}
+                width={width}
+                domainPadding={{ x: 20 }}
+                standalone
+              >
+                <VictoryAxis
+                  crossAxis
+                  standalone
+                  offsetX={50}
+                  style={{
+                    ticks: { stroke: '#b5b5b5', size: 8 },
+                  }}
+                  tickLabelComponent={(
+                    <VictoryLabel
+                      textAnchor="end"
+                      style={{
+                        fontSize: '9px', fill: '#b5b5b5', angle: -45,
+                      }}
+                    />
           )}
-          tickValues={evolutionData.map(({ moisLabel }) => moisLabel)}
-          fixLabelOverlap
-        />
-        <VictoryAxis
-          dependentAxis
-          crossAxis
-          tickLabelComponent={(
-            <VictoryLabel
-              style={{ fontSize: '10px', fill: '#b5b5b5' }}
-            />
+                  tickValues={evolutionData.map(({ moisLabel }) => moisLabel)}
+                  fixLabelOverlap
+                />
+                <VictoryAxis
+                  dependentAxis
+                  crossAxis
+                  tickLabelComponent={(
+                    <VictoryLabel
+                      style={{ fontSize: '9px', fill: '#b5b5b5' }}
+                    />
           )}
-          style={{
-            ticks: { stroke: '#b5b5b5', size: 8 },
-          }}
-          domainPadding={{ y: 10 }}
-        />
-        <VictoryBar
-          alignment="start"
-          cornerRadius={{ top: 8, bottom: 8 }}
-          style={{ data: { fill: theme['color-danger-500'] } }}
-          data={evolutionData.map(({ expense, moisLabel }) => ({ x: moisLabel, y: -expense }))}
-        />
-        <VictoryBar
+                  style={{
+                    ticks: { stroke: '#b5b5b5', size: 8 },
+                  }}
+                  domainPadding={{ y: 10 }}
+                />
+                <VictoryBar
+                  alignment="start"
+                  cornerRadius={{ top: 8, bottom: 8 }}
+                  barWidth={16}
+                  style={{ data: { fill: theme['color-danger-500'] } }}
+                  data={
+                  evolutionData.map(({ expense, moisLabel }) => ({ x: moisLabel, y: -expense }))
+                }
+                />
+                <VictoryBar
           // barWidth={10}
-          alignment="end"
-          cornerRadius={{ top: 8, bottom: 8 }}
-          style={{ data: { fill: theme['color-info-600'] } }}
-          data={evolutionData.map(({ income, moisLabel }) => ({ x: moisLabel, y: income }))}
-        />
-        <VictoryGroup
-          data={evolutionData.map(({ cumul, moisLabel }) => ({ x: moisLabel, y: cumul }))}
-        >
-          <VictoryLine
-            style={{
-              data: {
-                stroke: theme['color-warning-500'],
-              },
-            }}
-            interpolation="monotoneX"
-          />
-          <VictoryScatter
-            animate={{
-              onLoad: {
-                duration: animationDuration,
-                before: () => ({ opacity: 0 }),
-                after: () => ({ opacity: 1 }),
-              },
-            }}
-            style={{
-              data: { fill: '#000000', opacity: ({ datum }) => datum.opacity },
-            }}
-          />
-        </VictoryGroup>
-        <VictoryGroup
-          data={evolutionData.map(({ delta, moisLabel }) => ({ x: moisLabel, y: delta }))}
-        >
-          <VictoryLine
-            style={{
-              data: {
-                stroke: theme['color-success-400'],
-              },
-            }}
-            interpolation="monotoneX"
-          />
-          <VictoryScatter
-            animate={{
-              onLoad: {
-                duration: animationDuration,
-                before: () => ({ opacity: 0 }),
-                after: () => ({ opacity: 1 }),
-              },
-            }}
-            style={{
-              data: { fill: '#000000', opacity: ({ datum }) => datum.opacity },
-            }}
-          />
-        </VictoryGroup>
-      </VictoryChart>
+                  alignment="end"
+                  cornerRadius={{ top: 8, bottom: 8 }}
+                  barWidth={16}
+                  style={{ data: { fill: theme['color-info-600'] } }}
+                  data={evolutionData.map(({ income, moisLabel }) => ({ x: moisLabel, y: income }))}
+                />
+                <VictoryGroup
+                  data={evolutionData.map(({ cumul, moisLabel }) => ({ x: moisLabel, y: cumul }))}
+                >
+                  <VictoryLine
+                    style={{
+                      data: {
+                        stroke: theme['color-warning-500'],
+                      },
+                    }}
+                    interpolation="monotoneX"
+                  />
+                  <VictoryScatter
+                  /**
+                  animate={{
+                    onLoad: {
+                      duration: animationDuration,
+                      before: () => ({ opacity: 0 }),
+                      after: () => ({ opacity: 1 }),
+                    },
+                  }}
+                  */
+                    style={{
+                      data: { fill: '#000000', opacity: ({ datum }) => datum.opacity },
+                    }}
+                  />
+                </VictoryGroup>
+                <VictoryGroup
+                  data={evolutionData.map(({ delta, moisLabel }) => ({ x: moisLabel, y: delta }))}
+                >
+                  <VictoryLine
+                    style={{
+                      data: {
+                        stroke: theme['color-success-400'],
+                      },
+                    }}
+                    interpolation="monotoneX"
+                  />
+                  <VictoryScatter
+                  /**
+                  animate={{
+                    onLoad: {
+                      duration: animationDuration,
+                      before: () => ({ opacity: 0 }),
+                      after: () => ({ opacity: 1 }),
+                    },
+                  }}
+                  */
+                    style={{
+                      data: { fill: '#000000', opacity: ({ datum }) => datum.opacity },
+                    }}
+                  />
+                </VictoryGroup>
+              </VictoryChart>
+            </MotiView>
+            )}
+          </View>
+        </ScrollView>
+      </VisibilitySensor>
 
       <View style={{ marginVertical: 20, borderBottomWidth: 0.5, borderBottomColor: '#b5b5b5' }} />
       <View style={{ flexDirection: 'row', marginTop: 20, alignItems: 'center' }}>
@@ -237,8 +258,7 @@ const GraphicsII = (props: GraphicsIIProps) => {
         />
         <Text category="h6" appearance="hint">Trésorerie cumulée</Text>
       </View>
-
-    </MaxWidthContainer>
+    </View>
   );
 };
 

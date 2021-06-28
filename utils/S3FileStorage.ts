@@ -66,7 +66,8 @@ const UploadInternal = async (
         contentType: blob.type,
         cacheControl: blob.type.indexOf('image') > -1 ? 'max-age=2592000, public' : 'no-cache',
         contentDisposition: originalFilename ? `attachment; filename="${originalFilename}"` : null,
-        progressCallback(progress: any) {
+        // ??????????????,
+        progressCallback: (progress: any) => {
           console.log(`Uploaded: ${progress.loaded}/${progress.total}`);
         },
       }));
@@ -129,6 +130,7 @@ export const Upload = async (
       uri: file.uri,
     };
   }
+  console.log(finalFile);
   if (!found) {
     return false;
   }

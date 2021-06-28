@@ -6,6 +6,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Platform } from 'react-native';
 import AppLoading from 'expo-app-loading';
 import { Layout, ApplicationProvider, IconRegistry } from '@ui-kitten/components';
+import 'moment/locale/fr';
 
 import * as eva from '@eva-design/eva';
 
@@ -33,6 +34,13 @@ import {
 import client, { Rehydration } from './src/Apollo';
 import { UserContext, UserProvider } from './src/API/UserContext';
 import ErrorMap from './components/Auth/ErrorMap';
+
+if (typeof Intl === 'undefined') {
+  // eslint-disable-next-line global-require
+  require('intl');
+  // eslint-disable-next-line global-require
+  require('intl/locale-data/jsonp/fr');
+}
 
 Amplify.configure({
   ...awsExports,

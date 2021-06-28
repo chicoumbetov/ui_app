@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 
 import { Icon as IconUIKitten } from '@ui-kitten/components/ui/icon/icon.component';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { useLinkTo, useNavigation, useRoute } from '@react-navigation/native';
 import { RouteProp } from '@react-navigation/core/lib/typescript/src/types';
 import moment from 'moment';
 import CompteHeader from '../../components/CompteHeader/CompteHeader';
@@ -37,10 +37,12 @@ import { useGetBankAccount } from '../../src/API/BankAccount';
 
 const MouvBancaires = () => {
   const theme = useTheme();
-  const navigation = useNavigation();
+  const linkTo = useLinkTo();
   const route = useRoute<RouteProp<TabMaTresorerieParamList, 'mouv-bancaires'>>();
   const { bienget } = useGetRealEstate(route.params.id);
-  const { bankMouvement } = useGetBankMovementsByBankAccountId(route.params.idCompte);
+  const {
+    bankMouvement, fetchMoreBankMovements, nextToken,
+  } = useGetBankMovementsByBankAccountId(route.params.idCompte);
   const { bankAccount } = useGetBankAccount(route.params.idCompte);
   const useUpdateBankMouvement = useUpdateBankMovement();
 
@@ -63,7 +65,7 @@ const MouvBancaires = () => {
     }
     return item;
   });
-  // console.log('dfslbnkm,l;vm:;l,sdv', movementPasAffect);
+  // console.log('movementPasAffect :', movementPasAffect);
 
   // const [compte] = useState(comptesData);
   const [currentMvt, setCurrentMvt] = useState<BankMovement>();
@@ -86,11 +88,11 @@ const MouvBancaires = () => {
     // console.log('check ', checked.includes({ id, _version }));
   };
   const onIgnorerMouvement = (id?: string) => {
-    navigation.navigate('ignorer-mouvement', { idCompte: id, id: route.params.id });
+    linkTo(`/ma-tresorerie/${route.params.id}/mes-comptes/${id}/mouvements-bancaires/ignores/`);
   };
 
   const onAffecterMouvement = (id?: string) => {
-    navigation.navigate('affecter-mouvement', { idCompte: id, id: route.params.id });
+    linkTo(`/ma-tresorerie/${route.params.id}/mes-comptes/${id}/mouvements-bancaires/affectes/`);
   };
 
   const onEditMouvement = (items: BankMovement) => {
@@ -245,6 +247,11 @@ const MouvBancaires = () => {
               </TouchableOpacity>
             </Card>
           ))}
+          {nextToken && (
+          <Button appearance="ghost" onPress={() => fetchMoreBankMovements()}>
+            Charger plus de mouvements
+          </Button>
+          )}
 
           {/**
                 if data.length = 0 then show message below

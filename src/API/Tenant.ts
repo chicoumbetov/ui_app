@@ -68,13 +68,14 @@ export const useDeleteTenantMutation = () => {
     const tenants = removeKeyArray<TenantInfoInput>((<TenantInfoInput[]>bien?.tenants || []), '__typename');
     const newtenant = tenants.filter((tenant) => !updatedTenant.includes(tenant.id));
     console.log('tenant : ', newtenant);
-    console.log('bien : ', bien);
+    console.log('bien in useDeleteTenantMutation: ', bien);
     if (bien.id) {
       await updateRealEstate.updateRealEstate({
         variables: {
           input: {
             id: bien.id,
             tenants: newtenant,
+            // eslint-disable-next-line no-underscore-dangle
             _version: bien._version,
           },
         },

@@ -18,6 +18,8 @@ import {
 import TextInputComp from '../../../components/Form/TextInput';
 import Amount from '../../../components/Amount';
 import { useUpdateBankMovement } from '../../../src/API/BankMouvement';
+import BudgetLineDeadLineCard from './BudgetLineDeadLineCard';
+import Formatter from '../../../utils/Formatter';
 
 type MonBudgetProps = { budget?: (BudgetLineDeadline | null)[], movement: BankMovement, onSaved?: () => void, realEstateId: string };
 
@@ -32,38 +34,10 @@ const EditMouvement = (props: MonBudgetProps) => {
   const updateBudgetLineDeadLine = useUpdateBudgetLineDeadlineMutation();
 
   const [checked, setChecked] = React.useState<Array<{ id:string, _version:number }>>([]);
-  const [edit, setedit] = React.useState<string[]>([]);
 
   const [amountMouvement, setAmountMouvement] = useState(movement.amount || 0);
-  const [newAmount, setNewAmount] = useState();
 
-  const deleteBudgetLine = useDeleteBudgetLineDeadlineMutation();
   const useUpdateBankMouvement = useUpdateBankMovement();
-
-  const isEdited = (id:string): boolean => edit.indexOf(id) > -1;
-
-  const editFunction = async (isEdit: boolean, data:BudgetLineDeadline, modifier?: boolean) => {
-    const neweditState = edit.filter((currentId) => currentId !== data.id);
-    if (isEdit) {
-      neweditState.push(data.id);
-    }
-    if (modifier) {
-      await updateBudgetLineDeadLine.updateBudgetLineDeadline({
-        variables: {
-          input: {
-            id: data.id,
-            amount: newAmount,
-            _version: data._version,
-          },
-        },
-      });
-    }
-
-    setedit(neweditState);
-    console.log('edit :', edit);
-  };
-
-  const isChecked = (id:string): boolean => checked.filter((item) => item.id === id).length > 0;
 
   const checkFunction = (nextChecked: boolean, id:string, thisAmount: number, _version:number) => {
     const newCheckedState = checked.filter((current) => current.id !== id);
@@ -86,6 +60,7 @@ const EditMouvement = (props: MonBudgetProps) => {
           input: {
             id: current.id,
             bankMouvementId: movement.id,
+            // eslint-disable-next-line no-underscore-dangle
             _version: current._version,
           },
         },
@@ -95,6 +70,8 @@ const EditMouvement = (props: MonBudgetProps) => {
       variables: {
         input: {
           id: movement.id,
+          // eslint-disable-next-line no-underscore-dangle
+          _version: movement._version,
           realEstateId,
         },
       },
@@ -102,31 +79,6 @@ const EditMouvement = (props: MonBudgetProps) => {
     if (onSaved) {
       onSaved();
     }
-  };
-
-  const supprimerLeRevenue = async (item) => {
-    Alert.alert(
-      'Suppression de revenue',
-      '',
-      [{
-        text: 'Annuler',
-        style: 'cancel',
-      },
-      {
-        text: 'Valider',
-        onPress: async () => {
-          await deleteBudgetLine({
-            variables: {
-              input: {
-                id: item.id,
-                // eslint-disable-next-line no-underscore-dangle
-                _version: item._version,
-              },
-            },
-          });
-        },
-      }],
-    );
   };
 
   return (
@@ -140,7 +92,7 @@ const EditMouvement = (props: MonBudgetProps) => {
       <ScrollView
         style={{ paddingTop: 20, borderTopWidth: 1, borderTopColor: '#b5b5b5' }}
       >
-        {budget.length > 0 ? (
+        {budget && budget.length > 0 ? (
           <>
             <Text
               category="h1"
@@ -157,116 +109,30 @@ const EditMouvement = (props: MonBudgetProps) => {
             </Text>
 
             {budget.map((item) => (
-              <Card
+              item && (
+              <BudgetLineDeadLineCard
                 key={item.id}
-                style={{ marginVertical: 15 }}
-              >
-                <View
-                  style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 15 }}
-                >
-                  <CheckBox
-                    checked={isChecked(item.id)}
-                    onChange={
-                      (nextChecked) => checkFunction(nextChecked, item.id, item.amount, item._version)
-                    }
-                    style={{ marginRight: 20 }}
-                  />
-                  <View style={{
-                    flex: 1,
-                    borderRightWidth: 1,
-                    borderRightColor: '#b5b5b5',
-                  }}
-                  >
-
-                    <Text
-                      style={{ marginBottom: 15 }}
-                      category="h4"
-                      status="basic"
-                    >
-                      {item.category}
-                    </Text>
-                    {isEdited(item.id) ? (
-                      <TextInputComp
-                        name="amount"
-                        defaultValue={item.amount}
-                        keyboardType="numeric"
-                        onChangeValue={(v) => setNewAmount(v)}
-                      />
-                    ) : (
-                      <Text
-                        category="c1"
-                        status={item.type === BudgetLineType.Expense
-                          ? ('danger') : ('success')}
-                      >
-                        {item.type === BudgetLineType.Expense ? ('') : ('+')}
-                        {item.amount}
-                      </Text>
-
-                    )}
-
-                  </View>
-
-                  <View
-                    style={{
-                      flex: 1,
-                      alignItems: 'center',
-                      flexDirection: 'column',
-                      // justifyContent: 'space-evenly',
-                      paddingLeft: 10,
-                    }}
-                  >
-                    <Text category="p1" status="basic">Mensuel</Text>
-                    <Text category="p1" appearance="hint">Echéance</Text>
-                    <Text category="h6" status="basic">{`${moment(item.date).format('DD/MM/YYYY')}`}</Text>
-
-                  </View>
-                </View>
-                <View style={{
-                  backgroundColor: '#f6f6f6',
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  padding: 25,
-                  borderBottomStartRadius: 10,
-                  borderBottomEndRadius: 10,
-                  alignItems: 'center',
+                item={item}
+                onChecked={(checkedItem, currentChecked) => {
+                  checkFunction(
+                    currentChecked,
+                    checkedItem.id,
+                    checkedItem.amount,
+                    // eslint-disable-next-line no-underscore-dangle
+                    checkedItem._version,
+                  );
                 }}
-                >
-                  <Text category="h6" status="warning">En attente</Text>
-                  {isEdited(item.id) ? (
-                    <>
-                      <TouchableOpacity onPress={() => editFunction(!isEdited(item.id), item)}>
-                        <Text category="h6">Annuler</Text>
-                      </TouchableOpacity>
-                      <Button
-                        size="small"
-                        onPress={() => { editFunction(!isEdited(item.id), item, true); }}
-                          // style={{ marginTop: 25 }}
-                      >
-                        Enregister
-                      </Button>
-                    </>
-                  ) : (
-                    <>
-                      <TouchableOpacity onPress={() => editFunction(!isEdited(item.id), item)}>
-                        <Text category="h6" status="info">Editer</Text>
-                      </TouchableOpacity>
-                      <TouchableOpacity onPress={() => supprimerLeRevenue(item)}>
-                        <Text category="h6" status="danger">Supprimer</Text>
-                      </TouchableOpacity>
-                    </>
-                  )}
-                </View>
-
-              </Card>
+              />
+              )
             ))}
             {checked.length > 0 ? (amountMouvement === 0
               ? (<Button status="success" style={{ marginVertical: 20 }} onPress={() => affecteMovement()}>Enregistrer</Button>)
               : (
                 <>
                   <Text category="p1" status="basic" style={{ marginVertical: 20 }}>
-                    Il vous manque
+                    Vous devez encore affecter pour
                     {' '}
-                    {amountMouvement}
+                    {Formatter.currencyFormatter.format(amountMouvement)}
                   </Text>
                   <Card
                     style={{

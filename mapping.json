@@ -108,9 +108,9 @@
         "custom": {
           "mapping": {
             "textMarginVertical": 2,
-            "textFontSize": "text-caption-2-font-size",
-            "textFontWeight": "text-caption-2-font-weight",
-            "textFontFamily": "text-caption-2-font-family",
+            "textFontSize": "text-subtitle-1-font-size",
+            "textFontWeight": "text-subtitle-1-font-weight",
+            "textFontFamily": "text-subtitle-1-font-family",
             "textColor": "text-hint-color",
             "iconWidth": 24,
             "iconHeight": 24,

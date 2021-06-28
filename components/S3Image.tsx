@@ -54,11 +54,6 @@ export default function S3Image(props: S3ImageProps): JSX.Element {
         if (isMounted) {
           setUri(url as string);
         }
-      } else {
-        const url = await Storage.get(s3key);
-        if (isMounted) {
-          setUri(url as string);
-        }
       }
     })();
     return () => {

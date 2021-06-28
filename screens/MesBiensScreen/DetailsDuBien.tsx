@@ -6,10 +6,10 @@
 
 import React, { useEffect, useState } from 'react';
 import {
-  Text, Icon as IconUIKitten, useTheme, CheckBox,
+  Text, Icon as IconUIKitten, useTheme, CheckBox, Modal,
 } from '@ui-kitten/components';
 import {
-  Alert,
+  Alert, Platform,
   StyleSheet, TouchableOpacity, View,
 } from 'react-native';
 import {
@@ -19,19 +19,20 @@ import {
 import { RouteProp } from '@react-navigation/core/lib/typescript/src/types';
 import * as DocumentPicker from 'expo-document-picker';
 import moment from 'moment';
+import { ImagePickerResult } from 'expo-image-picker';
 import Icon from '../../components/Icon';
 import MaxWidthContainer from '../../components/MaxWidthContainer';
 
-import { useDeleteRealEstateMutation, useGetRealEstate, useUpdateRealEstateMutation } from '../../src/API/RealEstate';
+import { useDeleteRealEstateMutation, useGetRealEstate } from '../../src/API/RealEstate';
 import { TabMesBiensParamList } from '../../types';
 
 import Card from '../../components/Card';
 import Separator from '../../components/Separator';
 
 import DocumentComponent from '../../components/DocumentComponent';
-import { useCreateDocumentMutation, useDeleteDocumentMutation } from '../../src/API/Document';
+import { DocumentItem, useCreateDocumentMutation, useDeleteDocumentMutation } from '../../src/API/Document';
 
-import { BudgetLineType, TenantInfo, TenantInfoInput } from '../../src/API';
+import { BudgetLineType } from '../../src/API';
 import ReadOnly from '../../components/ReadOnly';
 import { Upload } from '../../utils/S3FileStorage';
 import Amount from '../../components/Amount';
@@ -40,8 +41,10 @@ import DateUtils from '../../utils/DateUtils';
 import AutoAvatar from '../../components/AutoAvatar';
 import ActivityIndicator from '../../components/ActivityIndicator';
 import UserSharedCard from './Components/UserSharedCard';
-import { removeKey, removeKeyArray } from '../../utils/ObjectHelper';
-import { useDeleteTenant, useDeleteTenantMutation } from '../../src/API/Tenant';
+// import { removeKey, removeKeyArray } from '../../utils/ObjectHelper';
+import { useDeleteTenantMutation } from '../../src/API/Tenant';
+import Camera from '../../components/Camera';
+import { CameraOutput } from '../../components/Camera/Camera';
 
 function DetailsBien() {
   const navigation = useNavigation();
@@ -71,9 +74,20 @@ function DetailsBien() {
   const invitateUserId = pendingInvitations?.filter(
     (item) => item?.realEstateId === route.params.id,
   );
-   */
+  */
 
-  // console.log(users, invitateUserId);
+  const [camera, setCamera] = React.useState(false);
+  const [selectedNewImage, setSelectedNewImage] = useState<
+  ImagePickerResult |
+  CameraOutput |
+  undefined
+  >();
+  const [newDocument, setNewDocument] = useState<DocumentItem | undefined | null>(undefined);
+  const onTakePicture = () => {
+    setCamera(true);
+  };
+
+  // console.log(users, inviteUserId);
 
   useEffect(() => {
     switch (bienget?.type) {
@@ -98,7 +112,7 @@ function DetailsBien() {
   // const [compte, setCompte] = useState(comptesData);
 
   const allerMonBudget = () => {
-    console.log(route.params.id);
+    // console.log(route.params.id);
     navigation.navigate('mon-budget', { id: route.params.id });
   };
   // console.log('pending invitation: ', bienget?.pendingInvitations?.items);
@@ -140,7 +154,6 @@ function DetailsBien() {
   };
 
   const [supprimTenant, setSupprimTenant] = useState(false);
-  const deleteLocataire = useUpdateRealEstateMutation();
   const useDeleteTenant = useDeleteTenantMutation();
   const deleteTenant = async () => {
     if (supprimTenant && checkedTenant.length > 0) {
@@ -180,6 +193,8 @@ function DetailsBien() {
                 variables: {
                   input: {
                     id: docId,
+                    // ????????????????
+                    _version: bienget._version,
                   },
                 },
               });
@@ -213,7 +228,7 @@ function DetailsBien() {
         return false;
       });
 
-  const nextexpense = allDataNextExpense?.map((d) => d?.amount)
+  const nextexpense = allDataNextExpense?.map((d) => d.amount)
     .find((m) => m);
 
   const dernierMovement = bienget?.bankMovements?.items?.find(
@@ -233,7 +248,7 @@ function DetailsBien() {
        *  I. Details du bien
        */}
       {loading
-        ? <ActivityIndicator />
+        ? <View style={{ justifyContent: 'center', alignItems: 'center', marginVertical: 20 }}><ActivityIndicator /></View>
         : (
           <>
             <View style={styles.container}>
@@ -252,7 +267,12 @@ function DetailsBien() {
                 <AutoAvatar
                   avatarInfo={bienget?.iconUri}
                   style={{
-                    height: 100, width: 100, marginRight: 12, marginBottom: 10,
+                    height: 100,
+                    width: 100,
+                    marginRight: 12,
+                    marginBottom: 10,
+                    borderRadius: 50,
+                    overflow: 'hidden',
                   }}
                 />
                 <Text category="h2" status="basic">
@@ -269,7 +289,7 @@ function DetailsBien() {
        */}
       <Separator />
       {loading
-        ? <ActivityIndicator />
+        ? <View style={{ justifyContent: 'center', alignItems: 'center', marginVertical: 20 }}><ActivityIndicator /></View>
         : (
           <>
             <View style={styles.container}>
@@ -281,9 +301,9 @@ function DetailsBien() {
                 <View style={styles.oneThirdBlock}>
                   <Text category="h6" appearance="hint" style={styles.text}>Dernier mouvement</Text>
                   {dernierMovement ? (
-                    <Amount amount={dernierMovement?.amount || 0} category="h4" />
+                    <Amount amount={dernierMovement?.amount || 0} category="h3" />
                   ) : (
-                    <Amount amount={0} category="h4" />
+                    <Amount amount={0} category="h3" />
                   )}
                 </View>
 
@@ -405,7 +425,7 @@ function DetailsBien() {
        */}
       <Separator />
       {loading
-        ? <ActivityIndicator />
+        ? <View style={{ justifyContent: 'center', alignItems: 'center', marginVertical: 20 }}><ActivityIndicator /></View>
         : (
           <View style={styles.container}>
             <Text category="s2" style={{ marginBottom: 30 }}>
@@ -459,7 +479,7 @@ function DetailsBien() {
        */}
       <Separator />
       {loading
-        ? <ActivityIndicator />
+        ? <View style={{ justifyContent: 'center', alignItems: 'center', marginVertical: 20 }}><ActivityIndicator /></View>
         : (
           <>
             <View style={styles.container}>
@@ -557,7 +577,7 @@ function DetailsBien() {
        */}
       <Separator />
       {loading
-        ? <ActivityIndicator />
+        ? <View style={{ justifyContent: 'center', alignItems: 'center', marginVertical: 20 }}><ActivityIndicator /></View>
         : (
           <>
             <View style={styles.container}>
@@ -583,16 +603,28 @@ function DetailsBien() {
                 ),
               )}
 
-              <View style={styles.button}>
+              <View style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+              }}
+              >
+
                 <TouchableOpacity
                   onPress={
                           async () => {
                             // console.log('should');
+                            // get document from gallery of phone
                             const doc = await DocumentPicker.getDocumentAsync();
+                            // doc has 4 attributes : name, size, type: 'success', uri
+                            console.log('doc ajouter:', doc);
                             const name = doc.type === 'success' ? doc.name : '';
+                            console.log('name ajouter: ', name);
+                            // upload chosen document from gallery to s3
                             const s3file = await Upload(doc, `biens/${route.params.id}/documents/`);
                             if (s3file !== false && route.params.id) {
-                              const doc = await createDocument.createDocument({
+                              console.log('s3file ajouter: ', s3file);
+                              // const doc =
+                              await createDocument.createDocument({
                                 variables: {
                                   input: {
                                     s3file: s3file.key,
@@ -608,6 +640,7 @@ function DetailsBien() {
                 >
                   <Text category="h5" status="info" style={styles.buttonText}>Ajouter</Text>
                 </TouchableOpacity>
+
                 {!readOnly && (
                 <TouchableOpacity onPress={() => {
                   supprimerDocument(); setSupprim(!supprim);
@@ -617,6 +650,67 @@ function DetailsBien() {
                 </TouchableOpacity>
                 )}
               </View>
+              {/**
+               Taking picture of document
+               */}
+              {Platform.OS !== 'web' && (
+              <View style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+              }}
+              >
+                <TouchableOpacity
+                  onPress={() => onTakePicture()}
+                >
+                  <Text category="h5" status="info" style={styles.buttonText}>Prendre un photo</Text>
+                </TouchableOpacity>
+              </View>
+              )}
+              {Platform.OS !== 'web' && (
+              <Modal
+                visible={camera}
+                style={{
+                  overflow: 'hidden', alignItems: 'center', margin: 0, height: '100%',
+                }}
+              >
+                {camera && (
+                <Camera
+                  onClose={() => {
+                    setCamera(false);
+                  }}
+                  onChoose={async (result) => {
+                    if (result) {
+                      // setImage(result.uri);
+                      setSelectedNewImage(result);
+                      console.log('result:', result);
+                      if (selectedNewImage) {
+                        console.log('selectedNewImage:', selectedNewImage);
+                        const s3file = await Upload(selectedNewImage, `biens/${route.params.id}/documents/`);
+                        console.log('s3file :', s3file);
+                        // s3fil has 4 attributes: key, name, originalFilename: undefined, uri
+                        if (s3file !== false && route.params.id) {
+                          // const doc =
+                          await createDocument.createDocument({
+                            variables: {
+                              input: {
+                                s3file: s3file.key,
+                                realEstateId: route.params.id,
+                                name: s3file.name,
+                              },
+                            },
+                          });
+                        }
+                      }
+                    }
+                    setCamera(false);
+                  }}
+                  withPreview
+                  ratio={[1, 1.41]}
+                />
+                )}
+              </Modal>
+              )}
+
             </View>
           </>
         )}

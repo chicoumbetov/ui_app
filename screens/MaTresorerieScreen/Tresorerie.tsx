@@ -28,7 +28,7 @@ const MaTresorerie = () => {
   const linkTo = useLinkTo();
 
   const onMaTresorerie2 = (id: string) => {
-    linkTo(`/ma-tresorerie/ma-tresorerie-2/${id}`);
+    linkTo(`/ma-tresorerie/${id}/mes-comptes/`);
   };
 
   const onAjoutBien = () => {

@@ -65,9 +65,9 @@ Datepicker, DatePickerFormProps
     );
 
     return (
-      <View style={[styles.container, containerStyle, labelBefore ? { flexDirection: 'row', alignItems: 'center' } : {}]}>
+      <View style={[styles.container, containerStyle, labelBefore ? { flexDirection: 'column', alignItems: 'flex-start' } : {}]}>
         {labelBefore && (
-          <Text category="label" style={{ flex: 1 }}>{label}</Text>
+          <Text category="label" style={{ flex: 1, marginBottom: 5, marginRight: labelBefore ? 10 : 0 }}>{label}</Text>
         )}
         <Datepicker
           label={labelBefore ? undefined : label}
@@ -79,6 +79,7 @@ Datepicker, DatePickerFormProps
           dateService={localeDateService}
           placeholder={placeholder}
           controlStyle={{
+            width: '100%',
             shadowColor: 'rgba(190, 190, 190, 0.5)',
             shadowOffset: {
               width: 0,
@@ -87,7 +88,7 @@ Datepicker, DatePickerFormProps
             shadowRadius: 2,
             shadowOpacity: 1,
             elevation: 2,
-            marginLeft: labelBefore ? 20 : 0,
+
           }}
           min={new Date(1900, 0, 1)}
           size="medium"
@@ -115,7 +116,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginVertical: 8,
-    flexDirection: 'row',
+    flexDirection: 'column',
     marginBottom: 20,
     // justifyContent: 'space-between',
   },

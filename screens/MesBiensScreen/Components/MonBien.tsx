@@ -148,7 +148,7 @@ const MonBien = (props: MonBienProps) => {
   };
 
   const dernierMovement = bienget?.bankMovements?.items?.map(
-    (item) => { if (item?.ignored) { return false; } return item; },
+    (item) => { if (!item?.ignored) { return item; } },
   );
   // console.log('last Movement', bienget?.bankMovements);
 
@@ -308,12 +308,16 @@ const MonBien = (props: MonBienProps) => {
                       style={{ height: 18, width: 18, marginRight: 8 }}
                     />
                   </TouchableOpacity>
-                  <Graphics data={allCurrentCategories} />
-                  <GraphicsII
-                    dateStart={firstDayCurrentYear}
-                    dateEnd={lastDayCurrentYear}
-                    id={bienget.id}
-                  />
+                  {bienget?.budgetLineDeadlines?.items?.find((t) => t) && (
+                    <>
+                      <Graphics data={allCurrentCategories} />
+                      <GraphicsII
+                        dateStart={firstDayCurrentYear}
+                        dateEnd={lastDayCurrentYear}
+                        id={bienget.id}
+                      />
+                    </>
+                  )}
                 </>
               )}
             </Card>

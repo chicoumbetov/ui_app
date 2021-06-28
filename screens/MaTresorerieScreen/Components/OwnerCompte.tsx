@@ -1,46 +1,70 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { CheckBox, Text, useTheme } from '@ui-kitten/components';
 
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { useLinkTo, useRoute } from '@react-navigation/native';
 import { Icon as IconUIKitten } from '@ui-kitten/components/ui/icon/icon.component';
 
 import { RouteProp } from '@react-navigation/core/lib/typescript/src/types';
 import Card from '../../../components/Card';
 import { BankAccount } from '../../../src/API';
 import { TabMaTresorerieParamList } from '../../../types';
+import { useGetBankMovementsByBankAccountId } from '../../../src/API/BankMouvement';
 
 type MonBienProps = { compte: BankAccount,
   supprimer?: boolean,
   add?: boolean,
-  onCheck?: (checked: boolean) => void,
-  checked?: boolean };
+  onCheck?: (checked: boolean) => void, };
 
 const OwnerCompte = (props: MonBienProps) => {
   const {
-    compte, supprimer = false, add = false, checked = false, onCheck,
+    compte, supprimer = false, add = false, onCheck,
   } = props;
   // console.log(compte);
   const route = useRoute<RouteProp<TabMaTresorerieParamList, 'ma-tresorerie-2'>>();
-  const navigation = useNavigation();
+  const linkTo = useLinkTo();
+  const [checked, setChecked] = useState(false);
+
+  const { bankMouvement } = useGetBankMovementsByBankAccountId(compte.id);
+  console.log('compte :', compte.realEstates?.items?.filter((item) => !item._deleted));
+  let bankAccountRealEstatate = false;
+  if (compte.realEstates) {
+    compte.realEstates?.items?.map((item) => { if (!item._deleted) { bankAccountRealEstatate = true; } });
+  }
+  const movementPasAffect = bankMouvement?.filter((item) => {
+    if (item.ignored
+        || (item.budgetLineDeadlines?.items && item.budgetLineDeadlines?.items?.length > 0)) {
+      return false;
+    }
+    return item;
+  });
+  let nbNotif = 0;
+  if (movementPasAffect) {
+    nbNotif = movementPasAffect.length;
+  }
+  // console.log('Ownner Compte : ', movementPasAffect.length);
 
   // const linkTo = useLinkTo();
   const theme = useTheme();
   const onTresoMouvement = (id: string) => {
-    navigation.navigate('mouv-bancaires', { idCompte: id, id: route.params.id });
+    linkTo(`/ma-tresorerie/${route.params.id}/mes-comptes/${id}/mouvements-bancaires/`);
   };
 
   return (
     <Card
         // key={item.id}
-      style={{ marginTop: 28 }}
+      style={{
+        marginTop: 28,
+        borderWidth: checked ? (1) : (0),
+        borderColor: supprimer ? ('red') : ('green'),
+      }}
     >
       <TouchableOpacity
-        onPress={supprimer ? () => {} : () => onTresoMouvement(compte.id)}
+        onPress={supprimer || add ? () => {} : () => onTresoMouvement(compte.id)}
         style={styles.container}
       >
 
-        {supprimer && (
+        {supprimer && !bankAccountRealEstatate && (
           <View style={{ justifyContent: 'center', paddingHorizontal: 14, width: 50 }}>
             <CheckBox
               checked={checked}
@@ -48,6 +72,7 @@ const OwnerCompte = (props: MonBienProps) => {
               onChange={(nextChecked) => {
                 if (onCheck) {
                   onCheck(nextChecked);
+                  setChecked(nextChecked);
                 }
               }}
             />
@@ -61,6 +86,7 @@ const OwnerCompte = (props: MonBienProps) => {
               onChange={(nextChecked) => {
                 if (onCheck) {
                   onCheck(nextChecked);
+                  setChecked(nextChecked);
                 }
               }}
             />
@@ -91,7 +117,9 @@ const OwnerCompte = (props: MonBienProps) => {
             borderRadius: 30,
           }}
           >
-            <Text status="control">12</Text>
+            <Text status="control">
+              {nbNotif}
+            </Text>
           </View>
 
           <IconUIKitten

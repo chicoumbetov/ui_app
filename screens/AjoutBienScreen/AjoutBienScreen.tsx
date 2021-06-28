@@ -7,11 +7,12 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import {
+  Platform,
   StyleSheet, TouchableOpacity, View,
 } from 'react-native';
 
 import {
-  Button, Layout, Spinner, Text, useTheme,
+  Button, Layout, Modal, Spinner, Text, useTheme,
 } from '@ui-kitten/components';
 
 import * as ImagePicker from 'expo-image-picker';
@@ -35,10 +36,13 @@ import {
   useGetRealEstate,
   useUpdateRealEstateMutation,
 } from '../../src/API/RealEstate';
-import { CompanyType, RealEstateType, TaxType } from '../../src/API';
+import {
+  CompanyType, RealEstate, RealEstateType, TaxType,
+} from '../../src/API';
 import { useUser } from '../../src/API/UserContext';
 import { TabMesBiensParamList } from '../../types';
-import { CameraOutput } from '../../components/Camera/Camera';
+import Camera, { CameraOutput } from '../../components/Camera/Camera';
+import { Delete, Upload } from '../../utils/S3FileStorage';
 
 type AjoutBienForm = {
   name: string,
@@ -59,7 +63,7 @@ type AjoutBienForm = {
 
 function AjoutBienScreen() {
   const theme = useTheme();
-  const { user } = useUser();
+  const { user, userIsCreating } = useUser();
   const updateRealEstate = useUpdateRealEstateMutation();
   const createRealEstate = useCreateRealEstateMutation();
   const linkTo = useLinkTo();
@@ -73,35 +77,69 @@ function AjoutBienScreen() {
   const ajoutBienForm = useForm<AjoutBienForm>();
 
   const onAjoutBien = async (data: AjoutBienForm) => {
-    if (route.params) {
+    if (route.params && currentRealEstate) {
+      let iconUri = image;
+      if (image !== currentRealEstate.iconUri) {
+        const toDelete = currentRealEstate.iconUri && currentRealEstate.iconUri.indexOf('default::') > -1
+          ? undefined
+          : currentRealEstate.iconUri;
+        if (toDelete) {
+          await Delete(toDelete);
+        }
+        if (selectedNewImage) {
+          const upload = await Upload(selectedNewImage, `realEstate/${currentRealEstate.id}/`);
+          if (upload !== false) {
+            iconUri = upload.key;
+          }
+        }
+      }
+
       await updateRealEstate.updateRealEstate({
         variables: {
           input: {
             id: route.params.id,
             ...data,
-            iconUri: 'default::mainHouse',
-            admins: [
-              user.id,
-            ],
+            iconUri,
             // eslint-disable-next-line no-underscore-dangle
             _version: currentRealEstate._version,
           },
         },
       });
     } else {
-      await createRealEstate.createRealEstate({
+      let iconUri = image;
+      const { data: mutationData } = await createRealEstate.createRealEstate({
         variables: {
           input: {
             ...data,
-            iconUri: 'default::mainHouse',
+            iconUri,
             admins: [
               user.id,
             ],
           },
         },
       });
+
+      if (mutationData?.createRealEstate && selectedNewImage) {
+        const upload = await Upload(selectedNewImage, `realEstate/${mutationData.createRealEstate.id}/`);
+        if (upload !== false) {
+          iconUri = upload.key;
+        }
+
+        await updateRealEstate.updateRealEstate({
+          variables: {
+            input: {
+              id: mutationData.createRealEstate.id,
+              iconUri,
+              // eslint-disable-next-line no-underscore-dangle
+              _version: mutationData.createRealEstate._version,
+            },
+          },
+        });
+      }
     }
-    linkTo('/mes-biens');
+    if (!userIsCreating) {
+      linkTo('/mes-biens');
+    }
   };
 
   /**
@@ -118,12 +156,13 @@ function AjoutBienScreen() {
    * Variable pour gérer l'affichage des données de modes de détention
    * */
 
+  const [camera, setCamera] = React.useState(false);
   const [detentionShow, setDetentionShow] = useState(false);
   const [statutShow, setStatutShow] = useState(false);
   const [pourcentageDetentionShow, setPourcentageDetentionShow] = useState(false);
 
   const route = useRoute<RouteProp<TabMesBiensParamList, 'ajout-bien-screen'> | RouteProp<TabMesBiensParamList, 'modifier-characteristique'>>();
-  let currentRealEstate: AjoutBienForm | undefined;
+  let currentRealEstate: RealEstate | undefined;
   if (route.params) {
     const { bienget } = useGetRealEstate(route.params.id);
     currentRealEstate = bienget;
@@ -134,6 +173,10 @@ function AjoutBienScreen() {
       setPourcentageDetentionShow(true);
     });
   }
+
+  const onTakePicture = () => {
+    setCamera(true);
+  };
 
   const pickImage = async () => {
     try {
@@ -213,7 +256,12 @@ function AjoutBienScreen() {
               marginBottom: 34,
             }}
             >
-              <AutoAvatar avatarInfo={image} style={{ height: 146, width: 146 }} />
+              <AutoAvatar
+                avatarInfo={image}
+                style={{
+                  height: 146, width: 146, borderRadius: 73, overflow: 'hidden',
+                }}
+              />
             </View>
             <View style={{ marginLeft: 10 }}>
               <Text category="h5" appearance="hint">
@@ -226,7 +274,13 @@ function AjoutBienScreen() {
             >
               {['MaisonVerte', 'Immeuble', 'Cabane', 'Bateau', 'Boutique'].map((icon) => (
                 <TouchableOpacity key={icon} onPress={() => { setImage(`default::${icon}`); }}>
-                  <AutoAvatar avatarInfo={`default::${icon}`} style={{ height: 53, width: 53 }} />
+                  <AutoAvatar
+                    avatarInfo={`default::${icon}`}
+                    style={{
+                      height: 53,
+                      width: 53,
+                    }}
+                  />
                 </TouchableOpacity>
               ))}
             </View>
@@ -236,15 +290,49 @@ function AjoutBienScreen() {
             >
               {['Chateau', 'Manoir', 'MaisonBleu', 'Riad', 'Voiture'].map((icon) => (
                 <TouchableOpacity key={icon} onPress={() => { setImage(`default::${icon}`); }}>
-                  <AutoAvatar avatarInfo={`default::${icon}`} style={{ height: 53, width: 53 }} />
+                  <AutoAvatar
+                    avatarInfo={`default::${icon}`}
+                    style={{
+                      height: 53,
+                      width: 53,
+                    }}
+                  />
                 </TouchableOpacity>
               ))}
             </Layout>
 
-            <Layout style={{ paddingHorizontal: 23, backgroundColor: 'transparent' }}>
-              <TouchableOpacity onPress={() => {}} style={{ marginVertical: 30.5 }}>
+            <View style={{ paddingHorizontal: 23 }}>
+              {Platform.OS !== 'web' && (
+              <TouchableOpacity onPress={() => onTakePicture()} style={{ marginVertical: 30.5 }}>
                 <Text category="h5" status="info">Prendre une photo</Text>
               </TouchableOpacity>
+              )}
+
+              {Platform.OS !== 'web' && (
+              <Modal
+                visible={camera}
+                style={{
+                  overflow: 'hidden', alignItems: 'center', margin: 0, height: '100%',
+                }}
+              >
+                {camera && (
+                <Camera
+                  onClose={() => {
+                    setCamera(false);
+                  }}
+                  onChoose={(result) => {
+                    if (result) {
+                      setImage(result.uri);
+                      setSelectedNewImage(result);
+                    }
+                    setCamera(false);
+                  }}
+                  withPreview
+                  ratio={[1, 1]}
+                />
+                )}
+              </Modal>
+              )}
 
               <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: 7 }}>
                 <TouchableOpacity onPress={() => { pickImage(); }}>
@@ -261,7 +349,7 @@ function AjoutBienScreen() {
                   </Text>
                 </TouchableOpacity>
               </View>
-            </Layout>
+            </View>
 
           </MotiView>
           {/**

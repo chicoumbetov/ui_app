@@ -99,7 +99,7 @@ const ModifierInfo2 = () => {
             labelBefore
             icon="calendar-outline"
             startView={CalendarViewModes.YEAR}
-            style={{ width: 180, maxWidth: 180 }}
+            style={{ width: '100%', maxWidth: '100%' }}
             size="medium"
           />
 

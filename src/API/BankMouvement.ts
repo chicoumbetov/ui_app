@@ -71,7 +71,19 @@ $nextToken: String
         createdAt
         updatedAt
       }
-
+      budgetLineDeadlines {
+        items {
+          id
+          realEstateId
+          budgetLineId
+          type
+          category
+          amount
+          _version
+        }
+        nextToken
+        startedAt
+      }
       bankAccount {
         id
         bank
@@ -113,7 +125,29 @@ export function useGetBankMovementsByBankAccountId(bankAccountId: string) {
   return {
     loading,
     bankMouvement: <BankMovement[]>data?.getBankMovementsByBankAccountId?.items,
-    fetchMore,
+    nextToken: data?.getBankMovementsByBankAccountId?.nextToken,
+    startedAt: data?.getBankMovementsByBankAccountId?.startedAt,
+    fetchMoreBankMovements: () => (fetchMore({
+      variables: {
+        nextToken: data?.getBankMovementsByBankAccountId?.nextToken,
+      },
+      updateQuery: (prev, { fetchMoreResult }) => {
+        if (!fetchMoreResult) return prev;
+        return {
+          ...prev,
+          getBankMovementsByBankAccountId: {
+            ...prev.getBankMovementsByBankAccountId,
+            items: [
+              ...prev.getBankMovementsByBankAccountId.items,
+              ...fetchMoreResult.getBankMovementsByBankAccountId?.items,
+            ],
+            nextToken: fetchMoreResult.getBankMovementsByBankAccountId?.nextToken,
+            startedAt: fetchMoreResult.getBankMovementsByBankAccountId?.startedAt,
+          },
+        };
+      },
+    })),
+    nextToken: data?.getBankMovementsByBankAccountId?.nextToken,
     refetch,
   };
 }
@@ -130,26 +164,28 @@ export function useUpdateBankMovement() {
           if (newData) {
             // Read query from cache
             const cacheData = cache.readQuery<
-            GetBankMovementQuery,
-            GetBankMovementQueryVariables
+            GetBankMovementsByBankAccountIdQuery,
+            GetBankMovementsByBankAccountIdQueryVariables
             >({
-              query: getBankMovementQuery,
+              query: getBankMovementsByBankAccountIdQuery,
               variables: {
-                id: newData.id,
+                bankAccountId: newData.bankAccountId,
               },
             });
 
             // Add newly created item to the cache copy
-            if (cacheData && cacheData.getBankMovement) {
-              cacheData.getBankMovement = newData;
+            if (cacheData && cacheData.getBankMovementsByBankAccountId?.items) {
+              cacheData.getBankMovementsByBankAccountId.items.map((item) => {
+                if (item?.id === newData.id) { return newData; } return item;
+              });
               // Overwrite the cache with the new results
               cache.writeQuery<
-              GetBankMovementQuery,
-              GetBankMovementQueryVariables
+              GetBankMovementsByBankAccountIdQuery,
+              GetBankMovementsByBankAccountIdQueryVariables
               >({
-                query: getBankMovementQuery,
+                query: getBankMovementsByBankAccountIdQuery,
                 variables: {
-                  id: newData.id,
+                  bankAccountId: newData.bankAccountId,
                 },
                 data: cacheData,
               });
@@ -226,17 +262,20 @@ $end: String!) {
   }
 }
 `);
+
 export function useListBankMovement(id: string, start: string, end: string) {
   const {
     loading, data, fetchMore, refetch,
-  } = useQuery<GetMovementByRealEstateQuery, GetMovementByRealEstateQueryVariables>(listBankMovementsByRealEstateQuery, {
+  } = useQuery<
+  GetMovementByRealEstateQuery, GetMovementByRealEstateQueryVariables
+  >(listBankMovementsByRealEstateQuery, {
     variables: {
       id,
       start,
       end,
     },
   });
-  console.log('non non ', data);
+  console.log('useListBankMovement data: ', data);
   return {
     loading, data, fetchMore, refetch,
   };

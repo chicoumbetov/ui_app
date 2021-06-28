@@ -25,6 +25,7 @@ exports.handler = async (event) => {
     await promise;
     if (record.eventName === 'INSERT') {
       const { email, type, realEstateId } = record.dynamodb.NewImage;
+      console.log(record.dynamodb.NewImage);
       const user = await getUserByEmail(appSyncClient, email.S);
       if (user) {
         const realEstate = await getRealEstate(appSyncClient, realEstateId.S);

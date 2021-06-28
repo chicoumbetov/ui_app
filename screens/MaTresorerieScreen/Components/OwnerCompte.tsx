@@ -52,7 +52,7 @@ const OwnerCompte = (props: MonBienProps) => {
       style={{ marginTop: 28 }}
     >
       <TouchableOpacity
-        onPress={supprimer ? () => {} : () => onTresoMouvement(compte.id)}
+        onPress={supprimer || add ? () => {} : () => onTresoMouvement(compte.id)}
         style={styles.container}
       >
 

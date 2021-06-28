@@ -38,6 +38,10 @@ const OwnerCompte = (props: MonBienProps) => {
     }
     return item;
   });
+  let nbNotif = 0;
+  if (movementPasAffect) {
+    nbNotif = movementPasAffect.length;
+  }
   // console.log('Ownner Compte : ', movementPasAffect.length);
 
   // const linkTo = useLinkTo();
@@ -49,7 +53,11 @@ const OwnerCompte = (props: MonBienProps) => {
   return (
     <Card
         // key={item.id}
-      style={{ marginTop: 28 }}
+      style={{
+        marginTop: 28,
+        borderWidth: checked ? (1) : (0),
+        borderColor: supprimer ? ('red') : ('green'),
+      }}
     >
       <TouchableOpacity
         onPress={supprimer || add ? () => {} : () => onTresoMouvement(compte.id)}
@@ -109,7 +117,9 @@ const OwnerCompte = (props: MonBienProps) => {
             borderRadius: 30,
           }}
           >
-            <Text status="control">{movementPasAffect.length}</Text>
+            <Text status="control">
+              {nbNotif}
+            </Text>
           </View>
 
           <IconUIKitten

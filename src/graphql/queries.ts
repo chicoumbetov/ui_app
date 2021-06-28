@@ -1853,6 +1853,7 @@ export const userByBiUser = /* GraphQL */ `
           }
           birthDate
           subscription
+          notificationLastSeenAt
         }
         expoToken
         biUser
@@ -1901,6 +1902,7 @@ export const userByEmail = /* GraphQL */ `
           }
           birthDate
           subscription
+          notificationLastSeenAt
         }
         expoToken
         biUser
@@ -1947,6 +1949,7 @@ export const syncUsers = /* GraphQL */ `
           }
           birthDate
           subscription
+          notificationLastSeenAt
         }
         expoToken
         biUser
@@ -2016,6 +2019,7 @@ export const getUser = /* GraphQL */ `
             email
           }
         }
+        notificationLastSeenAt
       }
       expoToken
       biUser
@@ -2053,6 +2057,7 @@ export const listUsers = /* GraphQL */ `
           }
           birthDate
           subscription
+          notificationLastSeenAt
         }
         expoToken
         biUser
@@ -3627,8 +3632,8 @@ export const syncBankMovements = /* GraphQL */ `
   }
 `;
 export const getBillingHistory = /* GraphQL */ `
-  query GetBillingHistory($id: ID!) {
-    getBillingHistory(id: $id) {
+  query GetBillingHistory($id: ID!, $date: AWSDateTime!) {
+    getBillingHistory(id: $id, date: $date) {
       id
       userId
       date
@@ -3664,6 +3669,7 @@ export const getBillingHistory = /* GraphQL */ `
           }
           birthDate
           subscription
+          notificationLastSeenAt
         }
         expoToken
         biUser
@@ -3674,11 +3680,21 @@ export const getBillingHistory = /* GraphQL */ `
 `;
 export const listBillingHistorys = /* GraphQL */ `
   query ListBillingHistorys(
+    $id: ID
+    $date: ModelStringKeyConditionInput
     $filter: ModelBillingHistoryFilterInput
     $limit: Int
     $nextToken: String
+    $sortDirection: ModelSortDirection
   ) {
-    listBillingHistorys(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    listBillingHistorys(
+      id: $id
+      date: $date
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      sortDirection: $sortDirection
+    ) {
       items {
         id
         userId
@@ -3708,6 +3724,7 @@ export const listBillingHistorys = /* GraphQL */ `
             optIn
             birthDate
             subscription
+            notificationLastSeenAt
           }
           expoToken
           biUser
@@ -3765,6 +3782,7 @@ export const listBillingHistoriesByUser = /* GraphQL */ `
             optIn
             birthDate
             subscription
+            notificationLastSeenAt
           }
           expoToken
           biUser
@@ -3818,6 +3836,7 @@ export const syncBillingHistories = /* GraphQL */ `
             optIn
             birthDate
             subscription
+            notificationLastSeenAt
           }
           expoToken
           biUser
@@ -4131,14 +4150,15 @@ export const syncBudgetLineDeadlines = /* GraphQL */ `
   }
 `;
 export const getNotification = /* GraphQL */ `
-  query GetNotification($id: ID!) {
-    getNotification(id: $id) {
+  query GetNotification($id: ID!, $createdAt: AWSDateTime!) {
+    getNotification(id: $id, createdAt: $createdAt) {
       id
       userId
       type
       title
       body
       data
+      clicked
       createdAt
       _version
       _deleted
@@ -4167,6 +4187,7 @@ export const getNotification = /* GraphQL */ `
           }
           birthDate
           subscription
+          notificationLastSeenAt
         }
         expoToken
         biUser
@@ -4177,11 +4198,21 @@ export const getNotification = /* GraphQL */ `
 `;
 export const listNotifications = /* GraphQL */ `
   query ListNotifications(
+    $id: ID
+    $createdAt: ModelStringKeyConditionInput
     $filter: ModelNotificationFilterInput
     $limit: Int
     $nextToken: String
+    $sortDirection: ModelSortDirection
   ) {
-    listNotifications(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    listNotifications(
+      id: $id
+      createdAt: $createdAt
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      sortDirection: $sortDirection
+    ) {
       items {
         id
         userId
@@ -4189,6 +4220,7 @@ export const listNotifications = /* GraphQL */ `
         title
         body
         data
+        clicked
         createdAt
         _version
         _deleted
@@ -4210,6 +4242,7 @@ export const listNotifications = /* GraphQL */ `
             optIn
             birthDate
             subscription
+            notificationLastSeenAt
           }
           expoToken
           biUser
@@ -4245,6 +4278,7 @@ export const listNotificationsByUser = /* GraphQL */ `
         title
         body
         data
+        clicked
         createdAt
         _version
         _deleted
@@ -4266,6 +4300,7 @@ export const listNotificationsByUser = /* GraphQL */ `
             optIn
             birthDate
             subscription
+            notificationLastSeenAt
           }
           expoToken
           biUser
@@ -4297,6 +4332,7 @@ export const syncNotifications = /* GraphQL */ `
         title
         body
         data
+        clicked
         createdAt
         _version
         _deleted
@@ -4318,6 +4354,7 @@ export const syncNotifications = /* GraphQL */ `
             optIn
             birthDate
             subscription
+            notificationLastSeenAt
           }
           expoToken
           biUser

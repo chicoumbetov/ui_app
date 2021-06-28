@@ -5,11 +5,9 @@
  */
 
 import React, { useEffect } from 'react';
-import { Icon as IconUIKitten, Text } from '@ui-kitten/components';
+import { Text } from '@ui-kitten/components';
 import {
-  Alert,
-  Platform,
-  StyleSheet, View,
+  Alert, Platform, StyleSheet, View,
 } from 'react-native';
 
 import { useLinkTo } from '@react-navigation/native';
@@ -17,23 +15,34 @@ import { useLinkTo } from '@react-navigation/native';
 // import comptesData from '../../mockData/comptesData';
 import * as Notifications from 'expo-notifications';
 import Constants from 'expo-constants';
+import moment from 'moment';
 import MaisonVert from '../../assets/Omedom_Icons_svg/Logement/maison_verte.svg';
 import Immeuble from '../../assets/Omedom_Icons_svg/Logement/immeuble.svg';
 import MaxWidthContainer from '../../components/MaxWidthContainer';
 import MonBienResume from '../../components/MonBienResume';
-import { useRealEstateList } from '../../src/API/RealEstate';
+import { RealEstateItem, useRealEstateList } from '../../src/API/RealEstate';
 import Separator from '../../components/Separator';
 import Card from '../../components/Card';
 import Button from '../../components/Button';
 import ActivityIndicator from '../../components/ActivityIndicator';
-import { BudgetLineType } from '../../src/API';
+import { ModelSortDirection } from '../../src/API';
 import { useUser } from '../../src/API/UserContext';
 import DateUtils from '../../utils/DateUtils';
+import { useNotificationsList } from '../../src/API/Notification';
+import NotificationCard from '../../components/NotificationCard';
 
 function TableauDeBord() {
   const linkTo = useLinkTo();
-  const { loading, data } = useRealEstateList();
   const { updateUser, user } = useUser();
+  const { loading, data } = useRealEstateList();
+  const { loading: loadingNotif, notifications } = useNotificationsList({
+    userId: user?.id,
+    sortDirection: ModelSortDirection.DESC,
+    createdAt: {
+      ge: moment().add(-30, 'days').format('YYYY-MM-DDT00:00:00'),
+    },
+  });
+
   const biensDetails = useRealEstateList();
   // console.log('biensDetails', biensDetails);
 
@@ -76,58 +85,23 @@ function TableauDeBord() {
   }, [updateUser, user, loading, data]);
 
   /**
-   *   Summarizing of each expenses and incomes
+   *   On récupère la prochaine dépense
    */
-  const currentYear = new Date().getFullYear();
-  const currentMonth = new Date().getMonth();
-
-  const fullSortExpense = biensDetails.data?.listRealEstates?.items?.map(
-    (item) => item && {
-      ...item,
-      totalExpense: item?.budgetLineDeadlines?.items
-      && item?.budgetLineDeadlines?.items.find((x) => {
-        const allYears = DateUtils.parseToDateObj(x?.date).getFullYear();
-        const allMonths = DateUtils.parseToDateObj(x?.date).getMonth();
-
-        if (x?.type === BudgetLineType.Expense
-            // eslint-disable-next-line no-underscore-dangle
-            && !x?._deleted
-            && allYears === currentYear
-            && allMonths === currentMonth + 1
-        ) {
-          // console.log('xxxxxx', x.amount);
-          return x.amount;
+  let minDate: Date|undefined;
+  let next: number|undefined;
+  if (biensDetails.data?.listRealEstates?.items) {
+    // on boucle sur tous les real estates
+    for (let i = 0; i < biensDetails.data?.listRealEstates.items?.length; i += 1) {
+      const currentItem = biensDetails.data?.listRealEstates.items[i];
+      if (currentItem?.budgetLines?.items && currentItem.budgetLines.items.length > 0) {
+        const itemDate = DateUtils.parseToDateObj(currentItem?.budgetLines?.items[0]?.nextDueDate);
+        if (minDate === undefined || minDate > itemDate) {
+          minDate = itemDate;
+          next = currentItem?.budgetLines?.items[0]?.amount;
         }
-        return false;
-      }),
-    },
-  );
-  // console.log('fullSortExpense2', fullSortExpense);
-
-  /** Object with 3 attributes and its key */
-  const allCurrentCategories: {
-    [key: string]: { value: number, date: string }
-  } = {};
-
-  if (fullSortExpense) {
-    fullSortExpense.forEach((item) => {
-      // console.log('maison', item);
-      if (item && item.totalExpense?.date) {
-        allCurrentCategories[item.name] = {
-          value: item.totalExpense?.amount || 0,
-          date: item.totalExpense?.date,
-        };
       }
-    });
+    }
   }
-  // console.log('allCurrentCategories', Object.values(allCurrentCategories));
-
-  const today = new Date();
-  const values = Object.values(allCurrentCategories);
-  const closest = values.length > 0 && values
-    .reduce((a, b) => (a.date - today.getTime() < b.date - today.getTime() ? a : b));
-  const next = (closest || { value: 0 }).value;
-  // console.log('closest', closest.value);
 
   const allerTresorie = () => {
     linkTo('/ma-tresorerie');
@@ -156,7 +130,9 @@ function TableauDeBord() {
         <Text category="h1">
           Trésorerie
         </Text>
-        {biensDetails.data?.listRealEstates?.items?.length > 0 && (
+        {biensDetails.data?.listRealEstates?.items
+        && biensDetails.data?.listRealEstates?.items?.length > 0
+        && (
         <Card style={{
           flexDirection: 'row',
           marginTop: 27,
@@ -167,6 +143,7 @@ function TableauDeBord() {
             <Text category="h6" appearance="hint" style={styles.text}>Dernier crédit</Text>
 
             <View style={styles.mouvementImage}>
+              {/* TODO */}
               <Text category="h3" status="success">+ 500 €</Text>
               <MaisonVert height={42} width={44} />
             </View>
@@ -176,6 +153,7 @@ function TableauDeBord() {
             <Text category="h6" appearance="hint" style={styles.text}>Dernier débit</Text>
 
             <View style={styles.mouvementImage}>
+              {/* TODO */}
               <Text category="h3" status="danger">- 80 €</Text>
               <Immeuble height={42} width={44} />
             </View>
@@ -219,12 +197,8 @@ function TableauDeBord() {
         */}
         {loading
           ? <ActivityIndicator />
-          : (
-            <>
-              {data?.listRealEstates?.items?.map(
-                (item) => item && <MonBienResume key={item.id} biens={item} />,
-              )}
-            </>
+          : data?.listRealEstates?.items?.map(
+            (item) => item && <MonBienResume key={item.id} biens={(item as RealEstateItem)} />,
           )}
         <Button
           size="large"
@@ -243,35 +217,11 @@ function TableauDeBord() {
           Notifications
         </Text>
 
-        <Card
-          onPress={() => {}}
-          style={{
-            marginTop: 27,
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-          }}
-        >
-
-          <View style={{ marginRight: 10 }}>
-            <MaisonVert height={42} width={44} />
-          </View>
-          <Text
-            category="h6"
-            status="basic"
-            style={{ flex: 1, flexWrap: 'wrap', marginRight: 10 }}
-          >
-            Un mouvement négatif a été détécté
-          </Text>
-
-          <IconUIKitten
-            name="arrow-ios-forward"
-            fill="#b5b5b5"
-            style={{
-              height: 20, width: 20, marginRight: 5, alignItems: 'center',
-            }}
-          />
-        </Card>
+        {loadingNotif
+          ? <ActivityIndicator center margin={10} />
+          : notifications?.map(
+            (notification) => notification && <NotificationCard notification={notification} />,
+          )}
 
         <Text
           category="h5"

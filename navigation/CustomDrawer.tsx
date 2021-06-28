@@ -16,7 +16,7 @@
 import React from 'react';
 import {
   Drawer, DrawerItem, IndexPath, Layout, Text,
-  Icon as IconUIKitten,
+  Icon as IconUIKitten, useTheme,
 } from '@ui-kitten/components';
 import {
   ImageProps, TouchableOpacity, View,
@@ -36,6 +36,7 @@ import Icon, { IconName } from '../components/Icon/Icon';
 import AutoAvatar from '../components/AutoAvatar';
 import { useUser } from '../src/API/UserContext';
 import debounce from '../utils/debounce';
+import { useCountUnseenNotification } from '../src/API/Notification';
 
 /**
  * 2. Icons
@@ -146,6 +147,8 @@ function findFocusedDrawerItem(state: InitialState) {
 const CustomDrawer = (props: DrawerContentComponentProps) => {
   const { state } = props;
   const { user } = useUser();
+  const theme = useTheme();
+  const countNotification = useCountUnseenNotification();
   const inset = useSafeAreaInsets();
   const linkTo = useLinkTo();
   const { window } = useDimensions();
@@ -255,6 +258,31 @@ const CustomDrawer = (props: DrawerContentComponentProps) => {
           <DrawerItem
             title="Notifications"
             accessoryLeft={BellIcon}
+            accessoryRight={() => {
+              if (countNotification > 0) {
+                return (
+                  <View style={{
+                    width: 20,
+                    height: 20,
+                    borderRadius: 10,
+                    backgroundColor: theme['color-danger-600'],
+                  }}
+                  >
+                    <Text
+                      category="c1"
+                      appearance="alternative"
+                      style={{
+                        lineHeight: 20,
+                        textAlign: 'center',
+                      }}
+                    >
+                      {countNotification}
+                    </Text>
+                  </View>
+                );
+              }
+              return (<></>);
+            }}
           />
           <DrawerItem
             title="FAQ"

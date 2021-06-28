@@ -22,15 +22,15 @@
         },
         "omedomBudgetInsightLayer": {
           "deploymentBucketName": "amplify-omedom-dev-233211-deployment",
-          "s3Key": "amplify-builds/omedomBudgetInsightLayer-LambdaLayerVersion736a30b7-build.zip"
+          "s3Key": "amplify-builds/omedomBudgetInsightLayer-LambdaLayerVersiona068a58e-build.zip"
         },
         "omedomGraphQLLayer": {
           "deploymentBucketName": "amplify-omedom-dev-233211-deployment",
-          "s3Key": "amplify-builds/omedomGraphQLLayer-LambdaLayerVersion11a72c5a-build.zip"
+          "s3Key": "amplify-builds/omedomGraphQLLayer-LambdaLayerVersiond85fa5b1-build.zip"
         },
         "budgetinsight": {
           "deploymentBucketName": "amplify-omedom-dev-233211-deployment",
-          "s3Key": "amplify-builds/budgetinsight-5944776e552f76786b6a-build.zip"
+          "s3Key": "amplify-builds/budgetinsight-6a7532662b7730547633-build.zip"
         },
         "sendNotification": {
           "deploymentBucketName": "amplify-omedom-dev-233211-deployment",
@@ -58,7 +58,7 @@
         },
         "omedomAuthorization": {
           "deploymentBucketName": "amplify-omedom-dev-233211-deployment",
-          "s3Key": "amplify-builds/omedomAuthorization-6f69526656344246366d-build.zip"
+          "s3Key": "amplify-builds/omedomAuthorization-6d652f4359514f58776b-build.zip"
         }
       }
     }

@@ -49,12 +49,6 @@
         "update",
         "delete"
       ],
-      "BillingHistory:@model(appsync)": [
-        "create",
-        "read",
-        "update",
-        "delete"
-      ],
       "BudgetLine:@model(appsync)": [
         "create",
         "read",
@@ -62,12 +56,6 @@
         "delete"
       ],
       "BudgetLineDeadline:@model(appsync)": [
-        "create",
-        "read",
-        "update",
-        "delete"
-      ],
-      "Notification:@model(appsync)": [
         "create",
         "read",
         "update",

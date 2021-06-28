@@ -184,6 +184,7 @@ const Informations = () => {
           onClose={() => {
             setCamera(false);
           }}
+          maxWidth={300}
           onChoose={(result) => {
             if (result) {
               setAvatarImage(result.uri);

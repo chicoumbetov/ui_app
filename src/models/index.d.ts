@@ -97,6 +97,7 @@ export declare class ProfileInfo {
   readonly birthDate?: string;
   readonly subscription?: SubscriptionType | keyof typeof SubscriptionType;
   readonly notificationParams?: NotificationParams;
+  readonly notificationLastSeenAt?: string;
   constructor(init: ModelInit<ProfileInfo>);
 }
 
@@ -221,7 +222,7 @@ export declare class BudgetLine {
   readonly category: string;
   readonly amount: number;
   readonly frequency: Frequency | keyof typeof Frequency;
-  readonly nextDueDate?: string;
+  readonly nextDueDate: string;
   readonly infoCredit?: MortgageLoanInfo;
   readonly tenantId?: string;
   readonly createdAt?: string;
@@ -292,7 +293,8 @@ export declare class Notification {
   readonly title: string;
   readonly body: string;
   readonly data?: string;
-  readonly createdAt?: string;
+  readonly clicked?: boolean;
+  readonly createdAt: string;
   readonly updatedAt?: string;
   constructor(init: ModelInit<Notification>);
   static copyOf(source: Notification, mutator: (draft: MutableModel<Notification>) => MutableModel<Notification> | void): Notification;

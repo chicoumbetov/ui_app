@@ -995,7 +995,7 @@ export const schema = {
                     "name": "nextDueDate",
                     "isArray": false,
                     "type": "AWSDate",
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": []
                 },
                 "infoCredit": {
@@ -1051,7 +1051,8 @@ export const schema = {
                     "properties": {
                         "name": "budgetLinesByRealEstate",
                         "fields": [
-                            "realEstateId"
+                            "realEstateId",
+                            "nextDueDate"
                         ]
                     }
                 },
@@ -1561,6 +1562,15 @@ export const schema = {
                 {
                     "type": "key",
                     "properties": {
+                        "fields": [
+                            "id",
+                            "date"
+                        ]
+                    }
+                },
+                {
+                    "type": "key",
+                    "properties": {
                         "name": "billingHistoriesByUser",
                         "fields": [
                             "userId",
@@ -1659,11 +1669,18 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
+                "clicked": {
+                    "name": "clicked",
+                    "isArray": false,
+                    "type": "Boolean",
+                    "isRequired": false,
+                    "attributes": []
+                },
                 "createdAt": {
                     "name": "createdAt",
                     "isArray": false,
                     "type": "AWSDateTime",
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": []
                 },
                 "updatedAt": {
@@ -1681,6 +1698,15 @@ export const schema = {
                 {
                     "type": "model",
                     "properties": {}
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "fields": [
+                            "id",
+                            "createdAt"
+                        ]
+                    }
                 },
                 {
                     "type": "key",
@@ -2129,6 +2155,13 @@ export const schema = {
                     },
                     "isRequired": false,
                     "attributes": []
+                },
+                "notificationLastSeenAt": {
+                    "name": "notificationLastSeenAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": []
                 }
             }
         },
@@ -2248,5 +2281,5 @@ export const schema = {
             }
         }
     },
-    "version": "c1cae6a5694e03a97ac56a00dd4294be"
+    "version": "a7220d88b37cf8ad7e287b3d72d3a574"
 };

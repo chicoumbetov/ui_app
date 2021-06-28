@@ -1,9 +1,9 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import * as React from 'react';
 
-import { BottomNavigationTab, useTheme } from '@ui-kitten/components';
+import { BottomNavigationTab, Text, useTheme } from '@ui-kitten/components';
 
-import { SafeAreaView } from 'react-native';
+import { SafeAreaView, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import { useDimensions } from '@react-native-community/hooks';
@@ -22,6 +22,7 @@ import GridColor from '../assets/Icones_couleurs_2/squareIcon.svg';
 import FileTextColor from '../assets/Icones_couleurs_2/fileTextIcon.svg';
 import HomeColor from '../assets/Icones_couleurs_2/homeIcon.svg';
 import NotificationsStackNavigator from './NotificationsStackNavigator';
+import { useCountUnseenNotification } from '../src/API/Notification';
 
 const HomeIcon = () => (
   <HomeColor height={20} width={20} />
@@ -39,14 +40,40 @@ const FileIcon = () => (
   <FileTextColor height={20} width={20} />
 );
 
-const BellIcon = () => (
-  <BellOutlineColor height={20} width={20} />
-);
-
 // create type Props for props. Do Not leave any props
 
 const BottomTabBar = ({ navigation, state }: any) => {
   const theme = useTheme();
+  const countNotification = useCountUnseenNotification();
+
+  const BellIcon = () => (
+    <>
+      {countNotification > 0 && (
+      <View style={{
+        width: 20,
+        height: 20,
+        borderRadius: 10,
+        backgroundColor: theme['color-danger-600'],
+        position: 'absolute',
+        top: -10,
+        marginLeft: 20,
+      }}
+      >
+        <Text
+          category="c1"
+          appearance="alternative"
+          style={{
+            lineHeight: 20,
+            textAlign: 'center',
+          }}
+        >
+          {countNotification}
+        </Text>
+      </View>
+      )}
+      <BellOutlineColor height={20} width={20} />
+    </>
+  );
 
   return (
     <SafeAreaView style={{ backgroundColor: theme['color-basic-100'] }}>

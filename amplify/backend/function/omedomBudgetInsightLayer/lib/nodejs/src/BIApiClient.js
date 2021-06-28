@@ -40,6 +40,17 @@ const BIApiClient = (env) => {
             return false;
         }
     };
+    const disableBankAccount = async (user_token, bank_account_id) => {
+        try {
+            await BIApiAxiosClient.put(`/users/me/accounts/${bank_account_id}`, { disabled: true }, {
+                headers: getAuthHeader(user_token),
+            });
+            return true;
+        }
+        catch (e) {
+            return false;
+        }
+    };
     const getReconnectUrl = async (token, redirectUrl, connectionId, state) => {
         try {
             const response = await BIApiAxiosClient.get('/auth/token/code?type=singleAccess', {
@@ -56,6 +67,7 @@ const BIApiClient = (env) => {
         getConnectUrl,
         getReconnectUrl,
         getConnectionAccounts,
+        disableBankAccount,
         clientId: BIApiCredentials.clientId,
         clientSecret: BIApiCredentials.clientSecret,
     };

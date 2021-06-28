@@ -472,7 +472,7 @@ const listRealEstatesQuery = <DocumentNode>gql(`query ListRealEstates(
           nextToken
           startedAt
         }
-        budgetLines {
+        budgetLines(sortDirection: ASC) {
           items {
             id
             realEstateId
@@ -498,7 +498,7 @@ const listRealEstatesQuery = <DocumentNode>gql(`query ListRealEstates(
           nextToken
           startedAt
         }
-        budgetLineDeadlines {
+        budgetLineDeadlines(sortDirection: DESC) {
           items {
             id
             realEstateId

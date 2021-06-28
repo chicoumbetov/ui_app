@@ -102,6 +102,7 @@ export type UserItem = {
         email?: boolean | null,
       } | null,
     } | null,
+    notificationLastSeenAt?: string | null,
   } | null,
   expoToken?: Array< string > | null,
   biUser?: string | null,

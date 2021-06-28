@@ -2445,6 +2445,7 @@ export const onCreateUser = /* GraphQL */ `
             email
           }
         }
+        notificationLastSeenAt
       }
       expoToken
       biUser
@@ -2511,6 +2512,7 @@ export const onUpdateUser = /* GraphQL */ `
             email
           }
         }
+        notificationLastSeenAt
       }
       expoToken
       biUser
@@ -2577,6 +2579,7 @@ export const onDeleteUser = /* GraphQL */ `
             email
           }
         }
+        notificationLastSeenAt
       }
       expoToken
       biUser
@@ -4211,6 +4214,7 @@ export const onCreateBillingHistory = /* GraphQL */ `
           }
           birthDate
           subscription
+          notificationLastSeenAt
         }
         expoToken
         biUser
@@ -4257,6 +4261,7 @@ export const onUpdateBillingHistory = /* GraphQL */ `
           }
           birthDate
           subscription
+          notificationLastSeenAt
         }
         expoToken
         biUser
@@ -4303,6 +4308,7 @@ export const onDeleteBillingHistory = /* GraphQL */ `
           }
           birthDate
           subscription
+          notificationLastSeenAt
         }
         expoToken
         biUser
@@ -4320,6 +4326,7 @@ export const onCreateNotification = /* GraphQL */ `
       title
       body
       data
+      clicked
       createdAt
       _version
       _deleted
@@ -4348,6 +4355,7 @@ export const onCreateNotification = /* GraphQL */ `
           }
           birthDate
           subscription
+          notificationLastSeenAt
         }
         expoToken
         biUser
@@ -4365,6 +4373,7 @@ export const onUpdateNotification = /* GraphQL */ `
       title
       body
       data
+      clicked
       createdAt
       _version
       _deleted
@@ -4393,6 +4402,7 @@ export const onUpdateNotification = /* GraphQL */ `
           }
           birthDate
           subscription
+          notificationLastSeenAt
         }
         expoToken
         biUser
@@ -4410,6 +4420,7 @@ export const onDeleteNotification = /* GraphQL */ `
       title
       body
       data
+      clicked
       createdAt
       _version
       _deleted
@@ -4438,6 +4449,7 @@ export const onDeleteNotification = /* GraphQL */ `
           }
           birthDate
           subscription
+          notificationLastSeenAt
         }
         expoToken
         biUser

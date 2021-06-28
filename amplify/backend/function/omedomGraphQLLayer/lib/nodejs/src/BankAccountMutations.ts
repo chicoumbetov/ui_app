@@ -3,6 +3,9 @@ import {
   CreateBankAccountInput,
   CreateBankAccountMutation,
   CreateBankAccountMutationVariables,
+  DeleteBankAccountInput,
+  DeleteBankAccountMutation,
+  DeleteBankAccountMutationVariables,
   UpdateBankAccountInput,
   UpdateBankAccountMutation,
   UpdateBankAccountMutationVariables,
@@ -89,8 +92,37 @@ const updateBankAccount = async (client: AppSyncClient, input: UpdateBankAccount
     return false;
   }
 };
+const deleteBankAccount = async (client: AppSyncClient, input: DeleteBankAccountInput) => {
+  try {
+    const { data } = await client.mutate<
+    DeleteBankAccountMutation,
+    DeleteBankAccountMutationVariables
+    >({
+      mutation: gql(`mutation DeleteBankAccount(
+    $input: DeleteBankAccountInput!
+  ) {
+    deleteBankAccount(input: $input) {
+      id
+      _version
+    }
+  }`),
+      variables: {
+        input,
+      },
+      fetchPolicy: 'no-cache',
+    });
+    if (data.deleteBankAccount) {
+      return data.deleteBankAccount;
+    }
+    return false;
+  } catch (e) {
+    console.error(e);
+    return false;
+  }
+};
 
 export {
   createBankAccount,
   updateBankAccount,
+  deleteBankAccount,
 };

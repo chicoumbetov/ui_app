@@ -1,34 +1,51 @@
-import React, { useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
-  StyleSheet, View, Platform, TouchableOpacity,
+  StyleSheet, View, TouchableOpacity,
 } from 'react-native';
-import Constants from 'expo-constants';
-import * as Notifications from 'expo-notifications';
 
 import { Text, useTheme } from '@ui-kitten/components';
 import { Icon as IconUIKitten } from '@ui-kitten/components/ui/icon/icon.component';
-import { useLinkTo } from '@react-navigation/native';
-import notificationsDATA from '../../mockData/notificationsDATA';
+import { useLinkTo, useNavigation } from '@react-navigation/native';
+import moment from 'moment';
 import MaisonVert from '../../assets/Omedom_Icons_svg/Logement/maison_verte.svg';
 import MaxWidthContainer from '../../components/MaxWidthContainer';
 import Button from '../../components/Button';
-import Icon from '../../components/Icon';
-
-Notifications.setNotificationHandler({
-  handleNotification: async () => ({
-    shouldShowAlert: true,
-    shouldPlaySound: false,
-    shouldSetBadge: false,
-  }),
-});
+import { useNotificationsList } from '../../src/API/Notification';
+import { ModelSortDirection } from '../../src/API';
+import ActivityIndicator from '../../components/ActivityIndicator';
+import NotificationCard from '../../components/NotificationCard';
+import { useUser } from '../../src/API/UserContext';
 
 const NotificationsPage = () => {
-  const theme = useTheme();
-  const [questions] = useState(notificationsDATA);
   const linkTo = useLinkTo();
+  const navigation = useNavigation();
+  const { user, updateUser } = useUser();
+  const { loading: loadingNotif, notifications, refetch } = useNotificationsList({
+    userId: user?.id,
+    sortDirection: ModelSortDirection.DESC,
+    createdAt: {
+      ge: moment().add(-30, 'days').format('YYYY-MM-DDT00:00:00'),
+    },
+  });
+
+  React.useEffect(() => navigation.addListener('focus', () => {
+    refetch();
+    if (updateUser) {
+      updateUser({
+        privateProfile: {
+          notificationLastSeenAt: new Date().toISOString(),
+        },
+      });
+    }
+  }), [navigation]);
+
+  useEffect(() => {
+
+  }, [loadingNotif]);
 
   return (
     <MaxWidthContainer
+      withScrollView="simple"
       outerViewProps={{
         style: {
           padding: 25,
@@ -51,30 +68,12 @@ const NotificationsPage = () => {
           )}
         />
       </View>
-      {questions.map((item) => (
 
-        <View
-          key={item.id}
-          style={styles.headerDown}
-        >
-          <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
-            <MaisonVert height={40} width={40} style={{ marginRight: 10 }} />
-            <Text category="h6" status="control" style={{ width: 200 }}>
-              {item.title}
-            </Text>
-          </View>
-          <TouchableOpacity onPress={() => {}}>
-            <IconUIKitten
-              name="arrow-ios-forward"
-              fill={theme['color-success-100']}
-              style={{
-                height: 16, width: 16, marginRight: 5, marginTop: 8,
-              }}
-            />
-          </TouchableOpacity>
-        </View>
-
-      ))}
+      {loadingNotif
+        ? <ActivityIndicator center margin={10} />
+        : notifications?.map(
+          (notification) => notification && <NotificationCard notification={notification} />,
+        )}
     </MaxWidthContainer>
   );
 };
@@ -90,13 +89,5 @@ const styles = StyleSheet.create({
   faq: {
     marginTop: 12,
     marginBottom: 41,
-  },
-  headerDown: {
-    padding: 18,
-    marginBottom: 36,
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderRadius: 7,
-    backgroundColor: '#37a3de',
   },
 });

@@ -241,32 +241,6 @@
                 ]
               ]
             },
-            "API_OMEDOM_BILLINGHISTORYTABLE_NAME": {
-              "Fn::ImportValue": {
-                "Fn::Sub": "${apiomedomGraphQLAPIIdOutput}:GetAtt:BillingHistoryTable:Name"
-              }
-            },
-            "API_OMEDOM_BILLINGHISTORYTABLE_ARN": {
-              "Fn::Join": [
-                "",
-                [
-                  "arn:aws:dynamodb:",
-                  {
-                    "Ref": "AWS::Region"
-                  },
-                  ":",
-                  {
-                    "Ref": "AWS::AccountId"
-                  },
-                  ":table/",
-                  {
-                    "Fn::ImportValue": {
-                      "Fn::Sub": "${apiomedomGraphQLAPIIdOutput}:GetAtt:BillingHistoryTable:Name"
-                    }
-                  }
-                ]
-              ]
-            },
             "API_OMEDOM_BUDGETLINETABLE_NAME": {
               "Fn::ImportValue": {
                 "Fn::Sub": "${apiomedomGraphQLAPIIdOutput}:GetAtt:BudgetLineTable:Name"
@@ -314,32 +288,6 @@
                   {
                     "Fn::ImportValue": {
                       "Fn::Sub": "${apiomedomGraphQLAPIIdOutput}:GetAtt:BudgetLineDeadlineTable:Name"
-                    }
-                  }
-                ]
-              ]
-            },
-            "API_OMEDOM_NOTIFICATIONTABLE_NAME": {
-              "Fn::ImportValue": {
-                "Fn::Sub": "${apiomedomGraphQLAPIIdOutput}:GetAtt:NotificationTable:Name"
-              }
-            },
-            "API_OMEDOM_NOTIFICATIONTABLE_ARN": {
-              "Fn::Join": [
-                "",
-                [
-                  "arn:aws:dynamodb:",
-                  {
-                    "Ref": "AWS::Region"
-                  },
-                  ":",
-                  {
-                    "Ref": "AWS::AccountId"
-                  },
-                  ":table/",
-                  {
-                    "Fn::ImportValue": {
-                      "Fn::Sub": "${apiomedomGraphQLAPIIdOutput}:GetAtt:NotificationTable:Name"
                     }
                   }
                 ]
@@ -1025,68 +973,6 @@
                       ":table/",
                       {
                         "Fn::ImportValue": {
-                          "Fn::Sub": "${apiomedomGraphQLAPIIdOutput}:GetAtt:BillingHistoryTable:Name"
-                        }
-                      }
-                    ]
-                  ]
-                },
-                {
-                  "Fn::Join": [
-                    "",
-                    [
-                      "arn:aws:dynamodb:",
-                      {
-                        "Ref": "AWS::Region"
-                      },
-                      ":",
-                      {
-                        "Ref": "AWS::AccountId"
-                      },
-                      ":table/",
-                      {
-                        "Fn::ImportValue": {
-                          "Fn::Sub": "${apiomedomGraphQLAPIIdOutput}:GetAtt:BillingHistoryTable:Name"
-                        }
-                      },
-                      "/index/*"
-                    ]
-                  ]
-                }
-              ]
-            },
-            {
-              "Effect": "Allow",
-              "Action": [
-                "dynamodb:Put*",
-                "dynamodb:Create*",
-                "dynamodb:BatchWriteItem",
-                "dynamodb:Get*",
-                "dynamodb:BatchGetItem",
-                "dynamodb:List*",
-                "dynamodb:Describe*",
-                "dynamodb:Scan",
-                "dynamodb:Query",
-                "dynamodb:Update*",
-                "dynamodb:RestoreTable*",
-                "dynamodb:Delete*"
-              ],
-              "Resource": [
-                {
-                  "Fn::Join": [
-                    "",
-                    [
-                      "arn:aws:dynamodb:",
-                      {
-                        "Ref": "AWS::Region"
-                      },
-                      ":",
-                      {
-                        "Ref": "AWS::AccountId"
-                      },
-                      ":table/",
-                      {
-                        "Fn::ImportValue": {
                           "Fn::Sub": "${apiomedomGraphQLAPIIdOutput}:GetAtt:BudgetLineTable:Name"
                         }
                       }
@@ -1171,68 +1057,6 @@
                       {
                         "Fn::ImportValue": {
                           "Fn::Sub": "${apiomedomGraphQLAPIIdOutput}:GetAtt:BudgetLineDeadlineTable:Name"
-                        }
-                      },
-                      "/index/*"
-                    ]
-                  ]
-                }
-              ]
-            },
-            {
-              "Effect": "Allow",
-              "Action": [
-                "dynamodb:Put*",
-                "dynamodb:Create*",
-                "dynamodb:BatchWriteItem",
-                "dynamodb:Get*",
-                "dynamodb:BatchGetItem",
-                "dynamodb:List*",
-                "dynamodb:Describe*",
-                "dynamodb:Scan",
-                "dynamodb:Query",
-                "dynamodb:Update*",
-                "dynamodb:RestoreTable*",
-                "dynamodb:Delete*"
-              ],
-              "Resource": [
-                {
-                  "Fn::Join": [
-                    "",
-                    [
-                      "arn:aws:dynamodb:",
-                      {
-                        "Ref": "AWS::Region"
-                      },
-                      ":",
-                      {
-                        "Ref": "AWS::AccountId"
-                      },
-                      ":table/",
-                      {
-                        "Fn::ImportValue": {
-                          "Fn::Sub": "${apiomedomGraphQLAPIIdOutput}:GetAtt:NotificationTable:Name"
-                        }
-                      }
-                    ]
-                  ]
-                },
-                {
-                  "Fn::Join": [
-                    "",
-                    [
-                      "arn:aws:dynamodb:",
-                      {
-                        "Ref": "AWS::Region"
-                      },
-                      ":",
-                      {
-                        "Ref": "AWS::AccountId"
-                      },
-                      ":table/",
-                      {
-                        "Fn::ImportValue": {
-                          "Fn::Sub": "${apiomedomGraphQLAPIIdOutput}:GetAtt:NotificationTable:Name"
                         }
                       },
                       "/index/*"

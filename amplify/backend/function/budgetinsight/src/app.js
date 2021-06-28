@@ -162,6 +162,38 @@ app.get('/budgetinsight/create-accounts', async (req, res) => {
       });
     } */
 });
+app.get('/budgetinsight/disable-accounts', async (req, res) => {
+    const uuid = req.apiGateway.event.requestContext.identity
+        .cognitoAuthenticationProvider.split(':').pop();
+    const { BANK_ACCOUNT_ID } = req.query;
+    // try {
+    const bankAccount = await BankAccountQueries_1.getBankAccountsById(AppSyncClient, BANK_ACCOUNT_ID);
+    const user = await UserQueries_1.getUserById(AppSyncClient, uuid);
+    if (user && bankAccount) {
+        const disable = await client.disableBankAccount(user.biToken, bankAccount.biId);
+        // on vérifie que ce soit bien le bon utilisateur BI qui essaye d'ajouter des comptes
+        if (disable) {
+            await BankAccountMutations_1.deleteBankAccount(AppSyncClient, {
+                id: bankAccount.id,
+                // eslint-disable-next-line no-underscore-dangle
+                _version: bankAccount._version,
+            });
+            res.json({
+                success: true,
+            });
+        }
+        else {
+            res.json({
+                success: false, error: 'Utilisateur non autorisé',
+            });
+        }
+    }
+    else {
+        res.json({
+            success: false, error: 'Utilisateur introuvable',
+        });
+    }
+});
 app.listen(3000, () => {
     console.log('App started');
 });

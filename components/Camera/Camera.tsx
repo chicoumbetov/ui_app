@@ -46,6 +46,9 @@ type CameraProps = {
   minDuration?: number;
   frontCamera?: boolean;
   withPreview?: boolean;
+  maxWidth?: number;
+  maxHeight?: number;
+  compress?: number;
 };
 
 type WhiteBalanceList = {
@@ -82,7 +85,9 @@ export default function Camera(props: CameraProps): JSX.Element {
   const video = useRef<Promise<{ uri: string }> | undefined>();
   const theme = useTheme();
   const { screen } = useDimensions();
-  const { recordingMode = 'image', withPreview = true } = props;
+  const {
+    recordingMode = 'image', withPreview = true, maxWidth, maxHeight, compress = 0.5,
+  } = props;
 
   const [hasCameraPermission, setHasCameraPermission] = useState<boolean | null>(null);
   const [type, setType] = useState(
@@ -230,19 +235,31 @@ export default function Camera(props: CameraProps): JSX.Element {
           base64: false,
         });
         const croper = calculateCropElements(photo.width, photo.height);
+        const actions: Array<ImageManipulator.Action> = [
+          {
+            crop: {
+              originX: croper.x,
+              originY: croper.y,
+              width: croper.newWidth,
+              height: croper.newHeight,
+            },
+          },
+        ];
+        if (maxWidth || maxHeight) {
+          if (maxWidth && maxWidth < croper.newWidth) {
+            actions.push({
+              resize: { width: maxWidth },
+            });
+          } else if (maxHeight && maxHeight < croper.newHeight) {
+            actions.push({
+              resize: { height: maxHeight },
+            });
+          }
+        }
         const manipResult = await ImageManipulator.manipulateAsync(
           photo.uri,
-          [
-            {
-              crop: {
-                originX: croper.x,
-                originY: croper.y,
-                width: croper.newWidth,
-                height: croper.newHeight,
-              },
-            },
-          ],
-          { compress: 1, format: ImageManipulator.SaveFormat.JPEG, base64: false },
+          actions,
+          { compress, format: ImageManipulator.SaveFormat.JPEG, base64: false },
         );
         if (withPreview) {
           setCurrentImage({

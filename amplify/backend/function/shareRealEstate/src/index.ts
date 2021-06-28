@@ -11,6 +11,7 @@ import { getUserByEmail } from '/opt/nodejs/src/UserQueries';
 import getAppSyncClient from '/opt/nodejs/src/AppSyncClient';
 import { updateRealEstateMutation, getRealEstate } from '/opt/nodejs/src/RealEstateMutation';
 import { sendTemplateEmail } from '/opt/nodejs/src/SendMail';
+import { deletePendingInvitations } from '/opt/nodejs/src/PendingInvitationQueries';
 
 exports.handler = async (event) => {
   //eslint-disable-line
@@ -24,6 +25,7 @@ exports.handler = async (event) => {
     await promise;
     if (record.eventName === 'INSERT') {
       const { email, type, realEstateId } = record.dynamodb.NewImage;
+      console.log(record.dynamodb.NewImage);
       const user = await getUserByEmail(appSyncClient, email.S);
       if (user) {
         const realEstate = await getRealEstate(appSyncClient, realEstateId.S);
@@ -54,9 +56,8 @@ exports.handler = async (event) => {
               if (share === user.id) {
                 return true;
               }
-              return false;
             });
-            if (exists === undefined) {
+            if (exists === undefined || !exists) {
               shared.push(user.id);
             }
             await updateRealEstateMutation(appSyncClient, {
@@ -67,10 +68,10 @@ exports.handler = async (event) => {
             });
           }
 
-          await sendTemplateEmail(email.S, 'TemplateMailLectureAvecCompte');
+          await sendTemplateEmail(email.S, 'TemplateMailLectureAvecCompte', { name: 'pierre' });
         }
       } else if (type.S === 'Admin') {
-        await sendTemplateEmail(email.S, 'TemplateMailAdminSansCompteV2');
+        await sendTemplateEmail(email.S, 'TemplateMailAdminSansCompteV2', { name: 'jhon' });
       } else {
         await sendTemplateEmail(email.S, 'TemplateMailLectureSansCompte');
       }

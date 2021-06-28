@@ -59,13 +59,12 @@ const MaTresorerie2 = () => {
   console.log(bienget.bankAccounts?.items?.length);
 
   const BankAccount = data?.listBankAccounts?.items?.filter((item) => { if (!item._deleted) { return item; } return false; });
-  console.log(bienget.bankAccounts?.items?.length);
 
   if (realEstateBankAccount && realEstateBankAccount.length === 0 && !toggle) {
     setToggle(true);
   }
-
-  console.log(BankAccount);
+  console.log('bank account 1 :', data.listBankAccounts);
+  console.log('bank account 2 :', BankAccount);
   let buttonText = '';
   if (toggle) {
     if (checkedAccounts.length <= 0) {
@@ -96,7 +95,9 @@ const MaTresorerie2 = () => {
           },
         });
       }, Promise.resolve());
-    } else {
+      refetchBien();
+      setToggle(true);
+    } else if (checkedAccounts.length > 0) {
       checkedAccounts.reduce(async (promise, current) => {
         await promise;
         await deleteBankAccount({
@@ -108,10 +109,9 @@ const MaTresorerie2 = () => {
           },
         });
       }, Promise.resolve());
+      refetchBien();
+      setToggle(true);
     }
-
-    refetchBien();
-    setToggle(true);
   }
 
   return (

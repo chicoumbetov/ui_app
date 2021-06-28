@@ -232,7 +232,7 @@ function DetailsBien() {
        *  I. Details du bien
        */}
       {loading
-        ? <View style={{ justifyContent: 'center', alignItems: 'center' }}><ActivityIndicator /></View>
+        ? <View style={{ justifyContent: 'center', alignItems: 'center', marginVertical: 20 }}><ActivityIndicator /></View>
         : (
           <>
             <View style={styles.container}>
@@ -251,7 +251,12 @@ function DetailsBien() {
                 <AutoAvatar
                   avatarInfo={bienget?.iconUri}
                   style={{
-                    height: 100, width: 100, marginRight: 12, marginBottom: 10,
+                    height: 100,
+                    width: 100,
+                    marginRight: 12,
+                    marginBottom: 10,
+                    borderRadius: 50,
+                    overflow: 'hidden',
                   }}
                 />
                 <Text category="h2" status="basic">
@@ -268,7 +273,7 @@ function DetailsBien() {
        */}
       <Separator />
       {loading
-        ? <View style={{ justifyContent: 'center', alignItems: 'center' }}><ActivityIndicator /></View>
+        ? <View style={{ justifyContent: 'center', alignItems: 'center', marginVertical: 20 }}><ActivityIndicator /></View>
         : (
           <>
             <View style={styles.container}>
@@ -404,7 +409,7 @@ function DetailsBien() {
        */}
       <Separator />
       {loading
-        ? <ActivityIndicator />
+        ? <View style={{ justifyContent: 'center', alignItems: 'center', marginVertical: 20 }}><ActivityIndicator /></View>
         : (
           <View style={styles.container}>
             <Text category="s2" style={{ marginBottom: 30 }}>
@@ -458,7 +463,7 @@ function DetailsBien() {
        */}
       <Separator />
       {loading
-        ? <ActivityIndicator />
+        ? <View style={{ justifyContent: 'center', alignItems: 'center', marginVertical: 20 }}><ActivityIndicator /></View>
         : (
           <>
             <View style={styles.container}>
@@ -556,7 +561,7 @@ function DetailsBien() {
        */}
       <Separator />
       {loading
-        ? <ActivityIndicator />
+        ? <View style={{ justifyContent: 'center', alignItems: 'center', marginVertical: 20 }}><ActivityIndicator /></View>
         : (
           <>
             <View style={styles.container}>

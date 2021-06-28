@@ -35,6 +35,13 @@ import client, { Rehydration } from './src/Apollo';
 import { UserContext, UserProvider } from './src/API/UserContext';
 import ErrorMap from './components/Auth/ErrorMap';
 
+if (typeof Intl === 'undefined') {
+  // eslint-disable-next-line global-require
+  require('intl');
+  // eslint-disable-next-line global-require
+  require('intl/locale-data/jsonp/fr');
+}
+
 Amplify.configure({
   ...awsExports,
   Analytics: {

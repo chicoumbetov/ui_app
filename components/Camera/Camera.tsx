@@ -439,8 +439,8 @@ export default function Camera(props: CameraProps): JSX.Element {
           )}
         </View>
         <View style={styles.footer}>
-          <UIKittenIconButton fill={theme['color-danger-500']} onPress={cancelChoice} name="close-outline" width={25} height={25} />
-          <UIKittenIconButton fill={theme['color-primary-500']} onPress={() => acceptChoice()} name="checkmark-outline" width={25} height={25} />
+          <UIKittenIconButton fill={theme['color-danger-500']} onPress={() => cancelChoice()} name="close-outline" width={40} height={40} />
+          <UIKittenIconButton fill={theme['color-primary-500']} onPress={() => acceptChoice()} name="checkmark-outline" width={80} height={80} />
         </View>
       </SafeAreaView>
     );
@@ -594,7 +594,7 @@ export default function Camera(props: CameraProps): JSX.Element {
               height={25}
               onPress={() => goBack(true)}
             />
-            <TouchableOpacity onPress={takePicture}>
+            <TouchableOpacity onPress={() => takePicture()}>
               {duration > 0 && (
                 <View style={{ alignSelf: 'center', marginTop: -15 }}>
                   <Text color="white">{durationToStr(duration)}</Text>

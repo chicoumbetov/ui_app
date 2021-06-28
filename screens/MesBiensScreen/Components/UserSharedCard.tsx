@@ -19,7 +19,7 @@ const UserSharedCard = (props: MonBudgetProps) => {
   // const theme = useTheme();
 
   const { user, loading } = useGetUser(idUser);
-  console.log('idUser', email);
+  // console.log('idUser', email);
 
   return (
 
@@ -56,7 +56,12 @@ const UserSharedCard = (props: MonBudgetProps) => {
           <AutoAvatar
             avatarInfo={user?.avatarUri || 'default::WaitUser'}
             style={{
-              height: 50, width: 50, borderRadius: 50, marginRight: 12, marginBottom: 10,
+              height: 50,
+              width: 50,
+              marginRight: 12,
+              marginBottom: 10,
+              borderRadius: 25,
+              overflow: 'hidden',
             }}
           />
 

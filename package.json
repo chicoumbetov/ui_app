@@ -83,6 +83,7 @@
     "expo-keep-awake": "~9.1.2",
     "expo-linear-gradient": "~9.1.0",
     "expo-linking": "~2.2.3",
+    "expo-localization": "^10.1.0",
     "expo-media-library": "~12.0.2",
     "expo-notifications": "~0.11.6",
     "expo-print": "~10.1.0",

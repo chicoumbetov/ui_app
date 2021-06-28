@@ -36,24 +36,26 @@ const Informations = () => {
   const navigation = useNavigation();
 
   const onPress = async () => {
-    if (updateUser) {
+    if (updateUser && user) {
       let avatarUri = avatarImage;
-      const toDelete = user && user.avatarUri && user.avatarUri.indexOf('default::') > -1
-        ? undefined
-        : user?.avatarUri;
-      if (toDelete) {
-        await Delete(toDelete);
-      }
-      if (selectedNewImage) {
-        const upload = await Upload(selectedNewImage, `user/${user?.id}/`);
-        if (upload !== false) {
-          avatarUri = upload.key;
+      if (avatarUri !== user.avatarUri) {
+        const toDelete = user.avatarUri && user.avatarUri.indexOf('default::') > -1
+          ? undefined
+          : user?.avatarUri;
+        if (toDelete) {
+          await Delete(toDelete);
         }
-      }
+        if (selectedNewImage) {
+          const upload = await Upload(selectedNewImage, `user/${user?.id}/`);
+          if (upload !== false) {
+            avatarUri = upload.key;
+          }
+        }
 
-      await updateUser({
-        avatarUri,
-      });
+        await updateUser({
+          avatarUri,
+        });
+      }
       if (!userIsCreating) {
         navigation.navigate('mon-compte');
       }

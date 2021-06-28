@@ -148,7 +148,7 @@ const MonBien = (props: MonBienProps) => {
   };
 
   const dernierMovement = bienget?.bankMovements?.items?.map(
-    (item) => { if (item?.ignored) { return false; } return item; },
+    (item) => { if (!item?.ignored) { return item; } },
   );
   // console.log('last Movement', bienget?.bankMovements);
 

@@ -25,8 +25,8 @@ const Drawer = createDrawerNavigator();
 
 const getTitleFromName = (name?:string) => {
   switch (name) {
-    case 'mon-assistant':
-      return 'Mon assistant';
+    /* case 'mon-assistant':
+      return 'Mon assistant'; */
     default:
       return '';
   }

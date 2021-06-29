@@ -42,7 +42,7 @@ const pdfTemplateQuittance = `
     padding: 5px 0 5px 10px;
   }
   td p,
-   bailleur2 p {
+   .bailleur2 p {
     margin-top: 5px;
     margin-bottom: 0;
   }
@@ -81,8 +81,8 @@ const pdfTemplateQuittance = `
         <br>
         <br>
         <p>{{tenant.firstname}} {{tenant.lastname}}</p>
-        <p>{{bien.address.address}} </p>
-        <p>{{bien.address.postalCode}} {{bien.address.city}}</p>
+        <p>{{bienget.address.address}} </p>
+        <p>{{bienget.address.postalCode}} {{bienget.address.city}}</p>
       </div>
     </div>
     <div>
@@ -92,7 +92,7 @@ const pdfTemplateQuittance = `
           <td colspan="2">
             <h2>QUITTANCE DE LOYER</h2>
             <div><p><strong>Période : </strong> du {{startDate}} au {{endDate}}</p></div>
-            <div><p><strong>Adresse du logement: </strong> {{bien.address.address}} {{bien.address.postalCode}} {{bien.address.city}}</p></div>
+            <div><p><strong>Adresse du logement: </strong> {{bienget.address.address}} {{bienget.address.postalCode}} {{bienget.address.city}}</p></div>
           </td>
         </tr>
         <tr >
@@ -112,11 +112,15 @@ const pdfTemplateQuittance = `
         </tr>
         <tr>
           <td >Loyer</td>
-          <td>{{tenant.amount}} €</td>
+          <td>{{rentalFee}} €</td>
+        </tr>
+        <tr>
+          <td >Charges</td>
+          <td>{{charges}} €</td>
         </tr>
         <tr>
           <td ><strong>Total</strong></td>
-          <td>{{ tenant.amount}} €</td>
+          <td>{{ total }} €</td>
         </tr>
         </tbody>
       </table>

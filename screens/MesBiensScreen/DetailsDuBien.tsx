@@ -45,6 +45,7 @@ import UserSharedCard from './Components/UserSharedCard';
 import { useDeleteTenantMutation } from '../../src/API/Tenant';
 import Camera from '../../components/Camera';
 import { PendingInvitation } from '../../src/API';
+import { useDeletePendingInvitationMutation } from '../../src/API/PendingInvitation';
 
 function DetailsBien() {
   const navigation = useNavigation();
@@ -65,6 +66,9 @@ function DetailsBien() {
   const [checkedAdmins, setCheckedAdmins] = useState<string[]>([]);
   const [checkedShare, setCheckedShare] = useState<string[]>([]);
   const [checkedDocument, setCheckedDocument] = useState<
+  Array<{ id: string, _version: number }
+  >>([]);
+  const [checkedPending, setCheckedPending] = useState<
   Array<{ id: string, _version: number }
   >>([]);
 
@@ -205,8 +209,9 @@ function DetailsBien() {
     }
   };
   const updateRealEstate = useUpdateRealEstateMutation();
+  const deletePendingInvitation = useDeletePendingInvitationMutation();
   const supprimerAdminShare = async () => {
-    if (checkedAdmins.length > 0) {
+    if (checkedAdmins.length > 0 || checkedShare.length > 0 || checkedPending.length > 0) {
       Alert.alert(
         'Suppression de partage de bien',
         '',
@@ -217,7 +222,7 @@ function DetailsBien() {
         {
           text: 'Valider',
           onPress: async () => {
-            if (checkedAdmins.length > 0 || checkedShare.length > 0) {
+            if (checkedAdmins.length > 0) {
               const promises = checkedAdmins.map(async (idAdmins) => {
                 const admins = bienget.admins.filter((admin) => admin !== idAdmins);
                 await updateRealEstate.updateRealEstate({
@@ -243,6 +248,20 @@ function DetailsBien() {
                       shared,
                       // eslint-disable-next-line no-underscore-dangle
                       _version: bienget._version,
+                    },
+                  },
+                });
+              });
+              await Promise.all(promises);
+            }
+            if (checkedPending.length > 0) {
+              const promises = checkedPending.map(async (current) => {
+                await deletePendingInvitation.deletePendingInvitation({
+                  variables: {
+                    input: {
+                      id: current.id,
+                      // eslint-disable-next-line no-underscore-dangle
+                      _version: current._version,
                     },
                   },
                 });
@@ -790,7 +809,6 @@ function DetailsBien() {
             idUser={idAdmin}
             admin
             key={idAdmin}
-            checked={checkedAdmins.indexOf(idAdmin) > -1}
             supprimer={supprimInvitation}
             onCheck={(checked) => {
               const nextCheckedAccounts = checkedAdmins.filter((thisId) => thisId !== idAdmin);
@@ -807,7 +825,6 @@ function DetailsBien() {
             idUser={idShare}
             admin={false}
             key={idShare}
-            checked={checkedAdmins.indexOf(idShare) > -1}
             supprimer={supprimInvitation}
             onCheck={(checked) => {
               const nextCheckedAccounts = checkedAdmins.filter((thisId) => thisId !== idShare);
@@ -824,15 +841,16 @@ function DetailsBien() {
             <UserSharedCard
               email={pending.email}
               admin
-              checked={checkedAdmins.indexOf(idShare) > -1}
               supprimer={supprimInvitation}
               onCheck={(checked) => {
-                const nextCheckedAccounts = checkedAdmins.filter((thisId) => thisId !== idShare);
+                const nextCheckedAccounts = checkedPending.filter(
+                  (thisId) => thisId.id !== pending.id,
+                );
                 if (checked) {
-                  nextCheckedAccounts.push(idShare);
+                  nextCheckedAccounts.push({ id: pending.id, _version: pending._version });
                 }
-                // console.log('nextCheckedAccounts', nextCheckedAccounts);
-                setCheckedAdmins(nextCheckedAccounts);
+                console.log('nextCheckedAccounts', nextCheckedAccounts);
+                setCheckedPending(nextCheckedAccounts);
               }}
             />
           ) : (
@@ -840,15 +858,17 @@ function DetailsBien() {
               email={pending?.email}
               admin={false}
               key={pending?.id}
-              checked={checkedAdmins.indexOf(idShare) > -1}
               supprimer={supprimInvitation}
               onCheck={(checked) => {
-                const nextCheckedAccounts = checkedAdmins.filter((thisId) => thisId !== idShare);
+                const nextCheckedAccounts = checkedPending.filter(
+                  (thisId) => thisId.id !== pending?.id,
+                );
                 if (checked) {
-                  nextCheckedAccounts.push(idShare);
+                  // eslint-disable-next-line no-underscore-dangle
+                  nextCheckedAccounts.push({ id: pending?.id, _version: pending?._version });
                 }
-                // console.log('nextCheckedAccounts', nextCheckedAccounts);
-                setCheckedAdmins(nextCheckedAccounts);
+                console.log('nextCheckedAccounts', nextCheckedAccounts);
+                setCheckedPending(nextCheckedAccounts);
               }}
             />
           )

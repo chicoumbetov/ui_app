@@ -1,5 +1,5 @@
 import { CheckBox, Text } from '@ui-kitten/components';
-import React from 'react';
+import React, { useState } from 'react';
 import { View } from 'react-native';
 
 import Card from '../../../components/Card';
@@ -15,14 +15,14 @@ type MonBudgetProps = { idUser?: string,
   admin?: boolean,
   email?: string,
   supprimer?: boolean,
-  onCheck?: (checked: boolean) => void,
-  checked?: boolean };
+  onCheck?: (checked: boolean) => void };
 
 const UserSharedCard = (props: MonBudgetProps) => {
   const {
-    idUser, supprimer = false, admin, email, checked = false, onCheck,
+    idUser, supprimer = false, admin, email, onCheck,
   } = props;
   // const theme = useTheme();
+  const [checked, setChecked] = useState(false);
 
   const { user, loading } = useGetUser(idUser);
   // console.log('idUser', email);
@@ -32,7 +32,7 @@ const UserSharedCard = (props: MonBudgetProps) => {
   }
   const thisUser = useUser();
   let isCurrentUser = false;
-  if (user.id === thisUser.user?.id) {
+  if (user && user.id === thisUser.user?.id) {
     isCurrentUser = true;
   }
   return (
@@ -88,6 +88,7 @@ const UserSharedCard = (props: MonBudgetProps) => {
               onChange={(nextChecked) => {
                 if (onCheck) {
                   onCheck(nextChecked);
+                  setChecked(nextChecked);
                 }
               }}
             />

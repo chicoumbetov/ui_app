@@ -19,7 +19,6 @@ import {
 import { RouteProp } from '@react-navigation/core/lib/typescript/src/types';
 import * as DocumentPicker from 'expo-document-picker';
 import moment from 'moment';
-import { ImagePickerResult } from 'expo-image-picker';
 import Icon from '../../components/Icon';
 import MaxWidthContainer from '../../components/MaxWidthContainer';
 
@@ -30,21 +29,17 @@ import Card from '../../components/Card';
 import Separator from '../../components/Separator';
 
 import DocumentComponent from '../../components/DocumentComponent';
-import { DocumentItem, useCreateDocumentMutation, useDeleteDocumentMutation } from '../../src/API/Document';
+import { useCreateDocumentMutation, useDeleteDocumentMutation } from '../../src/API/Document';
 
-import { BudgetLineType } from '../../src/API';
 import ReadOnly from '../../components/ReadOnly';
 import { Upload } from '../../utils/S3FileStorage';
 import Amount from '../../components/Amount';
-import DateUtils from '../../utils/DateUtils';
 
 import AutoAvatar from '../../components/AutoAvatar';
 import ActivityIndicator from '../../components/ActivityIndicator';
 import UserSharedCard from './Components/UserSharedCard';
-// import { removeKey, removeKeyArray } from '../../utils/ObjectHelper';
 import { useDeleteTenantMutation } from '../../src/API/Tenant';
 import Camera from '../../components/Camera';
-import { CameraOutput } from '../../components/Camera/Camera';
 
 function DetailsBien() {
   const navigation = useNavigation();
@@ -63,9 +58,6 @@ function DetailsBien() {
   const [checkedTenant, setCheckedTenant] = useState<string[]>([]);
   const [checkedDocument, setCheckedDocument] = useState<string[]>([]);
 
-  const currentYear = new Date().getFullYear();
-  const currentMonth = new Date().getMonth();
-
   const readOnly = ReadOnly.readOnly(route.params.id);
   /**
   const users = useGetUserByIDList(Array.prototype.concat(
@@ -76,13 +68,8 @@ function DetailsBien() {
   );
   */
 
-  const [camera, setCamera] = React.useState(false);
-  const [selectedNewImage, setSelectedNewImage] = useState<
-  ImagePickerResult |
-  CameraOutput |
-  undefined
-  >();
-  const [newDocument, setNewDocument] = useState<DocumentItem | undefined | null>(undefined);
+  const [camera, setCamera] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const onTakePicture = () => {
     setCamera(true);
   };
@@ -193,7 +180,7 @@ function DetailsBien() {
                 variables: {
                   input: {
                     id: docId,
-                    // ????????????????
+                    // eslint-disable-next-line no-underscore-dangle
                     _version: bienget._version,
                   },
                 },
@@ -208,28 +195,9 @@ function DetailsBien() {
     }
   };
 
-  const allDataNextExpense = bienget?.budgetLineDeadlines?.items
-      && bienget?.budgetLineDeadlines?.items?.map((item) => {
-        // years for all existing Eau expenses in whole period
-        // console.log('--------------------', item);
-        const allYears = DateUtils.parseToDateObj(item?.date).getFullYear();
-        const allMonths = DateUtils.parseToDateObj(item?.date).getMonth();
-
-        if (item?.type === BudgetLineType.Expense
-            // eslint-disable-next-line no-underscore-dangle
-            && !item?._deleted
-            && allYears === currentYear
-            && allMonths === currentMonth + 1
-        ) {
-          // console.log('months: ', item?.amount, DateUtils.parseToDateObj(item?.date));
-
-          return item;
-        }
-        return false;
-      });
-
-  const nextexpense = allDataNextExpense?.map((d) => d.amount)
-    .find((m) => m);
+  const nextexpense = bienget?.budgetLines?.items
+      && bienget?.budgetLines?.items.length > 0
+      && bienget?.budgetLines?.items[0]?.amount;
 
   const dernierMovement = bienget?.bankMovements?.items?.find(
     (item) => { if (item?.ignored) { return false; } return true; },
@@ -498,6 +466,7 @@ function DetailsBien() {
                    </Text>
                    */}
               {bienget?.tenants?.map((tenant) => (
+                tenant && (
                 <Card
                   style={{
                     paddingVertical: 24,
@@ -511,29 +480,29 @@ function DetailsBien() {
                   key={tenant?.id}
                 >
                   {supprimTenant && (
-                    <View
-                      style={{ justifyContent: 'center', paddingHorizontal: 14, width: 50 }}
-                    >
-                      <CheckBox
+                  <View
+                    style={{ justifyContent: 'center', paddingHorizontal: 14, width: 50 }}
+                  >
+                    <CheckBox
                           // 1 -> 3
-                        checked={checkedTenant.indexOf(tenant?.id) > -1}
-                        onChange={(newChecked) => {
-                          // 2
-                          // 4
-                          const nextCheckedTenants = checkedTenant
-                            .filter((id) => id !== tenant?.id);
-                          // 2
-                          if (newChecked) {
-                            nextCheckedTenants.push(tenant?.id);
-                          }
-                          // 2
-                          // 4
-                          // console.log('nextCheckedAccounts', nextCheckedAccounts);
-                          setCheckedTenant(nextCheckedTenants);
-                        }}
-                        status="danger"
-                      />
-                    </View>
+                      checked={checkedTenant.indexOf(tenant?.id) > -1}
+                      onChange={(newChecked) => {
+                        // 2
+                        // 4
+                        const nextCheckedTenants = checkedTenant
+                          .filter((id) => id !== tenant?.id);
+                        // 2
+                        if (newChecked) {
+                          nextCheckedTenants.push(tenant?.id);
+                        }
+                        // 2
+                        // 4
+                        // console.log('nextCheckedAccounts', nextCheckedAccounts);
+                        setCheckedTenant(nextCheckedTenants);
+                      }}
+                      status="danger"
+                    />
+                  </View>
                   )}
                   <View style={{ flex: 1 }}>
                     <Text category="h6" status="basic">{`${tenant?.firstname} ${tenant?.lastname}`}</Text>
@@ -553,7 +522,8 @@ function DetailsBien() {
                     </Text>
                   </View>
                 </Card>
-              )) || undefined}
+                )
+              ))}
               {!readOnly && (
               <TouchableOpacity
                 onPress={() => {
@@ -619,21 +589,25 @@ function DetailsBien() {
                             console.log('doc ajouter:', doc);
                             const name = doc.type === 'success' ? doc.name : '';
                             console.log('name ajouter: ', name);
-                            // upload chosen document from gallery to s3
-                            const s3file = await Upload(doc, `biens/${route.params.id}/documents/`);
-                            if (s3file !== false && route.params.id) {
-                              console.log('s3file ajouter: ', s3file);
-                              // const doc =
-                              await createDocument.createDocument({
-                                variables: {
-                                  input: {
-                                    s3file: s3file.key,
-                                    realEstateId: route.params.id,
-                                    name,
+                            if (doc.type === 'success') {
+                              setUploading(true);
+                              // upload chosen document from gallery to s3
+                              const s3file = await Upload(doc, `biens/${route.params.id}/documents/`);
+                              if (s3file !== false && route.params.id) {
+                                console.log('s3file ajouter: ', s3file);
+                                // const doc =
+                                await createDocument.createDocument({
+                                  variables: {
+                                    input: {
+                                      s3file: s3file.key,
+                                      realEstateId: route.params.id,
+                                      name,
+                                    },
                                   },
-                                },
-                              });
+                                });
+                              }
                             }
+                            setUploading(false);
                             // console.log(key);
                           }
                         }
@@ -680,29 +654,27 @@ function DetailsBien() {
                   }}
                   onChoose={async (result) => {
                     if (result) {
+                      setCamera(false);
+                      setUploading(true);
                       // setImage(result.uri);
-                      setSelectedNewImage(result);
                       console.log('result:', result);
-                      if (selectedNewImage) {
-                        console.log('selectedNewImage:', selectedNewImage);
-                        const s3file = await Upload(selectedNewImage, `biens/${route.params.id}/documents/`);
-                        console.log('s3file :', s3file);
-                        // s3fil has 4 attributes: key, name, originalFilename: undefined, uri
-                        if (s3file !== false && route.params.id) {
-                          // const doc =
-                          await createDocument.createDocument({
-                            variables: {
-                              input: {
-                                s3file: s3file.key,
-                                realEstateId: route.params.id,
-                                name: s3file.name,
-                              },
+                      const s3file = await Upload(result, `biens/${route.params.id}/documents/`);
+                      console.log('s3file :', s3file);
+                      // s3fil has 4 attributes: key, name, originalFilename: undefined, uri
+                      if (s3file !== false && route.params.id) {
+                        // const doc =
+                        await createDocument.createDocument({
+                          variables: {
+                            input: {
+                              s3file: s3file.key,
+                              realEstateId: route.params.id,
+                              name: s3file.name,
                             },
-                          });
-                        }
+                          },
+                        });
                       }
                     }
-                    setCamera(false);
+                    setUploading(false);
                   }}
                   withPreview
                   ratio={[1, 1.41]}
@@ -710,7 +682,28 @@ function DetailsBien() {
                 )}
               </Modal>
               )}
-
+              {uploading && (
+              <View style={{
+                position: 'absolute',
+                top: 0,
+                bottom: 0,
+                left: 0,
+                right: 0,
+                backgroundColor: 'rgba(255,255,255,0.8)',
+              }}
+              >
+                <View style={{
+                  flex: 1,
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+                >
+                  <Text category="h4" status="primary">Chargement du document</Text>
+                  <ActivityIndicator />
+                </View>
+              </View>
+              )}
             </View>
           </>
         )}

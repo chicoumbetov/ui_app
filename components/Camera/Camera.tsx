@@ -86,7 +86,7 @@ export default function Camera(props: CameraProps): JSX.Element {
   const theme = useTheme();
   const { screen } = useDimensions();
   const {
-    recordingMode = 'image', withPreview = true, maxWidth, maxHeight, compress = 0.5,
+    recordingMode = 'image', withPreview = true, maxWidth, maxHeight, compress = 1,
   } = props;
 
   const [hasCameraPermission, setHasCameraPermission] = useState<boolean | null>(null);
@@ -441,19 +441,38 @@ export default function Camera(props: CameraProps): JSX.Element {
 
   if (currentImage !== null || currentVideo !== null) {
     return (
-      <SafeAreaView style={[styles.cameraSafeArea, { width: cameraWidth, backgroundColor: 'black' }]} top>
-        <View style={{ flexDirection: 'column', flexGrow: 1, justifyContent: 'center' }}>
-          {currentImage !== null ? (
-            <Image
-              uri={currentImage.uri}
-              style={{
-                height: viewHeight * 0.8,
-              }}
-              resizeMode="contain"
-            />
-          ) : (
-            currentVideo !== null && <NotImplementedScreen />
-          )}
+      <SafeAreaView style={StyleSheet.flatten([styles.cameraSafeArea, { width: cameraWidth, backgroundColor: 'black' }])} top>
+        <View style={maxWidth ? {
+          flexDirection: 'column',
+          flexGrow: 1,
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: 'green',
+        } : {
+          flexDirection: 'column',
+          flexGrow: 1,
+          flex: 1,
+          justifyContent: 'center',
+        }}
+        >
+          <View style={maxWidth ? {
+            width: maxWidth,
+            maxWidth,
+          } : {}}
+          >
+            {currentImage !== null ? (
+              <Image
+                uri={currentImage.uri}
+                style={{
+                  height: viewHeight * 0.8,
+                }}
+                resizeMode="contain"
+              />
+            ) : (
+              currentVideo !== null && <NotImplementedScreen />
+            )}
+          </View>
         </View>
         <View style={styles.footer}>
           <UIKittenIconButton fill={theme['color-danger-500']} onPress={() => cancelChoice()} name="close-outline" width={40} height={40} />

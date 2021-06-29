@@ -24,9 +24,13 @@ exports.handler = async (event) => {
     // so, it will immediately continue.
     await promise;
     if (record.eventName === 'INSERT') {
-      const { email, type, realEstateId } = record.dynamodb.NewImage;
+      const {
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        email, type, realEstateId, id, _version,
+      } = record.dynamodb.NewImage;
       console.log(record.dynamodb.NewImage);
       const user = await getUserByEmail(appSyncClient, email.S);
+      console.log('user :', user);
       if (user) {
         const realEstate = await getRealEstate(appSyncClient, realEstateId.S);
         if (realEstate) {
@@ -69,6 +73,10 @@ exports.handler = async (event) => {
           }
 
           await sendTemplateEmail(email.S, 'TemplateMailLectureAvecCompte', { name: 'pierre' });
+          await deletePendingInvitations(appSyncClient, {
+            id: id.S,
+            _version: _version.N,
+          });
         }
       } else if (type.S === 'Admin') {
         await sendTemplateEmail(email.S, 'TemplateMailAdminSansCompteV2', { name: 'jhon' });

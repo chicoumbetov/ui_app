@@ -67,7 +67,7 @@ const UploadInternal = async (
         cacheControl: blob.type.indexOf('image') > -1 ? 'max-age=2592000, public' : 'no-cache',
         contentDisposition: originalFilename ? `attachment; filename="${originalFilename}"` : null,
         // ??????????????,
-        progressCallback: (progress: any) => {
+        progessCallback(progress: any) {
           console.log(`Uploaded: ${progress.loaded}/${progress.total}`);
         },
       }));

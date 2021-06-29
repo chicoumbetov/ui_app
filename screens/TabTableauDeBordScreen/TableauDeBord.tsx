@@ -16,6 +16,7 @@ import { useLinkTo } from '@react-navigation/native';
 import * as Notifications from 'expo-notifications';
 import Constants from 'expo-constants';
 import moment from 'moment';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import MaisonVert from '../../assets/Omedom_Icons_svg/Logement/maison_verte.svg';
 import Immeuble from '../../assets/Omedom_Icons_svg/Logement/immeuble.svg';
 import MaxWidthContainer from '../../components/MaxWidthContainer';
@@ -67,9 +68,15 @@ function TableauDeBord() {
           }
         }
       }
+    })();
+  }, [updateUser, user]);
+  useEffect(() => {
+    (async () => {
+      const hasAskedCreate = await AsyncStorage.getItem('hasAskedCreate');
       // on regarde si on a des biens
-      if (!loading) {
+      if (!loading && hasAskedCreate !== 'true') {
         if (data?.listRealEstates?.items && data?.listRealEstates?.items.length <= 0) {
+          await AsyncStorage.setItem('hasAskedCreate', 'true');
           Alert.alert(
             'Bienvenue',
             'Votre compte est désormais crée, vous pouvez désormais ajouter votre premier bien !',
@@ -82,7 +89,7 @@ function TableauDeBord() {
         }
       }
     })();
-  }, [updateUser, user, loading, data]);
+  }, [loading, data]);
 
   /**
    *   On récupère la prochaine dépense
@@ -220,7 +227,12 @@ function TableauDeBord() {
         {loadingNotif
           ? <ActivityIndicator center margin={10} />
           : notifications?.map(
-            (notification) => notification && <NotificationCard notification={notification} />,
+            (notification) => notification && (
+            <NotificationCard
+              key={notification.id}
+              notification={notification}
+            />
+            ),
           )}
 
         <Text

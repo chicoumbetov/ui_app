@@ -18,7 +18,7 @@
       "function": {
         "omedomSESLayer": {
           "deploymentBucketName": "amplify-omedom-dev-233211-deployment",
-          "s3Key": "amplify-builds/omedomSESLayer-LambdaLayerVersion1a505744-build.zip"
+          "s3Key": "amplify-builds/omedomSESLayer-LambdaLayerVersion5cbe7a41-build.zip"
         },
         "omedomBudgetInsightLayer": {
           "deploymentBucketName": "amplify-omedom-dev-233211-deployment",
@@ -26,7 +26,7 @@
         },
         "omedomGraphQLLayer": {
           "deploymentBucketName": "amplify-omedom-dev-233211-deployment",
-          "s3Key": "amplify-builds/omedomGraphQLLayer-LambdaLayerVersiond85fa5b1-build.zip"
+          "s3Key": "amplify-builds/omedomGraphQLLayer-LambdaLayerVersion3b0c508d-build.zip"
         },
         "budgetinsight": {
           "deploymentBucketName": "amplify-omedom-dev-233211-deployment",
@@ -54,7 +54,7 @@
         },
         "shareRealEstate": {
           "deploymentBucketName": "amplify-omedom-dev-233211-deployment",
-          "s3Key": "amplify-builds/shareRealEstate-2f586c7634515a336665-build.zip"
+          "s3Key": "amplify-builds/shareRealEstate-34526b4949334b526d38-build.zip"
         },
         "omedomAuthorization": {
           "deploymentBucketName": "amplify-omedom-dev-233211-deployment",

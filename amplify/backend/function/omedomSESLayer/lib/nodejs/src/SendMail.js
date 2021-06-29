@@ -42,7 +42,7 @@ function sendTemplateEmail(recipientEmail, template, data) {
                 recipientEmail,
             ],
         },
-        TemplateData: JSON.stringify(data),
+        TemplateData: '{"name":"pedro"}',
     };
     return AWS_SES.sendTemplatedEmail(params).promise();
 }

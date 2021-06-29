@@ -329,6 +329,7 @@ function AjoutBienScreen() {
                   }}
                   withPreview
                   ratio={[1, 1]}
+                  maxWidth={300}
                 />
                 )}
               </Modal>

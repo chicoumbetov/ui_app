@@ -72,7 +72,12 @@ const NotificationsPage = () => {
       {loadingNotif
         ? <ActivityIndicator center margin={10} />
         : notifications?.map(
-          (notification) => notification && <NotificationCard notification={notification} />,
+          (notification) => notification && (
+          <NotificationCard
+            key={notification.id}
+            notification={notification}
+          />
+          ),
         )}
     </MaxWidthContainer>
   );

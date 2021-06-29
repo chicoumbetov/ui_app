@@ -12,6 +12,7 @@ const UserQueries_1 = require("/opt/nodejs/src/UserQueries");
 const AppSyncClient_1 = require("/opt/nodejs/src/AppSyncClient");
 const RealEstateMutation_1 = require("/opt/nodejs/src/RealEstateMutation");
 const SendMail_1 = require("/opt/nodejs/src/SendMail");
+const PendingInvitationQueries_1 = require("/opt/nodejs/src/PendingInvitationQueries");
 exports.handler = async (event) => {
     //eslint-disable-line
     console.log(JSON.stringify(event, null, 2));
@@ -22,8 +23,12 @@ exports.handler = async (event) => {
         // so, it will immediately continue.
         await promise;
         if (record.eventName === 'INSERT') {
-            const { email, type, realEstateId } = record.dynamodb.NewImage;
+            const { 
+            // eslint-disable-next-line @typescript-eslint/naming-convention
+            email, type, realEstateId, id, _version, } = record.dynamodb.NewImage;
+            console.log(record.dynamodb.NewImage);
             const user = await UserQueries_1.getUserByEmail(appSyncClient, email.S);
+            console.log('user :', user);
             if (user) {
                 const realEstate = await RealEstateMutation_1.getRealEstate(appSyncClient, realEstateId.S);
                 if (realEstate) {
@@ -53,9 +58,8 @@ exports.handler = async (event) => {
                             if (share === user.id) {
                                 return true;
                             }
-                            return false;
                         });
-                        if (exists === undefined) {
+                        if (exists === undefined || !exists) {
                             shared.push(user.id);
                         }
                         await RealEstateMutation_1.updateRealEstateMutation(appSyncClient, {
@@ -65,11 +69,15 @@ exports.handler = async (event) => {
                             _version: realEstate._version,
                         });
                     }
-                    await SendMail_1.sendTemplateEmail(email.S, 'TemplateMailLectureAvecCompte');
+                    await SendMail_1.sendTemplateEmail(email.S, 'TemplateMailLectureAvecCompte', { name: 'pierre' });
+                    await PendingInvitationQueries_1.deletePendingInvitations(appSyncClient, {
+                        id: id.S,
+                        _version: _version.N,
+                    });
                 }
             }
             else if (type.S === 'Admin') {
-                await SendMail_1.sendTemplateEmail(email.S, 'TemplateMailAdminSansCompteV2');
+                await SendMail_1.sendTemplateEmail(email.S, 'TemplateMailAdminSansCompteV2', { name: 'jhon' });
             }
             else {
                 await SendMail_1.sendTemplateEmail(email.S, 'TemplateMailLectureSansCompte');

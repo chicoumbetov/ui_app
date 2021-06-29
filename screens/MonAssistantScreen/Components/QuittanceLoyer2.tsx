@@ -102,18 +102,44 @@ const QuittanceLoyer2 = () => {
           const key = `quittance_${tenant.id}_${moment(route.params.date).format('MM/YYYY')}`;
           const document = await getDocumentByKey(client, key);
           // console.log('Quittance document', document);
-          if (document) {
+          // eslint-disable-next-line no-underscore-dangle
+          if (document && !document._deleted) {
             setNewDocument(document);
           } else {
+            const daysInHouse = documentEndDate.getDate() + 1 - documentStartDate.getDate();
+            // console.log('daysInHouse :', daysInHouse);
+
+            const prorata = (daysInHouse) / DateUtils.daysInMonth(
+              documentEndDate.getMonth(),
+              documentEndDate.getFullYear(),
+            );
+
+            // round but get number with 2 decimals
+            const rentalFee = Math.round(
+              prorata * (tenant.amount - (tenant?.rentalCharges || 0)) * 100,
+            ) / 100;
+            const charges = Math.round(prorata * (tenant?.rentalCharges || 0) * 100) / 100;
+            const total = rentalFee + charges;
+
+            // we pass the necessary data inside {} to template
+            // in order to generate it with these data
             const result = await pdfGenerator(pdfTemplateQuittance, {
-              bienget, user, tenant, date: moment(route.params.date).format('DD/MM/YYYY'), startDate, endDate,
+              bienget,
+              user,
+              tenant,
+              date: moment(route.params.date).format('DD/MM/YYYY'),
+              startDate,
+              endDate,
+              rentalFee,
+              charges,
+              total,
             });
 
             if (result !== false) {
               // console.log('result', result);
               const name = `Quittance_Loyer_${bienget.name}_${moment(route.params.date).format('MM/YYYY')}.pdf`;
               const s3file = await Upload(result, `realEstate/${bienget.id}/`, name);
-              // console.log(s3file);
+              // console.log('s3file:', s3file);
               if (s3file !== false && bienget.id) {
                 const doc = await createDocument.createDocument({
                   variables: {

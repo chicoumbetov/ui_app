@@ -8,12 +8,12 @@ const pdfGenerator = async (pdfTemplate: string, props: Object) => {
     base64: true,
   };
   try {
-    console.log('aaa');
+    // console.log('aaa');
     const results = await Print.printToFileAsync(options);
-    console.log(results.uri);
+    // console.log(results.uri);
     return results;
   } catch (error) {
-    console.log(error);
+    console.log('error pdfGenerator :', error);
     return false;
   }
 };

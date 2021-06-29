@@ -26,10 +26,13 @@ const OwnerCompte = (props: MonBienProps) => {
   const [checked, setChecked] = useState(false);
 
   const { bankMouvement } = useGetBankMovementsByBankAccountId(compte.id);
-  console.log('compte :', compte.realEstates?.items?.filter((item) => !item._deleted));
+  // console.log('compte :', compte.realEstates?.items?.filter((item) => !item._deleted));
   let bankAccountRealEstatate = false;
   if (compte.realEstates) {
-    compte.realEstates?.items?.map((item) => { if (!item._deleted) { bankAccountRealEstatate = true; } });
+    compte.realEstates?.items?.map((item) => {
+      // eslint-disable-next-line no-underscore-dangle
+      if (!item?._deleted) { bankAccountRealEstatate = true; }
+    });
   }
   const movementPasAffect = bankMouvement?.filter((item) => {
     if (item.ignored

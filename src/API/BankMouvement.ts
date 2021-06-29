@@ -2,7 +2,7 @@ import { DocumentNode } from 'apollo-link';
 import gql from 'graphql-tag';
 import { useMutation, useQuery } from 'react-apollo';
 import {
-  getBankMovement, listBankMovementsByBiId,
+  getBankMovement,
 } from '../graphql/queries';
 import {
   BankMovement,
@@ -12,16 +12,8 @@ import {
   GetBankMovementQueryVariables,
   UpdateBankMovementMutation,
   UpdateBankMovementMutationVariables,
-  ListRealEstatesQuery,
-  ListRealEstatesQueryVariables,
-  ListBankMovementsByBiIdQuery,
-  ListBankMovementsByBiIdQueryVariables,
-  RealEstateType,
-  CompanyType,
-  TaxType, InvitationType, BudgetLineType, Frequency,
 } from '../API';
 import * as mutations from '../graphql/mutations';
-import { useUser } from './UserContext';
 
 const getBankMovementsByBankAccountIdQuery = <DocumentNode>gql(`query GetBankMovementsByBankAccountId(
     $bankAccountId: ID

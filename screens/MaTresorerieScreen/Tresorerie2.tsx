@@ -4,7 +4,7 @@
  * @author: Shynggys UMBETOV
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Button, Text } from '@ui-kitten/components';
 import {
   Alert,
@@ -31,7 +31,6 @@ import {
   useCreateRealEstateBankAccount,
   useDeleteRealEstateBankAccount,
 } from '../../src/API/RealEstateBankAccount';
-import { ListBankAccountsQuery, RealEstate } from '../../src/API';
 
 const MaTresorerie2 = () => {
   // const [compte] = useState(comptesData);
@@ -40,7 +39,9 @@ const MaTresorerie2 = () => {
   const [newAccountLink, setNewAccountLink] = useState<string | undefined>();
   const [supprim, setSupprim] = useState(false);
   const [addingAccounts, setAddingAccounts] = useState(false);
-  const [checkedAccounts, setCheckedAccounts] = React.useState<Array<{ id:string, _version:number }>>([]);
+  const [checkedAccounts, setCheckedAccounts] = React.useState<Array<
+  { id: string, _version: number }
+  >>([]);
   // eslint-disable-next-line max-len
   const [checkedRealEstateAccounts, setCheckedRealEstateAccounts] = React.useState<Array<{ id:string, _version:number }>>([]);
 
@@ -53,18 +54,25 @@ const MaTresorerie2 = () => {
   const { bienget, refetch: refetchBien, loading: loadingBien } = useGetRealEstate(route.params.id);
   const { data } = useBankAccountList();
 
-  // console.log('------------------------', bienCharger?.bankAccounts?.items);
+  // console.log('------------------------', bienget.bankAccounts?.items);
 
-  const realEstateBankAccount = bienget.bankAccounts?.items?.filter((item) => { if (!item._deleted) { return item; } return false; });
-  console.log(bienget.bankAccounts?.items?.length);
+  const realEstateBankAccount = bienget.bankAccounts?.items?.filter((item) => {
+    // eslint-disable-next-line no-underscore-dangle
+    if (!item?._deleted) { return item; }
+    return false;
+  });
+  // console.log(bienget.bankAccounts?.items?.length);
 
-  const BankAccount = data?.listBankAccounts?.items?.filter((item) => { if (!item._deleted) { return item; } return false; });
+  const BankAccount = data?.listBankAccounts?.items?.filter((item) => {
+    // eslint-disable-next-line no-underscore-dangle
+    if (!item?._deleted) { return item; } return false;
+  });
 
   if (realEstateBankAccount && realEstateBankAccount.length === 0 && !toggle) {
     setToggle(true);
   }
-  console.log('bank account 1 :', data.listBankAccounts);
-  console.log('bank account 2 :', BankAccount);
+  // console.log('bank account 1 :', data?.listBankAccounts);
+  // console.log('bank account 2 :', BankAccount);
   let buttonText = '';
   if (toggle) {
     if (checkedAccounts.length <= 0) {
@@ -83,7 +91,7 @@ const MaTresorerie2 = () => {
   function supprimerCompte() {
     if (checkedRealEstateAccounts.length > 0) {
       checkedRealEstateAccounts.reduce(async (promise, current) => {
-        console.log('id1:', current.id);
+        // console.log('supprimerCompte id1:', current.id);
         await promise;
         await deleteRealEstateBankAccount({
           variables: {
@@ -104,6 +112,7 @@ const MaTresorerie2 = () => {
           variables: {
             input: {
               id: current.id,
+              // eslint-disable-next-line no-underscore-dangle
               _version: current._version,
             },
           },
@@ -167,7 +176,7 @@ const MaTresorerie2 = () => {
             </>
           ) : (
             <>
-              {BankAccount.map(
+              {BankAccount?.map(
                 (item) => item && (
                 <OwnerCompte
                   key={item.id}
@@ -177,6 +186,7 @@ const MaTresorerie2 = () => {
                   onCheck={(checked) => {
                     const nextCheckedAccounts = checkedAccounts.filter((id) => id.id !== item.id);
                     if (checked) {
+                      // eslint-disable-next-line no-underscore-dangle
                       nextCheckedAccounts.push({ id: item.id, _version: item._version });
                     }
                     // console.log('nextCheckedAccounts', nextCheckedAccounts);
@@ -318,5 +328,3 @@ const MaTresorerie2 = () => {
 };
 
 export default MaTresorerie2;
-
-// const styles = StyleSheet.create({ container: { } });

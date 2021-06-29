@@ -169,7 +169,7 @@ const ModifierInfo1 = () => {
           <View style={styles.buttonRight}>
             <Button
               onPress={modifierInfo1Form.handleSubmit(
-                (data) => onPress(data), (data) => console.log(data),
+                (data) => onPress(data), (data) => console.log('data of ModifierInfo 1', data),
               )}
               disabled={user === null}
               size="large"

@@ -4,7 +4,7 @@
  * @author: Shynggys UMBETOV
  */
 
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Icon, Text } from '@ui-kitten/components';
 
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
@@ -65,73 +65,66 @@ const MonBien = (props: MonBienProps) => {
    *
    */
   const currentYear = new Date().getFullYear();
-  const currentMonth = new Date().getMonth();
 
   const firstDayCurrentYear = new Date(new Date().getFullYear(), 0, 1);
   const lastDayCurrentYear = new Date(new Date().getFullYear(), 11, 31);
 
-  const allDataNextExpense = bienget?.budgetLineDeadlines?.items
-  && bienget?.budgetLineDeadlines?.items?.map((item) => {
-    // years for all existing Eau expenses in whole period
-    const allYears = DateUtils.parseToDateObj(item?.date).getFullYear();
-    const allMonths = DateUtils.parseToDateObj(item?.date).getMonth();
-
-    if (item?.type === BudgetLineType.Expense
-        // eslint-disable-next-line no-underscore-dangle
-        && !item?._deleted
-        && allYears === currentYear
-        && allMonths === currentMonth + 1
-    ) {
-      return item;
-    }
-    return false;
-  });
-
-  const nextexpense = allDataNextExpense?.map((d) => d?.amount)
-    .find((m) => m);
+  // budgetLines are already sorted in schema.graphql
+  // sortDirection: ASC
+  const nextexpense = bienget?.budgetLines?.items
+      && bienget?.budgetLines?.items.length > 0
+      && bienget?.budgetLines?.items[0]?.amount;
 
   /** Object with 3 attributes and its key */
-  const allCurrentCategories: {
-    [key: string]: { value: number, percentage: number, label: string }
-  } = {};
-
-  /**
-   * Get all expenses of current year
-   */
-  if (bienget?.budgetLineDeadlines?.items) {
-    bienget?.budgetLineDeadlines?.items.forEach((item) => {
-      // years for all existing Eau expenses in whole period
-      const allYears = DateUtils.parseToDateObj(item?.date).getFullYear();
-      if (item?.category
-          && allYears === currentYear
-          && item.type === BudgetLineType.Expense) {
-        /** If any expoense doesnt exist */
-        if (allCurrentCategories[item?.category] === undefined) {
-          /**
-           * initial values and then calculate percentage starting from 0
-           */
-          allCurrentCategories[item?.category] = {
-            value: item?.amount || 0,
-            percentage: 0,
-            label: item?.category,
-          };
-        } else {
-          /** else If any expoense exist then we add to allCurrentCategories variable */
-          allCurrentCategories[item?.category].value += item?.amount || 0;
+  const { allCurrentCategories } = useMemo(() => {
+    const allCurrentCategoriesInternal : {
+      [key: string]: { value: number, percentage: number, label: string }
+    } = {};
+    /**
+     * Get all expenses of current year
+     */
+    if (bienget?.budgetLineDeadlines?.items) {
+      bienget?.budgetLineDeadlines?.items.forEach((item) => {
+        // years for all existing Eau expenses in whole period
+        const allYears = DateUtils.parseToDateObj(item?.date).getFullYear();
+        if (item?.category
+            && allYears === currentYear
+            && item.type === BudgetLineType.Expense) {
+          /** If any expoense doesnt exist */
+          if (allCurrentCategoriesInternal[item?.category] === undefined) {
+            /**
+             * initial values and then calculate percentage starting from 0
+             */
+            allCurrentCategoriesInternal[item?.category] = {
+              value: item?.amount || 0,
+              percentage: 0,
+              label: item?.category,
+            };
+          } else {
+            /** else If any expoense exist then we add to allCurrentCategories variable */
+            allCurrentCategoriesInternal[item?.category].value += item?.amount || 0;
+          }
         }
-      }
+      });
+    }
+
+    const totalExpensesInternal = Object.values(allCurrentCategoriesInternal)
+      .reduce((t, { value }) => t + value, 0);
+
+    // percentages
+    Object.keys(allCurrentCategoriesInternal).forEach((property) => {
+      /** Get only percentage variable number that is coefficient from allCurrentCategories and
+       * convert to actual percentage according on total value */
+      allCurrentCategoriesInternal[property].percentage = Math
+        .round((allCurrentCategoriesInternal[property].value / totalExpensesInternal) * 100);
     });
-  }
 
-  const totalExpenses = Object.values(allCurrentCategories).reduce((t, { value }) => t + value, 0);
-
-  // percentages
-  Object.keys(allCurrentCategories).forEach((property) => {
-    /** Get only percentage variable number that is coefficient from allCurrentCategories and
-     * convert to actual percentage according on total value */
-    allCurrentCategories[property].percentage = Math
-      .round((allCurrentCategories[property].value / totalExpenses) * 100);
-  });
+    // if we need to use outside of useMemo
+    return {
+      totalExpenses: totalExpensesInternal,
+      allCurrentCategories: allCurrentCategoriesInternal,
+    };
+  }, [bienget.budgetLineDeadlines]);
 
   // console.log('allCurrentCategories Mon Bien', allCurrentCategories);
 
@@ -147,20 +140,11 @@ const MonBien = (props: MonBienProps) => {
     linkTo(`/mes-biens/bien/${id}`);
   };
 
-  const dernierMovement = bienget?.bankMovements?.items?.map(
-    (item) => { if (!item?.ignored) { return item; } },
-  );
-  // console.log('last Movement', bienget?.bankMovements);
+  // useMemo used if big O notation is expensive. higher than n to the power 2
+  const dernierMovement = useMemo(() => bienget?.bankMovements?.items?.find(
+    (item) => (!item?.ignored),
+  ), [bienget.bankMovements]);
 
-  /**
-   *
-   *
-   *   GRAPHIC II
-   *
-   *
-   */
-
-  // bienget.bankMovements?.items?.map((item) => console.log('bank Mouvement', item));
   return (
     <MaxWidthContainer
       withScrollView="keyboardAware"
@@ -211,7 +195,7 @@ const MonBien = (props: MonBienProps) => {
                       />
                     </View>
                     {dernierMovement ? (
-                      <Amount amount={dernierMovement[0]?.amount || 0} category="h4" />
+                      <Amount amount={dernierMovement?.amount || 0} category="h4" />
                     ) : (
                       <Amount amount={0} category="h4" />
                     )}
@@ -269,7 +253,7 @@ const MonBien = (props: MonBienProps) => {
                     <View style={styles.oneThirdBlock}>
                       <Text category="h6" appearance="hint" style={styles.text}>Dernier mouvement</Text>
                       {dernierMovement ? (
-                        <Amount amount={dernierMovement[0]?.amount || 0} category="h4" />
+                        <Amount amount={dernierMovement?.amount || 0} category="h4" />
                       ) : (<></>)}
 
                       <TouchableOpacity onPress={() => {}}>
@@ -308,16 +292,16 @@ const MonBien = (props: MonBienProps) => {
                       style={{ height: 18, width: 18, marginRight: 8 }}
                     />
                   </TouchableOpacity>
-                  {bienget?.budgetLineDeadlines?.items?.find((t) => t) && (
-                    <>
+                  <>
+                    {Object.keys(allCurrentCategories).length > 0 && (
                       <Graphics data={allCurrentCategories} />
-                      <GraphicsII
-                        dateStart={firstDayCurrentYear}
-                        dateEnd={lastDayCurrentYear}
-                        id={bienget.id}
-                      />
-                    </>
-                  )}
+                    )}
+                    <GraphicsII
+                      dateStart={firstDayCurrentYear}
+                      dateEnd={lastDayCurrentYear}
+                      id={bienget.id}
+                    />
+                  </>
                 </>
               )}
             </Card>
@@ -336,12 +320,6 @@ const styles = StyleSheet.create({
     marginTop: 12,
     paddingTop: 38,
     paddingHorizontal: 26,
-  },
-  containerBiens: {
-    backgroundColor: '#f6f6f6',
-    marginTop: 12,
-    paddingTop: 38,
-    paddingHorizontal: 23,
   },
 
   // Part I

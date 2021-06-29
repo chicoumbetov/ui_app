@@ -9,20 +9,7 @@ import VisibilitySensor from '@svanboxel/visibility-sensor-react-native';
 import { MotiView } from 'moti';
 import DateUtils from '../../utils/DateUtils';
 import { useListBankMovement } from '../../src/API/BankMouvement';
-
-const bankMovements = [
-  { date: '2021-01-21', amount: 500 },
-  { date: '2021-02-21', amount: -300 },
-  { date: '2021-04-21', amount: 1500 },
-  { date: '2021-03-21', amount: 500 },
-  { date: '2021-03-21', amount: -300 },
-  { date: '2021-04-21', amount: 1500 },
-  { date: '2021-03-21', amount: -500 },
-  { date: '2021-05-21', amount: -500 },
-  { date: '2021-03-21', amount: 2500 },
-  { date: '2021-06-21', amount: 500 },
-  { date: '2021-06-21', amount: -500 },
-];
+import { useGetRealEstate } from '../../src/API/RealEstate';
 
 type GraphicsIIProps = {
   dateStart: Date;
@@ -34,25 +21,32 @@ const GraphicsII = (props: GraphicsIIProps) => {
   const { dateStart, dateEnd, id } = props;
   const start = moment(dateStart).format('YYYY-MM-DDTHH:mm:ss').toString();
   const end = moment(dateEnd).format('YYYY-MM-DDTHH:mm:ss').toString();
-  console.log(start, end, id);
+  // console.log(start, end, id);
   const listBankMovement = useListBankMovement(id, start, end);
-  console.log('oui oui :', listBankMovement);
+  const { bienget } = useGetRealEstate(id);
+
+  const bankMovements = bienget?.bankMovements?.items;
   const theme = useTheme();
   const [width, setWidth] = useState(0);
   const [shown, setShown] = useState(false);
+  console.log('bankMovements :', bankMovements);
+
+  if (!bankMovements) {
+    return (<></>);
+  }
 
   /** Object with 3 attributes and its key */
-  const evolutionData: [
-    {
-      moisLabel: string,
-      moisStart: Date,
-      moisEnd : Date,
-      income: number,
-      expense:number,
-      delta: number,
-      cumul:number,
-    },
-  ] = [];
+  const evolutionData: Array<
+  {
+    moisLabel: string,
+    moisStart: Date,
+    moisEnd : Date,
+    income: number,
+    expense:number,
+    delta: number,
+    cumul:number,
+  }
+  > = [];
 
   let currentMonthDate = new Date(dateStart.getTime());
   currentMonthDate.setDate(1);
@@ -75,13 +69,15 @@ const GraphicsII = (props: GraphicsIIProps) => {
 
   evolutionData.forEach(({ moisStart, moisEnd }, i) => {
     bankMovements.forEach((item) => {
-      const itemDate = DateUtils.parseToDateObj(item.date);
-      if (itemDate >= moisStart && itemDate <= moisEnd) {
-        evolutionData[i].delta += item.amount;
-        if (item.amount < 0) {
-          evolutionData[i].expense += item.amount;
-        } else {
-          evolutionData[i].income += item.amount;
+      if (item) {
+        const itemDate = DateUtils.parseToDateObj(item.date);
+        if (itemDate >= moisStart && itemDate <= moisEnd) {
+          evolutionData[i].delta += item.amount;
+          if (item.amount < 0) {
+            evolutionData[i].expense += item.amount;
+          } else {
+            evolutionData[i].income += item.amount;
+          }
         }
       }
     });

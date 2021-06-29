@@ -114,7 +114,7 @@ function DetailsBien() {
   };
   // console.log('pending invitation: ', bienget?.pendingInvitations?.items);
   const allerTresorerie = () => {
-    linkTo(`/ma-tresorerie/ma-tresorerie-2/${route.params.id}`);
+    linkTo(`/ma-tresorerie/${route.params.id}/mes-comptes/`);
   };
 
   const allerMesRapports = () => {
@@ -257,6 +257,8 @@ function DetailsBien() {
     }
   };
 
+  // budgetLines are already sorted in schema.graphql
+  // sortDirection: ASC
   const nextexpense = bienget?.budgetLines?.items
       && bienget?.budgetLines?.items.length > 0
       && bienget?.budgetLines?.items[0]?.amount;

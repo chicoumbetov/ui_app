@@ -22,7 +22,11 @@ import moment from 'moment';
 import Icon from '../../components/Icon';
 import MaxWidthContainer from '../../components/MaxWidthContainer';
 
-import { useDeleteRealEstateMutation, useGetRealEstate } from '../../src/API/RealEstate';
+import {
+  useDeleteRealEstateMutation,
+  useGetRealEstate,
+  useUpdateRealEstateMutation,
+} from '../../src/API/RealEstate';
 import { TabMesBiensParamList } from '../../types';
 
 import Card from '../../components/Card';
@@ -40,6 +44,7 @@ import ActivityIndicator from '../../components/ActivityIndicator';
 import UserSharedCard from './Components/UserSharedCard';
 import { useDeleteTenantMutation } from '../../src/API/Tenant';
 import Camera from '../../components/Camera';
+import { PendingInvitation } from '../../src/API';
 
 function DetailsBien() {
   const navigation = useNavigation();
@@ -51,11 +56,14 @@ function DetailsBien() {
   const createDocument = useCreateDocumentMutation();
   // console.log('detail bien document', documentList);
   const [supprim, setSupprim] = useState(false);
+  const [supprimInvitation, setSupprimInvitation] = useState(false);
 
   const [typeRevenu, setTypeRevenu] = useState<string>();
   // console.log(route.params.id);
 
   const [checkedTenant, setCheckedTenant] = useState<string[]>([]);
+  const [checkedAdmins, setCheckedAdmins] = useState<string[]>([]);
+  const [checkedShare, setCheckedShare] = useState<string[]>([]);
   const [checkedDocument, setCheckedDocument] = useState<
   Array<{ id: string, _version: number }
   >>([]);
@@ -196,6 +204,58 @@ function DetailsBien() {
       setSupprim(false);
     }
   };
+  const updateRealEstate = useUpdateRealEstateMutation();
+  const supprimerAdminShare = async () => {
+    if (checkedAdmins.length > 0) {
+      Alert.alert(
+        'Suppression de partage de bien',
+        '',
+        [{
+          text: 'Annuler',
+          style: 'cancel',
+        },
+        {
+          text: 'Valider',
+          onPress: async () => {
+            if (checkedAdmins.length > 0 || checkedShare.length > 0) {
+              const promises = checkedAdmins.map(async (idAdmins) => {
+                const admins = bienget.admins.filter((admin) => admin !== idAdmins);
+                await updateRealEstate.updateRealEstate({
+                  variables: {
+                    input: {
+                      id: bienget.id,
+                      admins,
+                      // eslint-disable-next-line no-underscore-dangle
+                      _version: bienget._version,
+                    },
+                  },
+                });
+              });
+              await Promise.all(promises);
+            }
+            if (checkedShare.length > 0) {
+              const promises = checkedShare.map(async (idShare) => {
+                const shared = bienget?.shared?.filter((share) => share !== idShare);
+                await updateRealEstate.updateRealEstate({
+                  variables: {
+                    input: {
+                      id: bienget.id,
+                      shared,
+                      // eslint-disable-next-line no-underscore-dangle
+                      _version: bienget._version,
+                    },
+                  },
+                });
+              });
+              await Promise.all(promises);
+            }
+          },
+        }],
+      );
+    } else {
+      setSupprim(false);
+    }
+  };
 
   const nextexpense = bienget?.budgetLines?.items
       && bienget?.budgetLines?.items.length > 0
@@ -205,7 +265,11 @@ function DetailsBien() {
     (item) => { if (item?.ignored) { return false; } return true; },
   );
   // console.log('last Movement', dernierMovement);
-
+  let invitationAttente : (PendingInvitation | null)[];
+  if (bienget?.pendingInvitations?.items) {
+    invitationAttente = bienget?.pendingInvitations?.items.filter((item) => !item._deleted);
+  }
+  console.log('pending : ', invitationAttente);
   return (
     <MaxWidthContainer
       withScrollView="keyboardAware"
@@ -720,14 +784,71 @@ function DetailsBien() {
           Partager votre bien
         </Text>
         {bienget?.admins.map((idAdmin) => (
-          <UserSharedCard idUser={idAdmin} admin key={idAdmin} />
+          <UserSharedCard
+            idUser={idAdmin}
+            admin
+            key={idAdmin}
+            checked={checkedAdmins.indexOf(idAdmin) > -1}
+            supprimer={supprimInvitation}
+            onCheck={(checked) => {
+              const nextCheckedAccounts = checkedAdmins.filter((thisId) => thisId !== idAdmin);
+              if (checked) {
+                nextCheckedAccounts.push(idAdmin);
+              }
+              //   console.log('nextCheckedAccounts', nextCheckedAccounts);
+              setCheckedAdmins(nextCheckedAccounts);
+            }}
+          />
         ))}
         {bienget?.shared?.map((idShare) => (
-          <UserSharedCard idUser={idShare} admin={false} key={idShare} />
+          <UserSharedCard
+            idUser={idShare}
+            admin={false}
+            key={idShare}
+            checked={checkedAdmins.indexOf(idShare) > -1}
+            supprimer={supprimInvitation}
+            onCheck={(checked) => {
+              const nextCheckedAccounts = checkedAdmins.filter((thisId) => thisId !== idShare);
+              if (checked) {
+                nextCheckedAccounts.push(idShare);
+              }
+              // console.log('nextCheckedAccounts', nextCheckedAccounts);
+              setCheckedShare(nextCheckedAccounts);
+            }}
+          />
         ))}
-        {bienget?.pendingInvitations?.items?.map((pending) => (
-          pending?.type === 'Admin' ? (<UserSharedCard email={pending.email} admin />) : (
-            <UserSharedCard email={pending?.email} admin={false} key={pending?.id} />
+        {invitationAttente?.map((pending) => (
+          pending?.type === 'Admin' ? (
+            <UserSharedCard
+              email={pending.email}
+              admin
+              checked={checkedAdmins.indexOf(idShare) > -1}
+              supprimer={supprimInvitation}
+              onCheck={(checked) => {
+                const nextCheckedAccounts = checkedAdmins.filter((thisId) => thisId !== idShare);
+                if (checked) {
+                  nextCheckedAccounts.push(idShare);
+                }
+                // console.log('nextCheckedAccounts', nextCheckedAccounts);
+                setCheckedAdmins(nextCheckedAccounts);
+              }}
+            />
+          ) : (
+            <UserSharedCard
+              email={pending?.email}
+              admin={false}
+              key={pending?.id}
+              checked={checkedAdmins.indexOf(idShare) > -1}
+              supprimer={supprimInvitation}
+              onCheck={(checked) => {
+                const nextCheckedAccounts = checkedAdmins.filter((thisId) => thisId !== idShare);
+                if (checked) {
+                  nextCheckedAccounts.push(idShare);
+                }
+                // console.log('nextCheckedAccounts', nextCheckedAccounts);
+                setCheckedAdmins(nextCheckedAccounts);
+              }}
+            />
           )
         ))}
         {!readOnly && (
@@ -740,7 +861,8 @@ function DetailsBien() {
           </TouchableOpacity>
 
           <TouchableOpacity onPress={() => {
-            // console.log(useGetInvitateUser.userList);
+            supprimerAdminShare();
+            setSupprimInvitation(!supprimInvitation);
           }}
           >
             <Text category="h5" status="basic" style={styles.buttonText}>Supprimer</Text>

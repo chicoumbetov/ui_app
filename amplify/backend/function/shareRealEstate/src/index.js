@@ -50,6 +50,7 @@ exports.handler = async (event) => {
                             // eslint-disable-next-line no-underscore-dangle
                             _version: realEstate._version,
                         });
+                        console.log('admins :', admins);
                         await SendMail_1.sendTemplateEmail(email.S, 'TemplateMailAdminAvecCompte');
                     }
                     else {

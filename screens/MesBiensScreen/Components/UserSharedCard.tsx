@@ -1,4 +1,4 @@
-import { Text } from '@ui-kitten/components';
+import { CheckBox, Text } from '@ui-kitten/components';
 import React from 'react';
 import { View } from 'react-native';
 
@@ -9,18 +9,32 @@ import { useGetUser } from '../../../src/API/User';
 import ActivityIndicator from '../../../components/ActivityIndicator';
 
 import AutoAvatar from '../../../components/AutoAvatar';
+import { useUser } from '../../../src/API/UserContext';
 
-type MonBudgetProps = { idUser?: string, admin?: boolean, email?: string };
+type MonBudgetProps = { idUser?: string,
+  admin?: boolean,
+  email?: string,
+  supprimer?: boolean,
+  onCheck?: (checked: boolean) => void,
+  checked?: boolean };
 
 const UserSharedCard = (props: MonBudgetProps) => {
   const {
-    idUser, admin, email,
+    idUser, supprimer = false, admin, email, checked = false, onCheck,
   } = props;
   // const theme = useTheme();
 
   const { user, loading } = useGetUser(idUser);
   // console.log('idUser', email);
-
+  let name : string;
+  if (user) {
+    name = `${user.firstname} ${user.lastname}`;
+  }
+  const thisUser = useUser();
+  let isCurrentUser = false;
+  if (user.id === thisUser.user?.id) {
+    isCurrentUser = true;
+  }
   return (
 
     <MaxWidthContainer
@@ -51,6 +65,8 @@ const UserSharedCard = (props: MonBudgetProps) => {
             alignItems: 'center',
             paddingHorizontal: 22,
             paddingTop: 20,
+            borderWidth: checked ? (1) : (0),
+            borderColor: 'red',
           }}
         >
           <AutoAvatar
@@ -64,10 +80,22 @@ const UserSharedCard = (props: MonBudgetProps) => {
               overflow: 'hidden',
             }}
           />
-
+          {supprimer && !isCurrentUser && (
+          <View style={{ justifyContent: 'center', paddingHorizontal: 14, width: 50 }}>
+            <CheckBox
+              checked={checked}
+              status="danger"
+              onChange={(nextChecked) => {
+                if (onCheck) {
+                  onCheck(nextChecked);
+                }
+              }}
+            />
+          </View>
+          )}
           <View style={{ flexDirection: 'column' }}>
             <Text category="p1" status="basic">
-              {user?.firstname || email}
+              {name || email}
             </Text>
             <Text category="p2" appearance="hint">
               {admin ? ('Admin') : ('Lecture Seule')}

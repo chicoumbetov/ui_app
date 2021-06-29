@@ -8,7 +8,7 @@ import {
   DeletePendingInvitationMutation,
   DeletePendingInvitationMutationVariables,
   GetPendingInvitationQuery,
-  GetPendingInvitationQueryVariables,
+  GetPendingInvitationQueryVariables, GetRealEstateQueryVariables,
   ListPendingInvitationsQuery,
   ListPendingInvitationsQueryVariables,
   PendingInvitation,
@@ -18,6 +18,7 @@ import {
   getPendingInvitation,
   listPendingInvitations,
 } from '../graphql/queries';
+import { getRealEstateQuery, GetRealEstateQuery } from './RealEstate';
 
 export function useCreatePendingInvitationMutation() {
   const [createPendingInvitation, { loading: mutationLoading }] = useMutation<CreatePendingInvitationMutation,
@@ -27,7 +28,43 @@ export function useCreatePendingInvitationMutation() {
 
 export function useDeletePendingInvitationMutation() {
   const [deletePendingInvitation, { loading: mutationLoading }] = useMutation<DeletePendingInvitationMutation,
-  DeletePendingInvitationMutationVariables>(gql(mutations.deletePendingInvitation));
+  DeletePendingInvitationMutationVariables>(gql(mutations.deletePendingInvitation), {
+    update: (cache, { data: mutationData }) => {
+      if (mutationData) {
+        const { deletePendingInvitation: newData } = mutationData;
+        if (newData) {
+          // Read query from cache
+          const cacheData = cache.readQuery<GetRealEstateQuery, GetRealEstateQueryVariables>({
+            query: getRealEstateQuery,
+            variables: {
+              id: newData.realEstateId,
+            },
+          });
+
+          // Add newly created item to the cache copy
+          if (cacheData && cacheData.getRealEstate && cacheData.getRealEstate.pendingInvitations) {
+            cacheData
+              .getRealEstate
+              .pendingInvitations
+              .items = cacheData
+                .getRealEstate
+                .pendingInvitations
+                ?.items
+                ?.filter((item) => item?.id !== newData.id);
+
+            // Overwrite the cache with the new results
+            cache.writeQuery<GetRealEstateQuery, GetRealEstateQueryVariables>({
+              query: getRealEstateQuery,
+              variables: {
+                id: newData.realEstateId,
+              },
+              data: cacheData,
+            });
+          }
+        }
+      }
+    },
+  });
   return { deletePendingInvitation, mutationLoading };
 }
 

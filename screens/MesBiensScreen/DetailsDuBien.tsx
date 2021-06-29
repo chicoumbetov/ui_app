@@ -56,7 +56,9 @@ function DetailsBien() {
   // console.log(route.params.id);
 
   const [checkedTenant, setCheckedTenant] = useState<string[]>([]);
-  const [checkedDocument, setCheckedDocument] = useState<string[]>([]);
+  const [checkedDocument, setCheckedDocument] = useState<
+  Array<{ id: string, _version: number }
+  >>([]);
 
   const readOnly = ReadOnly.readOnly(route.params.id);
   /**
@@ -175,13 +177,13 @@ function DetailsBien() {
         {
           text: 'Valider',
           onPress: async () => {
-            const promises = checkedDocument.map(async (docId) => {
+            const promises = checkedDocument.map(async (doc) => {
               await deleteDoc({
                 variables: {
                   input: {
-                    id: docId,
+                    id: doc.id,
                     // eslint-disable-next-line no-underscore-dangle
-                    _version: bienget._version,
+                    _version: doc._version,
                   },
                 },
               });
@@ -555,16 +557,18 @@ function DetailsBien() {
                 Documents
               </Text>
               {bienget?.documents?.items?.map(
-                (item) => item && (
+                // eslint-disable-next-line no-underscore-dangle
+                (item) => item && !item._deleted && (
                 <DocumentComponent
                   key={item?.id}
                   document={item}
-                  checked={checkedDocument.indexOf(item.id) > -1}
+                  checked={checkedDocument.find(({ id }) => (id === item.id)) !== undefined}
                   supprimer={supprim}
                   onCheck={(checked) => {
                     const nextCheckedAccounts = checkedDocument.filter((id) => id !== item.id);
                     if (checked) {
-                      nextCheckedAccounts.push(item.id);
+                      // eslint-disable-next-line no-underscore-dangle
+                      nextCheckedAccounts.push({ id: item.id, _version: item._version });
                     }
                     // console.log('nextCheckedAccounts', nextCheckedAccounts);
                     setCheckedDocument(nextCheckedAccounts);
@@ -586,15 +590,15 @@ function DetailsBien() {
                             // get document from gallery of phone
                             const doc = await DocumentPicker.getDocumentAsync();
                             // doc has 4 attributes : name, size, type: 'success', uri
-                            console.log('doc ajouter:', doc);
+                            // console.log('doc ajouter:', doc);
                             const name = doc.type === 'success' ? doc.name : '';
-                            console.log('name ajouter: ', name);
+                            // console.log('name ajouter: ', name);
                             if (doc.type === 'success') {
                               setUploading(true);
                               // upload chosen document from gallery to s3
                               const s3file = await Upload(doc, `biens/${route.params.id}/documents/`);
                               if (s3file !== false && route.params.id) {
-                                console.log('s3file ajouter: ', s3file);
+                                // console.log('s3file ajouter: ', s3file);
                                 // const doc =
                                 await createDocument.createDocument({
                                   variables: {
@@ -636,7 +640,7 @@ function DetailsBien() {
                 <TouchableOpacity
                   onPress={() => onTakePicture()}
                 >
-                  <Text category="h5" status="info" style={styles.buttonText}>Prendre un photo</Text>
+                  <Text category="h5" status="info" style={styles.buttonText}>Prendre une photo</Text>
                 </TouchableOpacity>
               </View>
               )}
@@ -657,9 +661,9 @@ function DetailsBien() {
                       setCamera(false);
                       setUploading(true);
                       // setImage(result.uri);
-                      console.log('result:', result);
+                      // console.log('result:', result);
                       const s3file = await Upload(result, `biens/${route.params.id}/documents/`);
-                      console.log('s3file :', s3file);
+                      // console.log('s3file :', s3file);
                       // s3fil has 4 attributes: key, name, originalFilename: undefined, uri
                       if (s3file !== false && route.params.id) {
                         // const doc =

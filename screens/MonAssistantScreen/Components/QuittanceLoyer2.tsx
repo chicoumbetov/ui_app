@@ -25,6 +25,7 @@ import { useUser } from '../../../src/API/UserContext';
 import { pdfTemplateQuittance } from '../../../pdfTemplates/index';
 import DocumentComponent from '../../../components/DocumentComponent';
 import DateUtils from '../../../utils/DateUtils';
+import { BudgetLineDeadline } from '../../../src/API';
 
 const QuittanceLoyer2 = () => {
   const route = useRoute<RouteProp<TabMonAssistantParamList, 'quittance-loyer-2'>>();
@@ -63,13 +64,39 @@ const QuittanceLoyer2 = () => {
   bailEndDate.setHours(0, 0, 0, 0);
 
   const paramsDate = DateUtils.parseToDateObj(route.params.date);
-
-  // console.log('bailStartDate', moment(bailStartDate).format('DD/MM/YYYY'));
-  // console.log('bailEndDate', moment(bailEndDate).format('DD/MM/YYYY'));
   // console.log('route.params : ', moment(route.params.date).format('DD/MM/YYYY'));
 
   // console.log('compare:',
   // moment(bailEndDate).format('DD/MM/YYYY') >= moment(route.params.date).format('DD/MM/YYYY'));
+
+  let budgetLine : BudgetLineDeadline;
+
+  /**
+   *  route.params.idTenant - chosen tenant from previous page
+   *  item?.tenantId        - tenant from budgetLineDeadline, guy that pays this rent;
+   *
+   *  paramsDate - chosen date from previous page
+   *  dateBudgetLine - date from budgetLIneDeadline,
+   *  date when tenant pay his rent every month
+   *
+   *
+   * Show only those budgetLine that correspond to chosen Tenant
+   * and only affected ones for period that is demanded
+   */
+  bienget.budgetLineDeadlines?.items?.map(
+    (item) => {
+      const dateBudgetLine = DateUtils.parseToDateObj(item?.date);
+      console.log('budgetLines', item);
+      console.log('paramsDate', paramsDate);
+      if (item?.tenantId === route.params.idTenant
+      && dateBudgetLine.getMonth() === paramsDate.getMonth()
+      ) {
+        budgetLine = item;
+      }
+    },
+  );
+
+  console.log('budgetLine:', budgetLine);
 
   useEffect(() => {
     (async () => {
@@ -78,6 +105,7 @@ const QuittanceLoyer2 = () => {
         documentDate.setHours(0, 0, 0, 0);
 
         if (tenant) {
+          console.log('asyyync');
           /** Set document date on first day of month */
           let documentStartDate = new Date(documentDate.valueOf());
           documentStartDate.setDate(1);
@@ -92,9 +120,10 @@ const QuittanceLoyer2 = () => {
           if (documentStartDate < bailStartDate) {
             documentStartDate = bailStartDate;
           }
-          if (documentEndDate > bailEndDate) {
+          if (documentEndDate >= bailEndDate) {
             documentEndDate = bailEndDate;
           }
+          console.log('documentEndDate', documentEndDate);
 
           const startDate = moment(documentStartDate).format('DD/MM/YYYY');
           const endDate = moment(documentEndDate).format('DD/MM/YYYY');
@@ -102,23 +131,19 @@ const QuittanceLoyer2 = () => {
           const key = `quittance_${tenant.id}_${moment(route.params.date).format('MM/YYYY')}`;
           const document = await getDocumentByKey(client, key);
           // console.log('Quittance document', document);
+
           // eslint-disable-next-line no-underscore-dangle
           if (document && !document._deleted) {
             setNewDocument(document);
-          } else {
-            const daysInHouse = documentEndDate.getDate() + 1 - documentStartDate.getDate();
-            // console.log('daysInHouse :', daysInHouse);
-
-            const prorata = (daysInHouse) / DateUtils.daysInMonth(
-              documentEndDate.getMonth(),
-              documentEndDate.getFullYear(),
-            );
-
-            // round but get number with 2 decimals
-            const rentalFee = Math.round(
-              prorata * (tenant.amount - (tenant?.rentalCharges || 0)) * 100,
-            ) / 100;
-            const charges = Math.round(prorata * (tenant?.rentalCharges || 0) * 100) / 100;
+          } else if (budgetLine) {
+            /**
+                *
+                * We don't need to know how long tenant lived in house since we will DIRECTLY show
+                * his expenses, mouvement that he made on his bank when he pay to houseHolder
+                *
+                */
+            const rentalFee = budgetLine.amount - (budgetLine.rentalCharges || 0);
+            const charges = budgetLine.rentalCharges || 0;
             const total = rentalFee + charges;
 
             // we pass the necessary data inside {} to template
@@ -175,17 +200,38 @@ const QuittanceLoyer2 = () => {
       </View>
 
       <Separator />
+      {/**
+       First: check if doc exist
+
+       Second: check if tenant lived in chosen period
+
+       Third: check if houseHolder affected real mouvements
+       to created mouvements in MonBudget section
+       */}
       {newDocument
         ? (
-
           <>
             { (bailStartDate <= paramsDate
-                && bailEndDate >= paramsDate)
+                && paramsDate <= bailEndDate)
               ? (
-                <View style={{ paddingHorizontal: 27 }}>
-                  <Text category="h2" style={{ marginVertical: 30 }}>Votre document est prêt</Text>
-                  <DocumentComponent document={newDocument} />
-                </View>
+                <>
+                  {budgetLine.bankMouvementId ? (
+                    <>
+                      <View style={{ paddingHorizontal: 27 }}>
+                        <Text category="h2" style={{ marginVertical: 30 }}>Votre document est prêt</Text>
+                        <DocumentComponent document={newDocument} />
+                      </View>
+                    </>
+                  ) : (
+                    <>
+                      <Text style={{ padding: 27, paddingBottom: 5 }}>
+                        {/* eslint-disable-next-line max-len */}
+                        Vous n’avez pas encore perçu le loyer (ou avez oublié d’affecter le mouvement bancaire)
+                      </Text>
+
+                    </>
+                  )}
+                </>
               ) : (
                 <>
                   <Text style={{ padding: 27, paddingBottom: 5 }}>
@@ -205,7 +251,13 @@ const QuittanceLoyer2 = () => {
               flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 30, paddingHorizontal: 27,
             }}
             >
-              <ActivityIndicator />
+              <Text>
+                Il n'est pas possible de générer une quittance de loyer pour une date ultérieure à aujourd'hui.
+              </Text>
+              <Text style={{ paddingHorizontal: 27 }}>
+                {`${tenant?.lastname} ${tenant?.firstname} a été locataire de votre bien sur la période du  ${moment(bailStartDate).format('DD/MM/YYYY')} au ${moment(bailEndDate).format('DD/MM/YYYY')} `}
+              </Text>
+              {/** <ActivityIndicator /> */}
             </View>
           </>
         )}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Text, useTheme } from '@ui-kitten/components';
 
 import { View } from 'react-native';
@@ -29,7 +29,64 @@ const MesCharges3 = () => {
   /** 22222222222 */
   const biensDetails = useRealEstateList();
 
-  /** 33333333333 */
+  const { allCurrentCategories } = useMemo(() => {
+    // 3333333333
+    const fullSortExpenseInternal = biensDetails.data?.listRealEstates?.items?.map(
+      (item) => (item && {
+        ...item,
+        totalValue: item?.budgetLineDeadlines?.items?.filter((x) => (x
+          && x?.category === title
+        // eslint-disable-next-line no-underscore-dangle
+        && !x._deleted
+        && DateUtils.parseToDateObj(x.date) >= range.startDate
+        && DateUtils.parseToDateObj(x.date) <= range.endDate))
+          .reduce((t, x) => t + (x ? x.amount : 0), 0),
+      }),
+    );
+
+    const allCurrentCategoriesInternal: {
+      [key: string]: { value: number, percentage: number, label: string, icon?: string }
+    } = {};
+
+    // 66666666
+    if (fullSortExpenseInternal) {
+      fullSortExpenseInternal.forEach((item) => {
+      // console.log('maison', item);
+        if (item) {
+          allCurrentCategoriesInternal[item.name] = {
+            value: item.totalValue || 0,
+            percentage: 0,
+            label: item.name,
+            icon: item.iconUri,
+          };
+        }
+      });
+    }
+
+    // 4444444
+    const totalExpensesInternal = Object.values(allCurrentCategoriesInternal)
+      .reduce((t, { value }) => t + value, 0);
+    // console.log('totalExpenses', totalExpensesInternal);
+
+    // 55555
+    // percentages
+    Object.keys(allCurrentCategoriesInternal).forEach((property) => {
+    // Get only percentage variable number that is coefficient from allCurrentCategories and
+      // convert to actual percentage according on total value
+      allCurrentCategoriesInternal[property].percentage = Math
+        .round((allCurrentCategoriesInternal[property].value / totalExpensesInternal) * 100);
+    });
+
+    // if we need to use outside of useMemo
+    return {
+      totalExpenses: totalExpensesInternal,
+      allCurrentCategories: allCurrentCategoriesInternal,
+      fullSortExpense: fullSortExpenseInternal,
+    };
+  }, [biensDetails.data?.listRealEstates]);
+
+  /**
+  // 33333333333
   const fullSortExpense = biensDetails.data?.listRealEstates?.items?.map(
     (item) => (item && {
       ...item,
@@ -43,12 +100,12 @@ const MesCharges3 = () => {
     }),
   );
 
-  /** Object with 3 attributes and its key */
+  // Object with 3 attributes and its key
   const allCurrentCategories: {
     [key: string]: { value: number, percentage: number, label: string, icon?: string }
   } = {};
 
-  /** 66666666 */
+  // 66666666
   if (fullSortExpense) {
     fullSortExpense.forEach((item) => {
       // console.log('maison', item);
@@ -63,19 +120,20 @@ const MesCharges3 = () => {
     });
   }
 
-  /** 4444444 */
+  // 4444444
   const totalExpenses = Object.values(allCurrentCategories)
     .reduce((t, { value }) => t + value, 0);
   // console.log('totalExpenses', totalExpenses);
 
-  /** 55555 */
+  // 55555
   // percentages
   Object.keys(allCurrentCategories).forEach((property) => {
-    /** Get only percentage variable number that is coefficient from allCurrentCategories and
-     * convert to actual percentage according on total value */
+    // Get only percentage variable number that is coefficient from allCurrentCategories and
+     //convert to actual percentage according on total value
     allCurrentCategories[property].percentage = Math
       .round((allCurrentCategories[property].value / totalExpenses) * 100);
   });
+  */
 
   // console.log('fullSortExpense', fullSortExpense);
   // console.log('allCurrentCategories', allCurrentCategories);

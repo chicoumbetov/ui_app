@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { View } from 'react-native';
 import { Text, useTheme } from '@ui-kitten/components';
 
@@ -18,10 +18,13 @@ const Graphics = ({ data }: MesBiensDataProps) => {
 
   /** To avoid displayment of values equal to 0 */
   // .filter((y) => y > 0)
-  const [victorydata, setVictoryData] = useState(Object.entries(data).map(
-    (item, index) => (
-      { x: 0, y: index === 0 ? 100 : 0, i: item[1].label }),
-  ));
+
+  const [victorydata, setVictoryData] = useState(
+    Object.entries(data).map(
+      (item, index) => (
+        { x: 0, y: index === 0 ? 100 : 0, i: item[1].label }),
+    ),
+  );
   // console.log('data :', data);
 
   useEffect(() => {

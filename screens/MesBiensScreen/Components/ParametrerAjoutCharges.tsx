@@ -40,6 +40,7 @@ type ParamBudgetForm = {
   category: string,
   category2?: string,
   amount: number,
+  householdWaste?: number,
   frequency: Frequency,
   nextDueDate?: string | null,
   infoCredit?: {
@@ -69,6 +70,7 @@ const ParametrerAjoutCharges = () => {
   const [frequenceShow, setFrequenceShow] = useState(false);
   const [montantShow, setMontantShow] = useState(false);
   const [taxShow, setTaxShow] = useState(false);
+  const [taxFonciereShow, setTaxFonciereShow] = useState(false);
   const [assuranceShow, setAssuranceShow] = useState(false);
   const [banqueShow, setBanqueShow] = useState(false);
   const [diversShow, setDiversShow] = useState(false);
@@ -113,7 +115,7 @@ const ParametrerAjoutCharges = () => {
   const validateCharge = async (data: ParamBudgetForm) => {
     let category1: string;
     const {
-      category, category2, amount, frequency, nextDueDate, infoCredit,
+      category, category2, amount, frequency, nextDueDate, infoCredit, householdWaste,
     } = data;
     if ((category === 'Impôts' || category === 'Assurance' || category === 'Banque') && category2) {
       category1 = category2;
@@ -131,6 +133,7 @@ const ParametrerAjoutCharges = () => {
             frequency,
             nextDueDate,
             infoCredit,
+            householdWaste,
             _version: currentBudgetLine._version,
           },
         },
@@ -145,6 +148,7 @@ const ParametrerAjoutCharges = () => {
             frequency,
             nextDueDate,
             infoCredit,
+            householdWaste,
             type: BudgetLineType.Expense,
           },
         },
@@ -161,6 +165,7 @@ const ParametrerAjoutCharges = () => {
                 category,
                 amount: -Math.abs(amount),
                 frequency,
+                householdWaste,
                 date: DateUtils.addMonths(nextDueDate, -DateUtils.frequencyToMonths(frequency) * i),
               },
             },
@@ -262,6 +267,13 @@ const ParametrerAjoutCharges = () => {
                     size="large"
                     appearance="default"
                     status="primary"
+                    onChangeValue={(v) => {
+                      if (v === 'Taxes Foncières') {
+                        setTaxFonciereShow(true);
+                      } else {
+                        setTaxFonciereShow(false);
+                      }
+                    }}
                   />
                 </View>
               ) : (<></>)}
@@ -274,6 +286,7 @@ const ParametrerAjoutCharges = () => {
                     size="large"
                     appearance="default"
                     status="primary"
+
                   />
                 </View>
               ) : (<></>)}
@@ -392,7 +405,24 @@ const ParametrerAjoutCharges = () => {
                 />
                 <Text category="h4" style={{ marginLeft: 19 }}> €</Text>
               </MotiView>
-
+              {taxFonciereShow ? (
+                <>
+                  <Text>Dont Ordures ménagères</Text>
+                  <MotiView
+                    animate={{ height: (montantShow ? 75 : 0) }}
+                    style={{ overflow: 'hidden', flexDirection: 'row', alignItems: 'center' }}
+                    transition={{ type: 'timing', duration: 500 }}
+                  >
+                    <TextInput
+                      name="amount"
+                      placeholder="Saisissez votre montant ici"
+                      keyboardType="numeric"
+                      validators={[AvailableValidationRules.required, AvailableValidationRules.float]}
+                    />
+                    <Text category="h4" style={{ marginLeft: 19 }}> €</Text>
+                  </MotiView>
+                </>
+              ) : (<></>)}
               {frequenceShow
                 ? (
                   <View>

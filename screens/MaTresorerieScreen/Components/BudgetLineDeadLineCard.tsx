@@ -225,7 +225,7 @@ const BudgetLineDeadLineCard = (props: BudgetLineDeadLineCardProps) => {
             </TouchableOpacity>
             <Button
               size="small"
-              onPress={() => { saveBudgetLineDeadLine(item, amount); }}
+              onPress={() => { saveBudgetLineDeadLine(item, amount, managementFees, rentalCharges); }}
               disabled={mutationLoading}
             >
               Enregister

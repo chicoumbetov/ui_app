@@ -110,6 +110,7 @@ export const onCreateBankMovement = /* GraphQL */ `
             amount
             rentalCharges
             managementFees
+            householdWaste
             frequency
             nextDueDate
             tenantId
@@ -133,6 +134,7 @@ export const onCreateBankMovement = /* GraphQL */ `
             amount
             rentalCharges
             managementFees
+            householdWaste
             frequency
             date
             tenantId
@@ -221,6 +223,7 @@ export const onCreateBankMovement = /* GraphQL */ `
           amount
           rentalCharges
           managementFees
+          householdWaste
           frequency
           date
           infoCredit {
@@ -275,6 +278,7 @@ export const onCreateBankMovement = /* GraphQL */ `
             amount
             rentalCharges
             managementFees
+            householdWaste
             frequency
             nextDueDate
             tenantId
@@ -399,6 +403,7 @@ export const onUpdateBankMovement = /* GraphQL */ `
             amount
             rentalCharges
             managementFees
+            householdWaste
             frequency
             nextDueDate
             tenantId
@@ -422,6 +427,7 @@ export const onUpdateBankMovement = /* GraphQL */ `
             amount
             rentalCharges
             managementFees
+            householdWaste
             frequency
             date
             tenantId
@@ -510,6 +516,7 @@ export const onUpdateBankMovement = /* GraphQL */ `
           amount
           rentalCharges
           managementFees
+          householdWaste
           frequency
           date
           infoCredit {
@@ -564,6 +571,7 @@ export const onUpdateBankMovement = /* GraphQL */ `
             amount
             rentalCharges
             managementFees
+            householdWaste
             frequency
             nextDueDate
             tenantId
@@ -590,6 +598,7 @@ export const onCreateBudgetLine = /* GraphQL */ `
       amount
       rentalCharges
       managementFees
+      householdWaste
       frequency
       nextDueDate
       infoCredit {
@@ -704,6 +713,7 @@ export const onCreateBudgetLine = /* GraphQL */ `
             amount
             rentalCharges
             managementFees
+            householdWaste
             frequency
             nextDueDate
             tenantId
@@ -727,6 +737,7 @@ export const onCreateBudgetLine = /* GraphQL */ `
             amount
             rentalCharges
             managementFees
+            householdWaste
             frequency
             date
             tenantId
@@ -767,6 +778,7 @@ export const onUpdateBudgetLine = /* GraphQL */ `
       amount
       rentalCharges
       managementFees
+      householdWaste
       frequency
       nextDueDate
       infoCredit {
@@ -881,6 +893,7 @@ export const onUpdateBudgetLine = /* GraphQL */ `
             amount
             rentalCharges
             managementFees
+            householdWaste
             frequency
             nextDueDate
             tenantId
@@ -904,6 +917,7 @@ export const onUpdateBudgetLine = /* GraphQL */ `
             amount
             rentalCharges
             managementFees
+            householdWaste
             frequency
             date
             tenantId
@@ -946,6 +960,7 @@ export const onCreateBudgetLineDeadline = /* GraphQL */ `
       amount
       rentalCharges
       managementFees
+      householdWaste
       frequency
       date
       infoCredit {
@@ -1051,6 +1066,7 @@ export const onCreateBudgetLineDeadline = /* GraphQL */ `
             amount
             rentalCharges
             managementFees
+            householdWaste
             frequency
             nextDueDate
             tenantId
@@ -1074,6 +1090,7 @@ export const onCreateBudgetLineDeadline = /* GraphQL */ `
             amount
             rentalCharges
             managementFees
+            householdWaste
             frequency
             date
             tenantId
@@ -1209,6 +1226,7 @@ export const onCreateBudgetLineDeadline = /* GraphQL */ `
             amount
             rentalCharges
             managementFees
+            householdWaste
             frequency
             date
             tenantId
@@ -1230,6 +1248,7 @@ export const onCreateBudgetLineDeadline = /* GraphQL */ `
         amount
         rentalCharges
         managementFees
+        householdWaste
         frequency
         nextDueDate
         infoCredit {
@@ -1326,6 +1345,7 @@ export const onUpdateBudgetLineDeadline = /* GraphQL */ `
       amount
       rentalCharges
       managementFees
+      householdWaste
       frequency
       date
       infoCredit {
@@ -1431,6 +1451,7 @@ export const onUpdateBudgetLineDeadline = /* GraphQL */ `
             amount
             rentalCharges
             managementFees
+            householdWaste
             frequency
             nextDueDate
             tenantId
@@ -1454,6 +1475,7 @@ export const onUpdateBudgetLineDeadline = /* GraphQL */ `
             amount
             rentalCharges
             managementFees
+            householdWaste
             frequency
             date
             tenantId
@@ -1589,6 +1611,7 @@ export const onUpdateBudgetLineDeadline = /* GraphQL */ `
             amount
             rentalCharges
             managementFees
+            householdWaste
             frequency
             date
             tenantId
@@ -1610,6 +1633,7 @@ export const onUpdateBudgetLineDeadline = /* GraphQL */ `
         amount
         rentalCharges
         managementFees
+        householdWaste
         frequency
         nextDueDate
         infoCredit {
@@ -1799,6 +1823,7 @@ export const onCreateDocument = /* GraphQL */ `
             amount
             rentalCharges
             managementFees
+            householdWaste
             frequency
             nextDueDate
             tenantId
@@ -1822,6 +1847,7 @@ export const onCreateDocument = /* GraphQL */ `
             amount
             rentalCharges
             managementFees
+            householdWaste
             frequency
             date
             tenantId
@@ -1957,6 +1983,7 @@ export const onUpdateDocument = /* GraphQL */ `
             amount
             rentalCharges
             managementFees
+            householdWaste
             frequency
             nextDueDate
             tenantId
@@ -1980,6 +2007,7 @@ export const onUpdateDocument = /* GraphQL */ `
             amount
             rentalCharges
             managementFees
+            householdWaste
             frequency
             date
             tenantId
@@ -2113,6 +2141,7 @@ export const onCreateRealEstateBankAccount = /* GraphQL */ `
             amount
             rentalCharges
             managementFees
+            householdWaste
             frequency
             nextDueDate
             tenantId
@@ -2136,6 +2165,7 @@ export const onCreateRealEstateBankAccount = /* GraphQL */ `
             amount
             rentalCharges
             managementFees
+            householdWaste
             frequency
             date
             tenantId
@@ -2319,6 +2349,7 @@ export const onUpdateRealEstateBankAccount = /* GraphQL */ `
             amount
             rentalCharges
             managementFees
+            householdWaste
             frequency
             nextDueDate
             tenantId
@@ -2342,6 +2373,7 @@ export const onUpdateRealEstateBankAccount = /* GraphQL */ `
             amount
             rentalCharges
             managementFees
+            householdWaste
             frequency
             date
             tenantId
@@ -2792,6 +2824,7 @@ export const onCreateRealEstate = /* GraphQL */ `
           amount
           rentalCharges
           managementFees
+          householdWaste
           frequency
           nextDueDate
           infoCredit {
@@ -2840,6 +2873,7 @@ export const onCreateRealEstate = /* GraphQL */ `
           amount
           rentalCharges
           managementFees
+          householdWaste
           frequency
           date
           infoCredit {
@@ -2894,6 +2928,7 @@ export const onCreateRealEstate = /* GraphQL */ `
             amount
             rentalCharges
             managementFees
+            householdWaste
             frequency
             nextDueDate
             tenantId
@@ -3128,6 +3163,7 @@ export const onUpdateRealEstate = /* GraphQL */ `
           amount
           rentalCharges
           managementFees
+          householdWaste
           frequency
           nextDueDate
           infoCredit {
@@ -3176,6 +3212,7 @@ export const onUpdateRealEstate = /* GraphQL */ `
           amount
           rentalCharges
           managementFees
+          householdWaste
           frequency
           date
           infoCredit {
@@ -3230,6 +3267,7 @@ export const onUpdateRealEstate = /* GraphQL */ `
             amount
             rentalCharges
             managementFees
+            householdWaste
             frequency
             nextDueDate
             tenantId
@@ -3464,6 +3502,7 @@ export const onDeleteRealEstate = /* GraphQL */ `
           amount
           rentalCharges
           managementFees
+          householdWaste
           frequency
           nextDueDate
           infoCredit {
@@ -3512,6 +3551,7 @@ export const onDeleteRealEstate = /* GraphQL */ `
           amount
           rentalCharges
           managementFees
+          householdWaste
           frequency
           date
           infoCredit {
@@ -3566,6 +3606,7 @@ export const onDeleteRealEstate = /* GraphQL */ `
             amount
             rentalCharges
             managementFees
+            householdWaste
             frequency
             nextDueDate
             tenantId
@@ -3735,6 +3776,7 @@ export const onCreatePendingInvitation = /* GraphQL */ `
             amount
             rentalCharges
             managementFees
+            householdWaste
             frequency
             nextDueDate
             tenantId
@@ -3758,6 +3800,7 @@ export const onCreatePendingInvitation = /* GraphQL */ `
             amount
             rentalCharges
             managementFees
+            householdWaste
             frequency
             date
             tenantId
@@ -3892,6 +3935,7 @@ export const onUpdatePendingInvitation = /* GraphQL */ `
             amount
             rentalCharges
             managementFees
+            householdWaste
             frequency
             nextDueDate
             tenantId
@@ -3915,6 +3959,7 @@ export const onUpdatePendingInvitation = /* GraphQL */ `
             amount
             rentalCharges
             managementFees
+            householdWaste
             frequency
             date
             tenantId
@@ -4049,6 +4094,7 @@ export const onDeletePendingInvitation = /* GraphQL */ `
             amount
             rentalCharges
             managementFees
+            householdWaste
             frequency
             nextDueDate
             tenantId
@@ -4072,6 +4118,7 @@ export const onDeletePendingInvitation = /* GraphQL */ `
             amount
             rentalCharges
             managementFees
+            householdWaste
             frequency
             date
             tenantId

@@ -227,8 +227,9 @@ type BudgetLine
   type: BudgetLineType!
   category: String!
   amount: Float!
-    rentalCharges: Float
-    managementFees: Float
+  rentalCharges: Float
+  managementFees: Float
+  householdWaste: Float
   frequency: Frequency!
   nextDueDate: AWSDate!
   infoCredit: MortgageLoanInfo
@@ -272,8 +273,9 @@ type BudgetLineDeadline
   type: BudgetLineType!
   category: String!
   amount: Float!
-    rentalCharges: Float
-    managementFees: Float
+  rentalCharges: Float
+  managementFees: Float
+  householdWaste: Float
   frequency: Frequency!
   date: AWSDate
   infoCredit: MortgageLoanDeadlineInfo

@@ -828,6 +828,13 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
+                "householdWaste": {
+                    "name": "householdWaste",
+                    "isArray": false,
+                    "type": "Float",
+                    "isRequired": false,
+                    "attributes": []
+                },
                 "frequency": {
                     "name": "frequency",
                     "isArray": false,
@@ -1005,6 +1012,13 @@ export const schema = {
                 },
                 "managementFees": {
                     "name": "managementFees",
+                    "isArray": false,
+                    "type": "Float",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "householdWaste": {
+                    "name": "householdWaste",
                     "isArray": false,
                     "type": "Float",
                     "isRequired": false,
@@ -2295,5 +2309,5 @@ export const schema = {
             }
         }
     },
-    "version": "c0e7e321356857fb8488e37eabacfcc1"
+    "version": "d4113ec54d2643735326e689931c6461"
 };

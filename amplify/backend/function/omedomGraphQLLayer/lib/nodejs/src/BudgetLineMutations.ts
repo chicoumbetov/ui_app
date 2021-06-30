@@ -1,118 +1,56 @@
 import gql from 'graphql-tag';
 import {
-  CreateBankAccountInput,
-  CreateBankAccountMutation,
-  CreateBankAccountMutationVariables,
-  DeleteBankAccountInput,
-  DeleteBankAccountMutation,
-  DeleteBankAccountMutationVariables,
-  UpdateBankAccountInput,
-  UpdateBankAccountMutation,
-  UpdateBankAccountMutationVariables,
+  UpdateBudgetLineInput,
+  UpdateBudgetLineMutation,
+  UpdateBudgetLineMutationVariables,
 } from '../../../../../../../src/API';
 import { AppSyncClient } from './AppSyncClient';
 
-const createBankAccount = async (client: AppSyncClient, input: CreateBankAccountInput) => {
+const updateBudgetLine = async (client: AppSyncClient, input: UpdateBudgetLineInput) => {
   try {
     const { data } = await client.mutate<
-    CreateBankAccountMutation,
-    CreateBankAccountMutationVariables
+    UpdateBudgetLineMutation,
+    UpdateBudgetLineMutationVariables
     >({
-      mutation: gql(`mutation CreateBankAccount(
-    $input: CreateBankAccountInput!
-  ) {
-    createBankAccount(input: $input) {
+      mutation: gql(`mutation UpdateBudgetLine($input: UpdateBudgetLineInput!) {
+    updateBudgetLine(input: $input) {
       id
-      bank
-      accountOwner
-      iban
-      bic
-      balance
-      biId
-      biConnectionId
-      biState
+      realEstateId
+      type
+      category
+      amount
+      frequency
+      nextDueDate
+      infoCredit {
+        borrowedCapital
+        loadStartDate
+        duration
+        interestRate
+        assuranceRate
+        amortizationTable {
+          dueDate
+          amount
+          interest
+          assurance
+          amortizedCapital
+        }
+      }
+      tenantId
       _version
       _deleted
       _lastChangedAt
       createdAt
       updatedAt
     }
-  }`), // use your graphql query here
-      variables: {
-        input,
-      },
-      fetchPolicy: 'no-cache',
-    });
-    if (data.createBankAccount) {
-      return data.createBankAccount;
-    }
-    return false;
-  } catch (e) {
-    console.error(e);
-    return false;
   }
-};
-const updateBankAccount = async (client: AppSyncClient, input: UpdateBankAccountInput) => {
-  try {
-    const { data } = await client.mutate<
-    UpdateBankAccountMutation,
-    UpdateBankAccountMutationVariables
-    >({
-      mutation: gql(`mutation UpdateBankAccount(
-    $input: UpdateBankAccountInput!
-  ) {
-    updateBankAccount(input: $input) {
-      id
-      bank
-      accountOwner
-      iban
-      bic
-      balance
-      biId
-      biConnectionId
-      biState
-      _version
-      _deleted
-      _lastChangedAt
-      createdAt
-      updatedAt
-    }
-  }`), // use your graphql query here
+`), // use your graphql query here
       variables: {
         input,
       },
       fetchPolicy: 'no-cache',
     });
-    if (data.updateBankAccount) {
-      return data.updateBankAccount;
-    }
-    return false;
-  } catch (e) {
-    console.error(e);
-    return false;
-  }
-};
-const deleteBankAccount = async (client: AppSyncClient, input: DeleteBankAccountInput) => {
-  try {
-    const { data } = await client.mutate<
-    DeleteBankAccountMutation,
-    DeleteBankAccountMutationVariables
-    >({
-      mutation: gql(`mutation DeleteBankAccount(
-    $input: DeleteBankAccountInput!
-  ) {
-    deleteBankAccount(input: $input) {
-      id
-      _version
-    }
-  }`),
-      variables: {
-        input,
-      },
-      fetchPolicy: 'no-cache',
-    });
-    if (data.deleteBankAccount) {
-      return data.deleteBankAccount;
+    if (data.updateBudgetLine) {
+      return data.updateBudgetLine;
     }
     return false;
   } catch (e) {
@@ -122,7 +60,5 @@ const deleteBankAccount = async (client: AppSyncClient, input: DeleteBankAccount
 };
 
 export {
-  createBankAccount,
-  updateBankAccount,
-  deleteBankAccount,
+  updateBudgetLine,
 };

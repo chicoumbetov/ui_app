@@ -398,7 +398,7 @@ enum InvitationType {
 
 type MortgageLoanInfo {
     borrowedCapital: Float!
-    loadStartDate: AWSDate
+    loanStartDate: AWSDate
     duration: Int
     interestRate: Float
     assuranceRate: Float
@@ -568,6 +568,9 @@ input UpdateBudgetLineInput {
     type: BudgetLineType
     category: String
     amount: Float
+    rentalCharges: Float
+    managementFees: Float
+    householdWaste: Float
     frequency: Frequency
     nextDueDate: AWSDate
     infoCredit: MortgageLoanInfoInput
@@ -577,7 +580,7 @@ input UpdateBudgetLineInput {
 
 input MortgageLoanInfoInput {
     borrowedCapital: Float!
-    loadStartDate: AWSDate
+    loanStartDate: AWSDate
     duration: Int
     interestRate: Float
     assuranceRate: Float
@@ -605,6 +608,9 @@ input UpdateBudgetLineDeadlineInput {
     type: BudgetLineType
     category: String
     amount: Float
+    rentalCharges: Float
+    managementFees: Float
+    householdWaste: Float
     frequency: Frequency
     date: AWSDate
     infoCredit: MortgageLoanDeadlineInfoInput

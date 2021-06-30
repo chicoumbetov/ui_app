@@ -90,7 +90,7 @@ export type GetRealEstateQuery = {
         infoCredit?: {
           __typename: 'MortgageLoanInfo',
           borrowedCapital: number,
-          loadStartDate?: string | null,
+          loanStartDate?: string | null,
           duration?: number | null,
           interestRate?: number | null,
           assuranceRate?: number | null,
@@ -291,7 +291,7 @@ export const getRealEstateQuery = <DocumentNode>gql(`
           nextDueDate
           infoCredit {
             borrowedCapital
-            loadStartDate
+            loanStartDate
             duration
             interestRate
             assuranceRate
@@ -483,7 +483,7 @@ const listRealEstatesQuery = <DocumentNode>gql(`query ListRealEstates(
             nextDueDate
             infoCredit {
               borrowedCapital
-              loadStartDate
+              loanStartDate
               duration
               interestRate
               assuranceRate

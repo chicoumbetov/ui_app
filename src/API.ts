@@ -16017,7 +16017,7 @@ export type OnCreateRealEstateSubscription = {
         infoCredit?:  {
           __typename: "MortgageLoanInfo",
           borrowedCapital: number,
-          loadStartDate?: string | null,
+          loanStartDate?: string | null,
           duration?: number | null,
           interestRate?: number | null,
           assuranceRate?: number | null,
@@ -16381,7 +16381,7 @@ export type OnUpdateRealEstateSubscription = {
         infoCredit?:  {
           __typename: "MortgageLoanInfo",
           borrowedCapital: number,
-          loadStartDate?: string | null,
+          loanStartDate?: string | null,
           duration?: number | null,
           interestRate?: number | null,
           assuranceRate?: number | null,
@@ -16745,7 +16745,7 @@ export type OnDeleteRealEstateSubscription = {
         infoCredit?:  {
           __typename: "MortgageLoanInfo",
           borrowedCapital: number,
-          loadStartDate?: string | null,
+          loanStartDate?: string | null,
           duration?: number | null,
           interestRate?: number | null,
           assuranceRate?: number | null,

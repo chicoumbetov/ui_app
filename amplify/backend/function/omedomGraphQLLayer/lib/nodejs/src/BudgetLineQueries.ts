@@ -1,143 +1,118 @@
 import gql from 'graphql-tag';
 import {
-  GetBankAccountQuery, GetBankAccountQueryVariables,
-  ListBankAccountsByBiConnectionIdQuery,
-  ListBankAccountsByBiConnectionIdQueryVariables,
-  ListBankAccountsByBiIdQuery,
-  ListBankAccountsByBiIdQueryVariables,
+  BudgetLineType,
+  Frequency,
+  ListRealEstatesQuery,
 } from '../../../../../../../src/API';
 import { AppSyncClient } from './AppSyncClient';
 
-const getBankAccountsByBIId = async (client: AppSyncClient, biId: number) => {
-  try {
-    const { data } = await client.query<
-    ListBankAccountsByBiIdQuery,
-    ListBankAccountsByBiIdQueryVariables
-    >({
-      query: gql(`query ListBankAccountsByBiId(
-    $biId: Int
-  ) {
-    listBankAccountsByBiId(
-      biId: $biId
-    ) {
-      items {
-        id
-        bank
-        accountOwner
-        iban
-        bic
-        balance
-        biId
-        biConnectionId
-        biState
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-      }
-      nextToken
-      startedAt
-    }
-  }`), // use your graphql query here
-      variables: {
-        biId,
-      },
-      fetchPolicy: 'no-cache',
-    });
-    if (data.listBankAccountsByBiId.items.length > 0) {
-      return data.listBankAccountsByBiId.items[0];
-    }
-    return false;
-  } catch (e) {
-    console.error(e);
-    return false;
-  }
+export type ListBudgetLinesQueryVariables = {
+  startDate?: string | null,
+  endDate?: string | null,
 };
 
-const getBankAccountsById = async (client: AppSyncClient, id: string) => {
-  try {
-    const { data } = await client.query<
-    GetBankAccountQuery,
-    GetBankAccountQueryVariables
-    >({
-      query: gql(`query GetBankAccount(
-    $id: Int
-  ) {
-    getBankAccount(
-      id: $id
-    ) {
-      id
-      bank
-      accountOwner
-      iban
-      bic
-      balance
-      biId
-      biConnectionId
-      biState
-      _version
-      _deleted
-      _lastChangedAt
-      createdAt
-      updatedAt
-    }
-  }`), // use your graphql query here
-      variables: {
-        id,
-      },
-      fetchPolicy: 'no-cache',
-    });
-    if (data.getBankAccount) {
-      return data.getBankAccount;
-    }
-    return false;
-  } catch (e) {
-    console.error(e);
-    return false;
-  }
+export type ListBudgetLinesQuery = {
+  listRealEstates?: {
+    __typename: 'ModelRealEstateConnection',
+    items?: Array< {
+      __typename: 'RealEstate',
+      budgetLines?: {
+        __typename: 'ModelBudgetLineConnection',
+        items?: Array<{
+          __typename: 'BudgetLine',
+          id: string,
+          realEstateId: string,
+          type: BudgetLineType,
+          category: string,
+          amount: number,
+          frequency: Frequency,
+          nextDueDate: string,
+          tenantId?: string | null,
+          _version: number,
+          _deleted?: boolean | null,
+          _lastChangedAt: number,
+          createdAt: string,
+          updatedAt: string,
+          infoCredit?: {
+            __typename: 'MortgageLoanInfo',
+            borrowedCapital: number,
+            loanStartDate?: string | null,
+            duration?: number | null,
+            interestRate?: number | null,
+            assuranceRate?: number | null,
+            amortizationTable?: Array< {
+              __typename: 'AmortizationTable',
+              dueDate?: string | null,
+              amount?: number | null,
+              interest?: number | null,
+              assurance?: number | null,
+              amortizedCapital?: number | null,
+            } | null > | null,
+          } | null,
+        } | null> | null,
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+    }>,
+  } | null,
 };
 
-const listBankAccountsByBIConnectionId = async (client: AppSyncClient, biConnectionId: number) => {
+const listBudgetLines = async (client: AppSyncClient, startDate: string, endDate: string) => {
   try {
     const { data } = await client.query<
-    ListBankAccountsByBiConnectionIdQuery,
-    ListBankAccountsByBiConnectionIdQueryVariables
+    ListRealEstatesQuery,
+    ListBudgetLinesQueryVariables
     >({
-      query: gql(`query ListBankAccountsByBiConnectionId(
-    $biConnectionId: Int
-  ) {
-    listBankAccountsByBiConnectionId(
-      biConnectionId: $biConnectionId
-      limit: 1000
-    ) {
-      items {
-        id
-        bank
-        accountOwner
-        iban
-        bic
-        balance
-        biId
-        biConnectionId
-        biState
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
+      query: gql(`query ListRealEstates($startDate: String, $endDate: String) {
+  listRealEstates(limit: 1000) {
+    items {
+      budgetLines(nextDueDate: {between: [$startDate, $endDate]}, limit: 1000) {
+        items {
+          id
+          nextDueDate
+          managementFees
+          rentalCharges
+          _deleted
+          amount
+          category
+          createdAt
+          frequency
+          householdWaste
+          realEstateId
+          tenantId
+          type
+          updatedAt
+          infoCredit {
+            amortizationTable {
+              amortizedCapital
+              amount
+              assurance
+              dueDate
+              interest
+            }
+            assuranceRate
+            borrowedCapital
+            duration
+            interestRate
+            loanStartDate
+          }
+        }
       }
-      nextToken
-      startedAt
     }
-  }`), // use your graphql query here
+  }
+}
+`),
       variables: {
-        biConnectionId,
+        startDate,
+        endDate,
       },
       fetchPolicy: 'no-cache',
     });
-    if (data.listBankAccountsByBiConnectionId.items.length > 0) {
-      return data.listBankAccountsByBiConnectionId.items;
+    if (data.listRealEstates.items.length > 0) {
+      return data.listRealEstates.items.reduce(
+        (global, item) => global.concat(item.budgetLines.items),
+        [],
+      );
     }
     return false;
   } catch (e) {
@@ -147,7 +122,5 @@ const listBankAccountsByBIConnectionId = async (client: AppSyncClient, biConnect
 };
 
 export {
-  getBankAccountsByBIId,
-  getBankAccountsById,
-  listBankAccountsByBIConnectionId,
+  listBudgetLines,
 };

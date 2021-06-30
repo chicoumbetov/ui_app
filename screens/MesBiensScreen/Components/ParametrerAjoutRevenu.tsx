@@ -33,12 +33,12 @@ import DateUtils from '../../../utils/DateUtils';
 type ParamBudgetForm = {
   category: string,
   amount: number,
+  rentalCharges: number,
+  managementFees: number,
   frequency: Frequency,
   nextDueDate?: string | null,
   tenantId?: string | null,
   tenant?: {
-    rentalCharges: number,
-    managementFees: number,
     lastname: string,
     firstname: string,
     email: string,
@@ -75,6 +75,8 @@ const ParametrerAjoutRevenu = () => {
       (item) => item?.id === route.params.idBudgetLine,
     ).pop();
     currentBudgetLine.amount = currentBudgetLine?.amount.toString();
+    currentBudgetLine.rentalCharges = currentBudgetLine.rentalCharges.toString();
+    currentBudgetLine.managementFees = currentBudgetLine.managementFees.toString();
     useEffect(() => {
       setMontantShow(true);
       setFrequenceShow(true);
@@ -89,8 +91,6 @@ const ParametrerAjoutRevenu = () => {
       useEffect(() => {
         setRevenuLoyer(true);
       }, []);
-      tenant.rentalCharges = tenant.rentalCharges.toString();
-      tenant.managementFees = tenant.managementFees.toString();
 
       // both values are put back to current budgetLine
       // then we show in Form as defaultValue
@@ -110,7 +110,7 @@ const ParametrerAjoutRevenu = () => {
 
   const validateBudget = async (data: ParamBudgetForm) => {
     const {
-      category, amount, frequency, nextDueDate, tenant,
+      category, amount, rentalCharges, managementFees, frequency, nextDueDate, tenant,
     } = data;
 
     if (route.params.idBudgetLine) {
@@ -130,9 +130,12 @@ const ParametrerAjoutRevenu = () => {
               id: route.params.idBudgetLine,
               category,
               amount,
+              managementFees,
+              rentalCharges,
               frequency,
               nextDueDate,
               tenantId,
+              _version: currentBudgetLine._version,
             },
           },
         });
@@ -165,6 +168,8 @@ const ParametrerAjoutRevenu = () => {
             realEstateId: route.params.id,
             category,
             amount,
+            managementFees,
+            rentalCharges,
             frequency,
             nextDueDate,
             type: BudgetLineType.Income,
@@ -183,6 +188,8 @@ const ParametrerAjoutRevenu = () => {
                 type: BudgetLineType.Income,
                 category,
                 amount,
+                managementFees,
+                rentalCharges,
                 frequency,
                 tenantId,
                 date: DateUtils.addMonths(nextDueDate, -DateUtils.frequencyToMonths(frequency) * i),
@@ -334,12 +341,12 @@ const ParametrerAjoutRevenu = () => {
               transition={{ type: 'timing', duration: 500 }}
             >
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <TextInput name="tenant.rentalCharges" keyboardType="numeric" placeholder="Dont charges" validators={[AvailableValidationRules.float]} />
+                <TextInput name="rentalCharges" keyboardType="numeric" placeholder="Dont charges" validators={[AvailableValidationRules.float]} />
                 <Text category="h4" style={{ marginLeft: 19 }}> €</Text>
               </View>
 
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <TextInput name="tenant.managementFees" keyboardType="numeric" placeholder="Dont frais de gestion" validators={[AvailableValidationRules.float]} />
+                <TextInput name="managementFees" keyboardType="numeric" placeholder="Dont frais de gestion" validators={[AvailableValidationRules.float]} />
                 <Text category="h4" style={{ marginLeft: 19 }}>€</Text>
               </View>
 

@@ -23,20 +23,38 @@ const BudgetLineDeadLineCard = (props: BudgetLineDeadLineCardProps) => {
   const [checked, setChecked] = useState(false);
   const [edit, setEdit] = useState(false);
   const [amount, setAmount] = useState(item.amount);
+  const [rentalCharges, setRentalCharges] = useState(item.rentalCharges);
+  const [managementFees, setManagementFees] = useState(item.managementFees);
   const { updateBudgetLineDeadline, mutationLoading } = useUpdateBudgetLineDeadlineMutation();
   const deleteBudgetLineDeadLine = useDeleteBudgetLineDeadlineMutation();
 
-  const saveBudgetLineDeadLine = async (data:BudgetLineDeadline, newAmount:number) => {
-    await updateBudgetLineDeadline({
-      variables: {
-        input: {
-          id: data.id,
-          amount: newAmount,
-          // eslint-disable-next-line no-underscore-dangle
-          _version: data._version,
+  const saveBudgetLineDeadLine = async (data:BudgetLineDeadline, newAmount:number, neawManagementFees?: number, newRentalCharges?: number) => {
+    if (item.category === 'Loyer') {
+      await updateBudgetLineDeadline({
+        variables: {
+          input: {
+            id: data.id,
+            amount: newAmount,
+            rentalCharges: newRentalCharges,
+            managementFees: neawManagementFees,
+            // eslint-disable-next-line no-underscore-dangle
+            _version: data._version,
+          },
         },
-      },
-    });
+      });
+    } else {
+      await updateBudgetLineDeadline({
+        variables: {
+          input: {
+            id: data.id,
+            amount: newAmount,
+            // eslint-disable-next-line no-underscore-dangle
+            _version: data._version,
+          },
+        },
+      });
+    }
+
     if (checked) {
       data.amount = newAmount - data.amount;
       if (onChecked) {
@@ -70,6 +88,11 @@ const BudgetLineDeadLineCard = (props: BudgetLineDeadLineCardProps) => {
       }],
     );
   };
+
+  let isLoyer = false;
+  if (item.category === 'Loyer') {
+    isLoyer = true;
+  }
 
   return (
     <Card
@@ -108,21 +131,59 @@ const BudgetLineDeadLineCard = (props: BudgetLineDeadLineCardProps) => {
             {item.category}
           </Text>
           {edit ? (
-            <View style={{ flexDirection: 'row' }}>
-              <TextInputComp
-                name="amount"
-                defaultValue={item.amount.toString()}
-                keyboardType="numeric"
-                onChangeValue={(v) => {
-                  if (v) {
-                    setAmount(parseFloat(v.toString()));
-                  }
-                }}
-              />
-              <Text category="c1">
-                €
-              </Text>
-            </View>
+            <>
+              <View style={{ flexDirection: 'row' }}>
+                <TextInputComp
+                  name="amount"
+                  defaultValue={item.amount.toString()}
+                  keyboardType="numeric"
+                  onChangeValue={(v) => {
+                    if (v) {
+                      setAmount(parseFloat(v.toString()));
+                    }
+                  }}
+                />
+                <Text category="c1">
+                  €
+                </Text>
+              </View>
+              {isLoyer && (
+              <>
+                <View style={{ flexDirection: 'row' }}>
+                  <TextInputComp
+                    name="rentalCharges"
+                    label="Charges"
+                    defaultValue={item.rentalCharges.toString()}
+                    keyboardType="numeric"
+                    onChangeValue={(v) => {
+                      if (v) {
+                        setRentalCharges(parseFloat(v.toString()));
+                      }
+                    }}
+                  />
+                  <Text category="c1">
+                    €
+                  </Text>
+                </View>
+                <View style={{ flexDirection: 'row' }}>
+                  <TextInputComp
+                    name="managementFees"
+                    label="Frais de gestion"
+                    defaultValue={item.managementFees.toString()}
+                    keyboardType="numeric"
+                    onChangeValue={(v) => {
+                      if (v) {
+                        setManagementFees(parseFloat(v.toString()));
+                      }
+                    }}
+                  />
+                  <Text category="c1">
+                    €
+                  </Text>
+                </View>
+              </>
+              )}
+            </>
           ) : (
             <Amount amount={item.amount} category="c1" />
           )}

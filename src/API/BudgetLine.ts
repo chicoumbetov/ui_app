@@ -28,6 +28,8 @@ export type BudgetLineItem = {
   type?: BudgetLineType,
   category?: string | null,
   amount?: number | null,
+  rentalCharges?: number | null,
+  managementFees?: number | null,
   frequency: Frequency,
   nextDueDate?: string | null,
   infoCredit?: MortgageLoanInfo,

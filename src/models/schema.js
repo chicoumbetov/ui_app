@@ -814,6 +814,20 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
+                "rentalCharges": {
+                    "name": "rentalCharges",
+                    "isArray": false,
+                    "type": "Float",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "managementFees": {
+                    "name": "managementFees",
+                    "isArray": false,
+                    "type": "Float",
+                    "isRequired": false,
+                    "attributes": []
+                },
                 "frequency": {
                     "name": "frequency",
                     "isArray": false,
@@ -980,6 +994,20 @@ export const schema = {
                     "isArray": false,
                     "type": "Float",
                     "isRequired": true,
+                    "attributes": []
+                },
+                "rentalCharges": {
+                    "name": "rentalCharges",
+                    "isArray": false,
+                    "type": "Float",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "managementFees": {
+                    "name": "managementFees",
+                    "isArray": false,
+                    "type": "Float",
+                    "isRequired": false,
                     "attributes": []
                 },
                 "frequency": {
@@ -2054,20 +2082,6 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "rentalCharges": {
-                    "name": "rentalCharges",
-                    "isArray": false,
-                    "type": "Float",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "managementFees": {
-                    "name": "managementFees",
-                    "isArray": false,
-                    "type": "Float",
-                    "isRequired": false,
-                    "attributes": []
-                },
                 "lastname": {
                     "name": "lastname",
                     "isArray": false,
@@ -2281,5 +2295,5 @@ export const schema = {
             }
         }
     },
-    "version": "a7220d88b37cf8ad7e287b3d72d3a574"
+    "version": "c0e7e321356857fb8488e37eabacfcc1"
 };

@@ -227,6 +227,8 @@ type BudgetLine
   type: BudgetLineType!
   category: String!
   amount: Float!
+    rentalCharges: Float
+    managementFees: Float
   frequency: Frequency!
   nextDueDate: AWSDate!
   infoCredit: MortgageLoanInfo
@@ -270,6 +272,8 @@ type BudgetLineDeadline
   type: BudgetLineType!
   category: String!
   amount: Float!
+    rentalCharges: Float
+    managementFees: Float
   frequency: Frequency!
   date: AWSDate
   infoCredit: MortgageLoanDeadlineInfo
@@ -408,8 +412,6 @@ type MortgageLoanDeadlineInfo {
 type TenantInfo {
   id: String!
   amount: Float!
-  rentalCharges: Float
-  managementFees: Float
   lastname: String!
   firstname: String!
   email: AWSEmail!

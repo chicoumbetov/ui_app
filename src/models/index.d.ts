@@ -80,8 +80,6 @@ export declare class MortgageLoanDeadlineInfo {
 export declare class TenantInfo {
   readonly id: string;
   readonly amount: number;
-  readonly rentalCharges?: number;
-  readonly managementFees?: number;
   readonly lastname: string;
   readonly firstname: string;
   readonly email: string;
@@ -205,6 +203,8 @@ export declare class BudgetLineDeadline {
   readonly type: BudgetLineType | keyof typeof BudgetLineType;
   readonly category: string;
   readonly amount: number;
+  readonly rentalCharges?: number;
+  readonly managementFees?: number;
   readonly frequency: Frequency | keyof typeof Frequency;
   readonly date?: string;
   readonly infoCredit?: MortgageLoanDeadlineInfo;
@@ -221,6 +221,8 @@ export declare class BudgetLine {
   readonly type: BudgetLineType | keyof typeof BudgetLineType;
   readonly category: string;
   readonly amount: number;
+  readonly rentalCharges?: number;
+  readonly managementFees?: number;
   readonly frequency: Frequency | keyof typeof Frequency;
   readonly nextDueDate: string;
   readonly infoCredit?: MortgageLoanInfo;

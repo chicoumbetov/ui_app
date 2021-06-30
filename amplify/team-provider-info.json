@@ -59,6 +59,10 @@
         "omedomAuthorization": {
           "deploymentBucketName": "amplify-omedom-dev-233211-deployment",
           "s3Key": "amplify-builds/omedomAuthorization-6d652f4359514f58776b-build.zip"
+        },
+        "generateBudgetLineDeadLine": {
+          "deploymentBucketName": "amplify-omedom-dev-233211-deployment",
+          "s3Key": "amplify-builds/generateBudgetLineDeadLine-736d334769705476634c-build.zip"
         }
       }
     }

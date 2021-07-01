@@ -19,8 +19,8 @@ type GraphicsIIProps = {
 
 const GraphicsII = (props: GraphicsIIProps) => {
   const { dateStart, dateEnd, id } = props;
-  const start = moment(dateStart).format('YYYY-MM-DDTHH:mm:ss').toString();
-  const end = moment(dateEnd).format('YYYY-MM-DDTHH:mm:ss').toString();
+  const start = moment(dateStart).format('YYYY-MM-DD').toString();
+  const end = moment(dateEnd).format('YYYY-MM-DD').toString();
   // console.log(start, end, id);
   const listBankMovement = useListBankMovement(id, start, end);
   const { bienget } = useGetRealEstate(id);
@@ -35,9 +35,9 @@ const GraphicsII = (props: GraphicsIIProps) => {
   if (!bankMovementsLocal) {
     return (<></>);
   }
-  console.log('bankMovements :', bankMovementsLocal);
+  // console.log('bankMovements :', bankMovementsLocal);
 
-  console.log('bankMovements :', listBankMovement.data?.getRealEstate?.bankMovements?.items);
+  // console.log('bankMovements :', listBankMovement.data?.getRealEstate?.bankMovements?.items);
 
   /** Object with 3 attributes and its key */
 

@@ -7,7 +7,7 @@ import { RouteProp } from '@react-navigation/core/lib/typescript/src/types';
 import { useApolloClient } from 'react-apollo';
 
 import moment from 'moment';
-import ActivityIndicator from '../../../components/ActivityIndicator';
+
 import CompteHeader from '../../../components/CompteHeader/CompteHeader';
 // import clientData from '../../../mockData/clientDATA';
 import MaxWidthContainer from '../../../components/MaxWidthContainer';
@@ -25,7 +25,8 @@ import { useUser } from '../../../src/API/UserContext';
 import { pdfTemplateQuittance } from '../../../pdfTemplates/index';
 import DocumentComponent from '../../../components/DocumentComponent';
 import DateUtils from '../../../utils/DateUtils';
-import { BudgetLineDeadline } from '../../../src/API';
+
+import ActivityIndicator from '../../../components/ActivityIndicator';
 
 const QuittanceLoyer2 = () => {
   const route = useRoute<RouteProp<TabMonAssistantParamList, 'quittance-loyer-2'>>();
@@ -34,7 +35,7 @@ const QuittanceLoyer2 = () => {
   const createDocument = useCreateDocumentMutation();
   const client = useApolloClient();
   const user = useUser();
-  const [newDocument, setNewDocument] = useState<DocumentItem | undefined | null>(undefined);
+  const [newDocument, setNewDocument] = useState<DocumentItem | undefined | null | -1>(undefined);
 
   /**
    *
@@ -69,8 +70,6 @@ const QuittanceLoyer2 = () => {
   // console.log('compare:',
   // moment(bailEndDate).format('DD/MM/YYYY') >= moment(route.params.date).format('DD/MM/YYYY'));
 
-  let budgetLine : BudgetLineDeadline;
-
   /**
    *  route.params.idTenant - chosen tenant from previous page
    *  item?.tenantId        - tenant from budgetLineDeadline, guy that pays this rent;
@@ -83,20 +82,6 @@ const QuittanceLoyer2 = () => {
    * Show only those budgetLine that correspond to chosen Tenant
    * and only affected ones for period that is demanded
    */
-  bienget.budgetLineDeadlines?.items?.map(
-    (item) => {
-      const dateBudgetLine = DateUtils.parseToDateObj(item?.date);
-      console.log('budgetLines', item);
-      console.log('paramsDate', paramsDate);
-      if (item?.tenantId === route.params.idTenant
-      && dateBudgetLine.getMonth() === paramsDate.getMonth()
-      ) {
-        budgetLine = item;
-      }
-    },
-  );
-
-  console.log('budgetLine:', budgetLine);
 
   useEffect(() => {
     (async () => {
@@ -104,8 +89,9 @@ const QuittanceLoyer2 = () => {
         const documentDate = DateUtils.parseToDateObj(route.params.date);
         documentDate.setHours(0, 0, 0, 0);
 
-        if (tenant) {
-          console.log('asyyync');
+        if (tenant && bailStartDate <= paramsDate
+            && paramsDate <= bailEndDate) {
+          // console.log('asyyync');
           /** Set document date on first day of month */
           let documentStartDate = new Date(documentDate.valueOf());
           documentStartDate.setDate(1);
@@ -123,7 +109,7 @@ const QuittanceLoyer2 = () => {
           if (documentEndDate >= bailEndDate) {
             documentEndDate = bailEndDate;
           }
-          console.log('documentEndDate', documentEndDate);
+          // console.log('documentEndDate', documentEndDate);
 
           const startDate = moment(documentStartDate).format('DD/MM/YYYY');
           const endDate = moment(documentEndDate).format('DD/MM/YYYY');
@@ -135,49 +121,62 @@ const QuittanceLoyer2 = () => {
           // eslint-disable-next-line no-underscore-dangle
           if (document && !document._deleted) {
             setNewDocument(document);
-          } else if (budgetLine) {
-            /**
-                *
-                * We don't need to know how long tenant lived in house since we will DIRECTLY show
-                * his expenses, mouvement that he made on his bank when he pay to houseHolder
-                *
-                */
-            const rentalFee = budgetLine.amount - (budgetLine.rentalCharges || 0);
-            const charges = budgetLine.rentalCharges || 0;
-            const total = rentalFee + charges;
+          } else {
+            const budgetLine = bienget.budgetLineDeadlines?.items?.find(
+              (item) => {
+                const dateBudgetLine = DateUtils.parseToDateObj(item?.date);
+                // console.log('budgetLines', item);
+                // console.log('paramsDate', paramsDate);
+                return item?.tenantId === route.params.idTenant
+                      && dateBudgetLine.getMonth() === paramsDate.getMonth();
+              },
+            );
+            if (budgetLine) {
+              /**
+               *
+               * We don't need to know how long tenant lived in house since we will DIRECTLY show
+               * his expenses, mouvement that he made on his bank when he pay to houseHolder
+               *
+               */
+              const rentalFee = budgetLine.amount - (budgetLine.rentalCharges || 0);
+              const charges = budgetLine.rentalCharges || 0;
+              const total = rentalFee + charges;
 
-            // we pass the necessary data inside {} to template
-            // in order to generate it with these data
-            const result = await pdfGenerator(pdfTemplateQuittance, {
-              bienget,
-              user,
-              tenant,
-              date: moment(route.params.date).format('DD/MM/YYYY'),
-              startDate,
-              endDate,
-              rentalFee,
-              charges,
-              total,
-            });
+              // we pass the necessary data inside {} to template
+              // in order to generate it with these data
+              const result = await pdfGenerator(pdfTemplateQuittance, {
+                bienget,
+                user,
+                tenant,
+                date: moment(route.params.date).format('DD/MM/YYYY'),
+                startDate,
+                endDate,
+                rentalFee,
+                charges,
+                total,
+              });
 
-            if (result !== false) {
-              // console.log('result', result);
-              const name = `Quittance_Loyer_${bienget.name}_${moment(route.params.date).format('MM/YYYY')}.pdf`;
-              const s3file = await Upload(result, `realEstate/${bienget.id}/`, name);
-              // console.log('s3file:', s3file);
-              if (s3file !== false && bienget.id) {
-                const doc = await createDocument.createDocument({
-                  variables: {
-                    input: {
-                      s3file: s3file.key,
-                      realEstateId: bienget.id,
-                      key,
-                      name,
+              if (result !== false) {
+                // console.log('result', result);
+                const name = `Quittance_Loyer_${bienget.name}_${moment(route.params.date).format('MM/YYYY')}.pdf`;
+                const s3file = await Upload(result, `realEstate/${bienget.id}/`, name);
+                // console.log('s3file:', s3file);
+                if (s3file !== false && bienget.id) {
+                  const doc = await createDocument.createDocument({
+                    variables: {
+                      input: {
+                        s3file: s3file.key,
+                        realEstateId: bienget.id,
+                        key,
+                        name,
+                      },
                     },
-                  },
-                });
-                setNewDocument(doc.data?.createDocument);
+                  });
+                  setNewDocument(doc.data?.createDocument);
+                }
               }
+            } else {
+              setNewDocument(-1);
             }
           }
         }
@@ -208,57 +207,40 @@ const QuittanceLoyer2 = () => {
        Third: check if houseHolder affected real mouvements
        to created mouvements in MonBudget section
        */}
-      {newDocument
-        ? (
-          <>
-            { (bailStartDate <= paramsDate
-                && paramsDate <= bailEndDate)
-              ? (
-                <>
-                  {budgetLine.bankMouvementId ? (
-                    <>
-                      <View style={{ paddingHorizontal: 27 }}>
-                        <Text category="h2" style={{ marginVertical: 30 }}>Votre document est prêt</Text>
-                        <DocumentComponent document={newDocument} />
-                      </View>
-                    </>
-                  ) : (
-                    <>
-                      <Text style={{ padding: 27, paddingBottom: 5 }}>
-                        {/* eslint-disable-next-line max-len */}
-                        Vous n’avez pas encore perçu le loyer (ou avez oublié d’affecter le mouvement bancaire)
-                      </Text>
 
-                    </>
-                  )}
-                </>
+      {(bailStartDate <= paramsDate
+                && paramsDate <= bailEndDate)
+        ? (
+          newDocument
+            ? (
+              newDocument !== -1 ? (
+                <View style={{ paddingHorizontal: 27 }}>
+                  <Text category="h2" style={{ marginVertical: 30 }}>Votre document est prêt</Text>
+                  <DocumentComponent document={newDocument} />
+                </View>
               ) : (
-                <>
-                  <Text style={{ padding: 27, paddingBottom: 5 }}>
-                    {`${tenant?.lastname} ${tenant?.firstname} n'était pas locataire de votre bien sur la période du `}
-                    {moment(route.params.date).format('DD/MM/YYYY')}
-                  </Text>
-                  <Text style={{ paddingHorizontal: 27 }}>
-                    {`${tenant?.lastname} ${tenant?.firstname} a été locataire de votre bien sur la période du  ${moment(bailStartDate).format('DD/MM/YYYY')} au ${moment(bailEndDate).format('DD/MM/YYYY')} `}
-                  </Text>
-                </>
-              )}
-          </>
-        )
-        : (
+                <Text style={{ padding: 27, paddingBottom: 5 }}>
+                  {/* eslint-disable-next-line max-len */}
+                  Vous n’avez pas encore perçu le loyer (ou avez oublié d’affecter le mouvement bancaire)
+                </Text>
+              )
+            ) : (
+              <View style={{
+                flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 30, paddingHorizontal: 27,
+              }}
+              >
+                <ActivityIndicator />
+              </View>
+            )
+        ) : (
           <>
-            <View style={{
-              flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 30, paddingHorizontal: 27,
-            }}
-            >
-              <Text>
-                Il n'est pas possible de générer une quittance de loyer pour une date ultérieure à aujourd'hui.
-              </Text>
-              <Text style={{ paddingHorizontal: 27 }}>
-                {`${tenant?.lastname} ${tenant?.firstname} a été locataire de votre bien sur la période du  ${moment(bailStartDate).format('DD/MM/YYYY')} au ${moment(bailEndDate).format('DD/MM/YYYY')} `}
-              </Text>
-              {/** <ActivityIndicator /> */}
-            </View>
+            <Text style={{ padding: 27, paddingBottom: 5 }}>
+              {`${tenant?.lastname} ${tenant?.firstname} n'était pas locataire de votre bien sur la période du `}
+              {moment(route.params.date).format('DD/MM/YYYY')}
+            </Text>
+            <Text style={{ paddingHorizontal: 27 }}>
+              {`${tenant?.lastname} ${tenant?.firstname} a été locataire de votre bien sur la période du  ${moment(bailStartDate).format('DD/MM/YYYY')} au ${moment(bailEndDate).format('DD/MM/YYYY')} `}
+            </Text>
           </>
         )}
 

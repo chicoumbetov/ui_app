@@ -2,7 +2,6 @@ import gql from 'graphql-tag';
 import { useMutation, useQuery } from 'react-apollo';
 import { DocumentNode } from 'apollo-link';
 
-import { useEffect } from 'react';
 import {
   Address,
   BudgetLineType,
@@ -21,10 +20,6 @@ import {
   ModelDocumentConnection,
   ModelPendingInvitationConnection,
   ModelRealEstateBankAccountConnection,
-  OnCreateRealEstateSubscription,
-  OnCreateRealEstateSubscriptionVariables,
-  OnUpdateRealEstateSubscription,
-  OnUpdateRealEstateSubscriptionVariables,
   RealEstate,
   RealEstateType,
   TaxType,
@@ -33,8 +28,6 @@ import {
   UpdateRealEstateMutationVariables,
 } from '../API';
 import * as mutations from '../graphql/mutations';
-import * as subscriptions from '../graphql/subscriptions';
-import { useUser } from './UserContext';
 
 export type RealEstateItem = {
   __typename: 'RealEstate',
@@ -602,24 +595,28 @@ const listRealEstatesQuery = <DocumentNode>gql(`query ListRealEstates(
 
 export function useRealEstateList() {
   const {
-    loading, data, fetchMore, refetch, subscribeToMore,
-  } = useQuery<ListRealEstatesQuery, ListRealEstatesQueryVariables>(listRealEstatesQuery);
-  const { user } = useUser();
+    loading, data, fetchMore, refetch,
+  } = useQuery<ListRealEstatesQuery, ListRealEstatesQueryVariables>(listRealEstatesQuery, {
+    fetchPolicy: 'cache-and-network',
+  });
+  /* const { user } = useUser();
 
   useEffect(() => {
     let unsubscribe = () => {};
     if (user?.id) {
-      unsubscribe = subscribeToMore<OnCreateRealEstateSubscription,
+      const subscribe = () => subscribeToMore<OnCreateRealEstateSubscription,
       OnCreateRealEstateSubscriptionVariables>({
         document: gql(subscriptions.onCreateRealEstate),
         variables: {
           admins: user?.id,
         },
+        fetchPolicy: 'cache-and-network',
         /* updateQuery: (prev, { subscriptionData }) => {
           console.log(prev);
           console.log(subscriptionData);
-        }, */
+        }, *
       });
+      unsubscribe = subscribe();
     }
     return () => {
       unsubscribe();
@@ -628,23 +625,24 @@ export function useRealEstateList() {
   useEffect(() => {
     let unsubscribe = () => {};
     if (user?.id) {
-      unsubscribe = subscribeToMore<OnUpdateRealEstateSubscription,
+      const subscribe = () => subscribeToMore<OnUpdateRealEstateSubscription,
       OnUpdateRealEstateSubscriptionVariables>({
         document: gql(subscriptions.onUpdateRealEstate),
         variables: {
           admins: user?.id,
-          shared: user?.id,
         },
-        /* updateQuery: (prev, { subscriptionData }) => {
+        fetchPolicy: 'cache-and-network',
+        updateQuery: (prev, { subscriptionData }) => {
           console.log(prev);
           console.log(subscriptionData);
-        }, */
+        },
       });
+      unsubscribe = subscribe();
     }
     return () => {
       unsubscribe();
     };
-  }, []);
+  }, [user]); */
   return {
     loading, data, fetchMore, refetch,
   };

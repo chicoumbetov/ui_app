@@ -234,10 +234,7 @@ export type GetMovementByRealEstateQuery = {
   } | null,
 };
 
-const listBankMovementsByRealEstateQuery = <DocumentNode>gql(`query listBankMovementsByRealEstateQuery(
-$id: ID!
-$start: String!
-$end: String!) {
+const listBankMovementsByRealEstateQuery = <DocumentNode>gql(`query listBankMovementsByRealEstateQuery($id: ID!, $start: String!, $end: String!) {
   getRealEstate(id: $id) {
     bankMovements(sortDirection: DESC, date: {between: [$start, $end]}, filter: {ignored: {ne: true}}) {
       items {
@@ -269,7 +266,7 @@ export function useListBankMovement(id: string, start: string, end: string) {
       end,
     },
   });
-  console.log('useListBankMovement data: ', data);
+  console.log('useListBankMovement data: ', data, loading);
   return {
     loading, data, fetchMore, refetch,
   };

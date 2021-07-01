@@ -29,7 +29,6 @@ import { AvailableValidationRules } from '../../../components/Form/validation';
 import Separator from '../../../components/Separator';
 import { useCreateBudgetLineDeadlineMutation } from '../../../src/API/BudgetLineDeadLine';
 import DateUtils from '../../../utils/DateUtils';
-import Datepicker from '../../../components/Form/DatePicker';
 
 type ParamBudgetForm = {
   category: string,
@@ -136,6 +135,7 @@ const ParametrerAjoutRevenu = () => {
               frequency,
               nextDueDate,
               tenantId,
+              // eslint-disable-next-line no-underscore-dangle
               _version: currentBudgetLine._version,
             },
           },
@@ -149,6 +149,7 @@ const ParametrerAjoutRevenu = () => {
               amount,
               frequency,
               nextDueDate,
+              // eslint-disable-next-line no-underscore-dangle
               _version: currentBudgetLine._version,
             },
           },
@@ -241,6 +242,10 @@ const ParametrerAjoutRevenu = () => {
 
   const demain = new Date();
   demain.setDate(demain.getDate() + 1);
+
+  const isCreating = updateBudgetLine.mutationLoading
+      || createBudgetLine.mutationLoading
+      || createBudgetLineDeadLine.mutationLoading;
   return (
     <MaxWidthContainer
       withScrollView="keyboardAware"
@@ -295,30 +300,6 @@ const ParametrerAjoutRevenu = () => {
               validators={[AvailableValidationRules.required]}
               onPress={() => setEtape(1)}
             />
-
-            {/**
-            <TouchableOpacity
-              onPress={() => { setEtape(1); }}
-              style={etape === 0 ? (styles.headerDown) : (styles.headerUp)}
-            >
-              <Text category="h6" status="control">
-                Montant
-              </Text>
-              {
-                etape === 0
-                  ? <Icon
-                  name="arrow-ios-downward-outline"
-                  fill={theme['color-basic-100']}
-                  style={{ height: 20, width: 20 }}
-                  />
-                  : <Icon
-                  name="arrow-ios-upward-outline"
-                  fill={theme['color-basic-100']}
-                  style={{ height: 20, width: 20 }}
-                  />
-              }
-            </TouchableOpacity>
-            */}
             <MotiView
               animate={{ height: (etape === 0 && montantShow ? 68 : 0) }}
               style={{ overflow: 'hidden', flexDirection: 'row', alignItems: 'center' }}
@@ -408,29 +389,16 @@ const ParametrerAjoutRevenu = () => {
               ) : (<></>)}
 
             <View style={{ alignItems: 'flex-end', marginTop: 10 }}>
-              {updateBudgetLine.mutationLoading
-              || createBudgetLine.mutationLoading
-              || createBudgetLineDeadLine.mutationLoading
-                ? (
-                  <Button
-                    onPress={paramBudgetForm.handleSubmit((data) => validateBudget(data))}
-                    size="large"
-                    accessoryRight={() => <Spinner status="basic" />}
-                    disabled
-                  >
-                    Chargement
-
-                  </Button>
-                )
-                : (
-                  <Button
-                    onPress={paramBudgetForm.handleSubmit((data) => validateBudget(data))}
-                    size="large"
-                  >
-                    Enregistrer
-
-                  </Button>
-                )}
+              <Button
+                onPress={paramBudgetForm.handleSubmit((data) => {
+                  validateBudget(data);
+                })}
+                size="large"
+                disabled={isCreating}
+                accessoryRight={() => (isCreating ? <Spinner status="basic" /> : <></>)}
+              >
+                {isCreating ? 'Chargement' : 'Enregistrer'}
+              </Button>
             </View>
 
           </>

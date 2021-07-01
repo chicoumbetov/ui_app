@@ -25,7 +25,6 @@ import {
   EvaStatus,
   FalsyFC,
   FalsyText,
-  FlexStyleProps,
   FlexViewCrossStyleProps,
   PropsService,
   RenderProp,
@@ -79,11 +78,13 @@ export type InputElement = React.ReactElement<InputProps>;
  * @property {boolean} disabled - Whether input field is disabled.
  * This property overrides `editable` property of TextInput.
  *
- * @property {ReactText | (TextProps) => ReactElement} label - String, number or a function component
+ * @property {ReactText | (TextProps) => ReactElement} label
+ * - String, number or a function component
  * to render above the input field.
  * If it is a function, expected to return a Text.
  *
- * @property {ReactText | (TextProps) => ReactElement} caption - Function component to render below Input view.
+ * @property {ReactText | (TextProps) => ReactElement} caption
+ * - Function component to render below Input view.
  * Expected to return View.
  *
  * @property {(ImageProps) => ReactElement} accessoryLeft - Function component
@@ -118,7 +119,9 @@ export type InputElement = React.ReactElement<InputProps>;
  * An extra status is `control`, which is designed to be used on high-contrast backgrounds.
  *
  * @overview-example InputAccessories
- * Input may contain labels, captions and inner views by configuring `accessoryLeft` or `accessoryRight` properties.
+ * Input may contain labels, captions and inner views by configuring `accessoryLeft`
+ * or `accessoryRight` properties.
+ *
  * Within Eva, Input accessories are expected to be images or [svg icons](guides/icon-packages).
  *
  * @overview-example InputSize

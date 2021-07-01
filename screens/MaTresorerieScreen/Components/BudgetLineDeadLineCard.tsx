@@ -41,7 +41,7 @@ const BudgetLineDeadLineCard = (props: BudgetLineDeadLineCardProps) => {
     typeImpots,
     typeRevenu,
     typeAssurance, typeDivers, typeBanque);
-
+  console.log('item :', item);
   const saveBudgetLineDeadLine = async (
     data:BudgetLineDeadline,
     newAmount:number,
@@ -83,7 +83,7 @@ const BudgetLineDeadLineCard = (props: BudgetLineDeadLineCardProps) => {
     setEdit(false);
   };
 
-  const removeBudgetLineDeadLine = async (item: BudgetLineDeadline) => {
+  const removeBudgetLineDeadLine = async (thisItem: BudgetLineDeadline) => {
     Alert.alert(
       'Suppression de revenue',
       '',
@@ -97,9 +97,9 @@ const BudgetLineDeadLineCard = (props: BudgetLineDeadLineCardProps) => {
           await deleteBudgetLineDeadLine({
             variables: {
               input: {
-                id: item.id,
+                id: thisItem.id,
                 // eslint-disable-next-line no-underscore-dangle
-                _version: item._version,
+                _version: thisItem._version,
               },
             },
           });
@@ -168,10 +168,16 @@ const BudgetLineDeadLineCard = (props: BudgetLineDeadLineCardProps) => {
               </View>
               {isLoyer && (
               <>
+                <Text
+                  style={{ marginBottom: 15 }}
+                  category="h5"
+                  status="basic"
+                >
+                  Charges
+                </Text>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                   <TextInputComp
                     name="rentalCharges"
-                    label="Charges"
                     defaultValue={item.rentalCharges.toString()}
                     keyboardType="numeric"
                     onChangeValue={(v) => {
@@ -184,10 +190,16 @@ const BudgetLineDeadLineCard = (props: BudgetLineDeadLineCardProps) => {
                     €
                   </Text>
                 </View>
+                <Text
+                  style={{ marginBottom: 15 }}
+                  category="h5"
+                  status="basic"
+                >
+                  Frais de gestion
+                </Text>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                   <TextInputComp
                     name="managementFees"
-                    label="Frais de gestion"
                     defaultValue={item.managementFees.toString()}
                     keyboardType="numeric"
                     onChangeValue={(v) => {

@@ -121,7 +121,7 @@ const AffecterMouvement = () => {
                   <Text
                     style={{ justifyContent: 'center', maxWidth: 135 }}
                     category="h6"
-                    appearance="basic"
+                    status="basic"
                     numberOfLines={1}
                   >
                     {`${item.budgetLineDeadlines?.items?.map((deadLine) => (

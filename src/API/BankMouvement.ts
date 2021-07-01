@@ -71,6 +71,8 @@ $nextToken: String
           type
           category
           amount
+          rentalCharges
+          managementFees
           _version
         }
         nextToken

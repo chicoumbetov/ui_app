@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 // import { useNavigation } from '@react-navigation/native';
 import { Text } from '@ui-kitten/components';
 
@@ -44,46 +44,55 @@ const MesRapportBien2 = () => {
   const end = range.endDate;
 
   /** Object with 3 attributes and its key */
-  const allCurrentCategories: {
-    [key: string]: { value: number, percentage: number, label: string }
-  } = {};
+  const { allCurrentCategories } = useMemo(() => {
+    const allCurrentCategoriesInternal : {
+      [key: string]: { value: number, percentage: number, label: string }
+    } = {};
 
-  if (bienget?.budgetLineDeadlines?.items) {
-    bienget?.budgetLineDeadlines?.items.forEach((item) => {
-      // years for all existing Eau expenses in whole period
-      if (item?.category
-          // eslint-disable-next-line no-underscore-dangle
-          && !item._deleted
-          && item.type === BudgetLineType.Expense
-          && DateUtils.parseToDateObj(item.date) >= range.startDate
-          && DateUtils.parseToDateObj(item.date) <= range.endDate
-      ) {
-        /** If any expoense doesnt exist */
-        if (allCurrentCategories[item?.category] === undefined) {
-          /**
-           * initial values and then calculate percentage starting from 0
-           */
-          allCurrentCategories[item?.category] = {
-            value: item?.amount || 0,
-            percentage: 0,
-            label: item?.category,
-          };
-        } else {
-          /** else If any expoense exist then we add to allCurrentCategories variable */
-          allCurrentCategories[item?.category].value += item?.amount || 0;
+    if (bienget?.budgetLineDeadlines?.items) {
+      bienget?.budgetLineDeadlines?.items.forEach((item) => {
+        // years for all existing Eau expenses in whole period
+        if (item?.category
+            // eslint-disable-next-line no-underscore-dangle
+            && !item._deleted
+            && item.type === BudgetLineType.Expense
+            && DateUtils.parseToDateObj(item.date) >= range.startDate
+            && DateUtils.parseToDateObj(item.date) <= range.endDate
+        ) {
+          /** If any expoense doesnt exist */
+          if (allCurrentCategoriesInternal[item?.category] === undefined) {
+            /**
+             * initial values and then calculate percentage starting from 0
+             */
+            allCurrentCategoriesInternal[item?.category] = {
+              value: item?.amount || 0,
+              percentage: 0,
+              label: item?.category,
+            };
+          } else {
+            /** else If any expoense exist then we add to allCurrentCategories variable */
+            allCurrentCategoriesInternal[item?.category].value += item?.amount || 0;
+          }
         }
-      }
-    });
-  }
+      });
+    }
 
-  const totalExpenses = Object.values(allCurrentCategories).reduce((t, { value }) => t + value, 0);
-  // percentages
-  Object.keys(allCurrentCategories).forEach((property) => {
-    /** Get only percentage variable number that is coefficient from allCurrentCategories and
-     * convert to actual percentage according on total value */
-    allCurrentCategories[property].percentage = Math
-      .round((allCurrentCategories[property].value / totalExpenses) * 100);
-  });
+    const totalExpensesInternal = Object.values(allCurrentCategoriesInternal)
+      .reduce((t, { value }) => t + value, 0);
+
+    // percentages
+    Object.keys(allCurrentCategoriesInternal).forEach((property) => {
+      /** Get only percentage variable number that is coefficient from allCurrentCategories and
+       * convert to actual percentage according on total value */
+      allCurrentCategoriesInternal[property].percentage = Math
+        .round((allCurrentCategoriesInternal[property].value / totalExpensesInternal) * 100);
+    });
+
+    return {
+      totalExpenses: totalExpensesInternal,
+      allCurrentCategories: allCurrentCategoriesInternal,
+    };
+  }, [bienget.budgetLineDeadlines]);
 
   // console.log('allCurrentCategories Mon Bien', allCurrentCategories);
 

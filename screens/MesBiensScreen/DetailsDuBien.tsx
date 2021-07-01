@@ -4,7 +4,7 @@
  * @author: Shynggys UMBETOV
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
   Text, Icon as IconUIKitten, useTheme, CheckBox, Modal,
 } from '@ui-kitten/components';
@@ -208,7 +208,9 @@ function DetailsBien() {
       setSupprim(false);
     }
   };
+
   const updateRealEstate = useUpdateRealEstateMutation();
+
   const deletePendingInvitation = useDeletePendingInvitationMutation();
   const supprimerAdminShare = async () => {
     if (checkedAdmins.length > 0 || checkedShare.length > 0 || checkedPending.length > 0) {
@@ -278,13 +280,27 @@ function DetailsBien() {
 
   // budgetLines are already sorted in schema.graphql
   // sortDirection: ASC
-  const nextexpense = bienget?.budgetLines?.items
-      && bienget?.budgetLines?.items.length > 0
-      && bienget?.budgetLines?.items[0]?.amount;
+  /**
+  const nextexpense = useMemo(() => {
+    const nextexpenseInternal = bienget?.budgetLines?.items
+    && bienget?.budgetLines?.items.length > 0
+    && bienget?.budgetLines?.items[0]?.amount;
 
-  const dernierMovement = bienget?.bankMovements?.items?.find(
-    (item) => { if (item?.ignored) { return false; } return true; },
-  );
+    return {
+      nextexpense: nextexpenseInternal,
+    }
+  }, [bienget.budgetLines])
+   */
+
+  const nextexpense = bienget?.budgetLines?.items
+        && bienget?.budgetLines?.items.length > 0
+        && bienget?.budgetLines?.items[0]?.amount;
+
+  // useMemo used if big O notation is expensive. higher than n to the power 2
+  const dernierMovement = useMemo(() => bienget?.bankMovements?.items?.find(
+    (item) => (!item?.ignored),
+  ), [bienget.bankMovements]);
+
   // console.log('last Movement', dernierMovement);
   let invitationAttente : (PendingInvitation | null)[];
   if (bienget?.pendingInvitations?.items) {

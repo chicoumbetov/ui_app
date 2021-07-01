@@ -85,6 +85,8 @@ export type GetRealEstateQuery = {
         type: BudgetLineType,
         category: string,
         amount: number,
+        rentalCharges?: number | null,
+        managementFees?: number | null,
         frequency: Frequency,
         nextDueDate?: string | null,
         infoCredit?: {
@@ -180,8 +182,6 @@ export type GetRealEstateQuery = {
       __typename: 'TenantInfo',
       id: string,
       amount: number,
-      rentalCharges?: number | null,
-      managementFees?: number | null,
       lastname: string,
       firstname: string,
       email: string,
@@ -236,8 +236,6 @@ export const getRealEstateQuery = <DocumentNode>gql(`
       tenants {
         id
         amount
-        rentalCharges
-        managementFees
         lastname
         firstname
         email
@@ -287,6 +285,8 @@ export const getRealEstateQuery = <DocumentNode>gql(`
           type
           category
           amount
+          rentalCharges
+          managementFees
           frequency
           nextDueDate
           infoCredit {
@@ -315,6 +315,8 @@ export const getRealEstateQuery = <DocumentNode>gql(`
           type
           category
           amount
+          rentalCharges
+          managementFees
           frequency
           date
           infoCredit {
@@ -428,8 +430,6 @@ const listRealEstatesQuery = <DocumentNode>gql(`query ListRealEstates(
         tenants {
           id
           amount
-          rentalCharges
-          managementFees
           lastname
           firstname
           email
@@ -479,6 +479,8 @@ const listRealEstatesQuery = <DocumentNode>gql(`query ListRealEstates(
             type
             category
             amount
+            rentalCharges
+            managementFees
             frequency
             nextDueDate
             infoCredit {
@@ -507,6 +509,8 @@ const listRealEstatesQuery = <DocumentNode>gql(`query ListRealEstates(
             type
             category
             amount
+            rentalCharges
+            managementFees
             frequency
             date
             infoCredit {

@@ -59,6 +59,8 @@ type AjoutBienForm = {
   detentionPart?: number | null,
   company?: CompanyType | null,
   typeImpot?: TaxType | null,
+  purchasePrice?: number | null,
+  notaryFee?: number | null,
 };
 
 // pour utiliser la Key plutôt que le label depuis data reference
@@ -493,6 +495,7 @@ function AjoutBienScreen() {
                 placeholder="yyyy"
                 maxLength={4}
                 icon="calendar-outline"
+                validators={[AvailableValidationRules.required]}
               />
             </View>
 
@@ -504,6 +507,7 @@ function AjoutBienScreen() {
                 size="large"
                 appearance="default"
                 status="primary"
+                validators={[AvailableValidationRules.required]}
               />
               <SelectComp
                 name="ownName"
@@ -521,6 +525,7 @@ function AjoutBienScreen() {
                 size="large"
                 appearance="default"
                 status="primary"
+                validators={[AvailableValidationRules.required]}
               />
             </View>
 
@@ -532,7 +537,7 @@ function AjoutBienScreen() {
                   data={typeDetentionArray}
                   placeholder="Type De Détention"
                   onChangeValue={(v) => {
-                    if (v === 'Indivision') {
+                    if (v === 'indivision') {
                       setPourcentageDetentionShow(true);
                     } else {
                       ajoutBienForm.setValue('detentionPart', '100');
@@ -542,6 +547,7 @@ function AjoutBienScreen() {
                   size="large"
                   appearance="default"
                   status="primary"
+                  validators={[AvailableValidationRules.required]}
                 />
               </View>
               )}
@@ -549,8 +555,8 @@ function AjoutBienScreen() {
             {statutShow
               && (
               <View style={{ height: 125 }}>
-                <SelectComp name="company" data={typeStatutArray} placeholder="Status" size="large" appearance="default" status="primary" />
-                <SelectComp name="typeImpot" data={typeImpotArray} placeholder="Type d'imposition" size="large" appearance="default" status="primary" />
+                <SelectComp name="company" data={typeStatutArray} placeholder="Status" size="large" appearance="default" status="primary" validators={[AvailableValidationRules.required]} />
+                <SelectComp name="typeImpot" data={typeImpotArray} placeholder="Type d'imposition" size="large" appearance="default" status="primary" validators={[AvailableValidationRules.required]} />
               </View>
               )}
 
@@ -585,6 +591,28 @@ function AjoutBienScreen() {
 
             </MotiView>
 
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <Text category="h5">Prix d'acquisition</Text>
+              <TextInput
+                name="purchasePrice"
+                size="small"
+                keyboardType="numeric"
+                validators={[AvailableValidationRules.required, AvailableValidationRules.float]}
+                style={{ flex: 1, marginRight: 10, marginHorizontal: 10 }}
+              />
+              <Text category="h5">€</Text>
+            </View>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <Text category="h5">Frais de notaire</Text>
+              <TextInput
+                name="notaryFee"
+                size="small"
+                keyboardType="numeric"
+                validators={[AvailableValidationRules.required, AvailableValidationRules.float]}
+                style={{ flex: 1, marginRight: 10, marginHorizontal: 10 }}
+              />
+              <Text category="h5">€</Text>
+            </View>
             <View style={{ marginBottom: 20 }}>
               {createRealEstate.mutationLoading || updateRealEstate.mutationLoading
                 ? (

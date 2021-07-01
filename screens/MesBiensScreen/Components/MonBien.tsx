@@ -45,7 +45,7 @@ const MonBien = (props: MonBienProps) => {
   // const navigation = useNavigation();
   const [opened, setOpened] = useState(false);
   // const theme = useTheme();
-  // console.log('bienget : ', bienget);
+  console.log('bienget : ', bienget);
 
   /**
    *   Rentabilité
@@ -73,15 +73,16 @@ const MonBien = (props: MonBienProps) => {
    *
    */
   const currentYear = new Date().getFullYear();
+  const { budgetLineDeadlines, budgetLines, bankMovements } = bienget || {};
 
   const firstDayCurrentYear = new Date(new Date().getFullYear(), 0, 1);
   const lastDayCurrentYear = new Date(new Date().getFullYear(), 11, 31);
 
   // budgetLines are already sorted in schema.graphql
   // sortDirection: ASC
-  const nextexpense = bienget?.budgetLines?.items
-      && bienget?.budgetLines?.items.length > 0
-      && bienget?.budgetLines?.items[0]?.amount;
+  const nextexpense = budgetLines?.items
+      && budgetLines?.items.length > 0
+      && budgetLines?.items[0]?.amount;
 
   const allPossibleTypes = {};
   _.merge(allPossibleTypes, typeCharge,
@@ -94,11 +95,11 @@ const MonBien = (props: MonBienProps) => {
     const allCurrentCategoriesInternal : {
       [key: string]: { value: number, percentage: number, label: string }
     } = {};
-    /**
+      /**
      * Get all expenses of current year
      */
-    if (bienget?.budgetLineDeadlines?.items) {
-      bienget?.budgetLineDeadlines?.items.forEach((item) => {
+    if (budgetLineDeadlines?.items) {
+      budgetLineDeadlines?.items.forEach((item) => {
         // years for all existing Eau expenses in whole period
         const allYears = DateUtils.parseToDateObj(item?.date).getFullYear();
 
@@ -139,7 +140,12 @@ const MonBien = (props: MonBienProps) => {
       totalExpenses: totalExpensesInternal,
       allCurrentCategories: allCurrentCategoriesInternal,
     };
-  }, [bienget.budgetLineDeadlines]);
+  }, [budgetLineDeadlines]);
+
+  // useMemo used if big O notation is expensive. higher than n to the power 2
+  const dernierMovement = useMemo(() => bankMovements?.items?.find(
+    (item) => (!item?.ignored),
+  ), [bankMovements]);
 
   // console.log('allCurrentCategories Mon Bien', allCurrentCategories);
 
@@ -154,11 +160,6 @@ const MonBien = (props: MonBienProps) => {
   const onDetailsBiens = (id: string) => {
     linkTo(`/mes-biens/bien/${id}`);
   };
-
-  // useMemo used if big O notation is expensive. higher than n to the power 2
-  const dernierMovement = useMemo(() => bienget?.bankMovements?.items?.find(
-    (item) => (!item?.ignored),
-  ), [bienget.bankMovements]);
 
   return (
     <MaxWidthContainer

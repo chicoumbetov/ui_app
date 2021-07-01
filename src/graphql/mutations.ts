@@ -45,6 +45,8 @@ export const updateBankAccount = /* GraphQL */ `
             company
             detentionPart
             typeImpot
+            purchasePrice
+            notaryFee
             admins
             shared
             _version
@@ -98,6 +100,8 @@ export const updateBankAccount = /* GraphQL */ `
             company
             detentionPart
             typeImpot
+            purchasePrice
+            notaryFee
             admins
             shared
             _version
@@ -173,6 +177,8 @@ export const deleteBankAccount = /* GraphQL */ `
             company
             detentionPart
             typeImpot
+            purchasePrice
+            notaryFee
             admins
             shared
             _version
@@ -226,6 +232,8 @@ export const deleteBankAccount = /* GraphQL */ `
             company
             detentionPart
             typeImpot
+            purchasePrice
+            notaryFee
             admins
             shared
             _version
@@ -291,6 +299,8 @@ export const updateBankMovement = /* GraphQL */ `
         }
         detentionPart
         typeImpot
+        purchasePrice
+        notaryFee
         admins
         shared
         tenants {
@@ -503,6 +513,8 @@ export const updateBankMovement = /* GraphQL */ `
             company
             detentionPart
             typeImpot
+            purchasePrice
+            notaryFee
             admins
             shared
             _version
@@ -584,6 +596,8 @@ export const deleteBankMovement = /* GraphQL */ `
         }
         detentionPart
         typeImpot
+        purchasePrice
+        notaryFee
         admins
         shared
         tenants {
@@ -796,6 +810,8 @@ export const deleteBankMovement = /* GraphQL */ `
             company
             detentionPart
             typeImpot
+            purchasePrice
+            notaryFee
             admins
             shared
             _version
@@ -894,6 +910,8 @@ export const updateBudgetLine = /* GraphQL */ `
         }
         detentionPart
         typeImpot
+        purchasePrice
+        notaryFee
         admins
         shared
         tenants {
@@ -1074,6 +1092,8 @@ export const deleteBudgetLine = /* GraphQL */ `
         }
         detentionPart
         typeImpot
+        purchasePrice
+        notaryFee
         admins
         shared
         tenants {
@@ -1247,6 +1267,8 @@ export const updateBudgetLineDeadline = /* GraphQL */ `
         }
         detentionPart
         typeImpot
+        purchasePrice
+        notaryFee
         admins
         shared
         tenants {
@@ -1405,6 +1427,8 @@ export const updateBudgetLineDeadline = /* GraphQL */ `
           }
           detentionPart
           typeImpot
+          purchasePrice
+          notaryFee
           admins
           shared
           tenants {
@@ -1544,6 +1568,8 @@ export const updateBudgetLineDeadline = /* GraphQL */ `
           }
           detentionPart
           typeImpot
+          purchasePrice
+          notaryFee
           admins
           shared
           tenants {
@@ -1632,6 +1658,8 @@ export const deleteBudgetLineDeadline = /* GraphQL */ `
         }
         detentionPart
         typeImpot
+        purchasePrice
+        notaryFee
         admins
         shared
         tenants {
@@ -1790,6 +1818,8 @@ export const deleteBudgetLineDeadline = /* GraphQL */ `
           }
           detentionPart
           typeImpot
+          purchasePrice
+          notaryFee
           admins
           shared
           tenants {
@@ -1929,6 +1959,8 @@ export const deleteBudgetLineDeadline = /* GraphQL */ `
           }
           detentionPart
           typeImpot
+          purchasePrice
+          notaryFee
           admins
           shared
           tenants {
@@ -2004,6 +2036,8 @@ export const updateDocument = /* GraphQL */ `
         }
         detentionPart
         typeImpot
+        purchasePrice
+        notaryFee
         admins
         shared
         tenants {
@@ -2164,6 +2198,8 @@ export const deleteDocument = /* GraphQL */ `
         }
         detentionPart
         typeImpot
+        purchasePrice
+        notaryFee
         admins
         shared
         tenants {
@@ -2324,6 +2360,8 @@ export const updateRealEstateBankAccount = /* GraphQL */ `
         }
         detentionPart
         typeImpot
+        purchasePrice
+        notaryFee
         admins
         shared
         tenants {
@@ -2534,6 +2572,8 @@ export const deleteRealEstateBankAccount = /* GraphQL */ `
         }
         detentionPart
         typeImpot
+        purchasePrice
+        notaryFee
         admins
         shared
         tenants {
@@ -2946,6 +2986,8 @@ export const createRealEstate = /* GraphQL */ `
       }
       detentionPart
       typeImpot
+      purchasePrice
+      notaryFee
       admins
       shared
       tenants {
@@ -2983,6 +3025,8 @@ export const createRealEstate = /* GraphQL */ `
             company
             detentionPart
             typeImpot
+            purchasePrice
+            notaryFee
             admins
             shared
             _version
@@ -3017,6 +3061,8 @@ export const createRealEstate = /* GraphQL */ `
             company
             detentionPart
             typeImpot
+            purchasePrice
+            notaryFee
             admins
             shared
             _version
@@ -3054,6 +3100,8 @@ export const createRealEstate = /* GraphQL */ `
             company
             detentionPart
             typeImpot
+            purchasePrice
+            notaryFee
             admins
             shared
             _version
@@ -3122,6 +3170,8 @@ export const createRealEstate = /* GraphQL */ `
             company
             detentionPart
             typeImpot
+            purchasePrice
+            notaryFee
             admins
             shared
             _version
@@ -3169,6 +3219,8 @@ export const createRealEstate = /* GraphQL */ `
             company
             detentionPart
             typeImpot
+            purchasePrice
+            notaryFee
             admins
             shared
             _version
@@ -3234,6 +3286,8 @@ export const createRealEstate = /* GraphQL */ `
             company
             detentionPart
             typeImpot
+            purchasePrice
+            notaryFee
             admins
             shared
             _version
@@ -3288,6 +3342,8 @@ export const updateRealEstate = /* GraphQL */ `
       }
       detentionPart
       typeImpot
+      purchasePrice
+      notaryFee
       admins
       shared
       tenants {
@@ -3325,6 +3381,8 @@ export const updateRealEstate = /* GraphQL */ `
             company
             detentionPart
             typeImpot
+            purchasePrice
+            notaryFee
             admins
             shared
             _version
@@ -3359,6 +3417,8 @@ export const updateRealEstate = /* GraphQL */ `
             company
             detentionPart
             typeImpot
+            purchasePrice
+            notaryFee
             admins
             shared
             _version
@@ -3396,6 +3456,8 @@ export const updateRealEstate = /* GraphQL */ `
             company
             detentionPart
             typeImpot
+            purchasePrice
+            notaryFee
             admins
             shared
             _version
@@ -3464,6 +3526,8 @@ export const updateRealEstate = /* GraphQL */ `
             company
             detentionPart
             typeImpot
+            purchasePrice
+            notaryFee
             admins
             shared
             _version
@@ -3511,6 +3575,8 @@ export const updateRealEstate = /* GraphQL */ `
             company
             detentionPart
             typeImpot
+            purchasePrice
+            notaryFee
             admins
             shared
             _version
@@ -3576,6 +3642,8 @@ export const updateRealEstate = /* GraphQL */ `
             company
             detentionPart
             typeImpot
+            purchasePrice
+            notaryFee
             admins
             shared
             _version
@@ -3630,6 +3698,8 @@ export const deleteRealEstate = /* GraphQL */ `
       }
       detentionPart
       typeImpot
+      purchasePrice
+      notaryFee
       admins
       shared
       tenants {
@@ -3667,6 +3737,8 @@ export const deleteRealEstate = /* GraphQL */ `
             company
             detentionPart
             typeImpot
+            purchasePrice
+            notaryFee
             admins
             shared
             _version
@@ -3701,6 +3773,8 @@ export const deleteRealEstate = /* GraphQL */ `
             company
             detentionPart
             typeImpot
+            purchasePrice
+            notaryFee
             admins
             shared
             _version
@@ -3738,6 +3812,8 @@ export const deleteRealEstate = /* GraphQL */ `
             company
             detentionPart
             typeImpot
+            purchasePrice
+            notaryFee
             admins
             shared
             _version
@@ -3806,6 +3882,8 @@ export const deleteRealEstate = /* GraphQL */ `
             company
             detentionPart
             typeImpot
+            purchasePrice
+            notaryFee
             admins
             shared
             _version
@@ -3853,6 +3931,8 @@ export const deleteRealEstate = /* GraphQL */ `
             company
             detentionPart
             typeImpot
+            purchasePrice
+            notaryFee
             admins
             shared
             _version
@@ -3918,6 +3998,8 @@ export const deleteRealEstate = /* GraphQL */ `
             company
             detentionPart
             typeImpot
+            purchasePrice
+            notaryFee
             admins
             shared
             _version
@@ -3982,6 +4064,8 @@ export const createPendingInvitation = /* GraphQL */ `
         }
         detentionPart
         typeImpot
+        purchasePrice
+        notaryFee
         admins
         shared
         tenants {
@@ -4144,6 +4228,8 @@ export const updatePendingInvitation = /* GraphQL */ `
         }
         detentionPart
         typeImpot
+        purchasePrice
+        notaryFee
         admins
         shared
         tenants {
@@ -4306,6 +4392,8 @@ export const deletePendingInvitation = /* GraphQL */ `
         }
         detentionPart
         typeImpot
+        purchasePrice
+        notaryFee
         admins
         shared
         tenants {
@@ -4469,6 +4557,8 @@ export const createDocument = /* GraphQL */ `
         }
         detentionPart
         typeImpot
+        purchasePrice
+        notaryFee
         admins
         shared
         tenants {
@@ -4645,6 +4735,8 @@ export const createBankAccount = /* GraphQL */ `
             company
             detentionPart
             typeImpot
+            purchasePrice
+            notaryFee
             admins
             shared
             _version
@@ -4698,6 +4790,8 @@ export const createBankAccount = /* GraphQL */ `
             company
             detentionPart
             typeImpot
+            purchasePrice
+            notaryFee
             admins
             shared
             _version
@@ -4766,6 +4860,8 @@ export const createBankMovement = /* GraphQL */ `
         }
         detentionPart
         typeImpot
+        purchasePrice
+        notaryFee
         admins
         shared
         tenants {
@@ -4978,6 +5074,8 @@ export const createBankMovement = /* GraphQL */ `
             company
             detentionPart
             typeImpot
+            purchasePrice
+            notaryFee
             admins
             shared
             _version
@@ -5229,6 +5327,8 @@ export const createBudgetLine = /* GraphQL */ `
         }
         detentionPart
         typeImpot
+        purchasePrice
+        notaryFee
         admins
         shared
         tenants {
@@ -5405,6 +5505,8 @@ export const createBudgetLineDeadline = /* GraphQL */ `
         }
         detentionPart
         typeImpot
+        purchasePrice
+        notaryFee
         admins
         shared
         tenants {
@@ -5563,6 +5665,8 @@ export const createBudgetLineDeadline = /* GraphQL */ `
           }
           detentionPart
           typeImpot
+          purchasePrice
+          notaryFee
           admins
           shared
           tenants {
@@ -5702,6 +5806,8 @@ export const createBudgetLineDeadline = /* GraphQL */ `
           }
           detentionPart
           typeImpot
+          purchasePrice
+          notaryFee
           admins
           shared
           tenants {
@@ -5988,6 +6094,8 @@ export const createRealEstateBankAccount = /* GraphQL */ `
         }
         detentionPart
         typeImpot
+        purchasePrice
+        notaryFee
         admins
         shared
         tenants {

@@ -163,6 +163,8 @@ export declare class RealEstate {
   readonly address?: Address;
   readonly detentionPart?: number;
   readonly typeImpot?: TaxType | keyof typeof TaxType;
+  readonly purchasePrice?: number;
+  readonly notaryFee?: number;
   readonly bankAccounts?: (RealEstateBankAccount | null)[];
   readonly bankMovements?: (BankMovement | null)[];
   readonly budgetLines?: (BudgetLine | null)[];

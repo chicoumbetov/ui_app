@@ -384,6 +384,20 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
+                "purchasePrice": {
+                    "name": "purchasePrice",
+                    "isArray": false,
+                    "type": "Float",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "notaryFee": {
+                    "name": "notaryFee",
+                    "isArray": false,
+                    "type": "Float",
+                    "isRequired": false,
+                    "attributes": []
+                },
                 "bankAccounts": {
                     "name": "bankAccounts",
                     "isArray": true,
@@ -2309,5 +2323,5 @@ export const schema = {
             }
         }
     },
-    "version": "7e9b740e9a5541edfa8f62fb90310b83"
+    "version": "bcc114e96207224c7113ff25d71bf6eb"
 };

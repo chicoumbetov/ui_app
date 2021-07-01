@@ -52,6 +52,8 @@ type RealEstate
     address: Address
     detentionPart: Float
     typeImpot: TaxType
+    purchasePrice: Float
+    notaryFee: Float
     bankAccounts: [RealEstateBankAccount]
     @connection(keyName: "bankAccountsByRealEstate", fields: ["id"])
     bankMovements: [BankMovement]

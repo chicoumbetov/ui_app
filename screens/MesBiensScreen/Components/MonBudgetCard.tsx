@@ -31,7 +31,6 @@ _.merge(allPossibleTypes, typeCharge,
   typeImpots,
   typeRevenu,
   typeAssurance, typeDivers, typeBanque);
-console.log(allPossibleTypes);
 
 const MonBudgetCard = (props: MonBudgetProps) => {
   const { budget, realEstate } = props;

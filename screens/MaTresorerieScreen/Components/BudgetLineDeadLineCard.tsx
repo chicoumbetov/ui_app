@@ -4,6 +4,7 @@ import {
 } from '@ui-kitten/components';
 import moment from 'moment';
 import React, { useState } from 'react';
+import _ from 'lodash';
 import TextInputComp from '../../../components/Form/TextInput';
 import { BudgetLineDeadline } from '../../../src/API';
 import Amount from '../../../components/Amount';
@@ -11,6 +12,13 @@ import {
   useDeleteBudgetLineDeadlineMutation,
   useUpdateBudgetLineDeadlineMutation,
 } from '../../../src/API/BudgetLineDeadLine';
+import {
+  typeAssurance, typeBanque,
+  typeCharge,
+  typeDivers,
+  typeImpots,
+  typeRevenu,
+} from '../../../mockData/ajoutRevenuData';
 
 type BudgetLineDeadLineCardProps = {
   item: BudgetLineDeadline;
@@ -28,8 +36,14 @@ const BudgetLineDeadLineCard = (props: BudgetLineDeadLineCardProps) => {
   const { updateBudgetLineDeadline, mutationLoading } = useUpdateBudgetLineDeadlineMutation();
   const deleteBudgetLineDeadLine = useDeleteBudgetLineDeadlineMutation();
 
+  const allPossibleTypes = {};
+  _.merge(allPossibleTypes, typeCharge,
+    typeImpots,
+    typeRevenu,
+    typeAssurance, typeDivers, typeBanque);
+
   const saveBudgetLineDeadLine = async (data:BudgetLineDeadline, newAmount:number, neawManagementFees?: number, newRentalCharges?: number) => {
-    if (item.category === 'Loyer') {
+    if (item.category === 'loyer') {
       await updateBudgetLineDeadline({
         variables: {
           input: {
@@ -90,7 +104,7 @@ const BudgetLineDeadLineCard = (props: BudgetLineDeadLineCardProps) => {
   };
 
   let isLoyer = false;
-  if (item.category === 'Loyer') {
+  if (item.category === 'loyer') {
     isLoyer = true;
   }
 
@@ -125,10 +139,10 @@ const BudgetLineDeadLineCard = (props: BudgetLineDeadLineCardProps) => {
 
           <Text
             style={{ marginBottom: 15 }}
-            category="h4"
+            category="h5"
             status="basic"
           >
-            {item.category}
+            {allPossibleTypes[item.category].label}
           </Text>
           {edit ? (
             <>

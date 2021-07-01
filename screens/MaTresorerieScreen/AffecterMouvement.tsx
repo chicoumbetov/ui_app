@@ -10,6 +10,7 @@ import {
 import { useRoute } from '@react-navigation/native';
 import { RouteProp } from '@react-navigation/core/lib/typescript/src/types';
 import moment from 'moment';
+import _ from 'lodash';
 import { useGetRealEstate } from '../../src/API/RealEstate';
 
 import CompteHeader from '../../components/CompteHeader/CompteHeader';
@@ -23,6 +24,13 @@ import Card from '../../components/Card';
 import Amount from '../../components/Amount';
 import MouvementAffecter from './Components/MouvementAffecter';
 import ActionSheet from '../../components/ActionSheet/ActionSheet';
+import {
+  typeAssurance, typeBanque,
+  typeCharge,
+  typeDivers,
+  typeImpots,
+  typeRevenu,
+} from '../../mockData/ajoutRevenuData';
 
 const AffecterMouvement = () => {
   // const { compte } = props;
@@ -34,7 +42,11 @@ const AffecterMouvement = () => {
   const { bankAccount } = useGetBankAccount(route.params.idCompte);
   const [movementAffecte, setMovementAffecte] = useState<BankMovement[]>();
 
-  console.log('affecté', bankMouvement);
+  const allPossibleTypes = {};
+  _.merge(allPossibleTypes, typeCharge,
+    typeImpots,
+    typeRevenu,
+    typeAssurance, typeDivers, typeBanque);
 
   useEffect(() => {
     const currentMovementAffecte = bankMouvement.filter((item) => {
@@ -125,7 +137,7 @@ const AffecterMouvement = () => {
                     numberOfLines={1}
                   >
                     {`${item.budgetLineDeadlines?.items?.map((deadLine) => (
-                      deadLine?.category
+                      allPossibleTypes[deadLine.category].label
                     )).join(', ')}`}
 
                   </Text>

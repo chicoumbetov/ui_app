@@ -97,13 +97,11 @@ const MonBien = (props: MonBienProps) => {
     /**
      * Get all expenses of current year
      */
-    console.log('1 :', bienget?.budgetLineDeadlines?.items);
     if (bienget?.budgetLineDeadlines?.items) {
       bienget?.budgetLineDeadlines?.items.forEach((item) => {
         // years for all existing Eau expenses in whole period
         const allYears = DateUtils.parseToDateObj(item?.date).getFullYear();
 
-        console.log(allPossibleTypes[item?.category].label);
         if (item?.category
             && allYears === currentYear
             && item.type === BudgetLineType.Expense) {

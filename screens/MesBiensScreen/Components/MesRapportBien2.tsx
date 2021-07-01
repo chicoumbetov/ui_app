@@ -4,6 +4,7 @@ import { Text } from '@ui-kitten/components';
 
 import { useRoute } from '@react-navigation/native';
 import { View } from 'react-native';
+import _ from 'lodash';
 import MaxWidthContainer from '../../../components/MaxWidthContainer';
 import CompteHeader from '../../../components/CompteHeader/CompteHeader';
 
@@ -14,6 +15,13 @@ import Separator from '../../../components/Separator';
 import Card from '../../../components/Card';
 import DateUtils from '../../../utils/DateUtils';
 import { BudgetLineType } from '../../../src/API';
+import {
+  typeAssurance, typeBanque,
+  typeCharge,
+  typeDivers,
+  typeImpots,
+  typeRevenu,
+} from '../../../mockData/ajoutRevenuData';
 
 /**
 const mesBiensData = [
@@ -42,6 +50,11 @@ const MesRapportBien2 = () => {
   const { bienget } = useGetRealEstate(id);
   const start = range.startDate;
   const end = range.endDate;
+  const allPossibleTypes = {};
+  _.merge(allPossibleTypes, typeCharge,
+    typeImpots,
+    typeRevenu,
+    typeAssurance, typeDivers, typeBanque);
 
   /** Object with 3 attributes and its key */
   const { allCurrentCategories } = useMemo(() => {
@@ -67,7 +80,7 @@ const MesRapportBien2 = () => {
             allCurrentCategoriesInternal[item?.category] = {
               value: item?.amount || 0,
               percentage: 0,
-              label: item?.category,
+              label: allPossibleTypes[item?.category].label,
             };
           } else {
             /** else If any expoense exist then we add to allCurrentCategories variable */

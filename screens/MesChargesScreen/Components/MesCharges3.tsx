@@ -85,56 +85,6 @@ const MesCharges3 = () => {
     };
   }, [biensDetails.data?.listRealEstates]);
 
-  /**
-  // 33333333333
-  const fullSortExpense = biensDetails.data?.listRealEstates?.items?.map(
-    (item) => (item && {
-      ...item,
-      totalValue: item?.budgetLineDeadlines?.items?.filter((x) => (x
-          && x?.category === title
-        // eslint-disable-next-line no-underscore-dangle
-        && !x._deleted
-        && DateUtils.parseToDateObj(x.date) >= range.startDate
-        && DateUtils.parseToDateObj(x.date) <= range.endDate))
-        .reduce((t, x) => t + (x ? x.amount : 0), 0),
-    }),
-  );
-
-  // Object with 3 attributes and its key
-  const allCurrentCategories: {
-    [key: string]: { value: number, percentage: number, label: string, icon?: string }
-  } = {};
-
-  // 66666666
-  if (fullSortExpense) {
-    fullSortExpense.forEach((item) => {
-      // console.log('maison', item);
-      if (item) {
-        allCurrentCategories[item.name] = {
-          value: item.totalValue || 0,
-          percentage: 0,
-          label: item.name,
-          icon: item.iconUri,
-        };
-      }
-    });
-  }
-
-  // 4444444
-  const totalExpenses = Object.values(allCurrentCategories)
-    .reduce((t, { value }) => t + value, 0);
-  // console.log('totalExpenses', totalExpenses);
-
-  // 55555
-  // percentages
-  Object.keys(allCurrentCategories).forEach((property) => {
-    // Get only percentage variable number that is coefficient from allCurrentCategories and
-     //convert to actual percentage according on total value
-    allCurrentCategories[property].percentage = Math
-      .round((allCurrentCategories[property].value / totalExpenses) * 100);
-  });
-  */
-
   // console.log('fullSortExpense', fullSortExpense);
   // console.log('allCurrentCategories', allCurrentCategories);
 

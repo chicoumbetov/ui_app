@@ -85,7 +85,7 @@ export default function Form<T>({
   };
   useUpdateEffect(() => {
     registerChildren(children);
-  }, [register]);
+  }, [register, children]);
   React.useEffect(() => {
     // lors du premier render on met les valeurs, sinon elles manquent
     registerChildren(children, true);

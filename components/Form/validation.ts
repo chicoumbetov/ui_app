@@ -88,7 +88,7 @@ const availableValidationRulesDefinition: ValidationRulesDefinitionMap = {
   float: (name?: string, message?:string): ValidationRules => ({
     validate: {
       float: (data: string | undefined) => {
-        if (!Number(data)) {
+        if (Number.isNaN(Number(data))) {
           return message || `${name} ne doit pas contenir de lettres`;
         }
         return true;

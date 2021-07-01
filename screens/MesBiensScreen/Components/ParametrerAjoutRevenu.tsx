@@ -29,6 +29,7 @@ import { AvailableValidationRules } from '../../../components/Form/validation';
 import Separator from '../../../components/Separator';
 import { useCreateBudgetLineDeadlineMutation } from '../../../src/API/BudgetLineDeadLine';
 import DateUtils from '../../../utils/DateUtils';
+import Datepicker from '../../../components/Form/DatePicker';
 
 type ParamBudgetForm = {
   category: string,
@@ -231,6 +232,8 @@ const ParametrerAjoutRevenu = () => {
     navigation.pop();
   };
 
+  const demain = new Date();
+  demain.setDate(demain.getDate() + 1);
   return (
     <MaxWidthContainer
       withScrollView="keyboardAware"
@@ -364,6 +367,9 @@ const ParametrerAjoutRevenu = () => {
                       name="nextDueDate"
                       placeholder="Date de dernière échéance"
                       icon="calendar-outline"
+                      // pas avant demain
+                      // (sinon le cron ne tournera jamais et on aura jamais les échéances)
+                      min={demain}
                       validators={[AvailableValidationRules.required]}
                     />
                   )}

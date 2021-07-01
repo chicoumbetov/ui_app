@@ -23,7 +23,7 @@ const updateBudgetLine = async (client: AppSyncClient, input: UpdateBudgetLineIn
       nextDueDate
       infoCredit {
         borrowedCapital
-        loadStartDate
+        loanStartDate
         duration
         interestRate
         assuranceRate
@@ -41,6 +41,9 @@ const updateBudgetLine = async (client: AppSyncClient, input: UpdateBudgetLineIn
       _lastChangedAt
       createdAt
       updatedAt
+      householdWaste
+      managementFees
+      rentalCharges
     }
   }
 `), // use your graphql query here

@@ -53,7 +53,7 @@ export declare class Address {
 
 export declare class MortgageLoanInfo {
   readonly borrowedCapital: number;
-  readonly loadStartDate?: string;
+  readonly loanStartDate?: string;
   readonly duration?: number;
   readonly interestRate?: number;
   readonly assuranceRate?: number;

@@ -6,67 +6,94 @@
 Amplify Params - DO NOT EDIT */
 
 import getAppSyncClient from '/opt/nodejs/src/AppSyncClient';
-import { Expo } from 'expo-server-sdk';
-import { listNotificationTickets } from '/opt/nodejs/src/NotificationTicketsQueries';
-import { deleteNotificationTicketsMutation } from '/opt/nodejs/src/NotificationTicketsMutation';
-import { getUserById } from '/opt/nodejs/src/UserQueries';
-import { updateUser } from '/opt/nodejs/src/UserMutation';
+import { listBudgetLines } from '/opt/nodejs/src/BudgetLineQueries';
+import { updateBudgetLine } from '/opt/nodejs/src/BudgetLineMutations';
+import { createBudgetLineDeadline } from '/opt/nodejs/src/BudgetLineDeadlineMutations';
+import {
+  CreateBudgetLineDeadlineInput,
+  MortgageLoanDeadlineInfoInput,
+} from '../../../../../src/API';
+import DateUtils from './DateUtils';
 
 const AppSyncClient = getAppSyncClient(process.env);
-const expo = new Expo();
 
 exports.handler = async () => {
-  // on récupère les tickets
-  const list = await listNotificationTickets(AppSyncClient, 1000);
+  // on récupère toutes les budget line
+  const currentDate = (new Date()).toISOString().substr(0, 10);
+  const list = await listBudgetLines(AppSyncClient, currentDate, currentDate);
 
   if (list) {
-    const map = list.map(async (ticket) => {
+    const map = list.map(async (budgetLine) => {
       // eslint-disable-next-line no-underscore-dangle
-      if (ticket && !ticket._deleted) {
-        const receiptIdChunks = expo.chunkPushNotificationReceiptIds(ticket.ticketIds);
-        let i = 0;
-        // Like sending notifications, there are different strategies you could use
-        // to retrieve batches of receipts from the Expo service.
-        // eslint-disable-next-line no-restricted-syntax
-        for (const chunk of receiptIdChunks) {
-          try {
-            // eslint-disable-next-line no-await-in-loop
-            const receipts = await expo.getPushNotificationReceiptsAsync(chunk);
-            console.log(receipts);
+      if (budgetLine._deleted !== true) {
+        const {
+          realEstateId,
+          id,
+          type,
+          category,
+          amount,
+          frequency,
+          tenantId,
+          rentalCharges,
+          managementFees,
+          householdWaste,
+          infoCredit: budgetLineInfoCredit,
+          // eslint-disable-next-line @typescript-eslint/naming-convention
+          _version,
+        } = budgetLine;
 
-            // The receipts specify whether Apple or Google successfully received the
-            // notification and information about an error, if one occurred.
-            // eslint-disable-next-line guard-for-in,no-restricted-syntax
-            for (const receiptId in receipts) {
-              const receipt = receipts[receiptId];
-              if (receipt.status === 'error'
-                  && receipt.details?.error === 'DeviceNotRegistered') {
-                // on supprime le token
-                const { userId, token } = ticket.expoTokens[i];
+        let infoCredit: MortgageLoanDeadlineInfoInput | null = null;
+        let nextDueDate: string | null | undefined;
+        if (budgetLineInfoCredit) {
+          // on cherche les infos de l'échéance actuelle
+          const currentIndex = budgetLineInfoCredit.amortizationTable.findIndex(
+            (item) => item.dueDate === currentDate,
+          );
+          if (currentIndex > -1) {
+            infoCredit = {
+              amount: budgetLineInfoCredit.amortizationTable[currentIndex].amount,
+              interest: budgetLineInfoCredit.amortizationTable[currentIndex].interest,
+              assurance: budgetLineInfoCredit.amortizationTable[currentIndex].assurance,
+            };
 
-                // eslint-disable-next-line no-await-in-loop
-                const user = await getUserById(AppSyncClient, userId);
-                if (user) {
-                  // eslint-disable-next-line no-await-in-loop
-                  await updateUser(AppSyncClient, {
-                    id: userId,
-                    expoToken: user.expoToken.filter((tok) => tok !== token),
-                    // eslint-disable-next-line no-underscore-dangle
-                    _version: user._version,
-                  });
-                }
-              }
-              i += 1;
+            // on récupère la prochaine date d'échéance
+            if (currentIndex < budgetLineInfoCredit.amortizationTable.length - 1) {
+              nextDueDate = budgetLineInfoCredit.amortizationTable[currentIndex + 1].dueDate;
+            } else {
+              // le crédit est fini, on passe la date à null car il n'y a plus d'échéance suivante
+              nextDueDate = null;
             }
-          } catch (error) {
-            console.error(error);
           }
         }
-        await deleteNotificationTicketsMutation(
-          AppSyncClient,
-          // eslint-disable-next-line no-underscore-dangle
-          { id: ticket.id, _version: ticket._version },
-        );
+        // on creer la budgetLineDeadline
+        const newBudgetLineDeadline: CreateBudgetLineDeadlineInput = {
+          realEstateId,
+          budgetLineId: id,
+          type,
+          category,
+          amount,
+          frequency,
+          date: currentDate,
+          infoCredit,
+          tenantId,
+          rentalCharges,
+          managementFees,
+          householdWaste,
+        };
+
+        await createBudgetLineDeadline(AppSyncClient, newBudgetLineDeadline);
+
+        // on calcule la prochaine échéance
+        if (nextDueDate === undefined) {
+          nextDueDate = DateUtils.addMonths(currentDate, DateUtils.frequencyToMonths(frequency));
+        }
+
+        // on update la budgetLine
+        await updateBudgetLine(AppSyncClient, {
+          id,
+          nextDueDate,
+          _version,
+        });
       }
     });
     await Promise.all(map);

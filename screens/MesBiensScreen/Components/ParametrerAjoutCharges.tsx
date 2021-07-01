@@ -174,6 +174,9 @@ const ParametrerAjoutCharges = () => {
      */
     navigation.pop();
   };
+
+  const demain = new Date();
+  demain.setDate(demain.getDate() + 1);
   return (
     <MaxWidthContainer
       withScrollView="keyboardAware"
@@ -410,6 +413,9 @@ const ParametrerAjoutCharges = () => {
                       name="nextDueDate"
                       placeholder="Date de dernière échéance"
                       icon="calendar-outline"
+                      // pas avant demain
+                      // (sinon le cron ne tournera jamais et on aura jamais les échéances)
+                      min={demain}
                       validators={[AvailableValidationRules.required]}
                     />
                     )}

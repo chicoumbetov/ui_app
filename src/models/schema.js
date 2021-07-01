@@ -1973,8 +1973,8 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "loadStartDate": {
-                    "name": "loadStartDate",
+                "loanStartDate": {
+                    "name": "loanStartDate",
                     "isArray": false,
                     "type": "AWSDate",
                     "isRequired": false,
@@ -2309,5 +2309,5 @@ export const schema = {
             }
         }
     },
-    "version": "d4113ec54d2643735326e689931c6461"
+    "version": "7e9b740e9a5541edfa8f62fb90310b83"
 };

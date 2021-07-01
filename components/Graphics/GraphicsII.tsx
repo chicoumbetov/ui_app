@@ -9,7 +9,6 @@ import VisibilitySensor from '@svanboxel/visibility-sensor-react-native';
 import { MotiView } from 'moti';
 import DateUtils from '../../utils/DateUtils';
 import { useListBankMovement } from '../../src/API/BankMouvement';
-import { useGetRealEstate } from '../../src/API/RealEstate';
 
 type GraphicsIIProps = {
   dateStart: Date;
@@ -23,7 +22,6 @@ const GraphicsII = (props: GraphicsIIProps) => {
   const end = moment(dateEnd).format('YYYY-MM-DD').toString();
   // console.log(start, end, id);
   const listBankMovement = useListBankMovement(id, start, end);
-  const { bienget } = useGetRealEstate(id);
 
   moment.locale('fr');
 
@@ -31,10 +29,8 @@ const GraphicsII = (props: GraphicsIIProps) => {
   const [width, setWidth] = useState(0);
   const [shown, setShown] = useState(false);
 
-  const bankMovementsLocal = bienget?.bankMovements?.items;
-  if (!bankMovementsLocal) {
-    return (<></>);
-  }
+  const bankMovementsLocal = listBankMovement.data?.getRealEstate?.bankMovements?.items;
+
   // console.log('bankMovements :', bankMovementsLocal);
 
   // console.log('bankMovements :', listBankMovement.data?.getRealEstate?.bankMovements?.items);
@@ -42,61 +38,64 @@ const GraphicsII = (props: GraphicsIIProps) => {
   /** Object with 3 attributes and its key */
 
   const { evolutionDataMemo } = useMemo(() => {
-    const evolutionData: Array<
-    {
+    const evolutionData: Array<{
       moisLabel: string,
       moisStart: Date,
-      moisEnd : Date,
+      moisEnd: Date,
       income: number,
-      expense:number,
+      expense: number,
       delta: number,
-      cumul:number,
-    }
-    > = [];
+      cumul: number,
+    }> = [];
+    if (bankMovementsLocal) {
+      let currentMonthDate = new Date(dateStart.getTime());
+      currentMonthDate.setDate(1);
 
-    let currentMonthDate = new Date(dateStart.getTime());
-    currentMonthDate.setDate(1);
+      while (currentMonthDate <= dateEnd) {
+        evolutionData.push({
+          moisLabel: moment(currentMonthDate).format('MMMM YYYY'),
+          moisStart: currentMonthDate,
+          moisEnd: DateUtils.lastDayOfMonthDate(currentMonthDate),
+          income: 0,
+          expense: 0,
+          delta: 0,
+          cumul: 0,
+        });
+        currentMonthDate = new Date(currentMonthDate.getTime());
+        currentMonthDate.setMonth(currentMonthDate.getMonth() + 1);
+      }
 
-    while (currentMonthDate <= dateEnd) {
-      evolutionData.push({
-        moisLabel: moment(currentMonthDate).format('MMMM YYYY'),
-        moisStart: currentMonthDate,
-        moisEnd: DateUtils.lastDayOfMonthDate(currentMonthDate),
-        income: 0,
-        expense: 0,
-        delta: 0,
-        cumul: 0,
-      });
-      currentMonthDate = new Date(currentMonthDate.getTime());
-      currentMonthDate.setMonth(currentMonthDate.getMonth() + 1);
-    }
-
-    evolutionData.forEach(({ moisStart, moisEnd }, i) => {
-      bankMovementsLocal.forEach((item) => {
-        if (item) {
-          const itemDate = DateUtils.parseToDateObj(item.date);
-          if (itemDate >= moisStart && itemDate <= moisEnd) {
-            evolutionData[i].delta += item.amount;
-            if (item.amount < 0) {
-              evolutionData[i].expense += item.amount;
-            } else {
-              evolutionData[i].income += item.amount;
+      evolutionData.forEach(({ moisStart, moisEnd }, i) => {
+        bankMovementsLocal.forEach((item) => {
+          if (item) {
+            const itemDate = DateUtils.parseToDateObj(item.date);
+            if (itemDate >= moisStart && itemDate <= moisEnd) {
+              evolutionData[i].delta += item.amount;
+              if (item.amount < 0) {
+                evolutionData[i].expense += item.amount;
+              } else {
+                evolutionData[i].income += item.amount;
+              }
             }
           }
-        }
+        });
       });
-    });
 
-    evolutionData.reduce((cumul, currentData, i) => {
-      evolutionData[i].cumul = cumul + currentData.delta;
-      return cumul + currentData.delta;
-    }, 0);
+      evolutionData.reduce((cumul, currentData, i) => {
+        evolutionData[i].cumul = cumul + currentData.delta;
+        return cumul + currentData.delta;
+      }, 0);
+    }
 
     // if we need to use outside of useMemo
     return {
       evolutionDataMemo: evolutionData,
     };
-  }, [bienget.bankMovements]);
+  }, [bankMovementsLocal]);
+
+  if (evolutionDataMemo.length <= 0) {
+    return (<></>);
+  }
 
   // console.log('evolutionData', evolutionData);
 

@@ -143,25 +143,6 @@ export const montant = [
   },
 ];
 
-export const typeMontant = [
-  {
-    label: 'Résidence Principale',
-    key: 'b1',
-  },
-  {
-    label: 'Résidence Secondaire',
-    key: 'b2',
-  },
-  {
-    label: 'Investissement Locatif Professionnel ou Commercial',
-    key: 'b3',
-  },
-  {
-    label: 'Investissement Locatif Particulier',
-    key: 'b4',
-  },
-];
-
 export const frequence = [
   {
     label: 'Mensuelle',

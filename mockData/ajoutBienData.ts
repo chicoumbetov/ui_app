@@ -30,42 +30,42 @@ export const detention = [
   },
 ];
 
-export const typeDetention = [
-  {
+export const typeDetention = {
+  proprietaire_integral: {
     label: 'Propriétaire Intégral',
-    key: 'Propriétaire Intégral',
+    key: 'proprietaire_integral',
   },
-  {
+  indivision: {
     label: 'Indivision',
-    key: 'Indivision',
+    key: 'indivision',
   },
-];
+};
 
-export const statut = [
-  {
+export const typeStatut = {
+  sci: {
     label: 'SCI',
-    key: 'SCI',
+    key: 'sci',
   },
-  {
+  sas: {
     label: 'SAS',
-    key: 'SAS',
+    key: 'sas',
   },
-  {
+  sarl_classique: {
     label: 'SARL Classique',
-    key: 'SARLclassique',
+    key: 'sarl_classique',
   },
-  {
+  sarl_famille: {
     label: 'SARL Famille',
-    key: 'SARLfamille',
+    key: 'sarl_famille',
   },
-];
-export const typeImpot = [
-  {
+};
+export const typeImpot = {
+  revenue_tax: {
     label: 'Impôt sur les revenus',
-    key: 'RevenueTax',
+    key: 'revenue_tax',
   },
-  {
+  social_tax: {
     label: 'Impôt sur les sociétés',
-    key: 'SocialTax',
+    key: 'social_tax',
   },
-];
+};

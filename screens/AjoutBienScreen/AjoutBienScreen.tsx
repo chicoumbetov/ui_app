@@ -25,7 +25,7 @@ import Form from '../../components/Form/Form';
 import SelectComp from '../../components/Form/Select';
 
 import {
-  detention, statut, typeBien, typeDetention, typeImpot,
+  detention, statut, typeBien, typeDetention, typeImpot, typeStatut,
 } from '../../mockData/ajoutBienData';
 import MaxWidthContainer from '../../components/MaxWidthContainer';
 import AutoAvatar from '../../components/AutoAvatar';
@@ -61,7 +61,11 @@ type AjoutBienForm = {
   typeImpot?: TaxType | null,
 };
 
+// pour utiliser la Key plutôt que le label depuis data reference
 const typeBienArray = Object.values(typeBien);
+const typeDetentionArray = Object.values(typeDetention);
+const typeStatutArray = Object.values(typeStatut);
+const typeImpotArray = Object.values(typeImpot);
 
 function AjoutBienScreen() {
   const theme = useTheme();
@@ -170,9 +174,15 @@ function AjoutBienScreen() {
     currentRealEstate = bienget;
     // console.log('Ajout bien screen modifier : ', currentRealEstate);
     useEffect(() => {
-      setDetentionShow(true);
-      setStatutShow(true);
-      setPourcentageDetentionShow(true);
+      if (bienget.ownName) {
+        setDetentionShow(true);
+        setStatutShow(false);
+        setPourcentageDetentionShow(false);
+      } else {
+        setDetentionShow(false);
+        setStatutShow(true);
+        setPourcentageDetentionShow(true);
+      }
     });
   }
 
@@ -519,7 +529,7 @@ function AjoutBienScreen() {
               <View style={{ height: 75 }}>
                 <SelectComp
                   name="detentionPart"
-                  data={typeDetention}
+                  data={typeDetentionArray}
                   placeholder="Type De Détention"
                   onChangeValue={(v) => {
                     if (v === 'Indivision') {
@@ -539,8 +549,8 @@ function AjoutBienScreen() {
             {statutShow
               && (
               <View style={{ height: 125 }}>
-                <SelectComp name="company" data={statut} placeholder="Status" size="large" appearance="default" status="primary" />
-                <SelectComp name="typeImpot" data={typeImpot} placeholder="Type d'imposition" size="large" appearance="default" status="primary" />
+                <SelectComp name="company" data={typeStatutArray} placeholder="Status" size="large" appearance="default" status="primary" />
+                <SelectComp name="typeImpot" data={typeImpotArray} placeholder="Type d'imposition" size="large" appearance="default" status="primary" />
               </View>
               )}
 

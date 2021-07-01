@@ -42,7 +42,12 @@ const BudgetLineDeadLineCard = (props: BudgetLineDeadLineCardProps) => {
     typeRevenu,
     typeAssurance, typeDivers, typeBanque);
 
-  const saveBudgetLineDeadLine = async (data:BudgetLineDeadline, newAmount:number, neawManagementFees?: number, newRentalCharges?: number) => {
+  const saveBudgetLineDeadLine = async (
+    data:BudgetLineDeadline,
+    newAmount:number,
+    neawManagementFees?: number,
+    newRentalCharges?: number,
+  ) => {
     if (item.category === 'loyer') {
       await updateBudgetLineDeadline({
         variables: {
@@ -146,7 +151,7 @@ const BudgetLineDeadLineCard = (props: BudgetLineDeadLineCardProps) => {
           </Text>
           {edit ? (
             <>
-              <View style={{ flexDirection: 'row' }}>
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <TextInputComp
                   name="amount"
                   defaultValue={item.amount.toString()}
@@ -157,13 +162,13 @@ const BudgetLineDeadLineCard = (props: BudgetLineDeadLineCardProps) => {
                     }
                   }}
                 />
-                <Text category="c1">
+                <Text category="c1" style={{ marginHorizontal: 10 }}>
                   €
                 </Text>
               </View>
               {isLoyer && (
               <>
-                <View style={{ flexDirection: 'row' }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                   <TextInputComp
                     name="rentalCharges"
                     label="Charges"
@@ -175,11 +180,11 @@ const BudgetLineDeadLineCard = (props: BudgetLineDeadLineCardProps) => {
                       }
                     }}
                   />
-                  <Text category="c1">
+                  <Text category="c1" style={{ marginHorizontal: 10 }}>
                     €
                   </Text>
                 </View>
-                <View style={{ flexDirection: 'row' }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                   <TextInputComp
                     name="managementFees"
                     label="Frais de gestion"
@@ -191,7 +196,7 @@ const BudgetLineDeadLineCard = (props: BudgetLineDeadLineCardProps) => {
                       }
                     }}
                   />
-                  <Text category="c1">
+                  <Text category="c1" style={{ marginHorizontal: 10 }}>
                     €
                   </Text>
                 </View>
@@ -239,7 +244,9 @@ const BudgetLineDeadLineCard = (props: BudgetLineDeadLineCardProps) => {
             </TouchableOpacity>
             <Button
               size="small"
-              onPress={() => { saveBudgetLineDeadLine(item, amount, managementFees, rentalCharges); }}
+              onPress={() => {
+                saveBudgetLineDeadLine(item, amount, managementFees, rentalCharges);
+              }}
               disabled={mutationLoading}
             >
               Enregister

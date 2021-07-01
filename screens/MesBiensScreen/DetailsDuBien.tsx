@@ -46,6 +46,7 @@ import { useDeleteTenantMutation } from '../../src/API/Tenant';
 import Camera from '../../components/Camera';
 import { PendingInvitation } from '../../src/API';
 import { useDeletePendingInvitationMutation } from '../../src/API/PendingInvitation';
+import { typeBien } from '../../mockData/ajoutBienData';
 
 function DetailsBien() {
   const navigation = useNavigation();
@@ -59,7 +60,6 @@ function DetailsBien() {
   const [supprim, setSupprim] = useState(false);
   const [supprimInvitation, setSupprimInvitation] = useState(false);
 
-  const [typeRevenu, setTypeRevenu] = useState<string>();
   // console.log(route.params.id);
 
   const [checkedTenant, setCheckedTenant] = useState<string[]>([]);
@@ -87,28 +87,6 @@ function DetailsBien() {
   const onTakePicture = () => {
     setCamera(true);
   };
-
-  // console.log(users, inviteUserId);
-
-  useEffect(() => {
-    switch (bienget?.type) {
-      default:
-        setTypeRevenu('Type de bien');
-        break;
-      case 'mainHome':
-        setTypeRevenu('Résidence Principal');
-        break;
-      case 'secondHome':
-        setTypeRevenu('Résidence Secondaire');
-        break;
-      case 'professionnalRentalInvestment':
-        setTypeRevenu('Investissement Locatif Professionnel ou Commercial');
-        break;
-      case 'privateRentalInvestment':
-        setTypeRevenu('Investissement Locatif Particulier');
-        break;
-    }
-  }, [bienget]);
 
   // const [compte, setCompte] = useState(comptesData);
 
@@ -518,7 +496,7 @@ function DetailsBien() {
 
               <Text category="h6" status="basic" style={{ marginTop: 8 }}>Type de bien</Text>
               <Text category="h6" appearance="hint" style={{ marginTop: 5 }}>
-                {`${typeRevenu}`}
+                {`${bienget.type ? typeBien[bienget.type].label : ''}`}
               </Text>
               <View style={{ borderBottomWidth: 0.5, borderBottomColor: '#b5b5b5', marginVertical: 15 }} />
 

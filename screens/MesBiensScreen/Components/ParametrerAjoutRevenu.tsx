@@ -48,6 +48,8 @@ type ParamBudgetForm = {
   }
 };
 
+const typeRevenueArray = Object.values(typeRevenu);
+
 const ParametrerAjoutRevenu = () => {
   const paramBudgetForm = useForm<ParamBudgetForm>();
   const addTenant = useAddTenant();
@@ -280,9 +282,9 @@ const ParametrerAjoutRevenu = () => {
 
             <Select
               name="category"
-              data={typeRevenu}
+              data={typeRevenueArray}
               onChangeValue={(v) => {
-                if (v === 'Loyer') {
+                if (v === 'loyer') {
                   setRevenuLoyer(true);
                 } else {
                   setRevenuLoyer(false);

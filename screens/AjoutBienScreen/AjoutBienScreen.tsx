@@ -61,6 +61,8 @@ type AjoutBienForm = {
   typeImpot?: TaxType | null,
 };
 
+const typeBienArray = Object.values(typeBien);
+
 function AjoutBienScreen() {
   const theme = useTheme();
   const { user, userIsCreating } = useUser();
@@ -487,7 +489,7 @@ function AjoutBienScreen() {
             <View style={{ height: 140 }}>
               <SelectComp
                 name="type"
-                data={typeBien}
+                data={typeBienArray}
                 placeholder="Type De Bien"
                 size="large"
                 appearance="default"

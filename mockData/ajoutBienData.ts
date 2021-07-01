@@ -1,21 +1,21 @@
-export const typeBien = [
-  {
+export const typeBien = {
+  mainHome: {
     label: 'Résidence Principale',
     key: 'mainHome',
   },
-  {
+  secondHome: {
     label: 'Résidence Secondaire',
     key: 'secondHome',
   },
-  {
+  professionnalRentalInvestment: {
     label: 'Investissement Locatif Professionnel ou Commercial',
     key: 'professionnalRentalInvestment',
   },
-  {
+  privateRentalInvestment: {
     label: 'Investissement Locatif Particulier',
     key: 'privateRentalInvestment',
   },
-];
+};
 
 export const detention = [
   {

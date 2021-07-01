@@ -11,6 +11,7 @@ import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { useLinkTo } from '@react-navigation/native';
 import { Icon as IconUIKitten } from '@ui-kitten/components/ui/icon/icon.component';
 
+import _ from 'lodash';
 import CompteHeader from '../../../components/CompteHeader/CompteHeader';
 import GraphicsII from '../../../components/Graphics/GraphicsII';
 import Graphics from '../../../components/Graphics/Graphics';
@@ -23,6 +24,13 @@ import { BudgetLineType } from '../../../src/API';
 import DateUtils from '../../../utils/DateUtils';
 import Amount from '../../../components/Amount';
 import ActivityIndicator from '../../../components/ActivityIndicator';
+import {
+  typeAssurance, typeBanque,
+  typeCharge,
+  typeDivers,
+  typeImpots,
+  typeRevenu,
+} from '../../../mockData/ajoutRevenuData';
 
 type MonBienProps = { biens: string };
 
@@ -75,6 +83,12 @@ const MonBien = (props: MonBienProps) => {
       && bienget?.budgetLines?.items.length > 0
       && bienget?.budgetLines?.items[0]?.amount;
 
+  const allPossibleTypes = {};
+  _.merge(allPossibleTypes, typeCharge,
+    typeImpots,
+    typeRevenu,
+    typeAssurance, typeDivers, typeBanque);
+
   /** Object with 3 attributes and its key */
   const { allCurrentCategories } = useMemo(() => {
     const allCurrentCategoriesInternal : {
@@ -87,6 +101,8 @@ const MonBien = (props: MonBienProps) => {
       bienget?.budgetLineDeadlines?.items.forEach((item) => {
         // years for all existing Eau expenses in whole period
         const allYears = DateUtils.parseToDateObj(item?.date).getFullYear();
+        console.log('1 :', item.category);
+        console.log(allPossibleTypes[item?.category].label);
         if (item?.category
             && allYears === currentYear
             && item.type === BudgetLineType.Expense) {
@@ -98,7 +114,7 @@ const MonBien = (props: MonBienProps) => {
             allCurrentCategoriesInternal[item?.category] = {
               value: item?.amount || 0,
               percentage: 0,
-              label: item?.category,
+              label: allPossibleTypes[item?.category].label,
             };
           } else {
             /** else If any expoense exist then we add to allCurrentCategories variable */

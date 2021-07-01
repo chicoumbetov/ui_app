@@ -8,14 +8,30 @@ import moment from 'moment';
 
 import { useLinkTo, useNavigation, useRoute } from '@react-navigation/native';
 import { RouteProp } from '@react-navigation/core/lib/typescript/src/types';
+import _ from 'lodash';
 import Card from '../../../components/Card';
 import { BudgetLine, BudgetLineType, RealEstate } from '../../../src/API';
 import MaxWidthContainer from '../../../components/MaxWidthContainer';
 import { TabMesBiensParamList } from '../../../types';
 import { useDeleteBudgetLineMutation } from '../../../src/API/BudgetLine';
 import ReadOnly from '../../../components/ReadOnly';
+import {
+  typeAssurance,
+  typeCharge,
+  typeImpots,
+  typeRevenu,
+  typeDivers,
+  typeBanque,
+} from '../../../mockData/ajoutRevenuData';
 
 type MonBudgetProps = { budget: BudgetLine, realEstate: RealEstate };
+
+const allPossibleTypes = {};
+_.merge(allPossibleTypes, typeCharge,
+  typeImpots,
+  typeRevenu,
+  typeAssurance, typeDivers, typeBanque);
+console.log(allPossibleTypes);
 
 const MonBudgetCard = (props: MonBudgetProps) => {
   const { budget, realEstate } = props;
@@ -23,6 +39,8 @@ const MonBudgetCard = (props: MonBudgetProps) => {
   const linkTo = useLinkTo();
   // console.log('realEstate', realEstate);
   const deleteBudgetLine = useDeleteBudgetLineMutation();
+  console.log(budget.category);
+  const labelBudget = budget.category ? allPossibleTypes[budget.category].label : '';
 
   const tenant = realEstate.tenants?.filter((item) => item?.id === budget.tenantId);
 
@@ -38,9 +56,6 @@ const MonBudgetCard = (props: MonBudgetProps) => {
         break;
       case 'monthly':
         setFrequence('Mensuel');
-        break;
-      case 'fortnightly':
-        setFrequence('Bimensuel');
         break;
       case 'quarterly':
         setFrequence('Trimestrielle');
@@ -110,7 +125,7 @@ const MonBudgetCard = (props: MonBudgetProps) => {
         }}
         >
           <Text category="h3" style={{ justifyContent: 'center', flexWrap: 'wrap' }}>
-            {`${budget.category}`}
+            {`${labelBudget}`}
           </Text>
           <Text category="c1" status={budget.type === BudgetLineType.Income ? ('success') : ('danger')}>{`${budget.type === BudgetLineType.Income ? ('+') : ('')} ${budget.amount} €`}</Text>
           {budget.tenantId && tenant !== undefined && (

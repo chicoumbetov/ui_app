@@ -15,7 +15,7 @@ import { MotiView } from 'moti';
 
 import Select from '../../../components/Form/Select';
 import {
-  frequence, typeCharge, typeImpots, typeAssurance, typeBanque, typeDivers,
+  frequence, typeCharge, typeImpots, typeAssurance, typeBanque, typeDivers, typeRevenu,
 } from '../../../mockData/ajoutRevenuData';
 import Form from '../../../components/Form/Form';
 import MaxWidthContainer from '../../../components/MaxWidthContainer';
@@ -52,6 +52,13 @@ type ParamBudgetForm = {
     amortizationTable?: Array<AmortizationTable | null > | null,
   }
 };
+const typeChargeArray = Object.values(typeCharge);
+const typeDiversArray = Object.values(typeDivers);
+const typeImpotsArray = Object.values(typeImpots);
+const typeAssuranceArray = Object.values(typeAssurance);
+const typeBanqueArray = Object.values(typeBanque);
+
+console.log(typeChargeArray);
 
 const ParametrerAjoutCharges = () => {
   // const theme = useTheme();
@@ -91,21 +98,21 @@ const ParametrerAjoutCharges = () => {
       setFrequenceShow(true);
       setDateDerniereEcheanceShow(true);
     }, []);
-    if (currentBudgetLine?.category === 'Taxes Foncières' || currentBudgetLine?.category === 'Taxes d\'Habitation' || currentBudgetLine?.category === 'Contribution Sociales') {
+    if (currentBudgetLine?.category === 'taxes_foncieres' || currentBudgetLine?.category === 'taxes_habitation' || currentBudgetLine?.category === 'contribution_sociales') {
       currentBudgetLine.category2 = currentBudgetLine.category;
-      currentBudgetLine.category = 'Impôts';
+      currentBudgetLine.category = 'impots';
       setTaxShow(true);
-    } else if (currentBudgetLine?.category === 'Assurance du bien' || currentBudgetLine?.category === 'Loyer impayé' || currentBudgetLine?.category === 'Vacances locatives') {
+    } else if (currentBudgetLine?.category === 'assurance_bien' || currentBudgetLine?.category === 'loyer_impaye' || currentBudgetLine?.category === 'vacances_locatives') {
       currentBudgetLine.category2 = currentBudgetLine.category;
-      currentBudgetLine.category = 'Assurance';
+      currentBudgetLine.category = 'assurence';
       setAssuranceShow(true);
     } else if (currentBudgetLine?.category === 'Frais bancaires') {
       currentBudgetLine.category2 = currentBudgetLine.category;
-      currentBudgetLine.category = 'Banque';
+      currentBudgetLine.category = 'banque';
       setBanqueShow(true);
     } else if (currentBudgetLine?.category === 'Mensualité crédit') {
       currentBudgetLine.category2 = currentBudgetLine.category;
-      currentBudgetLine.category = 'Banque';
+      currentBudgetLine.category = 'banque';
       setBanqueShow(true);
       setMensualiteCreditShow(true);
     }
@@ -223,24 +230,24 @@ const ParametrerAjoutCharges = () => {
 
               <Select
                 name="category"
-                data={typeCharge}
+                data={typeChargeArray}
                 onChangeValue={(v) => {
-                  if (v === 'Impôts') {
+                  if (v === 'impots') {
                     setTaxShow(true);
                     setAssuranceShow(false);
                     setBanqueShow(false);
                     setDiversShow(false);
-                  } else if (v === 'Assurance') {
+                  } else if (v === 'assurence') {
                     setTaxShow(false);
                     setAssuranceShow(true);
                     setBanqueShow(false);
                     setDiversShow(false);
-                  } else if (v === 'Banque') {
+                  } else if (v === 'banque') {
                     setTaxShow(false);
                     setAssuranceShow(false);
                     setBanqueShow(true);
                     setDiversShow(false);
-                  } else if (v === 'Frais divers') {
+                  } else if (v === 'frais_divers') {
                     setTaxShow(false);
                     setAssuranceShow(false);
                     setBanqueShow(false);
@@ -265,7 +272,7 @@ const ParametrerAjoutCharges = () => {
                 <View>
                   <Select
                     name="category2"
-                    data={typeImpots}
+                    data={typeImpotsArray}
                     placeholder="Type d'Impôts"
                     size="large"
                     appearance="default"
@@ -284,7 +291,7 @@ const ParametrerAjoutCharges = () => {
                 <View>
                   <Select
                     name="category2"
-                    data={typeAssurance}
+                    data={typeAssuranceArray}
                     placeholder="Type d'Assurance"
                     size="large"
                     appearance="default"
@@ -298,7 +305,7 @@ const ParametrerAjoutCharges = () => {
                 <View>
                   <Select
                     name="category2"
-                    data={typeBanque}
+                    data={typeBanqueArray}
                     onChangeValue={(item) => {
                       if (item === 'Mensualité crédit') {
                         setMensualiteCreditShow(true);
@@ -318,7 +325,7 @@ const ParametrerAjoutCharges = () => {
                 <View>
                   <Select
                     name="category2"
-                    data={typeDivers}
+                    data={typeDiversArray}
                     placeholder="Divers"
                     size="large"
                     appearance="default"

@@ -278,7 +278,7 @@ const ParametrerAjoutCharges = () => {
                     appearance="default"
                     status="primary"
                     onChangeValue={(v) => {
-                      if (v === 'Taxes Foncières') {
+                      if (v === 'taxes_foncieres') {
                         setTaxFonciereShow(true);
                       } else {
                         setTaxFonciereShow(false);

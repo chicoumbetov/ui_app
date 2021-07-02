@@ -175,8 +175,10 @@ function AjoutBienScreen() {
   if (route.params) {
     const { bienget } = useGetRealEstate(route.params.id);
     currentRealEstate = bienget;
+
     // console.log('Ajout bien screen modifier : ', currentRealEstate);
     useEffect(() => {
+      setImage(bienget.iconUri);
       if (bienget.ownName) {
         setDetentionShow(true);
         setStatutShow(false);
@@ -184,16 +186,20 @@ function AjoutBienScreen() {
         setPourcentageDetentionShow(false);
         if (bienget.detentionPart !== 100) {
           setPourcentageDetentionShow(true);
-          detentionPartDefault = 'proprietaire_integral';
-        } else {
-          detentionPartDefault = 'indivision';
         }
       } else {
         setDetentionShow(false);
         setStatutShow(true);
         setPourcentageDetentionShow(true);
       }
-    });
+    }, []);
+    if (bienget.ownName) {
+      if (bienget.detentionPart === 100) {
+        detentionPartDefault = 'proprietaire_integral';
+      } else {
+        detentionPartDefault = 'indivision';
+      }
+    }
   }
 
   const onTakePicture = () => {

@@ -45,6 +45,7 @@ const SelectComp = React.forwardRef<SelectHandles, SelectFormProps<string | numb
       if (data) {
         const selectedIndexValue = data.findIndex((item) => item.key === defaultValue);
         setSelectedIndex(selectedIndexValue);
+        console.log('defaultValue :', defaultValue);
       }
     }, [data, defaultValue]);
 

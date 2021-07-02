@@ -171,6 +171,7 @@ function AjoutBienScreen() {
 
   const route = useRoute<RouteProp<TabMesBiensParamList, 'ajout-bien-screen'> | RouteProp<TabMesBiensParamList, 'modifier-characteristique'>>();
   let currentRealEstate: RealEstate | undefined;
+  let detentionPartDefault : string;
   if (route.params) {
     const { bienget } = useGetRealEstate(route.params.id);
     currentRealEstate = bienget;
@@ -179,7 +180,14 @@ function AjoutBienScreen() {
       if (bienget.ownName) {
         setDetentionShow(true);
         setStatutShow(false);
+
         setPourcentageDetentionShow(false);
+        if (bienget.detentionPart !== 100) {
+          setPourcentageDetentionShow(true);
+          detentionPartDefault = 'proprietaire_integral';
+        } else {
+          detentionPartDefault = 'indivision';
+        }
       } else {
         setDetentionShow(false);
         setStatutShow(true);
@@ -533,7 +541,7 @@ function AjoutBienScreen() {
               && (
               <View style={{ height: 75 }}>
                 <SelectComp
-                  name="detentionPart"
+                  name=""
                   data={typeDetentionArray}
                   placeholder="Type De Détention"
                   onChangeValue={(v) => {
@@ -547,6 +555,7 @@ function AjoutBienScreen() {
                   size="large"
                   appearance="default"
                   status="primary"
+                  defaultValue={detentionPartDefault}
                   validators={[AvailableValidationRules.required]}
                 />
               </View>

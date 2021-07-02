@@ -40,6 +40,8 @@ export type RealEstateItem = {
   company?: CompanyType | null,
   detentionPart?: number | null,
   typeImpot?: TaxType | null,
+  purchasePrice?: number| null,
+  notaryFee?: number| null,
   budgetLines?: ModelBudgetLineConnection | null,
   bankMovements?: ModelBankMovementConnection | null,
   budgetLineDeadlines?: ModelBudgetLineDeadlineConnection | null,
@@ -69,6 +71,8 @@ export type GetRealEstateQuery = {
     company?: CompanyType | null,
     detentionPart?: number | null,
     typeImpot?: TaxType | null,
+    purchasePrice?: number| null,
+    notaryFee?: number| null,
     budgetLines?: {
       __typename: 'ModelBudgetLineConnection',
       items?: Array< {
@@ -151,6 +155,8 @@ export type GetRealEstateQuery = {
           company?: CompanyType | null,
           detentionPart?: number | null,
           typeImpot?: TaxType | null,
+          purchasePrice?: number| null,
+          notaryFee?: number| null,
           admins: Array< string >,
           shared?: Array< string > | null,
           _version: number,
@@ -217,6 +223,8 @@ export const getRealEstateQuery = <DocumentNode>gql(`
       company
       detentionPart
       typeImpot
+      purchasePrice
+      notaryFee
       admins
       shared
       address {
@@ -411,6 +419,8 @@ const listRealEstatesQuery = <DocumentNode>gql(`query ListRealEstates(
         company
         detentionPart
         typeImpot
+        purchasePrice
+        notaryFee
         admins
         shared
         address {

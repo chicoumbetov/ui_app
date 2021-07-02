@@ -104,7 +104,7 @@ const ParametrerAjoutCharges = () => {
       setTaxShow(true);
     } else if (currentBudgetLine?.category === 'assurance_bien' || currentBudgetLine?.category === 'loyer_impaye' || currentBudgetLine?.category === 'vacances_locatives') {
       currentBudgetLine.category2 = currentBudgetLine.category;
-      currentBudgetLine.category = 'assurence';
+      currentBudgetLine.category = 'assurance';
       setAssuranceShow(true);
     } else if (currentBudgetLine?.category === 'Frais bancaires') {
       currentBudgetLine.category2 = currentBudgetLine.category;
@@ -237,7 +237,7 @@ const ParametrerAjoutCharges = () => {
                     setAssuranceShow(false);
                     setBanqueShow(false);
                     setDiversShow(false);
-                  } else if (v === 'assurence') {
+                  } else if (v === 'assurance') {
                     setTaxShow(false);
                     setAssuranceShow(true);
                     setBanqueShow(false);

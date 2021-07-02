@@ -42,9 +42,9 @@ export const typeCharge = {
     label: 'Frais de diagnostic DPE',
     key: 'frais_dpe',
   },
-  assurence: {
+  assurance: {
     label: 'Assurance',
-    key: 'assurence',
+    key: 'assurance',
   },
   banque: {
     label: 'Banque',

@@ -43,8 +43,13 @@ const SelectComp = React.forwardRef<SelectHandles, SelectFormProps<string | numb
 
     useEffect(() => {
       if (data) {
-        const selectedIndexValue = data.findIndex((item) => item.section === defaultValue || item.key === defaultValue);
-        setSelectedIndex(selectedIndexValue);
+        if (data[0].section !== undefined) {
+          const selectedIndexValue = data.findIndex((item) => item.section === defaultValue);
+          setSelectedIndex(selectedIndexValue);
+        } else {
+          const selectedIndexValue = data.findIndex((item) => item.key === defaultValue);
+          setSelectedIndex(selectedIndexValue);
+        }
       }
     }, [data, defaultValue]);
 

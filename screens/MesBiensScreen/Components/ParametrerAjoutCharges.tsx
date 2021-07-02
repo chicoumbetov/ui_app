@@ -45,7 +45,7 @@ type ParamBudgetForm = {
   nextDueDate?: string | null,
   infoCredit?: {
     borrowedCapital: number,
-    loadStartDate: string,
+    loanStartDate: string,
     duration: number,
     interestRate: number,
     assuranceRate: number,
@@ -307,7 +307,7 @@ const ParametrerAjoutCharges = () => {
                     name="category2"
                     data={typeBanqueArray}
                     onChangeValue={(item) => {
-                      if (item === 'Mensualité crédit') {
+                      if (item === 'mensualité_crédit') {
                         setMensualiteCreditShow(true);
                       } else {
                         setMensualiteCreditShow(false);

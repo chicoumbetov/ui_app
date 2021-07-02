@@ -84,7 +84,7 @@ const ParametrerAjoutRevenu = () => {
       setFrequenceShow(true);
       setDateDerniereEcheanceShow(true);
     }, []);
-    if (currentBudgetLine?.category === 'Loyer') {
+    if (currentBudgetLine?.category === 'loyer') {
       // on cherche le locataire
       // get tenant by his tenantId for current budgetLine
       const tenant = bienget.tenants?.filter(
@@ -116,7 +116,7 @@ const ParametrerAjoutRevenu = () => {
     } = data;
 
     if (route.params.idBudgetLine) {
-      if (data.category === 'Loyer' && currentBudgetLine?.tenantId) {
+      if (data.category === 'loyer' && currentBudgetLine?.tenantId) {
         let tenantId: string | null = null;
         if (tenant) {
           tenantId = await updateTenant(bienget, {
@@ -159,7 +159,7 @@ const ParametrerAjoutRevenu = () => {
           },
         });
       }
-    } else if (data.category === 'Loyer') {
+    } else if (data.category === 'loyer') {
       let tenantId: string | null = null;
       if (tenant) {
         tenantId = await addTenant(bienget, {

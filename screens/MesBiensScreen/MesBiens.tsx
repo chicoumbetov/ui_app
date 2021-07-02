@@ -17,7 +17,7 @@ import ActivityIndicator from '../../components/ActivityIndicator';
 function MesBiens() {
   const linkTo = useLinkTo();
   // const [compte] = useState(comptesData);
-  const { loading, data } = useRealEstateList();
+  const { loading, data } = useRealEstateList('cache-and-network');
 
   // console.log('biens', data);
 

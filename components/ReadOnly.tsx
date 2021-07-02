@@ -6,12 +6,8 @@ import { useUser } from '../src/API/UserContext';
 const readOnly = (idBien: string) => {
   const user = useUser();
   const { bienget } = useGetRealEstate(idBien);
-  const [bienCharger, setBienCharger] = useState<RealEstate>();
-  useEffect(() => {
-    setBienCharger(bienget);
-  }, [bienget]);
 
-  if (bienCharger && user.user && bienCharger.shared?.includes(user.user.id)) {
+  if (bienget && user.user && bienget.shared?.includes(user.user.id)) {
     return true;
   }
 

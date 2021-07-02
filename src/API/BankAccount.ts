@@ -41,7 +41,7 @@ export function useBankAccountList() {
   const {
     loading, data, fetchMore, refetch,
   } = useQuery<ListBankAccountsQuery, ListBankAccountsQueryVariables>(listBankAccountQuery);
-  console.log('ouiouiuiuiuiui', data);
+  // console.log('ouiouiuiuiuiui', data);
   return {
     loading, data, fetchMore, refetch,
   };

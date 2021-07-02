@@ -2,6 +2,7 @@ import gql from 'graphql-tag';
 import { useMutation, useQuery } from 'react-apollo';
 import { DocumentNode } from 'apollo-link';
 
+import { WatchQueryFetchPolicy } from 'apollo-client/core/watchQueryOptions';
 import {
   Address,
   BudgetLineType,
@@ -603,11 +604,11 @@ const listRealEstatesQuery = <DocumentNode>gql(`query ListRealEstates(
   }
 `);
 
-export function useRealEstateList() {
+export function useRealEstateList(fetchPolicy: WatchQueryFetchPolicy = 'cache-first') {
   const {
     loading, data, fetchMore, refetch,
   } = useQuery<ListRealEstatesQuery, ListRealEstatesQueryVariables>(listRealEstatesQuery, {
-    fetchPolicy: 'cache-and-network',
+    fetchPolicy,
   });
   /* const { user } = useUser();
 
@@ -731,14 +732,14 @@ export function useUpdateRealEstateMutation() {
   return { updateRealEstate, mutationLoading };
 }
 
-export function useGetRealEstate(id: string) {
+export function useGetRealEstate(id: string, fetchPolicy: WatchQueryFetchPolicy = 'cache-first') {
   const {
     loading, data, fetchMore, refetch,
   } = useQuery<GetRealEstateQuery, GetRealEstateQueryVariables>(getRealEstateQuery, {
     variables: {
       id,
     },
-    fetchPolicy: 'cache-and-network',
+    fetchPolicy,
   });
 
   return {

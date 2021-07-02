@@ -44,7 +44,7 @@ import ActivityIndicator from '../../components/ActivityIndicator';
 import UserSharedCard from './Components/UserSharedCard';
 import { useDeleteTenantMutation } from '../../src/API/Tenant';
 import Camera from '../../components/Camera';
-import { PendingInvitation } from '../../src/API';
+import { BudgetLineType, PendingInvitation } from '../../src/API';
 import { useDeletePendingInvitationMutation } from '../../src/API/PendingInvitation';
 import { typeBien } from '../../mockData/ajoutBienData';
 
@@ -53,14 +53,12 @@ function DetailsBien() {
   const linkTo = useLinkTo();
   const theme = useTheme();
   const route = useRoute<RouteProp<TabMesBiensParamList, 'detail-bien'>>();
-  const { bienget, loading } = useGetRealEstate(route.params.id);
+  const { bienget, loading } = useGetRealEstate(route.params.id, 'cache-and-network');
 
   const createDocument = useCreateDocumentMutation();
   // console.log('detail bien document', documentList);
   const [supprim, setSupprim] = useState(false);
   const [supprimInvitation, setSupprimInvitation] = useState(false);
-
-  // console.log(route.params.id);
 
   const [checkedTenant, setCheckedTenant] = useState<string[]>([]);
   const [checkedAdmins, setCheckedAdmins] = useState<string[]>([]);
@@ -127,6 +125,8 @@ function DetailsBien() {
         text: 'Valider',
         onPress: async () => {
           await deleteRealEstate();
+          // delete tenants
+          // BudgetLines, budgetLineDeadlines
         },
       }],
     );
@@ -284,7 +284,77 @@ function DetailsBien() {
   if (bienget?.pendingInvitations?.items) {
     invitationAttente = bienget?.pendingInvitations?.items.filter((item) => !item._deleted);
   }
-  console.log('pending : ', invitationAttente);
+  // console.log('pending : ', invitationAttente);
+
+  console.log('Details Bien: ', bienget, loading);
+
+  const totalPrice = (bienget.purchasePrice || 0) + (bienget.notaryFee || 0);
+  console.log('totalPrice: ', totalPrice);
+
+  const RentabilityBrut = bienget.budgetLineDeadlines?.items?.map(
+    (amo) => {
+      let freqIncome = 12;
+      switch (amo?.frequency) {
+        case 'quarterly':
+          freqIncome = 4;
+          break;
+        case 'annual':
+          freqIncome = 1;
+          break;
+        default:
+          return null;
+      }
+
+      if (amo?.type === BudgetLineType.Expense
+      // eslint-disable-next-line no-underscore-dangle
+        && !amo._deleted
+        // && !amo.bankMouvementId
+      ) {
+        console.log('EXPENSEEEEE');
+        console.log('EXPENSEEEEE');
+        console.log('EXPENSEEEEE');
+        const depenses = amo?.amount || 0;
+        const echean = amo?.frequency;
+        console.log('frequency Expense: ', echean);
+        console.log('freq Expense:', freqIncome);
+        console.log('depenses:', depenses);
+        console.log('---------------');
+      }
+      if (amo?.type === BudgetLineType.Income
+          // eslint-disable-next-line no-underscore-dangle
+          && !amo._deleted
+          // && !amo.bankMouvementId
+      ) {
+        console.log('DDDDDDDDDDDDDDDD');
+        console.log('DDDDDDDDDDDDDDDD');
+        console.log('DDDDDDDDDDDDDDDD');
+        const echean = amo?.frequency;
+
+        const revenues = amo?.amount || 0;
+        console.log('revenues:', revenues);
+
+        const chars = amo?.rentalCharges || 0;
+        console.log('rentalCharges:', chars);
+
+        const manage = amo?.managementFees || 0;
+        console.log('management Fees:', manage);
+
+        console.log('Freq', amo.frequency);
+        console.log('frequency Income: ', echean);
+
+        const LoyerNet = revenues - chars - manage;
+        console.log('LoyerNet', LoyerNet);
+        const last12MonthLoyerNet = LoyerNet * freqIncome;
+        console.log('last12MonthLoyerNet', last12MonthLoyerNet);
+        console.log('HHHHHHHHHHHHHHHHHHHHHH');
+
+        console.log('freq Income:', freqIncome);
+
+        console.log('+++++++++++');
+      }
+    },
+  );
+
   return (
     <MaxWidthContainer
       withScrollView="keyboardAware"

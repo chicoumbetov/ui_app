@@ -70,19 +70,6 @@ const QuittanceLoyer2 = () => {
   // console.log('compare:',
   // moment(bailEndDate).format('DD/MM/YYYY') >= moment(route.params.date).format('DD/MM/YYYY'));
 
-  /**
-   *  route.params.idTenant - chosen tenant from previous page
-   *  item?.tenantId        - tenant from budgetLineDeadline, guy that pays this rent;
-   *
-   *  paramsDate - chosen date from previous page
-   *  dateBudgetLine - date from budgetLIneDeadline,
-   *  date when tenant pay his rent every month
-   *
-   *
-   * Show only those budgetLine that correspond to chosen Tenant
-   * and only affected ones for period that is demanded
-   */
-
   useEffect(() => {
     (async () => {
       if (!newDocument && bienget) {
@@ -122,6 +109,18 @@ const QuittanceLoyer2 = () => {
           if (document && !document._deleted) {
             setNewDocument(document);
           } else {
+            /**
+             *  route.params.idTenant - chosen tenant from previous page
+             *  item?.tenantId        - tenant from budgetLineDeadline, guy that pays this rent;
+             *
+             *  paramsDate - chosen date from previous page
+             *  dateBudgetLine - date from budgetLIneDeadline,
+             *  date when tenant pay his rent every month
+             *
+             *
+             * Show only those budgetLine that correspond to chosen Tenant
+             * and only affected ones for period that is demanded
+             */
             const budgetLine = bienget.budgetLineDeadlines?.items?.find(
               (item) => {
                 const dateBudgetLine = DateUtils.parseToDateObj(item?.date);

@@ -19,7 +19,9 @@ import {
 } from '../../../mockData/ajoutRevenuData';
 import Form from '../../../components/Form/Form';
 import MaxWidthContainer from '../../../components/MaxWidthContainer';
-import { AmortizationTable, BudgetLineType, Frequency } from '../../../src/API';
+import {
+  AmortizationTable, BankMovement, BudgetLineType, Frequency,
+} from '../../../src/API';
 
 import { TabMesBiensParamList } from '../../../types';
 import { useGetRealEstate } from '../../../src/API/RealEstate';
@@ -35,6 +37,8 @@ import {
 import DateUtils from '../../../utils/DateUtils';
 import { useCreateBudgetLineDeadlineMutation } from '../../../src/API/BudgetLineDeadLine';
 import ReadOnly from '../../../components/ReadOnly';
+import ActionSheet from '../../../components/ActionSheet/ActionSheet';
+import MouvementAffecter from '../../MaTresorerieScreen/Components/MouvementAffecter';
 
 type ParamBudgetForm = {
   category: string,
@@ -57,8 +61,6 @@ const typeDiversArray = Object.values(typeDivers);
 const typeImpotsArray = Object.values(typeImpots);
 const typeAssuranceArray = Object.values(typeAssurance);
 const typeBanqueArray = Object.values(typeBanque);
-
-console.log(typeChargeArray);
 
 const ParametrerAjoutCharges = () => {
   // const theme = useTheme();
@@ -187,311 +189,337 @@ const ParametrerAjoutCharges = () => {
     navigation.pop();
   };
 
+  const [currentTabAmo, setCurrentTabAmo] = useState<AmortizationTable>();
+
+  const calculeTableauAmortissement = () => {
+
+  };
+
   const demain = new Date();
   demain.setDate(demain.getDate() + 1);
   return (
-    <MaxWidthContainer
-      withScrollView="keyboardAware"
-      outerViewProps={{
-        showsVerticalScrollIndicator: false,
-      }}
-    >
+    <>
+      <MaxWidthContainer
+        withScrollView="keyboardAware"
+        outerViewProps={{
+          showsVerticalScrollIndicator: false,
+        }}
+      >
 
-      {/**
+        {/**
          *  I. Mon Budget
          */}
-      <View style={styles.container}>
-        <Text category="h1" style={{ marginBottom: 20 }}>
-          Paramétrer votre budget
-        </Text>
-        <CompteHeader title={bienget?.name} iconUri={bienget?.iconUri} />
-      </View>
-      <Separator />
+        <View style={styles.container}>
+          <Text category="h1" style={{ marginBottom: 20 }}>
+            Paramétrer votre budget
+          </Text>
+          <CompteHeader title={bienget?.name} iconUri={bienget?.iconUri} />
+        </View>
+        <Separator />
 
-      {/**
+        {/**
       *  II. Ajouter revenu
       */}
-      <View style={styles.container}>
-        <Text category="s2" status="basic" style={{ marginBottom: 20 }}>
-          Ajouter une charge
-        </Text>
+        <View style={styles.container}>
+          <Text category="s2" status="basic" style={{ marginBottom: 20 }}>
+            Ajouter une charge
+          </Text>
 
-        <Form
-          {...paramBudgetForm}
-          defaultValues={currentBudgetLine}
-        >
-          <>
+          <Form
+            {...paramBudgetForm}
+            defaultValues={currentBudgetLine}
+          >
+            <>
 
-            {/**
+              {/**
                *  Mode de détention
                */}
 
-            <View style={{ paddingBottom: 33 }}>
+              <View style={{ paddingBottom: 33 }}>
 
-              <Select
-                name="category"
-                data={typeChargeArray}
-                onChangeValue={(v) => {
-                  if (v === 'impots') {
-                    setTaxShow(true);
-                    setAssuranceShow(false);
-                    setBanqueShow(false);
-                    setDiversShow(false);
-                  } else if (v === 'assurance') {
-                    setTaxShow(false);
-                    setAssuranceShow(true);
-                    setBanqueShow(false);
-                    setDiversShow(false);
-                  } else if (v === 'banque') {
-                    setTaxShow(false);
-                    setAssuranceShow(false);
-                    setBanqueShow(true);
-                    setDiversShow(false);
-                  } else if (v === 'frais_divers') {
-                    setTaxShow(false);
-                    setAssuranceShow(false);
-                    setBanqueShow(false);
-                    setDiversShow(true);
-                  } else {
-                    setTaxShow(false);
-                    setAssuranceShow(false);
-                    setBanqueShow(false);
-                    setDiversShow(false);
-                  }
-                  setMontantShow(true);
-                  setFrequenceShow(true);
-                }}
-                placeholder="Type De Charges"
-                size="large"
-                appearance="default"
-                status="primary"
-                validators={[AvailableValidationRules.required]}
-              />
-
-              {taxShow ? (
-                <View>
-                  <Select
-                    name="category2"
-                    data={typeImpotsArray}
-                    placeholder="Type d'Impôts"
-                    size="large"
-                    appearance="default"
-                    status="primary"
-                    onChangeValue={(v) => {
-                      if (v === 'taxes_foncieres') {
-                        setTaxFonciereShow(true);
-                      } else {
-                        setTaxFonciereShow(false);
-                      }
-                    }}
-                  />
-                </View>
-              ) : (<></>)}
-              {assuranceShow ? (
-                <View>
-                  <Select
-                    name="category2"
-                    data={typeAssuranceArray}
-                    placeholder="Type d'Assurance"
-                    size="large"
-                    appearance="default"
-                    status="primary"
-
-                  />
-                </View>
-              ) : (<></>)}
-
-              {banqueShow ? (
-                <View>
-                  <Select
-                    name="category2"
-                    data={typeBanqueArray}
-                    onChangeValue={(item) => {
-                      if (item === 'mensualité_crédit') {
-                        setMensualiteCreditShow(true);
-                      } else {
-                        setMensualiteCreditShow(false);
-                      }
-                    }}
-                    placeholder="Type de Banque"
-                    size="large"
-                    appearance="default"
-                    status="primary"
-                  />
-                </View>
-              ) : (<></>)}
-
-              {diversShow ? (
-                <View>
-                  <Select
-                    name="category2"
-                    data={typeDiversArray}
-                    placeholder="Divers"
-                    size="large"
-                    appearance="default"
-                    status="primary"
-                  />
-                </View>
-              ) : (<></>)}
-              {mensualiteCreditShow ? (
-                <MotiView
-                  animate={{ height: (mensualiteCreditShow ? 420 : 0) }}
-                  style={{
-                    overflow: 'hidden',
-                    // hack pour éviter que le overflow 'hidden' ne cache l'ombre
-                    marginHorizontal: -5,
-                    paddingHorizontal: 5,
+                <Select
+                  name="category"
+                  data={typeChargeArray}
+                  onChangeValue={(v) => {
+                    if (v === 'impots') {
+                      setTaxShow(true);
+                      setAssuranceShow(false);
+                      setBanqueShow(false);
+                      setDiversShow(false);
+                    } else if (v === 'assurance') {
+                      setTaxShow(false);
+                      setAssuranceShow(true);
+                      setBanqueShow(false);
+                      setDiversShow(false);
+                    } else if (v === 'banque') {
+                      setTaxShow(false);
+                      setAssuranceShow(false);
+                      setBanqueShow(true);
+                      setDiversShow(false);
+                    } else if (v === 'frais_divers') {
+                      setTaxShow(false);
+                      setAssuranceShow(false);
+                      setBanqueShow(false);
+                      setDiversShow(true);
+                    } else {
+                      setTaxShow(false);
+                      setAssuranceShow(false);
+                      setBanqueShow(false);
+                      setDiversShow(false);
+                    }
+                    setMontantShow(true);
+                    setFrequenceShow(true);
                   }}
-                  transition={{ type: 'timing', duration: 500 }}
-                >
-                  <Text>Capital emprunté</Text>
-                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                    <TextInput
-                      name="infoCredit.borrowedCapital"
-                      placeholder="Capital emprunté"
-                      keyboardType="numeric"
-                      validators={
-                        [AvailableValidationRules.required, AvailableValidationRules.float]
-                      }
-                    />
-                    <Text category="h4" style={{ marginLeft: 19 }}> €</Text>
-                  </View>
-                  <Text>La date de début du prêt</Text>
-                  <Datepicker
-                    name="infoCredit.loadStartDate"
-                    placeholder="La date de début du prêt"
-                    icon="calendar-outline"
-                  />
-                  <Text>La durée en mois</Text>
-                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                    <TextInput
-                      name="infoCredit.duration"
-                      placeholder="La durée en mois"
-                      keyboardType="numeric"
-                      validators={
-                        [AvailableValidationRules.required, AvailableValidationRules.float]
-                      }
-                    />
-                    <Text category="h4" style={{ marginLeft: 19 }}>mois</Text>
-                  </View>
-                  <Text>Le taux d'intérêts</Text>
-                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                    <TextInput
-                      name="infoCredit.interestRate"
-                      placeholder="Le taux d'intérêts"
-                      keyboardType="numeric"
-                      validators={
-                        [AvailableValidationRules.required, AvailableValidationRules.float]
-                      }
-                    />
-                    <Text category="h4" style={{ marginLeft: 19 }}>%</Text>
-                  </View>
-
-                  <Text>Le taux d'assurance</Text>
-                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                    <TextInput
-                      name="infoCredit.assuranceRate"
-                      placeholder="Le taux d'assurance"
-                      keyboardType="numeric"
-                      validators={
-                        [AvailableValidationRules.required, AvailableValidationRules.float]
-                      }
-                    />
-                    <Text category="h4" style={{ marginLeft: 19 }}>%</Text>
-                  </View>
-                </MotiView>
-              ) : (<></>)}
-              {montantShow ? <Text>Montant</Text> : <></>}
-              <MotiView
-                animate={{ height: (montantShow ? 75 : 0) }}
-                style={{ overflow: 'hidden', flexDirection: 'row', alignItems: 'center' }}
-                transition={{ type: 'timing', duration: 500 }}
-              >
-                <TextInput
-                  name="amount"
-                  placeholder="Saisissez votre montant ici"
-                  keyboardType="numeric"
-                  validators={[AvailableValidationRules.required, AvailableValidationRules.float]}
+                  placeholder="Type De Charges"
+                  size="large"
+                  appearance="default"
+                  status="primary"
+                  validators={[AvailableValidationRules.required]}
                 />
-                <Text category="h4" style={{ marginLeft: 19 }}> €</Text>
-              </MotiView>
-              {taxFonciereShow ? (
-                <>
-                  <Text>Dont Ordures ménagères</Text>
-                  <MotiView
-                    animate={{ height: (montantShow ? 75 : 0) }}
-                    style={{ overflow: 'hidden', flexDirection: 'row', alignItems: 'center' }}
-                    transition={{ type: 'timing', duration: 500 }}
-                  >
-                    <TextInput
-                      name="amount"
-                      placeholder="Saisissez votre montant ici"
-                      keyboardType="numeric"
-                      validators={[AvailableValidationRules.required, AvailableValidationRules.float]}
-                    />
-                    <Text category="h4" style={{ marginLeft: 19 }}> €</Text>
-                  </MotiView>
-                </>
-              ) : (<></>)}
-              {frequenceShow
-                ? (
+
+                {taxShow ? (
                   <View>
                     <Select
-                      name="frequency"
-                      data={frequence}
-                      onChangeValue={() => setDateDerniereEcheanceShow(true)}
-                      placeholder="Fréquence"
+                      name="category2"
+                      data={typeImpotsArray}
+                      placeholder="Type d'Impôts"
+                      size="large"
+                      appearance="default"
+                      status="primary"
+                      onChangeValue={(v) => {
+                        if (v === 'taxes_foncieres') {
+                          setTaxFonciereShow(true);
+                        } else {
+                          setTaxFonciereShow(false);
+                        }
+                      }}
+                    />
+                  </View>
+                ) : (<></>)}
+                {assuranceShow ? (
+                  <View>
+                    <Select
+                      name="category2"
+                      data={typeAssuranceArray}
+                      placeholder="Type d'Assurance"
                       size="large"
                       appearance="default"
                       status="primary"
                     />
-                    {dateDerniereEcheanceShow && (
-                    <Datepicker
-                      name="nextDueDate"
-                      placeholder="Date de dernière échéance"
-                      icon="calendar-outline"
-                      // pas avant demain
-                      // (sinon le cron ne tournera jamais et on aura jamais les échéances)
-                      min={demain}
-                      validators={[AvailableValidationRules.required]}
-                    />
-                    )}
                   </View>
                 ) : (<></>)}
 
-            </View>
-            {!readOnly && (
-            <View style={{ marginBottom: 10 }}>
-              {updateBudgetLine.mutationLoading || createBudgetLine.mutationLoading ? (
-                <Button
-                  onPress={paramBudgetForm.handleSubmit((data) => {
-                    validateCharge(data);
-                  })}
-                  size="large"
-                  accessoryRight={() => <Spinner status="basic" />}
-                  disabled
+                {banqueShow ? (
+                  <View>
+                    <Select
+                      name="category2"
+                      data={typeBanqueArray}
+                      onChangeValue={(item) => {
+                        if (item === 'mensualité_crédit') {
+                          setMensualiteCreditShow(true);
+                        } else {
+                          setMensualiteCreditShow(false);
+                        }
+                      }}
+                      placeholder="Type de Banque"
+                      size="large"
+                      appearance="default"
+                      status="primary"
+                    />
+                  </View>
+                ) : (<></>)}
+
+                {diversShow ? (
+                  <View>
+                    <Select
+                      name="category2"
+                      data={typeDiversArray}
+                      placeholder="Divers"
+                      size="large"
+                      appearance="default"
+                      status="primary"
+                    />
+                  </View>
+                ) : (<></>)}
+                {mensualiteCreditShow ? (
+                  <MotiView
+                    animate={{ height: (mensualiteCreditShow ? 420 : 0) }}
+                    style={{
+                      overflow: 'hidden',
+                      // hack pour éviter que le overflow 'hidden' ne cache l'ombre
+                      marginHorizontal: -5,
+                      paddingHorizontal: 5,
+                    }}
+                    transition={{ type: 'timing', duration: 500 }}
+                  >
+                    <Text>Capital emprunté</Text>
+                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                      <TextInput
+                        name="infoCredit.borrowedCapital"
+                        placeholder="Capital emprunté"
+                        keyboardType="numeric"
+                        validators={
+                        [AvailableValidationRules.required, AvailableValidationRules.float]
+                      }
+                      />
+                      <Text category="h4" style={{ marginLeft: 19 }}> €</Text>
+                    </View>
+                    <Text>La date de début du prêt</Text>
+                    <Datepicker
+                      name="infoCredit.loadStartDate"
+                      placeholder="La date de début du prêt"
+                      icon="calendar-outline"
+                    />
+                    <Text>La durée en mois</Text>
+                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                      <TextInput
+                        name="infoCredit.duration"
+                        placeholder="La durée en mois"
+                        keyboardType="numeric"
+                        validators={
+                        [AvailableValidationRules.required, AvailableValidationRules.float]
+                      }
+                      />
+                      <Text category="h4" style={{ marginLeft: 19 }}>mois</Text>
+                    </View>
+                    <Text>Le taux d'intérêts</Text>
+                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                      <TextInput
+                        name="infoCredit.interestRate"
+                        placeholder="Le taux d'intérêts"
+                        keyboardType="numeric"
+                        validators={
+                        [AvailableValidationRules.required, AvailableValidationRules.float]
+                      }
+                      />
+                      <Text category="h4" style={{ marginLeft: 19 }}>%</Text>
+                    </View>
+
+                    <Text>Le taux d'assurance</Text>
+                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                      <TextInput
+                        name="infoCredit.assuranceRate"
+                        placeholder="Le taux d'assurance"
+                        keyboardType="numeric"
+                        validators={
+                        [AvailableValidationRules.required, AvailableValidationRules.float]
+                      }
+                      />
+                      <Text category="h4" style={{ marginLeft: 19 }}>%</Text>
+                    </View>
+                    <Button appearance="ghost" onPress={() => { calculeTableauAmortissement(); }}> Afficher le tableau d'amortissement</Button>
+                  </MotiView>
+                ) : (<></>)}
+                {montantShow ? <Text>Montant</Text> : <></>}
+                <MotiView
+                  animate={{ height: (montantShow ? 75 : 0) }}
+                  style={{ overflow: 'hidden', flexDirection: 'row', alignItems: 'center' }}
+                  transition={{ type: 'timing', duration: 500 }}
                 >
-                  Valider
-                </Button>
-              ) : (
-                <Button
-                  onPress={paramBudgetForm.handleSubmit((data) => {
-                    validateCharge(data);
-                  })}
-                  size="large"
-                >
-                  Valider
-                </Button>
+                  <TextInput
+                    name="amount"
+                    placeholder="Saisissez votre montant ici"
+                    keyboardType="numeric"
+                    validators={[AvailableValidationRules.required, AvailableValidationRules.float]}
+                  />
+                  <Text category="h4" style={{ marginLeft: 19 }}> €</Text>
+                </MotiView>
+                {taxFonciereShow ? (
+                  <>
+                    <Text>Dont Ordures ménagères</Text>
+                    <MotiView
+                      animate={{ height: (montantShow ? 75 : 0) }}
+                      style={{ overflow: 'hidden', flexDirection: 'row', alignItems: 'center' }}
+                      transition={{ type: 'timing', duration: 500 }}
+                    >
+                      <TextInput
+                        name="amount"
+                        placeholder="Saisissez votre montant ici"
+                        keyboardType="numeric"
+                        validators={[AvailableValidationRules.required, AvailableValidationRules.float]}
+                      />
+                      <Text category="h4" style={{ marginLeft: 19 }}> €</Text>
+                    </MotiView>
+                  </>
+                ) : (<></>)}
+                {frequenceShow
+                  ? (
+                    <View>
+                      <Select
+                        name="frequency"
+                        data={frequence}
+                        onChangeValue={() => setDateDerniereEcheanceShow(true)}
+                        placeholder="Fréquence"
+                        size="large"
+                        appearance="default"
+                        status="primary"
+                      />
+                      {dateDerniereEcheanceShow && (
+                        <Datepicker
+                          name="nextDueDate"
+                          placeholder="Date de dernière échéance"
+                          icon="calendar-outline"
+                      // pas avant demain
+                      // (sinon le cron ne tournera jamais et on aura jamais les échéances)
+                          min={demain}
+                          validators={[AvailableValidationRules.required]}
+                        />
+                      )}
+                    </View>
+                  ) : (<></>)}
+
+              </View>
+              {!readOnly && (
+                <View style={{ marginBottom: 10 }}>
+                  {updateBudgetLine.mutationLoading || createBudgetLine.mutationLoading ? (
+                    <Button
+                      onPress={paramBudgetForm.handleSubmit((data) => {
+                        validateCharge(data);
+                      })}
+                      size="large"
+                      accessoryRight={() => <Spinner status="basic" />}
+                      disabled
+                    >
+                      Valider
+                    </Button>
+                  ) : (
+                    <Button
+                      onPress={paramBudgetForm.handleSubmit((data) => {
+                        validateCharge(data);
+                      })}
+                      size="large"
+                    >
+                      Valider
+                    </Button>
+                  )}
+
+                </View>
               )}
 
-            </View>
-            )}
+            </>
+          </Form>
 
-          </>
-        </Form>
-
-      </View>
-    </MaxWidthContainer>
+        </View>
+      </MaxWidthContainer>
+      <ActionSheet
+        title="amortissement"
+        before={<></>}
+        noSafeArea
+        scrollable={false}
+        visible={currentTabAmo !== undefined}
+        onClose={() => setCurrentTabAmo(undefined)}
+      >
+        {currentTabAmo !== undefined && (
+          <MouvementAffecter
+            movement={currentTabAmo}
+            onSaved={() => {
+              setCurrentTabAmo(undefined);
+              refetch();
+            }}
+          />
+        )}
+      </ActionSheet>
+    </>
   );
 };
 

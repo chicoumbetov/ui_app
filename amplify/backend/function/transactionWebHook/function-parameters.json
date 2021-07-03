@@ -13,6 +13,14 @@
         "Query",
         "Mutation"
       ]
+    },
+    "function": {
+      "sendNotification": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ]
     }
   },
   "lambdaLayers": [

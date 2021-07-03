@@ -76,6 +76,12 @@ app.post('/webhooks/account-synced', async (req, res) => {
     });
     justCreated = true;
   }
+
+  const canSendNotifications = false;
+  if (account.realEstates.realEstate) {
+
+  }
+
   if (account && account !== true) {
     if (!justCreated) {
       await updateBankAccount(AppSyncClient, {

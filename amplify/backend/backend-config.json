@@ -197,6 +197,13 @@
         },
         {
           "category": "function",
+          "resourceName": "sendNotification",
+          "attributes": [
+            "Name"
+          ]
+        },
+        {
+          "category": "function",
           "resourceName": "omedomGraphQLLayer",
           "attributes": [
             "Arn"

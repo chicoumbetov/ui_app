@@ -457,7 +457,7 @@ const ParametrerAjoutCharges = () => {
                       {dateDerniereEcheanceShow && (
                         <Datepicker
                           name="nextDueDate"
-                          placeholder="Date de dernière échéance"
+                          placeholder="Date de la prochaine échéance"
                           icon="calendar-outline"
                       // pas avant demain
                       // (sinon le cron ne tournera jamais et on aura jamais les échéances)

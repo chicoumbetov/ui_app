@@ -3,10 +3,50 @@ import {
   GetBankAccountQuery, GetBankAccountQueryVariables,
   ListBankAccountsByBiConnectionIdQuery,
   ListBankAccountsByBiConnectionIdQueryVariables,
-  ListBankAccountsByBiIdQuery,
   ListBankAccountsByBiIdQueryVariables,
 } from '../../../../../../../src/API';
 import { AppSyncClient } from './AppSyncClient';
+
+type ListBankAccountsByBiIdQuery = {
+  listBankAccountsByBiId?: {
+    __typename: 'ModelBankAccountConnection',
+    items?: Array< {
+      __typename: 'BankAccount',
+      id: string,
+      bank?: string | null,
+      name?: string | null,
+      iban?: string | null,
+      bic?: string | null,
+      balance: number,
+      biId: number,
+      biConnectionId: number,
+      biState?: string | null,
+      accountOwner?: string | null,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+      createdAt: string,
+      updatedAt: string,
+      realEstates?: {
+        __typename: 'ModelRealEstateBankAccountConnection',
+        items?: Array< {
+          __typename: 'RealEstateBankAccount',
+          realEstate?: {
+            __typename: 'RealEstate',
+            id: string,
+            name: string,
+            admins: Array< string >,
+            iconUri: string,
+          }
+        } | null > | null,
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+    } | null > | null,
+    nextToken?: string | null,
+    startedAt?: number | null,
+  } | null,
+};
 
 const getBankAccountsByBIId = async (client: AppSyncClient, biId: number) => {
   try {
@@ -35,6 +75,16 @@ const getBankAccountsByBIId = async (client: AppSyncClient, biId: number) => {
         _lastChangedAt
         createdAt
         updatedAt
+        realEstates {
+          items {
+            realEstate {
+              id
+              name
+              admins
+              iconUri
+            }
+          }
+        }
       }
       nextToken
       startedAt

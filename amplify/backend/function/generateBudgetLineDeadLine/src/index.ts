@@ -14,7 +14,7 @@ import {
   MortgageLoanDeadlineInfoInput,
 } from '../../../../../src/API';
 import DateUtils from './DateUtils';
-import moment from 'moment';
+import * as moment from 'moment';
 
 const aws = require('aws-sdk');
 
@@ -122,6 +122,10 @@ exports.handler = async () => {
               type: 'echeanceFacture',
             }, null, 2),
             InvocationType: 'Event',
+          }, (error) => {
+            if (error) {
+              console.error('Notification error', error);
+            }
           });
         }
 

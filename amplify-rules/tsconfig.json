@@ -5,8 +5,7 @@
     "noImplicitAny": false,
     "allowJs": true,
     "types": ["node"],
-    "moduleResolution": "node",
-    "allowSyntheticDefaultImports": true
+    "moduleResolution": "node"
   },
   "exclude": ["node_modules", "**/*.spec.ts"]
 }

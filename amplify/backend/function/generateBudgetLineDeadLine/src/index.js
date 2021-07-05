@@ -11,7 +11,7 @@ const BudgetLineQueries_1 = require("/opt/nodejs/src/BudgetLineQueries");
 const BudgetLineMutations_1 = require("/opt/nodejs/src/BudgetLineMutations");
 const BudgetLineDeadlineMutations_1 = require("/opt/nodejs/src/BudgetLineDeadlineMutations");
 const DateUtils_1 = require("./DateUtils");
-const moment_1 = require("moment");
+const moment = require("moment");
 const aws = require('aws-sdk');
 const lambda = new aws.Lambda({
     region: process.env.REGION,
@@ -85,7 +85,7 @@ exports.handler = async () => {
                         Payload: JSON.stringify({
                             userIds: budgetLine.realEstate.admins,
                             title: 'Nouvelle dépense',
-                            body: `Une dépense pour votre bien ${budgetLine.realEstate.name} arrive à échéance le ${moment_1.default(oldDueDate).format('DD/MM/YYYY')}.`,
+                            body: `Une dépense pour votre bien ${budgetLine.realEstate.name} arrive à échéance le ${moment(oldDueDate).format('DD/MM/YYYY')}.`,
                             data: {
                                 realEstateId: budgetLine.realEstateId,
                                 budgetLineId: budgetLine.id,
@@ -93,6 +93,10 @@ exports.handler = async () => {
                             type: 'echeanceFacture',
                         }, null, 2),
                         InvocationType: 'Event',
+                    }, (error) => {
+                        if (error) {
+                            console.error('Notification error', error);
+                        }
                     });
                 }
                 // on update la budgetLine

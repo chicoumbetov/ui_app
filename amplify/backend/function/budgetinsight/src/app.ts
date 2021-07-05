@@ -30,6 +30,7 @@ import { createRealEstateBankAccount } from '/opt/nodejs/src/RealEstateBankAccou
 import { listRealEstatesByBankAccount } from '/opt/nodejs/src/RealEstateBankAccountQueries';
 import { getDocument } from '/opt/nodejs/src/DocumentQueries';
 import { sendEmailWithAttachement } from '/opt/nodejs/src/SendMail';
+import templateMailQuittance from './templateMailQuittance';
 
 const AWS = require('aws-sdk');
 
@@ -89,7 +90,7 @@ app.get('/budgetinsight/send-quittance', async (req, res) => {
         await sendEmailWithAttachement(
           EMAIL,
           'Votre quittance de loyer',
-          '',
+          templateMailQuittance,
           {
             filename: document.name,
             data: data.Body.toString('base64'),

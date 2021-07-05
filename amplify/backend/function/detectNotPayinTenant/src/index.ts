@@ -50,6 +50,10 @@ exports.handler = async () => {
             type: 'retardLoyer',
           }, null, 2),
           InvocationType: 'Event',
+        }, (error) => {
+          if (error) {
+            console.error('Notification error', error);
+          }
         });
       }
     });

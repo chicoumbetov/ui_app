@@ -7,6 +7,8 @@ const path = require('path')
 module.exports = async function(env, argv) {
   const config = await createExpoWebpackConfigAsync({
     ...env,
+    // Passing true will enable the default Workbox + Expo SW configuration.
+    offline: true,
     babel: { dangerouslyAddModulePathsToTranspile: ['moti', '@motify'] },
   }, argv);
 

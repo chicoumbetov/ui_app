@@ -24,6 +24,7 @@ const RealEstateBankAccountMutations_1 = require("/opt/nodejs/src/RealEstateBank
 const RealEstateBankAccountQueries_1 = require("/opt/nodejs/src/RealEstateBankAccountQueries");
 const DocumentQueries_1 = require("/opt/nodejs/src/DocumentQueries");
 const SendMail_1 = require("/opt/nodejs/src/SendMail");
+const templateMailQuittance_1 = require("./templateMailQuittance");
 const AWS = require('aws-sdk');
 const s3 = new AWS.S3();
 const express = require('express');
@@ -69,7 +70,7 @@ app.get('/budgetinsight/send-quittance', async (req, res) => {
                     Bucket: process.env.STORAGE_OMEDOM_BUCKETNAME,
                     Key: `public/${document.s3file}`,
                 }).promise();
-                await SendMail_1.sendEmailWithAttachement(EMAIL, 'Votre quittance de loyer', '', {
+                await SendMail_1.sendEmailWithAttachement(EMAIL, 'Votre quittance de loyer', templateMailQuittance_1.default, {
                     filename: document.name,
                     data: data.Body.toString('base64'),
                 });

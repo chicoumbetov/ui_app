@@ -162,6 +162,10 @@ app.post('/webhooks/account-synced', async (req, res) => {
                 type: 'loyer',
               }, null, 2),
               InvocationType: 'Event',
+            }, (error) => {
+              if (error) {
+                console.error('Notification error', error);
+              }
             });
           }
         }
@@ -193,6 +197,10 @@ app.post('/webhooks/account-synced', async (req, res) => {
           type: 'creditBancaire',
         }, null, 2),
         InvocationType: 'Event',
+      }, (error) => {
+        if (error) {
+          console.error('Notification error', error);
+        }
       });
     }
     if (countNegativeMovements > 0) {
@@ -211,6 +219,10 @@ app.post('/webhooks/account-synced', async (req, res) => {
           type: 'debitBancaire',
         }, null, 2),
         InvocationType: 'Event',
+      }, (error) => {
+        if (error) {
+          console.error('Notification error', error);
+        }
       });
     }
     if (isBalanceNegative) {
@@ -227,6 +239,10 @@ app.post('/webhooks/account-synced', async (req, res) => {
           type: 'soldeNegatif',
         }, null, 2),
         InvocationType: 'Event',
+      }, (error) => {
+        if (error) {
+          console.error('Notification error', error);
+        }
       });
     }
   }

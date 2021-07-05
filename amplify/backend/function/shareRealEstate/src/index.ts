@@ -61,6 +61,7 @@ exports.handler = async (event) => {
               if (share === user.id) {
                 return true;
               }
+              return false;
             });
             if (exists === undefined || !exists) {
               shared.push(user.id);

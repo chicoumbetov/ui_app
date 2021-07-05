@@ -64,7 +64,8 @@ exports.handler = async (event: SendNotificationEvent) => {
           _version: user._version,
         };
       }
-      const params = user.privateProfile.notificationParams[type];
+      const params = user.privateProfile.notificationParams
+          && user.privateProfile.notificationParams[type];
 
       // on ajoute la notif dans AppSync
       await createNotificationMutation(AppSyncClient, {
@@ -76,10 +77,10 @@ exports.handler = async (event: SendNotificationEvent) => {
       });
 
       // on verifie s'il veut recevoir les notifs push ou email
-      if (params.email) {
+      if (params && params.email) {
         emails.push(user.email);
       }
-      if (params.push && user.expoToken && user.expoToken.length > 0) {
+      if (params && params.push && user.expoToken && user.expoToken.length > 0) {
         tokenList = tokenList.concat(
           user.expoToken
             .filter((token) => Expo.isExpoPushToken(token))

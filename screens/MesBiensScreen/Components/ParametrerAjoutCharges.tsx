@@ -39,6 +39,7 @@ import { useCreateBudgetLineDeadlineMutation } from '../../../src/API/BudgetLine
 import ReadOnly from '../../../components/ReadOnly';
 import ActionSheet from '../../../components/ActionSheet/ActionSheet';
 import MouvementAffecter from '../../MaTresorerieScreen/Components/MouvementAffecter';
+import TableauAmortissement from './actionSheet/tableauAmortissement';
 
 type ParamBudgetForm = {
   category: string,
@@ -126,7 +127,7 @@ const ParametrerAjoutCharges = () => {
     const {
       category, category2, amount, frequency, nextDueDate, infoCredit, householdWaste,
     } = data;
-    if ((category === 'Impôts' || category === 'Assurance' || category === 'Banque') && category2) {
+    if ((category === 'impots' || category === 'assurance' || category === 'banque') && category2) {
       category1 = category2;
     } else {
       category1 = category;
@@ -189,10 +190,41 @@ const ParametrerAjoutCharges = () => {
     navigation.pop();
   };
 
-  const [currentTabAmo, setCurrentTabAmo] = useState<AmortizationTable>();
+  const [currentTabAmo, setCurrentTabAmo] = useState<AmortizationTable[]>();
+  const [borrowedCapital, setBorrowedCapital] = useState<number>();
+  const [interestRate, setInterestRate] = useState<number>();
+  const [duration, setDuration] = useState<number>();
+  const [loanStartDate, setLoanStartDate] = useState<Date>();
+  const [assuranceRate, setAssuranceRate] = useState<number>();
+
+  const amortizationTable : AmortizationTable[] = [];
+
+  if (borrowedCapital && interestRate && assuranceRate && duration && loanStartDate) {
+    let amontDue = borrowedCapital;
+
+    const thisAssurancerate = assuranceRate / 100;
+    const thisInterestRate = interestRate / 100;
+    for (let i = 0; i < duration; i += 1) {
+      const assurance = borrowedCapital * (thisAssurancerate / 12);
+      const amount = ((borrowedCapital * (thisInterestRate / 12)) / (1 - ((1 + (thisInterestRate / 12)) ** -duration))) + assurance;
+      const interest = amontDue * (thisInterestRate / 12);
+      const amortizedCapital = amount - assurance - interest;
+      amontDue -= amortizedCapital;
+      const dueDate = loanStartDate?.setMonth(loanStartDate?.getMonth() + duration);
+      amortizationTable.push({
+        __typename: 'AmortizationTable',
+        amount,
+        assurance,
+        interest,
+        amortizedCapital,
+        dueDate: dueDate.toString(),
+      });
+    }
+    console.log('le gros calcule :', amortizationTable);
+  }
 
   const calculeTableauAmortissement = () => {
-
+    setCurrentTabAmo(amortizationTable);
   };
 
   const demain = new Date();
@@ -358,6 +390,7 @@ const ParametrerAjoutCharges = () => {
                         name="infoCredit.borrowedCapital"
                         placeholder="Capital emprunté"
                         keyboardType="numeric"
+                        onChangeValue={(v) => { setBorrowedCapital(v); }}
                         validators={
                         [AvailableValidationRules.required, AvailableValidationRules.float]
                       }
@@ -368,6 +401,7 @@ const ParametrerAjoutCharges = () => {
                     <Datepicker
                       name="infoCredit.loadStartDate"
                       placeholder="La date de début du prêt"
+                      onChangeValue={(v) => { setLoanStartDate(DateUtils.parseToDateObj(v)); }}
                       icon="calendar-outline"
                     />
                     <Text>La durée en mois</Text>
@@ -376,6 +410,7 @@ const ParametrerAjoutCharges = () => {
                         name="infoCredit.duration"
                         placeholder="La durée en mois"
                         keyboardType="numeric"
+                        onChangeValue={(v) => { setDuration(v); }}
                         validators={
                         [AvailableValidationRules.required, AvailableValidationRules.float]
                       }
@@ -388,6 +423,7 @@ const ParametrerAjoutCharges = () => {
                         name="infoCredit.interestRate"
                         placeholder="Le taux d'intérêts"
                         keyboardType="numeric"
+                        onChangeValue={(v) => { setInterestRate(v); }}
                         validators={
                         [AvailableValidationRules.required, AvailableValidationRules.float]
                       }
@@ -401,6 +437,9 @@ const ParametrerAjoutCharges = () => {
                         name="infoCredit.assuranceRate"
                         placeholder="Le taux d'assurance"
                         keyboardType="numeric"
+                        onChangeValue={(v) => {
+                          setAssuranceRate(v);
+                        }}
                         validators={
                         [AvailableValidationRules.required, AvailableValidationRules.float]
                       }
@@ -433,7 +472,7 @@ const ParametrerAjoutCharges = () => {
                       transition={{ type: 'timing', duration: 500 }}
                     >
                       <TextInput
-                        name="amount"
+                        name="householdWaste"
                         placeholder="Saisissez votre montant ici"
                         keyboardType="numeric"
                         validators={[AvailableValidationRules.required, AvailableValidationRules.float]}
@@ -510,8 +549,9 @@ const ParametrerAjoutCharges = () => {
         onClose={() => setCurrentTabAmo(undefined)}
       >
         {currentTabAmo !== undefined && (
-          <MouvementAffecter
-            movement={currentTabAmo}
+          <TableauAmortissement
+            tabAmo={currentTabAmo}
+            borrowedCapital={borrowedCapital}
             onSaved={() => {
               setCurrentTabAmo(undefined);
               refetch();

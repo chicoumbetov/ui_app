@@ -15,12 +15,12 @@ import { MotiView } from 'moti';
 
 import Select from '../../../components/Form/Select';
 import {
-  frequence, typeCharge, typeImpots, typeAssurance, typeBanque, typeDivers, typeRevenu,
+  frequence, typeCharge, typeImpots, typeAssurance, typeBanque, typeDivers,
 } from '../../../mockData/ajoutRevenuData';
 import Form from '../../../components/Form/Form';
 import MaxWidthContainer from '../../../components/MaxWidthContainer';
 import {
-  AmortizationTable, BankMovement, BudgetLineType, Frequency,
+  AmortizationTable, BudgetLineType, Frequency,
 } from '../../../src/API';
 
 import { TabMesBiensParamList } from '../../../types';
@@ -38,7 +38,7 @@ import DateUtils from '../../../utils/DateUtils';
 import { useCreateBudgetLineDeadlineMutation } from '../../../src/API/BudgetLineDeadLine';
 import ReadOnly from '../../../components/ReadOnly';
 import ActionSheet from '../../../components/ActionSheet/ActionSheet';
-import MouvementAffecter from '../../MaTresorerieScreen/Components/MouvementAffecter';
+
 import TableauAmortissement from './actionSheet/tableauAmortissement';
 
 type ParamBudgetForm = {
@@ -375,7 +375,7 @@ const ParametrerAjoutCharges = () => {
                 ) : (<></>)}
                 {mensualiteCreditShow ? (
                   <MotiView
-                    animate={{ height: (mensualiteCreditShow ? 420 : 0) }}
+                    animate={{ height: (mensualiteCreditShow ? 450 : 0) }}
                     style={{
                       overflow: 'hidden',
                       // hack pour éviter que le overflow 'hidden' ne cache l'ombre

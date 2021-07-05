@@ -1,14 +1,11 @@
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { Button, Text } from '@ui-kitten/components';
-import moment from 'moment';
 import React from 'react';
-import { AmortizationTable, BankMovement } from '../../../../src/API';
-import Amount from '../../../../components/Amount';
-import Separator from '../../../../components/Separator';
-import BudgetLineDeadLineCard from '../../../MaTresorerieScreen/Components/BudgetLineDeadLineCard';
+
+import { AmortizationTable } from '../../../../src/API';
+
 import TextInputComp from '../../../../components/Form/TextInput';
 import { AvailableValidationRules } from '../../../../components/Form/validation';
-import TextInput from '../../../../components/Form/TextInput';
 
 type MonBudgetProps = { tabAmo: AmortizationTable[], onSaved?: () => void, borrowedCapital: number };
 
@@ -24,38 +21,100 @@ const TableauAmortissement = (props: MonBudgetProps) => {
       >
         <Text category="h5" status="basic" style={{ marginVertical: 10 }}>Tableau d'Amortissement</Text>
       </View>
-      <View style={{ flexDirection: 'row' }}>
-        <Text>Date</Text>
-        <Text>Capital Restant</Text>
-        <Text>Intérêts payés</Text>
-        <Text>Assurance</Text>
-        <Text>Mensualité</Text>
-        <Text>oui</Text>
-      </View>
-      <ScrollView style={{ paddingTop: 20, borderTopWidth: 1, borderTopColor: '#b5b5b5' }}>
+      <ScrollView horizontal style={{ height: 400 }}>
+        <View style={{ flexDirection: 'column' }}>
 
-        {tabAmo.map((tab) => {
-          if (tab && tab.amount && tab.interest && tab.assurance && tab.dueDate) {
-            currentCapital -= (tab.amount - tab.interest - tab.assurance);
-            return (
-              <View style={{ flexDirection: 'row' }}>
-                <Text>{tab.dueDate}</Text>
-                <Text>{Math.round(currentCapital * 100) / 100}</Text>
-                <TextInputComp
-                  name="interest"
-                  keyboardType="numeric"
-                  validators={[AvailableValidationRules.required, AvailableValidationRules.float]}
-                  defaultValue={Math.round(tab.interest * 100) / 100}
-                  onChangeValue={(v) => { tab.interest = v; currentCapital -= (tab.amount - tab.interest - tab.assurance); }}
-                />
-                <TextInputComp name="assurance" defaultValue={Math.round(tab.assurance * 100) / 100} />
-                <Text>{Math.round(tab.amount * 100) / 100}</Text>
-                <TextInputComp name="amount" defaultValue={Math.round((tab.amount - tab.interest - tab.assurance) * 100) / 100} />
-              </View>
-            );
-          }
-        })}
-        <Button>Enregistrer les modifications</Button>
+          <View style={{
+            flexDirection: 'row', alignItems: 'center',
+          }}
+          >
+            <Text style={{ maxWidth: 70, width: 70 }}>Date</Text>
+            <Text style={{ maxWidth: 100, width: 100, paddingLeft: 5 }}>Capital Restant</Text>
+            <View style={{
+              flex: 1, maxWidth: 120, width: 120, justifyContent: 'center',
+            }}
+            >
+              <Text style={{ marginLeft: 15 }}>
+                Intérêts payés
+              </Text>
+            </View>
+
+            <View style={{
+              flex: 1, justifyContent: 'center',
+            }}
+            >
+              <Text style={{ marginLeft: 15 }}>Assurance</Text>
+            </View>
+
+            <Text style={{ maxWidth: 120, width: 120, paddingLeft: 5 }}>Mensualité</Text>
+            <View style={{
+              flex: 1, maxWidth: 120, width: 120, marginLeft: 10, justifyContent: 'center',
+            }}
+            >
+              <Text style={{ marginLeft: 15 }}>Capital emprunté</Text>
+            </View>
+
+          </View>
+          <ScrollView style={{ paddingTop: 20, borderTopWidth: 1, borderTopColor: '#b5b5b5' }}>
+
+            {tabAmo.map((tab) => {
+              if (tab && tab.amount && tab.interest && tab.assurance && tab.dueDate) {
+                currentCapital -= (tab.amount - tab.interest - tab.assurance);
+                console.log('data: ', tab);
+                return (
+                  <View style={{
+                    flexDirection: 'row', alignItems: 'center',
+                  }}
+                  >
+                    <Text style={{ maxWidth: 70, width: 70 }}>{tab.dueDate}</Text>
+                    <View style={{
+                      maxWidth: 100, width: 100, paddingLeft: 5, justifyContent: 'center', alignItems: 'center',
+                    }}
+                    >
+                      <Text>
+                        {Math.round(currentCapital * 100) / 100}
+                      </Text>
+                    </View>
+
+                    <TextInputComp
+                      name="interest"
+                      keyboardType="numeric"
+                      validators={[AvailableValidationRules.required, AvailableValidationRules.float]}
+                      defaultValue={Math.round(tab.interest * 100) / 100}
+                      onChangeValue={(v) => {
+                        tab.interest = v; currentCapital -= (tab.amount - tab.interest - tab.assurance);
+                      }}
+                      style={{
+                        maxWidth: 120, width: 120, justifyContent: 'center', marginHorizontal: 5,
+                      }}
+                    />
+                    <TextInputComp
+                      name="assurance"
+                      defaultValue={Math.round(tab.assurance * 100) / 100}
+                      style={{ maxWidth: 120, width: 120, marginHorizontal: 5 }}
+                    />
+                    <View style={{
+                      maxWidth: 120, width: 120, alignItems: 'center', justifyContent: 'center',
+                    }}
+                    >
+                      <Text>{Math.round(tab.amount * 100) / 100}</Text>
+                    </View>
+
+                    <TextInputComp
+                      name="amount"
+                      defaultValue={Math.round((tab.amount - tab.interest - tab.assurance) * 100) / 100}
+                      style={{
+                        maxWidth: 120, width: 120, justifyContent: 'center', marginHorizontal: 5,
+                      }}
+                    />
+                  </View>
+                );
+              }
+            })}
+            <Button>Enregistrer les modifications</Button>
+          </ScrollView>
+
+        </View>
       </ScrollView>
     </View>
   );

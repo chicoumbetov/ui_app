@@ -10,6 +10,11 @@
         "Query",
         "Mutation"
       ]
+    },
+    "storage": {
+      "omedom": [
+        "read"
+      ]
     }
   },
   "lambdaLayers": [
@@ -23,6 +28,13 @@
     {
       "type": "ProjectLayer",
       "resourceName": "omedomBudgetInsightLayer",
+      "env": "dev",
+      "version": "Always choose latest version",
+      "isLatestVersionSelected": true
+    },
+    {
+      "type": "ProjectLayer",
+      "resourceName": "omedomSESLayer",
       "env": "dev",
       "version": "Always choose latest version",
       "isLatestVersionSelected": true

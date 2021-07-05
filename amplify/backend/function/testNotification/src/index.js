@@ -25,13 +25,6 @@ exports.handler = async (event) => {
       type: 'autre',
     }, null, 2),
     InvocationType: 'Event',
-  }, (error, data) => {
-    if (error) {
-      context.done('error', error);
-    }
-    if (data.Payload) {
-      context.succeed(data.Payload);
-    }
   });
 
   // TODO implement

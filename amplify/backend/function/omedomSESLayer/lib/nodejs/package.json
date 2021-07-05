@@ -2,6 +2,9 @@
   "version": "1.0.0",
   "description": "seslayer 14",
   "main": "index.js",
-  "dependencies": {},
+  "dependencies": {
+    "@types/nodemailer": "^6.4.2",
+    "nodemailer": "^6.6.2"
+  },
   "devDependencies": {}
 }

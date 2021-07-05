@@ -10,6 +10,7 @@ See the License for the specific language governing permissions and limitations 
 	API_OMEDOM_GRAPHQLAPIENDPOINTOUTPUT
 	API_OMEDOM_GRAPHQLAPIIDOUTPUT
 	AUTH_OMEDOMFEE3BFE0_USERPOOLID
+    STORAGE_OMEDOM_BUCKETNAME
 	ENV
 	REGION
 Amplify Params - DO NOT EDIT */
@@ -27,6 +28,12 @@ import {
 } from '/opt/nodejs/src/BankAccountMutations';
 import { createRealEstateBankAccount } from '/opt/nodejs/src/RealEstateBankAccountMutations';
 import { listRealEstatesByBankAccount } from '/opt/nodejs/src/RealEstateBankAccountQueries';
+import { getDocument } from '/opt/nodejs/src/DocumentQueries';
+import { sendEmailWithAttachement } from '/opt/nodejs/src/SendMail';
+
+const AWS = require('aws-sdk');
+
+const s3 = new AWS.S3();
 
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -55,6 +62,52 @@ app.post('/budgetinsight/create-user', async (req, res) => {
     res.json({
       ...response.data, success: true,
     });
+  } catch (e) {
+    res.json({
+      success: false, error: e,
+    });
+  }
+});
+
+// permet l'envoi de la quittance
+app.get('/budgetinsight/send-quittance', async (req, res) => {
+  const uuid = req.apiGateway.event.requestContext.identity
+    .cognitoAuthenticationProvider.split(':').pop();
+
+  const { DOCUMENT_ID, EMAIL } = req.query;
+
+  try {
+    const document = await getDocument(AppSyncClient, DOCUMENT_ID);
+    if (document) {
+      if (document.realEstate.admins.indexOf(uuid) > -1
+          || (document.realEstate.shared || []).indexOf(uuid) > -1) {
+        const data = await s3.getObject({
+          Bucket: process.env.STORAGE_OMEDOM_BUCKETNAME,
+          Key: `public/${document.s3file}`,
+        }).promise();
+
+        await sendEmailWithAttachement(
+          EMAIL,
+          'Votre quittance de loyer',
+          '',
+          {
+            filename: document.name,
+            data: data.Body.toString('base64'),
+          },
+        );
+        res.json({
+          success: true,
+        });
+      } else {
+        res.json({
+          success: false, error: 'Document introuvable',
+        });
+      }
+    } else {
+      res.json({
+        success: false, error: 'Document introuvable',
+      });
+    }
   } catch (e) {
     res.json({
       success: false, error: e,

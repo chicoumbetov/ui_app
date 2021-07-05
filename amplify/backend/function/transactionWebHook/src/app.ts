@@ -8,8 +8,9 @@ See the License for the specific language governing permissions and limitations 
 
 /* Amplify Params - DO NOT EDIT
 	API_OMEDOM_GRAPHQLAPIENDPOINTOUTPUT
-	API_OMEDOM_GRAPHQLAPIIDOUTPUT
-	AUTH_OMEDOMFEE3BFE0_USERPOOLID
+    API_OMEDOM_GRAPHQLAPIIDOUTPUT
+    AUTH_OMEDOMC071F696_USERPOOLID
+    FUNCTION_SENDNOTIFICATION_NAME
 	ENV
 	REGION
 Amplify Params - DO NOT EDIT */
@@ -24,6 +25,14 @@ import {
   updateBankAccount,
 } from '/opt/nodejs/src/BankAccountMutations';
 import { createBankMovement } from '/opt/nodejs/src/BankMovementMutations';
+import { TenantInfo } from '../../../../../src/API';
+import DateUtils from '../../../../../utils/DateUtils';
+
+const aws = require('aws-sdk');
+
+const lambda = new aws.Lambda({
+  region: process.env.REGION,
+});
 
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -77,12 +86,48 @@ app.post('/webhooks/account-synced', async (req, res) => {
     justCreated = true;
   }
 
-  const canSendNotifications = false;
-  if (account.realEstates.realEstate) {
-
-  }
+  const isBalanceNegative = balance < 0;
+  let countNegativeMovements = 0;
+  let countPositiveMovements = 0;
+  let currentTenants: Array<TenantInfo & {
+    realEstateId: string,
+    realEstateName: string,
+    realEstateAdmins: string[]
+  }> = [];
+  const date = new Date();
 
   if (account && account !== true) {
+    let recipientList: string[] | false = false;
+    const realEstateIds: string[] = [];
+    if (!justCreated && account.realEstates.items && account.realEstates.items.length > 0) {
+      recipientList = [];
+      for (let i = 0; i < account.realEstates.items.length; i += 1) {
+        realEstateIds.push(account.realEstates.items[0].realEstate.id);
+        recipientList = recipientList.concat(account.realEstates.items[0].realEstate.admins);
+        const tenants = account.realEstates.items[0].realEstate.tenants.filter((tenant) => {
+          const bailStartDate = DateUtils.parseToDateObj(tenant?.startDate);
+          bailStartDate.setHours(0, 0, 0, 0);
+          const bailEndDate = DateUtils.parseToDateObj(tenant?.endDate);
+          bailEndDate.setHours(23, 59, 59, 59);
+          if (bailStartDate <= date && date <= bailEndDate) {
+            return true;
+          }
+          return false;
+        }).map((item) => ({
+          ...item,
+          realEstateId: account
+              && account !== true
+              && account.realEstates.items[0].realEstate.id,
+          realEstateName: account
+              && account !== true
+              && account.realEstates.items[0].realEstate.name,
+          realEstateAdmins: account
+              && account !== true
+              && account.realEstates.items[0].realEstate.admins,
+        }));
+        currentTenants = currentTenants.concat(tenants);
+      }
+    }
     if (!justCreated) {
       await updateBankAccount(AppSyncClient, {
         id: account.id,
@@ -94,6 +139,32 @@ app.post('/webhooks/account-synced', async (req, res) => {
     const map = transactions.map(async (transaction) => {
       if (!transaction.coming && transaction.active
           && !transaction.deleted && account && account !== true) {
+        countNegativeMovements += (transaction.value < 0 ? 1 : 0);
+        if (transaction.value > 0) {
+          countPositiveMovements += 1;
+          // on vérifie si le montant d'un loyer ne correspondrait pas
+          const foundTenant = currentTenants.find(
+            (item) => (Math.abs(item.amount - transaction.value) / item.amount <= 0.05),
+          );
+          if (foundTenant) {
+            // on notifie
+            lambda.invoke({
+              FunctionName: process.env.FUNCTION_SENDNOTIFICATION_NAME,
+              Payload: JSON.stringify({
+                userIds: foundTenant.realEstateAdmins,
+                title: 'Loyer payé',
+                body: `Vous venez probablement de recevoir le loyer pour votre bien "${foundTenant.realEstateName}".`,
+                data: {
+                  realEstateId: foundTenant.realEstateId,
+                  bankAccountId: account.id,
+                  tenantId: foundTenant.id,
+                },
+                type: 'loyer',
+              }, null, 2),
+              InvocationType: 'Event',
+            });
+          }
+        }
         await createBankMovement(AppSyncClient, {
           bankAccountId: (account || { id: '' }).id,
           biId: transaction.id,
@@ -105,6 +176,59 @@ app.post('/webhooks/account-synced', async (req, res) => {
       }
     });
     await Promise.all(map);
+
+    if (countPositiveMovements > 0) {
+      lambda.invoke({
+        FunctionName: process.env.FUNCTION_SENDNOTIFICATION_NAME,
+        Payload: JSON.stringify({
+          userIds: recipientList,
+          title: countPositiveMovements > 1 ? 'Nouveaux mouvements créditeurs' : 'Nouveau mouvement créditeur',
+          body: countPositiveMovements > 1
+            ? `Votre compte ${account.bank} ${account.name} ${account.iban} présente de nouveaux mouvements créditeurs.`
+            : `Votre compte ${account.bank} ${account.name} ${account.iban} présente un nouveau mouvement créditeur.`,
+          data: {
+            realEstateIds,
+            bankAccountId: account.id,
+          },
+          type: 'creditBancaire',
+        }, null, 2),
+        InvocationType: 'Event',
+      });
+    }
+    if (countNegativeMovements > 0) {
+      lambda.invoke({
+        FunctionName: process.env.FUNCTION_SENDNOTIFICATION_NAME,
+        Payload: JSON.stringify({
+          userIds: recipientList,
+          title: countNegativeMovements > 1 ? 'Nouveaux mouvements débiteurs' : 'Nouveau mouvement débiteur',
+          body: countNegativeMovements > 1
+            ? `Votre compte ${account.bank} ${account.name} ${account.iban} présente de nouveaux mouvements débiteurs.`
+            : `Votre compte ${account.bank} ${account.name} ${account.iban} présente un nouveau mouvement débiteur.`,
+          data: {
+            realEstateIds,
+            bankAccountId: account.id,
+          },
+          type: 'debitBancaire',
+        }, null, 2),
+        InvocationType: 'Event',
+      });
+    }
+    if (isBalanceNegative) {
+      lambda.invoke({
+        FunctionName: process.env.FUNCTION_SENDNOTIFICATION_NAME,
+        Payload: JSON.stringify({
+          userIds: recipientList,
+          title: 'Solde bancaire négatif',
+          body: `Votre compte ${account.bank} ${account.name} ${account.iban} présente un solde négatif.`,
+          data: {
+            realEstateIds,
+            bankAccountId: account.id,
+          },
+          type: 'soldeNegatif',
+        }, null, 2),
+        InvocationType: 'Event',
+      });
+    }
   }
 
   res.sendStatus(200);

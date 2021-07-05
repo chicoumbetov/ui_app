@@ -274,10 +274,12 @@ function DetailsBien() {
         && bienget?.budgetLines?.items.length > 0
         && bienget?.budgetLines?.items[0]?.amount;
 
+  const { bankMovements } = bienget || {};
+
   // useMemo used if big O notation is expensive. higher than n to the power 2
-  const dernierMovement = useMemo(() => bienget?.bankMovements?.items?.find(
+  const dernierMovement = useMemo(() => bankMovements?.items?.find(
     (item) => (!item?.ignored),
-  ), [bienget.bankMovements]);
+  ), [bankMovements]);
 
   // console.log('last Movement', dernierMovement);
   let invitationAttente : (PendingInvitation | null)[];

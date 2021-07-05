@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Text } from '@ui-kitten/components';
+import { Spinner, Text } from '@ui-kitten/components';
 import { View } from 'react-native';
 
 import { StackActions, useNavigation, useRoute } from '@react-navigation/native';
@@ -8,8 +8,8 @@ import { useApolloClient } from 'react-apollo';
 
 import moment from 'moment';
 
+import API from '@aws-amplify/api';
 import CompteHeader from '../../../components/CompteHeader/CompteHeader';
-// import clientData from '../../../mockData/clientDATA';
 import MaxWidthContainer from '../../../components/MaxWidthContainer';
 import { TabMonAssistantParamList } from '../../../types';
 import { useGetRealEstate } from '../../../src/API/RealEstate';
@@ -27,6 +27,8 @@ import DocumentComponent from '../../../components/DocumentComponent';
 import DateUtils from '../../../utils/DateUtils';
 
 import ActivityIndicator from '../../../components/ActivityIndicator';
+import Button from '../../../components/Button';
+import UIKittenIconButton from '../../../components/Icon/UIKittenIconButton';
 
 const QuittanceLoyer2 = () => {
   const route = useRoute<RouteProp<TabMonAssistantParamList, 'quittance-loyer-2'>>();
@@ -36,6 +38,7 @@ const QuittanceLoyer2 = () => {
   const client = useApolloClient();
   const user = useUser();
   const [newDocument, setNewDocument] = useState<DocumentItem | undefined | null | -1>(undefined);
+  const [sending, setSending] = useState(0);
 
   /**
    *
@@ -62,7 +65,7 @@ const QuittanceLoyer2 = () => {
   const bailStartDate = DateUtils.parseToDateObj(tenant?.startDate);
   bailStartDate.setHours(0, 0, 0, 0);
   const bailEndDate = DateUtils.parseToDateObj(tenant?.endDate);
-  bailEndDate.setHours(0, 0, 0, 0);
+  bailEndDate.setHours(23, 59, 59, 59);
 
   const paramsDate = DateUtils.parseToDateObj(route.params.date);
   // console.log('route.params : ', moment(route.params.date).format('DD/MM/YYYY'));
@@ -216,6 +219,35 @@ const QuittanceLoyer2 = () => {
                 <View style={{ paddingHorizontal: 27 }}>
                   <Text category="h2" style={{ marginVertical: 30 }}>Votre document est prêt</Text>
                   <DocumentComponent document={newDocument} />
+                  <Button
+                    onPress={async () => {
+                      setSending(1);
+                      const result = await API.get('omedomrest', `/budgetinsight/send-quittance?DOCUMENT_ID=${newDocument.id}&EMAIL=${tenant.email}`, {});
+                      setSending(result.success ? 2 : 0);
+                    }}
+                    size="large"
+                    style={{ width: 239 }}
+                    disabled={sending === 1}
+                    accessoryRight={() => {
+                      if (sending === 1) {
+                        return <Spinner status="basic" />;
+                      }
+                      if (sending === 2) {
+                        return (
+                          <UIKittenIconButton
+                            fill="white"
+                            name="checkmark-outline"
+                            width={25}
+                            height={25}
+                          />
+                        );
+                      }
+                      return <></>;
+                    }}
+                    status={sending === 2 ? 'success' : 'primary'}
+                  >
+                    Envoyer la quittance au locataire
+                  </Button>
                 </View>
               ) : (
                 <Text style={{ padding: 27, paddingBottom: 5 }}>

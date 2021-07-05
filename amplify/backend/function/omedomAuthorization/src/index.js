@@ -34,7 +34,7 @@ const authorizerDocument = require('./functions/AuthorizerDocument');
 const authorizerRealEstateBankAccount = require('./functions/AuthorizerRealEstateBankAccount');
 
 exports.handler = async (event) => {
-  if (event.identity.userArn && event.identity.userArn.indexOf('arn:aws:iam') > -1) {
+  if (event.identity.userArn && event.identity.userArn.indexOf('arn:aws:') > -1) {
     return event.prev.result;
   }
   const authorizationTypes = {

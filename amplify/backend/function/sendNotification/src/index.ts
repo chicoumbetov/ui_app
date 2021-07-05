@@ -25,6 +25,17 @@ type SendNotificationEvent = {
 const AppSyncClient = getAppSyncClient(process.env);
 const expo = new Expo();
 
+const uniqueValues = <T extends string | number>(a: T[]) => {
+  const seen: { [key: string]: boolean } = {};
+  return a.filter((item) => {
+    if (Object.prototype.hasOwnProperty.call(seen, item)) {
+      return false;
+    }
+    seen[item] = true;
+    return true;
+  });
+};
+
 exports.handler = async (event: SendNotificationEvent) => {
   console.log(event);
   let tokenList: { userId: string, token: string }[] = [];
@@ -37,8 +48,10 @@ exports.handler = async (event: SendNotificationEvent) => {
     [key: string]: { tokens: string[], toUpdate: boolean, _version: number };
   } = {};
 
+  const userIds = uniqueValues(event.userIds);
+
   // on boucle sur tous les user
-  const map = event.userIds.map(async (userId) => {
+  const map = userIds.map(async (userId) => {
     // on recupere les infos du user
     // eslint-disable-next-line no-await-in-loop
     const user = await getUserById(AppSyncClient, userId);

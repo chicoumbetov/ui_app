@@ -11,6 +11,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
     API_OMEDOM_GRAPHQLAPIENDPOINTOUTPUT
     API_OMEDOM_GRAPHQLAPIIDOUTPUT
     AUTH_OMEDOMFEE3BFE0_USERPOOLID
+    STORAGE_OMEDOM_BUCKETNAME
     ENV
     REGION
 Amplify Params - DO NOT EDIT */
@@ -21,6 +22,10 @@ const BankAccountQueries_1 = require("/opt/nodejs/src/BankAccountQueries");
 const BankAccountMutations_1 = require("/opt/nodejs/src/BankAccountMutations");
 const RealEstateBankAccountMutations_1 = require("/opt/nodejs/src/RealEstateBankAccountMutations");
 const RealEstateBankAccountQueries_1 = require("/opt/nodejs/src/RealEstateBankAccountQueries");
+const DocumentQueries_1 = require("/opt/nodejs/src/DocumentQueries");
+const SendMail_1 = require("/opt/nodejs/src/SendMail");
+const AWS = require('aws-sdk');
+const s3 = new AWS.S3();
 const express = require('express');
 const bodyParser = require('body-parser');
 const awsServerlessExpressMiddleware = require('aws-serverless-express/middleware');
@@ -43,6 +48,46 @@ app.post('/budgetinsight/create-user', async (req, res) => {
         res.json({
             ...response.data, success: true,
         });
+    }
+    catch (e) {
+        res.json({
+            success: false, error: e,
+        });
+    }
+});
+// permet l'envoi de la quittance
+app.get('/budgetinsight/send-quittance', async (req, res) => {
+    const uuid = req.apiGateway.event.requestContext.identity
+        .cognitoAuthenticationProvider.split(':').pop();
+    const { DOCUMENT_ID, EMAIL } = req.query;
+    try {
+        const document = await DocumentQueries_1.getDocument(AppSyncClient, DOCUMENT_ID);
+        if (document) {
+            if (document.realEstate.admins.indexOf(uuid) > -1
+                || (document.realEstate.shared || []).indexOf(uuid) > -1) {
+                const data = await s3.getObject({
+                    Bucket: process.env.STORAGE_OMEDOM_BUCKETNAME,
+                    Key: `public/${document.s3file}`,
+                }).promise();
+                await SendMail_1.sendEmailWithAttachement(EMAIL, 'Votre quittance de loyer', '', {
+                    filename: document.name,
+                    data: data.Body.toString('base64'),
+                });
+                res.json({
+                    success: true,
+                });
+            }
+            else {
+                res.json({
+                    success: false, error: 'Document introuvable',
+                });
+            }
+        }
+        else {
+            res.json({
+                success: false, error: 'Document introuvable',
+            });
+        }
     }
     catch (e) {
         res.json({

@@ -14,13 +14,28 @@ import {
   MortgageLoanDeadlineInfoInput,
 } from '../../../../../src/API';
 import DateUtils from './DateUtils';
+import moment from 'moment';
+
+const aws = require('aws-sdk');
+
+const lambda = new aws.Lambda({
+  region: process.env.REGION,
+});
+
+enum BudgetLineType {
+  Expense = 'Expense',
+  Income = 'Income',
+}
 
 const AppSyncClient = getAppSyncClient(process.env);
 
 exports.handler = async () => {
   // on récupère toutes les budget line
-  const currentDate = (new Date()).toISOString().substr(0, 10);
-  const list = await listBudgetLines(AppSyncClient, currentDate, currentDate);
+  const date = new Date();
+  const currentDate = date.toISOString().substr(0, 10);
+  date.setDate(date.getDate() + 3);
+  const currentDatePlus3Days = date.toISOString().substr(0, 10);
+  const list = await listBudgetLines(AppSyncClient, currentDate, currentDatePlus3Days);
 
   if (list) {
     const map = list.map(async (budgetLine) => {
@@ -47,7 +62,7 @@ exports.handler = async () => {
         if (budgetLineInfoCredit) {
           // on cherche les infos de l'échéance actuelle
           const currentIndex = budgetLineInfoCredit.amortizationTable.findIndex(
-            (item) => item.dueDate === currentDate,
+            (item) => item.dueDate === budgetLine.nextDueDate,
           );
           if (currentIndex > -1) {
             infoCredit = {
@@ -73,7 +88,7 @@ exports.handler = async () => {
           category,
           amount,
           frequency,
-          date: currentDate,
+          date: budgetLine.nextDueDate,
           infoCredit,
           tenantId,
           rentalCharges,
@@ -83,9 +98,31 @@ exports.handler = async () => {
 
         await createBudgetLineDeadline(AppSyncClient, newBudgetLineDeadline);
 
+        const oldDueDate = budgetLine.nextDueDate;
         // on calcule la prochaine échéance
         if (nextDueDate === undefined) {
-          nextDueDate = DateUtils.addMonths(currentDate, DateUtils.frequencyToMonths(frequency));
+          nextDueDate = DateUtils.addMonths(
+            budgetLine.nextDueDate,
+            DateUtils.frequencyToMonths(frequency),
+          );
+        }
+
+        // on envoie une notif
+        if (budgetLine.type === BudgetLineType.Expense) {
+          lambda.invoke({
+            FunctionName: process.env.FUNCTION_SENDNOTIFICATION_NAME,
+            Payload: JSON.stringify({
+              userIds: budgetLine.realEstate.admins,
+              title: 'Nouvelle dépense',
+              body: `Une dépense pour votre bien ${budgetLine.realEstate.name} arrive à échéance le ${moment(oldDueDate).format('DD/MM/YYYY')}.`,
+              data: {
+                realEstateId: budgetLine.realEstateId,
+                budgetLineId: budgetLine.id,
+              },
+              type: 'echeanceFacture',
+            }, null, 2),
+            InvocationType: 'Event',
+          });
         }
 
         // on update la budgetLine

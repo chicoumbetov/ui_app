@@ -3,7 +3,7 @@ import {
   GetBankAccountQuery, GetBankAccountQueryVariables,
   ListBankAccountsByBiConnectionIdQuery,
   ListBankAccountsByBiConnectionIdQueryVariables,
-  ListBankAccountsByBiIdQueryVariables,
+  ListBankAccountsByBiIdQueryVariables, TenantInfo,
 } from '../../../../../../../src/API';
 import { AppSyncClient } from './AppSyncClient';
 
@@ -37,6 +37,7 @@ type ListBankAccountsByBiIdQuery = {
             name: string,
             admins: Array< string >,
             iconUri: string,
+            tenants?: Array<TenantInfo | null > | null,
           }
         } | null > | null,
         nextToken?: string | null,
@@ -82,6 +83,15 @@ const getBankAccountsByBIId = async (client: AppSyncClient, biId: number) => {
               name
               admins
               iconUri
+              tenants {
+                id
+                amount
+                lastname
+                firstname
+                email
+                startDate
+                endDate
+              }
             }
           }
         }

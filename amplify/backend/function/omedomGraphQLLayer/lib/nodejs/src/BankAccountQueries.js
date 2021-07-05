@@ -26,6 +26,25 @@ const getBankAccountsByBIId = async (client, biId) => {
         _lastChangedAt
         createdAt
         updatedAt
+        realEstates {
+          items {
+            realEstate {
+              id
+              name
+              admins
+              iconUri
+              tenants {
+                id
+                amount
+                lastname
+                firstname
+                email
+                startDate
+                endDate
+              }
+            }
+          }
+        }
       }
       nextToken
       startedAt

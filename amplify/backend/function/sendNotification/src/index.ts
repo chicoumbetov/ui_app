@@ -38,7 +38,7 @@ const uniqueValues = <T extends string | number>(a: T[]) => {
 
 exports.handler = async (event: SendNotificationEvent) => {
   console.log(event);
-  let tokenList: { userId: string, token: string }[] = [];
+  let tokenList: { userId: string, token: string, notificationId?: string }[] = [];
   const emails: string[] = [];
   const {
     title, body, data, type,
@@ -68,7 +68,7 @@ exports.handler = async (event: SendNotificationEvent) => {
           && user.privateProfile.notificationParams[type];
 
       // on ajoute la notif dans AppSync
-      await createNotificationMutation(AppSyncClient, {
+      const newNotification = await createNotificationMutation(AppSyncClient, {
         userId,
         title,
         body,
@@ -84,7 +84,11 @@ exports.handler = async (event: SendNotificationEvent) => {
         tokenList = tokenList.concat(
           user.expoToken
             .filter((token) => Expo.isExpoPushToken(token))
-            .map((token) => ({ userId, token })),
+            .map((token) => ({
+              userId,
+              token,
+              notificationId: newNotification?.data?.createNotification?.id,
+            })),
         );
       }
     }
@@ -93,12 +97,15 @@ exports.handler = async (event: SendNotificationEvent) => {
 
   // on envoie la notification push
   if (tokenList.length > 0) {
-    const chunks = expo.chunkPushNotifications([{
-      to: tokenList.map(({ token }) => token),
+    const chunks = expo.chunkPushNotifications(tokenList.map(({ token, notificationId }) => ({
+      to: token,
       title,
       body,
-      data,
-    }]);
+      data: {
+        ...data,
+        notificationId,
+      },
+    })));
     const tickets = [];
     // Send the chunks to the Expo push notification service. There are
     // different strategies you could use. A simple one is to send one chunk at a

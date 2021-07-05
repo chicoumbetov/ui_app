@@ -122,9 +122,9 @@ export const typeBanque = {
     label: 'Frais Bancaires',
     key: 'frais_bancaires',
   },
-  mensualité_crédit: {
+  mensualite_credit: {
     label: 'Mensualité Crédit',
-    key: 'mensualité_crédit',
+    key: 'mensualite_credit',
   },
 };
 

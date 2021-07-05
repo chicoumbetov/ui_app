@@ -1,17 +1,28 @@
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { Button, Text } from '@ui-kitten/components';
-import React from 'react';
+import React, { useState } from 'react';
 
-import { AmortizationTable } from '../../../../src/API';
+import moment from 'moment';
+import { AmortizationTable, TenantInfoInput } from '../../../../src/API';
 
 import TextInputComp from '../../../../components/Form/TextInput';
 import { AvailableValidationRules } from '../../../../components/Form/validation';
+import { removeKeyArray } from '../../../../utils/ObjectHelper';
+import DateUtils from '../../../../utils/DateUtils';
 
-type MonBudgetProps = { tabAmo: AmortizationTable[], onSaved?: () => void, borrowedCapital: number };
+type MonBudgetProps = { tabAmo: AmortizationTable[], onSaved?: (item: AmortizationTable[]) => void, borrowedCapital: number };
 
 const TableauAmortissement = (props: MonBudgetProps) => {
   const { tabAmo, onSaved, borrowedCapital } = props;
+  const [thisTabAmor, setThisTabAmor] = useState<AmortizationTable[]>(tabAmo);
   let currentCapital = borrowedCapital;
+  const saveTabAmorti = () => {
+    if (onSaved) {
+      const tabAmorti = removeKeyArray((thisTabAmor || []), '__typename');
+      onSaved(tabAmorti);
+    }
+  };
+
   return (
     <View style={styles.container}>
 
@@ -28,7 +39,7 @@ const TableauAmortissement = (props: MonBudgetProps) => {
             flexDirection: 'row', alignItems: 'center',
           }}
           >
-            <Text style={{ maxWidth: 70, width: 70 }}>Date</Text>
+            <Text style={{ maxWidth: 100, width: 100 }}>Date</Text>
             <Text style={{ maxWidth: 100, width: 100, paddingLeft: 5 }}>Capital Restant</Text>
             <View style={{
               flex: 1, maxWidth: 120, width: 120, justifyContent: 'center',
@@ -51,22 +62,22 @@ const TableauAmortissement = (props: MonBudgetProps) => {
               flex: 1, maxWidth: 120, width: 120, marginLeft: 10, justifyContent: 'center',
             }}
             >
-              <Text style={{ marginLeft: 15 }}>Capital emprunté</Text>
+              <Text style={{ marginLeft: 15 }}>Capital remboursé</Text>
             </View>
 
           </View>
           <ScrollView style={{ paddingTop: 20, borderTopWidth: 1, borderTopColor: '#b5b5b5' }}>
 
-            {tabAmo.map((tab) => {
-              if (tab && tab.amount && tab.interest && tab.assurance && tab.dueDate) {
-                currentCapital -= (tab.amount - tab.interest - tab.assurance);
-                console.log('data: ', tab);
+            {thisTabAmor.map((tab, currentIndex) => {
+              if (tab && tab.amortizedCapital && tab.interest && tab.assurance && tab.dueDate) {
+                const amount = (tab.amortizedCapital + tab.interest + tab.assurance);
+                currentCapital -= tab.amortizedCapital;
                 return (
                   <View style={{
                     flexDirection: 'row', alignItems: 'center',
                   }}
                   >
-                    <Text style={{ maxWidth: 70, width: 70 }}>{tab.dueDate}</Text>
+                    <Text style={{ maxWidth: 100, width: 100 }}>{moment(DateUtils.parseToDateObj(tab.dueDate)).format('DD/MM/YYYY')}</Text>
                     <View style={{
                       maxWidth: 100, width: 100, paddingLeft: 5, justifyContent: 'center', alignItems: 'center',
                     }}
@@ -79,10 +90,22 @@ const TableauAmortissement = (props: MonBudgetProps) => {
                     <TextInputComp
                       name="interest"
                       keyboardType="numeric"
-                      validators={[AvailableValidationRules.required, AvailableValidationRules.float]}
+                      validators={[
+                        AvailableValidationRules.required,
+                        AvailableValidationRules.float,
+                      ]}
                       defaultValue={Math.round(tab.interest * 100) / 100}
                       onChangeValue={(v) => {
-                        tab.interest = v; currentCapital -= (tab.amount - tab.interest - tab.assurance);
+                        const newThisTabAmor = thisTabAmor.map((item, i) => {
+                          if (i === currentIndex) {
+                            return {
+                              ...item,
+                              interest: parseFloat(v),
+                            };
+                          }
+                          return item;
+                        });
+                        setThisTabAmor(newThisTabAmor);
                       }}
                       style={{
                         maxWidth: 120, width: 120, justifyContent: 'center', marginHorizontal: 5,
@@ -92,26 +115,50 @@ const TableauAmortissement = (props: MonBudgetProps) => {
                       name="assurance"
                       defaultValue={Math.round(tab.assurance * 100) / 100}
                       style={{ maxWidth: 120, width: 120, marginHorizontal: 5 }}
+                      onChangeValue={(v) => {
+                        const newThisTabAmor = thisTabAmor.map((item, i) => {
+                          if (i === currentIndex) {
+                            return {
+                              ...item,
+                              assurance: parseFloat(v),
+                            };
+                          }
+                          return item;
+                        });
+                        setThisTabAmor(newThisTabAmor);
+                      }}
                     />
                     <View style={{
                       maxWidth: 120, width: 120, alignItems: 'center', justifyContent: 'center',
                     }}
                     >
-                      <Text>{Math.round(tab.amount * 100) / 100}</Text>
+                      <Text>{Math.round(amount * 100) / 100}</Text>
                     </View>
 
                     <TextInputComp
-                      name="amount"
-                      defaultValue={Math.round((tab.amount - tab.interest - tab.assurance) * 100) / 100}
+                      name="amortizedCapital"
+                      defaultValue={Math.round((tab.amortizedCapital) * 100) / 100}
                       style={{
                         maxWidth: 120, width: 120, justifyContent: 'center', marginHorizontal: 5,
+                      }}
+                      onChangeValue={(v) => {
+                        const newThisTabAmor = thisTabAmor.map((item, i) => {
+                          if (i === currentIndex) {
+                            return {
+                              ...item,
+                              amortizedCapital: parseFloat(v),
+                            };
+                          }
+                          return item;
+                        });
+                        setThisTabAmor(newThisTabAmor);
                       }}
                     />
                   </View>
                 );
               }
             })}
-            <Button>Enregistrer les modifications</Button>
+            <Button onPress={() => saveTabAmorti()}>Enregistrer les modifications</Button>
           </ScrollView>
 
         </View>

@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import {
-  StyleSheet, View, TouchableOpacity,
+  StyleSheet, View,
 } from 'react-native';
 
-import { Text, useTheme } from '@ui-kitten/components';
+import { Text } from '@ui-kitten/components';
 import { Icon as IconUIKitten } from '@ui-kitten/components/ui/icon/icon.component';
 import { useLinkTo, useNavigation } from '@react-navigation/native';
 import moment from 'moment';
-import MaisonVert from '../../assets/Omedom_Icons_svg/Logement/maison_verte.svg';
 import MaxWidthContainer from '../../components/MaxWidthContainer';
 import Button from '../../components/Button';
 import { useNotificationsList } from '../../src/API/Notification';

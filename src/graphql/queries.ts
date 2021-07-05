@@ -4427,6 +4427,62 @@ export const listNotificationsByUser = /* GraphQL */ `
     }
   }
 `;
+export const getNotificationById = /* GraphQL */ `
+  query GetNotificationById(
+    $id: ID
+    $sortDirection: ModelSortDirection
+    $filter: ModelNotificationFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    getNotificationById(
+      id: $id
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        userId
+        type
+        title
+        body
+        data
+        clicked
+        createdAt
+        _version
+        _deleted
+        _lastChangedAt
+        updatedAt
+        user {
+          id
+          lastname
+          firstname
+          avatarUri
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+          email
+          privateProfile {
+            phoneNumber
+            optIn
+            birthDate
+            subscription
+            notificationLastSeenAt
+          }
+          expoToken
+          biUser
+          biToken
+        }
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
 export const syncNotifications = /* GraphQL */ `
   query SyncNotifications(
     $filter: ModelNotificationFilterInput

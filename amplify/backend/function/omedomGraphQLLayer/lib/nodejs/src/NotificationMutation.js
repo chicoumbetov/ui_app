@@ -11,13 +11,11 @@ const mutationCreateNotification = /* GraphQL */ `
     }
   }
 `;
-const createNotificationMutation = async (client, input) => {
-    await client.mutate({
-        mutation: graphql_tag_1.default(mutationCreateNotification),
-        variables: {
-            input,
-        },
-        fetchPolicy: 'no-cache',
-    });
-};
+const createNotificationMutation = async (client, input) => client.mutate({
+    mutation: graphql_tag_1.default(mutationCreateNotification),
+    variables: {
+        input,
+    },
+    fetchPolicy: 'no-cache',
+});
 exports.createNotificationMutation = createNotificationMutation;

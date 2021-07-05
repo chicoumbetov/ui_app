@@ -26,7 +26,7 @@ import {
 } from '/opt/nodejs/src/BankAccountMutations';
 import { createBankMovement } from '/opt/nodejs/src/BankMovementMutations';
 import { TenantInfo } from '../../../../../src/API';
-import DateUtils from '../../../../../utils/DateUtils';
+import DateUtils from './DateUtils';
 
 const aws = require('aws-sdk');
 

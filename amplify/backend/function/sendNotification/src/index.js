@@ -49,7 +49,7 @@ exports.handler = async (event) => {
             const params = user.privateProfile.notificationParams
                 && user.privateProfile.notificationParams[type];
             // on ajoute la notif dans AppSync
-            await NotificationMutation_1.createNotificationMutation(AppSyncClient, {
+            const newNotification = await NotificationMutation_1.createNotificationMutation(AppSyncClient, {
                 userId,
                 title,
                 body,
@@ -63,19 +63,26 @@ exports.handler = async (event) => {
             if (params && params.push && user.expoToken && user.expoToken.length > 0) {
                 tokenList = tokenList.concat(user.expoToken
                     .filter((token) => expo_server_sdk_1.Expo.isExpoPushToken(token))
-                    .map((token) => ({ userId, token })));
+                    .map((token) => ({
+                    userId,
+                    token,
+                    notificationId: newNotification?.data?.createNotification?.id,
+                })));
             }
         }
     });
     await Promise.all(map);
     // on envoie la notification push
     if (tokenList.length > 0) {
-        const chunks = expo.chunkPushNotifications([{
-                to: tokenList.map(({ token }) => token),
-                title,
-                body,
-                data,
-            }]);
+        const chunks = expo.chunkPushNotifications(tokenList.map(({ token, notificationId }) => ({
+            to: token,
+            title,
+            body,
+            data: {
+                ...data,
+                notificationId,
+            },
+        })));
         const tickets = [];
         // Send the chunks to the Expo push notification service. There are
         // different strategies you could use. A simple one is to send one chunk at a
@@ -122,7 +129,7 @@ exports.handler = async (event) => {
         await Promise.all(updates);
         // on enregistre le ticket dans AppSync
         await NotificationTicketsMutation_1.createNotificationTicketsMutation(AppSyncClient, {
-            expoTokens: tokenList,
+            expoTokens: tokenList.map(({ userId, token }) => ({ userId, token })),
             ticketIds: tickets.map(({ id }) => id),
         });
     }

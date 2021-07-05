@@ -225,7 +225,7 @@ function TableauDeBord() {
 
         {loadingNotif
           ? <ActivityIndicator center margin={10} />
-          : notifications?.map(
+          : notifications?.slice(0, 5).map(
             (notification) => notification && (
             <NotificationCard
               key={notification.id}

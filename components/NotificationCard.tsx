@@ -2,6 +2,7 @@ import { View } from 'react-native';
 import { Icon as IconUIKitten, Text } from '@ui-kitten/components';
 import React from 'react';
 import moment from 'moment';
+import { useLinkTo } from '@react-navigation/native';
 import MaisonVert from '../assets/Omedom_Icons_svg/Logement/maison_verte.svg';
 import Card from './Card';
 import { Notification } from '../src/API';
@@ -11,11 +12,12 @@ type NotificationCardProps = {
   notification: Notification;
 };
 
-const NotificationCard = (props: NotificationCardProps) => {
-  const { notification } = props;
+export const useNotificationHandler = () => {
+  const linkTo = useLinkTo();
   const { updateNotification } = useUpdateNotification();
-  const onPress = () => {
-    updateNotification({
+
+  return async (notification: Notification) => {
+    await updateNotification({
       variables: {
         input: {
           id: notification.id,
@@ -26,6 +28,43 @@ const NotificationCard = (props: NotificationCardProps) => {
         },
       },
     });
+    if (notification.data) {
+      const data = JSON.parse(notification.data);
+      switch (notification.type) {
+        case 'echeanceFacture':
+        case 'loyer':
+        case 'retardLoyer':
+        case 'mauvaiseRenta':
+          if (data.realEstateId) {
+            linkTo(`/mes-biens/bien/${data.realEstateId}`);
+          }
+          break;
+
+        case 'debitBancaire':
+        case 'creditBancaire':
+        case 'soldeNegatif':
+          if (data.realEstateIds
+              && Array.isArray(data.realEstateIds)
+              && data.realEstateIds.length > 0) {
+            if (data.realEstateIds.length > 1) {
+              linkTo('/mes-biens');
+            } else {
+              linkTo(`/mes-biens/bien/${data.realEstateIds[0]}`);
+            }
+          }
+          break;
+        default:
+          break;
+      }
+    }
+  };
+};
+
+const NotificationCard = (props: NotificationCardProps) => {
+  const { notification } = props;
+  const notificationHandler = useNotificationHandler();
+  const onPress = async () => {
+    await notificationHandler(notification);
   };
 
   return (

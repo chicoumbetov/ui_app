@@ -13059,6 +13059,61 @@ export type ListNotificationsByUserQuery = {
   } | null,
 };
 
+export type GetNotificationByIdQueryVariables = {
+  id?: string | null,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelNotificationFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type GetNotificationByIdQuery = {
+  getNotificationById?:  {
+    __typename: "ModelNotificationConnection",
+    items?:  Array< {
+      __typename: "Notification",
+      id: string,
+      userId: string,
+      type: string,
+      title: string,
+      body: string,
+      data?: string | null,
+      clicked?: boolean | null,
+      createdAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+      updatedAt: string,
+      user?:  {
+        __typename: "User",
+        id: string,
+        lastname?: string | null,
+        firstname?: string | null,
+        avatarUri?: string | null,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+        createdAt: string,
+        updatedAt: string,
+        email?: string | null,
+        privateProfile?:  {
+          __typename: "ProfileInfo",
+          phoneNumber?: string | null,
+          optIn?: boolean | null,
+          birthDate?: string | null,
+          subscription?: SubscriptionType | null,
+          notificationLastSeenAt?: string | null,
+        } | null,
+        expoToken?: Array< string > | null,
+        biUser?: string | null,
+        biToken?: string | null,
+      } | null,
+    } | null > | null,
+    nextToken?: string | null,
+    startedAt?: number | null,
+  } | null,
+};
+
 export type SyncNotificationsQueryVariables = {
   filter?: ModelNotificationFilterInput | null,
   limit?: number | null,

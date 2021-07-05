@@ -19,16 +19,14 @@ const mutationCreateNotification = /* GraphQL */ `
 const createNotificationMutation = async (
   client: AppSyncClient,
   input: CreateNotificationInput,
-) => {
-  await client.mutate<CreateNotificationMutation,
-  CreateNotificationMutationVariables>({
-    mutation: gql(mutationCreateNotification),
-    variables: {
-      input,
-    },
-    fetchPolicy: 'no-cache',
-  });
-};
+) => client.mutate<CreateNotificationMutation,
+CreateNotificationMutationVariables>({
+  mutation: gql(mutationCreateNotification),
+  variables: {
+    input,
+  },
+  fetchPolicy: 'no-cache',
+});
 
 export {
   createNotificationMutation,

@@ -19,7 +19,7 @@ const BankAccountQueries_1 = require("/opt/nodejs/src/BankAccountQueries");
 const AppSyncClient_1 = require("/opt/nodejs/src/AppSyncClient");
 const BankAccountMutations_1 = require("/opt/nodejs/src/BankAccountMutations");
 const BankMovementMutations_1 = require("/opt/nodejs/src/BankMovementMutations");
-const DateUtils_1 = require("../../../../../utils/DateUtils");
+const DateUtils_1 = require("./DateUtils");
 const aws = require('aws-sdk');
 const lambda = new aws.Lambda({
     region: process.env.REGION,

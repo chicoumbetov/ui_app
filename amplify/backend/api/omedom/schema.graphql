@@ -299,6 +299,11 @@ type Notification
         fields: ["userId","createdAt"]
         queryField:"listNotificationsByUser"
     )
+    @key(
+        name: "notificationsById"
+        fields: ["id"]
+        queryField:"getNotificationById"
+    )
     {
     id: ID!
     userId: ID!

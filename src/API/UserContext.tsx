@@ -15,7 +15,6 @@ import { gql } from 'graphql-tag';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { FetchResult } from 'apollo-link';
 import _ from 'lodash';
-import useQuery from '@wora/apollo-offline/lib/react/useQuery';
 import {
   CreateUserInput,
   CreateUserMutation,
@@ -349,6 +348,7 @@ const UserProvider: React.FC = ({ children }) => {
                   cacheData.getUser = _.merge(user, {
                     // eslint-disable-next-line no-underscore-dangle
                     _version: mutationUpdateUser._version + 1,
+                    ...inputVars,
                     ...(removeNull(mutationUpdateUser) as UpdateUserMutation),
                   });
 

@@ -1776,6 +1776,16 @@ export const schema = {
                     }
                 },
                 {
+                    "type": "key",
+                    "properties": {
+                        "name": "notificationsById",
+                        "fields": [
+                            "id"
+                        ],
+                        "queryField": "getNotificationById"
+                    }
+                },
+                {
                     "type": "auth",
                     "properties": {
                         "rules": [
@@ -2323,5 +2333,5 @@ export const schema = {
             }
         }
     },
-    "version": "bcc114e96207224c7113ff25d71bf6eb"
+    "version": "985444b378ac84b872972b32dab4f789"
 };

@@ -4,14 +4,20 @@ import { useMutation, useQuery } from 'react-apollo';
 import moment from 'moment';
 import { useMemo } from 'react';
 import * as Notifications from 'expo-notifications';
+import ApolloClient from 'apollo-client';
+import { WatchQueryFetchPolicy } from 'apollo-client/core/watchQueryOptions';
 import {
   ListNotificationsByUserQuery,
   ListNotificationsByUserQueryVariables,
-  UpdateNotificationMutation, UpdateNotificationMutationVariables, ModelSortDirection,
+  UpdateNotificationMutation,
+  UpdateNotificationMutationVariables,
+  ModelSortDirection,
+  GetNotificationByIdQuery, GetNotificationByIdQueryVariables,
 } from '../API';
 import * as mutations from '../graphql/mutations';
 import { useUser } from './UserContext';
 import DateUtils from '../../utils/DateUtils';
+import { getNotificationById } from '../graphql/queries';
 
 export const listNotificationsByUser = /* GraphQL */ `
   query ListNotificationsByUser(
@@ -53,6 +59,7 @@ export const listNotificationsByUser = /* GraphQL */ `
 const getNotificationQuery = <DocumentNode>gql(listNotificationsByUser);
 export function useNotificationsList(
   variables: ListNotificationsByUserQueryVariables,
+  fetchPolicy:WatchQueryFetchPolicy = 'cache-first',
 ) {
   const {
     loading, data, fetchMore, refetch,
@@ -63,13 +70,24 @@ export function useNotificationsList(
     getNotificationQuery,
     {
       variables,
-      fetchPolicy: 'cache-and-network',
+      fetchPolicy,
     },
   );
 
   return {
     loading, notifications: data?.listNotificationsByUser?.items, fetchMore, refetch,
   };
+}
+
+export function getNotificationByIdQuery(
+  apolloClient: ApolloClient<any>,
+  variables: GetNotificationByIdQueryVariables,
+) {
+  return apolloClient.query<GetNotificationByIdQuery, GetNotificationByIdQueryVariables>({
+    query: gql(getNotificationById),
+    variables,
+    fetchPolicy: 'cache-first',
+  });
 }
 
 export function useUpdateNotification() {
@@ -142,11 +160,14 @@ export function useCountUnseenNotification() {
     },
   });
 
+  const { privateProfile } = user || {};
+  const { notificationLastSeenAt } = privateProfile || {};
+
   return useMemo(() => {
     let count = notifications?.length || 0;
-    if (user?.privateProfile?.notificationLastSeenAt) {
+    if (notificationLastSeenAt) {
       const notificationLastSeenAtDate = DateUtils.parseToDateObj(
-        user.privateProfile.notificationLastSeenAt,
+        notificationLastSeenAt,
       );
       count = notifications ? notifications?.reduce(
         (countReduced, item) => {
@@ -162,6 +183,6 @@ export function useCountUnseenNotification() {
     Notifications.setBadgeCountAsync(count);
     return count;
   }, [
-    user, notifications,
+    notificationLastSeenAt, notifications,
   ]);
 }

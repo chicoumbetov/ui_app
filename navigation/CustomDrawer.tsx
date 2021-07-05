@@ -19,7 +19,7 @@ import {
   Icon as IconUIKitten, useTheme,
 } from '@ui-kitten/components';
 import {
-  ImageProps, TouchableOpacity, View,
+  ImageProps, ScaledSize, TouchableOpacity, View,
 } from 'react-native';
 import {
   DrawerActions, InitialState, useLinkTo, useNavigation,
@@ -97,7 +97,9 @@ const PaperIcon = IconGenerator({ name: 'file-text-outline', uikitten: true });
 const EmailIcon = IconGenerator({ name: 'email-outline', uikitten: true });
 const CadenaIcon = IconGenerator({ name: 'lock-outline', uikitten: true });
 
-function findIndexByRouteName(name?: string) {
+function findIndexByRouteName(name?: string, window: ScaledSize) {
+  const toAdd = window.width > 780 ? 0 : 1;
+
   switch (name) {
     case 'tableau-de-bord':
       return 0;
@@ -106,34 +108,34 @@ function findIndexByRouteName(name?: string) {
     case 'mes-charges-nav':
       return 2;
     case 'mes-biens-nav':
-      return 3;
+      return 3 - toAdd;
     case 'ma-tresorerie-nav':
-      return 4;
+      return 4 - toAdd;
     case 'mon-assistant-nav':
-      return 5;
+      return 5 - toAdd;
     case 'notifications':
-      return 6;
+      return 6 - toAdd;
     case 'faq':
-      return 7;
+      return 7 - toAdd;
     case 'contact':
-      return 8;
+      return 8 - toAdd;
     default:
       return null;
   }
 }
 
-function findFocusedDrawerItem(state: InitialState) {
+function findFocusedDrawerItem(state: InitialState, window: ScaledSize) {
   let current: InitialState | undefined = state;
 
   while (current?.routes[current.index ?? 0].state != null) {
-    const drawerIndex = findIndexByRouteName(current?.routes[current.index ?? 0].name);
+    const drawerIndex = findIndexByRouteName(current?.routes[current.index ?? 0].name, window);
     if (drawerIndex !== null) {
       return drawerIndex;
     }
     current = current.routes[current.index ?? 0].state;
   }
 
-  const drawerIndex = findIndexByRouteName(current?.routes[current.index ?? 0].name);
+  const drawerIndex = findIndexByRouteName(current?.routes[current.index ?? 0].name, window);
   if (drawerIndex !== null) {
     return drawerIndex;
   }
@@ -189,9 +191,10 @@ const CustomDrawer = (props: DrawerContentComponentProps) => {
           </Text>
         </Layout>
         <Drawer
-          selectedIndex={new IndexPath(findFocusedDrawerItem(state))}
+          selectedIndex={new IndexPath(findFocusedDrawerItem(state, window))}
           onSelect={(index) => {
             // console.log(index);
+            const toAdd = window.width > 780 ? 0 : 1;
             // eslint-disable-next-line default-case
             switch (index.row) {
               case 0:
@@ -200,30 +203,31 @@ const CustomDrawer = (props: DrawerContentComponentProps) => {
               case 1:
                 linkTo('/mon-compte');
                 break;
-              case 2:
-                linkTo('/mes-charges');
-                break;
-              case 3:
+              case 3 - toAdd:
                 linkTo('/mes-biens');
                 break;
-              case 4:
+              case 4 - toAdd:
                 linkTo('/ma-tresorerie');
                 break;
-              case 5:
+              case 5 - toAdd:
                 linkTo('/mon-assistant');
                 break;
-              case 6:
+              case 6 - toAdd:
                 linkTo('/notifications');
                 break;
-              case 7:
+              case 7 - toAdd:
                 linkTo('/faq');
                 break;
-              case 8:
+              case 8 - toAdd:
                 linkTo('/contact');
                 break;
-              case 9:
+              case 9 - toAdd:
                 WebBrowser.openBrowserAsync('https://omedom.com/legal/?simple=1');
                 closeDrawer();
+                break;
+
+              case 2:
+                linkTo('/mes-charges');
                 break;
             }
           }}
@@ -236,13 +240,12 @@ const CustomDrawer = (props: DrawerContentComponentProps) => {
             title="Mon Compte"
             accessoryLeft={PersonIcon}
           />
-          {/* On utilise un fragment pour garder les mêmes index de row */}
-          {window.width > 780 ? (
+          {window.width > 780 && (
             <DrawerItem
               title="Mes Charges"
               accessoryLeft={ChargeIcon}
             />
-          ) : <></>}
+          )}
           <DrawerItem
             title="Mes Biens"
             accessoryLeft={HomeIcon}

@@ -297,6 +297,13 @@ export const getRealEstateQuery = <DocumentNode>gql(`
             duration
             interestRate
             assuranceRate
+            amortizationTable {
+              dueDate
+              amount
+              interest
+              assurance
+              amortizedCapital
+            }
           }
           tenantId
           _version

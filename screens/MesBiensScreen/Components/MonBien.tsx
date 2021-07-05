@@ -123,7 +123,7 @@ const MonBien = (props: MonBienProps) => {
               label: allPossibleTypes[item.category].label,
             };
           } else {
-            /** else If any expoense exist then we add to allCurrentCategories variable */
+            /** else If any expense exist then we add to allCurrentCategories variable */
             allCurrentCategoriesInternal[item?.category].value += item?.amount || 0;
           }
         }

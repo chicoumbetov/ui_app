@@ -53,4 +53,6 @@ export default {
   getPaths,
 };
 
-// console.log(getPaths({ main: [{ test: 'aa', test2: 'ab', test3: { cool: 1 } }, { test: 'ac', test2: 'ad' }] }));
+// console.log(getPaths({
+// main: [{ test: 'aa', test2: 'ab', test3: { cool: 1 } }, { test: 'ac', test2: 'ad' }]
+// }));

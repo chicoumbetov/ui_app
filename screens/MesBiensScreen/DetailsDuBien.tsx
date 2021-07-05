@@ -288,12 +288,47 @@ function DetailsBien() {
   }
   // console.log('pending : ', invitationAttente);
 
+  const referenceYear = new Date().getFullYear();
+
+  const result = bienget.budgetLineDeadlines?.items?.filter((o) => moment(o?.date, 'YYYY-MM-DD').isBetween(moment().subtract(12, 'months'), moment(), '[]'));
+  console.log('result: ', result);
+
+  const result2 = bienget.budgetLineDeadlines?.items?.filter((o) => moment(o?.date, 'YYYY-MM-DD').isBetween(moment(new Date(new Date().setFullYear(referenceYear - 1))), moment(new Date(new Date().setFullYear(referenceYear))), '[]'));
+  console.log('result2:', result2);
+
   console.log('Details Bien: ', bienget, loading);
 
   const totalPrice = (bienget.purchasePrice || 0) + (bienget.notaryFee || 0);
   console.log('totalPrice: ', totalPrice);
 
-  const RentabilityBrut = bienget.budgetLineDeadlines?.items?.map(
+  // const [totalDepense, setTotalDepense] = useState<number>();
+  const depenses = bienget.budgetLineDeadlines?.items?.filter(
+    (k) => k?.type === BudgetLineType.Expense
+    // eslint-disable-next-line no-underscore-dangle
+    && !k._deleted,
+  );
+
+  const last12MonthDepense = result?.filter(
+    (k) => k?.type === BudgetLineType.Expense
+          // eslint-disable-next-line no-underscore-dangle
+          && !k._deleted,
+  );
+  console.log('depenses', depenses);
+  console.log('last12', last12MonthDepense);
+
+  const totalDepenses = last12MonthDepense?.map((u) => u?.amount).reduce((sum, current) => (sum || 0) + (current || 0));
+  const totalD = depenses?.map((u) => u?.amount).reduce((sum, current) => (sum || 0) + (current || 0));
+  const positive = Math.abs(totalDepenses);
+  console.log('totalDepense:', positive, Math.abs(totalD));
+
+  const incomes = bienget.budgetLineDeadlines?.items?.filter(
+    (k) => k?.type === BudgetLineType.Income
+          // eslint-disable-next-line no-underscore-dangle
+          && !k._deleted,
+  );
+  console.log('incomes:', incomes);
+
+  const RentabilityBrut = bienget.budgetLineDeadlines?.items?.forEach(
     (amo) => {
       let freqIncome = 12;
       switch (amo?.frequency) {
@@ -307,21 +342,6 @@ function DetailsBien() {
           return null;
       }
 
-      if (amo?.type === BudgetLineType.Expense
-      // eslint-disable-next-line no-underscore-dangle
-        && !amo._deleted
-        // && !amo.bankMouvementId
-      ) {
-        console.log('EXPENSEEEEE');
-        console.log('EXPENSEEEEE');
-        console.log('EXPENSEEEEE');
-        const depenses = amo?.amount || 0;
-        const echean = amo?.frequency;
-        console.log('frequency Expense: ', echean);
-        console.log('freq Expense:', freqIncome);
-        console.log('depenses:', depenses);
-        console.log('---------------');
-      }
       if (amo?.type === BudgetLineType.Income
           // eslint-disable-next-line no-underscore-dangle
           && !amo._deleted
@@ -330,27 +350,18 @@ function DetailsBien() {
         console.log('DDDDDDDDDDDDDDDD');
         console.log('DDDDDDDDDDDDDDDD');
         console.log('DDDDDDDDDDDDDDDD');
-        const echean = amo?.frequency;
 
         const revenues = amo?.amount || 0;
-        console.log('revenues:', revenues);
-
         const chars = amo?.rentalCharges || 0;
-        console.log('rentalCharges:', chars);
-
         const manage = amo?.managementFees || 0;
-        console.log('management Fees:', manage);
-
-        console.log('Freq', amo.frequency);
-        console.log('frequency Income: ', echean);
+        console.log('frequency Income: ', amo?.frequency);
+        console.log('frequency Income: ', freqIncome);
 
         const LoyerNet = revenues - chars - manage;
-        console.log('LoyerNet', LoyerNet);
         const last12MonthLoyerNet = LoyerNet * freqIncome;
+        console.log('LoyerNet', LoyerNet);
         console.log('last12MonthLoyerNet', last12MonthLoyerNet);
-        console.log('HHHHHHHHHHHHHHHHHHHHHH');
-
-        console.log('freq Income:', freqIncome);
+        console.log('rent: ', ((last12MonthLoyerNet - positive) / totalPrice) * 100);
 
         console.log('+++++++++++');
       }

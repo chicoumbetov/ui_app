@@ -15,14 +15,25 @@ const NotificationTicketsMutation_1 = require("/opt/nodejs/src/NotificationTicke
 const UserMutation_1 = require("/opt/nodejs/src/UserMutation");
 const AppSyncClient = AppSyncClient_1.default(process.env);
 const expo = new expo_server_sdk_1.Expo();
+const uniqueValues = (a) => {
+    const seen = {};
+    return a.filter((item) => {
+        if (Object.prototype.hasOwnProperty.call(seen, item)) {
+            return false;
+        }
+        seen[item] = true;
+        return true;
+    });
+};
 exports.handler = async (event) => {
     console.log(event);
     let tokenList = [];
     const emails = [];
     const { title, body, data, type, } = event;
     const tokensByUserId = {};
+    const userIds = uniqueValues(event.userIds);
     // on boucle sur tous les user
-    const map = event.userIds.map(async (userId) => {
+    const map = userIds.map(async (userId) => {
         // on recupere les infos du user
         // eslint-disable-next-line no-await-in-loop
         const user = await UserQueries_1.getUserById(AppSyncClient, userId);
@@ -35,7 +46,8 @@ exports.handler = async (event) => {
                     _version: user._version,
                 };
             }
-            const params = user.privateProfile.notificationParams[type];
+            const params = user.privateProfile.notificationParams
+                && user.privateProfile.notificationParams[type];
             // on ajoute la notif dans AppSync
             await NotificationMutation_1.createNotificationMutation(AppSyncClient, {
                 userId,
@@ -45,10 +57,10 @@ exports.handler = async (event) => {
                 type,
             });
             // on verifie s'il veut recevoir les notifs push ou email
-            if (params.email) {
+            if (params && params.email) {
                 emails.push(user.email);
             }
-            if (params.push && user.expoToken && user.expoToken.length > 0) {
+            if (params && params.push && user.expoToken && user.expoToken.length > 0) {
                 tokenList = tokenList.concat(user.expoToken
                     .filter((token) => expo_server_sdk_1.Expo.isExpoPushToken(token))
                     .map((token) => ({ userId, token })));

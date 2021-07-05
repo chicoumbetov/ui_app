@@ -2,7 +2,6 @@ import gql from 'graphql-tag';
 import {
   BudgetLineType,
   Frequency,
-  ListRealEstatesQuery,
 } from '../../../../../../../src/API';
 import { AppSyncClient } from './AppSyncClient';
 
@@ -15,6 +14,12 @@ export type BudgetLine = {
   __typename: 'BudgetLine',
   id: string,
   realEstateId: string,
+  realEstate?: {
+    __typename: 'RealEstate',
+    id: string,
+    name: string,
+    admins: Array< string >,
+  }
   type: BudgetLineType,
   category: string,
   amount: number,
@@ -65,7 +70,7 @@ export type ListBudgetLinesQuery = {
 const listBudgetLines = async (client: AppSyncClient, startDate: string, endDate: string) => {
   try {
     const { data } = await client.query<
-    ListRealEstatesQuery,
+    ListBudgetLinesQuery,
     ListBudgetLinesQueryVariables
     >({
       query: gql(`query ListRealEstates($startDate: String, $endDate: String) {
@@ -75,6 +80,11 @@ const listBudgetLines = async (client: AppSyncClient, startDate: string, endDate
         items {
           id
           realEstateId
+          realEstate {
+            id
+            name
+            admins
+          }
           type
           category
           amount

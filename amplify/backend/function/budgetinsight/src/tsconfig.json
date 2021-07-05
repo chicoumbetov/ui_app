@@ -6,11 +6,13 @@
       "/opt/nodejs/*": [
         "../../omedomGraphQLLayer/lib/nodejs/*",
         "../../omedomBudgetInsightLayer/lib/nodejs/*",
+        "../../omedomSESLayer/lib/nodejs/*"
       ],
       "*" : [
         "*",
         "../../omedomGraphQLLayer/lib/nodejs/node_modules/*",
-        "../../omedomBudgetInsightLayer/lib/nodejs/node_modules/*"
+        "../../omedomBudgetInsightLayer/lib/nodejs/node_modules/*",
+        "../../omedomSESLayer/lib/nodejs/node_modules/*"
       ]
     }
   }

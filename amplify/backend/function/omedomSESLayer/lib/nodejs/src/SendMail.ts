@@ -1,4 +1,5 @@
 const AWS = require('aws-sdk');
+const nodemailer = require('nodemailer');
 
 const SES_CONFIG = {
   accessKeyId: 'AKIAWVY6TCCQIKMQNSS7',
@@ -7,6 +8,11 @@ const SES_CONFIG = {
 };
 
 const AWS_SES = new AWS.SES(SES_CONFIG);
+
+// create Nodemailer SES transporter
+const transporter = nodemailer.createTransport({
+  SES: { ses: AWS_SES, aws: AWS },
+});
 
 export function sendEmail(recipientEmail, name) {
   const params = {
@@ -42,9 +48,37 @@ export function sendTemplateEmail(recipientEmail: string, template: string, data
         recipientEmail,
       ],
     },
-    TemplateData: '{"name":"pedro"}',
+    TemplateData: JSON.stringify(data),
+
   };
   return AWS_SES.sendTemplatedEmail(params).promise();
+}
+
+export function sendEmailWithAttachement(
+  recipientEmail: string,
+  subject: string,
+  html: string,
+  attachment?: {
+    filename: string,
+    data: string
+  },
+) {
+  // send some mail
+  return transporter.sendMail(
+    {
+      from: 'no-reply@app.omedom.com',
+      to: recipientEmail,
+      subject,
+      html,
+      attachments: [
+        {
+          filename: attachment.filename,
+          content: attachment.data,
+          encoding: 'base64',
+        },
+      ],
+    },
+  );
 }
 
 export function sendBulkTemplateEmail(recipientEmails: string[], template: string, data?: Object) {

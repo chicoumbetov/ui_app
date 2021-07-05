@@ -3,14 +3,10 @@ import gql from 'graphql-tag';
 import { useMutation, useQuery } from 'react-apollo';
 import moment from 'moment';
 import { useMemo } from 'react';
+import * as Notifications from 'expo-notifications';
 import {
-  RealEstate,
   ListNotificationsByUserQuery,
   ListNotificationsByUserQueryVariables,
-  UpdateBankMovementMutation,
-  UpdateBankMovementMutationVariables,
-  GetBankMovementQuery,
-  GetBankMovementQueryVariables,
   UpdateNotificationMutation, UpdateNotificationMutationVariables, ModelSortDirection,
 } from '../API';
 import * as mutations from '../graphql/mutations';
@@ -67,6 +63,7 @@ export function useNotificationsList(
     getNotificationQuery,
     {
       variables,
+      fetchPolicy: 'cache-and-network',
     },
   );
 
@@ -146,22 +143,24 @@ export function useCountUnseenNotification() {
   });
 
   return useMemo(() => {
+    let count = notifications?.length || 0;
     if (user?.privateProfile?.notificationLastSeenAt) {
       const notificationLastSeenAtDate = DateUtils.parseToDateObj(
         user.privateProfile.notificationLastSeenAt,
       );
-      return notifications ? notifications?.reduce(
-        (count, item) => {
+      count = notifications ? notifications?.reduce(
+        (countReduced, item) => {
           if (item) {
             const itemDate = DateUtils.parseToDateObj(item.createdAt);
-            return count + (itemDate > notificationLastSeenAtDate ? 1 : 0);
+            return countReduced + (itemDate > notificationLastSeenAtDate ? 1 : 0);
           }
-          return count;
+          return countReduced;
         },
         0,
       ) : 0;
     }
-    return notifications?.length || 0;
+    Notifications.setBadgeCountAsync(count);
+    return count;
   }, [
     user, notifications,
   ]);

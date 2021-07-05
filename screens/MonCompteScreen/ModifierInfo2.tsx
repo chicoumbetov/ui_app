@@ -46,7 +46,43 @@ const ModifierInfo2 = () => {
         const response = await API.post('omedomrest', '/budgetinsight/create-user', {});
 
         await createUser({
-          ...data,
+          privateProfile: {
+            ...data.privateProfile,
+            notificationParams: {
+              soldeNegatif: {
+                push: true,
+                email: true,
+              },
+              creditBancaire: {
+                push: true,
+                email: true,
+              },
+              debitBancaire: {
+                push: true,
+                email: true,
+              },
+              loyer: {
+                push: true,
+                email: true,
+              },
+              retardLoyer: {
+                push: true,
+                email: true,
+              },
+              autre: {
+                push: true,
+                email: true,
+              },
+              echeanceFacture: {
+                push: true,
+                email: true,
+              },
+              mauvaiseRenta: {
+                push: true,
+                email: true,
+              },
+            },
+          },
           biUser: response.id_user,
           biToken: response.auth_token,
         });

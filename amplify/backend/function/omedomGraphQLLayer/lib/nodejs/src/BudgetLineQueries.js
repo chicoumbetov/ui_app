@@ -12,6 +12,11 @@ const listBudgetLines = async (client, startDate, endDate) => {
         items {
           id
           realEstateId
+          realEstate {
+            id
+            name
+            admins
+          }
           type
           category
           amount

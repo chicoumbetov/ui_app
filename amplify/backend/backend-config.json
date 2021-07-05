@@ -87,6 +87,13 @@
           ]
         },
         {
+          "category": "storage",
+          "resourceName": "omedom",
+          "attributes": [
+            "BucketName"
+          ]
+        },
+        {
           "category": "function",
           "resourceName": "omedomGraphQLLayer",
           "attributes": [
@@ -96,6 +103,13 @@
         {
           "category": "function",
           "resourceName": "omedomBudgetInsightLayer",
+          "attributes": [
+            "Arn"
+          ]
+        },
+        {
+          "category": "function",
+          "resourceName": "omedomSESLayer",
           "attributes": [
             "Arn"
           ]
@@ -197,6 +211,13 @@
         },
         {
           "category": "function",
+          "resourceName": "sendNotification",
+          "attributes": [
+            "Name"
+          ]
+        },
+        {
+          "category": "function",
           "resourceName": "omedomGraphQLLayer",
           "attributes": [
             "Arn"
@@ -282,18 +303,54 @@
       "service": "Lambda",
       "dependsOn": [
         {
+          "category": "api",
+          "resourceName": "omedom",
+          "attributes": [
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput"
+          ]
+        },
+        {
+          "category": "function",
+          "resourceName": "sendNotification",
+          "attributes": [
+            "Name"
+          ]
+        },
+        {
           "category": "function",
           "resourceName": "omedomGraphQLLayer",
           "attributes": [
             "Arn"
           ]
-        },
+        }
+      ]
+    },
+    "detectNotPayinTenant": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "dependsOn": [
         {
           "category": "api",
           "resourceName": "omedom",
           "attributes": [
             "GraphQLAPIIdOutput",
             "GraphQLAPIEndpointOutput"
+          ]
+        },
+        {
+          "category": "function",
+          "resourceName": "sendNotification",
+          "attributes": [
+            "Name"
+          ]
+        },
+        {
+          "category": "function",
+          "resourceName": "omedomGraphQLLayer",
+          "attributes": [
+            "Arn"
           ]
         }
       ]

@@ -1,8 +1,10 @@
+import _, { concat } from 'lodash';
+
 export function removeNull(obj: Object): Object {
   return Object.fromEntries(
     Object.entries(obj)
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      .filter(([_, v]) => v != null)
+      .filter(([k, v]) => v != null)
       .map(([k, v]) => [k, v === Object(v) ? removeNull(v) : v]),
   );
 }
@@ -28,10 +30,27 @@ export function removeKeyArray<T extends Object>(obj: T[], key:string): T[] {
   return obj.map<T>((v) => removeKey(v, key));
 }
 
+export function getPaths(obj: any, parentKey?: string) {
+  let result: string[];
+  if (_.isArray(obj)) {
+    let idx = -1;
+    result = _.flatMap(obj, (item) => {
+      idx += 1;
+      return getPaths(item, (parentKey ? `${parentKey}.` : '') + idx);
+    });
+  } else if (_.isPlainObject(obj)) {
+    result = _.flatMap(_.keys(obj), (key) => _.map(getPaths(obj[key], key), (subkey) => (parentKey ? `${parentKey}.` : '') + subkey));
+  } else {
+    result = [parentKey || ''];
+  }
+  return result;
+}
+
 export default {
   removeNull,
   removeKey,
   removeKeyArray,
+  getPaths,
 };
 
-// console.log(removeKey([{ test: 'aa', test2: 'ab' }, { test: 'ac', test2: 'ad' }], 'test2'));
+// console.log(getPaths({ main: [{ test: 'aa', test2: 'ab', test3: { cool: 1 } }, { test: 'ac', test2: 'ad' }] }));

@@ -20,7 +20,7 @@
     }
   },
   "Resources": {
-    "LambdaLayerVersion775d44bf": {
+    "LambdaLayerVersionab002e93": {
       "Type": "AWS::Lambda::LayerVersion",
       "Properties": {
         "CompatibleRuntimes": {
@@ -51,13 +51,87 @@
       "DeletionPolicy": "Delete",
       "UpdateReplacePolicy": "Retain"
     },
-    "LambdaLayerPermissionPrivate775d44bf": {
+    "LambdaLayerPermissionPrivateab002e93": {
       "Type": "AWS::Lambda::LayerVersionPermission",
       "Properties": {
         "Action": "lambda:GetLayerVersion",
         "LayerVersionArn": {
-          "Ref": "LambdaLayerVersion775d44bf"
+          "Ref": "LambdaLayerVersionab002e93"
         },
+        "Principal": {
+          "Ref": "AWS::AccountId"
+        }
+      }
+    },
+    "LambdaLayerVersion701b4a62": {
+      "Type": "AWS::Lambda::LayerVersion",
+      "Properties": {
+        "CompatibleRuntimes": [
+          "nodejs14.x"
+        ],
+        "Content": {
+          "S3Bucket": {
+            "Ref": "deploymentBucketName"
+          },
+          "S3Key": "amplify-builds/omedomGraphQLLayer-LambdaLayerVersion701b4a62-build.zip"
+        },
+        "Description": "Updated layer version 2021-07-04T22:36:25.633Z",
+        "LayerName": {
+          "Fn::Sub": [
+            "omedomGraphQLLayer-${env}",
+            {
+              "env": {
+                "Ref": "env"
+              }
+            }
+          ]
+        }
+      },
+      "DeletionPolicy": "Delete",
+      "UpdateReplacePolicy": "Retain"
+    },
+    "LambdaLayerPermissionPrivate701b4a62": {
+      "Type": "AWS::Lambda::LayerVersionPermission",
+      "Properties": {
+        "Action": "lambda:GetLayerVersion",
+        "LayerVersionArn": "arn:aws:lambda:eu-west-3:459088793760:layer:omedomGraphQLLayer-dev:7",
+        "Principal": {
+          "Ref": "AWS::AccountId"
+        }
+      }
+    },
+    "LambdaLayerVersion775d44bf": {
+      "Type": "AWS::Lambda::LayerVersion",
+      "Properties": {
+        "CompatibleRuntimes": [
+          "nodejs14.x"
+        ],
+        "Content": {
+          "S3Bucket": {
+            "Ref": "deploymentBucketName"
+          },
+          "S3Key": "amplify-builds/omedomGraphQLLayer-LambdaLayerVersion775d44bf-build.zip"
+        },
+        "Description": "Updated layer version 2021-07-01T00:59:52.084Z",
+        "LayerName": {
+          "Fn::Sub": [
+            "omedomGraphQLLayer-${env}",
+            {
+              "env": {
+                "Ref": "env"
+              }
+            }
+          ]
+        }
+      },
+      "DeletionPolicy": "Delete",
+      "UpdateReplacePolicy": "Retain"
+    },
+    "LambdaLayerPermissionPrivate775d44bf": {
+      "Type": "AWS::Lambda::LayerVersionPermission",
+      "Properties": {
+        "Action": "lambda:GetLayerVersion",
+        "LayerVersionArn": "arn:aws:lambda:eu-west-3:459088793760:layer:omedomGraphQLLayer-dev:6",
         "Principal": {
           "Ref": "AWS::AccountId"
         }
@@ -215,7 +289,7 @@
   "Outputs": {
     "Arn": {
       "Value": {
-        "Ref": "LambdaLayerVersion775d44bf"
+        "Ref": "LambdaLayerVersionab002e93"
       }
     }
   }

@@ -25,12 +25,9 @@ exports.handler = async (event) => {
       type: 'autre',
     }, null, 2),
     InvocationType: 'Event',
-  }, (error, data) => {
+  }, (error) => {
     if (error) {
-      context.done('error', error);
-    }
-    if (data.Payload) {
-      context.succeed(data.Payload);
+      console.error('Notification error', error);
     }
   });
 

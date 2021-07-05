@@ -45,7 +45,7 @@ const MonBien = (props: MonBienProps) => {
   // const navigation = useNavigation();
   const [opened, setOpened] = useState(false);
   // const theme = useTheme();
-  console.log('bienget : ', bienget);
+  // console.log('bienget : ', bienget);
 
   /**
    *   Rentabilité
@@ -84,11 +84,17 @@ const MonBien = (props: MonBienProps) => {
       && budgetLines?.items.length > 0
       && budgetLines?.items[0]?.amount;
 
+  // make common list of all possible
+  // revenues, expeneses categories, types
+  // with their keys, labels
   const allPossibleTypes = {};
-  _.merge(allPossibleTypes, typeCharge,
+  _.merge(
+    allPossibleTypes,
+    typeCharge,
     typeImpots,
     typeRevenu,
-    typeAssurance, typeDivers, typeBanque);
+    typeAssurance, typeDivers, typeBanque,
+  );
 
   /** Object with 3 attributes and its key */
   const { allCurrentCategories } = useMemo(() => {
@@ -114,7 +120,7 @@ const MonBien = (props: MonBienProps) => {
             allCurrentCategoriesInternal[item?.category] = {
               value: item?.amount || 0,
               percentage: 0,
-              label: allPossibleTypes[item?.category].label,
+              label: allPossibleTypes[item.category].label,
             };
           } else {
             /** else If any expoense exist then we add to allCurrentCategories variable */
@@ -213,7 +219,7 @@ const MonBien = (props: MonBienProps) => {
                     {dernierMovement ? (
                       <Amount amount={dernierMovement?.amount || 0} category="h4" />
                     ) : (
-                      <Amount amount={0} category="h4" />
+                      <Text category="h4" status="primary">0 €</Text>
                     )}
 
                   </View>
@@ -270,7 +276,7 @@ const MonBien = (props: MonBienProps) => {
                       <Text category="h6" appearance="hint" style={styles.text}>Dernier mouvement</Text>
                       {dernierMovement ? (
                         <Amount amount={dernierMovement?.amount || 0} category="h4" />
-                      ) : (<></>)}
+                      ) : (<Text category="h4" status="primary">0 €</Text>)}
 
                       <TouchableOpacity onPress={() => {}}>
                         <Text category="h6" status="info">Affecter</Text>

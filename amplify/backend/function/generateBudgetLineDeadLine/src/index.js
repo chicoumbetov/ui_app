@@ -11,11 +11,24 @@ const BudgetLineQueries_1 = require("/opt/nodejs/src/BudgetLineQueries");
 const BudgetLineMutations_1 = require("/opt/nodejs/src/BudgetLineMutations");
 const BudgetLineDeadlineMutations_1 = require("/opt/nodejs/src/BudgetLineDeadlineMutations");
 const DateUtils_1 = require("./DateUtils");
+const moment = require("moment");
+const aws = require('aws-sdk');
+const lambda = new aws.Lambda({
+    region: process.env.REGION,
+});
+var BudgetLineType;
+(function (BudgetLineType) {
+    BudgetLineType["Expense"] = "Expense";
+    BudgetLineType["Income"] = "Income";
+})(BudgetLineType || (BudgetLineType = {}));
 const AppSyncClient = AppSyncClient_1.default(process.env);
 exports.handler = async () => {
     // on récupère toutes les budget line
-    const currentDate = (new Date()).toISOString().substr(0, 10);
-    const list = await BudgetLineQueries_1.listBudgetLines(AppSyncClient, currentDate, currentDate);
+    const date = new Date();
+    const currentDate = date.toISOString().substr(0, 10);
+    date.setDate(date.getDate() + 3);
+    const currentDatePlus3Days = date.toISOString().substr(0, 10);
+    const list = await BudgetLineQueries_1.listBudgetLines(AppSyncClient, currentDate, currentDatePlus3Days);
     if (list) {
         const map = list.map(async (budgetLine) => {
             // eslint-disable-next-line no-underscore-dangle
@@ -27,7 +40,7 @@ exports.handler = async () => {
                 let nextDueDate;
                 if (budgetLineInfoCredit) {
                     // on cherche les infos de l'échéance actuelle
-                    const currentIndex = budgetLineInfoCredit.amortizationTable.findIndex((item) => item.dueDate === currentDate);
+                    const currentIndex = budgetLineInfoCredit.amortizationTable.findIndex((item) => item.dueDate === budgetLine.nextDueDate);
                     if (currentIndex > -1) {
                         infoCredit = {
                             amount: budgetLineInfoCredit.amortizationTable[currentIndex].amount,
@@ -52,7 +65,7 @@ exports.handler = async () => {
                     category,
                     amount,
                     frequency,
-                    date: currentDate,
+                    date: budgetLine.nextDueDate,
                     infoCredit,
                     tenantId,
                     rentalCharges,
@@ -60,9 +73,31 @@ exports.handler = async () => {
                     householdWaste,
                 };
                 await BudgetLineDeadlineMutations_1.createBudgetLineDeadline(AppSyncClient, newBudgetLineDeadline);
+                const oldDueDate = budgetLine.nextDueDate;
                 // on calcule la prochaine échéance
                 if (nextDueDate === undefined) {
-                    nextDueDate = DateUtils_1.default.addMonths(currentDate, DateUtils_1.default.frequencyToMonths(frequency));
+                    nextDueDate = DateUtils_1.default.addMonths(budgetLine.nextDueDate, DateUtils_1.default.frequencyToMonths(frequency));
+                }
+                // on envoie une notif
+                if (budgetLine.type === BudgetLineType.Expense) {
+                    lambda.invoke({
+                        FunctionName: process.env.FUNCTION_SENDNOTIFICATION_NAME,
+                        Payload: JSON.stringify({
+                            userIds: budgetLine.realEstate.admins,
+                            title: 'Nouvelle dépense',
+                            body: `Une dépense pour votre bien ${budgetLine.realEstate.name} arrive à échéance le ${moment(oldDueDate).format('DD/MM/YYYY')}.`,
+                            data: {
+                                realEstateId: budgetLine.realEstateId,
+                                budgetLineId: budgetLine.id,
+                            },
+                            type: 'echeanceFacture',
+                        }, null, 2),
+                        InvocationType: 'Event',
+                    }, (error) => {
+                        if (error) {
+                            console.error('Notification error', error);
+                        }
+                    });
                 }
                 // on update la budgetLine
                 await BudgetLineMutations_1.updateBudgetLine(AppSyncClient, {

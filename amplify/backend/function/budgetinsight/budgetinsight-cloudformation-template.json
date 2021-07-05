@@ -35,6 +35,14 @@
     "functionomedomBudgetInsightLayerArn": {
       "Type": "String",
       "Default": "functionomedomBudgetInsightLayerArn"
+    },
+    "functionomedomSESLayerArn": {
+      "Type": "String",
+      "Default": "functionomedomSESLayerArn"
+    },
+    "storageomedomBucketName": {
+      "Type": "String",
+      "Default": "storageomedomBucketName"
     }
   },
   "Conditions": {
@@ -98,6 +106,9 @@
             },
             "API_OMEDOM_GRAPHQLAPIENDPOINTOUTPUT": {
               "Ref": "apiomedomGraphQLAPIEndpointOutput"
+            },
+            "STORAGE_OMEDOM_BUCKETNAME": {
+              "Ref": "storageomedomBucketName"
             }
           }
         },
@@ -114,6 +125,9 @@
           },
           {
             "Ref": "functionomedomBudgetInsightLayerArn"
+          },
+          {
+            "Ref": "functionomedomSESLayerArn"
           }
         ],
         "Timeout": "25"
@@ -299,6 +313,43 @@
                         "Ref": "apiomedomGraphQLAPIIdOutput"
                       },
                       "/types/Mutation/*"
+                    ]
+                  ]
+                }
+              ]
+            },
+            {
+              "Effect": "Allow",
+              "Action": "s3:ListBucket",
+              "Resource": [
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:aws:s3:::",
+                      {
+                        "Ref": "storageomedomBucketName"
+                      }
+                    ]
+                  ]
+                }
+              ]
+            },
+            {
+              "Effect": "Allow",
+              "Action": [
+                "s3:GetObject"
+              ],
+              "Resource": [
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:aws:s3:::",
+                      {
+                        "Ref": "storageomedomBucketName"
+                      },
+                      "/*"
                     ]
                   ]
                 }

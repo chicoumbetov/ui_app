@@ -38,7 +38,11 @@
         "image": "./assets/favicon-web-32x32.png",
         "background_color": "#ffffff",
         "resizeMode": "cover"
-      }
+      },
+      "name": "Omedom | L'application qui fait gagner du temps aux propriétaires",
+      "shortName": "Omedom",
+      "backgroundColor": "#fbfbfb",
+      "lang": "fr"
     },
     "packagerOpts": {
       "config": "metro.config.js",

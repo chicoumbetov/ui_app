@@ -35,7 +35,7 @@ import NotificationCard from '../../components/NotificationCard';
 function TableauDeBord() {
   const linkTo = useLinkTo();
   const { updateUser, user } = useUser();
-  const { loading, data } = useRealEstateList();
+  const { loading, data } = useRealEstateList('cache-and-network');
   const { loading: loadingNotif, notifications } = useNotificationsList({
     userId: user?.id,
     sortDirection: ModelSortDirection.DESC,
@@ -44,7 +44,6 @@ function TableauDeBord() {
     },
   });
 
-  const biensDetails = useRealEstateList();
   // console.log('biensDetails', biensDetails);
 
   useEffect(() => {
@@ -96,10 +95,10 @@ function TableauDeBord() {
    */
   let minDate: Date|undefined;
   let next: number|undefined;
-  if (biensDetails.data?.listRealEstates?.items) {
+  if (data?.listRealEstates?.items) {
     // on boucle sur tous les real estates
-    for (let i = 0; i < biensDetails.data?.listRealEstates.items?.length; i += 1) {
-      const currentItem = biensDetails.data?.listRealEstates.items[i];
+    for (let i = 0; i < data?.listRealEstates.items?.length; i += 1) {
+      const currentItem = data?.listRealEstates.items[i];
       if (currentItem?.budgetLines?.items && currentItem.budgetLines.items.length > 0) {
         const itemDate = DateUtils.parseToDateObj(currentItem?.budgetLines?.items[0]?.nextDueDate);
         if (minDate === undefined || minDate > itemDate) {
@@ -137,8 +136,8 @@ function TableauDeBord() {
         <Text category="h1">
           Trésorerie
         </Text>
-        {biensDetails.data?.listRealEstates?.items
-        && biensDetails.data?.listRealEstates?.items?.length > 0
+        {data?.listRealEstates?.items
+        && data?.listRealEstates?.items?.length > 0
         && (
         <Card style={{
           flexDirection: 'row',

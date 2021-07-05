@@ -25,6 +25,17 @@ type SendNotificationEvent = {
 const AppSyncClient = getAppSyncClient(process.env);
 const expo = new Expo();
 
+const uniqueValues = <T extends string | number>(a: T[]) => {
+  const seen: { [key: string]: boolean } = {};
+  return a.filter((item) => {
+    if (Object.prototype.hasOwnProperty.call(seen, item)) {
+      return false;
+    }
+    seen[item] = true;
+    return true;
+  });
+};
+
 exports.handler = async (event: SendNotificationEvent) => {
   console.log(event);
   let tokenList: { userId: string, token: string }[] = [];
@@ -37,8 +48,10 @@ exports.handler = async (event: SendNotificationEvent) => {
     [key: string]: { tokens: string[], toUpdate: boolean, _version: number };
   } = {};
 
+  const userIds = uniqueValues(event.userIds);
+
   // on boucle sur tous les user
-  const map = event.userIds.map(async (userId) => {
+  const map = userIds.map(async (userId) => {
     // on recupere les infos du user
     // eslint-disable-next-line no-await-in-loop
     const user = await getUserById(AppSyncClient, userId);
@@ -51,7 +64,8 @@ exports.handler = async (event: SendNotificationEvent) => {
           _version: user._version,
         };
       }
-      const params = user.privateProfile.notificationParams[type];
+      const params = user.privateProfile.notificationParams
+          && user.privateProfile.notificationParams[type];
 
       // on ajoute la notif dans AppSync
       await createNotificationMutation(AppSyncClient, {
@@ -63,10 +77,10 @@ exports.handler = async (event: SendNotificationEvent) => {
       });
 
       // on verifie s'il veut recevoir les notifs push ou email
-      if (params.email) {
+      if (params && params.email) {
         emails.push(user.email);
       }
-      if (params.push && user.expoToken && user.expoToken.length > 0) {
+      if (params && params.push && user.expoToken && user.expoToken.length > 0) {
         tokenList = tokenList.concat(
           user.expoToken
             .filter((token) => Expo.isExpoPushToken(token))

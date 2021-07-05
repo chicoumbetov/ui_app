@@ -1,13 +1,17 @@
 import { InitialState, NavigationState } from '@react-navigation/native';
 
-function findFocusedState(state: InitialState) {
+function findFocusedState(state: InitialState): InitialState {
   let current: InitialState | undefined = state;
+  let currentType: string | undefined = state.type;
 
   while (current?.routes[current.index ?? 0].state != null) {
     current = current.routes[current.index ?? 0].state;
+    if (current?.type) {
+      currentType = current.type;
+    }
   }
 
-  return current;
+  return <InitialState>{ ...current, type: currentType };
 }
 
 export const getStackInfos = (state: NavigationState) => {

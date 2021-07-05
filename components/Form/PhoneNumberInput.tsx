@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { View, StyleSheet, Platform } from 'react-native';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { StyleService, useStyleSheet, useTheme } from '@ui-kitten/components';
 import Text from '../Text';
 import { PhoneNumberInputFormProps } from './types';
@@ -74,8 +74,6 @@ const PhoneNumberInputComp = React.forwardRef<PhoneInput, PhoneNumberInputFormPr
             placeholderTextColor: theme['text-hint-color'],
           }}
           countryPickerButtonStyle={{
-            width: 65,
-            paddingRight: 10,
           }}
           placeholder={placeholder}
           countryPickerProps={{
@@ -130,7 +128,7 @@ const PhoneNumberInputComp = React.forwardRef<PhoneInput, PhoneNumberInputFormPr
           }}
           defaultValue={defaultValue}
         />
-        <Text type="error">{error && error.message}</Text>
+        <Text type="error" style={{ color: theme['color-danger-default'] }}>{error && error.message}</Text>
       </View>
     );
   },

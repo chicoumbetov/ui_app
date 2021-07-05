@@ -1,14 +1,19 @@
-import React, { useEffect } from 'react';
-import { useLinkTo, useNavigation } from '@react-navigation/native';
+import React from 'react';
+import { useLinkTo, useRoute } from '@react-navigation/native';
 import { Text, useTheme } from '@ui-kitten/components';
 
 import { StyleSheet } from 'react-native';
 import { Icon as IconUIKitten } from '@ui-kitten/components/ui/icon/icon.component';
+import { RouteProp } from '@react-navigation/core/lib/typescript/src/types';
 import MaxWidthContainer from '../../../components/MaxWidthContainer';
 import Card from '../../../components/Card';
+import { useGetRealEstate } from '../../../src/API/RealEstate';
+import { TabMesBiensParamList } from '../../../types';
 
 const MesRapports = () => {
-  const navigation = useNavigation();
+  const route = useRoute<RouteProp<TabMesBiensParamList, 'mes-rapports'>>();
+  const { bienget } = useGetRealEstate(route.params.id);
+
   const linkTo = useLinkTo();
   const theme = useTheme();
 
@@ -16,19 +21,14 @@ const MesRapports = () => {
     linkTo('/mes-charges');
   };
 
-  const allerMesRapportBiens1 = () => {
-    navigation.navigate('mes-rapports-biens1');
+  const allerMesRapportBiens1 = (id?: string) => {
+    linkTo(`/mes-biens/mes-rapports-biens1/${id}`);
   };
-
-  useEffect(() => {
-    console.log('useEffect of MesRapports component');
-  });
 
   return (
     <MaxWidthContainer outerViewProps={{
       style: {
         paddingHorizontal: 24,
-        backgroundColor: '#f6f6f6',
       },
     }}
     >
@@ -38,7 +38,7 @@ const MesRapports = () => {
        * Par charges
        * */}
       <Card
-        onPress={() => { allerMesCharges(); }}
+        onPress={() => allerMesCharges()}
         style={
             styles.docs
           }
@@ -57,10 +57,10 @@ const MesRapports = () => {
        * Par biens
        * */}
       <Card
-        onPress={() => { allerMesRapportBiens1(); }}
+        onPress={() => allerMesRapportBiens1(bienget.id)}
         style={
           styles.docs
-}
+        }
       >
         <Text category="h5" status="basic">Par biens</Text>
         <IconUIKitten

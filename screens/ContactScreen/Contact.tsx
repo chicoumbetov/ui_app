@@ -1,53 +1,83 @@
 import React from 'react';
-import { Button, Layout, Text } from '@ui-kitten/components';
+import { Button, Text } from '@ui-kitten/components';
 
-import { StyleSheet } from 'react-native';
+import { Alert, View } from 'react-native';
 
+import { useForm } from 'react-hook-form';
+
+import { useLinkTo } from '@react-navigation/native';
 import contactDATA from '../../mockData/contactDATA';
 import TextInput from '../../components/Form/TextInput';
 import SelectComp from '../../components/Form/Select';
 import MaxWidthContainer from '../../components/MaxWidthContainer';
+import Form from '../../components/Form/Form';
 
-const Contact = () => (
-  <MaxWidthContainer>
+import { sendEmail } from '../../components/AwsMail/SendMail';
+import { useUser } from '../../src/API/UserContext';
 
-    <Layout style={styles.container}>
-      <Text category="h1" style={styles.title}>Contact</Text>
+type ContactMessageForm = {
+  type: string,
+  message: string,
+};
 
-      <SelectComp name="contact" data={contactDATA} placeholder="Motif Contact" size="large" appearance="default" status="primary" />
+function Contact() {
+  // const navigation = useNavigation();
+  const contactMessageForm = useForm<ContactMessageForm>();
+  const { user } = useUser();
+  const linkTo = useLinkTo();
+  // console.log('user :', user.email);
+  const ContactSend = async (data : ContactMessageForm) => {
+    // console.log('data : ', data);
 
-      <Layout style={{ backgroundColor: 'transparent', marginTop: 15 }}>
-        <TextInput
-          name="Votre Message"
-          label="Votre Message"
-          placeholder="Saisissez votre texte ici"
-        />
-      </Layout>
+    await sendEmail(user?.email, data.type, data.message);
+    // navigation.pop();
+    Alert.alert(
+      'Votre message a été envoyé avec success !',
+      '',
+      [
+        { text: 'Ok', onPress: () => linkTo('/tableau-de-bord') },
+      ],
+      { cancelable: true },
+    );
+  };
+  return (
+    <MaxWidthContainer
+      outerViewProps={{
+        style: {
+          padding: 25,
+          paddingRight: 21,
+        },
+      }}
+    >
+      <Form<ContactMessageForm> {...contactMessageForm}>
+        <>
+          <Text
+            category="h1"
+            style={{
+              marginTop: 19.7,
+              marginBottom: 14,
+            }}
+          >
+            Contact
+          </Text>
+          <SelectComp name="type" data={contactDATA} placeholder="Motif Contact" size="large" appearance="default" status="primary" />
+          <View style={{ backgroundColor: 'transparent', marginTop: 15 }}>
+            <TextInput
+              name="message"
+              label="Votre Message"
+              placeholder="Saisissez votre texte ici"
+            />
+          </View>
+          <View style={{ alignItems: 'flex-end', backgroundColor: 'transparent', marginTop: 30 }}>
+            <Button onPress={contactMessageForm.handleSubmit((data) => ContactSend(data))} size="large">Envoyer</Button>
+          </View>
+        </>
+      </Form>
+    </MaxWidthContainer>
 
-      <Layout style={{ alignItems: 'flex-end', backgroundColor: 'transparent', marginTop: 30 }}>
-        <Button size="large">Envoyer</Button>
-      </Layout>
-    </Layout>
-
-  </MaxWidthContainer>
-
-);
+  );
+}
 
 export default Contact;
 
-const styles = StyleSheet.create({
-  containerOut: {
-    flex: 1,
-    backgroundColor: '#efefef',
-  },
-  container: {
-    padding: 25,
-    paddingRight: 21,
-    backgroundColor: '#f7f7f7',
-  },
-  title: {
-    marginTop: 19.7,
-    marginBottom: 14,
-    lineHeight: 27.4,
-  },
-});
+// const styles = StyleSheet.create({});

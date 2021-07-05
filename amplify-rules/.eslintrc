@@ -1,0 +1,7 @@
+{
+  "extends": "../.eslintrc",
+  "rules": {
+    "import/extensions": "off", // autorisé chez Web Premiere car utilisation de Lambda Layers
+    "import/no-absolute-path": "off" // autorisé chez Web Premiere car utilisation de Lambda Layers
+  }
+}

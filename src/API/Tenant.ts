@@ -1,6 +1,6 @@
 import { v4 as uuid } from 'uuid';
 import {
-  RealEstate, TenantInfoInput,
+  RealEstate, TenantInfo, TenantInfoInput,
 } from '../API';
 
 import { useUpdateRealEstateMutation } from './RealEstate';
@@ -19,7 +19,7 @@ export const useAddTenant = () => {
     tenants.push(tenantInfo);
 
     if (bien.id) {
-      await updateRealEstate({
+      await updateRealEstate.updateRealEstate({
         variables: {
           input: {
             id: bien.id,
@@ -47,11 +47,35 @@ export const useUpdateTenant = () => {
     });
 
     if (bien.id) {
-      await updateRealEstate({
+      await updateRealEstate.updateRealEstate({
         variables: {
           input: {
             id: bien.id,
             tenants: finalTenants,
+            _version: bien._version,
+          },
+        },
+      });
+    }
+    return null;
+  };
+};
+
+export const useDeleteTenantMutation = () => {
+  const updateRealEstate = useUpdateRealEstateMutation();
+
+  return async (bien: RealEstate, updatedTenant: string[]) => {
+    const tenants = removeKeyArray<TenantInfoInput>((<TenantInfoInput[]>bien?.tenants || []), '__typename');
+    const newtenant = tenants.filter((tenant) => !updatedTenant.includes(tenant.id));
+    console.log('tenant : ', newtenant);
+    console.log('bien in useDeleteTenantMutation: ', bien);
+    if (bien.id) {
+      await updateRealEstate.updateRealEstate({
+        variables: {
+          input: {
+            id: bien.id,
+            tenants: newtenant,
+            // eslint-disable-next-line no-underscore-dangle
             _version: bien._version,
           },
         },

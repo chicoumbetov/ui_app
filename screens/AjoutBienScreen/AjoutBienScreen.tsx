@@ -7,32 +7,42 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import {
+  Platform,
   StyleSheet, TouchableOpacity, View,
 } from 'react-native';
 
 import {
-  Button, Layout, Text, useTheme,
+  Button, Layout, Modal, Spinner, Text, useTheme,
 } from '@ui-kitten/components';
 
 import * as ImagePicker from 'expo-image-picker';
-import { View as MotiView } from 'moti';
+import { MotiView } from 'moti';
 import { useLinkTo, useRoute } from '@react-navigation/native';
 import { RouteProp } from '@react-navigation/core/lib/typescript/src/types';
+import { ImagePickerResult } from 'expo-image-picker';
 import { colors } from '../../assets/styles';
 import Form from '../../components/Form/Form';
 import SelectComp from '../../components/Form/Select';
 
 import {
-  detention, statut, typeBien, typeDetention, typeImpot,
+  detention, statut, typeBien, typeDetention, typeImpot, typeStatut,
 } from '../../mockData/ajoutBienData';
 import MaxWidthContainer from '../../components/MaxWidthContainer';
 import AutoAvatar from '../../components/AutoAvatar';
 import TextInput from '../../components/Form/TextInput';
 import { AvailableValidationRules } from '../../components/Form/validation';
-import { useCreateRealEstateMutation, useGetRealEstate } from '../../src/API/RealEstate';
-import { CompanyType, RealEstateType, TaxType } from '../../src/API';
+import {
+  useCreateRealEstateMutation,
+  useGetRealEstate,
+  useUpdateRealEstateMutation,
+} from '../../src/API/RealEstate';
+import {
+  CompanyType, RealEstate, RealEstateType, TaxType,
+} from '../../src/API';
 import { useUser } from '../../src/API/UserContext';
 import { TabMesBiensParamList } from '../../types';
+import Camera, { CameraOutput } from '../../components/Camera/Camera';
+import { Delete, Upload } from '../../utils/S3FileStorage';
 
 type AjoutBienForm = {
   name: string,
@@ -49,49 +59,101 @@ type AjoutBienForm = {
   detentionPart?: number | null,
   company?: CompanyType | null,
   typeImpot?: TaxType | null,
+  purchasePrice?: number | null,
+  notaryFee?: number | null,
 };
+
+// pour utiliser la Key plutôt que le label depuis data reference
+const typeBienArray = Object.values(typeBien);
+const typeDetentionArray = Object.values(typeDetention);
+const typeStatutArray = Object.values(typeStatut);
+const typeImpotArray = Object.values(typeImpot);
 
 function AjoutBienScreen() {
   const theme = useTheme();
-  const { user } = useUser();
-
+  const { user, userIsCreating } = useUser();
+  const updateRealEstate = useUpdateRealEstateMutation();
   const createRealEstate = useCreateRealEstateMutation();
   const linkTo = useLinkTo();
 
+  const [selectedNewImage, setSelectedNewImage] = useState<
+  ImagePickerResult |
+  CameraOutput |
+  undefined
+  >();
+
   const ajoutBienForm = useForm<AjoutBienForm>();
 
-  const pickImage = async () => {
-    try {
-      const result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      });
-    } catch (e) {
-      console.log('pickImage error: ', e);
-    }
-  };
-
   const onAjoutBien = async (data: AjoutBienForm) => {
-    console.log(data);
+    if (route.params && currentRealEstate) {
+      let iconUri = image;
+      if (image !== currentRealEstate.iconUri) {
+        const toDelete = currentRealEstate.iconUri && currentRealEstate.iconUri.indexOf('default::') > -1
+          ? undefined
+          : currentRealEstate.iconUri;
+        if (toDelete) {
+          await Delete(toDelete);
+        }
+        if (selectedNewImage) {
+          const upload = await Upload(selectedNewImage, `realEstate/${currentRealEstate.id}/`);
+          if (upload !== false) {
+            iconUri = upload.key;
+          }
+        }
+      }
 
-    await createRealEstate({
-      variables: {
-        input: {
-          ...data,
-          iconUri: 'default::mainHouse',
-          admins: [
-            user.id,
-          ],
+      await updateRealEstate.updateRealEstate({
+        variables: {
+          input: {
+            id: route.params.id,
+            ...data,
+            iconUri,
+            // eslint-disable-next-line no-underscore-dangle
+            _version: currentRealEstate._version,
+          },
         },
-      },
-    });
-    linkTo('/mes-biens');
+      });
+    } else {
+      let iconUri = image;
+      const { data: mutationData } = await createRealEstate.createRealEstate({
+        variables: {
+          input: {
+            ...data,
+            iconUri,
+            admins: [
+              user.id,
+            ],
+          },
+        },
+      });
+
+      if (mutationData?.createRealEstate && selectedNewImage) {
+        const upload = await Upload(selectedNewImage, `realEstate/${mutationData.createRealEstate.id}/`);
+        if (upload !== false) {
+          iconUri = upload.key;
+        }
+
+        await updateRealEstate.updateRealEstate({
+          variables: {
+            input: {
+              id: mutationData.createRealEstate.id,
+              iconUri,
+              // eslint-disable-next-line no-underscore-dangle
+              _version: mutationData.createRealEstate._version,
+            },
+          },
+        });
+      }
+    }
+    if (!userIsCreating) {
+      linkTo('/mes-biens');
+    }
   };
 
   /**
    *Variable pour gérer l'affichage des trois grandes partie
    * */
   const [etape, setEtape] = useState(0);
-
   /**
    *Variable pour gérer la date
    * */
@@ -102,22 +164,61 @@ function AjoutBienScreen() {
    * Variable pour gérer l'affichage des données de modes de détention
    * */
 
+  const [camera, setCamera] = React.useState(false);
   const [detentionShow, setDetentionShow] = useState(false);
   const [statutShow, setStatutShow] = useState(false);
   const [pourcentageDetentionShow, setPourcentageDetentionShow] = useState(false);
 
   const route = useRoute<RouteProp<TabMesBiensParamList, 'ajout-bien-screen'> | RouteProp<TabMesBiensParamList, 'modifier-characteristique'>>();
-  let currentRealEstate: AjoutBienForm | undefined;
+  let currentRealEstate: RealEstate | undefined;
+  let detentionPartDefault : string;
   if (route.params) {
-    const { bien } = useGetRealEstate(route.params.id);
-    currentRealEstate = bien;
-    console.log('Ajout bien screen modifier : ', currentRealEstate);
+    const { bienget } = useGetRealEstate(route.params.id);
+    currentRealEstate = bienget;
+
+    // console.log('Ajout bien screen modifier : ', currentRealEstate);
     useEffect(() => {
-      setDetentionShow(true);
-      setStatutShow(true);
-      setPourcentageDetentionShow(true);
-    });
+      setImage(bienget.iconUri);
+      if (bienget.ownName) {
+        setDetentionShow(true);
+        setStatutShow(false);
+
+        setPourcentageDetentionShow(false);
+        if (bienget.detentionPart !== 100) {
+          setPourcentageDetentionShow(true);
+        }
+      } else {
+        setDetentionShow(false);
+        setStatutShow(true);
+        setPourcentageDetentionShow(true);
+      }
+    }, []);
+    if (bienget.ownName) {
+      if (bienget.detentionPart === 100) {
+        detentionPartDefault = 'proprietaire_integral';
+      } else {
+        detentionPartDefault = 'indivision';
+      }
+    }
   }
+
+  const onTakePicture = () => {
+    setCamera(true);
+  };
+
+  const pickImage = async () => {
+    try {
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      });
+      if (!result.cancelled) {
+        setImage(result.uri);
+        setSelectedNewImage(result);
+      }
+    } catch (e) {
+      console.log('pickImage error: ', e);
+    }
+  };
 
   return (
     <MaxWidthContainer
@@ -164,54 +265,103 @@ function AjoutBienScreen() {
            Identité 1/3  ( etape1 )
            * */}
           <MotiView
-            animate={{ height: (etape === 0 ? 540 : 0) }}
-            style={{ overflow: 'hidden' }}
+            animate={{ height: (etape === 0 ? 560 : 0) }}
+            style={{
+              overflow: 'hidden',
+              flexDirection: 'column',
+              justifyContent: 'space-between',
+            }}
             transition={{ type: 'timing', duration: 500 }}
           >
-
             <TextInput
-              style={{ marginBottom: 30, marginLeft: 23, marginRight: 22 }}
+              containerStyle={{ marginLeft: 23, marginRight: 22 }}
               name="name"
               placeholder="Le nom du bien"
-
             />
 
-            <Layout style={{
-              alignItems: 'center', backgroundColor: 'transparent', marginVertical: 34,
+            <View style={{
+              alignItems: 'center',
+              marginBottom: 34,
             }}
             >
-              <AutoAvatar avatarInfo={image} style={{ height: 146, width: 146 }} />
-            </Layout>
-            <Layout style={{ marginLeft: 10, backgroundColor: 'transparent' }}>
+              <AutoAvatar
+                avatarInfo={image}
+                style={{
+                  height: 146, width: 146, borderRadius: 73, overflow: 'hidden',
+                }}
+              />
+            </View>
+            <View style={{ marginLeft: 10 }}>
               <Text category="h5" appearance="hint">
                 Choisir une icone
               </Text>
-            </Layout>
-            <Layout style={{
-              flexDirection: 'row', marginTop: 21, justifyContent: 'space-evenly', marginLeft: -6, backgroundColor: 'transparent',
+            </View>
+            <View style={{
+              flexDirection: 'row', marginTop: 21, justifyContent: 'space-evenly', marginLeft: -6,
             }}
             >
               {['MaisonVerte', 'Immeuble', 'Cabane', 'Bateau', 'Boutique'].map((icon) => (
                 <TouchableOpacity key={icon} onPress={() => { setImage(`default::${icon}`); }}>
-                  <AutoAvatar avatarInfo={`default::${icon}`} style={{ height: 53, width: 53 }} />
+                  <AutoAvatar
+                    avatarInfo={`default::${icon}`}
+                    style={{
+                      height: 53,
+                      width: 53,
+                    }}
+                  />
                 </TouchableOpacity>
               ))}
-            </Layout>
+            </View>
             <Layout style={{
               flexDirection: 'row', marginTop: 34, justifyContent: 'space-evenly', marginLeft: -6, backgroundColor: 'transparent',
             }}
             >
               {['Chateau', 'Manoir', 'MaisonBleu', 'Riad', 'Voiture'].map((icon) => (
                 <TouchableOpacity key={icon} onPress={() => { setImage(`default::${icon}`); }}>
-                  <AutoAvatar avatarInfo={`default::${icon}`} style={{ height: 53, width: 53 }} />
+                  <AutoAvatar
+                    avatarInfo={`default::${icon}`}
+                    style={{
+                      height: 53,
+                      width: 53,
+                    }}
+                  />
                 </TouchableOpacity>
               ))}
             </Layout>
 
-            <Layout style={{ paddingHorizontal: 23, backgroundColor: 'transparent' }}>
-              <TouchableOpacity onPress={() => {}} style={{ marginVertical: 30.5 }}>
+            <View style={{ paddingHorizontal: 23 }}>
+              {Platform.OS !== 'web' && (
+              <TouchableOpacity onPress={() => onTakePicture()} style={{ marginVertical: 30.5 }}>
                 <Text category="h5" status="info">Prendre une photo</Text>
               </TouchableOpacity>
+              )}
+
+              {Platform.OS !== 'web' && (
+              <Modal
+                visible={camera}
+                style={{
+                  overflow: 'hidden', alignItems: 'center', margin: 0, height: '100%',
+                }}
+              >
+                {camera && (
+                <Camera
+                  onClose={() => {
+                    setCamera(false);
+                  }}
+                  onChoose={(result) => {
+                    if (result) {
+                      setImage(result.uri);
+                      setSelectedNewImage(result);
+                    }
+                    setCamera(false);
+                  }}
+                  withPreview
+                  ratio={[1, 1]}
+                  maxWidth={300}
+                />
+                )}
+              </Modal>
+              )}
 
               <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: 7 }}>
                 <TouchableOpacity onPress={() => { pickImage(); }}>
@@ -228,7 +378,7 @@ function AjoutBienScreen() {
                   </Text>
                 </TouchableOpacity>
               </View>
-            </Layout>
+            </View>
 
           </MotiView>
           {/**
@@ -260,7 +410,7 @@ function AjoutBienScreen() {
            Identité 2/3  ( etape2 )
            * */}
           <MotiView
-            animate={{ height: (etape === 1 ? 400 : 0) }}
+            animate={{ height: (etape === 1 ? 340 : 0) }}
             style={{
               overflow: 'hidden',
               flexDirection: 'column',
@@ -337,6 +487,7 @@ function AjoutBienScreen() {
             animate={{ maxHeight: (etape === 2 ? 600 : 0) }}
             style={{
               overflow: 'hidden',
+              flex: 1,
               flexDirection: 'column',
               marginHorizontal: 23,
               justifyContent: 'space-between',
@@ -344,10 +495,13 @@ function AjoutBienScreen() {
             transition={{ type: 'timing', duration: 500 }}
           >
             <View style={{
-              flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8,
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              marginBottom: 8,
             }}
             >
-              <Text category="h5" status="basic" style={{ flex: 1, marginRight: 20 }}>
+              <Text category="h5" status="basic" style={{ marginRight: 20 }}>
                 Année d'acquisition
               </Text>
               <TextInput
@@ -355,17 +509,19 @@ function AjoutBienScreen() {
                 placeholder="yyyy"
                 maxLength={4}
                 icon="calendar-outline"
+                validators={[AvailableValidationRules.required]}
               />
             </View>
 
             <View style={{ height: 140 }}>
               <SelectComp
                 name="type"
-                data={typeBien}
+                data={typeBienArray}
                 placeholder="Type De Bien"
                 size="large"
                 appearance="default"
                 status="primary"
+                validators={[AvailableValidationRules.required]}
               />
               <SelectComp
                 name="ownName"
@@ -383,6 +539,7 @@ function AjoutBienScreen() {
                 size="large"
                 appearance="default"
                 status="primary"
+                validators={[AvailableValidationRules.required]}
               />
             </View>
 
@@ -390,11 +547,11 @@ function AjoutBienScreen() {
               && (
               <View style={{ height: 75 }}>
                 <SelectComp
-                  name="detentionPart"
-                  data={typeDetention}
+                  name=""
+                  data={typeDetentionArray}
                   placeholder="Type De Détention"
                   onChangeValue={(v) => {
-                    if (v === 'Indivision') {
+                    if (v === 'indivision') {
                       setPourcentageDetentionShow(true);
                     } else {
                       ajoutBienForm.setValue('detentionPart', '100');
@@ -404,6 +561,8 @@ function AjoutBienScreen() {
                   size="large"
                   appearance="default"
                   status="primary"
+                  defaultValue={detentionPartDefault}
+                  validators={[AvailableValidationRules.required]}
                 />
               </View>
               )}
@@ -411,8 +570,8 @@ function AjoutBienScreen() {
             {statutShow
               && (
               <View style={{ height: 125 }}>
-                <SelectComp name="company" data={statut} placeholder="Status" size="large" appearance="default" status="primary" />
-                <SelectComp name="typeImpot" data={typeImpot} placeholder="Type d'imposition" size="large" appearance="default" status="primary" />
+                <SelectComp name="company" data={typeStatutArray} placeholder="Status" size="large" appearance="default" status="primary" validators={[AvailableValidationRules.required]} />
+                <SelectComp name="typeImpot" data={typeImpotArray} placeholder="Type d'imposition" size="large" appearance="default" status="primary" validators={[AvailableValidationRules.required]} />
               </View>
               )}
 
@@ -447,13 +606,48 @@ function AjoutBienScreen() {
 
             </MotiView>
 
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <Text category="h5">Prix d'acquisition</Text>
+              <TextInput
+                name="purchasePrice"
+                size="small"
+                keyboardType="numeric"
+                validators={[AvailableValidationRules.required, AvailableValidationRules.float]}
+                style={{ flex: 1, marginRight: 10, marginHorizontal: 10 }}
+              />
+              <Text category="h5">€</Text>
+            </View>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <Text category="h5">Frais de notaire</Text>
+              <TextInput
+                name="notaryFee"
+                size="small"
+                keyboardType="numeric"
+                validators={[AvailableValidationRules.required, AvailableValidationRules.float]}
+                style={{ flex: 1, marginRight: 10, marginHorizontal: 10 }}
+              />
+              <Text category="h5">€</Text>
+            </View>
             <View style={{ marginBottom: 20 }}>
-              <Button
-                onPress={ajoutBienForm.handleSubmit((data) => onAjoutBien(data))}
-                size="large"
-              >
-                Enregistrer
-              </Button>
+              {createRealEstate.mutationLoading || updateRealEstate.mutationLoading
+                ? (
+                  <Button
+                    onPress={ajoutBienForm.handleSubmit((data) => onAjoutBien(data))}
+                    size="large"
+                    accessoryRight={() => <Spinner status="basic" />}
+                    disabled
+                  >
+                    Chargement
+                  </Button>
+                ) : (
+                  <Button
+                    onPress={ajoutBienForm.handleSubmit((data) => onAjoutBien(data))}
+                    size="large"
+                  >
+                    Enregistrer
+                  </Button>
+                )}
+
             </View>
           </MotiView>
 

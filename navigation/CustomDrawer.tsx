@@ -16,22 +16,27 @@
 import React from 'react';
 import {
   Drawer, DrawerItem, IndexPath, Layout, Text,
-  Icon as IconUIKitten,
+  Icon as IconUIKitten, useTheme,
 } from '@ui-kitten/components';
 import {
-  ImageProps, TouchableOpacity, View,
+  ImageProps, ScaledSize, TouchableOpacity, View,
 } from 'react-native';
-import { InitialState, useLinkTo } from '@react-navigation/native';
-import { Auth } from 'aws-amplify';
+import {
+  DrawerActions, InitialState, useLinkTo, useNavigation,
+} from '@react-navigation/native';
+import Auth from '@aws-amplify/auth';
 import { DrawerContentComponentProps } from '@react-navigation/drawer/src/types';
 import { RenderProp } from '@ui-kitten/components/devsupport';
 // import { DrawerContentScrollView } from '@react-navigation/drawer';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useDimensions } from '@react-native-community/hooks';
 // import comptesData from '../mockData/comptesData';
+import * as WebBrowser from 'expo-web-browser';
 import Icon, { IconName } from '../components/Icon/Icon';
 import AutoAvatar from '../components/AutoAvatar';
 import { useUser } from '../src/API/UserContext';
+import debounce from '../utils/debounce';
+import { useCountUnseenNotification } from '../src/API/Notification';
 
 /**
  * 2. Icons
@@ -90,8 +95,11 @@ const ChargeIcon = IconGenerator({ name: 'trending-up-outline', uikitten: true }
 const PaperIcon = IconGenerator({ name: 'file-text-outline', uikitten: true });
 
 const EmailIcon = IconGenerator({ name: 'email-outline', uikitten: true });
+const CadenaIcon = IconGenerator({ name: 'lock-outline', uikitten: true });
 
-function findIndexByRouteName(name?: string) {
+function findIndexByRouteName(name?: string, window: ScaledSize) {
+  const toAdd = window.width > 780 ? 0 : 1;
+
   switch (name) {
     case 'tableau-de-bord':
       return 0;
@@ -100,34 +108,34 @@ function findIndexByRouteName(name?: string) {
     case 'mes-charges-nav':
       return 2;
     case 'mes-biens-nav':
-      return 3;
+      return 3 - toAdd;
     case 'ma-tresorerie-nav':
-      return 4;
+      return 4 - toAdd;
     case 'mon-assistant-nav':
-      return 5;
+      return 5 - toAdd;
     case 'notifications':
-      return 6;
+      return 6 - toAdd;
     case 'faq':
-      return 7;
+      return 7 - toAdd;
     case 'contact':
-      return 8;
+      return 8 - toAdd;
     default:
       return null;
   }
 }
 
-function findFocusedDrawerItem(state: InitialState) {
+function findFocusedDrawerItem(state: InitialState, window: ScaledSize) {
   let current: InitialState | undefined = state;
 
   while (current?.routes[current.index ?? 0].state != null) {
-    const drawerIndex = findIndexByRouteName(current?.routes[current.index ?? 0].name);
+    const drawerIndex = findIndexByRouteName(current?.routes[current.index ?? 0].name, window);
     if (drawerIndex !== null) {
       return drawerIndex;
     }
     current = current.routes[current.index ?? 0].state;
   }
 
-  const drawerIndex = findIndexByRouteName(current?.routes[current.index ?? 0].name);
+  const drawerIndex = findIndexByRouteName(current?.routes[current.index ?? 0].name, window);
   if (drawerIndex !== null) {
     return drawerIndex;
   }
@@ -141,9 +149,20 @@ function findFocusedDrawerItem(state: InitialState) {
 const CustomDrawer = (props: DrawerContentComponentProps) => {
   const { state } = props;
   const { user } = useUser();
+  const theme = useTheme();
+  const countNotification = useCountUnseenNotification();
   const inset = useSafeAreaInsets();
   const linkTo = useLinkTo();
   const { window } = useDimensions();
+
+  const navigation = useNavigation();
+
+  const closeDrawer = React.useCallback(
+    debounce(() => {
+      navigation.dispatch(DrawerActions.closeDrawer());
+    }, 50),
+    [navigation],
+  );
   return (
     <View style={{ flex: 1, marginTop: inset.top, marginBottom: inset.bottom }}>
       <Layout level="4" style={{ flex: 1, justifyContent: 'space-between' }}>
@@ -172,9 +191,10 @@ const CustomDrawer = (props: DrawerContentComponentProps) => {
           </Text>
         </Layout>
         <Drawer
-          selectedIndex={new IndexPath(findFocusedDrawerItem(state))}
+          selectedIndex={new IndexPath(findFocusedDrawerItem(state, window))}
           onSelect={(index) => {
             // console.log(index);
+            const toAdd = window.width > 780 ? 0 : 1;
             // eslint-disable-next-line default-case
             switch (index.row) {
               case 0:
@@ -183,26 +203,31 @@ const CustomDrawer = (props: DrawerContentComponentProps) => {
               case 1:
                 linkTo('/mon-compte');
                 break;
-              case 2:
-                linkTo('/mes-charges');
-                break;
-              case 3:
+              case 3 - toAdd:
                 linkTo('/mes-biens');
                 break;
-              case 4:
+              case 4 - toAdd:
                 linkTo('/ma-tresorerie');
                 break;
-              case 5:
+              case 5 - toAdd:
                 linkTo('/mon-assistant');
                 break;
-              case 6:
+              case 6 - toAdd:
                 linkTo('/notifications');
                 break;
-              case 7:
+              case 7 - toAdd:
                 linkTo('/faq');
                 break;
-              case 8:
+              case 8 - toAdd:
                 linkTo('/contact');
+                break;
+              case 9 - toAdd:
+                WebBrowser.openBrowserAsync('https://omedom.com/legal/?simple=1');
+                closeDrawer();
+                break;
+
+              case 2:
+                linkTo('/mes-charges');
                 break;
             }
           }}
@@ -215,13 +240,12 @@ const CustomDrawer = (props: DrawerContentComponentProps) => {
             title="Mon Compte"
             accessoryLeft={PersonIcon}
           />
-          {/* On utilise un fragment pour garder les mêmes index de row */}
-          {window.width > 780 ? (
+          {window.width > 780 && (
             <DrawerItem
               title="Mes Charges"
               accessoryLeft={ChargeIcon}
             />
-          ) : <></>}
+          )}
           <DrawerItem
             title="Mes Biens"
             accessoryLeft={HomeIcon}
@@ -237,6 +261,31 @@ const CustomDrawer = (props: DrawerContentComponentProps) => {
           <DrawerItem
             title="Notifications"
             accessoryLeft={BellIcon}
+            accessoryRight={() => {
+              if (countNotification > 0) {
+                return (
+                  <View style={{
+                    width: 20,
+                    height: 20,
+                    borderRadius: 10,
+                    backgroundColor: theme['color-danger-600'],
+                  }}
+                  >
+                    <Text
+                      category="c1"
+                      appearance="alternative"
+                      style={{
+                        lineHeight: 20,
+                        textAlign: 'center',
+                      }}
+                    >
+                      {countNotification}
+                    </Text>
+                  </View>
+                );
+              }
+              return (<></>);
+            }}
           />
           <DrawerItem
             title="FAQ"
@@ -245,6 +294,10 @@ const CustomDrawer = (props: DrawerContentComponentProps) => {
           <DrawerItem
             title="Contact"
             accessoryLeft={EmailIcon}
+          />
+          <DrawerItem
+            title="Légal"
+            accessoryLeft={CadenaIcon}
           />
         </Drawer>
       </Layout>

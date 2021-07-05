@@ -7,7 +7,7 @@ export const CUSTOM_THEME = {
   backgroundColor: '#ffffff',
   onBackgroundTextColor: '#000000',
   fontSize: 16,
-  fontFamily: 'HouschkaRoundedMedium',
+  fontFamily: 'confortaa_Medium',
   filterPlaceholderTextColor: '#aaa',
   activeOpacity: 0.7,
   itemHeight: 51,

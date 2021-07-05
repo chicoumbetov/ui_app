@@ -1,0 +1,17 @@
+{
+  "extends": "../../../../../amplify-rules/tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+        "/opt/nodejs/*": [
+          "../../omedomBudgetInsightLayer/lib/nodejs/*",
+          "../../omedomGraphQLLayer/lib/nodejs/*"
+        ],
+        "*" : [
+          "*",
+          "../../omedomGraphQLLayer/lib/nodejs/node_modules/*",
+          "../../omedomBudgetInsightLayer/lib/nodejs/node_modules/*"
+        ]
+    }
+  }
+}

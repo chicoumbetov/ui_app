@@ -34,7 +34,9 @@ const i18n : I18nConfig = {
 };
 const localeDateService = new NativeDateService('ru', { i18n, startDayOfWeek: 1 });
 
-const DatepickerComp = React.forwardRef<Datepicker, DatePickerFormProps>(
+const DatepickerComp = React.forwardRef<
+Datepicker, DatePickerFormProps
+>(
   (props: DatePickerFormProps, ref): React.ReactElement => {
     const {
       label,
@@ -63,11 +65,9 @@ const DatepickerComp = React.forwardRef<Datepicker, DatePickerFormProps>(
     );
 
     return (
-      <View style={[styles.container, containerStyle, labelBefore ? { flexDirection: 'row', alignItems: 'center' } : {}]}>
+      <View style={[styles.container, containerStyle, labelBefore ? { flexDirection: 'column', alignItems: 'flex-start' } : {}]}>
         {labelBefore && (
-        <View style={{ marginRight: 20 }}>
-          <Text category="label">{label}</Text>
-        </View>
+          <Text category="label" style={{ flex: 1, marginBottom: 5, marginRight: labelBefore ? 10 : 0 }}>{label}</Text>
         )}
         <Datepicker
           label={labelBefore ? undefined : label}
@@ -79,6 +79,7 @@ const DatepickerComp = React.forwardRef<Datepicker, DatePickerFormProps>(
           dateService={localeDateService}
           placeholder={placeholder}
           controlStyle={{
+            width: '100%',
             shadowColor: 'rgba(190, 190, 190, 0.5)',
             shadowOffset: {
               width: 0,
@@ -87,6 +88,7 @@ const DatepickerComp = React.forwardRef<Datepicker, DatePickerFormProps>(
             shadowRadius: 2,
             shadowOpacity: 1,
             elevation: 2,
+
           }}
           min={new Date(1900, 0, 1)}
           size="medium"
@@ -114,8 +116,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginVertical: 8,
-    flexDirection: 'row',
+    flexDirection: 'column',
     marginBottom: 20,
+    // justifyContent: 'space-between',
   },
   input: {
     flex: 1,

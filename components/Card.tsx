@@ -47,7 +47,6 @@ const baseStyle = StyleSheet.create({
   component: {
     flexDirection: 'column',
     padding: 15,
-    paddingBottom: 20,
     borderRadius: 10,
     shadowColor: 'rgba(190, 190, 190, 0.5)',
     shadowOffset: {

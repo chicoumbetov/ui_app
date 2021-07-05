@@ -2,29 +2,33 @@ import gql from 'graphql-tag';
 import { useMutation, useQuery } from 'react-apollo';
 import { DocumentNode } from 'apollo-link';
 
-import { useEffect } from 'react';
+import { WatchQueryFetchPolicy } from 'apollo-client/core/watchQueryOptions';
 import {
+  Address,
   BudgetLineType,
   CompanyType,
   CreateRealEstateMutation,
   CreateRealEstateMutationVariables,
-  DeleteRealEstateMutation, DeleteRealEstateMutationVariables,
+  DeleteRealEstateMutation,
+  DeleteRealEstateMutationVariables,
   Frequency,
-  GetRealEstateQueryVariables,
+  GetRealEstateQueryVariables, InvitationType,
   ListRealEstatesQuery,
   ListRealEstatesQueryVariables,
-  OnCreateRealEstateSubscription,
-  OnCreateRealEstateSubscriptionVariables,
+  ModelBankMovementConnection,
+  ModelBudgetLineConnection,
+  ModelBudgetLineDeadlineConnection,
+  ModelDocumentConnection,
+  ModelPendingInvitationConnection,
+  ModelRealEstateBankAccountConnection,
   RealEstate,
   RealEstateType,
   TaxType,
+  TenantInfo,
   UpdateRealEstateMutation,
   UpdateRealEstateMutationVariables,
 } from '../API';
-import { listRealEstates } from '../graphql/queries';
 import * as mutations from '../graphql/mutations';
-import * as subscriptions from '../graphql/subscriptions';
-import { useUser } from './UserContext';
 
 export type RealEstateItem = {
   __typename: 'RealEstate',
@@ -36,153 +40,25 @@ export type RealEstateItem = {
   ownName?: boolean | null,
   company?: CompanyType | null,
   detentionPart?: number | null,
-  budgetLines?: {
-    __typename: 'ModelBudgetLineConnection',
-    nextToken?: string | null,
-    startedAt?: number | null,
-  } | null,
-  documents?: {
-    __typename: 'ModelDocumentConnection',
-    nextToken?: string | null,
-    startedAt?: number | null,
-  } | null,
+  typeImpot?: TaxType | null,
+  purchasePrice?: number| null,
+  notaryFee?: number| null,
+  budgetLines?: ModelBudgetLineConnection | null,
+  bankMovements?: ModelBankMovementConnection | null,
+  budgetLineDeadlines?: ModelBudgetLineDeadlineConnection | null,
+  documents?: ModelDocumentConnection | null,
   admins: Array< string >,
   shared?: Array< string > | null,
-  pendingInvitations?: Array< string > | null,
-  address?: {
-    __typename: 'Address',
-    address: string,
-    additionalAddress?: string | null,
-    postalCode: string,
-    city: string,
-    country: string,
-  } | null,
-  tenants?: Array< {
-    __typename: 'TenantInfo',
-    amount: number,
-    rentalCharges?: number | null,
-    managementFees?: number | null,
-    lastname: string,
-    firstname: string,
-    email: string,
-    startDate: string,
-    endDate?: string | null,
-  } | null > | null,
-  bankAccounts?: {
-    __typename: 'ModelRealEstateBankAccountConnection',
-    nextToken?: string | null,
-    startedAt?: number | null,
-  } | null,
+  pendingInvitations?: ModelPendingInvitationConnection | null,
+  address?: Address | null,
+  tenants?: Array<TenantInfo | null > | null,
+  bankAccounts?: ModelRealEstateBankAccountConnection | null,
   _version: number,
   _deleted?: boolean | null,
   _lastChangedAt: number,
   createdAt: string,
   updatedAt: string,
 };
-
-export const getRealEstate = /* GraphQL */ `
-  query GetRealEstate($id: ID!) {
-    getRealEstate(id: $id) {
-      id
-      name
-      iconUri
-      purchaseYear
-      type
-      ownName
-      company
-      detentionPart
-      typeImpot
-      budgetLines {
-        items {
-          id
-          realEstateId
-          type
-          category
-          amount
-          frequency
-          nextDueDate
-          tenantId
-          infoCredit {
-            borrowedCapital
-            loadStartDate
-            duration
-            interestRate
-            assuranceRate
-            amortizationTable {
-              dueDate
-              amount
-              interest
-              assurance
-              amortizedCapital
-            }
-          }
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-        }
-        nextToken
-        startedAt
-      }
-      documents {
-        items {
-          id
-          realEstateId
-          name
-          s3file
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-        }
-        nextToken
-        startedAt
-      }
-      admins
-      shared
-      pendingInvitations
-      address {
-        address
-        additionalAddress
-        postalCode
-        city
-        country
-      }
-      tenants {
-        id
-        amount
-        rentalCharges
-        managementFees
-        lastname
-        firstname
-        email
-        startDate
-        endDate
-      }
-      bankAccounts {
-        items {
-          id
-          realEstateId
-          bankAccountId
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-        }
-        nextToken
-        startedAt
-      }
-      _version
-      _deleted
-      _lastChangedAt
-      createdAt
-      updatedAt
-    }
-  }
-`;
 
 export type GetRealEstateQuery = {
   getRealEstate?: {
@@ -196,6 +72,8 @@ export type GetRealEstateQuery = {
     company?: CompanyType | null,
     detentionPart?: number | null,
     typeImpot?: TaxType | null,
+    purchasePrice?: number| null,
+    notaryFee?: number| null,
     budgetLines?: {
       __typename: 'ModelBudgetLineConnection',
       items?: Array< {
@@ -205,12 +83,14 @@ export type GetRealEstateQuery = {
         type: BudgetLineType,
         category: string,
         amount: number,
+        rentalCharges?: number | null,
+        managementFees?: number | null,
         frequency: Frequency,
         nextDueDate?: string | null,
         infoCredit?: {
           __typename: 'MortgageLoanInfo',
           borrowedCapital: number,
-          loadStartDate?: string | null,
+          loanStartDate?: string | null,
           duration?: number | null,
           interestRate?: number | null,
           assuranceRate?: number | null,
@@ -252,7 +132,44 @@ export type GetRealEstateQuery = {
     } | null,
     admins: Array< string >,
     shared?: Array< string > | null,
-    pendingInvitations?: Array< string > | null,
+    pendingInvitations?: {
+      __typename: 'ModelPendingInvitationConnection',
+      items?: Array< {
+        __typename: 'PendingInvitation',
+        id: string,
+        realEstateId: string,
+        email: string,
+        type: InvitationType,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+        createdAt: string,
+        updatedAt: string,
+        realEstate?: {
+          __typename: 'RealEstate',
+          id: string,
+          name: string,
+          iconUri: string,
+          purchaseYear?: number | null,
+          type?: RealEstateType | null,
+          ownName?: boolean | null,
+          company?: CompanyType | null,
+          detentionPart?: number | null,
+          typeImpot?: TaxType | null,
+          purchasePrice?: number| null,
+          notaryFee?: number| null,
+          admins: Array< string >,
+          shared?: Array< string > | null,
+          _version: number,
+          _deleted?: boolean | null,
+          _lastChangedAt: number,
+          createdAt: string,
+          updatedAt: string,
+        } | null,
+      } | null > | null,
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
     address?: {
       __typename: 'Address',
       address: string,
@@ -265,8 +182,6 @@ export type GetRealEstateQuery = {
       __typename: 'TenantInfo',
       id: string,
       amount: number,
-      rentalCharges?: number | null,
-      managementFees?: number | null,
       lastname: string,
       firstname: string,
       email: string,
@@ -297,34 +212,455 @@ export type GetRealEstateQuery = {
   } | null,
 };
 
-const listRealEstatesQuery = <DocumentNode>gql(listRealEstates);
+export const getRealEstateQuery = <DocumentNode>gql(`
+  query GetRealEstate($id: ID!) {
+    getRealEstate(id: $id) {
+      id
+      name
+      iconUri
+      purchaseYear
+      type
+      ownName
+      company
+      detentionPart
+      typeImpot
+      purchasePrice
+      notaryFee
+      admins
+      shared
+      address {
+        address
+        additionalAddress
+        postalCode
+        city
+        country
+      }
+      tenants {
+        id
+        amount
+        lastname
+        firstname
+        email
+        startDate
+        endDate
+      }
+      _version
+      _deleted
+      _lastChangedAt
+      createdAt
+      updatedAt
+      pendingInvitations {
+        items {
+          id
+          realEstateId
+          email
+          type
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+        nextToken
+        startedAt
+      }
+      documents(sortDirection: DESC) {
+        items {
+          id
+          realEstateId
+          name
+          key
+          s3file
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+        nextToken
+        startedAt
+      }
+      budgetLines {
+        items {
+          id
+          realEstateId
+          type
+          category
+          amount
+          rentalCharges
+          managementFees
+          frequency
+          nextDueDate
+          infoCredit {
+            borrowedCapital
+            loanStartDate
+            duration
+            interestRate
+            assuranceRate
+            amortizationTable {
+              dueDate
+              amount
+              interest
+              assurance
+              amortizedCapital
+            }
+          }
+          tenantId
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+        nextToken
+        startedAt
+      }
+      budgetLineDeadlines {
+        items {
+          id
+          realEstateId
+          bankMouvementId
+          budgetLineId
+          type
+          category
+          amount
+          rentalCharges
+          managementFees
+          frequency
+          date
+          infoCredit {
+            amount
+            interest
+            assurance
+          }
+          tenantId
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+          bankMouvement {
+            id
+            bankAccountId
+            realEstateId
+            biId
+            description
+            amount
+            ignored
+            date
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
+        }
+        nextToken
+        startedAt
+      }
+      bankAccounts {
+        items {
+          id
+          realEstateId
+          bankAccountId
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+          bankAccount {
+            id
+            bank
+            accountOwner
+            name
+            iban
+            bic
+            balance
+            biId
+            biConnectionId
+            biState
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
+        }
+        nextToken
+        startedAt
+      }
+      bankMovements(sortDirection: DESC) {
+        items {
+          id
+          bankAccountId
+          realEstateId
+          biId
+          description
+          amount
+          ignored
+          date
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+        nextToken
+        startedAt
+      }
+    }
+  }`);
 
-export function useRealEstateList() {
+const listRealEstatesQuery = <DocumentNode>gql(`query ListRealEstates(
+    $filter: ModelRealEstateFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listRealEstates(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        name
+        iconUri
+        purchaseYear
+        type
+        ownName
+        company
+        detentionPart
+        typeImpot
+        purchasePrice
+        notaryFee
+        admins
+        shared
+        address {
+          address
+          additionalAddress
+          postalCode
+          city
+          country
+        }
+        tenants {
+          id
+          amount
+          lastname
+          firstname
+          email
+          startDate
+          endDate
+        }
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+        pendingInvitations {
+          items {
+            id
+            realEstateId
+            email
+            type
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
+          nextToken
+          startedAt
+        }
+        documents(sortDirection: DESC) {
+          items {
+            id
+            realEstateId
+            name
+            key
+            s3file
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
+          nextToken
+          startedAt
+        }
+        budgetLines(sortDirection: ASC) {
+          items {
+            id
+            realEstateId
+            type
+            category
+            amount
+            rentalCharges
+            managementFees
+            frequency
+            nextDueDate
+            infoCredit {
+              borrowedCapital
+              loanStartDate
+              duration
+              interestRate
+              assuranceRate
+            }
+            tenantId
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
+          nextToken
+          startedAt
+        }
+        budgetLineDeadlines(sortDirection: DESC) {
+          items {
+            id
+            realEstateId
+            bankMouvementId
+            budgetLineId
+            type
+            category
+            amount
+            rentalCharges
+            managementFees
+            frequency
+            date
+            infoCredit {
+              amount
+              interest
+              assurance
+            }
+            tenantId
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+            bankMouvement {
+              id
+              bankAccountId
+              realEstateId
+              biId
+              description
+              amount
+              ignored
+              date
+              _version
+              _deleted
+              _lastChangedAt
+              createdAt
+              updatedAt
+            }
+          }
+          nextToken
+          startedAt
+        }
+        bankAccounts {
+          items {
+            id
+            realEstateId
+            bankAccountId
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+            bankAccount {
+              id
+              bank
+              accountOwner
+              name
+              iban
+              bic
+              balance
+              biId
+              biConnectionId
+              biState
+              _version
+              _deleted
+              _lastChangedAt
+              createdAt
+              updatedAt
+            }
+          }
+          nextToken
+          startedAt
+        }
+        bankMovements(sortDirection: DESC) {
+          items {
+            id
+            bankAccountId
+            realEstateId
+            biId
+            description
+            amount
+            ignored
+            date
+            _version
+            _deleted
+            _lastChangedAt
+            createdAt
+            updatedAt
+          }
+          nextToken
+          startedAt
+        }
+      }
+      nextToken
+      startedAt
+    }
+  }
+`);
+
+export function useRealEstateList(fetchPolicy: WatchQueryFetchPolicy = 'cache-first') {
   const {
-    loading, data, fetchMore, refetch, subscribeToMore,
-  } = useQuery<ListRealEstatesQuery, ListRealEstatesQueryVariables>(listRealEstatesQuery);
-  const { user } = useUser();
+    loading, data, fetchMore, refetch,
+  } = useQuery<ListRealEstatesQuery, ListRealEstatesQueryVariables>(listRealEstatesQuery, {
+    fetchPolicy,
+  });
+  /* const { user } = useUser();
 
   useEffect(() => {
     let unsubscribe = () => {};
     if (user?.id) {
-      unsubscribe = subscribeToMore<OnCreateRealEstateSubscription,
+      const subscribe = () => subscribeToMore<OnCreateRealEstateSubscription,
       OnCreateRealEstateSubscriptionVariables>({
         document: gql(subscriptions.onCreateRealEstate),
         variables: {
           admins: user?.id,
         },
-        updateQuery: (prev, { subscriptionData }) => {
+        fetchPolicy: 'cache-and-network',
+        /* updateQuery: (prev, { subscriptionData }) => {
           console.log(prev);
           console.log(subscriptionData);
-        },
+        }, *
       });
+      unsubscribe = subscribe();
     }
     return () => {
       unsubscribe();
     };
   }, [user]);
-
+  useEffect(() => {
+    let unsubscribe = () => {};
+    if (user?.id) {
+      const subscribe = () => subscribeToMore<OnUpdateRealEstateSubscription,
+      OnUpdateRealEstateSubscriptionVariables>({
+        document: gql(subscriptions.onUpdateRealEstate),
+        variables: {
+          admins: user?.id,
+        },
+        fetchPolicy: 'cache-and-network',
+        updateQuery: (prev, { subscriptionData }) => {
+          console.log(prev);
+          console.log(subscriptionData);
+        },
+      });
+      unsubscribe = subscribe();
+    }
+    return () => {
+      unsubscribe();
+    };
+  }, [user]); */
   return {
     loading, data, fetchMore, refetch,
   };
@@ -332,7 +668,7 @@ export function useRealEstateList() {
 
 export function useCreateRealEstateMutation() {
   // eslint-disable-next-line @typescript-eslint/no-shadow
-  const [createRealEstate] = useMutation<
+  const [createRealEstate, { loading: mutationLoading }] = useMutation<
   CreateRealEstateMutation,
   CreateRealEstateMutationVariables
   >(gql(mutations.createRealEstate), {
@@ -341,16 +677,21 @@ export function useCreateRealEstateMutation() {
         const { createRealEstate: newData } = mutationData;
         if (newData) {
           // Read query from cache
-          const cacheData = cache.readQuery<ListRealEstatesQuery, ListRealEstatesQueryVariables>({
+          const cacheData = cache.readQuery<
+          ListRealEstatesQuery,
+          ListRealEstatesQueryVariables>({
             query: listRealEstatesQuery,
           });
 
           // Add newly created item to the cache copy
-          if (cacheData && cacheData.listRealEstates && cacheData.listRealEstates.items) {
+          if (cacheData && cacheData.listRealEstates
+              && cacheData.listRealEstates.items) {
             cacheData.listRealEstates.items.push(newData);
 
             // Overwrite the cache with the new results
-            cache.writeQuery<ListRealEstatesQuery, ListRealEstatesQueryVariables>({
+            cache.writeQuery<
+            ListRealEstatesQuery,
+            ListRealEstatesQueryVariables>({
               query: listRealEstatesQuery,
               data: cacheData,
             });
@@ -359,13 +700,12 @@ export function useCreateRealEstateMutation() {
       }
     },
   });
-  return createRealEstate;
+  return { createRealEstate, mutationLoading };
 }
 
 export function useUpdateRealEstateMutation() {
-  const getRealEstatesQuery = <DocumentNode>gql(getRealEstate);
   // eslint-disable-next-line @typescript-eslint/no-shadow
-  const [updateRealEstate] = useMutation<UpdateRealEstateMutation,
+  const [updateRealEstate, { loading: mutationLoading }] = useMutation<UpdateRealEstateMutation,
   UpdateRealEstateMutationVariables>(gql(mutations.updateRealEstate), {
     update: (cache, { data: mutationData }) => {
       if (mutationData) {
@@ -373,7 +713,7 @@ export function useUpdateRealEstateMutation() {
         if (newData) {
           // Read query from cache
           const cacheData = cache.readQuery<GetRealEstateQuery, GetRealEstateQueryVariables>({
-            query: getRealEstatesQuery,
+            query: getRealEstateQuery,
             variables: {
               id: newData.id,
             },
@@ -385,7 +725,7 @@ export function useUpdateRealEstateMutation() {
 
             // Overwrite the cache with the new results
             cache.writeQuery<GetRealEstateQuery, GetRealEstateQueryVariables>({
-              query: getRealEstatesQuery,
+              query: getRealEstateQuery,
               variables: {
                 id: newData.id,
               },
@@ -396,22 +736,21 @@ export function useUpdateRealEstateMutation() {
       }
     },
   });
-  return updateRealEstate;
+  return { updateRealEstate, mutationLoading };
 }
 
-export function useGetRealEstate(id: string) {
-  const getRealEstatesQuery = <DocumentNode>gql(getRealEstate);
+export function useGetRealEstate(id: string, fetchPolicy: WatchQueryFetchPolicy = 'cache-first') {
   const {
     loading, data, fetchMore, refetch,
-  } = useQuery<GetRealEstateQuery, GetRealEstateQueryVariables>(getRealEstatesQuery, {
+  } = useQuery<GetRealEstateQuery, GetRealEstateQueryVariables>(getRealEstateQuery, {
     variables: {
       id,
     },
-    fetchPolicy: 'cache-and-network',
+    fetchPolicy,
   });
 
   return {
-    loading, bien: <RealEstate>data?.getRealEstate, fetchMore, refetch,
+    loading, bienget: <RealEstate>data?.getRealEstate, fetchMore, refetch,
   };
 }
 

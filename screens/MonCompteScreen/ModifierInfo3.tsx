@@ -4,15 +4,15 @@ import {
   StyleSheet, TouchableOpacity, View,
 } from 'react-native';
 import {
-  Button, Layout, Modal, Text,
+  Button, Modal, Text,
 } from '@ui-kitten/components';
-import { useLinkTo, useNavigation, useRoute } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
 import { RouteProp } from '@react-navigation/core/lib/typescript/src/types';
 import { ImagePickerResult } from 'expo-image-picker';
 import MaxWidthContainer from '../../components/MaxWidthContainer';
 
-import ManAvatar from '../../assets/Omedom_Icons_svg/Avatars/manAvatar.svg';
+import ManAvatar from '../../assets/Omedom_Icons_svg/Avatars/manAvatarWait.svg';
 import WomanAvatar from '../../assets/Omedom_Icons_svg/Avatars/womanAvatar.svg';
 import { TabMonCompteParamList } from '../../types';
 import AutoAvatar from '../../components/AutoAvatar';
@@ -23,7 +23,7 @@ import { CameraOutput } from '../../components/Camera/Camera';
 
 const Informations = () => {
   const [camera, setCamera] = React.useState(false);
-  const { updateUser, user } = useUser();
+  const { updateUser, user, userIsCreating } = useUser();
   const [avatarImage, setAvatarImage] = useState(user?.avatarUri || 'default::ManAvatar');
   const [selectedNewImage, setSelectedNewImage] = useState<
   ImagePickerResult |
@@ -36,26 +36,29 @@ const Informations = () => {
   const navigation = useNavigation();
 
   const onPress = async () => {
-    if (updateUser) {
+    if (updateUser && user) {
       let avatarUri = avatarImage;
-      const toDelete = user && user.avatarUri && user.avatarUri.indexOf('default::') > -1
-        ? undefined
-        : user?.avatarUri;
-      if (toDelete) {
-        await Delete(toDelete);
-      }
-      if (selectedNewImage) {
-        const upload = await Upload(selectedNewImage, `user/${user?.id}/`);
-        if (upload !== false) {
-          avatarUri = upload.key;
+      if (avatarUri !== user.avatarUri) {
+        const toDelete = user.avatarUri && user.avatarUri.indexOf('default::') > -1
+          ? undefined
+          : user?.avatarUri;
+        if (toDelete) {
+          await Delete(toDelete);
         }
+        if (selectedNewImage) {
+          const upload = await Upload(selectedNewImage, `user/${user?.id}/`);
+          if (upload !== false) {
+            avatarUri = upload.key;
+          }
+        }
+
+        await updateUser({
+          avatarUri,
+        });
       }
-
-      await updateUser({
-        avatarUri,
-      });
-
-      navigation.navigate('mon-compte');
+      if (!userIsCreating) {
+        navigation.navigate('mon-compte');
+      }
     }
   };
 
@@ -92,10 +95,10 @@ const Informations = () => {
       }}
     >
 
-      <Text category="h1" style={styles.title}>{route.params?.signUp ? 'Finalisez votre inscription' : 'Modifier vos informations'}</Text>
-      <Text category="h2">Changer votre photo de profil</Text>
-      <Layout style={{
-        alignItems: 'center', backgroundColor: 'transparent', marginVertical: 45, marginTop: 8,
+      <Text category="h2" style={styles.title}>{route.params?.signUp ? 'Finalisez votre inscription' : 'Modifier vos informations'}</Text>
+      <Text category="h3" style={{ marginBottom: 30 }}>Changer votre photo de profil !</Text>
+      <View style={{
+        alignItems: 'center', marginVertical: 40, marginTop: 8,
       }}
       >
         <AutoAvatar
@@ -104,12 +107,12 @@ const Informations = () => {
           }}
           avatarInfo={avatarImage}
         />
-      </Layout>
+      </View>
 
       <Text category="h5" appearance="hint">Choisir une icone</Text>
 
-      <Layout style={{
-        flexDirection: 'row', marginTop: 21, justifyContent: 'space-around', alignItems: 'center', backgroundColor: 'transparent',
+      <View style={{
+        flexDirection: 'row', marginTop: 21, justifyContent: 'space-around', alignItems: 'center',
       }}
       >
         <TouchableOpacity onPress={() => {
@@ -127,20 +130,20 @@ const Informations = () => {
           <WomanAvatar height={50} width={50} />
         </TouchableOpacity>
 
-      </Layout>
+      </View>
 
       {Platform.OS !== 'web' && (
       <TouchableOpacity
         onPress={() => {
           onTakePicture();
         }}
-        style={{ marginVertical: 39 }}
+        style={{ marginVertical: 30 }}
       >
         <Text category="h5" status="info">Prendre une photo</Text>
       </TouchableOpacity>
       )}
 
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: 1 }}>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: 20 }}>
         <TouchableOpacity onPress={() => { pickImage(); }}>
           <Text category="h5" status="info">Ajouter une photo</Text>
         </TouchableOpacity>
@@ -154,7 +157,7 @@ const Informations = () => {
       </View>
 
       <View style={{
-        flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginVertical: 36,
+        flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginVertical: 25,
       }}
       >
         <TouchableOpacity
@@ -183,6 +186,7 @@ const Informations = () => {
           onClose={() => {
             setCamera(false);
           }}
+          maxWidth={300}
           onChoose={(result) => {
             if (result) {
               setAvatarImage(result.uri);

@@ -8,7 +8,7 @@ import {
 import { useNavigation, useRoute } from '@react-navigation/native';
 
 import { useForm } from 'react-hook-form';
-import { Auth } from 'aws-amplify';
+import Auth from '@aws-amplify/auth';
 import { RouteProp } from '@react-navigation/core/lib/typescript/src/types';
 import MaxWidthContainer from '../../../components/MaxWidthContainer';
 import TextInput from '../../../components/Form/TextInput';
@@ -38,18 +38,18 @@ type ModifierCharacteristiquesForm = {
 const Informations = () => {
   const modifierCharacteristiquesForm = useForm<ModifierCharacteristiquesForm>();
   const route = useRoute<RouteProp<TabMesBiensParamList, 'detail-bien'>>();
-  const navigation = useNavigation();
+  // const navigation = useNavigation();
 
   const updateRealEstate = useUpdateRealEstateMutation();
   const onPress = async (data: ModifierCharacteristiquesForm) => {
-    console.log('characteristiques data: ', data);
+    // console.log('characteristiques data: ', data);
 
     const user = await Auth.currentAuthenticatedUser();
     const {
       address, city, additionalAddress, country, postalCode, type, purchaseYear, ...rest
     } = data;
 
-    await updateRealEstate({
+    await updateRealEstate.updateRealEstate({
       variables: {
         input: {
           id: route.params.id,

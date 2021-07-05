@@ -8,20 +8,40 @@ import moment from 'moment';
 
 import { useLinkTo, useNavigation, useRoute } from '@react-navigation/native';
 import { RouteProp } from '@react-navigation/core/lib/typescript/src/types';
+import _ from 'lodash';
 import Card from '../../../components/Card';
-import { BudgetLine } from '../../../src/API';
+import { BudgetLine, BudgetLineType, RealEstate } from '../../../src/API';
 import MaxWidthContainer from '../../../components/MaxWidthContainer';
 import { TabMesBiensParamList } from '../../../types';
 import { useDeleteBudgetLineMutation } from '../../../src/API/BudgetLine';
+import ReadOnly from '../../../components/ReadOnly';
+import {
+  typeAssurance,
+  typeCharge,
+  typeImpots,
+  typeRevenu,
+  typeDivers,
+  typeBanque,
+} from '../../../mockData/ajoutRevenuData';
 
-type MonBudgetProps = { budget: BudgetLine };
+type MonBudgetProps = { budget: BudgetLine, realEstate: RealEstate };
+
+const allPossibleTypes = {};
+_.merge(allPossibleTypes, typeCharge,
+  typeImpots,
+  typeRevenu,
+  typeAssurance, typeDivers, typeBanque);
 
 const MonBudgetCard = (props: MonBudgetProps) => {
-  const { budget } = props;
+  const { budget, realEstate } = props;
   const theme = useTheme();
   const linkTo = useLinkTo();
-
+  // console.log('realEstate', realEstate);
   const deleteBudgetLine = useDeleteBudgetLineMutation();
+  console.log(budget.category);
+  const labelBudget = budget.category ? allPossibleTypes[budget.category].label : '';
+
+  const tenant = realEstate.tenants?.filter((item) => item?.id === budget.tenantId);
 
   const allerTresorie = () => {
     linkTo('/ma-tresorerie');
@@ -36,9 +56,6 @@ const MonBudgetCard = (props: MonBudgetProps) => {
       case 'monthly':
         setFrequence('Mensuel');
         break;
-      case 'fortnightly':
-        setFrequence('Bimensuel');
-        break;
       case 'quarterly':
         setFrequence('Trimestrielle');
         break;
@@ -50,9 +67,16 @@ const MonBudgetCard = (props: MonBudgetProps) => {
 
   const navigation = useNavigation();
   const route = useRoute<RouteProp<TabMesBiensParamList, 'mon-budget'>>();
+
   const allerModifierRevenu = () => {
     navigation.navigate('modifier-revenu', { idBudgetLine: budget.id, id: route.params.id });
   };
+
+  const allerModifierCharge = () => {
+    navigation.navigate('modifier-charge', { idBudgetLine: budget.id, id: route.params.id });
+  };
+
+  const readOnly = ReadOnly.readOnly(route.params.id);
 
   const supprimerLeRevenue = async () => {
     Alert.alert(
@@ -69,6 +93,7 @@ const MonBudgetCard = (props: MonBudgetProps) => {
             variables: {
               input: {
                 id: budget.id,
+                // eslint-disable-next-line no-underscore-dangle
                 _version: budget._version,
               },
             },
@@ -91,7 +116,7 @@ const MonBudgetCard = (props: MonBudgetProps) => {
       >
         <View style={{
           flex: 1,
-          justifyContent: 'space-evenly',
+          justifyContent: 'center',
           // width: 93,
           paddingRight: 20,
           borderRightColor: theme['text-hint-color'],
@@ -99,9 +124,15 @@ const MonBudgetCard = (props: MonBudgetProps) => {
         }}
         >
           <Text category="h3" style={{ justifyContent: 'center', flexWrap: 'wrap' }}>
-            {`${budget.category}`}
+            {`${labelBudget}`}
           </Text>
-          <Text category="c1" status="success">{`+ ${budget.amount} €`}</Text>
+          <Text category="c1" status={budget.type === BudgetLineType.Income ? ('success') : ('danger')}>{`${budget.type === BudgetLineType.Income ? ('+') : ('')} ${budget.amount} €`}</Text>
+          {budget.tenantId && tenant !== undefined && (
+          <Text category="c1" appearance="hint">
+            {tenant[0]?.lastname || 'pas de locataire'}
+          </Text>
+          )}
+
         </View>
 
         <View style={{
@@ -118,7 +149,7 @@ const MonBudgetCard = (props: MonBudgetProps) => {
             Echéance
           </Text>
           <Text category="c1" status="basic" style={{ marginLeft: 15 }}>
-            {`${moment(budget.nextDueDate).format('L')}`}
+            {`${moment(budget.nextDueDate).format('DD/MM/YYYY')}`}
           </Text>
         </View>
         <View style={{
@@ -143,19 +174,26 @@ const MonBudgetCard = (props: MonBudgetProps) => {
           />
         </View>
       </Card>
-
+      {!readOnly && (
       <View style={styles.button}>
-        <TouchableOpacity onPress={() => allerModifierRevenu()}>
+        <TouchableOpacity onPress={
+          () => {
+            budget.type === BudgetLineType.Income
+              ? (allerModifierRevenu()) : (allerModifierCharge());
+          }
+        }
+        >
           <Layout style={styles.button}>
             <Text category="h6" status="info" style={styles.buttonTextLeft}>Modifier</Text>
           </Layout>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => supprimerLeRevenue()}>
+        <TouchableOpacity onPress={() => { supprimerLeRevenue(); }}>
           <Layout style={styles.button}>
             <Text category="h6" status="basic">Supprimer</Text>
           </Layout>
         </TouchableOpacity>
       </View>
+      )}
     </MaxWidthContainer>
   );
 };

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {
-  View, TextInput, Pressable,
+  View, TextInput, Pressable, Platform,
 } from 'react-native';
 import { useState } from 'react';
 import {
@@ -62,6 +62,7 @@ const DigitsInput = React.forwardRef<TextInput, DigitsInputFormProps>(
 
     const handleOnBlur = () => {
       setContainerIsFocused(false);
+      safeRef?.current?.blur();
     };
 
     return (
@@ -90,12 +91,13 @@ const DigitsInput = React.forwardRef<TextInput, DigitsInputFormProps>(
           ref={safeRef}
           value={inputValue}
           onChangeText={(text) => {
-            setInputValue(text);
+            const trimText = text.replace(/[^0-9]/g, '');
+            setInputValue(trimText);
             if (onChangeValue) {
-              onChangeValue(text);
+              onChangeValue(trimText);
             }
           }}
-          keyboardType="number-pad"
+          keyboardType={Platform.OS === 'android' ? 'numeric' : 'number-pad'}
           returnKeyType="done"
           textContentType="oneTimeCode"
           maxLength={numberOfDigits}
@@ -125,9 +127,9 @@ const themedStyles = StyleService.create({
     marginVertical: 8,
   },
   hiddenCodeInput: {
-    position: 'absolute',
-    height: 0,
-    width: 0,
+    marginTop: -1,
+    height: 1,
+    width: 1,
     opacity: 0,
   },
 

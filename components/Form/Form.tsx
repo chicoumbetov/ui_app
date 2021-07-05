@@ -5,7 +5,7 @@
  */
 import * as React from 'react';
 import {
-  FormState, UseFormGetValues,
+  FormState, UseFormGetValues, UseFormUnregister,
 } from 'react-hook-form';
 import _ from 'lodash';
 import { UseFormRegister, UseFormSetValue } from 'react-hook-form/dist/types/form';
@@ -14,10 +14,12 @@ import { composeValidationRules, ValidationRuleConfig } from './validation';
 import { useUpdateEffect } from '../../utils/CustomHooks';
 import { PossibleFields } from './types';
 import { Nullable } from '../../utils/typeHelpers';
+import { getPaths } from '../../utils/ObjectHelper';
 
 interface Props<T> {
   children: React.ReactElement;
   register: UseFormRegister<T>;
+  unregister: UseFormUnregister<T>;
   formState: FormState<T>;
   setValue: UseFormSetValue<T>;
   getValues: UseFormGetValues<T>;
@@ -26,6 +28,7 @@ interface Props<T> {
 
 export default function Form<T>({
   register,
+  unregister,
   formState,
   setValue,
   getValues,
@@ -34,6 +37,7 @@ export default function Form<T>({
 }: Props<T>): JSX.Element {
   const Inputs = React.useRef<PossibleFields[]>([]);
   const defaultValuesRef = React.useRef(defaultValues);
+  const listRegisteredNamesForCurrentChildren: string[] = [];
 
   if (!isDeepEqual(defaultValuesRef.current, defaultValues)) {
     defaultValuesRef.current = defaultValues;
@@ -47,9 +51,14 @@ export default function Form<T>({
   ) => {
     if (name) {
       register(name, validators ? composeValidationRules(validators, getValues, label) : undefined);
-      const initialValue = _.get(defaultValues, name);
-      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-      initialValue && setInitialValue && setValue(name, initialValue);
+      listRegisteredNamesForCurrentChildren.push(name);
+      if (setInitialValue) {
+        const initialValue = _.get(defaultValues, name);
+        const currentValue = getValues(name);
+        if (initialValue && !currentValue) {
+          setValue(name, initialValue);
+        }
+      }
     }
   };
   /**
@@ -86,10 +95,38 @@ export default function Form<T>({
   useUpdateEffect(() => {
     registerChildren(children);
   }, [register]);
+
+  const getChildrenNames = (innerChildren: React.ReactElement): string[] => {
+    const array = (Array.isArray(innerChildren) ? [...innerChildren] : [innerChildren]).reduce(
+      (arr: string[], child: React.ReactElement) => {
+        if (child?.props?.name && child?.props?.name !== '') {
+          arr.push(child?.props?.name);
+          return arr;
+        } if (child?.props?.children && Array.isArray(child?.props?.children)) {
+          return arr.concat(getChildrenNames(child?.props?.children));
+        } if (child?.props?.children?.props?.name && child?.props?.children?.props?.name !== ''
+        ) {
+          arr.push(child?.props?.children?.props?.name);
+          return arr;
+        } if (Array.isArray(child)) {
+          return arr.concat(getChildrenNames(child));
+        }
+        return arr;
+      },
+      [],
+    );
+    return array;
+  };
+
+  const currentChildrenNames = getChildrenNames(children);
   React.useEffect(() => {
     // lors du premier render on met les valeurs, sinon elles manquent
     registerChildren(children, true);
-  }, [defaultValuesRef.current]);
+    // on verifie si on a pas des vieux champs qu'il faudrait supprimer
+    const currentFields = getPaths(getValues());
+    const anciens = currentFields.filter((x) => !listRegisteredNamesForCurrentChildren.includes(x));
+    unregister(anciens);
+  }, [defaultValuesRef.current, JSON.stringify(currentChildrenNames)]);
   let index = -1;
   let keys = 1;
 

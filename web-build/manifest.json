@@ -1,11 +1,19 @@
 {
-  "background_color": "#000000",
+  "background_color": "#fbfbfb",
   "display": "standalone",
-  "lang": "en",
-  "name": "omedom",
-  "short_name": "omedom",
+  "lang": "fr",
+  "name": "Omedom | L'application qui fait gagner du temps aux propriétaires",
+  "short_name": "Omedom",
   "start_url": "/?utm_source=web_app_manifest",
   "orientation": "portrait",
+  "related_applications": [
+    {
+      "platform": "play",
+      "url": "http://play.google.com/store/apps/details?id=com.djbuch.omedom",
+      "id": "com.djbuch.omedom"
+    }
+  ],
+  "prefer_related_applications": true,
   "icons": [
     {
       "src": "/pwa/chrome-icon/chrome-icon-144.png",

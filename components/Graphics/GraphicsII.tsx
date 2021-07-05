@@ -1,83 +1,282 @@
-import React from 'react';
-import { StyleSheet } from 'react-native';
-import { Layout, Text, useTheme } from '@ui-kitten/components';
-import { VictoryChart, VictoryLine } from 'victory-native';
-import MaxWidthContainer from '../MaxWidthContainer';
+import React, { useMemo, useState } from 'react';
+import { ScrollView, View } from 'react-native';
+import { Text, useTheme } from '@ui-kitten/components';
+import {
+  VictoryAxis, VictoryBar, VictoryChart, VictoryGroup, VictoryLabel, VictoryLine, VictoryScatter,
+} from 'victory-native';
+import moment from 'moment';
+import VisibilitySensor from '@svanboxel/visibility-sensor-react-native';
+import { MotiView } from 'moti';
+import DateUtils from '../../utils/DateUtils';
+import { useListBankMovement } from '../../src/API/BankMouvement';
 
-const GraphicsII = () => {
+type GraphicsIIProps = {
+  dateStart: Date;
+  dateEnd: Date;
+  id: string
+};
+
+const GraphicsII = (props: GraphicsIIProps) => {
+  const { dateStart, dateEnd, id } = props;
+  const start = moment(dateStart).format('YYYY-MM-DD').toString();
+  const end = moment(dateEnd).format('YYYY-MM-DD').toString();
+  // console.log(start, end, id);
+  const listBankMovement = useListBankMovement(id, start, end);
+
+  moment.locale('fr');
+
   const theme = useTheme();
-  return (
-    <MaxWidthContainer outerViewProps={{
-      style: {
-        backgroundColor: '#f6f6f6',
-      },
-    }}
-    >
-      <Layout style={styles.container}>
-        <Layout style={styles.compteSection}>
-          <VictoryChart>
-            <VictoryLine
-              style={{
-                data: { stroke: '#c43a31' },
-                parent: { border: '1px solid #ccc' },
-              }}
-              interpolation="natural"
-              height={283}
-              width={283}
-              data={[
-                { x: 1, y: 2 },
-                { x: 2, y: 3 },
-                { x: 3, y: 5 },
-                { x: 4, y: 4 },
-                { x: 5, y: 7 },
-              ]}
-            />
-          </VictoryChart>
+  const [width, setWidth] = useState(0);
+  const [shown, setShown] = useState(false);
 
-          <Layout style={{ borderBottomWidth: 1, borderBottomColor: '#b5b5b5' }} />
-          <Layout style={{ flexDirection: 'row', marginTop: 10, alignItems: 'center' }}>
-            <Layout style={{
-              backgroundColor: theme['color-info-500'], height: 30, width: 30, borderRadius: 30, marginRight: 10,
-            }}
-            />
-            <Text category="h6" appearance="hint">Total Entrée par mois</Text>
-          </Layout>
-          <Layout style={{ flexDirection: 'row', marginTop: 10, alignItems: 'center' }}>
-            <Layout style={{
-              backgroundColor: theme['color-danger-500'], height: 30, width: 30, borderRadius: 30, marginRight: 10,
-            }}
-            />
-            <Text category="h6" appearance="hint">Total Sorties par mois</Text>
-          </Layout>
-          <Layout style={{ flexDirection: 'row', marginTop: 10, alignItems: 'center' }}>
-            <Layout style={{
-              backgroundColor: theme['color-success-400'], height: 30, width: 30, borderRadius: 30, marginRight: 10,
-            }}
-            />
-            <Text category="h6" appearance="hint">Total Trésorie Cumul</Text>
-          </Layout>
-          <Layout style={{ flexDirection: 'row', marginTop: 10, alignItems: 'center' }}>
-            <Layout style={{
-              backgroundColor: theme['color-warning-500'], height: 30, width: 30, borderRadius: 30, marginRight: 10,
-            }}
-            />
-            <Text category="h6" appearance="hint">Evolution de la trésorerie par mois</Text>
-          </Layout>
-        </Layout>
-      </Layout>
-    </MaxWidthContainer>
+  const bankMovementsLocal = listBankMovement.data?.getRealEstate?.bankMovements?.items;
+
+  // console.log('bankMovements :', bankMovementsLocal);
+
+  // console.log('bankMovements :', listBankMovement.data?.getRealEstate?.bankMovements?.items);
+
+  /** Object with 3 attributes and its key */
+
+  const { evolutionDataMemo } = useMemo(() => {
+    const evolutionData: Array<{
+      moisLabel: string,
+      moisStart: Date,
+      moisEnd: Date,
+      income: number,
+      expense: number,
+      delta: number,
+      cumul: number,
+    }> = [];
+    if (bankMovementsLocal) {
+      let currentMonthDate = new Date(dateStart.getTime());
+      currentMonthDate.setDate(1);
+
+      while (currentMonthDate <= dateEnd) {
+        evolutionData.push({
+          moisLabel: moment(currentMonthDate).format('MMMM YYYY'),
+          moisStart: currentMonthDate,
+          moisEnd: DateUtils.lastDayOfMonthDate(currentMonthDate),
+          income: 0,
+          expense: 0,
+          delta: 0,
+          cumul: 0,
+        });
+        currentMonthDate = new Date(currentMonthDate.getTime());
+        currentMonthDate.setMonth(currentMonthDate.getMonth() + 1);
+      }
+
+      evolutionData.forEach(({ moisStart, moisEnd }, i) => {
+        bankMovementsLocal.forEach((item) => {
+          if (item) {
+            const itemDate = DateUtils.parseToDateObj(item.date);
+            if (itemDate >= moisStart && itemDate <= moisEnd) {
+              evolutionData[i].delta += item.amount;
+              if (item.amount < 0) {
+                evolutionData[i].expense += item.amount;
+              } else {
+                evolutionData[i].income += item.amount;
+              }
+            }
+          }
+        });
+      });
+
+      evolutionData.reduce((cumul, currentData, i) => {
+        evolutionData[i].cumul = cumul + currentData.delta;
+        return cumul + currentData.delta;
+      }, 0);
+    }
+
+    // if we need to use outside of useMemo
+    return {
+      evolutionDataMemo: evolutionData,
+    };
+  }, [bankMovementsLocal]);
+
+  if (evolutionDataMemo.length <= 0) {
+    return (<></>);
+  }
+
+  // console.log('evolutionData', evolutionData);
+
+  const animationDuration = 500;
+
+  return (
+    <View
+      style={{
+        paddingTop: 10,
+        borderRadius: 10,
+      }}
+      onLayout={(event) => {
+        setWidth(Math.max(500, event.nativeEvent.layout.width));
+      }}
+    >
+      <VisibilitySensor onChange={(visible) => {
+        if (visible && !shown) {
+          setShown(true);
+        }
+      }}
+      >
+        <ScrollView horizontal style={{ height: 350 }}>
+          <View style={{ width, height: 350 }}>
+            {shown && (
+            <MotiView transition={{ type: 'timing', duration: animationDuration }} from={{ opacity: 0 }} animate={{ opacity: 1 }}>
+              <VictoryChart
+                height={350}
+                width={width}
+                domainPadding={{ x: 20 }}
+                standalone
+              >
+                <VictoryAxis
+                  crossAxis
+                  standalone
+                  offsetX={50}
+                  style={{
+                    ticks: { stroke: '#b5b5b5', size: 8 },
+                  }}
+                  tickLabelComponent={(
+                    <VictoryLabel
+                      textAnchor="end"
+                      style={{
+                        fontSize: '9px', fill: '#b5b5b5', angle: -45,
+                      }}
+                    />
+                  )}
+                  tickValues={evolutionDataMemo.map(
+                    ({ moisLabel }) => moisLabel,
+                  )}
+                  fixLabelOverlap
+                />
+                <VictoryAxis
+                  dependentAxis
+                  crossAxis
+                  tickLabelComponent={(
+                    <VictoryLabel
+                      style={{ fontSize: '9px', fill: '#b5b5b5' }}
+                    />
+                  )}
+                  style={{
+                    ticks: { stroke: '#b5b5b5', size: 8 },
+                  }}
+                  domainPadding={{ y: 10 }}
+                />
+                <VictoryBar
+                  alignment="start"
+                  cornerRadius={{ top: 8, bottom: 8 }}
+                  barWidth={16}
+                  style={{ data: { fill: theme['color-danger-500'] } }}
+                  data={
+                    evolutionDataMemo.map(
+                      ({ expense, moisLabel }) => ({ x: moisLabel, y: -expense }),
+                    )
+                }
+                />
+                <VictoryBar
+                  // barWidth={10}
+                  alignment="end"
+                  cornerRadius={{ top: 8, bottom: 8 }}
+                  barWidth={16}
+                  style={{ data: { fill: theme['color-info-600'] } }}
+                  data={evolutionDataMemo.map(
+                    ({ income, moisLabel }) => ({ x: moisLabel, y: income }),
+                  )}
+                />
+                <VictoryGroup
+                  data={evolutionDataMemo.map(
+                    ({ cumul, moisLabel }) => ({ x: moisLabel, y: cumul }),
+                  )}
+                >
+                  <VictoryLine
+                    style={{
+                      data: {
+                        stroke: theme['color-warning-500'],
+                      },
+                    }}
+                    interpolation="monotoneX"
+                  />
+                  <VictoryScatter
+                  /**
+                  animate={{
+                    onLoad: {
+                      duration: animationDuration,
+                      before: () => ({ opacity: 0 }),
+                      after: () => ({ opacity: 1 }),
+                    },
+                  }}
+                  */
+                    style={{
+                      data: { fill: '#000000', opacity: ({ datum }) => datum.opacity },
+                    }}
+                  />
+                </VictoryGroup>
+                <VictoryGroup
+                  data={evolutionDataMemo.map(
+                    ({ delta, moisLabel }) => ({ x: moisLabel, y: delta }),
+                  )}
+                >
+                  <VictoryLine
+                    style={{
+                      data: {
+                        stroke: theme['color-success-400'],
+                      },
+                    }}
+                    interpolation="monotoneX"
+                  />
+                  <VictoryScatter
+                  /**
+                  animate={{
+                    onLoad: {
+                      duration: animationDuration,
+                      before: () => ({ opacity: 0 }),
+                      after: () => ({ opacity: 1 }),
+                    },
+                  }}
+                  */
+                    style={{
+                      data: { fill: '#000000', opacity: ({ datum }) => datum.opacity },
+                    }}
+                  />
+                </VictoryGroup>
+              </VictoryChart>
+            </MotiView>
+            )}
+          </View>
+        </ScrollView>
+      </VisibilitySensor>
+
+      <View style={{ marginVertical: 20, borderBottomWidth: 0.5, borderBottomColor: '#b5b5b5' }} />
+      <View style={{ flexDirection: 'row', marginTop: 20, alignItems: 'center' }}>
+        <View style={{
+          backgroundColor: theme['color-info-600'], height: 30, width: 30, borderRadius: 30, marginRight: 10,
+        }}
+        />
+        <Text category="h6" appearance="hint">Total entrées par mois</Text>
+      </View>
+      <View style={{ flexDirection: 'row', marginTop: 20, alignItems: 'center' }}>
+        <View style={{
+          backgroundColor: theme['color-danger-500'], height: 30, width: 30, borderRadius: 30, marginRight: 10,
+        }}
+        />
+        <Text category="h6" appearance="hint">Total sorties par mois</Text>
+      </View>
+      <View style={{ flexDirection: 'row', marginTop: 20, alignItems: 'center' }}>
+        <View style={{
+          backgroundColor: theme['color-success-400'], height: 30, width: 30, borderRadius: 30, marginRight: 10,
+        }}
+        />
+        <Text category="h6" appearance="hint">Evolution de la trésorerie par mois</Text>
+      </View>
+      <View style={{ flexDirection: 'row', marginTop: 20, alignItems: 'center' }}>
+        <View style={{
+          backgroundColor: theme['color-warning-500'], height: 30, width: 30, borderRadius: 30, marginRight: 10,
+        }}
+        />
+        <Text category="h6" appearance="hint">Trésorerie cumulée</Text>
+      </View>
+    </View>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: 'transparent',
-  },
-  compteSection: {
-    paddingTop: 10,
-    padding: 10,
-    borderRadius: 10,
-  },
-});
+// const styles = StyleSheet.create({});
 
 export default GraphicsII;

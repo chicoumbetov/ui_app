@@ -1,0 +1,27 @@
+{
+  "permissions": {
+    "api": {
+      "omedom": [
+        "Query",
+        "Mutation"
+      ]
+    },
+    "function": {
+      "sendNotification": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ]
+    }
+  },
+  "lambdaLayers": [
+    {
+      "type": "ProjectLayer",
+      "resourceName": "omedomGraphQLLayer",
+      "env": "dev",
+      "version": "Always choose latest version",
+      "isLatestVersionSelected": true
+    }
+  ]
+}

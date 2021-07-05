@@ -6,7 +6,8 @@ import React, {
   useState,
 } from 'react';
 
-import { Auth, Hub } from 'aws-amplify';
+import Auth from '@aws-amplify/auth';
+import { Hub } from '@aws-amplify/core';
 import { HubCapsule } from 'aws-amplify-react-native/types';
 import PropTypes from 'prop-types';
 import { useApolloClient, useLazyQuery } from 'react-apollo';
@@ -24,17 +25,16 @@ import {
   UpdateUserMutationVariables,
 } from '../API';
 import * as mutations from '../graphql/mutations';
-import { removeNull } from '../../utils/ObjectHelper';
+import { removeKey, removeNull } from '../../utils/ObjectHelper';
 import { getUser } from '../graphql/queries';
 import { onUpdateUser } from '../graphql/subscriptions';
 
-type SimpleCreateUserInput = Omit<CreateUserInput, 'email' | 'lastname' | 'firstname' | 'phoneNumber' | 'optIn'>;
+type SimpleCreateUserInput = Omit<CreateUserInput, 'lastname' | 'firstname'>;
 type SimpleUpdateUserInput = Omit<UpdateUserInput, 'id'>;
 
 export type UserItem = {
   __typename: 'User',
   id: string,
-  owner?: string | null,
   lastname?: string | null,
   firstname?: string | null,
   avatarUri?: string | null,
@@ -44,18 +44,68 @@ export type UserItem = {
   createdAt: string,
   updatedAt: string,
   email?: string | null,
-  phoneNumber?: string | null,
-  optIn?: boolean | null,
-  address?: {
-    __typename: 'Address',
-    address: string,
-    additionalAddress?: string | null,
-    postalCode: string,
-    city: string,
-    country: string,
+  privateProfile?: {
+    __typename: 'ProfileInfo',
+    phoneNumber?: string | null,
+    optIn?: boolean | null,
+    address?: {
+      __typename: 'Address',
+      address: string,
+      additionalAddress?: string | null,
+      postalCode: string,
+      city: string,
+      country: string,
+    } | null,
+    birthDate?: string | null,
+    subscription?: SubscriptionType | null,
+    notificationParams?: {
+      __typename: 'NotificationParams',
+      echeanceFacture?: {
+        __typename: 'NotificationParam',
+        push?: boolean | null,
+        email?: boolean | null,
+      } | null,
+      loyer?: {
+        __typename: 'NotificationParam',
+        push?: boolean | null,
+        email?: boolean | null,
+      } | null,
+      debitBancaire?: {
+        __typename: 'NotificationParam',
+        push?: boolean | null,
+        email?: boolean | null,
+      } | null,
+      creditBancaire?: {
+        __typename: 'NotificationParam',
+        push?: boolean | null,
+        email?: boolean | null,
+      } | null,
+      soldeNegatif?: {
+        __typename: 'NotificationParam',
+        push?: boolean | null,
+        email?: boolean | null,
+      } | null,
+      retardLoyer?: {
+        __typename: 'NotificationParam',
+        push?: boolean | null,
+        email?: boolean | null,
+      } | null,
+      mauvaiseRenta?: {
+        __typename: 'NotificationParam',
+        push?: boolean | null,
+        email?: boolean | null,
+      } | null,
+      autre?: {
+        __typename: 'NotificationParam',
+        push?: boolean | null,
+        email?: boolean | null,
+      } | null,
+    } | null,
+    notificationLastSeenAt?: string | null,
   } | null,
-  birthDate?: string | null,
-  subscription?: SubscriptionType | null,
+  expoToken?: Array< string > | null,
+  biUser?: string | null,
+  biToken?: string | null,
 };
 
 export interface CognitoUserInterface {
@@ -108,6 +158,7 @@ const UserProvider: React.FC = ({ children }) => {
     getUserAuthenticatedAST,
     {
       onCompleted: (data) => {
+        console.log(`data${data}`);
         setUser(data?.getUser || undefined);
         if (loading) {
           // on vient de se reconnecter, donc il faut relancer la souscription
@@ -115,7 +166,7 @@ const UserProvider: React.FC = ({ children }) => {
         }
         setLoading(false);
       },
-      fetchPolicy: 'cache-and-network',
+      fetchPolicy: 'network-only',
     },
   );
   const [cognitoUser, setCognitoUser] = useState<CognitoUserInterface | undefined>();
@@ -124,6 +175,7 @@ const UserProvider: React.FC = ({ children }) => {
   const client = useApolloClient();
 
   const currentUser = async () => {
+    console.log('loading current user');
     try {
       setLoading(true);
       const authUser = await Auth.currentAuthenticatedUser();
@@ -147,6 +199,7 @@ const UserProvider: React.FC = ({ children }) => {
         });
       }
     } catch (error) {
+      console.log(error);
       setLoading(false);
       setUser(undefined);
       setCognitoUser(undefined);
@@ -212,6 +265,18 @@ const UserProvider: React.FC = ({ children }) => {
 
   const values = useMemo(() => {
     const createUser = (inputVars: SimpleCreateUserInput) => {
+      const finalInputVars = {
+        id: cognitoUser?.attributes.sub,
+        lastname: cognitoUser?.attributes.family_name,
+        firstname: cognitoUser?.attributes.given_name,
+        email: cognitoUser?.attributes.email,
+        privateProfile: {
+          phoneNumber: cognitoUser?.attributes.phone_number,
+          optIn: cognitoUser?.attributes['custom:optIn'] === 'true',
+        },
+      };
+      _.merge(finalInputVars, inputVars);
+
       setUserIsCreating(true);
       return client.mutate<
       CreateUserMutation,
@@ -230,15 +295,7 @@ const UserProvider: React.FC = ({ children }) => {
           },
         }),
         variables: {
-          input: {
-            id: cognitoUser?.attributes.sub,
-            email: cognitoUser?.attributes.email,
-            lastname: cognitoUser?.attributes.family_name,
-            firstname: cognitoUser?.attributes.given_name,
-            phoneNumber: cognitoUser?.attributes.phone_number,
-            optIn: cognitoUser?.attributes['custom:optIn'] === 'true',
-            ...inputVars,
-          },
+          input: finalInputVars,
         },
         update: () => {
           getUserFromDataBase({ variables: { id: cognitoUser?.attributes.sub } });
@@ -248,6 +305,8 @@ const UserProvider: React.FC = ({ children }) => {
 
     const updateUser = (inputVars: SimpleUpdateUserInput) => {
       if (user) {
+        console.log(removeKey(_.merge(user,
+          inputVars), ['_deleted', '_lastChangedAt', 'createdAt', 'updatedAt', '__typename', '_version']));
         return client.mutate<
         UpdateUserMutation,
         UpdateUserMutationVariables
@@ -263,8 +322,8 @@ const UserProvider: React.FC = ({ children }) => {
           }),
           variables: {
             input: {
-              id: user.id,
-              ...inputVars,
+              ...(removeKey(_.merge(user,
+                inputVars), ['_deleted', '_lastChangedAt', 'createdAt', 'updatedAt', '__typename', '_version'])),
               // eslint-disable-next-line no-underscore-dangle
               _version: user._version,
             },
@@ -289,6 +348,7 @@ const UserProvider: React.FC = ({ children }) => {
                   cacheData.getUser = _.merge(user, {
                     // eslint-disable-next-line no-underscore-dangle
                     _version: mutationUpdateUser._version + 1,
+                    ...inputVars,
                     ...(removeNull(mutationUpdateUser) as UpdateUserMutation),
                   });
 

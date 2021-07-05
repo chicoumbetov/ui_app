@@ -6,7 +6,7 @@ import { RealEstateItem } from './src/API/RealEstate';
  * 3. ... types
  * */
 
-export type MonBienProps = { bien: RealEstateItem };
+export type MonBienProps = { biens: RealEstateItem };
 
 export type RootStackParamList = {
   Root: undefined;
@@ -66,43 +66,42 @@ export type TabMesBiensParamList = {
   'ajout-charge': { id: string };
   'modifier-charge': { id: string, idBudgetLine: string };
 
-  ParametrerAjoutCharges: { id: string };
-  'partager-bien': undefined;
-  'modifier-characteristique': undefined;
+  'partager-bien': { id: string };
+  'modifier-characteristique': { id: string };
   'ajout-bien-screen': undefined;
-  'mes-rapports': undefined;
-  'mes-rapports-biens1': undefined;
-  'mes-rapports-biens2': undefined;
+  'mes-rapports': { id: string };
+  'mes-rapports-biens1': { range?: Date, id?: string };
+  'mes-rapports-biens2': { range?: Date, id?: string };
 };
 
 export type TabMaTresorerieParamList = {
-  'ma-tresorerie': undefined;
-  'ma-tresorerie-2': undefined;
-  'mouv-bancaires': undefined;
-
-  TresoMouvement_page1: undefined;
-  TresoMouvement_page2: undefined;
-  'ignorer-mouvement': undefined;
-  'edit-mouvement': undefined;
-  AjoutCompte: undefined;
-
+  'ma-tresorerie': { id: string };
+  'ma-tresorerie-2': { id: string };
+  'mouv-bancaires': { id: string, idCompte: string };
+  'ignorer-mouvement': { id: string, idCompte: string };
+  'affecter-mouvement': { id: string, idCompte: string };
   'treso-mouvement-page1': undefined;
   'treso-mouvement-page2': undefined;
 };
 
 export type TabMonAssistantParamList = {
   'mon-assistant': undefined;
-  DeclarationImpots: undefined;
-  DeclarationImpots2: undefined;
-  PdfScreen: undefined;
-  QuittanceLoyer: undefined;
-  QuittanceLoyer2: undefined;
+  'declaration-impots': { id: string };
+  'declaration-impots-2': { idBien: string, idTenant: string, anneeEcheance: number };
+  'pdf-screen': undefined;
+  'quittance-loyer': { id: string };
+  'quittance-loyer-2': { idBien: string, idTenant: string, date: string };
+};
+
+export type TabNotificationParamList = {
+  'notifications': undefined;
+  'notifications-params': undefined;
 };
 
 export type TabMesChargesParamList = {
-  'mes-charges': undefined;
-  MesCharges2: undefined;
-  MesCharges3: undefined;
+  'mes-charges': { id: string, label: string };
+  'mes-charges-2': { range: object, title: string };
+  'mes-charges-3': { value: string, percentage: string, label: string };
 };
 
 export type AjoutBienParamList = {

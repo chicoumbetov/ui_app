@@ -6,12 +6,13 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Platform } from 'react-native';
 import AppLoading from 'expo-app-loading';
 import { Layout, ApplicationProvider, IconRegistry } from '@ui-kitten/components';
+import 'moment/locale/fr';
 
 import * as eva from '@eva-design/eva';
 
 import { EvaIconsPack } from '@ui-kitten/eva-icons';
 
-import Amplify, { I18n } from 'aws-amplify';
+import { Amplify, I18n } from '@aws-amplify/core';
 
 import { Authenticator } from 'aws-amplify-react-native';
 
@@ -34,6 +35,13 @@ import client, { Rehydration } from './src/Apollo';
 import { UserContext, UserProvider } from './src/API/UserContext';
 import ErrorMap from './components/Auth/ErrorMap';
 
+if (typeof Intl === 'undefined') {
+  // eslint-disable-next-line global-require
+  require('intl');
+  // eslint-disable-next-line global-require
+  require('intl/locale-data/jsonp/fr');
+}
+
 Amplify.configure({
   ...awsExports,
   Analytics: {
@@ -52,6 +60,16 @@ const fonts = {
   Houschka_Rounded_Alt_Light_Regular: require('./assets/fonts/Houschka_Rounded_Alt_Light_Regular.ttf'),
   // eslint-disable-next-line global-require
   Houschka_Rounded_Alt_Bold_Regular: require('./assets/fonts/Houschka_Rounded_Alt_Bold_Regular.ttf'),
+  // eslint-disable-next-line global-require
+  confortaa_Bold: require('./assets/fonts/Comfortaa-Bold.ttf'),
+  // eslint-disable-next-line global-require
+  confortaa_Light: require('./assets/fonts/Comfortaa-Light.ttf'),
+  // eslint-disable-next-line global-require
+  confortaa_Medium: require('./assets/fonts/Comfortaa-Medium.ttf'),
+  // eslint-disable-next-line global-require
+  confortaa_Regular: require('./assets/fonts/Comfortaa-Regular.ttf'),
+  // eslint-disable-next-line global-require
+  confortaa_SemiBold: require('./assets/fonts/Comfortaa-SemiBold.ttf'),
 };
 
 I18n.setLanguage('fr');
@@ -102,13 +120,13 @@ function App() {
   return (
     <SafeAreaProvider>
       <IconRegistry icons={[EvaIconsPack]} />
-      <ApplicationProvider
-        {...eva}
-        // @ts-ignore
-        customMapping={mapping}
-        theme={{ ...eva.light, ...omedomTheme }}
-      >
-        <ApolloProvider client={client}>
+      <ApolloProvider client={client}>
+        <ApplicationProvider
+          {...eva}
+              // @ts-ignore
+          customMapping={mapping}
+          theme={{ ...eva.light, ...omedomTheme }}
+        >
           <Rehydration>
             <UserProvider>
               <Layout style={{ flex: 1 }}>
@@ -139,8 +157,9 @@ function App() {
               </Layout>
             </UserProvider>
           </Rehydration>
-        </ApolloProvider>
-      </ApplicationProvider>
+        </ApplicationProvider>
+      </ApolloProvider>
+
     </SafeAreaProvider>
 
   );

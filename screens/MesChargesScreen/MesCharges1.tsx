@@ -1,13 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import { Layout, Text, useTheme } from '@ui-kitten/components';
-import { useNavigation, useRoute } from '@react-navigation/native';
-import {
-  FlatList, StyleSheet, TouchableOpacity,
-} from 'react-native';
+import React from 'react';
+import { Text, useTheme } from '@ui-kitten/components';
 
 import { Icon as IconUIKitten } from '@ui-kitten/components/ui/icon/icon.component';
+import { useLinkTo, useNavigation } from '@react-navigation/native';
 import MaxWidthContainer from '../../components/MaxWidthContainer';
+import Card from '../../components/Card';
+import { useRealEstateList } from '../../src/API/RealEstate';
+import { BudgetLineType } from '../../src/API';
+import Button from '../../components/Button';
 
+/**
 const DATA = [
   {
     id: '0',
@@ -30,27 +32,66 @@ const DATA = [
     isChecked: false,
   },
 ];
+ */
 
 const MesCharges1 = () => {
   const navigation = useNavigation();
   const theme = useTheme();
-  const [charges, setCharges] = useState(DATA);
+  const { data } = useRealEstateList();
 
-  const onMesCharges2 = (item) => {
-    navigation.navigate('MesCharges2', { title: item.title });
+  const linkTo = useLinkTo();
+  const onAjoutBien = () => {
+    linkTo('/mes-biens/ajouter');
   };
 
-  useEffect(() => {
-    console.log('useEffect test of MesCharges 1');
-  });
+  const houseBudgetLineDeadlines = data?.listRealEstates?.items?.map(
+    (item) => item?.budgetLineDeadlines,
+  );
+
+  /** Object with 3 attributes and its key */
+  const allCurrentCategories: {
+    [key: string]: { value: number, label: string }
+  } = {};
+
+  if (houseBudgetLineDeadlines) {
+    houseBudgetLineDeadlines.forEach((item) => {
+      item?.items?.forEach((itemBudget) => {
+        if (itemBudget?.category
+        && itemBudget.type === BudgetLineType.Expense) {
+          // console.log('itemBudget: ', itemBudget);
+          if (allCurrentCategories[itemBudget?.category] === undefined) {
+            allCurrentCategories[itemBudget?.category] = {
+              value: itemBudget?.amount || 0,
+              label: itemBudget?.category,
+            };
+          }
+
+          allCurrentCategories[itemBudget?.category].value += itemBudget?.amount || 0;
+        }
+      });
+      return false;
+    });
+  }
+
+  const labels = Object.values(allCurrentCategories);
+  // const totalExpenses = Object.values(allCurrentCategories)
+  // .reduce((t, { value }) => t + value, 0);
+
+  // console.log('Trié que par les expenses', houseBudgetLineDeadlines);
+  // console.log('allCurrentCategories', Object.values(allCurrentCategories));
+  // console.log('totalExpenses', totalExpenses);
+
+  const onMesCharges2 = (label: string) => {
+    navigation.navigate('mes-charges-2', { title: label });
+  };
 
   return (
-    <MaxWidthContainer outerViewProps={{
-      style: {
-        padding: 24,
-        backgroundColor: '#f6f6f6',
-      },
-    }}
+    <MaxWidthContainer
+      outerViewProps={{
+        style: {
+          padding: 24,
+        },
+      }}
     >
       <Text category="h1" status="basic" style={{ marginTop: 13 }}>Mes rapports par charges</Text>
       <Text
@@ -64,19 +105,21 @@ const MesCharges1 = () => {
         Choisissez votre charge
       </Text>
 
-      <FlatList
-        data={charges}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <TouchableOpacity
-            onPress={() => { onMesCharges2(item); }}
-            style={[
-              styles.docs,
-              { backgroundColor: theme['color-basic-100'] },
-            ]}
+      {labels.length > 0 ? (
+        labels.map((lbl, index) => (
+          <Card
+          // Only do this if items have no stable IDs
+          // https://reactjs.org/docs/lists-and-keys.html#keys
+            key={index}
+            onPress={() => { onMesCharges2(lbl.label); }}
+            style={{
+              padding: 23,
+              marginVertical: 10,
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+            }}
           >
-            <Text category="h5" status="basic">{item.title}</Text>
-
+            <Text category="h5" status="basic">{lbl.label}</Text>
             <IconUIKitten
               name="arrow-ios-forward"
               fill={theme['text-hint-color']}
@@ -84,10 +127,20 @@ const MesCharges1 = () => {
                 height: 17, width: 17,
               }}
             />
-
-          </TouchableOpacity>
-        )}
-      />
+          </Card>
+        ))
+      ) : (
+        <>
+          <Text
+            category="h5"
+            status="basic"
+          >
+            Vous n'avez pas encore de biens.
+            Vous devez d'abord créer un bien pour accéder à cette section.
+            Vous n'avez pas de charges pour ce maison.
+          </Text>
+        </>
+      )}
 
     </MaxWidthContainer>
 
@@ -96,34 +149,4 @@ const MesCharges1 = () => {
 
 export default MesCharges1;
 
-const styles = StyleSheet.create({
-  container: {
-    padding: 24,
-    marginVertical: 12,
-    backgroundColor: '#f6f6f6',
-  },
-  title: {
-    fontSize: 25,
-    marginTop: 13,
-    letterSpacing: 0.2,
-    fontFamily: 'HouschkaRoundedDemiBold',
-  },
-  docs: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-
-    paddingHorizontal: 23,
-    paddingVertical: 29.5,
-    borderWidth: 1,
-    borderRadius: 10,
-    marginBottom: 29,
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowRadius: 2,
-    shadowOpacity: 1,
-    borderColor: 'transparent',
-    shadowColor: '#dedede',
-  },
-});
+// const styles = StyleSheet.create({ container: {} });

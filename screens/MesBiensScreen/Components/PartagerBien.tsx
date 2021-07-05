@@ -1,31 +1,58 @@
 import React, { useEffect } from 'react';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { Button, Layout, Text } from '@ui-kitten/components';
 
 import {
   StyleSheet, View,
 } from 'react-native';
+import { useForm } from 'react-hook-form';
+import { RouteProp } from '@react-navigation/core/lib/typescript/src/types';
 import MaisonVert from '../../../assets/Omedom_Icons_svg/Logement/maison_verte.svg';
 import MaxWidthContainer from '../../../components/MaxWidthContainer';
 import TextInputComp from '../../../components/Form/TextInput';
 import SelectComp from '../../../components/Form/Select';
+import Form from '../../../components/Form/Form';
+import { useCreatePendingInvitationMutation } from '../../../src/API/PendingInvitation';
+import { InvitationType } from '../../../src/API';
+import { TabMesBiensParamList } from '../../../types';
+import { useGetRealEstate } from '../../../src/API/RealEstate';
+import { sendEmail, sendTemplateEmail } from '../../../components/AwsMail/SendMail';
+
+type ShareRealEstateForm = {
+  email : string,
+  type: InvitationType,
+};
 
 export const typeAcces = [
   {
     label: 'Administration',
-    key: 'b1',
+    key: 'Admin',
   },
   {
     label: 'Lecture Seule',
-    key: 'b2',
+    key: 'ReadOnly',
   },
 ];
 
 const PartagerBien = () => {
   const navigation = useNavigation();
+  const route = useRoute<RouteProp<TabMesBiensParamList, 'partager-bien'>>();
+  const shareRealEstateForm = useForm<ShareRealEstateForm>();
 
-  const allerDetailsBien = () => {
-    navigation.navigate('DetailsBien');
+  const { bienget } = useGetRealEstate(route.params.id);
+
+  const createPendingInvitation = useCreatePendingInvitationMutation();
+
+  const addUser = async (data: ShareRealEstateForm) => {
+    console.log(data);
+    await createPendingInvitation.createPendingInvitation({
+      variables: {
+        input: {
+          realEstateId: route.params.id,
+          ...data,
+        },
+      },
+    });
   };
 
   useEffect(() => {
@@ -48,12 +75,7 @@ const PartagerBien = () => {
         >
           <MaisonVert height={40} width={40} style={{ marginRight: 12 }} />
           <Text category="h4" status="basic">
-            {' '}
-            {/* {compte.typeBien} */}
-            La Maison
-            {' '}
-            de Mathieu
-            {' '}
+            {bienget?.name}
           </Text>
         </View>
       </Layout>
@@ -61,24 +83,26 @@ const PartagerBien = () => {
       {/**
        *  II. Ajouter un utilisateur
        */}
-      <Layout style={styles.container}>
-        <Text category="h2">
-          Ajouter un utilisateur
-        </Text>
+      <Form {...shareRealEstateForm}>
+        <Layout style={styles.container}>
+          <Text category="h2">
+            Ajouter un utilisateur
+          </Text>
 
-        <TextInputComp
-          name="email"
-          placeholder="Saisissez le mail de 'utilisateur"
-          style={{ marginVertical: 15 }}
-        />
-        <SelectComp name="TypeAcces" data={typeAcces} placeholder="Type d'accès" size="large" appearance="default" status="primary" />
+          <TextInputComp
+            name="email"
+            placeholder="Saisissez le mail de 'utilisateur"
+            style={{ marginVertical: 15 }}
+          />
+          <SelectComp name="type" data={typeAcces} placeholder="Type d'accès" size="large" appearance="default" status="primary" />
 
-        <View style={styles.buttonRight}>
-          <Button onPress={allerDetailsBien} style={{ width: 150 }}>
-            Valider
-          </Button>
-        </View>
-      </Layout>
+          <View style={styles.buttonRight}>
+            <Button onPress={shareRealEstateForm.handleSubmit((data) => { addUser(data); })} style={{ width: 150 }}>
+              Valider
+            </Button>
+          </View>
+        </Layout>
+      </Form>
     </MaxWidthContainer>
   );
 };

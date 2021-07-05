@@ -271,7 +271,7 @@ export default class PhoneInput extends PureComponent<PhoneInputProps, PhoneInpu
             </Text>
           )}
           {!disableArrowIcon && (
-          <Icon name="chevron-down-outline" width={24} />
+          <Icon name="chevron-down-outline" style={{ height: 24, width: 30, marginLeft: -15 }} fill="#000" />
           )}
         </TouchableOpacity>
         <View

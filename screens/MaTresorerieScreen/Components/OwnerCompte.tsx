@@ -1,55 +1,115 @@
-import React from 'react';
-import { StyleSheet, TouchableOpacity } from 'react-native';
-import { Layout, Text, useTheme } from '@ui-kitten/components';
+import React, { useState } from 'react';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { CheckBox, Text, useTheme } from '@ui-kitten/components';
 
-import { useNavigation } from '@react-navigation/native';
+import { useLinkTo, useRoute } from '@react-navigation/native';
 import { Icon as IconUIKitten } from '@ui-kitten/components/ui/icon/icon.component';
-import MaxWidthContainer from '../../../components/MaxWidthContainer';
 
-const OwnerCompte = ({ compte }) => {
-  const navigation = useNavigation();
+import { RouteProp } from '@react-navigation/core/lib/typescript/src/types';
+import Card from '../../../components/Card';
+import { BankAccount } from '../../../src/API';
+import { TabMaTresorerieParamList } from '../../../types';
+import { useGetBankMovementsByBankAccountId } from '../../../src/API/BankMouvement';
+
+type MonBienProps = { compte: BankAccount,
+  supprimer?: boolean,
+  add?: boolean,
+  onCheck?: (checked: boolean) => void, };
+
+const OwnerCompte = (props: MonBienProps) => {
+  const {
+    compte, supprimer = false, add = false, onCheck,
+  } = props;
+  // console.log(compte);
+  const route = useRoute<RouteProp<TabMaTresorerieParamList, 'ma-tresorerie-2'>>();
+  const linkTo = useLinkTo();
+  const [checked, setChecked] = useState(false);
+
+  const { bankMouvement } = useGetBankMovementsByBankAccountId(compte.id);
+  // console.log('compte :', compte.realEstates?.items?.filter((item) => !item._deleted));
+  let bankAccountRealEstatate = false;
+  if (compte.realEstates) {
+    compte.realEstates?.items?.map((item) => {
+      // eslint-disable-next-line no-underscore-dangle
+      if (!item?._deleted) { bankAccountRealEstatate = true; }
+    });
+  }
+  const movementPasAffect = bankMouvement?.filter((item) => {
+    if (item.ignored
+        || (item.budgetLineDeadlines?.items && item.budgetLineDeadlines?.items?.length > 0)) {
+      return false;
+    }
+    return item;
+  });
+  let nbNotif = 0;
+  if (movementPasAffect) {
+    nbNotif = movementPasAffect.length;
+  }
+  // console.log('Ownner Compte : ', movementPasAffect.length);
+
+  // const linkTo = useLinkTo();
   const theme = useTheme();
-  const onTresoMouvement = () => {
-    navigation.navigate('mouv-bancaires');
+  const onTresoMouvement = (id: string) => {
+    linkTo(`/ma-tresorerie/${route.params.id}/mes-comptes/${id}/mouvements-bancaires/`);
   };
 
   return (
-    <MaxWidthContainer>
-      <TouchableOpacity onPress={onTresoMouvement} style={styles.container}>
+    <Card
+        // key={item.id}
+      style={{
+        marginTop: 28,
+        borderWidth: checked ? (1) : (0),
+        borderColor: supprimer ? ('red') : ('green'),
+      }}
+    >
+      <TouchableOpacity
+        onPress={supprimer || add ? () => {} : () => onTresoMouvement(compte.id)}
+        style={styles.container}
+      >
 
-        <Layout style={{ paddingHorizontal: 14, width: 255, backgroundColor: 'transparent' }}>
-          <Text
-            category="h6"
-            style={{
-              borderRadius: 10,
-            }}
-          >
-            Monsieur
-            {' '}
-            {compte.nom}
-            {' '}
-            {compte.prenom}
-          </Text>
-          <Text
-            category="h6"
-            appearance="hint"
-            style={{ paddingTop: 8 }}
-          >
-            FR
-            {compte.IBAN}
-          </Text>
-          <Text
-            category="h6"
-            appearance="hint"
-            style={{ paddingTop: 8 }}
-          >
-            {compte.bank}
-          </Text>
-        </Layout>
+        {supprimer && !bankAccountRealEstatate && (
+          <View style={{ justifyContent: 'center', paddingHorizontal: 14, width: 50 }}>
+            <CheckBox
+              checked={checked}
+              status="danger"
+              onChange={(nextChecked) => {
+                if (onCheck) {
+                  onCheck(nextChecked);
+                  setChecked(nextChecked);
+                }
+              }}
+            />
+          </View>
+        )}
+        {add && !supprimer && (
+          <View style={{ justifyContent: 'center', paddingHorizontal: 14, width: 50 }}>
+            <CheckBox
+              checked={checked}
+              status="success"
+              onChange={(nextChecked) => {
+                if (onCheck) {
+                  onCheck(nextChecked);
+                  setChecked(nextChecked);
+                }
+              }}
+            />
+          </View>
+        )}
 
-        <Layout style={{ flexDirection: 'row', backgroundColor: 'transparent', alignItems: 'center' }}>
-          {/**
-          <Layout style={{
+        <View style={{ justifyContent: 'center', paddingHorizontal: 14, flex: 1 }}>
+          <Text category="h6">
+            {compte.name || ''}
+          </Text>
+          <Text category="p2" appearance="hint">
+            {compte.iban || ''}
+          </Text>
+          <Text category="p2" status="basic">
+            {compte.bank || ''}
+          </Text>
+        </View>
+
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <View style={{
             backgroundColor: theme['color-warning-500'],
             marginRight: 5,
             height: 30,
@@ -60,32 +120,28 @@ const OwnerCompte = ({ compte }) => {
             borderRadius: 30,
           }}
           >
-            <Text status="control">3</Text>
-          </Layout>
-          */}
-          <Layout style={{ marginRight: 2 }}>
-            <IconUIKitten
-              name="arrow-ios-forward"
-              fill={theme['text-hint-color']}
-              style={{ height: 20, width: 20 }}
-            />
-          </Layout>
+            <Text status="control">
+              {nbNotif}
+            </Text>
+          </View>
 
-        </Layout>
+          <IconUIKitten
+            name="arrow-ios-forward"
+            fill="#000"
+            style={{ height: 20, width: 20 }}
+          />
+
+        </View>
 
       </TouchableOpacity>
-    </MaxWidthContainer>
+    </Card>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    padding: 15,
     justifyContent: 'space-between',
-    backgroundColor: '#fff',
-    marginTop: 25,
-    borderRadius: 10,
   },
   window: {
     flexDirection: 'row',

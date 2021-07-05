@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Layout, Text } from '@ui-kitten/components';
+import {
+  Button, Spinner, Text,
+} from '@ui-kitten/components';
 import { StyleSheet, View } from 'react-native';
 
 import { useForm } from 'react-hook-form';
@@ -25,16 +27,18 @@ import { useAddTenant, useUpdateTenant } from '../../../src/API/Tenant';
 import DatePicker from '../../../components/Form/DatePicker';
 import { AvailableValidationRules } from '../../../components/Form/validation';
 import Separator from '../../../components/Separator';
+import { useCreateBudgetLineDeadlineMutation } from '../../../src/API/BudgetLineDeadLine';
+import DateUtils from '../../../utils/DateUtils';
 
 type ParamBudgetForm = {
   category: string,
   amount: number,
+  rentalCharges: number,
+  managementFees: number,
   frequency: Frequency,
   nextDueDate?: string | null,
   tenantId?: string | null,
   tenant?: {
-    rentalCharges: number,
-    managementFees: number,
     lastname: string,
     firstname: string,
     email: string,
@@ -43,6 +47,8 @@ type ParamBudgetForm = {
   }
 };
 
+const typeRevenueArray = Object.values(typeRevenu);
+
 const ParametrerAjoutRevenu = () => {
   const paramBudgetForm = useForm<ParamBudgetForm>();
   const addTenant = useAddTenant();
@@ -50,10 +56,12 @@ const ParametrerAjoutRevenu = () => {
   const createBudgetLine = useCreateBudgetLineMutation();
   const updateBudgetLine = useUpdateBudgetLineMutation();
 
+  const createBudgetLineDeadLine = useCreateBudgetLineDeadlineMutation();
+
   const route = useRoute<RouteProp<TabMesBiensParamList, 'ajout-revenu'> | RouteProp<TabMesBiensParamList, 'modifier-revenu'>>();
   const navigation = useNavigation();
-  console.log('route ajout revenu', route.params);
-  const { bien } = useGetRealEstate(route.params.id);
+  // console.log('route ajout revenu', route.params);
+  const { bienget } = useGetRealEstate(route.params.id);
 
   const [frequenceShow, setFrequenceShow] = useState(false);
   const [montantShow, setMontantShow] = useState(false);
@@ -65,23 +73,27 @@ const ParametrerAjoutRevenu = () => {
 
   if (route.params.idBudgetLine) {
     // get budgetLine that is clicked
-    currentBudgetLine = bien.budgetLines?.items?.filter(
+    currentBudgetLine = bienget.budgetLines?.items?.filter(
       (item) => item?.id === route.params.idBudgetLine,
     ).pop();
+    currentBudgetLine.amount = currentBudgetLine?.amount.toString();
+    currentBudgetLine.rentalCharges = currentBudgetLine.rentalCharges.toString();
+    currentBudgetLine.managementFees = currentBudgetLine.managementFees.toString();
     useEffect(() => {
       setMontantShow(true);
       setFrequenceShow(true);
       setDateDerniereEcheanceShow(true);
     }, []);
-    if (currentBudgetLine?.category === 'Loyer') {
+    if (currentBudgetLine?.category === 'loyer') {
       // on cherche le locataire
       // get tenant by his tenantId for current budgetLine
-      const tenant = bien.tenants?.filter(
-        (item) => item?.id === currentBudgetLine.tenantId,
+      const tenant = bienget.tenants?.filter(
+        (item) => item?.id === currentBudgetLine?.tenantId,
       ).pop();
       useEffect(() => {
         setRevenuLoyer(true);
       }, []);
+
       // both values are put back to current budgetLine
       // then we show in Form as defaultValue
       currentBudgetLine = {
@@ -100,63 +112,70 @@ const ParametrerAjoutRevenu = () => {
 
   const validateBudget = async (data: ParamBudgetForm) => {
     const {
-      category, amount, frequency, nextDueDate, tenant,
+      category, amount, rentalCharges, managementFees, frequency, nextDueDate, tenant,
     } = data;
 
     if (route.params.idBudgetLine) {
-      if (data.category === 'Loyer' && currentBudgetLine.tenantId) {
-        console.log('id tenant la', currentBudgetLine.tenantId);
+      if (data.category === 'loyer' && currentBudgetLine?.tenantId) {
         let tenantId: string | null = null;
         if (tenant) {
-          tenantId = await updateTenant(bien, {
+          tenantId = await updateTenant(bienget, {
             id: currentBudgetLine.tenantId,
             ...tenant,
             amount,
           });
         }
 
-        await updateBudgetLine({
+        await updateBudgetLine.updateBudgetLine({
           variables: {
             input: {
               id: route.params.idBudgetLine,
               category,
               amount,
+              managementFees,
+              rentalCharges,
               frequency,
               nextDueDate,
               tenantId,
+              // eslint-disable-next-line no-underscore-dangle
+              _version: currentBudgetLine._version,
             },
           },
         });
       } else {
-        console.log('ParametrerAjoutRevenu data:', route.params.idBudgetLine);
-        await updateBudgetLine({
+        await updateBudgetLine.updateBudgetLine({
           variables: {
             input: {
               id: route.params.idBudgetLine,
               category,
               amount,
+              managementFees,
+              rentalCharges,
               frequency,
               nextDueDate,
+              // eslint-disable-next-line no-underscore-dangle
               _version: currentBudgetLine._version,
             },
           },
         });
       }
-    } else if (data.category === 'Loyer') {
+    } else if (data.category === 'loyer') {
       let tenantId: string | null = null;
       if (tenant) {
-        tenantId = await addTenant(bien, {
+        tenantId = await addTenant(bienget, {
           ...tenant,
           amount,
         });
       }
 
-      await createBudgetLine({
+      const newBugetLine = await createBudgetLine.createBudgetLine({
         variables: {
           input: {
             realEstateId: route.params.id,
             category,
             amount,
+            managementFees,
+            rentalCharges,
             frequency,
             nextDueDate,
             type: BudgetLineType.Income,
@@ -164,27 +183,77 @@ const ParametrerAjoutRevenu = () => {
           },
         },
       });
+      if (newBugetLine.data?.createBudgetLine && nextDueDate && frequency) {
+        for (let i = 0; i < 3; i += 1) {
+          // eslint-disable-next-line no-await-in-loop
+          await createBudgetLineDeadLine.createBudgetLineDeadLine({
+            variables: {
+              input: {
+                budgetLineId: newBugetLine.data?.createBudgetLine.id,
+                realEstateId: route.params.id,
+                type: BudgetLineType.Income,
+                category,
+                amount,
+                managementFees,
+                rentalCharges,
+                frequency,
+                tenantId,
+                date: DateUtils.addMonths(nextDueDate, -DateUtils.frequencyToMonths(frequency) * i),
+              },
+            },
+          });
+        }
+      }
     } else {
-      console.log('pas normal');
-      await createBudgetLine({
+      // console.log('pas normal');
+      const newBugetLine = await createBudgetLine.createBudgetLine({
         variables: {
           input: {
             realEstateId: route.params.id,
             category,
             amount,
+            managementFees,
+            rentalCharges,
             frequency,
             nextDueDate,
             type: BudgetLineType.Income,
           },
         },
       });
+      if (newBugetLine.data?.createBudgetLine && nextDueDate && frequency) {
+        for (let i = 0; i < 3; i += 1) {
+          // eslint-disable-next-line no-await-in-loop
+          await createBudgetLineDeadLine.createBudgetLineDeadLine({
+            variables: {
+              input: {
+                budgetLineId: newBugetLine.data?.createBudgetLine.id,
+                realEstateId: route.params.id,
+                type: BudgetLineType.Income,
+                category,
+                amount,
+                managementFees,
+                rentalCharges,
+                frequency,
+                date: DateUtils.addMonths(nextDueDate, -DateUtils.frequencyToMonths(frequency) * i),
+              },
+            },
+          });
+        }
+      }
     }
+
     /**
-     ?
+     Navigate to previous target page - page with list of budget lines (MonBudget component)
      */
     navigation.pop();
   };
 
+  const demain = new Date();
+  demain.setDate(demain.getDate() + 1);
+
+  const isCreating = updateBudgetLine.mutationLoading
+      || createBudgetLine.mutationLoading
+      || createBudgetLineDeadLine.mutationLoading;
   return (
     <MaxWidthContainer
       withScrollView="keyboardAware"
@@ -196,18 +265,18 @@ const ParametrerAjoutRevenu = () => {
       {/**
          *  I. Mon Budget
          */}
-      <Layout style={styles.container}>
+      <View style={styles.container}>
         <Text category="h1" style={{ marginBottom: 20 }}>
           Paramétrer votre budget
         </Text>
-        <CompteHeader title={bien?.name} />
-      </Layout>
+        <CompteHeader title={bienget?.name} iconUri={bienget?.iconUri} />
+      </View>
       <Separator />
 
       {/**
        *  II. Ajouter revenu
        */}
-      <Layout style={styles.container}>
+      <View style={styles.container}>
         <Text category="s2" status="basic" style={{ marginBottom: 20 }}>
           Ajouter un revenu
         </Text>
@@ -224,9 +293,9 @@ const ParametrerAjoutRevenu = () => {
 
             <Select
               name="category"
-              data={typeRevenu}
+              data={typeRevenueArray}
               onChangeValue={(v) => {
-                if (v === 'Loyer') {
+                if (v === 'loyer') {
                   setRevenuLoyer(true);
                 } else {
                   setRevenuLoyer(false);
@@ -239,30 +308,6 @@ const ParametrerAjoutRevenu = () => {
               validators={[AvailableValidationRules.required]}
               onPress={() => setEtape(1)}
             />
-
-            {/**
-            <TouchableOpacity
-              onPress={() => { setEtape(1); }}
-              style={etape === 0 ? (styles.headerDown) : (styles.headerUp)}
-            >
-              <Text category="h6" status="control">
-                Montant
-              </Text>
-              {
-                etape === 0
-                  ? <Icon
-                  name="arrow-ios-downward-outline"
-                  fill={theme['color-basic-100']}
-                  style={{ height: 20, width: 20 }}
-                  />
-                  : <Icon
-                  name="arrow-ios-upward-outline"
-                  fill={theme['color-basic-100']}
-                  style={{ height: 20, width: 20 }}
-                  />
-              }
-            </TouchableOpacity>
-            */}
             <MotiView
               animate={{ height: (etape === 0 && montantShow ? 68 : 0) }}
               style={{ overflow: 'hidden', flexDirection: 'row', alignItems: 'center' }}
@@ -271,10 +316,12 @@ const ParametrerAjoutRevenu = () => {
               <TextInput
                 name="amount"
                 placeholder="Saisissez votre montant ici"
-                validators={[{ rule: AvailableValidationRules.required, errorMessage: 'Un montant est requis' }]}
+                keyboardType="numeric"
+                validators={[AvailableValidationRules.required, AvailableValidationRules.float]}
               />
               <Text category="h4" style={{ marginLeft: 19 }}> €</Text>
             </MotiView>
+            {revenuLoyer && (
             <MotiView
               animate={{ height: (revenuLoyer ? 136 : 0) }}
               style={{
@@ -286,16 +333,17 @@ const ParametrerAjoutRevenu = () => {
               transition={{ type: 'timing', duration: 500 }}
             >
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <TextInput name="tenant.rentalCharges" placeholder="Dont charges" />
+                <TextInput name="rentalCharges" keyboardType="numeric" placeholder="Dont charges" validators={[AvailableValidationRules.float]} />
                 <Text category="h4" style={{ marginLeft: 19 }}> €</Text>
               </View>
 
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <TextInput name="tenant.managementFees" placeholder="Dont frais de gestion" />
-                <Text category="h4" style={{ marginLeft: 19 }}>%</Text>
+                <TextInput name="managementFees" keyboardType="numeric" placeholder="Dont frais de gestion" validators={[AvailableValidationRules.float]} />
+                <Text category="h4" style={{ marginLeft: 19 }}>€</Text>
               </View>
 
             </MotiView>
+            )}
 
             {frequenceShow
               ? (
@@ -313,8 +361,11 @@ const ParametrerAjoutRevenu = () => {
                   {dateDerniereEcheanceShow && (
                     <DatePicker
                       name="nextDueDate"
-                      placeholder="Date de dernière échéance"
+                      placeholder="Date de la prochaine échéance"
                       icon="calendar-outline"
+                      // pas avant demain
+                      // (sinon le cron ne tournera jamais et on aura jamais les échéances)
+                      min={demain}
                       validators={[AvailableValidationRules.required]}
                     />
                   )}
@@ -347,17 +398,21 @@ const ParametrerAjoutRevenu = () => {
 
             <View style={{ alignItems: 'flex-end', marginTop: 10 }}>
               <Button
-                onPress={paramBudgetForm.handleSubmit((data) => validateBudget(data))}
+                onPress={paramBudgetForm.handleSubmit((data) => {
+                  validateBudget(data);
+                })}
                 size="large"
+                disabled={isCreating}
+                accessoryRight={() => (isCreating ? <Spinner status="basic" /> : <></>)}
               >
-                Enregistrer
+                {isCreating ? 'Chargement' : 'Enregistrer'}
               </Button>
             </View>
 
           </>
         </Form>
 
-      </Layout>
+      </View>
     </MaxWidthContainer>
   );
 };
@@ -401,4 +456,5 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     shadowOpacity: 1,
   },
+
 });

@@ -10,6 +10,7 @@ import * as React from 'react';
 import { ColorSchemeName } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { Layout, Text } from '@ui-kitten/components';
+import Constants from 'expo-constants';
 import LinkingConfiguration from './LinkingConfiguration';
 import ActivityIndicator from '../components/ActivityIndicator';
 import InitialNavigator from './InitialNavigator';
@@ -22,7 +23,7 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
   useAutoFileStorage();
 
   const Theme = colorScheme === 'dark' ? DarkTheme : DefaultTheme;
-  Theme.colors.background = 'transparent';
+  Theme.colors.background = '#fbfbfb';
 
   return (
     userIsLoading
@@ -36,6 +37,9 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
         <NavigationContainer
           linking={LinkingConfiguration}
           theme={Theme}
+          documentTitle={{
+            formatter: () => 'Omedom | L\'application qui fait gagner du temps aux propriétaires',
+          }}
           fallback={(
             <Layout style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
               <ActivityIndicator />

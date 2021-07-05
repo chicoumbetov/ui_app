@@ -1,0 +1,8 @@
+## [Start] Handle error or return result. **
+#if($ctx.result.errorType)
+  $util.error($ctx.result.errorMessage, $ctx.result.errorType)
+#elseif($ctx.result.unauthorized)
+  $util.unauthorized()
+#end
+$util.toJson($ctx.result)
+## [End] Handle error or return result. **

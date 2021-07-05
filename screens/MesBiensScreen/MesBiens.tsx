@@ -5,20 +5,19 @@
  */
 
 import React from 'react';
-import { Button, Layout, Text } from '@ui-kitten/components';
+import { Button, Text } from '@ui-kitten/components';
 
 import { useLinkTo } from '@react-navigation/native';
 import MonBien from './Components/MonBien';
 import MaxWidthContainer from '../../components/MaxWidthContainer';
 import { useRealEstateList } from '../../src/API/RealEstate';
 import ActivityIndicator from '../../components/ActivityIndicator';
-
 //  import comptesData from '../../mockData/comptesData';
 
 function MesBiens() {
   const linkTo = useLinkTo();
   // const [compte] = useState(comptesData);
-  const { loading, data } = useRealEstateList();
+  const { loading, data } = useRealEstateList('cache-and-network');
 
   // console.log('biens', data);
 
@@ -27,46 +26,48 @@ function MesBiens() {
   };
 
   return (
-
     <MaxWidthContainer
       withScrollView="keyboardAware"
+      innerViewProps={{
+        style: { flex: 1, padding: 26 },
+      }}
       outerViewProps={{
         showsVerticalScrollIndicator: false,
       }}
     >
-      <Layout style={{ flex: 1, backgroundColor: '#f6f6f6', padding: 26 }}>
-        <Text
-          category="h1"
-          style={{
-            marginBottom: 20,
-          }}
-        >
-          Mes Biens
-        </Text>
 
-        {/**
-        <MonBien />
-        <MonBien />
-        */}
-        {loading
-          ? <ActivityIndicator />
-          : (
-            <>
-              {data?.listRealEstates?.items?.map(
-                (item) => item && <MonBien key={item.id} bien={item} />,
-              )}
-            </>
-          )}
+      <Text
+        category="h1"
+        style={{
+          marginBottom: 20,
+        }}
+      >
+        Mes Biens
+      </Text>
 
-        <Button
-          size="large"
-          onPress={() => { onAjoutBien(); }}
-          style={{ marginVertical: 30 }}
-        >
-          Ajouter un nouveau bien
-        </Button>
+      {loading
+        ? <ActivityIndicator />
+        : (
+          <>
+            {data?.listRealEstates?.items?.map(
+              (item) => item
+                    && (
+                    <MonBien
+                      key={item.id}
+                      biens={item.id}
+                    />
+                    ),
+            )}
+          </>
+        )}
 
-      </Layout>
+      <Button
+        size="large"
+        onPress={() => { onAjoutBien(); }}
+        style={{ marginVertical: 30 }}
+      >
+        Ajouter un nouveau bien
+      </Button>
 
     </MaxWidthContainer>
   );

@@ -25,8 +25,8 @@ const styles = StyleSheet.create({
   },
   flagButtonView: {
     height: '100%',
-    minWidth: 32,
-    justifyContent: 'center',
+    minWidth: 24,
+    justifyContent: 'flex-start',
     flexDirection: 'row',
     alignItems: 'center',
   },

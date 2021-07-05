@@ -5,13 +5,8 @@
  */
 
 import * as React from 'react';
-import {
-  ScrollView, ScrollViewProps, View, ViewProps, StyleSheet,
-} from 'react-native';
-import {
-  KeyboardAwareScrollView,
-  KeyboardAwareScrollViewProps,
-} from 'react-native-keyboard-aware-scroll-view';
+import {ScrollView, ScrollViewProps, StyleSheet, View, ViewProps,} from 'react-native';
+import {KeyboardAwareScrollView, KeyboardAwareScrollViewProps,} from 'react-native-keyboard-aware-scroll-view';
 
 type MaxWidthContainerProps = ({
   withScrollView?: 'simple';
@@ -75,7 +70,16 @@ export default function MaxWidthContainer(props: MaxWidthContainerProps): JSX.El
       scrollViewStyle,
     ]);
 
-    finalOuterProps = { style: finalScrollViewStyle, contentContainerStyle: finalOuterViewStyle, ...otherOuterViewProps };
+    finalOuterProps = {
+      style: finalScrollViewStyle,
+      contentContainerStyle: finalOuterViewStyle,
+      ...otherOuterViewProps,
+    };
+    /* if (withScrollView === 'keyboardAware') {
+      finalOuterProps = {
+        enableOnAndroid: true, enableAutomaticScroll: true, extraHeight: 20, ...finalOuterProps,
+      };
+    } */
   }
 
   /**

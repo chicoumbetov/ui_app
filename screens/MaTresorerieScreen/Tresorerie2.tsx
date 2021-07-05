@@ -7,36 +7,134 @@
 import React, { useState } from 'react';
 import { Button, Text } from '@ui-kitten/components';
 import {
-  StyleSheet, View,
+  Alert,
+  TouchableOpacity, View,
 } from 'react-native';
 
-// import { useRoute } from '@react-navigation/native';
-// 4import { RouteProp } from '@react-navigation/core/lib/typescript/src/types';
-// import comptesData from '../../mockData/comptesData';
+import { useRoute } from '@react-navigation/native';
+import { RouteProp } from '@react-navigation/core/lib/typescript/src/types';
+import API from '@aws-amplify/api';
 import MaxWidthContainer from '../../components/MaxWidthContainer';
 
-import { useRealEstateList } from '../../src/API/RealEstate';
+import { useGetRealEstate } from '../../src/API/RealEstate';
 import CompteHeader from '../../components/CompteHeader/CompteHeader';
 import OwnerCompte from './Components/OwnerCompte';
-// import CompteFooter from '../../components/CompteFooter';
 import ActivityIndicator from '../../components/ActivityIndicator';
+import { TabMaTresorerieParamList } from '../../types';
+
+// import comptesData from '../../mockData/comptesData';
+import ActionSheet from '../../components/ActionSheet/ActionSheet';
+
+import WebView from '../../components/WebView';
+import { useBankAccountList, useDeleteBankAccount } from '../../src/API/BankAccount';
+import {
+  useCreateRealEstateBankAccount,
+  useDeleteRealEstateBankAccount,
+} from '../../src/API/RealEstateBankAccount';
 
 const MaTresorerie2 = () => {
-  const { loading, data } = useRealEstateList();
   // const [compte] = useState(comptesData);
 
-  // const route = useRoute<RouteProp<TabMaTresorerieParamList, 'ma-tresorerie-2'>>();
+  const [toggle, setToggle] = useState(false);
+  const [newAccountLink, setNewAccountLink] = useState<string | undefined>();
+  const [supprim, setSupprim] = useState(false);
+  const [addingAccounts, setAddingAccounts] = useState(false);
+  const [checkedAccounts, setCheckedAccounts] = React.useState<Array<
+  { id: string, _version: number }
+  >>([]);
+  // eslint-disable-next-line max-len
+  const [checkedRealEstateAccounts, setCheckedRealEstateAccounts] = React.useState<Array<{ id:string, _version:number }>>([]);
+
+  const route = useRoute<RouteProp<TabMaTresorerieParamList, 'ma-tresorerie-2'>>();
+  const deleteBankAccount = useDeleteBankAccount();
   // console.log('mon-budget data', route.params);
-  // const { bien } = useGetRealEstate(route.params.id);
+
+  const createRealEstateBankAccount = useCreateRealEstateBankAccount();
+  const deleteRealEstateBankAccount = useDeleteRealEstateBankAccount();
+  const { bienget, refetch: refetchBien, loading: loadingBien } = useGetRealEstate(route.params.id);
+  const { data } = useBankAccountList();
+
+  // console.log('------------------------', bienget.bankAccounts?.items);
+
+  const realEstateBankAccount = bienget.bankAccounts?.items?.filter((item) => {
+    // eslint-disable-next-line no-underscore-dangle
+    if (!item?._deleted) { return item; }
+    return false;
+  });
+  // console.log(bienget.bankAccounts?.items?.length);
+
+  const BankAccount = data?.listBankAccounts?.items?.filter((item) => {
+    // eslint-disable-next-line no-underscore-dangle
+    if (!item?._deleted) { return item; } return false;
+  });
+
+  if (realEstateBankAccount && realEstateBankAccount.length === 0 && !toggle) {
+    setToggle(true);
+  }
+  // console.log('bank account 1 :', data?.listBankAccounts);
+  // console.log('bank account 2 :', BankAccount);
+  let buttonText = '';
+  if (toggle) {
+    if (checkedAccounts.length <= 0) {
+      buttonText = '+ Ajouter un autre compte bancaire';
+    } else if (checkedAccounts.length === 1) {
+      buttonText = 'Lier le compte bancaire';
+    } else {
+      buttonText = 'Lier les comptes bancaires';
+    }
+  } else if (BankAccount
+      && BankAccount.length <= 0) {
+    buttonText = 'Lier un compte bancaire';
+  } else {
+    buttonText = 'Lier un autre compte bancaire';
+  }
+  function supprimerCompte() {
+    if (checkedRealEstateAccounts.length > 0) {
+      checkedRealEstateAccounts.reduce(async (promise, current) => {
+        // console.log('supprimerCompte id1:', current.id);
+        await promise;
+        await deleteRealEstateBankAccount({
+          variables: {
+            input: {
+              id: current.id,
+              // eslint-disable-next-line no-underscore-dangle
+              _version: current._version,
+            },
+          },
+        });
+      }, Promise.resolve());
+      refetchBien();
+      setToggle(true);
+    } else if (checkedAccounts.length > 0) {
+      checkedAccounts.reduce(async (promise, current) => {
+        await promise;
+        await deleteBankAccount({
+          variables: {
+            input: {
+              id: current.id,
+              // eslint-disable-next-line no-underscore-dangle
+              _version: current._version,
+            },
+          },
+        });
+      }, Promise.resolve());
+      refetchBien();
+      setToggle(true);
+    }
+  }
 
   return (
-    <MaxWidthContainer
-      withScrollView="keyboardAware"
-      outerViewProps={{
-        showsVerticalScrollIndicator: false,
-      }}
-    >
-      <View style={styles.container}>
+    <>
+      <MaxWidthContainer
+        withScrollView="keyboardAware"
+        outerViewProps={{
+          showsVerticalScrollIndicator: false,
+          style: {
+            paddingHorizontal: 26,
+          },
+        }}
+      >
+
         <Text
           category="h1"
           status="basic"
@@ -45,76 +143,188 @@ const MaTresorerie2 = () => {
           Ma Trésorerie
         </Text>
         <CompteHeader
-          title={data?.listRealEstates?.items?.map((item) => item?.name)}
+          title={bienget?.name}
+          iconUri={bienget?.iconUri}
         />
-        <Text category="h2" style={{ marginVertical: 20 }}>
-          Comptes Bancaires
+        <Text category="s2" status="basic" style={{ marginVertical: 20 }}>
+          Comptes bancaires
         </Text>
-        <Text category="h6" appearance="hint">Sélectionner le compte pour consulter votre trésorerie</Text>
-
-        {loading
-          ? <ActivityIndicator />
-          : (
+        {toggle
+          ? (<Text category="p2" appearance="hint">Ajoutez un compte pour consulter votre trésorerie</Text>)
+          : (<Text category="p2" appearance="hint">Sélectionner le compte pour consulter votre trésorerie</Text>)}
+        {loadingBien
+          ? <View style={{ justifyContent: 'center', alignItems: 'center' }}><ActivityIndicator /></View>
+          : (!toggle ? (
             <>
-              {data?.listRealEstates?.items?.map(
-                (item) => item && <OwnerCompte key={item.id} compte={item} />,
+              {realEstateBankAccount?.map(
+                (item) => item && (
+                <OwnerCompte
+                  key={item.id}
+                  compte={item.bankAccount}
+                  supprimer={supprim}
+                  onCheck={(checked) => {
+                    const nextCheckedRealEstateAccounts = checkedRealEstateAccounts
+                      .filter((id) => id.id !== item.id);
+                    if (checked) {
+                      nextCheckedRealEstateAccounts.push({ id: item.id, _version: item._version });
+                    }
+                    setCheckedRealEstateAccounts(nextCheckedRealEstateAccounts);
+                  }}
+                />
+                ),
               )}
             </>
+          ) : (
+            <>
+              {BankAccount?.map(
+                (item) => item && (
+                <OwnerCompte
+                  key={item.id}
+                  compte={item}
+                  supprimer={supprim}
+                  add
+                  onCheck={(checked) => {
+                    const nextCheckedAccounts = checkedAccounts.filter((id) => id.id !== item.id);
+                    if (checked) {
+                      // eslint-disable-next-line no-underscore-dangle
+                      nextCheckedAccounts.push({ id: item.id, _version: item._version });
+                    }
+                    // console.log('nextCheckedAccounts', nextCheckedAccounts);
+                    setCheckedAccounts(nextCheckedAccounts);
+                  }}
+                />
+                ),
+              )}
+            </>
+          )
+
+          )}
+        {supprim && (
+        <TouchableOpacity
+          onPress={() => setSupprim(!supprim)}
+          style={{
+            flexDirection: 'row', marginTop: 30, justifyContent: 'flex-end', backgroundColor: 'transparent',
+          }}
+        >
+          <Text
+            category="h5"
+            status="basic"
+          >
+            Annuler
+          </Text>
+        </TouchableOpacity>
+        )}
+
+        <TouchableOpacity
+          onPress={() => { supprimerCompte(); setSupprim(!supprim); }}
+          style={{
+            flexDirection: 'row', marginTop: 30, justifyContent: 'flex-end', backgroundColor: 'transparent',
+          }}
+        >
+          <Text
+            category="h5"
+            status={supprim ? 'danger' : 'basic'}
+          >
+            Supprimer un compte
+          </Text>
+        </TouchableOpacity>
+
+        <View style={{ marginVertical: 30, borderTopWidth: 1, borderColor: '#b5b5b5' }} />
+        {supprim
+          ? <></>
+          : (
+            <Button
+              size="large"
+              onPress={async () => {
+                if (toggle) {
+                  if (
+                    checkedAccounts.length > 0
+                      && BankAccount
+                  ) {
+                    BankAccount.map(async (item) => {
+                      if (checkedAccounts.includes(item.id)) {
+                        await createRealEstateBankAccount({
+                          variables: {
+                            input: {
+                              realEstateId: route.params.id,
+                              bankAccountId: item.id,
+                            },
+                          },
+                        });
+                      }
+                    });
+                    // console.log('item : ', bienCharger?.bankAccounts?.items);
+                    setToggle(false);
+                  } else {
+                    setAddingAccounts(true);
+                    const response = await API.get('omedomrest', '/budgetinsight/connect-url', {});
+                    setAddingAccounts(false);
+                    setNewAccountLink(response.connectUrl);
+                  }
+                } else {
+                  setToggle(true);
+                }
+              }}
+              style={{
+                paddingVertical: 20, marginBottom: 30, borderTopWidth: 1, borderTopColor: '#b5b5b5',
+              }}
+            >
+              {buttonText}
+            </Button>
           )}
 
-        <Button
-          size="large"
-          onPress={() => {}}
-          style={{ marginVertical: 25 }}
+      </MaxWidthContainer>
+      <ActionSheet
+        title="test"
+        before={<></>}
+        noSafeArea
+        scrollable={false}
+        visible={newAccountLink !== undefined || addingAccounts}
+        onClose={() => {
+          Alert.alert('Ajout de compte bancaire',
+            'Vous êtes sur de vouloir quitter l\'ajout du compte bancaire ? Il ne sera pas ajouté.',
+            [{
+              text: 'Annuler',
+              style: 'cancel',
+            },
+            {
+              text: 'Valider',
+              onPress: async () => {
+                setNewAccountLink(undefined);
+                setAddingAccounts(false);
+              },
+            }]);
+        }}
+      >
+        {newAccountLink && (
+        <WebView
+          src={newAccountLink}
+          onMessage={async (e) => {
+            if (e !== undefined && typeof e === 'string') {
+              setAddingAccounts(true);
+              setNewAccountLink(undefined);
+              const obj = JSON.parse(e);
+              if (!obj.error) {
+                await API.get('omedomrest', `/budgetinsight/create-accounts?CONNECTION_ID=${obj.id_connection}&REAL_ESTATE_ID=${route.params.id}`, {});
+              }
+              setAddingAccounts(false);
+            }
+          }}
+        />
+        )}
+        {addingAccounts && (
+        <View style={{
+          flex: 1,
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
         >
-          Connecter une autre compte bancaire
-        </Button>
-
-        <Button
-          size="large"
-          onPress={() => {}}
-          appearance="outline"
-          status="danger"
-        >
-          Supprimer un compte
-        </Button>
-
-      </View>
-
-    </MaxWidthContainer>
+          <ActivityIndicator />
+        </View>
+        )}
+      </ActionSheet>
+    </>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#f6f6f6',
-    paddingVertical: 25,
-    marginBottom: 12,
-    paddingHorizontal: 26,
-  },
-  window: {
-    flexDirection: 'row',
-    marginTop: 30,
-    paddingTop: 31,
-    paddingBottom: 28,
-    paddingHorizontal: 37,
-    borderRadius: 10,
-    borderColor: 'transparent',
-    shadowColor: '#dedede',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowRadius: 0.5,
-    shadowOpacity: 1,
-  },
-  footer: {
-    paddingTop: 5,
-    backgroundColor: 'transparent',
-    paddingBottom: 32,
-    borderBottomWidth: 0.5,
-    borderBottomColor: '#b5b5b5',
-  },
-});
 
 export default MaTresorerie2;

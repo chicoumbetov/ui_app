@@ -5,7 +5,7 @@
  */
 
 import * as FileSystem from 'expo-file-system';
-import { Storage } from 'aws-amplify';
+import Storage from '@aws-amplify/storage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Platform } from 'react-native';
 import { useEffect } from 'react';
@@ -13,8 +13,10 @@ import { ImagePickerResult } from 'expo-image-picker';
 import { DocumentResult } from 'expo-document-picker';
 import { v4 as uuid } from 'uuid';
 import * as mime from 'react-native-mime-types';
+import { FilePrintResult } from 'expo-print/src/Print.types';
 import { useNetworkInfo } from './CustomHooks';
 import { CameraOutput } from '../components/Camera/Camera';
+import { removeNull } from './ObjectHelper';
 
 export const waitingDirectory = 'waitingFile/';
 
@@ -33,7 +35,9 @@ const UploadPendingDocs = async () => {
     }
     await UploadInternal(
       FileSystem.documentDirectory + waitingDirectory + JsonObject.key,
-      JsonObject.key, value as string,
+      JsonObject.key,
+      JsonObject.originalFilename ? JsonObject.originalFilename : JsonObject.name,
+      value as string,
       true,
     );
   });
@@ -43,6 +47,7 @@ const UploadPendingDocs = async () => {
 const UploadInternal = async (
   uri: string,
   key: string,
+  originalFilename?: string,
   storageKey?: string,
   deleteTempFile?: boolean,
 ) => {
@@ -57,13 +62,15 @@ const UploadInternal = async (
       exists = fileInfo.exists;
     }
     if (exists) {
-      await Storage.put(key, blob, {
+      await Storage.put(key, blob, removeNull({
         contentType: blob.type,
         cacheControl: blob.type.indexOf('image') > -1 ? 'max-age=2592000, public' : 'no-cache',
-        progressCallback(progress: any) {
+        contentDisposition: originalFilename ? `attachment; filename="${originalFilename}"` : null,
+        // ??????????????,
+        progessCallback(progress: any) {
           console.log(`Uploaded: ${progress.loaded}/${progress.total}`);
         },
-      });
+      }));
     }
     if (deleteTempFile && Platform.OS !== 'web') {
       await FileSystem.deleteAsync(uri);
@@ -90,16 +97,19 @@ export function useAutoFileStorage() {
 }
 
 export const Upload = async (
-  file: ImagePickerResult | DocumentResult | CameraOutput,
+  file: ImagePickerResult | DocumentResult | CameraOutput | FilePrintResult | { uri: string },
   path?: string,
+  originalFilename?: string,
 ) => {
   // on normalise l'objet en fonction du cas
   let found = false;
-  let finalFile: { name: string, uri: string } = { name: '', uri: '' };
+  let finalFile: { name: string, uri: string,
+    originalFilename?: string } = { name: '', uri: '' };
   if (file && 'cancelled' in file && !file.cancelled) {
     found = true;
     finalFile = {
       name: getFilename(file.uri),
+      originalFilename,
       uri: file.uri,
     };
     // on est dans le cas d'un resultat de ImagePicker
@@ -108,15 +118,19 @@ export const Upload = async (
     // on est dans le cas d'un resultat de DocumentPicker
     finalFile = {
       name: file.name,
+      originalFilename,
       uri: file.uri,
     };
   } else if (file && !('cancelled' in file) && !('type' in file) && file.uri) {
-    // on est dans le cas d'une photo de la caméra
+    found = true;
+    // on est dans le cas d'une photo de la caméra ou d'un fichier imprimé
     finalFile = {
       name: getFilename(file.uri),
+      originalFilename,
       uri: file.uri,
     };
   }
+  console.log(finalFile);
   if (!found) {
     return false;
   }
@@ -129,7 +143,7 @@ export const Upload = async (
     ...finalFile,
   };
   if (Platform.OS === 'web') {
-    const success = await UploadInternal(finalFile.uri, key, '', false);
+    const success = await UploadInternal(finalFile.uri, key, finalFile.originalFilename || finalFile.name, '', false);
     if (success) {
       return inputData;
     }
@@ -137,12 +151,16 @@ export const Upload = async (
     const uri = FileSystem.documentDirectory + waitingDirectory + key;
     const storageKey = `@S3Object_${uuidKey}`;
     try {
+      await FileSystem.makeDirectoryAsync(
+        FileSystem.documentDirectory + waitingDirectory + path, { intermediates: true },
+      );
       await FileSystem.copyAsync({
         from: finalFile.uri,
         to: uri,
       });
       await AsyncStorage.setItem(storageKey, JSON.stringify(inputData));
-      UploadInternal(uri, key, storageKey, true);
+      UploadInternal(uri, key,
+        finalFile.originalFilename || finalFile.name, storageKey, true);
       return inputData;
     } catch (err) {
       console.log('error: ', err);

@@ -4,12 +4,12 @@
  * @author: Shynggys UMBETOV
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
-  Text, Icon as IconUIKitten, useTheme,
+  Text, Icon as IconUIKitten, useTheme, CheckBox, Modal,
 } from '@ui-kitten/components';
 import {
-  Alert,
+  Alert, Platform,
   StyleSheet, TouchableOpacity, View,
 } from 'react-native';
 import {
@@ -22,73 +22,97 @@ import moment from 'moment';
 import Icon from '../../components/Icon';
 import MaxWidthContainer from '../../components/MaxWidthContainer';
 
-import MaisonVert from '../../assets/Omedom_Icons_svg/Logement/maison_verte.svg';
-// import ManAvatar from '../../assets/Omedom_Icons_svg/Avatars/manAvatar.svg';
-import WomanAvatar from '../../assets/Omedom_Icons_svg/Avatars/womanAvatar.svg';
-
-// import comptesData from '../../mockData/comptesData';
-// import clientData from '../../mockData/clientDATA';
-import { useDeleteRealEstateMutation, useGetRealEstate } from '../../src/API/RealEstate';
+import {
+  useDeleteRealEstateMutation,
+  useGetRealEstate,
+  useUpdateRealEstateMutation,
+} from '../../src/API/RealEstate';
 import { TabMesBiensParamList } from '../../types';
-import { Upload } from '../../utils/S3FileStorage';
+
 import Card from '../../components/Card';
 import Separator from '../../components/Separator';
+
+import DocumentComponent from '../../components/DocumentComponent';
+import { useCreateDocumentMutation, useDeleteDocumentMutation } from '../../src/API/Document';
+
+import ReadOnly from '../../components/ReadOnly';
+import { Upload } from '../../utils/S3FileStorage';
+import Amount from '../../components/Amount';
+
+import AutoAvatar from '../../components/AutoAvatar';
+import ActivityIndicator from '../../components/ActivityIndicator';
+import UserSharedCard from './Components/UserSharedCard';
+import { useDeleteTenantMutation } from '../../src/API/Tenant';
+import Camera from '../../components/Camera';
+import { BudgetLineType, PendingInvitation } from '../../src/API';
+import { useDeletePendingInvitationMutation } from '../../src/API/PendingInvitation';
+import { typeBien } from '../../mockData/ajoutBienData';
 
 function DetailsBien() {
   const navigation = useNavigation();
   const linkTo = useLinkTo();
   const theme = useTheme();
   const route = useRoute<RouteProp<TabMesBiensParamList, 'detail-bien'>>();
-  const { bien } = useGetRealEstate(route.params.id);
+  const { bienget, loading } = useGetRealEstate(route.params.id, 'cache-and-network');
 
-  const [typeRevenu, setTypeRevenu] = useState<string>();
+  const createDocument = useCreateDocumentMutation();
+  // console.log('detail bien document', documentList);
+  const [supprim, setSupprim] = useState(false);
+  const [supprimInvitation, setSupprimInvitation] = useState(false);
 
-  useEffect(() => {
-    switch (bien?.type) {
-      default:
-        setTypeRevenu('Type de bien');
-        break;
-      case 'mainHome':
-        setTypeRevenu('Résidence Principal');
-        break;
-      case 'secondHome':
-        setTypeRevenu('Résidence Secondaire');
-        break;
-      case 'professionnalRentalInvestment':
-        setTypeRevenu('Investissement Locatif Professionnel ou Commercial');
-        break;
-      case 'privateRentalInvestment':
-        setTypeRevenu('Investissement Locatif Particulier');
-        break;
-    }
-  }, []);
+  const [checkedTenant, setCheckedTenant] = useState<string[]>([]);
+  const [checkedAdmins, setCheckedAdmins] = useState<string[]>([]);
+  const [checkedShare, setCheckedShare] = useState<string[]>([]);
+  const [checkedDocument, setCheckedDocument] = useState<
+  Array<{ id: string, _version: number }
+  >>([]);
+  const [checkedPending, setCheckedPending] = useState<
+  Array<{ id: string, _version: number }
+  >>([]);
+
+  const readOnly = ReadOnly.readOnly(route.params.id);
+  /**
+  const users = useGetUserByIDList(Array.prototype.concat(
+   bienCharger?.admins,
+   bienCharger?.shared));
+  const invitateUserId = pendingInvitations?.filter(
+    (item) => item?.realEstateId === route.params.id,
+  );
+  */
+
+  const [camera, setCamera] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const onTakePicture = () => {
+    setCamera(true);
+  };
 
   // const [compte, setCompte] = useState(comptesData);
 
   const allerMonBudget = () => {
+    // console.log(route.params.id);
     navigation.navigate('mon-budget', { id: route.params.id });
   };
-  // console.log('Detail Bien: ', bien);
+  // console.log('pending invitation: ', bienget?.pendingInvitations?.items);
   const allerTresorerie = () => {
-    linkTo('/ma-tresorerie');
+    linkTo(`/ma-tresorerie/${route.params.id}/mes-comptes/`);
   };
 
   const allerMesRapports = () => {
-    navigation.navigate('mes-rapports');
+    linkTo(`/mes-biens/mes-rapports-biens1/${bienget.id}`);
   };
 
   const allerMonAssistant = () => {
     linkTo('/mon-assistant');
   };
   const allerPartagerBien = () => {
-    navigation.navigate('partager-bien');
+    navigation.navigate('partager-bien', { id: route.params.id });
   };
   const allerModifierCharacteristics = () => {
     navigation.navigate('modifier-characteristique', { id: route.params.id });
   };
 
   const deleteRealEstate = useDeleteRealEstateMutation;
-  const supprimerLeRevenue = async () => {
+  const supprimerLeBien = async () => {
     return false;
     Alert.alert(
       'Suppression de revenue',
@@ -101,10 +125,248 @@ function DetailsBien() {
         text: 'Valider',
         onPress: async () => {
           await deleteRealEstate();
+          // delete tenants
+          // BudgetLines, budgetLineDeadlines
         },
       }],
     );
   };
+
+  const [supprimTenant, setSupprimTenant] = useState(false);
+  const useDeleteTenant = useDeleteTenantMutation();
+  const deleteTenant = async () => {
+    if (supprimTenant && checkedTenant.length > 0) {
+      Alert.alert(
+        'Suppression de locataire',
+        '',
+        [{
+          text: 'Annuler',
+          style: 'cancel',
+        },
+        {
+          text: 'Valider',
+          onPress: async () => {
+          // reduce needed to do async
+            await useDeleteTenant(bienget, checkedTenant);
+          },
+        }],
+      );
+    }
+  };
+
+  const deleteDoc = useDeleteDocumentMutation();
+  const supprimerDocument = async () => {
+    if (checkedDocument.length > 0) {
+      Alert.alert(
+        'Suppression de document',
+        '',
+        [{
+          text: 'Annuler',
+          style: 'cancel',
+        },
+        {
+          text: 'Valider',
+          onPress: async () => {
+            const promises = checkedDocument.map(async (doc) => {
+              await deleteDoc({
+                variables: {
+                  input: {
+                    id: doc.id,
+                    // eslint-disable-next-line no-underscore-dangle
+                    _version: doc._version,
+                  },
+                },
+              });
+            });
+            await Promise.all(promises);
+          },
+        }],
+      );
+    } else {
+      setSupprim(false);
+    }
+  };
+
+  const updateRealEstate = useUpdateRealEstateMutation();
+
+  const deletePendingInvitation = useDeletePendingInvitationMutation();
+  const supprimerAdminShare = async () => {
+    if (checkedAdmins.length > 0 || checkedShare.length > 0 || checkedPending.length > 0) {
+      Alert.alert(
+        'Suppression de partage de bien',
+        '',
+        [{
+          text: 'Annuler',
+          style: 'cancel',
+        },
+        {
+          text: 'Valider',
+          onPress: async () => {
+            if (checkedAdmins.length > 0) {
+              const promises = checkedAdmins.map(async (idAdmins) => {
+                const admins = bienget.admins.filter((admin) => admin !== idAdmins);
+                await updateRealEstate.updateRealEstate({
+                  variables: {
+                    input: {
+                      id: bienget.id,
+                      admins,
+                      // eslint-disable-next-line no-underscore-dangle
+                      _version: bienget._version,
+                    },
+                  },
+                });
+              });
+              await Promise.all(promises);
+            }
+            if (checkedShare.length > 0) {
+              const promises = checkedShare.map(async (idShare) => {
+                const shared = bienget?.shared?.filter((share) => share !== idShare);
+                await updateRealEstate.updateRealEstate({
+                  variables: {
+                    input: {
+                      id: bienget.id,
+                      shared,
+                      // eslint-disable-next-line no-underscore-dangle
+                      _version: bienget._version,
+                    },
+                  },
+                });
+              });
+              await Promise.all(promises);
+            }
+            if (checkedPending.length > 0) {
+              const promises = checkedPending.map(async (current) => {
+                await deletePendingInvitation.deletePendingInvitation({
+                  variables: {
+                    input: {
+                      id: current.id,
+                      // eslint-disable-next-line no-underscore-dangle
+                      _version: current._version,
+                    },
+                  },
+                });
+              });
+              await Promise.all(promises);
+            }
+          },
+        }],
+      );
+    } else {
+      setSupprim(false);
+    }
+  };
+
+  // budgetLines are already sorted in schema.graphql
+  // sortDirection: ASC
+  /**
+  const nextexpense = useMemo(() => {
+    const nextexpenseInternal = bienget?.budgetLines?.items
+    && bienget?.budgetLines?.items.length > 0
+    && bienget?.budgetLines?.items[0]?.amount;
+
+    return {
+      nextexpense: nextexpenseInternal,
+    }
+  }, [bienget.budgetLines])
+   */
+
+  const nextexpense = bienget?.budgetLines?.items
+        && bienget?.budgetLines?.items.length > 0
+        && bienget?.budgetLines?.items[0]?.amount;
+
+  const { bankMovements } = bienget || {};
+
+  // useMemo used if big O notation is expensive. higher than n to the power 2
+  const dernierMovement = useMemo(() => bankMovements?.items?.find(
+    (item) => (!item?.ignored),
+  ), [bankMovements]);
+
+  // console.log('last Movement', dernierMovement);
+  let invitationAttente : (PendingInvitation | null)[];
+  if (bienget?.pendingInvitations?.items) {
+    invitationAttente = bienget?.pendingInvitations?.items.filter((item) => !item._deleted);
+  }
+  // console.log('pending : ', invitationAttente);
+
+  const referenceYear = new Date().getFullYear();
+
+  const result = bienget.budgetLineDeadlines?.items?.filter((o) => moment(o?.date, 'YYYY-MM-DD').isBetween(moment().subtract(12, 'months'), moment(), '[]'));
+  console.log('result: ', result);
+
+  const result2 = bienget.budgetLineDeadlines?.items?.filter((o) => moment(o?.date, 'YYYY-MM-DD').isBetween(moment(new Date(new Date().setFullYear(referenceYear - 1))), moment(new Date(new Date().setFullYear(referenceYear))), '[]'));
+  console.log('result2:', result2);
+
+  console.log('Details Bien: ', bienget, loading);
+
+  const totalPrice = (bienget.purchasePrice || 0) + (bienget.notaryFee || 0);
+  console.log('totalPrice: ', totalPrice);
+
+  // const [totalDepense, setTotalDepense] = useState<number>();
+  const depenses = bienget.budgetLineDeadlines?.items?.filter(
+    (k) => k?.type === BudgetLineType.Expense
+    // eslint-disable-next-line no-underscore-dangle
+    && !k._deleted,
+  );
+
+  const last12MonthDepense = result?.filter(
+    (k) => k?.type === BudgetLineType.Expense
+          // eslint-disable-next-line no-underscore-dangle
+          && !k._deleted,
+  );
+  console.log('depenses', depenses);
+  console.log('last12', last12MonthDepense);
+
+  const totalDepenses = last12MonthDepense?.map((u) => u?.amount).reduce((sum, current) => (sum || 0) + (current || 0));
+  const totalD = depenses?.map((u) => u?.amount).reduce((sum, current) => (sum || 0) + (current || 0));
+  const positive = Math.abs(totalDepenses);
+  console.log('totalDepense:', positive, Math.abs(totalD));
+
+  const incomes = bienget.budgetLineDeadlines?.items?.filter(
+    (k) => k?.type === BudgetLineType.Income
+          // eslint-disable-next-line no-underscore-dangle
+          && !k._deleted,
+  );
+  console.log('incomes:', incomes);
+
+  const RentabilityBrut = bienget.budgetLineDeadlines?.items?.forEach(
+    (amo) => {
+      let freqIncome = 12;
+      switch (amo?.frequency) {
+        case 'quarterly':
+          freqIncome = 4;
+          break;
+        case 'annual':
+          freqIncome = 1;
+          break;
+        default:
+          return null;
+      }
+
+      if (amo?.type === BudgetLineType.Income
+          // eslint-disable-next-line no-underscore-dangle
+          && !amo._deleted
+          // && !amo.bankMouvementId
+      ) {
+        console.log('DDDDDDDDDDDDDDDD');
+        console.log('DDDDDDDDDDDDDDDD');
+        console.log('DDDDDDDDDDDDDDDD');
+
+        const revenues = amo?.amount || 0;
+        const chars = amo?.rentalCharges || 0;
+        const manage = amo?.managementFees || 0;
+        console.log('frequency Income: ', amo?.frequency);
+        console.log('frequency Income: ', freqIncome);
+
+        const LoyerNet = revenues - chars - manage;
+        const last12MonthLoyerNet = LoyerNet * freqIncome;
+        console.log('LoyerNet', LoyerNet);
+        console.log('last12MonthLoyerNet', last12MonthLoyerNet);
+        console.log('rent: ', ((last12MonthLoyerNet - positive) / totalPrice) * 100);
+
+        console.log('+++++++++++');
+      }
+    },
+  );
 
   return (
     <MaxWidthContainer
@@ -117,57 +379,86 @@ function DetailsBien() {
       {/**
        *  I. Details du bien
        */}
-      <View style={styles.container}>
-        <Text category="h1" status="basic">
-          Détails du bien
-          {/**
-          {route.params.id}
-           */}
-        </Text>
-        <View style={{ alignItems: 'center', marginTop: 30 }}>
-          <MaisonVert
-            height={100}
-            width={100}
-            style={{ marginRight: 12, marginBottom: 10 }}
-          />
-          <Text category="h2" status="basic">
-            {bien?.name}
-          </Text>
-        </View>
+      {loading
+        ? <View style={{ justifyContent: 'center', alignItems: 'center', marginVertical: 20 }}><ActivityIndicator /></View>
+        : (
+          <>
+            <View style={styles.container}>
+              <Text category="h1" status="basic">
+                Détails du bien
+                {/**
+                     {route.params.id}
+                     */}
+              </Text>
+              <View style={{ alignItems: 'center', marginTop: 30 }}>
+                {/** <MaisonVert
+                     height={100}
+                     width={100}
+                     style={{ marginRight: 12, marginBottom: 10 }}
+                     /> */}
+                <AutoAvatar
+                  avatarInfo={bienget?.iconUri}
+                  style={{
+                    height: 100,
+                    width: 100,
+                    marginRight: 12,
+                    marginBottom: 10,
+                    borderRadius: 50,
+                    overflow: 'hidden',
+                  }}
+                />
+                <Text category="h2" status="basic">
+                  {bienget?.name}
+                </Text>
+              </View>
 
-      </View>
+            </View>
+          </>
+        )}
 
       {/**
        *  II. Compteurs
        */}
       <Separator />
-      <View style={styles.container}>
-        <Text category="s2" style={{ marginBottom: 30 }}>
-          Compteurs
-        </Text>
+      {loading
+        ? <View style={{ justifyContent: 'center', alignItems: 'center', marginVertical: 20 }}><ActivityIndicator /></View>
+        : (
+          <>
+            <View style={styles.container}>
+              <Text category="s2" style={{ marginBottom: 30 }}>
+                Compteurs
+              </Text>
 
-        <Card style={{ flexDirection: 'row' }}>
-          <View style={styles.oneThirdBlock}>
-            <Text category="h6" appearance="hint" style={styles.text}>Dernier mouvement</Text>
-            <Text category="h3" status="success" style={{ marginTop: 14 }}>+ 500 €</Text>
-          </View>
+              <Card style={{ flexDirection: 'row' }}>
+                <View style={styles.oneThirdBlock}>
+                  <Text category="h6" appearance="hint" style={styles.text}>Dernier mouvement</Text>
+                  {dernierMovement ? (
+                    <Amount amount={dernierMovement?.amount || 0} category="h3" />
+                  ) : (
+                    <Amount amount={0} category="h3" />
+                  )}
+                </View>
 
-          <View style={styles.oneThirdBlock}>
-            <Text category="h6" appearance="hint" style={styles.text}>
-              Prochaine dépense
-            </Text>
-            <Text category="h3" status="danger" style={{ marginTop: 14 }}>- 160 €</Text>
-          </View>
+                <View style={styles.oneThirdBlock}>
+                  <Text category="h6" appearance="hint" style={styles.text}>
+                    Prochaine dépense
+                  </Text>
+                  <Text category="h3" status="danger" style={{ marginTop: 14 }}>
+                    {`${(nextexpense) || '0'} €`}
+                  </Text>
+                </View>
 
-          <View style={styles.oneThirdBlock}>
-            <Text category="h6" appearance="hint" style={styles.text}>
-              Réntabilité du bien
-            </Text>
-            <Text category="h3" status="warning" style={{ marginTop: 14 }}>60 %</Text>
-          </View>
-        </Card>
+                <View style={styles.oneThirdBlock}>
+                  <Text category="h6" appearance="hint" style={styles.text}>
+                    Réntabilité du bien
+                  </Text>
+                  <Text category="h3" status="warning" style={{ marginTop: 14 }}>60 %</Text>
+                </View>
+              </Card>
 
-      </View>
+            </View>
+          </>
+        )}
 
       {/**
        *  III. Budget
@@ -180,17 +471,14 @@ function DetailsBien() {
         </Text>
         {/**   1   */}
         <Card
-          onPress={allerMonBudget}
+          onPress={() => allerMonBudget()}
           style={[styles.docs, {
             alignItems: 'center',
             justifyContent: 'center',
           }]}
         >
           <Icon name="calculator" size={33} color={theme['color-success-400']} style={{ marginRight: 10 }} />
-          <Text style={{
-            fontSize: 17, fontFamily: 'HouschkaRoundedDemiBold', letterSpacing: 0.2,
-          }}
-          >
+          <Text category="h5">
             Mon Budget
           </Text>
         </Card>
@@ -208,7 +496,7 @@ function DetailsBien() {
         </Text>
         {/**   1   */}
         <Card
-          onPress={allerTresorerie}
+          onPress={() => allerTresorerie()}
           style={[styles.docs, {
             alignItems: 'center',
             justifyContent: 'center',
@@ -223,7 +511,7 @@ function DetailsBien() {
 
         {/**   2   */}
         <Card
-          onPress={allerMesRapports}
+          onPress={() => allerMesRapports()}
           style={[styles.docs, {
             alignItems: 'center',
             justifyContent: 'center',
@@ -244,7 +532,7 @@ function DetailsBien() {
 
         {/**   3   */}
         <Card
-          onPress={allerMonAssistant}
+          onPress={() => allerMonAssistant()}
           style={[styles.docs, {
             alignItems: 'center',
             justifyContent: 'center',
@@ -268,128 +556,323 @@ function DetailsBien() {
        *  V. Characteristiques
        */}
       <Separator />
-      <View style={styles.container}>
-        <Text category="s2" style={{ marginBottom: 30 }}>
-          Caractéristiques
-        </Text>
-        <Card style={styles.compteSection}>
-          {/* use SectionList to render several accounts with its types and details */}
-          <Text category="h6" status="basic">Localisation</Text>
-          <Text category="h6" appearance="hint" style={{ marginTop: 6 }}>
-            {`${bien?.address?.address} ${bien?.address?.postalCode} ${bien?.address?.city}`}
-          </Text>
-          <View style={{ borderBottomWidth: 0.5, borderBottomColor: '#b5b5b5', marginVertical: 15 }} />
+      {loading
+        ? <View style={{ justifyContent: 'center', alignItems: 'center', marginVertical: 20 }}><ActivityIndicator /></View>
+        : (
+          <View style={styles.container}>
+            <Text category="s2" style={{ marginBottom: 30 }}>
+              Caractéristiques
+            </Text>
+            <Card style={styles.compteSection}>
+              {/* use SectionList to render several accounts with its types and details */}
+              <Text category="h6" status="basic">Localisation</Text>
+              <Text category="h6" appearance="hint" style={{ marginTop: 6 }}>
+                {`${bienget?.address?.address} ${bienget?.address?.postalCode} ${bienget?.address?.city}`}
+              </Text>
+              <View style={{ borderBottomWidth: 0.5, borderBottomColor: '#b5b5b5', marginVertical: 15 }} />
 
-          <Text category="h6" status="basic" style={{ marginTop: 8 }}>Date d'acquisition</Text>
-          <Text category="h6" appearance="hint" style={{ marginTop: 5 }}>
-            {bien?.purchaseYear || undefined}
-          </Text>
-          <View style={{ borderBottomWidth: 0.3, borderBottomColor: '#b5b5b5', marginVertical: 15 }} />
+              <Text category="h6" status="basic" style={{ marginTop: 8 }}>Date d'acquisition</Text>
+              <Text category="h6" appearance="hint" style={{ marginTop: 5 }}>
+                {bienget?.purchaseYear || undefined}
+              </Text>
+              <View style={{ borderBottomWidth: 0.3, borderBottomColor: '#b5b5b5', marginVertical: 15 }} />
 
-          <Text category="h6" status="basic" style={{ marginTop: 8 }}>Type de bien</Text>
-          <Text category="h6" appearance="hint" style={{ marginTop: 5 }}>
-            {`${typeRevenu}`}
-          </Text>
-          <View style={{ borderBottomWidth: 0.5, borderBottomColor: '#b5b5b5', marginVertical: 15 }} />
+              <Text category="h6" status="basic" style={{ marginTop: 8 }}>Type de bien</Text>
+              <Text category="h6" appearance="hint" style={{ marginTop: 5 }}>
+                {`${bienget.type ? typeBien[bienget.type].label : ''}`}
+              </Text>
+              <View style={{ borderBottomWidth: 0.5, borderBottomColor: '#b5b5b5', marginVertical: 15 }} />
 
-          <Text category="h6" status="basic" style={{ marginTop: 10 }}>Mode de détention</Text>
-          <Text category="h6" appearance="hint" style={{ marginTop: 5 }}>
-            {bien?.ownName ? 'Nom propre' : 'Société'}
-          </Text>
-          <View style={{ borderBottomWidth: 0.5, borderBottomColor: '#b5b5b5', marginVertical: 15 }} />
+              <Text category="h6" status="basic" style={{ marginTop: 10 }}>Mode de détention</Text>
+              <Text category="h6" appearance="hint" style={{ marginTop: 5 }}>
+                {bienget?.ownName ? 'Nom propre' : 'Société'}
+              </Text>
+              <View style={{ borderBottomWidth: 0.5, borderBottomColor: '#b5b5b5', marginVertical: 15 }} />
 
-          <Text category="h6" status="basic" style={{ marginTop: 8 }}>Nombre de parts</Text>
-          <Text category="h6" appearance="hint" style={{ marginTop: 5 }}>
-            {`${bien?.detentionPart || undefined} %`}
-          </Text>
-        </Card>
+              <Text category="h6" status="basic" style={{ marginTop: 8 }}>Nombre de parts</Text>
+              <Text category="h6" appearance="hint" style={{ marginTop: 5 }}>
+                {`${bienget?.detentionPart || undefined} %`}
+              </Text>
+            </Card>
+            {!readOnly && (
+            <TouchableOpacity onPress={() => {
+              allerModifierCharacteristics();
+            }}
+            >
+              <Text category="h5" status="info" style={styles.buttonText}>Modifier le bien</Text>
+            </TouchableOpacity>
+            )}
 
-        <TouchableOpacity onPress={allerModifierCharacteristics}>
-          <Text category="h5" status="info" style={styles.buttonText}>Modifier le bien</Text>
-        </TouchableOpacity>
-      </View>
+          </View>
+        )}
 
       {/**
        *  VI. Gestion des locataires
        */}
       <Separator />
-      <View style={styles.container}>
-        <Text category="s2" style={{ marginBottom: 30 }}>
-          Gestion des locataires
-        </Text>
+      {loading
+        ? <View style={{ justifyContent: 'center', alignItems: 'center', marginVertical: 20 }}><ActivityIndicator /></View>
+        : (
+          <>
+            <View style={styles.container}>
+              <Text category="s2">
+                Mes locataires
+              </Text>
+              <Text category="p2" appearance="hint" style={{ marginBottom: 30 }}>
+                Vous pouvez ajouter ou modifier vos locataires
+                en paramétrant vos revenus de type "Loyer" dans votre espace "Mon Budget".
+              </Text>
 
-        {/* use SectionList to render several accounts with its types and details */}
-        {/**
-          <Text category="h6" status="basic">
-            {clientData.prenom}
-          </Text>
-           */}
-        {bien?.tenants?.map((tenant) => {
-          const { id } = tenant;
-          return (
-            <Card style={styles.compteSection} key={id}>
-              <Text category="h6" status="basic">{`${tenant?.firstname} ${tenant?.lastname}`}</Text>
-              <Text category="h6" appearance="hint">{`${tenant?.amount} €`}</Text>
-              <Text category="h6" appearance="hint" style={{ marginTop: 6 }} />
-              <View style={{ borderBottomWidth: 0.5, borderBottomColor: '#b5b5b5', marginBottom: 15 }} />
+              {/* use SectionList to render several accounts with its types and details */}
+              {/**
+                   <Text category="h6" status="basic">
+                   {clientData.prenom}
+                   </Text>
+                   */}
+              {bienget?.tenants?.map((tenant) => (
+                tenant && (
+                <Card
+                  style={{
+                    paddingVertical: 24,
+                    paddingHorizontal: 26.5,
+                    marginBottom: 10,
+                    alignItems: 'center',
+                    flexDirection: 'row',
+                    borderWidth: checkedTenant.indexOf(tenant?.id) > -1 ? (1) : (0),
+                    borderColor: 'red',
+                  }}
+                  key={tenant?.id}
+                >
+                  {supprimTenant && (
+                  <View
+                    style={{ justifyContent: 'center', paddingHorizontal: 14, width: 50 }}
+                  >
+                    <CheckBox
+                          // 1 -> 3
+                      checked={checkedTenant.indexOf(tenant?.id) > -1}
+                      onChange={(newChecked) => {
+                        // 2
+                        // 4
+                        const nextCheckedTenants = checkedTenant
+                          .filter((id) => id !== tenant?.id);
+                        // 2
+                        if (newChecked) {
+                          nextCheckedTenants.push(tenant?.id);
+                        }
+                        // 2
+                        // 4
+                        // console.log('nextCheckedAccounts', nextCheckedAccounts);
+                        setCheckedTenant(nextCheckedTenants);
+                      }}
+                      status="danger"
+                    />
+                  </View>
+                  )}
+                  <View style={{ flex: 1 }}>
+                    <Text category="h6" status="basic">{`${tenant?.firstname} ${tenant?.lastname}`}</Text>
+                    <Text category="h6" appearance="hint">{`${tenant?.amount} €`}</Text>
+                    <Text category="h6" appearance="hint" style={{ marginTop: 6 }} />
+                    <View style={{ borderBottomWidth: 0.5, borderBottomColor: '#b5b5b5', marginVertical: 15 }} />
 
-              <Text category="h6" status="basic" style={{ marginTop: 7 }}>Date de fin de bail</Text>
-              <Text
-                category="h6"
-                appearance="hint"
+                    <Text category="h6" status="basic" style={{ marginTop: 7 }}>Date de fin de bail</Text>
+                    <Text
+                      category="h6"
+                      appearance="hint"
+                      style={{
+                        marginTop: 5,
+                      }}
+                    >
+                      {`${moment(tenant?.endDate).format('DD/MM/YYYY')}`}
+                    </Text>
+                  </View>
+                </Card>
+                )
+              ))}
+              {!readOnly && (
+              <TouchableOpacity
+                onPress={() => {
+                  deleteTenant(); setSupprimTenant(!supprimTenant);
+                }}
                 style={{
-                  marginTop: 5,
+                  flexDirection: 'row',
+                  marginTop: 10,
+                  justifyContent: 'flex-end',
                 }}
               >
-                {`${moment(tenant?.endDate).format('L')}`}
-              </Text>
-            </Card>
-          );
-        }) || undefined}
-
-        <View style={styles.button}>
-          <TouchableOpacity onPress={() => {}}>
-            <Text category="h5" status="info" style={styles.buttonText}>Ajouter</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={() => {}}>
-            <Text category="h5" status="basic" style={styles.buttonText}>Supprimer</Text>
-          </TouchableOpacity>
-        </View>
-
-      </View>
+                <Text category="h5" status={checkedTenant.length > 0 ? ('danger') : ('basic')} style={styles.buttonText}>{checkedTenant.length > 0 || !supprimTenant ? ('Supprimer') : ('Annuler')}</Text>
+              </TouchableOpacity>
+              )}
+            </View>
+          </>
+        )}
 
       {/**
        *  VII. Documents
        */}
       <Separator />
-      <View style={styles.container}>
-        <Text category="s2" style={{ marginBottom: 30 }}>
-          Documents
-        </Text>
-        <Card style={styles.docs}>
-          <Text category="p2">Aide_Déclaration_Impôts_2021</Text>
+      {loading
+        ? <View style={{ justifyContent: 'center', alignItems: 'center', marginVertical: 20 }}><ActivityIndicator /></View>
+        : (
+          <>
+            <View style={styles.container}>
+              <Text category="s2" style={{ marginBottom: 30 }}>
+                Documents
+              </Text>
+              {bienget?.documents?.items?.map(
+                // eslint-disable-next-line no-underscore-dangle
+                (item) => item && !item._deleted && (
+                <DocumentComponent
+                  key={item?.id}
+                  document={item}
+                  checked={checkedDocument.find(({ id }) => (id === item.id)) !== undefined}
+                  supprimer={supprim}
+                  onCheck={(checked) => {
+                    const nextCheckedAccounts = checkedDocument.filter((id) => id !== item.id);
+                    if (checked) {
+                      // eslint-disable-next-line no-underscore-dangle
+                      nextCheckedAccounts.push({ id: item.id, _version: item._version });
+                    }
+                    // console.log('nextCheckedAccounts', nextCheckedAccounts);
+                    setCheckedDocument(nextCheckedAccounts);
+                  }}
+                />
+                ),
+              )}
 
-          <IconUIKitten name="cloud-download" fill="#b5b5b5" style={{ height: 17, width: 17 }} />
-        </Card>
+              <View style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+              }}
+              >
 
-        <View style={styles.button}>
-          <TouchableOpacity onPress={async () => {
-            // console.log('should');
-            const doc = await DocumentPicker.getDocumentAsync();
-            const key = await Upload(doc, `biens/${route.params.id}/documents/`);
-            // console.log(key);
-          }}
-          >
-            <Text category="h5" status="info" style={styles.buttonText}>Ajouter</Text>
-          </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={
+                          async () => {
+                            // console.log('should');
+                            // get document from gallery of phone
+                            const doc = await DocumentPicker.getDocumentAsync();
+                            // doc has 4 attributes : name, size, type: 'success', uri
+                            // console.log('doc ajouter:', doc);
+                            const name = doc.type === 'success' ? doc.name : '';
+                            // console.log('name ajouter: ', name);
+                            if (doc.type === 'success') {
+                              setUploading(true);
+                              // upload chosen document from gallery to s3
+                              const s3file = await Upload(doc, `biens/${route.params.id}/documents/`);
+                              if (s3file !== false && route.params.id) {
+                                // console.log('s3file ajouter: ', s3file);
+                                // const doc =
+                                await createDocument.createDocument({
+                                  variables: {
+                                    input: {
+                                      s3file: s3file.key,
+                                      realEstateId: route.params.id,
+                                      name,
+                                    },
+                                  },
+                                });
+                              }
+                            }
+                            setUploading(false);
+                            // console.log(key);
+                          }
+                        }
+                >
+                  <Text category="h5" status="info" style={styles.buttonText}>Ajouter</Text>
+                </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => {}}>
-            <Text category="h5" status="basic" style={styles.buttonText}>Supprimer</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-
+                {!readOnly && (
+                <TouchableOpacity onPress={() => {
+                  supprimerDocument(); setSupprim(!supprim);
+                }}
+                >
+                  <Text category="h5" status={checkedDocument.length > 0 ? ('danger') : ('basic')} style={styles.buttonText}>{checkedDocument.length > 0 || !supprim ? ('Supprimer') : ('Annuler')}</Text>
+                </TouchableOpacity>
+                )}
+              </View>
+              {/**
+               Taking picture of document
+               */}
+              {Platform.OS !== 'web' && (
+              <View style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+              }}
+              >
+                <TouchableOpacity
+                  onPress={() => onTakePicture()}
+                >
+                  <Text category="h5" status="info" style={styles.buttonText}>Prendre une photo</Text>
+                </TouchableOpacity>
+              </View>
+              )}
+              {Platform.OS !== 'web' && (
+              <Modal
+                visible={camera}
+                style={{
+                  overflow: 'hidden', alignItems: 'center', margin: 0, height: '100%',
+                }}
+              >
+                {camera && (
+                <Camera
+                  onClose={() => {
+                    setCamera(false);
+                  }}
+                  onChoose={async (result) => {
+                    if (result) {
+                      setCamera(false);
+                      setUploading(true);
+                      // setImage(result.uri);
+                      // console.log('result:', result);
+                      const s3file = await Upload(result, `biens/${route.params.id}/documents/`);
+                      // console.log('s3file :', s3file);
+                      // s3fil has 4 attributes: key, name, originalFilename: undefined, uri
+                      if (s3file !== false && route.params.id) {
+                        // const doc =
+                        await createDocument.createDocument({
+                          variables: {
+                            input: {
+                              s3file: s3file.key,
+                              realEstateId: route.params.id,
+                              name: s3file.name,
+                            },
+                          },
+                        });
+                      }
+                    }
+                    setUploading(false);
+                  }}
+                  withPreview
+                  ratio={[1, 1.41]}
+                />
+                )}
+              </Modal>
+              )}
+              {uploading && (
+              <View style={{
+                position: 'absolute',
+                top: 0,
+                bottom: 0,
+                left: 0,
+                right: 0,
+                backgroundColor: 'rgba(255,255,255,0.8)',
+              }}
+              >
+                <View style={{
+                  flex: 1,
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+                >
+                  <Text category="h4" status="primary">Chargement du document</Text>
+                  <ActivityIndicator />
+                </View>
+              </View>
+              )}
+            </View>
+          </>
+        )}
       {/**
        *  VIII. Partager votre bien
        */}
@@ -398,41 +881,104 @@ function DetailsBien() {
         <Text category="s2" style={{ marginBottom: 30 }}>
           Partager votre bien
         </Text>
-
-        <Card style={[styles.docs, {
-          justifyContent: 'flex-start',
-        }]}
-        >
-          <WomanAvatar height={50} width={50} style={{ marginRight: 18 }} />
-
-          <View style={{ flexDirection: 'column' }}>
-            <Text category="p1" status="basic">
-              Marie Dupont
-            </Text>
-            <Text category="p2" appearance="hint">
-              Lecture Seule
-            </Text>
-          </View>
-
-        </Card>
-
+        {bienget?.admins.map((idAdmin) => (
+          <UserSharedCard
+            idUser={idAdmin}
+            admin
+            key={idAdmin}
+            supprimer={supprimInvitation}
+            onCheck={(checked) => {
+              const nextCheckedAccounts = checkedAdmins.filter((thisId) => thisId !== idAdmin);
+              if (checked) {
+                nextCheckedAccounts.push(idAdmin);
+              }
+              //   console.log('nextCheckedAccounts', nextCheckedAccounts);
+              setCheckedAdmins(nextCheckedAccounts);
+            }}
+          />
+        ))}
+        {bienget?.shared?.map((idShare) => (
+          <UserSharedCard
+            idUser={idShare}
+            admin={false}
+            key={idShare}
+            supprimer={supprimInvitation}
+            onCheck={(checked) => {
+              const nextCheckedAccounts = checkedAdmins.filter((thisId) => thisId !== idShare);
+              if (checked) {
+                nextCheckedAccounts.push(idShare);
+              }
+              // console.log('nextCheckedAccounts', nextCheckedAccounts);
+              setCheckedShare(nextCheckedAccounts);
+            }}
+          />
+        ))}
+        {invitationAttente?.map((pending) => (
+          pending?.type === 'Admin' ? (
+            <UserSharedCard
+              email={pending.email}
+              admin
+              supprimer={supprimInvitation}
+              onCheck={(checked) => {
+                const nextCheckedAccounts = checkedPending.filter(
+                  (thisId) => thisId.id !== pending.id,
+                );
+                if (checked) {
+                  nextCheckedAccounts.push({ id: pending.id, _version: pending._version });
+                }
+                console.log('nextCheckedAccounts', nextCheckedAccounts);
+                setCheckedPending(nextCheckedAccounts);
+              }}
+            />
+          ) : (
+            <UserSharedCard
+              email={pending?.email}
+              admin={false}
+              key={pending?.id}
+              supprimer={supprimInvitation}
+              onCheck={(checked) => {
+                const nextCheckedAccounts = checkedPending.filter(
+                  (thisId) => thisId.id !== pending?.id,
+                );
+                if (checked) {
+                  // eslint-disable-next-line no-underscore-dangle
+                  nextCheckedAccounts.push({ id: pending?.id, _version: pending?._version });
+                }
+                console.log('nextCheckedAccounts', nextCheckedAccounts);
+                setCheckedPending(nextCheckedAccounts);
+              }}
+            />
+          )
+        ))}
+        {!readOnly && (
         <View style={styles.button}>
-          <TouchableOpacity onPress={allerPartagerBien}>
+          <TouchableOpacity onPress={() => {
+            allerPartagerBien();
+          }}
+          >
             <Text category="h5" status="info" style={styles.buttonText}>Ajouter</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => {}}>
+          <TouchableOpacity onPress={() => {
+            supprimerAdminShare();
+            setSupprimInvitation(!supprimInvitation);
+          }}
+          >
             <Text category="h5" status="basic" style={styles.buttonText}>Supprimer</Text>
           </TouchableOpacity>
         </View>
+        )}
       </View>
 
       {/**
        *  Supprimer le bien
        */}
       <Separator />
-
-      <TouchableOpacity onPress={() => supprimerLeRevenue()}>
+      {!readOnly && (
+      <TouchableOpacity onPress={() => {
+        supprimerLeBien();
+      }}
+      >
         <View style={[styles.container, { alignItems: 'center' }]}>
           <Text category="h5" status="danger" style={{ marginVertical: 20 }}>
             Supprimer le bien
@@ -440,6 +986,7 @@ function DetailsBien() {
 
         </View>
       </TouchableOpacity>
+      )}
 
     </MaxWidthContainer>
 
@@ -483,9 +1030,7 @@ const styles = StyleSheet.create({
   // Ajouter Supprimer buttons
   button: {
     flexDirection: 'row',
-    marginTop: 10,
     justifyContent: 'space-between',
-    backgroundColor: 'transparent',
   },
   buttonText: {
     marginLeft: 6,

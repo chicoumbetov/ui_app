@@ -1,9 +1,14 @@
 const createExpoWebpackConfigAsync = require('@expo/webpack-config');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
+
 const path = require('path')
 
 module.exports = async function(env, argv) {
   const config = await createExpoWebpackConfigAsync({
     ...env,
+    // Passing true will enable the default Workbox + Expo SW configuration.
+    offline: true,
     babel: { dangerouslyAddModulePathsToTranspile: ['moti', '@motify'] },
   }, argv);
 
@@ -65,6 +70,19 @@ module.exports = async function(env, argv) {
       return rule;
     }
   });
+
+  if (env.mode === 'production') {
+    config.plugins.push(
+      new BundleAnalyzerPlugin({
+        path: 'web-report',
+      })
+    );
+  }
+  config.plugins.push(
+    new MomentLocalesPlugin({
+      localesToKeep: ['fr'],
+    }),
+  )
 
   return config;
 };

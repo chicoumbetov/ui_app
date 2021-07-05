@@ -1,26 +1,40 @@
 import React from 'react';
-import { Layout, Text } from '@ui-kitten/components';
-import MaisonVerte from '../../assets/Omedom_Icons_svg/Logement/maison_verte.svg';
+import { Text } from '@ui-kitten/components';
 import MaxWidthContainer from '../MaxWidthContainer';
+import AutoAvatar from '../AutoAvatar';
 
 type TitleProps = {
   title?: string
+  iconUri?: string
 };
 
-const CompteHeader = ({ title }: TitleProps) => (
-  <MaxWidthContainer>
-    <Layout style={{
-      marginRight: 20, flexDirection: 'row', backgroundColor: 'transparent',
+const CompteHeader = ({ title, iconUri }: TitleProps) => (
+  <MaxWidthContainer
+    withScrollView="keyboardAware"
+    innerViewProps={{
+      style: {
+        marginRight: 20, flexDirection: 'row',
+      },
     }}
-    >
-      <MaisonVerte height={40} width={40} style={{ marginRight: 10 }} />
+    outerViewProps={{
+      showsVerticalScrollIndicator: false,
+    }}
+  >
+    {/** <MaisonVerte height={40} width={40} style={{ marginRight: 10 }} /> */}
+    <AutoAvatar
+      avatarInfo={iconUri}
+      style={{
+        height: 40,
+        width: 40,
+        marginRight: 10,
+        borderRadius: 20,
+        overflow: 'hidden',
+      }}
+    />
 
-      <Text category="h3" style={{ paddingTop: 13 }}>
-        {title}
-      </Text>
-    </Layout>
+    <Text category="h3" style={{ paddingTop: 13 }}>
+      {title}
+    </Text>
   </MaxWidthContainer>
-
 );
-
 export default CompteHeader;

@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>Quittance de loyer</title>
+  <style>
+    .container {
+      padding: 30px;
+    }
+    .rowBailleur {
+      display: flex;
+      flex: 1;
+      width: 100%;
+      justify-content: space-between;
+      margin-bottom: 80px;
+    }
+    .bailleur {
+      contain: content;
+      padding: 15px;
+    }
+    .bailleur2 {
+      contain: content;
+      padding: 15px;
+      justify-content: flex-end;
+    }
+    .bailleur p {
+      margin-top: 0;
+      margin-bottom: 5px;
+    }
+    table {
+      margin-top: 80px;
+      border-collapse: collapse;
+      width: 100%;
+    }
+    tbody {
+      display: table;
+      width: 100%;
+    }
+    td {
+      border: 1px solid black;
+      padding: 5px 0 5px 10px;
+    }
+    td p {
+      margin-top: 5px;
+      margin-bottom: 0;
+    }
+    td div {
+      display: flex;
+      flex: 1;
+      justify-content: center;
+    }
+    h2 {
+      display: flex;
+      justify-content: center;
+      margin-top: 5px;
+      margin-bottom: 0;
+    }
+    h3 {
+      margin: 0;
+    }
+    .bailleurText {
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="rowBailleur">
+    <div class="bailleur">
+      <p>{{user.user.firstname}} {{user.user.lastname}}</p>
+    </div>
+
+    <div class="bailleur2">
+      <br>
+      <br>
+      <p>{{tenant.firstname}} {{tenant.lastname}}</p>
+      <p>{{bien.address.address}} </p>
+      <p>{{bien.address.postalCode}} {{bien.address.city}}</p>
+    </div>
+  </div>
+  <div>
+    <table >
+      <tbody >
+        <tr>
+          <td colspan="12">
+            <h2>QUITTANCE DE LOYER</h2>
+            <div><p><strong>Période : </strong> du 01/01/2020 au 31/01/2020</p></div>
+            <div><p><strong>Adresse du logement: </strong> {{bien.address.address}} {{bien.address.postalCode}} {{bien.address.city}}</p></div>
+          </td>
+        </tr>
+        <tr >
+          <td colspan="2">
+            <p><strong>PROPRIETAIRE</strong></p>
+            <br>
+            <p>{{user.user.firstname}} {{user.user.lastname}}</p>
+          </td>
+          <td >
+            <strong>LOCATAIRE</strong>
+            <p>{{tenant.firstname}} {{tenant.lastname}}</p>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2"><h3><strong>Détail du réglement</strong></h3></td>
+          <td><h3><strong>Montant</strong></h3></td>
+        </tr>
+        <tr>
+          <td colspan="2">Loyer</td>
+          <td>{{bien.amount}} €</td>
+        </tr>
+        <tr>
+          <td colspan="2"><strong>Total</strong></td>
+          <td>{{bien.amount}} €</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="bailleurText">Je soussigné(e) {{user.user.firstname}} {{user.user.lastname}} propriétaire du logement désigné ci-dessus,
+    déclaré avoir reçu de la part du locataire l'ensemble des sommes mentionnées au titre du loyer et des charges.
+  </div>
+
+  <div class="rowBailleur">
+    <div>Fait à le 17/03/2020</div>
+    <div>
+      <p>Le bailleur</p>
+      <p>{{user.user.firstname}} {{user.user.lastname}}</p>
+    </div>
+  </div>
+
+  <p>Cette quittance annule tous les reçus qui auraient pu être donnés pour acomptes versés au titre du loyer
+    et des charges pour l'échéance correspondante. Le paiement de la présente quittance ne présume pas du paiement des termes précédents.
+    A conserver 3 ans après échéance du bail.
+  </p>
+</div>
+</body>
+</html>
+
+

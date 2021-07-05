@@ -1,114 +1,132 @@
+/**
+ *
+ *
+ *
+ */
+
 import { Frequency } from '../src/API';
 
-export const typeRevenu = [
-  {
+export const typeRevenu = {
+  loyer: {
     label: 'Loyer',
-    key: 'Loyer',
+    key: 'loyer',
   },
-  {
+  caf: {
     label: 'CAF',
-    key: 'CAF',
+    key: 'caf',
   },
-  {
+  revenu_divers: {
     label: 'Revenu Divers',
-    key: 'Revenu Divers',
+    key: 'revenu_divers',
   },
-];
+};
 
-export const typeCharge = [
-  {
+export const typeCharge = {
+  impots: {
     label: 'Impôts',
-    key: 'Impôts',
+    key: 'impots',
   },
-  {
+  eau: {
     label: 'Eau',
-    key: 'Eau',
+    key: 'eau',
   },
-  {
+  electricite: {
     label: 'Electricité',
-    key: 'Electricité',
+    key: 'electricite',
   },
-  {
+  energie_chauffage: {
+    label: 'Enérgie de chauffage',
+    key: 'energie_chauffage',
+  },
+  frais_dpe: {
+    label: 'Frais de diagnostic DPE',
+    key: 'frais_dpe',
+  },
+  assurance: {
     label: 'Assurance',
-    key: 'Assurance',
+    key: 'assurance',
   },
-  {
+  banque: {
     label: 'Banque',
-    key: 'Banque',
+    key: 'banque',
   },
-  {
+  charges_copropriete: {
     label: 'Charges de copropriété',
-    key: 'Charges de copropriété',
+    key: 'charges_copropriete',
   },
-  {
+  remuneration_autre: {
+    label: 'Rémunération des gardes, concierges, autres honoraires',
+    key: 'remuneration_autre',
+  },
+  frais_comptable: {
     label: 'Frais Comptables',
-    key: 'Frais Comptables',
+    key: 'frais_comptable',
   },
-  {
+  frais_de_gestion: {
     label: 'Frais de Gestion',
-    key: 'Frais de Gestion',
+    key: 'frais_de_gestion',
   },
-  {
+  frais_divers: {
     label: 'Frais divers',
-    key: 'Frais divers',
+    key: 'frais_divers',
   },
-];
+};
 
-export const typeImpots = [
-  {
+export const typeImpots = {
+  taxes_foncieres: {
     label: 'Taxes Foncières',
-    key: 'Taxes Foncières',
+    key: 'taxes_foncieres',
   },
-  {
+  taxes_habitation: {
     label: "Taxes d'Habitation",
-    key: "Taxes d'Habitation",
+    key: 'taxes_habitation',
   },
-  {
+  contribution_sociales: {
     label: 'Contribution Sociales',
-    key: 'Contribution Sociales',
+    key: 'contribution_sociales',
   },
-];
+};
 
-export const typeAssurance = [
-  {
-    label: 'Assurance du bien',
-    key: 'Assurance du bien',
+export const typeAssurance = {
+  assurance_bien: {
+    label: 'Assurance du Bien',
+    key: 'assurance_bien',
   },
-  {
-    label: 'Loyer impayé',
-    key: 'Loyer impayé',
+  loyer_impaye: {
+    label: 'Loyer Impayé',
+    key: 'loyer_impaye',
   },
-  {
-    label: 'Vacances locatives',
-    key: 'Vacances locatives',
+  vacances_locatives: {
+    label: 'Vacances Locatives',
+    key: 'vacances_locatives',
   },
-];
+};
 
-export const typeDivers = [
-  {
+export const typeDivers = {
+  mobilier: {
     label: 'Mobilier',
-    key: 'Mobilier',
+    key: 'mobilier',
   },
-  {
+  telephone: {
     label: 'Téléphone',
-    key: 'Téléphone',
+    key: 'telephone',
   },
-  {
+  internet: {
     label: 'Internet',
-    key: 'Internet',
+    key: 'internet',
   },
-];
+};
 
-export const typeBanque = [
-  {
-    label: 'Frais bancaires',
-    key: 'Frais bancaires',
+export const typeBanque = {
+  frais_bancaires: {
+    label: 'Frais Bancaires',
+    key: 'frais_bancaires',
   },
-  {
-    label: 'Mensualité crédit',
-    key: 'Mensualité crédit',
+  mensualite_credit: {
+    label: 'Mensualité Crédit',
+    key: 'mensualite_credit',
   },
-];
+};
 
 export const montant = [
   {
@@ -125,33 +143,10 @@ export const montant = [
   },
 ];
 
-export const typeMontant = [
-  {
-    label: 'Résidence Principale',
-    key: 'b1',
-  },
-  {
-    label: 'Résidence Secondaire',
-    key: 'b2',
-  },
-  {
-    label: 'Investissement Locatif Professionnel ou Commercial',
-    key: 'b3',
-  },
-  {
-    label: 'Investissement Locatif Particulier',
-    key: 'b4',
-  },
-];
-
 export const frequence = [
   {
     label: 'Mensuelle',
     key: Frequency.monthly,
-  },
-  {
-    label: 'Bimensuel',
-    key: Frequency.fortnightly,
   },
   {
     label: 'Trimestrielle',

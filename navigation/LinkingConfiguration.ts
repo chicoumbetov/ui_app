@@ -23,16 +23,20 @@ export default {
                   'ajout-charge': '/bien/:id/budget/ajout-charge',
                   'modifier-charge': '/bien/:id/budget/modifier-charge/:idBudgetLine',
 
-                  'mes-rapports': '/mes-rapports',
-                  'mes-rapports-biens1': '/mes-rapports-biens1',
-                  'mes-rapports-biens2': '/mes-rapports-biens2',
+                  'mes-rapports': '/biens/mes-rapports/:id',
+
+                  'mes-rapports-biens1': '/mes-rapports-biens1/:id',
+                  'mes-rapports-biens2': '/mes-rapports-biens2/:id',
                   'modifier-characteristique': '/bien/:id/modifier-characteristique',
+                  'partager-bien': '/bien/:id/partager-bien',
                 },
               },
               'mes-charges-nav': {
                 path: 'mes-charges',
                 screens: {
                   'mes-charges': '/',
+                  'mes-charges-2': '/mes-charges-2/:title',
+                  'mes-charges-3': '/mes-charges-3/:title',
                 },
               },
               'tableau-de-bord': {
@@ -44,12 +48,22 @@ export default {
               },
               'mon-assistant-nav': {
                 path: 'mon-assistant',
+                initialRouteName: 'mon-assistant',
                 screens: {
                   'mon-assistant': '/',
+                  'declaration-impots': '/declaration-impots',
+                  'declaration-impots-2': '/declaration-impots/:idBien',
+                  'quittance-loyer': '/quittance-loyer',
+                  'quittance-loyer-2': '/quittance-loyer/:idBien',
                 },
               },
               notifications: {
                 path: 'notifications',
+                initialRouteName: 'notifications',
+                screens: {
+                  notifications: '/',
+                  'notifications-params': '/parametres',
+                },
               },
             },
           },
@@ -68,9 +82,10 @@ export default {
             path: 'ma-tresorerie',
             screens: {
               'ma-tresorerie': '/',
-              'mouv-bancaires': 'mouvement-bancaires',
-              'ignorer-mouvement': 'ignorer-mouvement',
-              'edit-mouvement': 'edit-mouvement',
+              'ma-tresorerie-2': ':id/mes-comptes/',
+              'mouv-bancaires': ':id/mes-comptes/:idCompte/mouvements-bancaires/',
+              'affecter-mouvement': ':id/mes-comptes/:idCompte/mouvements-bancaires/affectes/',
+              'ignorer-mouvement': ':id/mes-comptes/:idCompte/mouvements-bancaires/ignores/',
             },
           },
           faq: 'faq',

@@ -1,21 +1,21 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
-import { Layout, Text } from '@ui-kitten/components';
+import { StyleSheet, View } from 'react-native';
+import { Text } from '@ui-kitten/components';
 
-import { useNavigation } from '@react-navigation/native';
+import { useLinkTo } from '@react-navigation/native';
 import { Icon as IconUIKitten } from '@ui-kitten/components/ui/icon/icon.component';
 import MaxWidthContainer from '../../components/MaxWidthContainer';
 import Card from '../../components/Card';
 
 const MonAssistant = () => {
-  const navigation = useNavigation();
+  const linkTo = useLinkTo();
 
   const onDeclarationImpots = () => {
-    navigation.navigate('DeclarationImpots');
+    linkTo('/mon-assistant/declaration-impots');
   };
 
   const onQuittanceLoyer = () => {
-    navigation.navigate('QuittanceLoyer');
+    linkTo('/mon-assistant/quittance-loyer');
   };
 
   return (
@@ -25,7 +25,7 @@ const MonAssistant = () => {
         showsVerticalScrollIndicator: false,
       }}
     >
-      <Layout style={styles.container}>
+      <View style={styles.container}>
         <Text category="h1" style={styles.title}>Mon Assistant</Text>
         <Text category="h2" style={styles.subtitle}>Générer les documents</Text>
 
@@ -51,7 +51,7 @@ const MonAssistant = () => {
           />
         </Card>
 
-      </Layout>
+      </View>
     </MaxWidthContainer>
 
   );

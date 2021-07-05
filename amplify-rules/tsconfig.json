@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "commonjs",
+    "noImplicitAny": false,
+    "allowJs": true,
+    "types": ["node"],
+    "moduleResolution": "node"
+  },
+  "exclude": ["node_modules", "**/*.spec.ts"]
+}

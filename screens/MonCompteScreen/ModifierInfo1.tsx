@@ -7,7 +7,7 @@ import {
 } from '@ui-kitten/components';
 import { useNavigation } from '@react-navigation/native';
 import { useForm } from 'react-hook-form';
-import { Auth } from 'aws-amplify';
+import Auth from '@aws-amplify/auth';
 import TextInput from '../../components/Form/TextInput';
 import MaxWidthContainer from '../../components/MaxWidthContainer';
 import { AvailableValidationRules } from '../../components/Form/validation';
@@ -20,11 +20,13 @@ import { removeNull } from '../../utils/ObjectHelper';
 type ModifierInfo1Form = {
   firstname:string;
   lastname: string;
-  email: string;
+  email?: string | null;
+  privateProfile: {
+    phoneNumber?: string | null;
+    optIn?: boolean | null;
+  }
   password: string;
   oldPassword: string;
-  phoneNumber: string;
-  optIn: boolean;
 };
 
 const ModifierInfo1 = () => {
@@ -33,7 +35,7 @@ const ModifierInfo1 = () => {
   const [passwordError, setPasswordError] = useState(false);
 
   const onPress = async (data: ModifierInfo1Form) => {
-    console.log(data);
+    // console.log(data);
     if (user && updateUser && cognitoUser) {
       const { password, oldPassword, ...otherProps } = data;
       let nextScreen = 'modifier-info-2';
@@ -56,8 +58,8 @@ const ModifierInfo1 = () => {
         email: otherProps.email,
         family_name: otherProps.lastname,
         given_name: otherProps.firstname,
-        phone_number: otherProps.phoneNumber,
-        'custom:optIn': otherProps.optIn ? 'true' : 'flse',
+        phone_number: otherProps.privateProfile.phoneNumber,
+        'custom:optIn': otherProps.privateProfile.optIn ? 'true' : 'false',
         // false => flse sur 4 caractères seulement car le custom attribute a
         // été créer sur max 4 et ne peut plus être modifié
       });
@@ -151,7 +153,7 @@ const ModifierInfo1 = () => {
           />
 
           <PhoneNumberInput
-            name="phoneNumber"
+            name="privateProfile.phoneNumber"
             placeholder="Votre numéro de téléphone"
             validators={[
               AvailableValidationRules.numeroTel,
@@ -159,13 +161,20 @@ const ModifierInfo1 = () => {
             ]}
           />
           <Radio
-            name="optIn"
+            name="privateProfile.optIn"
             label="Souhaitez-vous rester informé de nos actualités ? "
             labelPosition="before"
           />
 
           <View style={styles.buttonRight}>
-            <Button onPress={modifierInfo1Form.handleSubmit((data) => onPress(data), (data) => console.log(data))} disabled={user === null} size="large" style={{ width: 139 }}>
+            <Button
+              onPress={modifierInfo1Form.handleSubmit(
+                (data) => onPress(data), (data) => console.log('data of ModifierInfo 1', data),
+              )}
+              disabled={user === null}
+              size="large"
+              style={{ width: 139 }}
+            >
               Valider
             </Button>
           </View>
@@ -178,11 +187,6 @@ const ModifierInfo1 = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    margin: 21,
-    backgroundColor: 'transparent',
-  },
   buttonRight: { alignItems: 'flex-end', marginTop: 34 },
   title: {
     marginTop: 12,

@@ -28,6 +28,8 @@ export type BudgetLineItem = {
   type?: BudgetLineType,
   category?: string | null,
   amount?: number | null,
+  rentalCharges?: number | null,
+  managementFees?: number | null,
   frequency: Frequency,
   nextDueDate?: string | null,
   infoCredit?: MortgageLoanInfo,
@@ -57,9 +59,9 @@ export function useGetBudgetLine(id: string) {
 
 export function useUpdateBudgetLineMutation() {
   // eslint-disable-next-line @typescript-eslint/no-shadow
-  const [updateBudgetLine] = useMutation<UpdateBudgetLineMutation,
+  const [updateBudgetLine, { loading: mutationLoading }] = useMutation<UpdateBudgetLineMutation,
   UpdateBudgetLineMutationVariables>(gql(mutations.updateBudgetLine));
-  return updateBudgetLine;
+  return { updateBudgetLine, mutationLoading };
 }
 
 export function useDeleteBudgetLineMutation() {
@@ -108,7 +110,7 @@ export function useDeleteBudgetLineMutation() {
 
 export function useCreateBudgetLineMutation() {
   const getRealEstatesQuery = <DocumentNode>gql(getRealEstate);
-  const [createBudgetLine] = useMutation<CreateBudgetLineMutation,
+  const [createBudgetLine, { loading: mutationLoading }] = useMutation<CreateBudgetLineMutation,
   CreateBudgetLineMutationVariables>(gql(mutations.createBudgetLine),
     {
       update: (cache, { data: mutationData }) => {
@@ -139,6 +141,7 @@ export function useCreateBudgetLineMutation() {
           }
         }
       },
+
     });
-  return createBudgetLine;
+  return { createBudgetLine, mutationLoading };
 }

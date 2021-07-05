@@ -7,8 +7,6 @@ import MonBudget from '../screens/MesBiensScreen/Components/MonBudget';
 import ParametrerAjoutRevenu from '../screens/MesBiensScreen/Components/ParametrerAjoutRevenu';
 import ParametrerAjoutCharges from '../screens/MesBiensScreen/Components/ParametrerAjoutCharges';
 import PartagerBien from '../screens/MesBiensScreen/Components/PartagerBien';
-import ModifierCharacteristiques
-  from '../screens/MesBiensScreen/Components/ModifierCharacteristiques';
 import AjoutBienScreen from '../screens/AjoutBienScreen/AjoutBienScreen';
 import MesRapports from '../screens/MesBiensScreen/Components/MesRapports';
 import MesRapportBien1 from '../screens/MesBiensScreen/Components/MesRapportBien1';

@@ -1,83 +1,170 @@
-import React from 'react';
-import { Icon as IconUIKitten, Layout, Text } from '@ui-kitten/components';
-import { StyleSheet, TouchableOpacity } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import {
+  Text,
+} from '@ui-kitten/components';
+import { View } from 'react-native';
 
+import { StackActions, useNavigation, useRoute } from '@react-navigation/native';
+import { RouteProp } from '@react-navigation/core/lib/typescript/src/types';
+import { useApolloClient } from 'react-apollo';
+import moment from 'moment';
 import CompteHeader from '../../../components/CompteHeader/CompteHeader';
-import clientData from '../../../mockData/clientDATA';
+// import clientData from '../../../mockData/clientDATA';
 import MaxWidthContainer from '../../../components/MaxWidthContainer';
+import { TabMonAssistantParamList } from '../../../types';
+import { useGetRealEstate } from '../../../src/API/RealEstate';
+import Separator from '../../../components/Separator';
+import { DocumentItem, getDocumentByKey, useCreateDocumentMutation } from '../../../src/API/Document';
+import { useUser } from '../../../src/API/UserContext';
+import DocumentComponent from '../../../components/DocumentComponent';
+import ActivityIndicator from '../../../components/ActivityIndicator';
+import pdfGenerator from '../../../utils/pdfGenerator/pdfGenerator';
+import { pdfTemplateDeclaration } from '../../../pdfTemplates';
+import { Upload } from '../../../utils/S3FileStorage';
+import DateUtils from '../../../utils/DateUtils';
 
-const DeclarationImpots = () => (
-  // const onPdf = () => { navigation.navigate('PdfScreen'); };
-  <MaxWidthContainer>
+const DeclarationImpots = () => {
+  const route = useRoute<RouteProp<TabMonAssistantParamList, 'declaration-impots-2'>>();
+  const navigation = useNavigation();
+  const { bienget } = useGetRealEstate(route.params.idBien);
+  const createDocument = useCreateDocumentMutation();
+  const client = useApolloClient();
+  const user = useUser();
+  const [newDocument, setNewDocument] = useState<DocumentItem | undefined | null>(undefined);
 
-    <Layout style={styles.container}>
-      <Text category="h1" style={{ marginBottom: 6 }}>Paramétrer mon aide à la déclaration d'impôts</Text>
-      <Layout style={{ marginTop: 20, backgroundColor: 'transparent' }}>
-        <CompteHeader />
-      </Layout>
-    </Layout>
+  useEffect(() => {
+    if (route && (route.params === undefined
+        // || route.params.idTenant === undefined
+        || route.params.idBien === undefined
+        || route.params.anneeEcheance === undefined)) {
+      navigation.dispatch(
+        StackActions.replace('declaration-impots'),
+      );
+    }
+  }, [route]);
 
-    <Layout style={styles.containerDocument}>
-      <Text category="h2" style={{ marginBottom: 41 }}>Votre document est prêt</Text>
-      <Layout style={styles.docs}>
-        <Text category="p2">Aide_Déclaration_Impôts_2021</Text>
+  // console.log('Decl impots 2 component: ', bien, client);
 
-        <Layout style={{ flexDirection: 'row' }}>
-          <TouchableOpacity onPress={() => {}}>
-            <IconUIKitten name="cloud-download" fill="#b5b5b5" style={{ height: 20, width: 20, marginRight: 24 }} />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => {}}>
-            <IconUIKitten name="eye" fill="#b5b5b5" style={{ height: 20, width: 20 }} />
-          </TouchableOpacity>
+  useEffect(() => {
+    setNewDocument(undefined);
+    // console.log('Decl impots 2 set New doc');
+  }, [route.params]);
 
-        </Layout>
-      </Layout>
-    </Layout>
+  /**
+  const tenant = bien.find(
+    (item) => (bien.id === route.params.idBien),
+  );
+  */
 
-  </MaxWidthContainer>
+  const paramsAskedDate = DateUtils.parseToDateObj(route.params.anneeEcheance).getFullYear();
+  const paramsCreatedDate = DateUtils.parseToDateObj(bienget.createdAt).getFullYear();
 
-);
+  // console.log('date created at 2 ', paramsAskedDate);
+  // console.log('date created at 333 ', paramsCreatedDate);
+
+  useEffect(() => {
+    (async () => {
+      // console.log('Decl impots 2');
+      if (!newDocument && bienget) {
+        if (bienget.id === route.params.idBien) {
+          const key = `declaration_${bienget.name}_${moment(route.params.anneeEcheance).format('YYYY')}`;
+
+          const previousYear = route.params.anneeEcheance - 1;
+          // console.log(documentMonth);
+          const document = await getDocumentByKey(client, key);
+          // console.log('Declaration document', document);
+          /** if document already exists then return it,
+           * otherwise create
+           * */
+          if (document) {
+            setNewDocument(document);
+          } else {
+            const result = await pdfGenerator(pdfTemplateDeclaration, {
+              bienget,
+              user,
+              year: route.params.anneeEcheance,
+              previousYear,
+            });
+            // console.log('result', result);
+            if (result !== false) {
+              const name = `Declaration_impots_${bienget.name}_${moment(route.params.anneeEcheance).format('YYYY')}.pdf`;
+              const s3file = await Upload(result, `realEstate/${bienget.id}/`, name);
+              // console.log('s3file', s3file);
+
+              if (s3file !== false && bienget.id) {
+                const doc = await createDocument.createDocument({
+                  variables: {
+                    input: {
+                      s3file: s3file.key,
+                      realEstateId: bienget.id,
+                      key,
+                      name,
+                    },
+                  },
+                });
+                setNewDocument(doc.data?.createDocument);
+              }
+            }
+          }
+        }
+      }
+    })();
+  }, [bienget, newDocument]);
+
+  return (
+  // const onPdf = () => { navigation.navigate('pdf-screen'); };
+    <MaxWidthContainer
+      withScrollView="keyboardAware"
+      outerViewProps={{
+        showsVerticalScrollIndicator: false,
+      }}
+    >
+      <View style={{ margin: 27 }}>
+        <Text category="h1" style={{ marginBottom: 25 }}>Générer une déclaration d'impôts</Text>
+        <CompteHeader title={bienget?.name} iconUri={bienget?.iconUri} />
+      </View>
+
+      <Separator />
+
+      {newDocument
+        ? (
+          <>
+            { (paramsAskedDate >= paramsCreatedDate
+            && paramsAskedDate <= paramsCreatedDate)
+              ? (
+                <View style={{ padding: 27 }}>
+                  <Text category="h2" style={{ marginBottom: 30 }}>Votre document est prêt</Text>
+                  <DocumentComponent document={newDocument} />
+                </View>
+              ) : (
+                <View style={{ padding: 27 }}>
+                  <Text>
+
+                    {`${bienget.name} n'était pas crée en ${route.params.anneeEcheance}`}
+                  </Text>
+                  <Text style={{ paddingTop: 5 }}>
+                    {`${bienget.name} a été ajoutée dans l'application en ${paramsCreatedDate}`}
+                  </Text>
+                </View>
+
+              )}
+          </>
+        )
+        : (
+          <>
+            <View style={{
+              flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 30, paddingHorizontal: 27,
+            }}
+            >
+              <ActivityIndicator />
+            </View>
+          </>
+        )}
+
+    </MaxWidthContainer>
+  );
+};
+
 export default DeclarationImpots;
 
-const styles = StyleSheet.create({
-  containerOut: {
-    flex: 1,
-    backgroundColor: '#efefef',
-  },
-  container: {
-    paddingHorizontal: 27,
-    paddingTop: 44,
-    paddingBottom: 35,
-    marginBottom: 13,
-    backgroundColor: 'rgba(246, 246, 246, 0.5)',
-  },
-  containerDocument: {
-    flex: 1,
-    paddingLeft: 27,
-    paddingRight: 18,
-    paddingTop: 33,
-    marginBottom: 13,
-    backgroundColor: 'rgba(246, 246, 246, 0.5)',
-  },
-  docs: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-
-    paddingHorizontal: 22,
-    paddingTop: 28,
-    paddingBottom: 20,
-    borderWidth: 1,
-    borderRadius: 10,
-    marginBottom: 20,
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowRadius: 2,
-    shadowOpacity: 1,
-
-    backgroundColor: '#fff',
-    borderColor: 'transparent',
-    shadowColor: '#dedede',
-  },
-});
+// const styles = StyleSheet.create({});

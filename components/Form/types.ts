@@ -3,10 +3,9 @@ import {
   StyleProp, Switch, TextInput, TextInputProps, TextStyle, ViewStyle,
 } from 'react-native';
 import {
-  InputProps, RadioProps, SelectProps, ToggleProps, DatepickerProps, Datepicker,
+  InputProps, RadioProps, CheckBoxProps,
+  SelectProps, ToggleProps, DatepickerProps, Datepicker, RangeDatepickerProps,
 } from '@ui-kitten/components';
-import { PersistentModel } from '@aws-amplify/datastore';
-import { AutoCompleteHandles, AutoCompleteProps } from '../AutoComplete/AutoComplete';
 import { ValidationRuleConfig } from './validation';
 import { IconName } from '../Icon/Icon';
 
@@ -14,7 +13,7 @@ import { IconName } from '../Icon/Icon';
 export interface ErrorMap {
   [key: string]: FieldError | undefined;
 }
-export type PossibleFields = TextInput | SelectHandles | Switch | AutoCompleteHandles | Datepicker;
+export type PossibleFields = TextInput | SelectHandles | Switch | Datepicker;
 export type ChangeValueCallbackType = (v?: string | boolean | number) => void;
 export type FormChildProp = {
   name: string;
@@ -32,12 +31,12 @@ export type SelectFormProps<KT> = {
   value?: KT;
   labelStyle?: StyleProp<TextStyle>;
   containerStyle?: StyleProp<ViewStyle>;
-  data: SelectItemProps<KT>[];
+  data: SelectItemProps<KT>[] | undefined;
 } & Exclude<SelectProps, 'children'> & FormChildProp;
 
 export type SelectItemProps<KT = string | number> = {
-  key: KT;
-  label: string;
+  key: KT | undefined;
+  label: string | undefined;
   section?: boolean;
   icon?: IconName;
   // to be as configurable as possible allow any
@@ -66,18 +65,6 @@ export type SwitchFormProps = {
   defaultValue?: boolean;
 } & ToggleProps & FormChildProp;
 
-// AutoComplete Types
-export type AutoCompleteFormProps<T extends PersistentModel> = {
-  name: string;
-  label?: string;
-  labelStyle?: StyleProp<TextStyle>;
-  error?: FieldError | undefined;
-  style?: StyleProp<ViewStyle>;
-  validators?: ValidationRuleConfig;
-  onChangeValue?: ChangeValueCallbackType;
-  itemsFormator: (allItems: T[], selectedItem?: T) => string | number;
-} & AutoCompleteProps<T>;
-
 // Radio Types
 export type RadioFormProps = {
   labelPosition?: 'before' | 'after';
@@ -87,6 +74,15 @@ export type RadioFormProps = {
   defaultValue?: boolean;
 } & RadioProps & Omit<FormChildProp, 'label'>;
 
+// Checkbox Types
+export type CheckboxFormProps = {
+  labelPosition?: 'before' | 'after';
+  labelStyle?: StyleProp<TextStyle>;
+  style?: StyleProp<ViewStyle>;
+  label?: string | ((props:any) => JSX.Element);
+  defaultValue?: boolean;
+} & CheckBoxProps & Omit<FormChildProp, 'label'>;
+
 // PhoneNumberInput
 export type PhoneNumberInputFormProps = Exclude<TextInputProps, 'onChangeText'> & {
   labelStyle?: StyleProp<TextStyle>;
@@ -94,6 +90,14 @@ export type PhoneNumberInputFormProps = Exclude<TextInputProps, 'onChangeText'> 
 } & FormChildProp;
 
 export type DatePickerFormProps = Exclude<DatepickerProps, 'onChangeText'> & {
+  icon?: string;
+  labelStyle?: StyleProp<TextStyle>;
+  containerStyle?: StyleProp<ViewStyle>;
+  defaultValue?: string;
+  labelBefore?: boolean;
+} & FormChildProp;
+
+export type RangeDatePickerFormProps = Exclude<RangeDatepickerProps, 'onChangeText'> & {
   icon?: string;
   labelStyle?: StyleProp<TextStyle>;
   containerStyle?: StyleProp<ViewStyle>;

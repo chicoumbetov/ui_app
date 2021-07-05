@@ -1,58 +1,45 @@
 {
   "strict": {
-    "text-font-family": "HouschkaRoundedMedium",
-    "text-label-font-size": 20,
+    "text-font-family": "confortaa_Medium",
+    "text-label-font-size": 18,
 
-    "text-label-font-family": "Houschka_Rounded_Alt_Light_Regular",
+    "text-label-font-family": "confortaa_Regular",
     "size-small": 30,
     "size-large": 55,
     "border-radius": 7,
 
-    "text-heading-1-font-size": 25,
+    "text-heading-1-font-size": 23,
+    "text-heading-1-font-family": "confortaa_SemiBold",
 
-    "text-heading-1-font-family": "HouschkaRoundedDemiBold",
+    "text-heading-2-font-size": 19,
+    "text-heading-2-font-family": "confortaa_Medium",
 
-    "text-heading-2-font-size": 21,
+    "text-heading-3-font-size": 17,
+    "text-heading-3-font-family": "confortaa_SemiBold",
 
-    "text-heading-2-font-family": "HouschkaRoundedMedium",
+    "text-heading-4-font-size": 20,
+    "text-heading-4-font-family": "confortaa_SemiBold",
 
-    "text-heading-3-font-size": 19,
+    "text-heading-5-font-size": 15,
+    "text-heading-5-font-family": "confortaa_SemiBold",
 
-    "text-heading-3-font-family": "HouschkaRoundedDemiBold",
+    "text-heading-6-font-size": 14,
+    "text-heading-6-font-family": "confortaa_SemiBold",
 
-    "text-heading-4-font-size": 19,
+    "text-subtitle-1-font-size": 9,
+    "text-subtitle-1-font-family": "confortaa_Medium",
 
-    "text-heading-4-font-family": "HouschkaRoundedDemiBold",
+    "text-subtitle-2-font-size": 18,
+    "text-subtitle-2-font-family": "confortaa_Regular",
 
-    "text-heading-5-font-size": 17,
+    "text-paragraph-1-font-size": 15,
+    "text-paragraph-1-font-family": "confortaa_Medium",
 
-    "text-heading-5-font-family": "HouschkaRoundedDemiBold",
+    "text-paragraph-2-font-size": 13,
+    "text-paragraph-2-font-family": "confortaa_Medium",
 
-    "text-heading-6-font-size": 16,
-
-    "text-heading-6-font-family": "HouschkaRoundedDemiBold",
-
-    "text-subtitle-1-font-size": 11,
-
-    "text-subtitle-1-font-family": "HouschkaRoundedMedium",
-
-    "text-subtitle-2-font-size": 20,
-
-    "text-subtitle-2-font-family": "Houschka_Rounded_Alt_Light_Regular",
-
-    "text-paragraph-1-font-size": 17,
-
-    "text-paragraph-1-font-family": "HouschkaRoundedMedium",
-
-    "text-paragraph-2-font-size": 15,
-
-    "text-paragraph-2-font-family": "HouschkaRoundedMedium",
-
-    "text-caption-1-font-size": 15,
-
-    "text-caption-1-font-family": "HouschkaRoundedDemiBold"
-
-
+    "text-caption-1-font-size": 13,
+    "text-caption-1-font-family": "confortaa_SemiBold"
   },
   "components": {
     "BottomNavigationTab": {
@@ -121,9 +108,9 @@
         "custom": {
           "mapping": {
             "textMarginVertical": 2,
-            "textFontSize": "text-caption-2-font-size",
-            "textFontWeight": "text-caption-2-font-weight",
-            "textFontFamily": "text-caption-2-font-family",
+            "textFontSize": "text-subtitle-1-font-size",
+            "textFontWeight": "text-subtitle-1-font-weight",
+            "textFontFamily": "text-subtitle-1-font-family",
             "textColor": "text-hint-color",
             "iconWidth": 24,
             "iconHeight": 24,
@@ -1363,6 +1350,38 @@
                 "backgroundColor": "transparent",
                 "borderColor": "color-info-500",
                 "textColor": "color-info-500"
+              },
+              "danger": {
+                "borderColor": "color-danger-transparent-default-border",
+                "backgroundColor": "color-basic-transparent-default",
+                "textColor": "text-danger-color",
+                "iconTintColor": "text-danger-color",
+                "state": {
+                  "focused": {
+                    "borderColor": "color-danger-transparent-focus-border",
+                    "backgroundColor": "color-danger-transparent-focus",
+                    "textColor": "text-danger-color",
+                    "iconTintColor": "text-danger-color"
+                  },
+                  "hover": {
+                    "borderColor": "color-danger-transparent-hover-border",
+                    "backgroundColor": "color-danger-transparent-hover",
+                    "textColor": "text-danger-color",
+                    "iconTintColor": "text-danger-color"
+                  },
+                  "active": {
+                    "borderColor": "color-danger-transparent-active-border",
+                    "backgroundColor": "color-danger-transparent-active",
+                    "textColor": "text-danger-color",
+                    "iconTintColor": "text-danger-color"
+                  },
+                  "disabled": {
+                    "borderColor": "color-danger-transparent-disabled-border",
+                    "backgroundColor": "color-danger-transparent-disabled",
+                    "textColor": "text-disabled-color",
+                    "iconTintColor": "text-disabled-color"
+                  }
+                }
               }
             }
           }
@@ -1409,6 +1428,12 @@
                     "textColor": "text-primary-disabled-color"
                   }
                 }
+              }
+            },
+            "size": {
+              "medium": {
+                "paddingHorizontal": 0,
+                "textMarginHorizontal": 0
               }
             }
           }

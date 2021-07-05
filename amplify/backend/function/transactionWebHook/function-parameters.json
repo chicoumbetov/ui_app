@@ -1,3 +1,42 @@
 {
-  "lambdaLayers": []
+  "permissions": {
+    "auth": {
+      "omedomc071f696": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ]
+    },
+    "api": {
+      "omedom": [
+        "Query",
+        "Mutation"
+      ]
+    },
+    "function": {
+      "sendNotification": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ]
+    }
+  },
+  "lambdaLayers": [
+    {
+      "type": "ProjectLayer",
+      "resourceName": "omedomGraphQLLayer",
+      "env": "dev",
+      "version": "Always choose latest version",
+      "isLatestVersionSelected": true
+    },
+    {
+      "type": "ProjectLayer",
+      "resourceName": "omedomBudgetInsightLayer",
+      "env": "dev",
+      "version": "Always choose latest version",
+      "isLatestVersionSelected": true
+    }
+  ]
 }

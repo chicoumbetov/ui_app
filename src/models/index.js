@@ -2,12 +2,6 @@
 import { initSchema } from '@aws-amplify/datastore';
 import { schema } from './schema';
 
-const SubscriptionType = {
-  "ONE_TO_TWO": "OneToTwo",
-  "TREE_TO_FIVE": "TreeToFive",
-  "MORE_THAN_FIVE": "MoreThanFive"
-};
-
 const RealEstateType = {
   "MAIN_HOME": "mainHome",
   "SECOND_HOME": "secondHome",
@@ -44,28 +38,41 @@ const InvitationType = {
   "READ_ONLY": "ReadOnly"
 };
 
-const { User, RealEstate, BudgetLine, Document, RealEstateBankAccount, BankAccount, BankMovement, Notification, BillingHistory, Address, MortgageLoanInfo, AmortizationTable, TenantInfo, PendingInvitation } = initSchema(schema);
+const SubscriptionType = {
+  "ONE_TO_TWO": "OneToTwo",
+  "THREE_TO_FIVE": "ThreeToFive",
+  "MORE_THAN_FIVE": "MoreThanFive"
+};
+
+const { BankAccount, RealEstateBankAccount, RealEstate, BankMovement, BudgetLineDeadline, BudgetLine, Document, PendingInvitation, User, BillingHistory, Notification, NotificationTickets, Address, MortgageLoanInfo, AmortizationTable, MortgageLoanDeadlineInfo, TenantInfo, ProfileInfo, NotificationParams, NotificationParam, UserToken } = initSchema(schema);
 
 export {
-  User,
+  BankAccount,
+  RealEstateBankAccount,
   RealEstate,
+  BankMovement,
+  BudgetLineDeadline,
   BudgetLine,
   Document,
-  RealEstateBankAccount,
-  BankAccount,
-  BankMovement,
-  Notification,
+  PendingInvitation,
+  User,
   BillingHistory,
-  SubscriptionType,
+  Notification,
+  NotificationTickets,
   RealEstateType,
   CompanyType,
   TaxType,
   BudgetLineType,
   Frequency,
   InvitationType,
+  SubscriptionType,
   Address,
   MortgageLoanInfo,
   AmortizationTable,
+  MortgageLoanDeadlineInfo,
   TenantInfo,
-  PendingInvitation
+  ProfileInfo,
+  NotificationParams,
+  NotificationParam,
+  UserToken
 };

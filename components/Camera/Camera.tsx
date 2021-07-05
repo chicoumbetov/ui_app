@@ -46,6 +46,9 @@ type CameraProps = {
   minDuration?: number;
   frontCamera?: boolean;
   withPreview?: boolean;
+  maxWidth?: number;
+  maxHeight?: number;
+  compress?: number;
 };
 
 type WhiteBalanceList = {
@@ -82,7 +85,9 @@ export default function Camera(props: CameraProps): JSX.Element {
   const video = useRef<Promise<{ uri: string }> | undefined>();
   const theme = useTheme();
   const { screen } = useDimensions();
-  const { recordingMode = 'image', withPreview = true } = props;
+  const {
+    recordingMode = 'image', withPreview = true, maxWidth, maxHeight, compress = 1,
+  } = props;
 
   const [hasCameraPermission, setHasCameraPermission] = useState<boolean | null>(null);
   const [type, setType] = useState(
@@ -146,23 +151,23 @@ export default function Camera(props: CameraProps): JSX.Element {
   const renderWBIcon = (name: keyof WhiteBalanceList) => {
     switch (name) {
       case 'cloudy':
-        return <WbCloudy fill="white" width={25} />;
+        return <WbCloudy fill="white" width={25} height={25} />;
         break;
       case 'fluorescent':
-        return <WbIridescent fill="white" width={25} />;
+        return <WbIridescent fill="white" width={25} height={25} />;
         break;
       case 'incandescent':
-        return <WbIncandescent fill="white" width={25} />;
+        return <WbIncandescent fill="white" width={25} height={25} />;
         break;
       case 'shadow':
-        return <WbShadow fill="white" width={25} />;
+        return <WbShadow fill="white" width={25} height={25} />;
         break;
       case 'sunny':
-        return <WbSunny fill="white" width={25} />;
+        return <WbSunny fill="white" width={25} height={25} />;
         break;
       case 'auto':
       default:
-        return <WbAuto fill="white" width={25} />;
+        return <WbAuto fill="white" width={25} height={25} />;
         break;
     }
   };
@@ -230,19 +235,31 @@ export default function Camera(props: CameraProps): JSX.Element {
           base64: false,
         });
         const croper = calculateCropElements(photo.width, photo.height);
+        const actions: Array<ImageManipulator.Action> = [
+          {
+            crop: {
+              originX: croper.x,
+              originY: croper.y,
+              width: croper.newWidth,
+              height: croper.newHeight,
+            },
+          },
+        ];
+        if (maxWidth || maxHeight) {
+          if (maxWidth && maxWidth < croper.newWidth) {
+            actions.push({
+              resize: { width: maxWidth },
+            });
+          } else if (maxHeight && maxHeight < croper.newHeight) {
+            actions.push({
+              resize: { height: maxHeight },
+            });
+          }
+        }
         const manipResult = await ImageManipulator.manipulateAsync(
           photo.uri,
-          [
-            {
-              crop: {
-                originX: croper.x,
-                originY: croper.y,
-                width: croper.newWidth,
-                height: croper.newHeight,
-              },
-            },
-          ],
-          { compress: 1, format: ImageManipulator.SaveFormat.JPEG, base64: false },
+          actions,
+          { compress, format: ImageManipulator.SaveFormat.JPEG, base64: false },
         );
         if (withPreview) {
           setCurrentImage({
@@ -424,23 +441,42 @@ export default function Camera(props: CameraProps): JSX.Element {
 
   if (currentImage !== null || currentVideo !== null) {
     return (
-      <SafeAreaView style={styles.cameraSafeArea} top>
-        <View style={{ flexDirection: 'column', flexGrow: 1, justifyContent: 'center' }}>
-          {currentImage !== null ? (
-            <Image
-              uri={currentImage.uri}
-              style={{
-                height: viewHeight * 0.8,
-              }}
-              resizeMode="contain"
-            />
-          ) : (
-            currentVideo !== null && <NotImplementedScreen />
-          )}
+      <SafeAreaView style={StyleSheet.flatten([styles.cameraSafeArea, { width: cameraWidth, backgroundColor: 'black' }])} top>
+        <View style={maxWidth ? {
+          flexDirection: 'column',
+          flexGrow: 1,
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: 'green',
+        } : {
+          flexDirection: 'column',
+          flexGrow: 1,
+          flex: 1,
+          justifyContent: 'center',
+        }}
+        >
+          <View style={maxWidth ? {
+            width: maxWidth,
+            maxWidth,
+          } : {}}
+          >
+            {currentImage !== null ? (
+              <Image
+                uri={currentImage.uri}
+                style={{
+                  height: viewHeight * 0.8,
+                }}
+                resizeMode="contain"
+              />
+            ) : (
+              currentVideo !== null && <NotImplementedScreen />
+            )}
+          </View>
         </View>
         <View style={styles.footer}>
-          <UIKittenIconButton status="danger" onPress={cancelChoice} name="close-outline" />
-          <UIKittenIconButton status="primary" onPress={() => acceptChoice()} name="checkmark-outline" />
+          <UIKittenIconButton fill={theme['color-danger-500']} onPress={() => cancelChoice()} name="close-outline" width={40} height={40} />
+          <UIKittenIconButton fill={theme['color-primary-500']} onPress={() => acceptChoice()} name="checkmark-outline" width={80} height={80} />
         </View>
       </SafeAreaView>
     );
@@ -452,6 +488,7 @@ export default function Camera(props: CameraProps): JSX.Element {
         name={recordingMode === 'video' ? 'video' : 'camera'}
         fill="white"
         width={25}
+        height={25}
       />
     </View>
   );
@@ -553,6 +590,7 @@ export default function Camera(props: CameraProps): JSX.Element {
               onPress={toggleGrid}
               fill="white"
               width={25}
+              height={25}
             />
             <UIKittenIconButton
               name={flashMode === OriginalCamera.Constants.FlashMode.on
@@ -561,6 +599,7 @@ export default function Camera(props: CameraProps): JSX.Element {
               disabled={isRecording || type === OriginalCamera.Constants.Type.front}
               fill="white"
               width={25}
+              height={25}
               style={{
                 opacity: isRecording || type === OriginalCamera.Constants.Type.front
                   ? 0 : 1,
@@ -588,9 +627,10 @@ export default function Camera(props: CameraProps): JSX.Element {
               name="close"
               fill="white"
               width={25}
+              height={25}
               onPress={() => goBack(true)}
             />
-            <TouchableOpacity onPress={takePicture}>
+            <TouchableOpacity onPress={() => takePicture()}>
               {duration > 0 && (
                 <View style={{ alignSelf: 'center', marginTop: -15 }}>
                   <Text color="white">{durationToStr(duration)}</Text>
@@ -607,6 +647,7 @@ export default function Camera(props: CameraProps): JSX.Element {
               disabled={isRecording}
               fill="white"
               width={25}
+              height={25}
               style={{
                 opacity: isRecording
                   ? 0 : 1,

@@ -4,9 +4,10 @@ import { Layout, Text } from '@ui-kitten/components';
 import { useNavigation } from '@react-navigation/native';
 import MaxWidthContainer from '../../../components/MaxWidthContainer';
 import { UserItem } from '../../../src/API/UserContext';
+import Card from '../../../components/Card';
 
 type InformationProps = {
-  utilisateur: UserItem | null
+  utilisateur?: UserItem | null
 };
 
 const Informations = ({ utilisateur } : InformationProps) => {
@@ -20,7 +21,7 @@ const Informations = ({ utilisateur } : InformationProps) => {
       withScrollView="keyboardAware"
       outerViewProps={{
         style: {
-          flex: 1, backgroundColor: '#f6f6f6', paddingTop: 32, paddingHorizontal: 22, marginTop: 11,
+          flex: 1, paddingTop: 32, paddingHorizontal: 22, marginTop: 11,
         },
         showsVerticalScrollIndicator: false,
       }}
@@ -33,10 +34,10 @@ const Informations = ({ utilisateur } : InformationProps) => {
       >
         Informations
       </Text>
-      <Layout style={styles.compteSection}>
+      <Card style={styles.compteSection}>
         {/* use SectionList to render several accounts with its types and details */}
         <Text category="h6" status="basic">Date de naissance</Text>
-        <Text appearance="hint" style={{ marginTop: 6 }}>{utilisateur?.birthDate || undefined}</Text>
+        <Text appearance="hint" style={{ marginTop: 6 }}>{utilisateur?.privateProfile?.birthDate || undefined}</Text>
         <Layout style={{ borderBottomWidth: 0.5, borderBottomColor: '#b5b5b5', marginVertical: 15 }} />
 
         <Text category="h6" status="basic" style={{ marginTop: 7 }}>Adresse e-mail : </Text>
@@ -46,15 +47,16 @@ const Informations = ({ utilisateur } : InformationProps) => {
         <Layout style={{ borderBottomWidth: 0.3, borderBottomColor: '#b5b5b5', marginVertical: 15 }} />
 
         <Text category="h6" status="basic" style={{ marginTop: 8 }}>Ville</Text>
-        <Text appearance="hint" style={{ marginTop: 5 }}>{utilisateur?.address?.city || undefined}</Text>
+        <Text appearance="hint" style={{ marginTop: 5 }}>{utilisateur?.privateProfile?.address?.city || undefined}</Text>
         <Layout style={{ borderBottomWidth: 0.5, borderBottomColor: '#b5b5b5', marginVertical: 15 }} />
 
         <Text category="h6" status="basic" style={{ marginTop: 10 }}>Numéro de téléphone</Text>
-        <Text appearance="hint" style={{ marginTop: 5 }}>{utilisateur?.phoneNumber || undefined}</Text>
-      </Layout>
-      <TouchableOpacity onPress={onPress}>
+        <Text appearance="hint" style={{ marginTop: 5 }}>{utilisateur?.privateProfile?.phoneNumber || undefined}</Text>
+      </Card>
+      <TouchableOpacity onPress={() => onPress()}>
         <Text category="h5" status="info" style={styles.buttonTextLeft}>Modifier les informations</Text>
       </TouchableOpacity>
+
     </MaxWidthContainer>
 
   );

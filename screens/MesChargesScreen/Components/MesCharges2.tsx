@@ -1,75 +1,102 @@
 import React, {
-  useEffect, useState,
-  // useState
 } from 'react';
 import {
-  Layout, RadioGroup, Radio, Text, Button, Datepicker, RangeDatepicker,
+  RadioGroup, Radio, Text, Button, RangeDatepicker, CalendarRange,
 } from '@ui-kitten/components';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { StyleSheet, View } from 'react-native';
-// import { useForm } from 'react-hook-form';
-import TextInputComp from '../../../components/Form/TextInput';
 
 import MaxWidthContainer from '../../../components/MaxWidthContainer';
 
-// type DeclarationImpotsForm = { bien: string; anneeEcheance: string; };
-
 const MesCharges2 = () => {
-  const route = useRoute();
   const { params } = useRoute();
+  // console.log('params from useRoute', params);
+  const titlePass = params;
+
   const navigation = useNavigation();
-  // const declarationImpotsForm = useForm<DeclarationImpotsForm>();
+
+  const firstDayCurrentYear = new Date(new Date().getFullYear(), 0, 1);
+  const lastDayCurrentYear = new Date(new Date().getFullYear(), 11, 31);
+
+  const firstDayPreviousYear = new Date(new Date().getFullYear() - 1, 0, 1);
+  const lastDayPreviousYear = new Date(new Date().getFullYear() - 1, 11, 31);
+
+  const startCurrentMonth = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+  const lastCurrentMonth = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0);
 
   const [selectedIndex, setSelectedIndex] = React.useState(0);
 
-  const titlePass = params;
-  console.log('titlePass', titlePass);
+  const dateRange = { startDate: firstDayCurrentYear, endDate: lastDayCurrentYear };
+  const [range, setRange] = React.useState<CalendarRange<Date>>(dateRange);
 
-  const onMesCharges3 = (titlePass) => {
-    navigation.navigate('MesCharges3', { ...titlePass });
-    console.log('insideMesCharges3', { ...titlePass });
-  };
-
-  const [radioText, setRadioText] = useState("l'année");
-
-  const checkRadio = (i) => {
+  const checkRadio = (i: Number) => {
     switch (i) {
       case 0:
-        setRadioText("l'année");
-        setRange({});
+        setRange({ startDate: firstDayCurrentYear, endDate: lastDayCurrentYear });
         break;
       case 1:
-        setRadioText("l'année -1");
+        setRange({ startDate: firstDayPreviousYear, endDate: lastDayPreviousYear });
         break;
       case 2:
-        setRadioText('le mois');
+        setRange({ startDate: startCurrentMonth, endDate: lastCurrentMonth });
+        break;
+      default:
         break;
     }
   };
-  const [range, setRange] = React.useState({});
-  useEffect(() => {
-    console.log('useEffect test of MesCharges 2');
-  });
+
+  const controlRange = (rangeToTest:CalendarRange<Date>) => {
+    let checkedRange: CalendarRange<Date> = {};
+    let found = false;
+
+    // eslint-disable-next-line no-plusplus
+    for (let i = 0; i <= 2; i++) {
+      switch (i) {
+        case 0:
+          checkedRange = ({ startDate: firstDayCurrentYear, endDate: lastDayCurrentYear });
+          break;
+        case 1:
+          checkedRange = ({ startDate: firstDayPreviousYear, endDate: lastDayPreviousYear });
+          break;
+        case 2:
+          checkedRange = ({ startDate: startCurrentMonth, endDate: lastCurrentMonth });
+          break;
+        default:
+          break;
+      }
+      if (rangeToTest.startDate?.getTime() === checkedRange.startDate?.getTime()
+          && rangeToTest.endDate?.getTime() === checkedRange.endDate?.getTime()) {
+        setSelectedIndex(i);
+        found = true;
+        return;
+      }
+    }
+
+    if (!found) {
+      setSelectedIndex(-1);
+    }
+  };
+
+  const onMesCharges3 = () => {
+    // console.log('eeeee', go);
+    navigation.navigate('mes-charges-3', { range, title: titlePass?.title });
+  };
 
   return (
     <MaxWidthContainer outerViewProps={{
       style: {
         padding: 22,
-        backgroundColor: '#f6f6f6',
       },
     }}
     >
       <Text category="h1" status="basic">
-        Charge
-        {' '}
-        {route.params.title}
+        {`Charge ${titlePass?.title}`}
       </Text>
 
       <RadioGroup
         selectedIndex={selectedIndex}
         onChange={(index) => {
           setSelectedIndex(index); checkRadio(index);
-          console.log(range);
         }}
         style={styles.containerRadio}
       >
@@ -84,26 +111,43 @@ const MesCharges2 = () => {
         </Radio>
       </RadioGroup>
 
-      <Layout style={{ flexDirection: 'row', backgroundColor: 'transparent', alignItems: 'center' }}>
-        <View style={{ marginRight: 15 }}>
-          <Text category="h5">
-            Selectionner
-            {' '}
-            {radioText}
-          </Text>
+      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+        <View style={{ flex: 1, marginRight: 15 }}>
+          <Text category="h5">Sélectionnez les dates</Text>
         </View>
-
         <RangeDatepicker
           range={range}
-          onSelect={(nextRange) => setRange(nextRange)}
+          min={new Date(1900, 0, 1)}
+          max={new Date((new Date()).getFullYear() + 1, 0, 1)}
+            // onChangeValue={(nextDate) => console.log('nextDate', nextDate)}
+          onSelect={
+              (nextRange) => {
+                setRange(nextRange);
+                controlRange(nextRange);
+                // console.log('nextRange', nextRange);
+              }
+            }
+          style={{
+            shadowColor: 'rgba(190, 190, 190, 0.5)',
+            shadowOffset: {
+              width: 0,
+              height: 1,
+            },
+            shadowRadius: 2,
+            shadowOpacity: 1,
+            elevation: 2,
+            width: 240,
+          }}
         />
+      </View>
 
-      </Layout>
-      {/**
-      <Datepicker />
-      */}
       <View style={styles.buttonRight}>
-        <Button onPress={() => onMesCharges3(titlePass)} size="large" style={{ width: 173 }}>
+        <Button
+          onPress={() => onMesCharges3()}
+          size="large"
+          style={{ width: 173 }}
+          disabled={!(range.endDate && range.startDate)}
+        >
           Valider
         </Button>
       </View>
@@ -119,7 +163,6 @@ const styles = StyleSheet.create({
   container: {
     padding: 22,
     marginVertical: 12,
-    backgroundColor: '#f6f6f6',
   },
   containerRadio: {
     flexDirection: 'row',

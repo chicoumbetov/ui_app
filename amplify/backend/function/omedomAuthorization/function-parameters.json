@@ -1,0 +1,79 @@
+{
+  "permissions": {
+    "auth": {
+      "omedomc071f696": [
+        "read"
+      ]
+    },
+    "api": {
+      "omedom": [
+        "Query",
+        "Mutation",
+        "Subscription"
+      ]
+    },
+    "storage": {
+      "User:@model(appsync)": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ],
+      "RealEstate:@model(appsync)": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ],
+      "PendingInvitation:@model(appsync)": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ],
+      "Document:@model(appsync)": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ],
+      "BankAccount:@model(appsync)": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ],
+      "BankMovement:@model(appsync)": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ],
+      "BudgetLine:@model(appsync)": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ],
+      "BudgetLineDeadline:@model(appsync)": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ],
+      "NotificationTickets:@model(appsync)": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ],
+      "RealEstateBankAccount:@model(appsync)": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ]
+    }
+  },
+  "lambdaLayers": []
+}

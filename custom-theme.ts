@@ -86,11 +86,13 @@ const omedomTheme = {
   'border-basic-color-4': '$color-basic-400',
   'border-basic-color-5': '$color-basic-500',
 
+  'color-basic-transparent-100': 'rgb(255,255,255)',
+
   'color-primary-default': '$color-primary-400',
 
   'text-hint-color': '#b5b5b5',
 
-  'text-font-family': 'HouschkaRoundedMedium',
+  'text-font-family': 'confortaa_Medium',
   'border-radius': 4,
   'border-width': 1,
   'text-subtitle-1-font-size': 15,

@@ -8,6 +8,7 @@ import { useForm } from 'react-hook-form';
 import TEST_ID from 'aws-amplify-react-native/dist/AmplifyTestIDs';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { View } from 'react-native';
+import { useDimensions } from '@react-native-community/hooks';
 import { AuthStyles } from './styles';
 import { ErrorMessage } from './components/ErrorMessage';
 import TextInputComp from '../Form/TextInput';
@@ -34,7 +35,8 @@ const MySignUp = ({
   error, signUp, goBack, goConfirmCode,
 }: SignUpProps) => {
   const [errorMessage, setErrorMessage] = useState<string>();
-  const [cguVisible, setCguVisible] = useState(false);
+  const [modalUrl, setModalUrl] = useState<string | false>(false);
+  const { window } = useDimensions();
 
   const signUpForm = useForm<SignUpForm>();
 
@@ -49,7 +51,7 @@ const MySignUp = ({
       phone_number: data.phone_number,
       family_name: data.lastname,
       given_name: data.firstname,
-      'custom:optIn': data.optIn ? 'true' : 'flse',
+      'custom:optIn': data.optIn ? 'true' : 'false',
     });
   };
 
@@ -61,7 +63,7 @@ const MySignUp = ({
         outerViewProps={{
           showsVerticalScrollIndicator: false,
         }}
-        innerViewProps={{ style: { flex: 1 } }}
+        innerViewProps={{ style: { flex: 1, marginBottom: 20 } }}
         maxWidth={450}
       >
 
@@ -123,7 +125,7 @@ const MySignUp = ({
               label={(props) => (
                 <Text style={{ flex: 1 }}>
                   <Text {...props}>J'accepte les </Text>
-                  <Text {...props} onPress={() => setCguVisible(true)} style={{ textDecorationLine: 'underline' }}>conditions générales d'utilisation</Text>
+                  <Text {...props} onPress={() => setModalUrl('https://omedom.com/legal/?simple=1')} style={{ textDecorationLine: 'underline' }}>conditions générales d'utilisation</Text>
                   <Text {...props}> d'Omedom</Text>
                 </Text>
               )}
@@ -133,15 +135,39 @@ const MySignUp = ({
               ]}
             />
             <Modal
-              visible={cguVisible}
+              visible={modalUrl !== false}
               backdropStyle={{ backgroundColor: 'rgba(0,0,0, 0.7)' }}
-              onBackdropPress={() => setCguVisible(false)}
+              onBackdropPress={() => setModalUrl(false)}
             >
-              <Card disabled>
-                <WebView src="https://web-premiere.fr" />
-                <Button onPress={() => setCguVisible(false)}>Fermer</Button>
-              </Card>
+              <View
+                style={{
+                  backgroundColor: 'white',
+                  borderRadius: 10,
+                  height: window.height * 0.9,
+                  width: window.width * 0.9,
+                  flex: 1,
+                  justifyContent: 'space-between',
+                  overflow: 'hidden',
+                  padding: 7,
+                }}
+              >
+                <WebView src={modalUrl || ''} />
+                <Button onPress={() => setModalUrl(false)}>Fermer</Button>
+              </View>
             </Modal>
+
+            <Text style={{ flex: 1, marginVertical: 10 }}>
+              <Text>
+                OMEDOM collecte vos informations personnelles afin d'exécuter le contrat qui
+                vous lie et de satisfaire vos demandes (services, fonctionnement de compte, etc. ).
+                Pour connaitre les droits dont vous disposez concernant vos données personnelles
+                et toutes les informations sur leur traitement par OMEDOM, vous pouvez
+                consulter notre Politique de protection des données
+              </Text>
+              <Text> </Text>
+              <Text onPress={() => setModalUrl('https://omedom.com/politique-de-confidentialite?simple=1')} style={{ textDecorationLine: 'underline' }}>ici</Text>
+              <Text>.</Text>
+            </Text>
 
             <View style={{
               flexDirection: 'row', justifyContent: 'space-between',

@@ -2,7 +2,7 @@ import * as React from 'react';
 import { View, StyleSheet } from 'react-native';
 
 import { useEffect, useState } from 'react';
-import { Radio } from '@ui-kitten/components';
+import { Radio, Text } from '@ui-kitten/components';
 import { FalsyFC, FalsyText } from '@ui-kitten/components/devsupport';
 import { RadioFormProps } from './types';
 
@@ -24,29 +24,28 @@ const RadioComp = React.forwardRef<Radio, RadioFormProps>(
       }
     }, [isEnabled]);
 
+    let finalLabel;
+    if (typeof label === 'string') {
+      finalLabel = (p: any) => (
+        <Text style={{ flex: 1 }}>
+          <Text {...p}>{label}</Text>
+        </Text>
+      );
+    } else {
+      finalLabel = label;
+    }
+
     return (
       <>
         <View style={[styles.container, style]}>
           {labelPosition === 'before' && (
-            typeof label === 'string' ? (
-              <FalsyText
-                category="p1"
-                style={[styles.labelBeforeMargin, labelStyle]}
-                component={label}
-              />
-            ) : <FalsyFC component={label} />
+          <FalsyFC component={finalLabel} />
           )}
           <Radio {...switchProps} onChange={toggleSwitch} checked={isEnabled} ref={ref} />
 
           {labelPosition === 'after' && (
 
-            typeof label === 'string' ? (
-              <FalsyText
-                category="p1"
-                style={[styles.labelBeforeMargin, labelStyle]}
-                component={label}
-              />
-            ) : <FalsyFC component={label} />
+          <FalsyFC component={finalLabel} />
           )}
         </View>
         <FalsyText

@@ -1,33 +1,43 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Layout, Text } from '@ui-kitten/components';
+import { Button, Text } from '@ui-kitten/components';
 import { useNavigation } from '@react-navigation/native';
-import {
-  StyleSheet, View,
-} from 'react-native';
+import { View } from 'react-native';
 import { useForm } from 'react-hook-form';
 import Form from '../../../components/Form/Form';
 import SelectComp from '../../../components/Form/Select';
 import MaxWidthContainer from '../../../components/MaxWidthContainer';
-import TextInput from '../../../components/Form/TextInput';
+
 import { useRealEstateList } from '../../../src/API/RealEstate';
+import DatePicker from '../../../components/Form/DatePicker';
 
 type QuittanceLoyerForm = {
-  bien: string;
-  anneeEcheance: string;
+  idBien: string;
+  idTenant: string;
+  date: string;
 };
 
 const QuittanceLoyer = () => {
-  const navigation = useNavigation();
   const { data } = useRealEstateList();
-  const [houseList, setHouseList] = useState<Array<{ label: string, key: string }>>([]);
+  const navigation = useNavigation();
+  const quittanceLoyerForm = useForm<QuittanceLoyerForm>();
+
+  const [houseList, setHouseList] = useState<
+  Array<{ label: string | undefined, key: string | undefined }>
+  | undefined
+  >([]);
+
+  const [tenantsList, setTenantsList] = useState<
+  Array<{ label: string | undefined, key: string | undefined }>
+  | undefined
+  >([]);
 
   useEffect(() => {
-    const selectHouse: Array<{ label: string, key: string }> = [];
-    data?.listRealEstates?.items?.forEach((house) => {
+    const selectHouse = data?.listRealEstates?.items?.filter((house) => {
       if (house) {
-        selectHouse.push({ label: house.name, key: house.id });
+        return true;
       }
-    });
+      return false;
+    }).map((house) => ({ label: house?.name, key: house?.id }));
     setHouseList(selectHouse);
   }, [data]);
 
@@ -43,11 +53,9 @@ const QuittanceLoyer = () => {
     },
   ];
    */
-
-  const quittanceLoyerForm = useForm<QuittanceLoyerForm>();
-
-  const onQuittanceLoyer2 = () => {
-    navigation.navigate('QuittanceLoyer2');
+  const onQuittanceLoyer2 = (house : QuittanceLoyerForm) => {
+    // console.log(house.bien);
+    navigation.navigate('quittance-loyer-2', house);
   };
 
   return (
@@ -55,56 +63,71 @@ const QuittanceLoyer = () => {
       withScrollView="keyboardAware"
       outerViewProps={{
         showsVerticalScrollIndicator: false,
+        style: {
+          padding: 25,
+        },
       }}
     >
 
-      <View style={styles.containerOut}>
+      <Text category="h1" style={{ marginVertical: 15 }}>Générer une quittance de loyer</Text>
+      <Form <QuittanceLoyerForm> {...quittanceLoyerForm}>
+        <>
+          <SelectComp
+            name="idBien"
+            data={houseList}
+            placeholder="Choisissez le bien"
+            size="large"
+            appearance="default"
+            status="primary"
+            onChangeValue={(selectedKey) => {
+              if (selectedKey) {
+                const currentBien = data?.listRealEstates?.items?.filter(
+                  (item) => item?.id === selectedKey,
+                ).pop();
+                const tenantList = currentBien?.tenants?.map(
+                  (tenant) => ({ label: `${tenant?.firstname} ${tenant?.lastname}`, key: tenant?.id }),
+                );
+                setTenantsList(tenantList);
+              }
+            }}
+          />
+          {tenantsList ? (
+            <>
+              <SelectComp
+                name="idTenant"
+                data={tenantsList}
+                placeholder="Choisissez le locataire"
+                size="large"
+                appearance="default"
+                status="primary"
+              />
+              <DatePicker
+                name="date"
+                label="Date de la quittance"
+                placeholder="jj/mm/aaaa"
+                icon="calendar-outline"
+              />
+              <View style={{ marginTop: 20, alignItems: 'flex-end' }}>
+                <Button
+                  onPress={quittanceLoyerForm.handleSubmit((house) => {
+                    onQuittanceLoyer2(house);
+                  })}
+                  size="large"
+                  style={{ width: 139 }}
+                >
+                  Confirmer
+                </Button>
+              </View>
+            </>
+          ) : (<Text status="warning">Vous devez ajouter un locataire à votre bien</Text>) }
 
-        <Text category="h1" style={styles.title}>Générer une quittance de loyer</Text>
-        <Form <QuittanceLoyerForm> {...quittanceLoyerForm}>
-          <>
-            <SelectComp
-              name="bien"
-              data={houseList}
-              placeholder="Choisissez le bien"
-              size="large"
-              appearance="default"
-              status="primary"
-            />
-            <TextInput
-              name="anneeEcheance"
-              label="Année de l'écheance"
-              placeholder="aaaa"
-              icon="calendar-outline"
-            />
-          </>
-        </Form>
+        </>
+      </Form>
 
-        <View style={styles.buttonRight}>
-          <Button onPress={onQuittanceLoyer2} size="large" style={{ width: 139 }}>
-            Confirmer
-          </Button>
-        </View>
-
-      </View>
     </MaxWidthContainer>
   );
 };
 
 export default QuittanceLoyer;
 
-const styles = StyleSheet.create({
-  containerOut: {
-    flex: 1,
-    padding: 25,
-    paddingRight: 21,
-  },
-  title: {
-    marginTop: 19.7,
-    marginBottom: 14,
-  },
-  item: {
-    borderBottomEndRadius: 20,
-  },
-  buttonRight: { marginTop: 36, alignItems: 'flex-end' },
-});
+// const styles = StyleSheet.create({});

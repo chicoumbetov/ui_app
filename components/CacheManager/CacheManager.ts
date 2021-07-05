@@ -23,10 +23,12 @@ export class CacheEntry {
     const { uri } = this;
     const { path, exists, tmpPath } = await getCacheEntry(uri);
     if (exists) {
+      // console.log('has cache', path);
       return path;
     }
     await FileSystem.downloadAsync(uri, tmpPath);
     await FileSystem.moveAsync({ from: tmpPath, to: path });
+    // console.log('has no cache', path);
     return path;
   }
 }

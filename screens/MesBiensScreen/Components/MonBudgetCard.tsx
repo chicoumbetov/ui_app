@@ -126,7 +126,12 @@ const MonBudgetCard = (props: MonBudgetProps) => {
           <Text category="h3" style={{ justifyContent: 'center', flexWrap: 'wrap' }}>
             {`${labelBudget}`}
           </Text>
-          <Text category="c1" status={budget.type === BudgetLineType.Income ? ('success') : ('danger')}>{`${budget.type === BudgetLineType.Income ? ('+') : ('')} ${budget.amount} €`}</Text>
+          <Text
+            category="c1"
+            status={budget.type === BudgetLineType.Income ? ('success') : ('danger')}
+          >
+            {`${budget.type === BudgetLineType.Income ? ('+') : ('')} ${Math.round(budget.amount * 100) / 100} €`}
+          </Text>
           {budget.tenantId && tenant !== undefined && (
           <Text category="c1" appearance="hint">
             {tenant[0]?.lastname || 'pas de locataire'}

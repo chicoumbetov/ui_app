@@ -217,7 +217,7 @@ const MonBien = (props: MonBienProps) => {
                       />
                     </View>
                     {dernierMovement ? (
-                      <Amount amount={dernierMovement?.amount || 0} category="h4" />
+                      <Amount amount={Math.round(dernierMovement?.amount * 100) / 100 || 0} category="h4" />
                     ) : (
                       <Text category="h4" status="primary">0 €</Text>
                     )}
@@ -240,7 +240,7 @@ const MonBien = (props: MonBienProps) => {
                       style={{ height: 16, width: 16 }}
                     />
                     <Text category="h4" status="danger">
-                      {`${(nextexpense) || '0'} €`}
+                      {`${Math.round(nextexpense * 100) / 100 || '0'} €`}
                     </Text>
                   </View>
 
@@ -275,7 +275,7 @@ const MonBien = (props: MonBienProps) => {
                     <View style={styles.oneThirdBlock}>
                       <Text category="h6" appearance="hint" style={styles.text}>Dernier mouvement</Text>
                       {dernierMovement ? (
-                        <Amount amount={dernierMovement?.amount || 0} category="h4" />
+                        <Amount amount={Math.round(dernierMovement?.amount * 100) / 100 || 0} category="h4" />
                       ) : (<Text category="h4" status="primary">0 €</Text>)}
 
                       <TouchableOpacity onPress={() => {}}>
@@ -288,7 +288,7 @@ const MonBien = (props: MonBienProps) => {
                         Prochaine dépense
                       </Text>
                       <Text category="h4" status="danger">
-                        {`${(nextexpense) || '0'} €`}
+                        {`${Math.round(nextexpense * 100) / 100 || '0'} €`}
                       </Text>
                       <TouchableOpacity onPress={allerTresorerie}>
                         <Text category="h6" status="info">En savoir +</Text>

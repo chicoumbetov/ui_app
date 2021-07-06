@@ -167,9 +167,6 @@ const ParametrerAjoutCharges = () => {
         for (let i = 0; i < 3; i += 1) {
           if (infoCredit && infoCredit.amortizationTable) {
             const index = infoCredit.amortizationTable.findIndex((item) => item.dueDate === DateUtils.addMonths(nextDueDate, -DateUtils.frequencyToMonths(frequency) * i));
-            console.log('index :', index);
-            console.log('date 1 :', DateUtils.addMonths(nextDueDate, -DateUtils.frequencyToMonths(frequency) * i));
-            console.log('date 2 :', infoCredit.amortizationTable[0].dueDate);
             const thisAmount = infoCredit.amortizationTable[index].amount;
             const thisAssurance = infoCredit.amortizationTable[index].interest;
             const thisInterest = infoCredit.amortizationTable[index].assurance;

@@ -155,69 +155,71 @@ app.post('/webhooks/account-synced', async (req, res) => {
             }
         });
         await Promise.all(map);
-        if (countPositiveMovements > 0) {
-            lambda.invoke({
-                FunctionName: process.env.FUNCTION_SENDNOTIFICATION_NAME,
-                Payload: JSON.stringify({
-                    userIds: recipientList,
-                    title: countPositiveMovements > 1 ? 'Nouveaux mouvements créditeurs' : 'Nouveau mouvement créditeur',
-                    body: countPositiveMovements > 1
-                        ? `Votre compte ${account.bank} ${account.name} ${account.iban} présente de nouveaux mouvements créditeurs.`
-                        : `Votre compte ${account.bank} ${account.name} ${account.iban} présente un nouveau mouvement créditeur.`,
-                    data: {
-                        realEstateIds,
-                        bankAccountId: account.id,
-                    },
-                    type: 'creditBancaire',
-                }, null, 2),
-                InvocationType: 'Event',
-            }, (error) => {
-                if (error) {
-                    console.error('Notification error', error);
-                }
-            });
-        }
-        if (countNegativeMovements > 0) {
-            lambda.invoke({
-                FunctionName: process.env.FUNCTION_SENDNOTIFICATION_NAME,
-                Payload: JSON.stringify({
-                    userIds: recipientList,
-                    title: countNegativeMovements > 1 ? 'Nouveaux mouvements débiteurs' : 'Nouveau mouvement débiteur',
-                    body: countNegativeMovements > 1
-                        ? `Votre compte ${account.bank} ${account.name} ${account.iban} présente de nouveaux mouvements débiteurs.`
-                        : `Votre compte ${account.bank} ${account.name} ${account.iban} présente un nouveau mouvement débiteur.`,
-                    data: {
-                        realEstateIds,
-                        bankAccountId: account.id,
-                    },
-                    type: 'debitBancaire',
-                }, null, 2),
-                InvocationType: 'Event',
-            }, (error) => {
-                if (error) {
-                    console.error('Notification error', error);
-                }
-            });
-        }
-        if (isBalanceNegative) {
-            lambda.invoke({
-                FunctionName: process.env.FUNCTION_SENDNOTIFICATION_NAME,
-                Payload: JSON.stringify({
-                    userIds: recipientList,
-                    title: 'Solde bancaire négatif',
-                    body: `Votre compte ${account.bank} ${account.name} ${account.iban} présente un solde négatif.`,
-                    data: {
-                        realEstateIds,
-                        bankAccountId: account.id,
-                    },
-                    type: 'soldeNegatif',
-                }, null, 2),
-                InvocationType: 'Event',
-            }, (error) => {
-                if (error) {
-                    console.error('Notification error', error);
-                }
-            });
+        if (recipientList) {
+            if (countPositiveMovements > 0) {
+                lambda.invoke({
+                    FunctionName: process.env.FUNCTION_SENDNOTIFICATION_NAME,
+                    Payload: JSON.stringify({
+                        userIds: recipientList,
+                        title: countPositiveMovements > 1 ? 'Nouveaux mouvements créditeurs' : 'Nouveau mouvement créditeur',
+                        body: countPositiveMovements > 1
+                            ? `Votre compte ${account.bank} ${account.name} ${account.iban} présente de nouveaux mouvements créditeurs.`
+                            : `Votre compte ${account.bank} ${account.name} ${account.iban} présente un nouveau mouvement créditeur.`,
+                        data: {
+                            realEstateIds,
+                            bankAccountId: account.id,
+                        },
+                        type: 'creditBancaire',
+                    }, null, 2),
+                    InvocationType: 'Event',
+                }, (error) => {
+                    if (error) {
+                        console.error('Notification error', error);
+                    }
+                });
+            }
+            if (countNegativeMovements > 0) {
+                lambda.invoke({
+                    FunctionName: process.env.FUNCTION_SENDNOTIFICATION_NAME,
+                    Payload: JSON.stringify({
+                        userIds: recipientList,
+                        title: countNegativeMovements > 1 ? 'Nouveaux mouvements débiteurs' : 'Nouveau mouvement débiteur',
+                        body: countNegativeMovements > 1
+                            ? `Votre compte ${account.bank} ${account.name} ${account.iban} présente de nouveaux mouvements débiteurs.`
+                            : `Votre compte ${account.bank} ${account.name} ${account.iban} présente un nouveau mouvement débiteur.`,
+                        data: {
+                            realEstateIds,
+                            bankAccountId: account.id,
+                        },
+                        type: 'debitBancaire',
+                    }, null, 2),
+                    InvocationType: 'Event',
+                }, (error) => {
+                    if (error) {
+                        console.error('Notification error', error);
+                    }
+                });
+            }
+            if (isBalanceNegative) {
+                lambda.invoke({
+                    FunctionName: process.env.FUNCTION_SENDNOTIFICATION_NAME,
+                    Payload: JSON.stringify({
+                        userIds: recipientList,
+                        title: 'Solde bancaire négatif',
+                        body: `Votre compte ${account.bank} ${account.name} ${account.iban} présente un solde négatif.`,
+                        data: {
+                            realEstateIds,
+                            bankAccountId: account.id,
+                        },
+                        type: 'soldeNegatif',
+                    }, null, 2),
+                    InvocationType: 'Event',
+                }, (error) => {
+                    if (error) {
+                        console.error('Notification error', error);
+                    }
+                });
+            }
         }
     }
     res.sendStatus(200);

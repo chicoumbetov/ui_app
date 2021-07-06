@@ -31,7 +31,7 @@ const GraphicsII = (props: GraphicsIIProps) => {
 
   const bankMovementsLocal = listBankMovement.data?.getRealEstate?.bankMovements?.items;
 
-  // console.log('bankMovements :', bankMovementsLocal);
+  console.log('bankMovements :', bankMovementsLocal);
 
   // console.log('bankMovements :', listBankMovement.data?.getRealEstate?.bankMovements?.items);
 

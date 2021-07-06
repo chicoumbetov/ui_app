@@ -129,8 +129,9 @@ const ParametrerAjoutCharges = () => {
       category1 = category2;
     } else {
       category1 = category;
+    } if (category2 === 'mensualite_credit') {
+      calculeTableauAmortissement(false);
     }
-    calculeTableauAmortissement(false);
 
     if (route.params.idBudgetLine) {
       await updateBudgetLine.updateBudgetLine({
@@ -208,7 +209,7 @@ const ParametrerAjoutCharges = () => {
         if (Show) {
           setCurrentTabAmo(thisAmortizTable);
         }
-      } else if (infoCredit.borrowedCapital
+      } else if (infoCredit && infoCredit.borrowedCapital
           && infoCredit.interestRate
           && infoCredit.assuranceRate
           && infoCredit.duration

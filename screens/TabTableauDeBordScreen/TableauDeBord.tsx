@@ -147,7 +147,6 @@ function TableauDeBord() {
 
           <View style={styles.oneThirdBlock}>
             <Text category="h6" appearance="hint" style={styles.text}>Dernier crédit</Text>
-
             <View style={styles.mouvementImage}>
               {/* TODO */}
               <Text category="h3" status="success">+ 500 €</Text>
@@ -169,9 +168,8 @@ function TableauDeBord() {
             <Text category="h6" appearance="hint" style={styles.text}>
               Prochain mouvement
             </Text>
-
             <View style={styles.mouvementImage}>
-              <Text category="h3" status="danger">{`${next || '0'} €`}</Text>
+              <Text category="h3" status="danger">{`${Math.round(next * 100) / 100 || '0'} €`}</Text>
               <MaisonVert height={42} width={44} />
             </View>
           </View>

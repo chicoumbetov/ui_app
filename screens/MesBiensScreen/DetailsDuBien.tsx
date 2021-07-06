@@ -54,6 +54,7 @@ function DetailsBien() {
   const theme = useTheme();
   const route = useRoute<RouteProp<TabMesBiensParamList, 'detail-bien'>>();
   const { bienget, loading } = useGetRealEstate(route.params.id, 'cache-and-network');
+  // console.log('Details Bien: ', bienget, loading);
 
   const createDocument = useCreateDocumentMutation();
   // console.log('detail bien document', documentList);
@@ -258,21 +259,9 @@ function DetailsBien() {
 
   // budgetLines are already sorted in schema.graphql
   // sortDirection: ASC
-  /**
-  const nextexpense = useMemo(() => {
-    const nextexpenseInternal = bienget?.budgetLines?.items
-    && bienget?.budgetLines?.items.length > 0
-    && bienget?.budgetLines?.items[0]?.amount;
-
-    return {
-      nextexpense: nextexpenseInternal,
-    }
-  }, [bienget.budgetLines])
-   */
-
   const nextexpense = bienget?.budgetLines?.items
         && bienget?.budgetLines?.items.length > 0
-        && bienget?.budgetLines?.items[0]?.amount;
+        && Math.round((bienget?.budgetLines?.items[0]?.amount) * 100) / 100;
 
   const { bankMovements } = bienget || {};
 
@@ -288,85 +277,86 @@ function DetailsBien() {
   }
   // console.log('pending : ', invitationAttente);
 
-  const referenceYear = new Date().getFullYear();
-
-  const result = bienget.budgetLineDeadlines?.items?.filter((o) => moment(o?.date, 'YYYY-MM-DD').isBetween(moment().subtract(12, 'months'), moment(), '[]'));
-  console.log('result: ', result);
-
-  const result2 = bienget.budgetLineDeadlines?.items?.filter((o) => moment(o?.date, 'YYYY-MM-DD').isBetween(moment(new Date(new Date().setFullYear(referenceYear - 1))), moment(new Date(new Date().setFullYear(referenceYear))), '[]'));
-  console.log('result2:', result2);
-
-  console.log('Details Bien: ', bienget, loading);
-
   const totalPrice = (bienget.purchasePrice || 0) + (bienget.notaryFee || 0);
   console.log('totalPrice: ', totalPrice);
+  const currentYear = new Date().getFullYear();
 
-  // const [totalDepense, setTotalDepense] = useState<number>();
-  const depenses = bienget.budgetLineDeadlines?.items?.filter(
-    (k) => k?.type === BudgetLineType.Expense
+  /**
+   // budgetLineDeadlines of last 12 months
+  const result = bienget.budgetLineDeadlines?.items?.filter((o) => moment(o?.date, 'YYYY-MM-DD')
+    .isBetween(moment().subtract(12, 'months'), moment(), '[]'));
+  console.log('result: ', result);
+  */
+
+  // budgetLineDeadlines of last 12 months
+  const result2 = bienget.budgetLineDeadlines?.items?.filter((o) => moment(o?.date, 'YYYY-MM-DD')
+    .isBetween(moment(new Date(new Date().setFullYear(currentYear - 1))), moment(new Date(new Date().setFullYear(currentYear))), '[]'));
+  console.log('result2:', result2);
+
+  const categoryCount = result2?.map((u) => {
+    if (u?.type === BudgetLineType.Expense
     // eslint-disable-next-line no-underscore-dangle
-    && !k._deleted,
-  );
+    // && !u._deleted
+    // && u.bankMouvementId
+    ) {
+      return u?.category;
+    }
+  });
+  console.log('categoryCount', categoryCount);
 
-  const last12MonthDepense = result?.filter(
-    (k) => k?.type === BudgetLineType.Expense
-          // eslint-disable-next-line no-underscore-dangle
-          && !k._deleted,
-  );
-  console.log('depenses', depenses);
-  console.log('last12', last12MonthDepense);
+  console.log('resulta 2 bis:', result2);
+  const inc = result2?.map((u) => {
+    console.log('u :', u);
+    let freqIncome = 12;
+    switch (u?.frequency) {
+      case 'quarterly':
+        freqIncome = 4;
+        break;
+      case 'annual':
+        freqIncome = 1;
+        break;
+      default:
+        return null;
+    }
 
-  const totalDepenses = last12MonthDepense?.map((u) => u?.amount).reduce((sum, current) => (sum || 0) + (current || 0));
-  const totalD = depenses?.map((u) => u?.amount).reduce((sum, current) => (sum || 0) + (current || 0));
-  const positive = Math.abs(totalDepenses);
-  console.log('totalDepense:', positive, Math.abs(totalD));
+    if (u?.type === BudgetLineType.Income
+    // eslint-disable-next-line no-underscore-dangle
+    // && !u._deleted
+    // && u.bankMouvementId
+    ) {
+      console.log('aaaa', (u?.amount || 0) - (u?.rentalCharges || 0) - (u?.managementFees || 0));
+      return (u?.amount || 0) - (u?.rentalCharges || 0) - (u?.managementFees || 0) * freqIncome;
+    }
+  }).reduce((sum, current) => (sum || 0) + (current || 0), 0);
+  console.log('inc', inc);
 
-  const incomes = bienget.budgetLineDeadlines?.items?.filter(
-    (k) => k?.type === BudgetLineType.Income
-          // eslint-disable-next-line no-underscore-dangle
-          && !k._deleted,
-  );
-  console.log('incomes:', incomes);
+  // const totalDepenses = last12MonthDepense?.map((u) => u?.amount).reduce((sum, current) => (sum || 0) + (current || 0), 0);
 
-  const RentabilityBrut = bienget.budgetLineDeadlines?.items?.forEach(
-    (amo) => {
-      let freqIncome = 12;
-      switch (amo?.frequency) {
-        case 'quarterly':
-          freqIncome = 4;
-          break;
-        case 'annual':
-          freqIncome = 1;
-          break;
-        default:
-          return null;
-      }
+  // const positive = Math.abs(exp || 0);
+  // console.log('positive exp', positive);
 
-      if (amo?.type === BudgetLineType.Income
-          // eslint-disable-next-line no-underscore-dangle
-          && !amo._deleted
-          // && !amo.bankMouvementId
-      ) {
-        console.log('DDDDDDDDDDDDDDDD');
-        console.log('DDDDDDDDDDDDDDDD');
-        console.log('DDDDDDDDDDDDDDDD');
+  // const rentability = Math.round(((inc || 0 - positive) / totalPrice) * 10000) / 100;
+  // console.log('rent: ', rentability);
 
-        const revenues = amo?.amount || 0;
-        const chars = amo?.rentalCharges || 0;
-        const manage = amo?.managementFees || 0;
-        console.log('frequency Income: ', amo?.frequency);
-        console.log('frequency Income: ', freqIncome);
-
-        const LoyerNet = revenues - chars - manage;
-        const last12MonthLoyerNet = LoyerNet * freqIncome;
-        console.log('LoyerNet', LoyerNet);
-        console.log('last12MonthLoyerNet', last12MonthLoyerNet);
-        console.log('rent: ', ((last12MonthLoyerNet - positive) / totalPrice) * 100);
-
-        console.log('+++++++++++');
-      }
-    },
-  );
+  /**
+  const totalIncome = last12MonthIncome?.map((u) => {
+    let freqIncome = 12;
+    switch (u?.frequency) {
+      case 'quarterly':
+        freqIncome = 4;
+        break;
+      case 'annual':
+        freqIncome = 1;
+        break;
+      default:
+        return null;
+    }
+    return (u?.amount || 0) - (u?.rentalCharges || 0) - (u?.managementFees || 0) * freqIncome;
+  }).reduce((prevValue, currentValue) => (
+    (prevValue || 0) + (currentValue || 0)
+  ), 0);
+  console.log('incomes:', last12MonthIncome, totalIncome);
+  */
 
   return (
     <MaxWidthContainer

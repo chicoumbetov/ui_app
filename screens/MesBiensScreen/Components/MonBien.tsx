@@ -12,6 +12,7 @@ import { useLinkTo } from '@react-navigation/native';
 import { Icon as IconUIKitten } from '@ui-kitten/components/ui/icon/icon.component';
 
 import _ from 'lodash';
+import moment from 'moment';
 import CompteHeader from '../../../components/CompteHeader/CompteHeader';
 import GraphicsII from '../../../components/Graphics/GraphicsII';
 import Graphics from '../../../components/Graphics/Graphics';
@@ -47,23 +48,173 @@ const MonBien = (props: MonBienProps) => {
   // const theme = useTheme();
   // console.log('bienget : ', bienget);
 
+  const { budgetLineDeadlines, budgetLines, bankMovements } = bienget || {};
+
   /**
+   *
    *   Rentabilité
    *
-   *   Exemple de calcul de rendement brut
-   Pour un achat de 100 000 euros par exemple avec un futur loyer de 700 euros :
-   700 x 12 = 8 400 euros x 100/100 00 euros = 8,4%.
-
-   *  (Montant du loyer x 12 mois) x 100 - (les charges locatives)/par le prix d'achat
-   *
-   *  Vous devrez ensuite faire la somme de toutes les charges du bien.
-   *  Par exemple : 900 euros de charges de copropriété annuelles non-récupérables,
-   *  700 euros de taxe foncière,
-   *  300 euros de réparations locatives et
-   *  100 euros d'assurance loyer impayé. soit 2000 euros.
-   *
-   *  Soit : 8 400 - 2 000 x 100/ 100 000 = 6,4%.
    */
+
+  const totalPrice = (bienget.purchasePrice || 0) + (bienget.notaryFee || 0);
+  const currentYear = new Date().getFullYear();
+
+  // budgetLineDeadlines of last 12 months
+  const result2 = budgetLineDeadlines?.items?.filter((o) => moment(o?.date, 'YYYY-MM-DD')
+    .isBetween(moment(new Date(new Date().setFullYear(currentYear - 1))), moment(new Date(new Date().setFullYear(currentYear))), '[]'));
+
+  /**
+   *
+   *
+   * EXPENSE calculations for rentability
+   *
+   *
+   */
+  const usedExpenseCategories = [
+    'assurance',
+    'charges_copropriete',
+    'frais_de_gestion',
+    'frais_comptable',
+    'taxes_foncieres',
+    'assurance_bien',
+    'loyer_impaye',
+    'vacances_locatives',
+  ];
+
+  const expenses = result2?.filter((u) => {
+    if (u && u.type === BudgetLineType.Expense
+        // eslint-disable-next-line no-underscore-dangle
+        && !u._deleted
+        // check if current item is one of category in usedExpenseCategories
+        && usedExpenseCategories.indexOf(u.category) > -1
+        // && u.bankMouvementId
+    ) {
+      return true;
+    }
+    return false;
+  });
+
+  const { totalExpenses } = useMemo(() => {
+    const allExpensesByCategory : {
+      [key: string]: { count: number, total: number, freqExpense:number }
+    } = {};
+
+    if (expenses) {
+      expenses.forEach((item) => {
+        if (item) {
+          /** If any expense doesnt exist */
+          if (allExpensesByCategory[item?.category] === undefined) {
+            /**
+             * initial values and then calculate percentage starting from 0
+             */
+            let freqExpense = 12;
+            switch (item?.frequency) {
+              case 'quarterly':
+                freqExpense = 4;
+                break;
+              case 'annual':
+                freqExpense = 1;
+                break;
+              default:
+                break;
+            }
+            allExpensesByCategory[item?.category] = {
+              total: item?.amount || 0,
+              count: 1,
+              freqExpense,
+            };
+          } else {
+            /** else If any expense exist then we add to allCurrentCategories variable */
+            allExpensesByCategory[item?.category].total += item?.amount || 0;
+            allExpensesByCategory[item?.category].count += 1;
+          }
+        }
+      });
+    }
+    const totalExpensesInternal = Object.values(allExpensesByCategory).reduce(
+      (total, category) => total + category.total * (category.freqExpense / category.count),
+      0,
+    );
+
+    // if we need to use outside of useMemo
+    return {
+      totalExpenses: totalExpensesInternal,
+    };
+  }, [budgetLineDeadlines]);
+
+  /**
+   *
+   *
+   * INCOME calculations for rentability
+   *
+   *
+   */
+  const usedIncomeCategories = [
+    'loyer',
+    'caf',
+  ];
+
+  const incomes = result2?.filter((u) => {
+    if (u && u.type === BudgetLineType.Income
+        // eslint-disable-next-line no-underscore-dangle
+        && !u._deleted
+        // check if current item is loyer or caf
+        && usedIncomeCategories.indexOf(u.category) > -1
+        && u.bankMouvementId
+    ) {
+      return true;
+    }
+    return false;
+  });
+
+  const { totalIncomes } = useMemo(() => {
+    const allIncomesByCategory : {
+      [key: string]: { count: number, total: number, freqIncome:number }
+    } = {};
+
+    if (incomes) {
+      incomes.forEach((item) => {
+        if (item) {
+          /** If any expense doesnt exist */
+          if (allIncomesByCategory[item?.category] === undefined) {
+            /**
+             * initial values and then calculate percentage starting from 0
+             */
+            let freqIncome = 12;
+            switch (item?.frequency) {
+              case 'quarterly':
+                freqIncome = 4;
+                break;
+              case 'annual':
+                freqIncome = 1;
+                break;
+              default:
+                break;
+            }
+            allIncomesByCategory[item?.category] = {
+              total: item?.amount || 0,
+              count: 1,
+              freqIncome,
+            };
+          } else {
+            /** else If any expense exist then we add to allCurrentCategories variable */
+            allIncomesByCategory[item?.category].total += item?.amount || 0;
+            allIncomesByCategory[item?.category].count += 1;
+          }
+        }
+      });
+    }
+    const totalIncomesInternal = Object.values(allIncomesByCategory).reduce(
+      (total, category) => total + category.total * (category.freqIncome / category.count),
+      0,
+    );
+    return {
+      totalIncomes: totalIncomesInternal,
+    };
+  }, [budgetLineDeadlines]);
+
+  const rentability = Math.round(((totalIncomes - totalExpenses) / totalPrice) * 10000) / 100;
+  // console.log('renta', rentability);
 
   /**
    *
@@ -72,8 +223,6 @@ const MonBien = (props: MonBienProps) => {
    *
    *
    */
-  const currentYear = new Date().getFullYear();
-  const { budgetLineDeadlines, budgetLines, bankMovements } = bienget || {};
 
   const firstDayCurrentYear = new Date(new Date().getFullYear(), 0, 1);
   const lastDayCurrentYear = new Date(new Date().getFullYear(), 11, 31);
@@ -256,7 +405,7 @@ const MonBien = (props: MonBienProps) => {
                       fill="#b5b5b5"
                       style={{ height: 18, width: 18, marginRight: 2 }}
                     />
-                    <Text category="h4" status="warning">60 %</Text>
+                    <Text category="h4" status="warning">{`${rentability} %`}</Text>
                   </View>
 
                 </View>
@@ -299,7 +448,7 @@ const MonBien = (props: MonBienProps) => {
                       <Text category="h6" appearance="hint" style={styles.text}>
                         Réntabilité du bien
                       </Text>
-                      <Text category="h4" status="warning" style={{ marginVertical: 14 }}>60 %</Text>
+                      <Text category="h4" status="warning" style={{ marginVertical: 14 }}>{`${rentability} %`}</Text>
                       <TouchableOpacity onPress={allerMesRapports}>
                         <Text category="h6" status="info">Mes rapports</Text>
                       </TouchableOpacity>

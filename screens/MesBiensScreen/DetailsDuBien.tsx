@@ -4,7 +4,7 @@
  * @author: Shynggys UMBETOV
  */
 
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import {
   Text, Icon as IconUIKitten, useTheme, CheckBox, Modal,
 } from '@ui-kitten/components';
@@ -263,7 +263,7 @@ function DetailsBien() {
         && bienget?.budgetLines?.items.length > 0
         && Math.round((bienget?.budgetLines?.items[0]?.amount) * 100) / 100;
 
-  const { bankMovements } = bienget || {};
+  const { bankMovements, budgetLineDeadlines } = bienget || {};
 
   // useMemo used if big O notation is expensive. higher than n to the power 2
   const dernierMovement = useMemo(() => bankMovements?.items?.find(
@@ -273,90 +273,170 @@ function DetailsBien() {
   // console.log('last Movement', dernierMovement);
   let invitationAttente : (PendingInvitation | null)[];
   if (bienget?.pendingInvitations?.items) {
-    invitationAttente = bienget?.pendingInvitations?.items.filter((item) => !item._deleted);
+    // eslint-disable-next-line no-underscore-dangle
+    invitationAttente = bienget?.pendingInvitations?.items.filter((item) => !item?._deleted);
   }
   // console.log('pending : ', invitationAttente);
 
   const totalPrice = (bienget.purchasePrice || 0) + (bienget.notaryFee || 0);
-  console.log('totalPrice: ', totalPrice);
   const currentYear = new Date().getFullYear();
 
-  /**
-   // budgetLineDeadlines of last 12 months
-  const result = bienget.budgetLineDeadlines?.items?.filter((o) => moment(o?.date, 'YYYY-MM-DD')
-    .isBetween(moment().subtract(12, 'months'), moment(), '[]'));
-  console.log('result: ', result);
-  */
-
   // budgetLineDeadlines of last 12 months
-  const result2 = bienget.budgetLineDeadlines?.items?.filter((o) => moment(o?.date, 'YYYY-MM-DD')
+  const result2 = budgetLineDeadlines?.items?.filter((o) => moment(o?.date, 'YYYY-MM-DD')
     .isBetween(moment(new Date(new Date().setFullYear(currentYear - 1))), moment(new Date(new Date().setFullYear(currentYear))), '[]'));
-  console.log('result2:', result2);
-
-  const categoryCount = result2?.map((u) => {
-    if (u?.type === BudgetLineType.Expense
-    // eslint-disable-next-line no-underscore-dangle
-    // && !u._deleted
-    // && u.bankMouvementId
-    ) {
-      return u?.category;
-    }
-  });
-  console.log('categoryCount', categoryCount);
-
-  console.log('resulta 2 bis:', result2);
-  const inc = result2?.map((u) => {
-    console.log('u :', u);
-    let freqIncome = 12;
-    switch (u?.frequency) {
-      case 'quarterly':
-        freqIncome = 4;
-        break;
-      case 'annual':
-        freqIncome = 1;
-        break;
-      default:
-        return null;
-    }
-
-    if (u?.type === BudgetLineType.Income
-    // eslint-disable-next-line no-underscore-dangle
-    // && !u._deleted
-    // && u.bankMouvementId
-    ) {
-      console.log('aaaa', (u?.amount || 0) - (u?.rentalCharges || 0) - (u?.managementFees || 0));
-      return (u?.amount || 0) - (u?.rentalCharges || 0) - (u?.managementFees || 0) * freqIncome;
-    }
-  }).reduce((sum, current) => (sum || 0) + (current || 0), 0);
-  console.log('inc', inc);
-
-  // const totalDepenses = last12MonthDepense?.map((u) => u?.amount).reduce((sum, current) => (sum || 0) + (current || 0), 0);
-
-  // const positive = Math.abs(exp || 0);
-  // console.log('positive exp', positive);
-
-  // const rentability = Math.round(((inc || 0 - positive) / totalPrice) * 10000) / 100;
-  // console.log('rent: ', rentability);
 
   /**
-  const totalIncome = last12MonthIncome?.map((u) => {
-    let freqIncome = 12;
-    switch (u?.frequency) {
-      case 'quarterly':
-        freqIncome = 4;
-        break;
-      case 'annual':
-        freqIncome = 1;
-        break;
-      default:
-        return null;
+   *
+   *
+   * EXPENSE calculations for rentability
+   *
+   *
+   */
+  const usedExpenseCategories = [
+    'assurance',
+    'charges_copropriete',
+    'frais_de_gestion',
+    'frais_comptable',
+    'taxes_foncieres',
+    'assurance_bien',
+    'loyer_impaye',
+    'vacances_locatives',
+  ];
+
+  const expenses = result2?.filter((u) => {
+    if (u && u.type === BudgetLineType.Expense
+    // eslint-disable-next-line no-underscore-dangle
+    && !u._deleted
+    // check if current item is one of category in usedExpenseCategories
+    && usedExpenseCategories.indexOf(u.category) > -1
+    // && u.bankMouvementId
+    ) {
+      return true;
     }
-    return (u?.amount || 0) - (u?.rentalCharges || 0) - (u?.managementFees || 0) * freqIncome;
-  }).reduce((prevValue, currentValue) => (
-    (prevValue || 0) + (currentValue || 0)
-  ), 0);
-  console.log('incomes:', last12MonthIncome, totalIncome);
-  */
+    return false;
+  });
+
+  const { totalExpenses } = useMemo(() => {
+    const allExpensesByCategory : {
+      [key: string]: { count: number, total: number, freqExpense:number }
+    } = {};
+
+    if (expenses) {
+      expenses.forEach((item) => {
+        if (item) {
+          /** If any expense doesnt exist */
+          if (allExpensesByCategory[item?.category] === undefined) {
+            /**
+             * initial values and then calculate percentage starting from 0
+             */
+            let freqExpense = 12;
+            switch (item?.frequency) {
+              case 'quarterly':
+                freqExpense = 4;
+                break;
+              case 'annual':
+                freqExpense = 1;
+                break;
+              default:
+                break;
+            }
+            allExpensesByCategory[item?.category] = {
+              total: item?.amount || 0,
+              count: 1,
+              freqExpense,
+            };
+          } else {
+            /** else If any expense exist then we add to allCurrentCategories variable */
+            allExpensesByCategory[item?.category].total += item?.amount || 0;
+            allExpensesByCategory[item?.category].count += 1;
+          }
+        }
+      });
+    }
+    const totalExpensesInternal = Object.values(allExpensesByCategory).reduce(
+      (total, category) => total + category.total * (category.freqExpense / category.count),
+      0,
+    );
+
+    // if we need to use outside of useMemo
+    return {
+      totalExpenses: totalExpensesInternal,
+    };
+  }, [budgetLineDeadlines]);
+
+  /**
+   *
+   *
+   * INCOME calculations for rentability
+   *
+   *
+   */
+  const usedIncomeCategories = [
+    'loyer',
+    'caf',
+  ];
+
+  const incomes = result2?.filter((u) => {
+    if (u && u.type === BudgetLineType.Income
+        // eslint-disable-next-line no-underscore-dangle
+        && !u._deleted
+        // check if current item is loyer or caf
+        && usedIncomeCategories.indexOf(u.category) > -1
+        && u.bankMouvementId
+    ) {
+      return true;
+    }
+    return false;
+  });
+
+  const { totalIncomes } = useMemo(() => {
+    const allIncomesByCategory : {
+      [key: string]: { count: number, total: number, freqIncome:number }
+    } = {};
+
+    if (incomes) {
+      incomes.forEach((item) => {
+        if (item) {
+          /** If any expense doesnt exist */
+          if (allIncomesByCategory[item?.category] === undefined) {
+            /**
+             * initial values and then calculate percentage starting from 0
+             */
+            let freqIncome = 12;
+            switch (item?.frequency) {
+              case 'quarterly':
+                freqIncome = 4;
+                break;
+              case 'annual':
+                freqIncome = 1;
+                break;
+              default:
+                break;
+            }
+            allIncomesByCategory[item?.category] = {
+              total: item?.amount || 0,
+              count: 1,
+              freqIncome,
+            };
+          } else {
+            /** else If any expense exist then we add to allCurrentCategories variable */
+            allIncomesByCategory[item?.category].total += item?.amount || 0;
+            allIncomesByCategory[item?.category].count += 1;
+          }
+        }
+      });
+    }
+    const totalIncomesInternal = Object.values(allIncomesByCategory).reduce(
+      (total, category) => total + category.total * (category.freqIncome / category.count),
+      0,
+    );
+    return {
+      totalIncomes: totalIncomesInternal,
+    };
+  }, [budgetLineDeadlines]);
+
+  const rentability = Math.round(((totalIncomes - totalExpenses) / totalPrice) * 10000) / 100;
+  // console.log('renta', rentability);
 
   return (
     <MaxWidthContainer
@@ -442,7 +522,9 @@ function DetailsBien() {
                   <Text category="h6" appearance="hint" style={styles.text}>
                     Réntabilité du bien
                   </Text>
-                  <Text category="h3" status="warning" style={{ marginTop: 14 }}>60 %</Text>
+                  <Text category="h3" status="warning" style={{ marginTop: 14 }}>
+                    {`${rentability} %`}
+                  </Text>
                 </View>
               </Card>
 
@@ -914,9 +996,10 @@ function DetailsBien() {
                   (thisId) => thisId.id !== pending.id,
                 );
                 if (checked) {
+                  // eslint-disable-next-line no-underscore-dangle
                   nextCheckedAccounts.push({ id: pending.id, _version: pending._version });
                 }
-                console.log('nextCheckedAccounts', nextCheckedAccounts);
+                // console.log('nextCheckedAccounts', nextCheckedAccounts);
                 setCheckedPending(nextCheckedAccounts);
               }}
             />
@@ -934,7 +1017,7 @@ function DetailsBien() {
                   // eslint-disable-next-line no-underscore-dangle
                   nextCheckedAccounts.push({ id: pending?.id, _version: pending?._version });
                 }
-                console.log('nextCheckedAccounts', nextCheckedAccounts);
+                // console.log('nextCheckedAccounts', nextCheckedAccounts);
                 setCheckedPending(nextCheckedAccounts);
               }}
             />

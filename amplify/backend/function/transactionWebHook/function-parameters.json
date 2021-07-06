@@ -27,16 +27,16 @@
     {
       "type": "ProjectLayer",
       "resourceName": "omedomGraphQLLayer",
-      "env": "dev",
       "version": "Always choose latest version",
-      "isLatestVersionSelected": true
+      "isLatestVersionSelected": true,
+      "env": "prod"
     },
     {
       "type": "ProjectLayer",
       "resourceName": "omedomBudgetInsightLayer",
-      "env": "dev",
       "version": "Always choose latest version",
-      "isLatestVersionSelected": true
+      "isLatestVersionSelected": true,
+      "env": "prod"
     }
   ]
 }

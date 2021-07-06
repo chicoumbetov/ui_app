@@ -104,7 +104,7 @@ app.get('/budgetinsight/connect-url', async (req, res) => {
         const user = await UserQueries_1.getUserById(AppSyncClient, uuid);
         if (user) {
             const redirectUrl = process.env.ENV === 'prod'
-                ? ''
+                ? 'https://3odmjvn8ga.execute-api.eu-west-3.amazonaws.com/prod/webhooks/create-redirect'
                 : 'https://7bh3hwfdw3.execute-api.eu-west-3.amazonaws.com/dev/webhooks/create-redirect';
             const connectUrl = await client.getConnectUrl(user.biToken, redirectUrl, uuid);
             res.json({

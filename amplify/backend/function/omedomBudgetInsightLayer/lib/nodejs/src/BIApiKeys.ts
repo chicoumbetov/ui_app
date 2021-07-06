@@ -5,9 +5,9 @@ const BIApiKeys = {
     domain: 'omedom1-sandbox',
   },
   prod: {
-    clientId: '_____',
-    clientSecret: '_____',
-    domain: '-----',
+    clientId: '46784112',
+    clientSecret: 'xTy_B83rWEq1y//zlDy8Bae1M1sKt4QT',
+    domain: 'omedom',
   },
 };
 

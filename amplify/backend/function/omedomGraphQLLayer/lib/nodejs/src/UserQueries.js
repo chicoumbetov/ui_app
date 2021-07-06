@@ -13,6 +13,7 @@ const getUserById = async (client, id) => {
           biUser
           expoToken
           privateProfile {
+            notificationLastSeenAt
             notificationParams {
               echeanceFacture {
                 push

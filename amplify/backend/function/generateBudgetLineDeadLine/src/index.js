@@ -38,7 +38,7 @@ exports.handler = async () => {
                 _version, } = budgetLine;
                 let infoCredit = null;
                 let nextDueDate;
-                if (budgetLineInfoCredit) {
+                if (budgetLineInfoCredit && budgetLineInfoCredit.amortizationTable) {
                     // on cherche les infos de l'échéance actuelle
                     const currentIndex = budgetLineInfoCredit.amortizationTable.findIndex((item) => item.dueDate === budgetLine.nextDueDate);
                     if (currentIndex > -1) {

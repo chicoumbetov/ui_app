@@ -263,7 +263,7 @@ function DetailsBien() {
         && bienget?.budgetLines?.items.length > 0
         && Math.round((bienget?.budgetLines?.items[0]?.amount) * 100) / 100;
 
-  const { bankMovements } = bienget || {};
+  const { bankMovements, budgetLineDeadlines } = bienget || {};
 
   // useMemo used if big O notation is expensive. higher than n to the power 2
   const dernierMovement = useMemo(() => bankMovements?.items?.find(
@@ -282,7 +282,7 @@ function DetailsBien() {
   const currentYear = new Date().getFullYear();
 
   // budgetLineDeadlines of last 12 months
-  const result2 = bienget.budgetLineDeadlines?.items?.filter((o) => moment(o?.date, 'YYYY-MM-DD')
+  const result2 = budgetLineDeadlines?.items?.filter((o) => moment(o?.date, 'YYYY-MM-DD')
     .isBetween(moment(new Date(new Date().setFullYear(currentYear - 1))), moment(new Date(new Date().setFullYear(currentYear))), '[]'));
 
   /**
@@ -316,46 +316,53 @@ function DetailsBien() {
     return false;
   });
 
-  const allExpensesByCategory : {
-    [key: string]: { count: number, total: number, freqExpense:number }
-  } = {};
+  const { totalExpenses } = useMemo(() => {
+    const allExpensesByCategory : {
+      [key: string]: { count: number, total: number, freqExpense:number }
+    } = {};
 
-  if (expenses) {
-    expenses.forEach((item) => {
-      if (item) {
-        /** If any expense doesnt exist */
-        if (allExpensesByCategory[item?.category] === undefined) {
-          /**
-           * initial values and then calculate percentage starting from 0
-           */
-          let freqExpense = 12;
-          switch (item?.frequency) {
-            case 'quarterly':
-              freqExpense = 4;
-              break;
-            case 'annual':
-              freqExpense = 1;
-              break;
-            default:
-              break;
+    if (expenses) {
+      expenses.forEach((item) => {
+        if (item) {
+          /** If any expense doesnt exist */
+          if (allExpensesByCategory[item?.category] === undefined) {
+            /**
+             * initial values and then calculate percentage starting from 0
+             */
+            let freqExpense = 12;
+            switch (item?.frequency) {
+              case 'quarterly':
+                freqExpense = 4;
+                break;
+              case 'annual':
+                freqExpense = 1;
+                break;
+              default:
+                break;
+            }
+            allExpensesByCategory[item?.category] = {
+              total: item?.amount || 0,
+              count: 1,
+              freqExpense,
+            };
+          } else {
+            /** else If any expense exist then we add to allCurrentCategories variable */
+            allExpensesByCategory[item?.category].total += item?.amount || 0;
+            allExpensesByCategory[item?.category].count += 1;
           }
-          allExpensesByCategory[item?.category] = {
-            total: item?.amount || 0,
-            count: 1,
-            freqExpense,
-          };
-        } else {
-          /** else If any expense exist then we add to allCurrentCategories variable */
-          allExpensesByCategory[item?.category].total += item?.amount || 0;
-          allExpensesByCategory[item?.category].count += 1;
         }
-      }
-    });
-  }
-  const totalExpenses = Object.values(allExpensesByCategory).reduce(
-    (total, category) => total + category.total * (category.freqExpense / category.count),
-    0,
-  );
+      });
+    }
+    const totalExpensesInternal = Object.values(allExpensesByCategory).reduce(
+      (total, category) => total + category.total * (category.freqExpense / category.count),
+      0,
+    );
+
+    // if we need to use outside of useMemo
+    return {
+      totalExpenses: totalExpensesInternal,
+    };
+  }, [budgetLineDeadlines]);
 
   /**
    *
@@ -382,46 +389,51 @@ function DetailsBien() {
     return false;
   });
 
-  const allIncomesByCategory : {
-    [key: string]: { count: number, total: number, freqIncome:number }
-  } = {};
+  const { totalIncomes } = useMemo(() => {
+    const allIncomesByCategory : {
+      [key: string]: { count: number, total: number, freqIncome:number }
+    } = {};
 
-  if (incomes) {
-    incomes.forEach((item) => {
-      if (item) {
-        /** If any expense doesnt exist */
-        if (allIncomesByCategory[item?.category] === undefined) {
-          /**
-           * initial values and then calculate percentage starting from 0
-           */
-          let freqIncome = 12;
-          switch (item?.frequency) {
-            case 'quarterly':
-              freqIncome = 4;
-              break;
-            case 'annual':
-              freqIncome = 1;
-              break;
-            default:
-              break;
+    if (incomes) {
+      incomes.forEach((item) => {
+        if (item) {
+          /** If any expense doesnt exist */
+          if (allIncomesByCategory[item?.category] === undefined) {
+            /**
+             * initial values and then calculate percentage starting from 0
+             */
+            let freqIncome = 12;
+            switch (item?.frequency) {
+              case 'quarterly':
+                freqIncome = 4;
+                break;
+              case 'annual':
+                freqIncome = 1;
+                break;
+              default:
+                break;
+            }
+            allIncomesByCategory[item?.category] = {
+              total: item?.amount || 0,
+              count: 1,
+              freqIncome,
+            };
+          } else {
+            /** else If any expense exist then we add to allCurrentCategories variable */
+            allIncomesByCategory[item?.category].total += item?.amount || 0;
+            allIncomesByCategory[item?.category].count += 1;
           }
-          allIncomesByCategory[item?.category] = {
-            total: item?.amount || 0,
-            count: 1,
-            freqIncome,
-          };
-        } else {
-          /** else If any expense exist then we add to allCurrentCategories variable */
-          allIncomesByCategory[item?.category].total += item?.amount || 0;
-          allIncomesByCategory[item?.category].count += 1;
         }
-      }
-    });
-  }
-  const totalIncomes = Object.values(allIncomesByCategory).reduce(
-    (total, category) => total + category.total * (category.freqIncome / category.count),
-    0,
-  );
+      });
+    }
+    const totalIncomesInternal = Object.values(allIncomesByCategory).reduce(
+      (total, category) => total + category.total * (category.freqIncome / category.count),
+      0,
+    );
+    return {
+      totalIncomes: totalIncomesInternal,
+    };
+  }, [budgetLineDeadlines]);
 
   const rentability = Math.round(((totalIncomes - totalExpenses) / totalPrice) * 10000) / 100;
   // console.log('renta', rentability);

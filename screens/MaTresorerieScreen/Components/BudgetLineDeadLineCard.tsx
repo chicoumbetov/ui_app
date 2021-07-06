@@ -112,6 +112,11 @@ const BudgetLineDeadLineCard = (props: BudgetLineDeadLineCardProps) => {
   if (item.category === 'loyer') {
     isLoyer = true;
   }
+  console.log(item.infoCredit);
+  let isMensualité = false;
+  if (item.category === 'mensualite_credit') {
+    isMensualité = true;
+  }
 
   return (
     <Card
@@ -201,6 +206,54 @@ const BudgetLineDeadLineCard = (props: BudgetLineDeadLineCardProps) => {
                   <TextInputComp
                     name="managementFees"
                     defaultValue={item.managementFees.toString()}
+                    keyboardType="numeric"
+                    onChangeValue={(v) => {
+                      if (v) {
+                        setManagementFees(parseFloat(v.toString()));
+                      }
+                    }}
+                  />
+                  <Text category="c1" style={{ marginHorizontal: 10 }}>
+                    €
+                  </Text>
+                </View>
+              </>
+              )}
+              {isMensualité && (
+              <>
+                <Text
+                  style={{ marginBottom: 15 }}
+                  category="h5"
+                  status="basic"
+                >
+                  Charges
+                </Text>
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  <TextInputComp
+                    name="rentalCharges"
+                    defaultValue={item.infoCredit?.interest.toString()}
+                    keyboardType="numeric"
+                    onChangeValue={(v) => {
+                      if (v) {
+                        setRentalCharges(parseFloat(v.toString()));
+                      }
+                    }}
+                  />
+                  <Text category="c1" style={{ marginHorizontal: 10 }}>
+                    €
+                  </Text>
+                </View>
+                <Text
+                  style={{ marginBottom: 15 }}
+                  category="h5"
+                  status="basic"
+                >
+                  Frais d'assurance
+                </Text>
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  <TextInputComp
+                    name="managementFees"
+                    defaultValue={item.infoCredit?.assurance.toString()}
                     keyboardType="numeric"
                     onChangeValue={(v) => {
                       if (v) {

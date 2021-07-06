@@ -41,6 +41,8 @@ import ReadOnly from '../../../components/ReadOnly';
 import ActionSheet from '../../../components/ActionSheet/ActionSheet';
 
 import TableauAmortissement from './actionSheet/tableauAmortissement';
+import SelectComp from '../../../components/Form/Select';
+import { removeKeyArray } from '../../../utils/ObjectHelper';
 
 type ParamBudgetForm = {
   category: string,
@@ -96,8 +98,8 @@ const ParametrerAjoutCharges = () => {
     currentBudgetLine = bienget.budgetLines?.items?.filter(
       (item) => item?.id === route.params.idBudgetLine,
     ).pop();
-    currentBudgetLine.amount = currentBudgetLine.amount.toString();
-    console.log(currentBudgetLine);
+
+    console.log('yoyoyooy:', currentBudgetLine);
     useEffect(() => {
       setMontantShow(true);
       setFrequenceShow(true);
@@ -129,10 +131,8 @@ const ParametrerAjoutCharges = () => {
       category1 = category2;
     } else {
       category1 = category;
-    } if (category2 === 'mensualite_credit') {
-      calculeTableauAmortissement(false);
     }
-
+    console.log('info credit :', infoCredit);
     if (route.params.idBudgetLine) {
       await updateBudgetLine.updateBudgetLine({
         variables: {
@@ -165,21 +165,52 @@ const ParametrerAjoutCharges = () => {
       });
       if (newBugetLine.data?.createBudgetLine && nextDueDate && frequency) {
         for (let i = 0; i < 3; i += 1) {
-          // eslint-disable-next-line no-await-in-loop
-          await createBudgetLineDeadLine.createBudgetLineDeadLine({
-            variables: {
-              input: {
-                budgetLineId: newBugetLine.data?.createBudgetLine.id,
-                realEstateId: route.params.id,
-                type: BudgetLineType.Expense,
-                category,
-                amount: -Math.abs(amount),
-                frequency,
-                householdWaste,
-                date: DateUtils.addMonths(nextDueDate, -DateUtils.frequencyToMonths(frequency) * i),
+          if (infoCredit && infoCredit.amortizationTable) {
+            const index = infoCredit.amortizationTable.findIndex((item) => item.dueDate === DateUtils.addMonths(nextDueDate, -DateUtils.frequencyToMonths(frequency) * i));
+            console.log('index :', index);
+            console.log('date 1 :', DateUtils.addMonths(nextDueDate, -DateUtils.frequencyToMonths(frequency) * i));
+            console.log('date 2 :', infoCredit.amortizationTable[0].dueDate);
+            const thisAmount = infoCredit.amortizationTable[index].amount;
+            const thisAssurance = infoCredit.amortizationTable[index].interest;
+            const thisInterest = infoCredit.amortizationTable[index].assurance;
+
+            // eslint-disable-next-line no-await-in-loop
+            await createBudgetLineDeadLine.createBudgetLineDeadLine({
+              variables: {
+                input: {
+                  budgetLineId: newBugetLine.data?.createBudgetLine.id,
+                  realEstateId: route.params.id,
+                  type: BudgetLineType.Expense,
+                  category: category1,
+                  amount: -Math.abs(amount),
+                  frequency,
+                  infoCredit: {
+                    amount: thisAmount,
+                    assurance: thisAssurance,
+                    interest: thisInterest,
+                  },
+                  householdWaste,
+                  date: DateUtils.addMonths(nextDueDate, -DateUtils.frequencyToMonths(frequency) * i),
+                },
               },
-            },
-          });
+            });
+          } else {
+            // eslint-disable-next-line no-await-in-loop
+            await createBudgetLineDeadLine.createBudgetLineDeadLine({
+              variables: {
+                input: {
+                  budgetLineId: newBugetLine.data?.createBudgetLine.id,
+                  realEstateId: route.params.id,
+                  type: BudgetLineType.Expense,
+                  category: category1,
+                  amount: -Math.abs(amount),
+                  frequency,
+                  householdWaste,
+                  date: DateUtils.addMonths(nextDueDate, -DateUtils.frequencyToMonths(frequency) * i),
+                },
+              },
+            });
+          }
         }
       }
     }
@@ -199,50 +230,49 @@ const ParametrerAjoutCharges = () => {
     const currentValue = paramBudgetForm.getValues('infoCredit.amortizationTable');
     if (currentValue) {
       setCurrentTabAmo(currentValue);
-    } else {
-      console.log(currentBudgetLine);
-      if (currentBudgetLine
+    } else if (currentBudgetLine
           && currentBudgetLine.infoCredit
           && currentBudgetLine.infoCredit.amortizationTable) {
-        const thisAmortizTable: AmortizationTable[] = currentBudgetLine.infoCredit.amortizationTable;
-        paramBudgetForm.setValue('amount', thisAmortizTable[0].amount);
-        if (Show) {
-          setCurrentTabAmo(thisAmortizTable);
-        }
-      } else if (infoCredit && infoCredit.borrowedCapital
+      const thisAmortizTable: AmortizationTable[] = currentBudgetLine.infoCredit.amortizationTable;
+      paramBudgetForm.setValue('amount', thisAmortizTable[0].amount);
+      if (Show) {
+        setCurrentTabAmo(thisAmortizTable);
+      }
+    } else if (infoCredit && infoCredit.borrowedCapital
           && infoCredit.interestRate
           && infoCredit.assuranceRate
           && infoCredit.duration
           && infoCredit.loanStartDate
-      ) {
-        let amontDue = infoCredit.borrowedCapital;
-        const loanStartDate = DateUtils.parseToDateObj(infoCredit.loanStartDate);
+    ) {
+      let amontDue = infoCredit.borrowedCapital;
+      const loanStartDate = DateUtils.parseToDateObj(infoCredit.loanStartDate);
 
-        const thisAssurancerate = infoCredit.assuranceRate / 100;
-        const thisInterestRate = infoCredit.interestRate / 100;
-        const assurance = infoCredit.borrowedCapital * (thisAssurancerate / 12);
-        const amount = ((infoCredit.borrowedCapital * (thisInterestRate / 12)) / (1 - ((1 + (thisInterestRate / 12)) ** -infoCredit.duration))) + assurance;
+      const thisAssurancerate = infoCredit.assuranceRate / 100;
+      const thisInterestRate = infoCredit.interestRate / 100;
+      const assurance = infoCredit.borrowedCapital * (thisAssurancerate / 12);
+      const amount = ((infoCredit.borrowedCapital * (thisInterestRate / 12)) / (1 - ((1 + (thisInterestRate / 12)) ** -infoCredit.duration))) + assurance;
 
-        for (let i = 0; i < infoCredit.duration; i += 1) {
-          const interest = amontDue * (thisInterestRate / 12);
-          const amortizedCapital = amount - assurance - interest;
-          amontDue -= amortizedCapital;
-          const dueDate = loanStartDate;
-          dueDate?.setMonth(loanStartDate?.getMonth() + 1);
-          amortizationTable.push({
-            __typename: 'AmortizationTable',
-            amount,
-            assurance,
-            interest,
-            amortizedCapital,
-            dueDate: moment(dueDate).format('YYYY-MM-DD').toString(),
-          });
-        }
-        paramBudgetForm.setValue('amount', amortizationTable[0].amount);
-        if (Show) {
-          setCurrentTabAmo(amortizationTable);
-        }
+      for (let i = 0; i < infoCredit.duration; i += 1) {
+        const interest = amontDue * (thisInterestRate / 12);
+        const amortizedCapital = amount - assurance - interest;
+        amontDue -= amortizedCapital;
+        const dueDate = loanStartDate;
+        dueDate?.setMonth(loanStartDate?.getMonth() + 1);
+        amortizationTable.push({
+          __typename: 'AmortizationTable',
+          amount,
+          assurance,
+          interest,
+          amortizedCapital,
+          dueDate: moment(dueDate).format('YYYY-MM-DD').toString(),
+        });
       }
+      paramBudgetForm.setValue('amount', amortizationTable[0].amount);
+      if (Show) {
+        setCurrentTabAmo(amortizationTable);
+      }
+      const tabAmorti = removeKeyArray((amortizationTable || []), '__typename');
+      paramBudgetForm.setValue('infoCredit.amortizationTable', tabAmorti);
     }
   };
 
@@ -297,29 +327,33 @@ const ParametrerAjoutCharges = () => {
                       setAssuranceShow(false);
                       setBanqueShow(false);
                       setDiversShow(false);
+                      setFrequenceShow(true);
                     } else if (v === 'assurance') {
                       setTaxShow(false);
                       setAssuranceShow(true);
                       setBanqueShow(false);
                       setDiversShow(false);
+                      setFrequenceShow(true);
                     } else if (v === 'banque') {
                       setTaxShow(false);
                       setAssuranceShow(false);
                       setBanqueShow(true);
                       setDiversShow(false);
+                      setFrequenceShow(false);
                     } else if (v === 'frais_divers') {
                       setTaxShow(false);
                       setAssuranceShow(false);
                       setBanqueShow(false);
                       setDiversShow(true);
+                      setFrequenceShow(true);
                     } else {
                       setTaxShow(false);
                       setAssuranceShow(false);
                       setBanqueShow(false);
                       setDiversShow(false);
+                      setFrequenceShow(true);
                     }
                     setMontantShow(true);
-                    setFrequenceShow(true);
                   }}
                   placeholder="Type De Charges"
                   size="large"
@@ -368,8 +402,12 @@ const ParametrerAjoutCharges = () => {
                       onChangeValue={(item) => {
                         if (item === 'mensualite_credit') {
                           setMensualiteCreditShow(true);
+                          setFrequenceShow(true);
+                          paramBudgetForm.setValue('frequency', Frequency.monthly);
+                          setDateDerniereEcheanceShow(true);
                         } else {
                           setMensualiteCreditShow(false);
+                          setFrequenceShow(true);
                         }
                       }}
                       placeholder="Type de Banque"
@@ -497,11 +535,12 @@ const ParametrerAjoutCharges = () => {
                 {frequenceShow
                   ? (
                     <View>
-                      <Select
+                      <SelectComp
                         name="frequency"
                         data={frequence}
                         onChangeValue={() => setDateDerniereEcheanceShow(true)}
                         placeholder="Fréquence"
+                        disabled={mensualiteCreditShow}
                         size="large"
                         appearance="default"
                         status="primary"

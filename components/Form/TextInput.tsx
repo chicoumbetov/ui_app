@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Icon, IconProps } from '@ui-kitten/components';
 import { Input } from '../UIKittenRewrite/Input';
 import { TextInputFormProps } from './types';
@@ -24,6 +24,10 @@ const TextInputComp = React.forwardRef<Input, TextInputFormProps>(
 
     const [inputValue, setInputValue] = useState<string | undefined>(defaultValue);
     const [passwdShown, setPasswdShown] = useState(!secureTextEntry);
+
+    useEffect(() => {
+      setInputValue(defaultValue);
+    }, [defaultValue]);
 
     const renderIcon = (iconProps: IconProps) => (
       <Icon {...iconProps} name={icon} />

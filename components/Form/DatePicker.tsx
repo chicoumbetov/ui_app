@@ -58,7 +58,7 @@ Datepicker, DatePickerFormProps
       if (inputValue === undefined && defaultValue) {
         setInputValue(DateUtils.parseToDateObj(defaultValue));
       }
-    }, [inputValue]);
+    }, [inputValue, defaultValue]);
 
     const renderIcon = (iconProps: IconProps) => (
       <Icon {...iconProps} name={icon} />

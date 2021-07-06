@@ -3,7 +3,7 @@ import { Button, Text } from '@ui-kitten/components';
 import React, { useState } from 'react';
 
 import moment from 'moment';
-import { AmortizationTable, TenantInfoInput } from '../../../../src/API';
+import { AmortizationTable } from '../../../../src/API';
 
 import TextInputComp from '../../../../components/Form/TextInput';
 import { AvailableValidationRules } from '../../../../components/Form/validation';
@@ -94,7 +94,7 @@ const TableauAmortissement = (props: MonBudgetProps) => {
                         AvailableValidationRules.required,
                         AvailableValidationRules.float,
                       ]}
-                      defaultValue={Math.round(tab.interest * 100) / 100}
+                      defaultValue={(Math.round(tab.interest * 100) / 100).toString()}
                       onChangeValue={(v) => {
                         const newThisTabAmor = thisTabAmor.map((item, i) => {
                           if (i === currentIndex) {
@@ -113,7 +113,7 @@ const TableauAmortissement = (props: MonBudgetProps) => {
                     />
                     <TextInputComp
                       name="assurance"
-                      defaultValue={Math.round(tab.assurance * 100) / 100}
+                      defaultValue={(Math.round(tab.assurance * 100) / 100).toString()}
                       style={{ maxWidth: 120, width: 120, marginHorizontal: 5 }}
                       onChangeValue={(v) => {
                         const newThisTabAmor = thisTabAmor.map((item, i) => {
@@ -137,7 +137,7 @@ const TableauAmortissement = (props: MonBudgetProps) => {
 
                     <TextInputComp
                       name="amortizedCapital"
-                      defaultValue={Math.round((tab.amortizedCapital) * 100) / 100}
+                      defaultValue={(Math.round((tab.amortizedCapital) * 100) / 100).toString()}
                       style={{
                         maxWidth: 120, width: 120, justifyContent: 'center', marginHorizontal: 5,
                       }}

@@ -1,7 +1,7 @@
 import { DocumentNode } from 'apollo-link';
 import gql from 'graphql-tag';
 import { useMutation, useQuery } from 'react-apollo';
-import { getBudgetLineDeadline, getRealEstate } from '../graphql/queries';
+import { getBudgetLineDeadline } from '../graphql/queries';
 import {
   GetRealEstateQuery,
   GetRealEstateQueryVariables,
@@ -16,6 +16,7 @@ import {
   DeleteBudgetLineDeadlineMutationVariables,
 } from '../API';
 import * as mutations from '../graphql/mutations';
+import { getRealEstateQuery } from './RealEstate';
 
 export function useGetBudgetLineDeadLine(id: string) {
   const getBudgetLineDeadLineQuery = <DocumentNode>gql(getBudgetLineDeadline);
@@ -38,7 +39,6 @@ export function useGetBudgetLineDeadLine(id: string) {
 
 export function useUpdateBudgetLineDeadlineMutation() {
   // eslint-disable-next-line @typescript-eslint/no-shadow
-  const getRealEstatesQuery = <DocumentNode>gql(getRealEstate);
   const [updateBudgetLineDeadline, { loading: mutationLoading }] = useMutation<
   UpdateBudgetLineDeadlineMutation,
   UpdateBudgetLineDeadlineMutationVariables
@@ -50,7 +50,7 @@ export function useUpdateBudgetLineDeadlineMutation() {
           if (newData) {
             // Read query from cache
             const cacheData = cache.readQuery<GetRealEstateQuery, GetRealEstateQueryVariables>({
-              query: getRealEstatesQuery,
+              query: getRealEstateQuery,
               variables: {
                 id: newData.realEstateId,
               },
@@ -75,7 +75,7 @@ export function useUpdateBudgetLineDeadlineMutation() {
 
               // Overwrite the cache with the new results
               cache.writeQuery<GetRealEstateQuery, GetRealEstateQueryVariables>({
-                query: getRealEstatesQuery,
+                query: getRealEstateQuery,
                 variables: {
                   id: newData.realEstateId,
                 },
@@ -91,7 +91,6 @@ export function useUpdateBudgetLineDeadlineMutation() {
 }
 
 export function useDeleteBudgetLineDeadlineMutation() {
-  const getRealEstatesQuery = <DocumentNode>gql(getRealEstate);
   const [deleteBudgetLineDeadLine] = useMutation<DeleteBudgetLineDeadlineMutation,
   DeleteBudgetLineDeadlineMutationVariables>(gql(mutations.deleteBudgetLineDeadline),
     {
@@ -102,7 +101,7 @@ export function useDeleteBudgetLineDeadlineMutation() {
           if (newData) {
             // Read query from cache
             const cacheData = cache.readQuery<GetRealEstateQuery, GetRealEstateQueryVariables>({
-              query: getRealEstatesQuery,
+              query: getRealEstateQuery,
               variables: {
                 id: newData.realEstateId,
               },
@@ -121,7 +120,7 @@ export function useDeleteBudgetLineDeadlineMutation() {
 
               // Overwrite the cache with the new results
               cache.writeQuery<GetRealEstateQuery, GetRealEstateQueryVariables>({
-                query: getRealEstatesQuery,
+                query: getRealEstateQuery,
                 variables: {
                   id: newData.realEstateId,
                 },
@@ -136,7 +135,6 @@ export function useDeleteBudgetLineDeadlineMutation() {
 }
 
 export function useCreateBudgetLineDeadlineMutation() {
-  const getRealEstatesQuery = <DocumentNode>gql(getRealEstate);
   const [createBudgetLineDeadLine, { loading: mutationLoading }] = useMutation<
   CreateBudgetLineDeadlineMutation,
   CreateBudgetLineDeadlineMutationVariables
@@ -148,7 +146,7 @@ export function useCreateBudgetLineDeadlineMutation() {
           if (newData) {
             // Read query from cache
             const cacheData = cache.readQuery<GetRealEstateQuery, GetRealEstateQueryVariables>({
-              query: getRealEstatesQuery,
+              query: getRealEstateQuery,
               variables: {
                 id: newData.realEstateId,
               },
@@ -160,7 +158,7 @@ export function useCreateBudgetLineDeadlineMutation() {
 
               // Overwrite the cache with the new results
               cache.writeQuery<GetRealEstateQuery, GetRealEstateQueryVariables>({
-                query: getRealEstatesQuery,
+                query: getRealEstateQuery,
                 variables: {
                   id: newData.realEstateId,
                 },

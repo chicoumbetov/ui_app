@@ -110,6 +110,7 @@ const MouvBancaires = () => {
         return false;
       });
     } else {
+      console.log('BLDL :', bienget?.budgetLineDeadlines?.items);
       budget = bienget?.budgetLineDeadlines?.items?.filter((item) => {
         // eslint-disable-next-line no-underscore-dangle
         if (item?.type === BudgetLineType.Income && !item?._deleted && !item.bankMouvementId) {

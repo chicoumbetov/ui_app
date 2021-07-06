@@ -289,6 +289,7 @@ export const getRealEstateQuery = <DocumentNode>gql(`
           amount
           rentalCharges
           managementFees
+          householdWaste
           frequency
           nextDueDate
           infoCredit {
@@ -326,6 +327,7 @@ export const getRealEstateQuery = <DocumentNode>gql(`
           amount
           rentalCharges
           managementFees
+          householdWaste
           frequency
           date
           infoCredit {
@@ -492,6 +494,7 @@ const listRealEstatesQuery = <DocumentNode>gql(`query ListRealEstates(
             amount
             rentalCharges
             managementFees
+            householdWaste
             frequency
             nextDueDate
             infoCredit {
@@ -500,6 +503,13 @@ const listRealEstatesQuery = <DocumentNode>gql(`query ListRealEstates(
               duration
               interestRate
               assuranceRate
+              amortizationTable {
+                dueDate
+                amount
+                interest
+                assurance
+                amortizedCapital
+              }
             }
             tenantId
             _version
@@ -523,6 +533,7 @@ const listRealEstatesQuery = <DocumentNode>gql(`query ListRealEstates(
             rentalCharges
             managementFees
             frequency
+            householdWaste
             date
             infoCredit {
               amount

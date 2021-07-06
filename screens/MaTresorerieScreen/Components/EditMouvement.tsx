@@ -27,7 +27,7 @@ const EditMouvement = (props: MonBudgetProps) => {
   const {
     budget, movement, onSaved, realEstateId,
   } = props;
-  // console.log('budget :', budget);
+  console.log('budget :', budget);
   // console.log('amount : ', amount);
   const theme = useTheme();
 

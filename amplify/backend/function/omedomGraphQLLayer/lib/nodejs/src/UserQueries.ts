@@ -60,6 +60,7 @@ const getUserById = async (client: AppSyncClient, id: string): Promise<false |
         email?: boolean | null,
       } | null,
     } | null,
+    notificationLastSeenAt?: string | null,
   } | null,
   _version: number,
 } | null> => {
@@ -73,6 +74,7 @@ const getUserById = async (client: AppSyncClient, id: string): Promise<false |
           biUser
           expoToken
           privateProfile {
+            notificationLastSeenAt
             notificationParams {
               echeanceFacture {
                 push

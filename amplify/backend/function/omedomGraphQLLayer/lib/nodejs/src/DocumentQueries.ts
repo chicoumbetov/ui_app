@@ -1,8 +1,4 @@
 import gql from 'graphql-tag';
-import {
-  BudgetLineType, CompanyType,
-  Frequency, InvitationType, RealEstateType, TaxType,
-} from '../../../../../../../src/API';
 import { AppSyncClient } from './AppSyncClient';
 
 export type GetDocumentQueryVariables = {

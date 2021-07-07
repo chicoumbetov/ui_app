@@ -9,7 +9,12 @@ import {
 import React, { useState } from 'react';
 import moment from 'moment';
 import Icon from '../../../components/Icon';
-import { BankMovement, BudgetLineDeadline, BudgetLineType } from '../../../src/API';
+import {
+  BankMovement,
+  BankMovementStatus,
+  BudgetLineDeadline,
+  BudgetLineType,
+} from '../../../src/API';
 
 import {
   useDeleteBudgetLineDeadlineMutation,
@@ -70,6 +75,7 @@ const EditMouvement = (props: MonBudgetProps) => {
       variables: {
         input: {
           id: movement.id,
+          status: BankMovementStatus.Affected,
           // eslint-disable-next-line no-underscore-dangle
           _version: movement._version,
           realEstateId,

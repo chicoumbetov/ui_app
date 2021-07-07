@@ -7,7 +7,7 @@ import { Icon as IconUIKitten } from '@ui-kitten/components/ui/icon/icon.compone
 
 import { RouteProp } from '@react-navigation/core/lib/typescript/src/types';
 import Card from '../../../components/Card';
-import { BankAccount } from '../../../src/API';
+import { BankAccount, BankMovementStatus } from '../../../src/API';
 import { TabMaTresorerieParamList } from '../../../types';
 import { useGetBankMovementsByBankAccountId } from '../../../src/API/BankMouvement';
 
@@ -34,13 +34,7 @@ const OwnerCompte = (props: MonBienProps) => {
       if (!item?._deleted) { bankAccountRealEstatate = true; }
     });
   }
-  const movementPasAffect = bankMouvement?.filter((item) => {
-    if (item.ignored
-        || (item.budgetLineDeadlines?.items && item.budgetLineDeadlines?.items?.length > 0)) {
-      return false;
-    }
-    return item;
-  });
+  const movementPasAffect = bankMouvement?.filter((item) => item.status === BankMovementStatus.Unkown);
   let nbNotif = 0;
   if (movementPasAffect) {
     nbNotif = movementPasAffect.length;

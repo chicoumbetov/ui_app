@@ -26,7 +26,7 @@ import { TabMaTresorerieParamList } from '../../types';
 import { useGetRealEstate } from '../../src/API/RealEstate';
 import {
   BankAccount,
-  BankMovement, BudgetLineDeadline, BudgetLineType,
+  BankMovement, BankMovementStatus, BudgetLineDeadline, BudgetLineType,
 } from '../../src/API';
 import Separator from '../../components/Separator';
 import Amount from '../../components/Amount';
@@ -58,13 +58,7 @@ const MouvBancaires = () => {
   }, [bankMouvement]);
   // console.log(bankMouvement);
 
-  const movementPasAffect = bankMovementCharger?.filter((item) => {
-    if (item.ignored
-        || (item.budgetLineDeadlines?.items && item.budgetLineDeadlines?.items?.length > 0)) {
-      return false;
-    }
-    return item;
-  });
+  const movementPasAffect = bankMovementCharger?.filter((item) => item.status === BankMovementStatus.Unkown);
   // console.log('movementPasAffect :', movementPasAffect);
 
   // const [compte] = useState(comptesData);
@@ -130,7 +124,7 @@ const MouvBancaires = () => {
         variables: {
           input: {
             id: current.id,
-            ignored: true,
+            status: BankMovementStatus.Ignored,
             // eslint-disable-next-line no-underscore-dangle
             _version: current._version,
           },

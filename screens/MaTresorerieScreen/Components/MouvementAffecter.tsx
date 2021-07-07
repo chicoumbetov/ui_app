@@ -9,7 +9,12 @@ import {
 import React, { useEffect, useState } from 'react';
 import moment from 'moment';
 import Icon from '../../../components/Icon';
-import { BankMovement, BudgetLineDeadline, BudgetLineType } from '../../../src/API';
+import {
+  BankMovement,
+  BankMovementStatus,
+  BudgetLineDeadline,
+  BudgetLineType,
+} from '../../../src/API';
 // import { useDeleteBudgetLineMutation } from '../../../src/API/BudgetLine';
 import {
   useDeleteBudgetLineDeadlineMutation,
@@ -66,7 +71,7 @@ const MouvementAffecter = (props: MonBudgetProps) => {
               variables: {
                 input: {
                   id: movement.id,
-                  ignored: false,
+                  status: BankMovementStatus.Unkown,
                   // eslint-disable-next-line no-underscore-dangle
                   _version: movement._version,
                 },
@@ -106,7 +111,7 @@ const MouvementAffecter = (props: MonBudgetProps) => {
         <Text category="p2" appearance="hint">{movement.description || ''}</Text>
       </View>
 
-      {movement.ignored ? (
+      {movement.status === BankMovementStatus.Ignored ? (
         <>
           <View style={{
             alignItems: 'center',

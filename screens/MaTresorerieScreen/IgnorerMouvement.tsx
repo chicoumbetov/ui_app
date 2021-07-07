@@ -21,7 +21,7 @@ import { useGetBankMovementsByBankAccountId } from '../../src/API/BankMouvement'
 import { useGetBankAccount } from '../../src/API/BankAccount';
 
 import ActionSheet from '../../components/ActionSheet/ActionSheet';
-import { BankMovement } from '../../src/API';
+import { BankMovement, BankMovementStatus } from '../../src/API';
 import MouvementAffecter from './Components/MouvementAffecter';
 
 const IgnorerMouvement = () => {
@@ -33,7 +33,7 @@ const IgnorerMouvement = () => {
   console.log(route.params);
   const { bankMouvement } = useGetBankMovementsByBankAccountId(route.params.idCompte);
   const { bankAccount } = useGetBankAccount(route.params.idCompte);
-  const movementIgnore = bankMouvement.filter((item) => item.ignored);
+  const movementIgnore = bankMouvement.filter((item) => item.status === BankMovementStatus.Ignored);
   const [currentMvt, setCurrentMvt] = useState<BankMovement>();
 
   return (

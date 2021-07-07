@@ -92,6 +92,7 @@ const MouvBancaires = () => {
   };
 
   const onAffecterMouvement = (id?: string) => {
+    fetchMoreBankMovements();
     linkTo(`/ma-tresorerie/${route.params.id}/mes-comptes/${id}/mouvements-bancaires/affectes/`);
   };
 

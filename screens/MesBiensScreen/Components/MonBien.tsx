@@ -270,8 +270,8 @@ const MonBien = (props: MonBienProps) => {
                     <View style={styles.oneThirdBlock}>
                       <Text category="h6" appearance="hint" style={styles.text}>Dernier mouvement</Text>
                       {dernierMovement ? (
-                        <Amount amount={Math.round(dernierMovement?.amount * 100) / 100 || 0} category="h4" />
-                      ) : (<Text category="h4" status="primary">0 €</Text>)}
+                        <Amount amount={Math.round(dernierMovement?.amount * 100) / 100 || 0} category="h5" />
+                      ) : (<Text category="h5" status="primary">0 €</Text>)}
 
                       <TouchableOpacity onPress={() => {}}>
                         <Text category="h6" status="info">Affecter</Text>
@@ -282,7 +282,7 @@ const MonBien = (props: MonBienProps) => {
                       <Text category="h6" appearance="hint" style={styles.text}>
                         Prochaine dépense
                       </Text>
-                      <Amount amount={Math.round((nextexpense || 0) * 100) / 100} category="h4" />
+                      <Amount amount={Math.round((nextexpense || 0) * 100) / 100} category="h5" />
                       <TouchableOpacity onPress={allerTresorerie}>
                         <Text category="h6" status="info">En savoir +</Text>
                       </TouchableOpacity>
@@ -292,7 +292,7 @@ const MonBien = (props: MonBienProps) => {
                       <Text category="h6" appearance="hint" style={styles.text}>
                         Rentabilité du bien
                       </Text>
-                      <Text category="h4" status="warning" style={{ marginVertical: 14 }}>{`${rentability} %`}</Text>
+                      <Text category="h5" status="warning" style={{ marginVertical: 14 }}>{`${rentability} %`}</Text>
                       <TouchableOpacity onPress={allerMesRapports}>
                         <Text category="h6" status="info">Mes rapports</Text>
                       </TouchableOpacity>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
   Text,
 } from '@ui-kitten/components';
@@ -40,7 +40,6 @@ const AffecterMouvement = () => {
   const { bienget } = useGetRealEstate(route.params.id);
   const { bankMouvement, refetch } = useGetBankMovementsByBankAccountId(route.params.idCompte);
   const { bankAccount } = useGetBankAccount(route.params.idCompte);
-  const [movementAffecte, setMovementAffecte] = useState<BankMovement[]>();
 
   const allPossibleTypes = {};
   _.merge(allPossibleTypes, typeCharge,
@@ -48,18 +47,11 @@ const AffecterMouvement = () => {
     typeRevenu,
     typeAssurance, typeDivers, typeBanque);
 
-  useEffect(() => {
-    const currentMovementAffecte = bankMouvement.filter((item) => {
-      if ((item.budgetLineDeadlines?.items && item.budgetLineDeadlines?.items?.length > 0)
-          && item.realEstateId === route.params.id) {
-        return item;
-      }
-      return false;
-    });
+  const { movementAffecte } = useMemo(() => {
+    const currentMovementAffecteInternal = bankMouvement.filter((item) => (item.budgetLineDeadlines?.items && item.budgetLineDeadlines?.items?.length > 0 && item.realEstateId === route.params.id));
 
-    setMovementAffecte(currentMovementAffecte);
+    return { movementAffecte: currentMovementAffecteInternal };
   }, [bankMouvement]);
-  console.log(movementAffecte);
 
   const [currentMvt, setCurrentMvt] = useState<BankMovement>();
 

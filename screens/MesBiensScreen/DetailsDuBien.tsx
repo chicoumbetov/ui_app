@@ -24,7 +24,7 @@ import MaxWidthContainer from '../../components/MaxWidthContainer';
 
 import {
   useDeleteRealEstateMutation,
-  useGetRealEstate,
+  useGetRealEstate, useRentability,
   useUpdateRealEstateMutation,
 } from '../../src/API/RealEstate';
 import { TabMesBiensParamList } from '../../types';
@@ -47,6 +47,7 @@ import Camera from '../../components/Camera';
 import { BudgetLineType, PendingInvitation } from '../../src/API';
 import { useDeletePendingInvitationMutation } from '../../src/API/PendingInvitation';
 import { typeBien } from '../../mockData/ajoutBienData';
+import Percentage from '../../components/Percentage';
 
 function DetailsBien() {
   const navigation = useNavigation();
@@ -278,164 +279,10 @@ function DetailsBien() {
   }
   // console.log('pending : ', invitationAttente);
 
-  const totalPrice = (bienget.purchasePrice || 0) + (bienget.notaryFee || 0);
-  const currentYear = new Date().getFullYear();
-
-  // budgetLineDeadlines of last 12 months
-  const result2 = budgetLineDeadlines?.items?.filter((o) => moment(o?.date, 'YYYY-MM-DD')
-    .isBetween(moment(new Date(new Date().setFullYear(currentYear - 1))), moment(new Date(new Date().setFullYear(currentYear))), '[]'));
-
-  /**
-   *
-   *
-   * EXPENSE calculations for rentability
-   *
-   *
-   */
-  const usedExpenseCategories = [
-    'assurance',
-    'charges_copropriete',
-    'frais_de_gestion',
-    'frais_comptable',
-    'taxes_foncieres',
-    'assurance_bien',
-    'loyer_impaye',
-    'vacances_locatives',
-  ];
-
-  const expenses = result2?.filter((u) => {
-    if (u && u.type === BudgetLineType.Expense
-    // eslint-disable-next-line no-underscore-dangle
-    && !u._deleted
-    // check if current item is one of category in usedExpenseCategories
-    && usedExpenseCategories.indexOf(u.category) > -1
-    // && u.bankMouvementId
-    ) {
-      return true;
-    }
-    return false;
-  });
-
-  const { totalExpenses } = useMemo(() => {
-    const allExpensesByCategory : {
-      [key: string]: { count: number, total: number, freqExpense:number }
-    } = {};
-
-    if (expenses) {
-      expenses.forEach((item) => {
-        if (item) {
-          /** If any expense doesnt exist */
-          if (allExpensesByCategory[item?.category] === undefined) {
-            /**
-             * initial values and then calculate percentage starting from 0
-             */
-            let freqExpense = 12;
-            switch (item?.frequency) {
-              case 'quarterly':
-                freqExpense = 4;
-                break;
-              case 'annual':
-                freqExpense = 1;
-                break;
-              default:
-                break;
-            }
-            allExpensesByCategory[item?.category] = {
-              total: item?.amount || 0,
-              count: 1,
-              freqExpense,
-            };
-          } else {
-            /** else If any expense exist then we add to allCurrentCategories variable */
-            allExpensesByCategory[item?.category].total += item?.amount || 0;
-            allExpensesByCategory[item?.category].count += 1;
-          }
-        }
-      });
-    }
-    const totalExpensesInternal = Object.values(allExpensesByCategory).reduce(
-      (total, category) => total + category.total * (category.freqExpense / category.count),
-      0,
-    );
-
-    // if we need to use outside of useMemo
-    return {
-      totalExpenses: totalExpensesInternal,
-    };
-  }, [budgetLineDeadlines]);
-
-  /**
-   *
-   *
-   * INCOME calculations for rentability
-   *
-   *
-   */
-  const usedIncomeCategories = [
-    'loyer',
-    'caf',
-  ];
-
-  const incomes = result2?.filter((u) => {
-    if (u && u.type === BudgetLineType.Income
-        // eslint-disable-next-line no-underscore-dangle
-        && !u._deleted
-        // check if current item is loyer or caf
-        && usedIncomeCategories.indexOf(u.category) > -1
-        && u.bankMouvementId
-    ) {
-      return true;
-    }
-    return false;
-  });
-
-  const { totalIncomes } = useMemo(() => {
-    const allIncomesByCategory : {
-      [key: string]: { count: number, total: number, freqIncome:number }
-    } = {};
-
-    if (incomes) {
-      incomes.forEach((item) => {
-        if (item) {
-          /** If any expense doesnt exist */
-          if (allIncomesByCategory[item?.category] === undefined) {
-            /**
-             * initial values and then calculate percentage starting from 0
-             */
-            let freqIncome = 12;
-            switch (item?.frequency) {
-              case 'quarterly':
-                freqIncome = 4;
-                break;
-              case 'annual':
-                freqIncome = 1;
-                break;
-              default:
-                break;
-            }
-            allIncomesByCategory[item?.category] = {
-              total: item?.amount || 0,
-              count: 1,
-              freqIncome,
-            };
-          } else {
-            /** else If any expense exist then we add to allCurrentCategories variable */
-            allIncomesByCategory[item?.category].total += item?.amount || 0;
-            allIncomesByCategory[item?.category].count += 1;
-          }
-        }
-      });
-    }
-    const totalIncomesInternal = Object.values(allIncomesByCategory).reduce(
-      (total, category) => total + category.total * (category.freqIncome / category.count),
-      0,
-    );
-    return {
-      totalIncomes: totalIncomesInternal,
-    };
-  }, [budgetLineDeadlines]);
-
-  const rentability = Math.round(((totalIncomes - totalExpenses) / totalPrice) * 10000) / 100;
+  const rentability = useRentability(
+    budgetLineDeadlines?.items,
+    (bienget.purchasePrice || 0) + (bienget.notaryFee || 0),
+  );
   // console.log('renta', rentability);
 
   return (
@@ -513,18 +360,14 @@ function DetailsBien() {
                   <Text category="h6" appearance="hint" style={styles.text}>
                     Prochaine dépense
                   </Text>
-                  <Text category="h3" status="danger" style={{ marginTop: 14 }}>
-                    {`${(nextexpense) || '0'} €`}
-                  </Text>
+                  <Amount amount={nextexpense || 0} category="h3" />
                 </View>
 
                 <View style={styles.oneThirdBlock}>
                   <Text category="h6" appearance="hint" style={styles.text}>
-                    Réntabilité du bien
+                    Rentabilité du bien
                   </Text>
-                  <Text category="h3" status="warning" style={{ marginTop: 14 }}>
-                    {`${rentability} %`}
-                  </Text>
+                  <Percentage amount={rentability} category="h3" status="warning" style={{ marginTop: 14 }} />
                 </View>
               </Card>
 

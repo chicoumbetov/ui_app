@@ -56,7 +56,7 @@ const MouvBancaires = () => {
   useEffect(() => {
     setBankMovementCharger(bankMouvement);
   }, [bankMouvement]);
-  console.log(bankMouvement);
+  // console.log(bankMouvement);
 
   const movementPasAffect = bankMovementCharger?.filter((item) => {
     if (item.ignored
@@ -110,7 +110,7 @@ const MouvBancaires = () => {
         return false;
       });
     } else {
-      console.log('BLDL :', bienget?.budgetLineDeadlines?.items);
+      // console.log('BLDL :', bienget?.budgetLineDeadlines?.items);
       budget = bienget?.budgetLineDeadlines?.items?.filter((item) => {
         // eslint-disable-next-line no-underscore-dangle
         if (item?.type === BudgetLineType.Income && !item?._deleted && !item.bankMouvementId) {
@@ -123,7 +123,7 @@ const MouvBancaires = () => {
 
   const ignorerMovement = () => {
     checked.reduce(async (promise, current) => {
-      console.log('current :', current);
+      // console.log('current :', current);
       await promise;
       await useUpdateBankMouvement.updateBankMovement({
         variables: {
@@ -189,13 +189,16 @@ const MouvBancaires = () => {
             Ignorer des mouvements
           </Button>
           )}
-          {movementPasAffect?.map((item) => (
+          {movementPasAffect?.map((item) => item && (
             <Card
               key={item.id}
               style={{
                 marginVertical: 20,
                 flexDirection: 'row',
                 alignItems: 'center',
+                // eslint-disable-next-line no-underscore-dangle
+                borderWidth: isChecked(item.id) ? (1) : (0),
+                borderColor: 'red',
               }}
             >
               {ignoreClicked

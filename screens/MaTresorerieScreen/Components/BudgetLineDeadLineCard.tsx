@@ -1,6 +1,6 @@
 import { Alert, TouchableOpacity, View } from 'react-native';
 import {
-  Button, Card, CheckBox, Text,
+  Button, Card, CheckBox, Text, useTheme,
 } from '@ui-kitten/components';
 import moment from 'moment';
 import React, { useState } from 'react';
@@ -33,6 +33,10 @@ const BudgetLineDeadLineCard = (props: BudgetLineDeadLineCardProps) => {
   const [amount, setAmount] = useState(item.amount);
   const [rentalCharges, setRentalCharges] = useState(item.rentalCharges);
   const [managementFees, setManagementFees] = useState(item.managementFees);
+  const [interest, setInterest] = useState(item.infoCredit?.interest);
+  const [assurance, setAssurance] = useState(item.infoCredit?.assurance);
+  const [householdWaste, setHouseholdWaste] = useState(item.householdWaste);
+
   const { updateBudgetLineDeadline, mutationLoading } = useUpdateBudgetLineDeadlineMutation();
   const deleteBudgetLineDeadLine = useDeleteBudgetLineDeadlineMutation();
 
@@ -41,14 +45,14 @@ const BudgetLineDeadLineCard = (props: BudgetLineDeadLineCardProps) => {
     typeImpots,
     typeRevenu,
     typeAssurance, typeDivers, typeBanque);
-  console.log('item :', item);
+
   const saveBudgetLineDeadLine = async (
     data:BudgetLineDeadline,
     newAmount:number,
     neawManagementFees?: number,
     newRentalCharges?: number,
   ) => {
-    if (item.category === 'loyer') {
+    if (isLoyer) {
       await updateBudgetLineDeadline({
         variables: {
           input: {
@@ -56,6 +60,34 @@ const BudgetLineDeadLineCard = (props: BudgetLineDeadLineCardProps) => {
             amount: newAmount,
             rentalCharges: newRentalCharges,
             managementFees: neawManagementFees,
+            // eslint-disable-next-line no-underscore-dangle
+            _version: data._version,
+          },
+        },
+      });
+    } else if (isMensualité) {
+      await updateBudgetLineDeadline({
+        variables: {
+          input: {
+            id: data.id,
+            amount: newAmount,
+            infoCredit: {
+              amount: newAmount,
+              assurance,
+              interest,
+            },
+            // eslint-disable-next-line no-underscore-dangle
+            _version: data._version,
+          },
+        },
+      });
+    } else if (isTaxFonciere) {
+      await updateBudgetLineDeadline({
+        variables: {
+          input: {
+            id: data.id,
+            amount: newAmount,
+            householdWaste,
             // eslint-disable-next-line no-underscore-dangle
             _version: data._version,
           },
@@ -112,16 +144,25 @@ const BudgetLineDeadLineCard = (props: BudgetLineDeadLineCardProps) => {
   if (item.category === 'loyer') {
     isLoyer = true;
   }
-  console.log(item.infoCredit);
+
   let isMensualité = false;
   if (item.category === 'mensualite_credit') {
     isMensualité = true;
   }
+  let isTaxFonciere = false;
+  if (item.category === 'taxes_foncieres') {
+    isTaxFonciere = true;
+  }
 
+  const theme = useTheme();
   return (
     <Card
       key={item.id}
-      style={{ marginVertical: 15 }}
+      style={{
+        marginVertical: 15,
+        borderWidth: checked ? (1) : (0),
+        borderColor: theme['color-success-400'],
+      }}
     >
       <View
         style={{ flexDirection: 'row', alignItems: 'center' }}
@@ -230,12 +271,12 @@ const BudgetLineDeadLineCard = (props: BudgetLineDeadLineCardProps) => {
                 </Text>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                   <TextInputComp
-                    name="rentalCharges"
+                    name="infoCredit.interest"
                     defaultValue={item.infoCredit?.interest.toString()}
                     keyboardType="numeric"
                     onChangeValue={(v) => {
                       if (v) {
-                        setRentalCharges(parseFloat(v.toString()));
+                        setInterest(parseFloat(v.toString()));
                       }
                     }}
                   />
@@ -252,12 +293,12 @@ const BudgetLineDeadLineCard = (props: BudgetLineDeadLineCardProps) => {
                 </Text>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                   <TextInputComp
-                    name="managementFees"
+                    name="infoCredit.assurance"
                     defaultValue={item.infoCredit?.assurance.toString()}
                     keyboardType="numeric"
                     onChangeValue={(v) => {
                       if (v) {
-                        setManagementFees(parseFloat(v.toString()));
+                        setAssurance(parseFloat(v.toString()));
                       }
                     }}
                   />
@@ -265,6 +306,33 @@ const BudgetLineDeadLineCard = (props: BudgetLineDeadLineCardProps) => {
                     €
                   </Text>
                 </View>
+              </>
+              )}
+              {isTaxFonciere && (
+              <>
+                <Text
+                  style={{ marginBottom: 15 }}
+                  category="h5"
+                  status="basic"
+                >
+                  Dont Ordures ménagères
+                </Text>
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  <TextInputComp
+                    name="householdWaste"
+                    defaultValue={item.householdWaste.toString()}
+                    keyboardType="numeric"
+                    onChangeValue={(v) => {
+                      if (v) {
+                        setHouseholdWaste(parseFloat(v.toString()));
+                      }
+                    }}
+                  />
+                  <Text category="c1" style={{ marginHorizontal: 10 }}>
+                    €
+                  </Text>
+                </View>
+
               </>
               )}
             </>

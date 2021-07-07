@@ -642,7 +642,7 @@ function DetailsBien() {
                   checked={checkedDocument.find(({ id }) => (id === item.id)) !== undefined}
                   supprimer={supprim}
                   onCheck={(checked) => {
-                    const nextCheckedAccounts = checkedDocument.filter((id) => id !== item.id);
+                    const nextCheckedAccounts = checkedDocument.filter((id) => id.id !== item.id);
                     if (checked) {
                       // eslint-disable-next-line no-underscore-dangle
                       nextCheckedAccounts.push({ id: item.id, _version: item._version });

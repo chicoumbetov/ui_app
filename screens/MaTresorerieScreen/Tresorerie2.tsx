@@ -35,9 +35,9 @@ import {
 const MaTresorerie2 = () => {
   // const [compte] = useState(comptesData);
 
-  const [toggle, setToggle] = useState(false);
   const [newAccountLink, setNewAccountLink] = useState<string | undefined>();
   const [supprim, setSupprim] = useState(false);
+  const [toggle, setToggle] = useState(false);
   const [addingAccounts, setAddingAccounts] = useState(false);
   const [checkedAccounts, setCheckedAccounts] = React.useState<Array<
   { id: string, _version: number }
@@ -52,27 +52,23 @@ const MaTresorerie2 = () => {
   const createRealEstateBankAccount = useCreateRealEstateBankAccount();
   const deleteRealEstateBankAccount = useDeleteRealEstateBankAccount();
   const { bienget, refetch: refetchBien, loading: loadingBien } = useGetRealEstate(route.params.id);
-  const { data } = useBankAccountList();
+  const { data, refetch: refetchBankAccount } = useBankAccountList();
 
   // console.log('------------------------', bienget.bankAccounts?.items);
+  console.log('checkedAccounts', checkedAccounts);
 
   const realEstateBankAccount = bienget.bankAccounts?.items?.filter((item) => {
     // eslint-disable-next-line no-underscore-dangle
     if (!item?._deleted) { return item; }
     return false;
   });
-  // console.log(bienget.bankAccounts?.items?.length);
 
   const BankAccount = data?.listBankAccounts?.items?.filter((item) => {
     // eslint-disable-next-line no-underscore-dangle
     if (!item?._deleted) { return item; } return false;
   });
+  console.log('list bank', realEstateBankAccount);
 
-  if (realEstateBankAccount && realEstateBankAccount.length === 0 && !toggle) {
-    setToggle(true);
-  }
-  // console.log('bank account 1 :', data?.listBankAccounts);
-  // console.log('bank account 2 :', BankAccount);
   let buttonText = '';
   if (toggle) {
     if (checkedAccounts.length <= 0) {
@@ -90,6 +86,7 @@ const MaTresorerie2 = () => {
   }
   function supprimerCompte() {
     if (checkedRealEstateAccounts.length > 0) {
+      console.log('test 2');
       checkedRealEstateAccounts.reduce(async (promise, current) => {
         // console.log('supprimerCompte id1:', current.id);
         await promise;
@@ -106,6 +103,7 @@ const MaTresorerie2 = () => {
       refetchBien();
       setToggle(true);
     } else if (checkedAccounts.length > 0) {
+      console.log('test 1');
       checkedAccounts.reduce(async (promise, current) => {
         await promise;
         await deleteBankAccount({
@@ -242,7 +240,7 @@ const MaTresorerie2 = () => {
                       && BankAccount
                   ) {
                     BankAccount.map(async (item) => {
-                      if (checkedAccounts.includes(item.id)) {
+                      if (checkedAccounts.find(({ id }) => (id === item.id)) !== undefined) {
                         await createRealEstateBankAccount({
                           variables: {
                             input: {
@@ -253,7 +251,8 @@ const MaTresorerie2 = () => {
                         });
                       }
                     });
-                    // console.log('item : ', bienCharger?.bankAccounts?.items);
+                    await setCheckedAccounts([]);
+                    await setCheckedRealEstateAccounts([]);
                     setToggle(false);
                   } else {
                     setAddingAccounts(true);
@@ -264,6 +263,8 @@ const MaTresorerie2 = () => {
                 } else {
                   setToggle(true);
                 }
+                console.log(toggle);
+                await refetchBien();
               }}
               style={{
                 paddingVertical: 20, marginBottom: 30, borderTopWidth: 1, borderTopColor: '#b5b5b5',

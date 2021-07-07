@@ -506,6 +506,7 @@ function AjoutBienScreen() {
               </Text>
               <TextInput
                 name="purchaseYear"
+                keyboardType="numeric"
                 placeholder="yyyy"
                 maxLength={4}
                 icon="calendar-outline"

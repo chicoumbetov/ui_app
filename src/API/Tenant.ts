@@ -57,7 +57,7 @@ export const useUpdateTenant = () => {
         },
       });
     }
-    return null;
+    return updatedTenant.id;
   };
 };
 

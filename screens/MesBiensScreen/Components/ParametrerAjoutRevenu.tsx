@@ -76,9 +76,6 @@ const ParametrerAjoutRevenu = () => {
     currentBudgetLine = bienget.budgetLines?.items?.filter(
       (item) => item?.id === route.params.idBudgetLine,
     ).pop();
-    currentBudgetLine.amount = currentBudgetLine?.amount.toString();
-    currentBudgetLine.rentalCharges = currentBudgetLine.rentalCharges.toString();
-    currentBudgetLine.managementFees = currentBudgetLine.managementFees.toString();
     useEffect(() => {
       setMontantShow(true);
       setFrequenceShow(true);

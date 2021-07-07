@@ -68,7 +68,7 @@ const TextInputComp = React.forwardRef<Input, TextInputFormProps>(
               onChangeValue(finalText);
             }
           }}
-          value={inputValue || undefined}
+          value={inputValue?.toString() || undefined}
         />
       </View>
     );

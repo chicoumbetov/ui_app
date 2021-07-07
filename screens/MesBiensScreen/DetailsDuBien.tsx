@@ -350,9 +350,9 @@ function DetailsBien() {
                 <View style={styles.oneThirdBlock}>
                   <Text category="h6" appearance="hint" style={styles.text}>Dernier mouvement</Text>
                   {dernierMovement ? (
-                    <Amount amount={dernierMovement?.amount || 0} category="h3" />
+                    <Amount amount={dernierMovement?.amount || 0} category="h5" />
                   ) : (
-                    <Amount amount={0} category="h3" />
+                    <Amount amount={0} category="h5" />
                   )}
                 </View>
 
@@ -360,14 +360,14 @@ function DetailsBien() {
                   <Text category="h6" appearance="hint" style={styles.text}>
                     Prochaine dépense
                   </Text>
-                  <Amount amount={nextexpense || 0} category="h3" />
+                  <Amount amount={nextexpense || 0} category="h5" />
                 </View>
 
                 <View style={styles.oneThirdBlock}>
                   <Text category="h6" appearance="hint" style={styles.text}>
                     Rentabilité du bien
                   </Text>
-                  <Percentage amount={rentability} category="h3" status="warning" style={{ marginTop: 14 }} />
+                  <Percentage amount={rentability} category="h5" status="warning" style={{ marginTop: 14 }} />
                 </View>
               </Card>
 

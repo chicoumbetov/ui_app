@@ -38,7 +38,7 @@ $nextToken: String
       biId
       description
       amount
-      ignored
+      status
       date
       _version
       _deleted
@@ -237,7 +237,7 @@ export type GetMovementByRealEstateQuery = {
 const listBankMovementsByRealEstateQuery = <DocumentNode>gql(`query listBankMovementsByRealEstateQuery($id: ID!, $start: String!, $end: String!) {
   getRealEstate(id: $id) {
     id
-    bankMovements(sortDirection: DESC, date: {between: [$start, $end]}, filter: {ignored: {ne: true}}) {
+    bankMovements(sortDirection: DESC, date: {between: [$start, $end]}) {
       items {
         _deleted
         _lastChangedAt
@@ -246,7 +246,7 @@ const listBankMovementsByRealEstateQuery = <DocumentNode>gql(`query listBankMove
         bankAccountId
         date
         description
-        ignored
+        status
       }
       nextToken
       startedAt

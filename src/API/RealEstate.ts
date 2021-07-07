@@ -350,7 +350,7 @@ export const getRealEstateQuery = <DocumentNode>gql(`
             biId
             description
             amount
-            ignored
+            status
             date
             _version
             _deleted
@@ -401,7 +401,7 @@ export const getRealEstateQuery = <DocumentNode>gql(`
           biId
           description
           amount
-          ignored
+          status
           date
           _version
           _deleted
@@ -555,7 +555,7 @@ const listRealEstatesQuery = <DocumentNode>gql(`query ListRealEstates(
               biId
               description
               amount
-              ignored
+              status
               date
               _version
               _deleted
@@ -606,7 +606,7 @@ const listRealEstatesQuery = <DocumentNode>gql(`query ListRealEstates(
             biId
             description
             amount
-            ignored
+            status
             date
             _version
             _deleted

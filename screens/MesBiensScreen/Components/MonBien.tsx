@@ -19,7 +19,7 @@ import Graphics from '../../../components/Graphics/Graphics';
 
 import RotatingIcon from '../../../components/Icon/RotatingIcon';
 import MaxWidthContainer from '../../../components/MaxWidthContainer';
-import { useGetRealEstate } from '../../../src/API/RealEstate';
+import { useGetRealEstate, useRentability } from '../../../src/API/RealEstate';
 import Card from '../../../components/Card';
 import { BudgetLineType } from '../../../src/API';
 import DateUtils from '../../../utils/DateUtils';
@@ -32,6 +32,7 @@ import {
   typeImpots,
   typeRevenu,
 } from '../../../mockData/ajoutRevenuData';
+import Percentage from '../../../components/Percentage';
 
 type MonBienProps = { biens: string };
 
@@ -55,165 +56,10 @@ const MonBien = (props: MonBienProps) => {
    *   Rentabilité
    *
    */
-
-  const totalPrice = (bienget.purchasePrice || 0) + (bienget.notaryFee || 0);
-  const currentYear = new Date().getFullYear();
-
-  // budgetLineDeadlines of last 12 months
-  const result2 = budgetLineDeadlines?.items?.filter((o) => moment(o?.date, 'YYYY-MM-DD')
-    .isBetween(moment(new Date(new Date().setFullYear(currentYear - 1))), moment(new Date(new Date().setFullYear(currentYear))), '[]'));
-
-  /**
-   *
-   *
-   * EXPENSE calculations for rentability
-   *
-   *
-   */
-  const usedExpenseCategories = [
-    'assurance',
-    'charges_copropriete',
-    'frais_de_gestion',
-    'frais_comptable',
-    'taxes_foncieres',
-    'assurance_bien',
-    'loyer_impaye',
-    'vacances_locatives',
-  ];
-
-  const expenses = result2?.filter((u) => {
-    if (u && u.type === BudgetLineType.Expense
-        // eslint-disable-next-line no-underscore-dangle
-        && !u._deleted
-        // check if current item is one of category in usedExpenseCategories
-        && usedExpenseCategories.indexOf(u.category) > -1
-        // && u.bankMouvementId
-    ) {
-      return true;
-    }
-    return false;
-  });
-
-  const { totalExpenses } = useMemo(() => {
-    const allExpensesByCategory : {
-      [key: string]: { count: number, total: number, freqExpense:number }
-    } = {};
-
-    if (expenses) {
-      expenses.forEach((item) => {
-        if (item) {
-          /** If any expense doesnt exist */
-          if (allExpensesByCategory[item?.category] === undefined) {
-            /**
-             * initial values and then calculate percentage starting from 0
-             */
-            let freqExpense = 12;
-            switch (item?.frequency) {
-              case 'quarterly':
-                freqExpense = 4;
-                break;
-              case 'annual':
-                freqExpense = 1;
-                break;
-              default:
-                break;
-            }
-            allExpensesByCategory[item?.category] = {
-              total: item?.amount || 0,
-              count: 1,
-              freqExpense,
-            };
-          } else {
-            /** else If any expense exist then we add to allCurrentCategories variable */
-            allExpensesByCategory[item?.category].total += item?.amount || 0;
-            allExpensesByCategory[item?.category].count += 1;
-          }
-        }
-      });
-    }
-    const totalExpensesInternal = Object.values(allExpensesByCategory).reduce(
-      (total, category) => total + category.total * (category.freqExpense / category.count),
-      0,
-    );
-
-    // if we need to use outside of useMemo
-    return {
-      totalExpenses: totalExpensesInternal,
-    };
-  }, [budgetLineDeadlines]);
-
-  /**
-   *
-   *
-   * INCOME calculations for rentability
-   *
-   *
-   */
-  const usedIncomeCategories = [
-    'loyer',
-    'caf',
-  ];
-
-  const incomes = result2?.filter((u) => {
-    if (u && u.type === BudgetLineType.Income
-        // eslint-disable-next-line no-underscore-dangle
-        && !u._deleted
-        // check if current item is loyer or caf
-        && usedIncomeCategories.indexOf(u.category) > -1
-        && u.bankMouvementId
-    ) {
-      return true;
-    }
-    return false;
-  });
-
-  const { totalIncomes } = useMemo(() => {
-    const allIncomesByCategory : {
-      [key: string]: { count: number, total: number, freqIncome:number }
-    } = {};
-
-    if (incomes) {
-      incomes.forEach((item) => {
-        if (item) {
-          /** If any expense doesnt exist */
-          if (allIncomesByCategory[item?.category] === undefined) {
-            /**
-             * initial values and then calculate percentage starting from 0
-             */
-            let freqIncome = 12;
-            switch (item?.frequency) {
-              case 'quarterly':
-                freqIncome = 4;
-                break;
-              case 'annual':
-                freqIncome = 1;
-                break;
-              default:
-                break;
-            }
-            allIncomesByCategory[item?.category] = {
-              total: item?.amount || 0,
-              count: 1,
-              freqIncome,
-            };
-          } else {
-            /** else If any expense exist then we add to allCurrentCategories variable */
-            allIncomesByCategory[item?.category].total += item?.amount || 0;
-            allIncomesByCategory[item?.category].count += 1;
-          }
-        }
-      });
-    }
-    const totalIncomesInternal = Object.values(allIncomesByCategory).reduce(
-      (total, category) => total + category.total * (category.freqIncome / category.count),
-      0,
-    );
-    return {
-      totalIncomes: totalIncomesInternal,
-    };
-  }, [budgetLineDeadlines]);
-
-  const rentability = Math.round(((totalIncomes - totalExpenses) / totalPrice) * 10000) / 100;
+  const rentability = useRentability(
+    budgetLineDeadlines?.items,
+    (bienget.purchasePrice || 0) + (bienget.notaryFee || 0),
+  );
   // console.log('renta', rentability);
 
   /**
@@ -244,6 +90,8 @@ const MonBien = (props: MonBienProps) => {
     typeRevenu,
     typeAssurance, typeDivers, typeBanque,
   );
+
+  const currentYear = new Date().getFullYear();
 
   /** Object with 3 attributes and its key */
   const { allCurrentCategories } = useMemo(() => {
@@ -388,9 +236,7 @@ const MonBien = (props: MonBienProps) => {
                       fill="#b5b5b5"
                       style={{ height: 16, width: 16 }}
                     />
-                    <Text category="h4" status="danger">
-                      {`${Math.round(nextexpense * 100) / 100 || '0'} €`}
-                    </Text>
+                    <Amount amount={Math.round((nextexpense || 0) * 100) / 100} category="h4" />
                   </View>
 
                   {/**
@@ -405,7 +251,7 @@ const MonBien = (props: MonBienProps) => {
                       fill="#b5b5b5"
                       style={{ height: 18, width: 18, marginRight: 2 }}
                     />
-                    <Text category="h4" status="warning">{`${rentability} %`}</Text>
+                    <Percentage amount={rentability} category="h4" status="warning" />
                   </View>
 
                 </View>
@@ -436,9 +282,7 @@ const MonBien = (props: MonBienProps) => {
                       <Text category="h6" appearance="hint" style={styles.text}>
                         Prochaine dépense
                       </Text>
-                      <Text category="h4" status="danger">
-                        {`${Math.round(nextexpense * 100) / 100 || '0'} €`}
-                      </Text>
+                      <Amount amount={Math.round((nextexpense || 0) * 100) / 100} category="h4" />
                       <TouchableOpacity onPress={allerTresorerie}>
                         <Text category="h6" status="info">En savoir +</Text>
                       </TouchableOpacity>
@@ -446,7 +290,7 @@ const MonBien = (props: MonBienProps) => {
 
                     <View style={styles.oneThirdBlock}>
                       <Text category="h6" appearance="hint" style={styles.text}>
-                        Réntabilité du bien
+                        Rentabilité du bien
                       </Text>
                       <Text category="h4" status="warning" style={{ marginVertical: 14 }}>{`${rentability} %`}</Text>
                       <TouchableOpacity onPress={allerMesRapports}>

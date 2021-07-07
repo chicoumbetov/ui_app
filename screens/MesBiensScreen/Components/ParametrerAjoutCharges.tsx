@@ -407,7 +407,7 @@ const ParametrerAjoutCharges = () => {
                           setFrequenceShow(true);
                         }
                       }}
-                      placeholder="Type de Banque"
+                      placeholder="Type de Frais"
                       size="large"
                       appearance="default"
                       status="primary"

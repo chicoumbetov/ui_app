@@ -19,8 +19,6 @@ function MesBiens() {
   // const [compte] = useState(comptesData);
   const { loading, data } = useRealEstateList('cache-and-network');
 
-  // console.log('biens', data);
-
   const onAjoutBien = () => {
     linkTo('/mes-biens/ajouter');
   };

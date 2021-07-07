@@ -11,7 +11,7 @@ export const onCreateBankMovement = /* GraphQL */ `
       biId
       description
       amount
-      ignored
+      status
       date
       _version
       _deleted
@@ -92,7 +92,7 @@ export const onCreateBankMovement = /* GraphQL */ `
             biId
             description
             amount
-            ignored
+            status
             date
             _version
             _deleted
@@ -188,7 +188,7 @@ export const onCreateBankMovement = /* GraphQL */ `
             biId
             description
             amount
-            ignored
+            status
             date
             _version
             _deleted
@@ -266,7 +266,7 @@ export const onCreateBankMovement = /* GraphQL */ `
             biId
             description
             amount
-            ignored
+            status
             date
             _version
             _deleted
@@ -308,7 +308,7 @@ export const onUpdateBankMovement = /* GraphQL */ `
       biId
       description
       amount
-      ignored
+      status
       date
       _version
       _deleted
@@ -389,7 +389,7 @@ export const onUpdateBankMovement = /* GraphQL */ `
             biId
             description
             amount
-            ignored
+            status
             date
             _version
             _deleted
@@ -485,7 +485,7 @@ export const onUpdateBankMovement = /* GraphQL */ `
             biId
             description
             amount
-            ignored
+            status
             date
             _version
             _deleted
@@ -563,7 +563,7 @@ export const onUpdateBankMovement = /* GraphQL */ `
             biId
             description
             amount
-            ignored
+            status
             date
             _version
             _deleted
@@ -703,7 +703,7 @@ export const onCreateBudgetLine = /* GraphQL */ `
             biId
             description
             amount
-            ignored
+            status
             date
             _version
             _deleted
@@ -885,7 +885,7 @@ export const onUpdateBudgetLine = /* GraphQL */ `
             biId
             description
             amount
-            ignored
+            status
             date
             _version
             _deleted
@@ -1060,7 +1060,7 @@ export const onCreateBudgetLineDeadline = /* GraphQL */ `
             biId
             description
             amount
-            ignored
+            status
             date
             _version
             _deleted
@@ -1139,7 +1139,7 @@ export const onCreateBudgetLineDeadline = /* GraphQL */ `
         biId
         description
         amount
-        ignored
+        status
         date
         _version
         _deleted
@@ -1451,7 +1451,7 @@ export const onUpdateBudgetLineDeadline = /* GraphQL */ `
             biId
             description
             amount
-            ignored
+            status
             date
             _version
             _deleted
@@ -1530,7 +1530,7 @@ export const onUpdateBudgetLineDeadline = /* GraphQL */ `
         biId
         description
         amount
-        ignored
+        status
         date
         _version
         _deleted
@@ -1829,7 +1829,7 @@ export const onCreateDocument = /* GraphQL */ `
             biId
             description
             amount
-            ignored
+            status
             date
             _version
             _deleted
@@ -1991,7 +1991,7 @@ export const onUpdateDocument = /* GraphQL */ `
             biId
             description
             amount
-            ignored
+            status
             date
             _version
             _deleted
@@ -2151,7 +2151,7 @@ export const onCreateRealEstateBankAccount = /* GraphQL */ `
             biId
             description
             amount
-            ignored
+            status
             date
             _version
             _deleted
@@ -2247,7 +2247,7 @@ export const onCreateRealEstateBankAccount = /* GraphQL */ `
             biId
             description
             amount
-            ignored
+            status
             date
             _version
             _deleted
@@ -2361,7 +2361,7 @@ export const onUpdateRealEstateBankAccount = /* GraphQL */ `
             biId
             description
             amount
-            ignored
+            status
             date
             _version
             _deleted
@@ -2457,7 +2457,7 @@ export const onUpdateRealEstateBankAccount = /* GraphQL */ `
             biId
             description
             amount
-            ignored
+            status
             date
             _version
             _deleted
@@ -2803,7 +2803,7 @@ export const onCreateRealEstate = /* GraphQL */ `
           biId
           description
           amount
-          ignored
+          status
           date
           _version
           _deleted
@@ -2956,7 +2956,7 @@ export const onCreateRealEstate = /* GraphQL */ `
             biId
             description
             amount
-            ignored
+            status
             date
             _version
             _deleted
@@ -3156,7 +3156,7 @@ export const onUpdateRealEstate = /* GraphQL */ `
           biId
           description
           amount
-          ignored
+          status
           date
           _version
           _deleted
@@ -3309,7 +3309,7 @@ export const onUpdateRealEstate = /* GraphQL */ `
             biId
             description
             amount
-            ignored
+            status
             date
             _version
             _deleted
@@ -3509,7 +3509,7 @@ export const onDeleteRealEstate = /* GraphQL */ `
           biId
           description
           amount
-          ignored
+          status
           date
           _version
           _deleted
@@ -3662,7 +3662,7 @@ export const onDeleteRealEstate = /* GraphQL */ `
             biId
             description
             amount
-            ignored
+            status
             date
             _version
             _deleted
@@ -3832,7 +3832,7 @@ export const onCreatePendingInvitation = /* GraphQL */ `
             biId
             description
             amount
-            ignored
+            status
             date
             _version
             _deleted
@@ -3993,7 +3993,7 @@ export const onUpdatePendingInvitation = /* GraphQL */ `
             biId
             description
             amount
-            ignored
+            status
             date
             _version
             _deleted
@@ -4154,7 +4154,7 @@ export const onDeletePendingInvitation = /* GraphQL */ `
             biId
             description
             amount
-            ignored
+            status
             date
             _version
             _deleted
@@ -4255,7 +4255,7 @@ export const onCreateBankAccount = /* GraphQL */ `
           biId
           description
           amount
-          ignored
+          status
           date
           _version
           _deleted

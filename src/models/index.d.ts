@@ -31,12 +31,19 @@ export enum Frequency {
   ANNUAL = "annual"
 }
 
+export enum BankMovementStatus {
+  UNKOWN = "Unkown",
+  AFFECTED = "Affected",
+  IGNORED = "Ignored"
+}
+
 export enum InvitationType {
   ADMIN = "Admin",
   READ_ONLY = "ReadOnly"
 }
 
 export enum SubscriptionType {
+  TRIAL = "Trial",
   ONE_TO_TWO = "OneToTwo",
   THREE_TO_FIVE = "ThreeToFive",
   MORE_THAN_FIVE = "MoreThanFive"
@@ -188,7 +195,7 @@ export declare class BankMovement {
   readonly description?: string;
   readonly amount: number;
   readonly budgetLineDeadlines?: (BudgetLineDeadline | null)[];
-  readonly ignored?: boolean;
+  readonly status?: BankMovementStatus | keyof typeof BankMovementStatus;
   readonly date?: string;
   readonly createdAt?: string;
   readonly updatedAt?: string;

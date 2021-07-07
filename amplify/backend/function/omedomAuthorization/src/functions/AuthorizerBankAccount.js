@@ -2,9 +2,9 @@ const checkAuthorization = require('../helpers/authorizer');
 
 const authorizerBankAccount = (params, authFields) => checkAuthorization({
   connectionModel: {
-    key: params.arguments.input
-      ? params.arguments.input.id
-      : params.arguments.id,
+    key: params?.arguments?.input
+      ? params?.arguments?.input.id
+      : params?.arguments?.id,
     keyName: 'bankAccountId',
     indexName: 'realEstatesByBankAccount',
     tableName: process.env.API_OMEDOM_REALESTATEBANKACCOUNTTABLE_NAME,

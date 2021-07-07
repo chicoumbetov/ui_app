@@ -1,4 +1,4 @@
-const readModel = require("./readModel");
+const readModel = require('./readModel');
 
 const checkAuthorization = async ({
   identity,
@@ -6,7 +6,7 @@ const checkAuthorization = async ({
   connectionModel = undefined,
 }) => {
   try {
-    let connectionDataSet = undefined;
+    let connectionDataSet;
     if (connectionModel) {
       connectionDataSet = await readModel({
         key: connectionModel.key,
@@ -16,56 +16,52 @@ const checkAuthorization = async ({
       });
     }
 
-    let isAuthorized = undefined;
+    let isAuthorized;
     if (connectionDataSet) {
-      for (let data of connectionDataSet) {
+      for (const data of connectionDataSet) {
         const authDataSet = await readModel({
           tableName: authModel.tableName,
           key: data[authModel.connectionField],
-          keyName: authModel.keyName ? authModel.keyName : "id",
+          keyName: authModel.keyName ? authModel.keyName : 'id',
           indexName: authModel.indexName ? authModel.indexName : undefined,
         });
-        for (let authField of authModel.authFields) {
+        for (const authField of authModel.authFields) {
           if (!isAuthorized) {
-            if (typeof authDataSet[0][authField] === "string") {
-              isAuthorized =
-                authDataSet[0][authField] === identity.sub ? true : false;
-            } else {
-              if (authDataSet[0][authField]) {
-                isAuthorized = authDataSet[0][authField].some(
-                  (userID) => userID === identity.sub
-                );
-              }
-            }
-          }
-        }
-      }
-    } else {
-      const authDataSet = await readModel({
-        tableName: authModel.tableName,
-        key: authModel.key,
-        keyName: authModel.keyName ? authModel.keyName : "id",
-        indexName: authModel.indexName ? authModel.indexName : undefined,
-      });
-
-      for (let authField of authModel.authFields) {
-        if (!isAuthorized) {
-          if (typeof authDataSet[0][authField] === "string") {
-            isAuthorized =
-              authDataSet[0][authField] === identity.sub ? true : false;
-          } else {
-            if (authDataSet[0][authField]) {
+            if (typeof authDataSet[0][authField] === 'string') {
+              isAuthorized = authDataSet[0][authField] === identity.sub;
+            } else if (authDataSet[0][authField]) {
               isAuthorized = authDataSet[0][authField].some(
-                (userID) => userID === identity.sub
+                (userID) => userID === identity.sub,
               );
             }
           }
         }
       }
+    } else if (authModel.key) {
+      const authDataSet = await readModel({
+        tableName: authModel.tableName,
+        key: authModel.key,
+        keyName: authModel.keyName ? authModel.keyName : 'id',
+        indexName: authModel.indexName ? authModel.indexName : undefined,
+      });
+
+      for (const authField of authModel.authFields) {
+        if (!isAuthorized) {
+          if (typeof authDataSet[0][authField] === 'string') {
+            isAuthorized = authDataSet[0][authField] === identity.sub;
+          } else if (authDataSet[0][authField]) {
+            isAuthorized = authDataSet[0][authField].some(
+              (userID) => userID === identity.sub,
+            );
+          }
+        }
+      }
+    } else {
+      isAuthorized = false;
     }
     return isAuthorized;
   } catch (error) {
-    console.log("Error from checkAuthorization:", error);
+    console.log('Error from checkAuthorization:', error);
   }
 };
 

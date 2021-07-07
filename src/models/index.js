@@ -33,12 +33,19 @@ const Frequency = {
   "ANNUAL": "annual"
 };
 
+const BankMovementStatus = {
+  "UNKOWN": "Unkown",
+  "AFFECTED": "Affected",
+  "IGNORED": "Ignored"
+};
+
 const InvitationType = {
   "ADMIN": "Admin",
   "READ_ONLY": "ReadOnly"
 };
 
 const SubscriptionType = {
+  "TRIAL": "Trial",
   "ONE_TO_TWO": "OneToTwo",
   "THREE_TO_FIVE": "ThreeToFive",
   "MORE_THAN_FIVE": "MoreThanFive"
@@ -64,6 +71,7 @@ export {
   TaxType,
   BudgetLineType,
   Frequency,
+  BankMovementStatus,
   InvitationType,
   SubscriptionType,
   Address,

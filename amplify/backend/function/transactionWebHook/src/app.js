@@ -163,8 +163,8 @@ app.post('/webhooks/account-synced', async (req, res) => {
                         userIds: recipientList,
                         title: countPositiveMovements > 1 ? 'Nouveaux mouvements créditeurs' : 'Nouveau mouvement créditeur',
                         body: countPositiveMovements > 1
-                            ? `Votre compte ${account.bank} ${account.name} ${account.iban} présente de nouveaux mouvements créditeurs.`
-                            : `Votre compte ${account.bank} ${account.name} ${account.iban} présente un nouveau mouvement créditeur.`,
+                            ? `Votre compte ${account.bank || ''} ${account.name || ''} ${account.iban} présente de nouveaux mouvements créditeurs.`
+                            : `Votre compte ${account.bank || ''} ${account.name || ''} ${account.iban} présente un nouveau mouvement créditeur.`,
                         data: {
                             realEstateIds,
                             bankAccountId: account.id,
@@ -185,8 +185,8 @@ app.post('/webhooks/account-synced', async (req, res) => {
                         userIds: recipientList,
                         title: countNegativeMovements > 1 ? 'Nouveaux mouvements débiteurs' : 'Nouveau mouvement débiteur',
                         body: countNegativeMovements > 1
-                            ? `Votre compte ${account.bank} ${account.name} ${account.iban} présente de nouveaux mouvements débiteurs.`
-                            : `Votre compte ${account.bank} ${account.name} ${account.iban} présente un nouveau mouvement débiteur.`,
+                            ? `Votre compte ${account.bank || ''} ${account.name || ''} ${account.iban} présente de nouveaux mouvements débiteurs.`
+                            : `Votre compte ${account.bank || ''} ${account.name || ''} ${account.iban} présente un nouveau mouvement débiteur.`,
                         data: {
                             realEstateIds,
                             bankAccountId: account.id,
@@ -206,7 +206,7 @@ app.post('/webhooks/account-synced', async (req, res) => {
                     Payload: JSON.stringify({
                         userIds: recipientList,
                         title: 'Solde bancaire négatif',
-                        body: `Votre compte ${account.bank} ${account.name} ${account.iban} présente un solde négatif.`,
+                        body: `Votre compte ${account.bank || ''} ${account.name || ''} ${account.iban} présente un solde négatif.`,
                         data: {
                             realEstateIds,
                             bankAccountId: account.id,

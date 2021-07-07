@@ -28,7 +28,7 @@ export const getBankAccount = /* GraphQL */ `
           biId
           description
           amount
-          ignored
+          status
           date
           _version
           _deleted
@@ -143,7 +143,7 @@ export const getBankMovement = /* GraphQL */ `
       biId
       description
       amount
-      ignored
+      status
       date
       _version
       _deleted
@@ -224,7 +224,7 @@ export const getBankMovement = /* GraphQL */ `
             biId
             description
             amount
-            ignored
+            status
             date
             _version
             _deleted
@@ -320,7 +320,7 @@ export const getBankMovement = /* GraphQL */ `
             biId
             description
             amount
-            ignored
+            status
             date
             _version
             _deleted
@@ -398,7 +398,7 @@ export const getBankMovement = /* GraphQL */ `
             biId
             description
             amount
-            ignored
+            status
             date
             _version
             _deleted
@@ -538,7 +538,7 @@ export const getBudgetLine = /* GraphQL */ `
             biId
             description
             amount
-            ignored
+            status
             date
             _version
             _deleted
@@ -713,7 +713,7 @@ export const getBudgetLineDeadline = /* GraphQL */ `
             biId
             description
             amount
-            ignored
+            status
             date
             _version
             _deleted
@@ -792,7 +792,7 @@ export const getBudgetLineDeadline = /* GraphQL */ `
         biId
         description
         amount
-        ignored
+        status
         date
         _version
         _deleted
@@ -1091,7 +1091,7 @@ export const getDocument = /* GraphQL */ `
             biId
             description
             amount
-            ignored
+            status
             date
             _version
             _deleted
@@ -1251,7 +1251,7 @@ export const getRealEstateBankAccount = /* GraphQL */ `
             biId
             description
             amount
-            ignored
+            status
             date
             _version
             _deleted
@@ -1347,7 +1347,7 @@ export const getRealEstateBankAccount = /* GraphQL */ `
             biId
             description
             amount
-            ignored
+            status
             date
             _version
             _deleted
@@ -1471,7 +1471,7 @@ export const documentsByKey = /* GraphQL */ `
 export const getBankMovementsByBankAccountId = /* GraphQL */ `
   query GetBankMovementsByBankAccountId(
     $bankAccountId: ID
-    $date: ModelStringKeyConditionInput
+    $statusDate: ModelBankMovementBankMovementsByBankAccountCompositeKeyConditionInput
     $sortDirection: ModelSortDirection
     $filter: ModelBankMovementFilterInput
     $limit: Int
@@ -1479,7 +1479,7 @@ export const getBankMovementsByBankAccountId = /* GraphQL */ `
   ) {
     getBankMovementsByBankAccountId(
       bankAccountId: $bankAccountId
-      date: $date
+      statusDate: $statusDate
       sortDirection: $sortDirection
       filter: $filter
       limit: $limit
@@ -1492,7 +1492,7 @@ export const getBankMovementsByBankAccountId = /* GraphQL */ `
         biId
         description
         amount
-        ignored
+        status
         date
         _version
         _deleted
@@ -1636,7 +1636,7 @@ export const listBankMovementsByBiId = /* GraphQL */ `
         biId
         description
         amount
-        ignored
+        status
         date
         _version
         _deleted
@@ -2244,7 +2244,7 @@ export const getRealEstate = /* GraphQL */ `
           biId
           description
           amount
-          ignored
+          status
           date
           _version
           _deleted
@@ -2397,7 +2397,7 @@ export const getRealEstate = /* GraphQL */ `
             biId
             description
             amount
-            ignored
+            status
             date
             _version
             _deleted
@@ -2562,7 +2562,7 @@ export const listRealEstates = /* GraphQL */ `
             biId
             description
             amount
-            ignored
+            status
             date
             _version
             _deleted
@@ -2726,7 +2726,7 @@ export const syncRealEstates = /* GraphQL */ `
             biId
             description
             amount
-            ignored
+            status
             date
             _version
             _deleted
@@ -2889,7 +2889,7 @@ export const getPendingInvitation = /* GraphQL */ `
             biId
             description
             amount
-            ignored
+            status
             date
             _version
             _deleted
@@ -3352,7 +3352,7 @@ export const listBankAccounts = /* GraphQL */ `
             biId
             description
             amount
-            ignored
+            status
             date
             _version
             _deleted
@@ -3422,7 +3422,7 @@ export const listBankAccountsByBiId = /* GraphQL */ `
             biId
             description
             amount
-            ignored
+            status
             date
             _version
             _deleted
@@ -3492,7 +3492,7 @@ export const listBankAccountsByBiConnectionId = /* GraphQL */ `
             biId
             description
             amount
-            ignored
+            status
             date
             _version
             _deleted
@@ -3560,7 +3560,7 @@ export const syncBankAccounts = /* GraphQL */ `
             biId
             description
             amount
-            ignored
+            status
             date
             _version
             _deleted
@@ -3611,7 +3611,7 @@ export const syncBankMovements = /* GraphQL */ `
         biId
         description
         amount
-        ignored
+        status
         date
         _version
         _deleted
@@ -4164,7 +4164,7 @@ export const syncBudgetLineDeadlines = /* GraphQL */ `
           biId
           description
           amount
-          ignored
+          status
           date
           _version
           _deleted

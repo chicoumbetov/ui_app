@@ -46,7 +46,7 @@
         },
         "transactionWebHook": {
           "deploymentBucketName": "amplify-omedom-dev-233211-deployment",
-          "s3Key": "amplify-builds/transactionWebHook-372b6464324e5a344a37-build.zip"
+          "s3Key": "amplify-builds/transactionWebHook-334d76697731425a6d59-build.zip"
         },
         "testNotification": {
           "deploymentBucketName": "amplify-omedom-dev-233211-deployment",
@@ -58,7 +58,7 @@
         },
         "omedomAuthorization": {
           "deploymentBucketName": "amplify-omedom-dev-233211-deployment",
-          "s3Key": "amplify-builds/omedomAuthorization-57704946595870415039-build.zip"
+          "s3Key": "amplify-builds/omedomAuthorization-376d33546f5363326654-build.zip"
         },
         "generateBudgetLineDeadLine": {
           "deploymentBucketName": "amplify-omedom-dev-233211-deployment",

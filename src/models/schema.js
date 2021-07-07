@@ -643,10 +643,12 @@ export const schema = {
                         "associatedWith": "bankMouvement"
                     }
                 },
-                "ignored": {
-                    "name": "ignored",
+                "status": {
+                    "name": "status",
                     "isArray": false,
-                    "type": "Boolean",
+                    "type": {
+                        "enum": "BankMovementStatus"
+                    },
                     "isRequired": false,
                     "attributes": []
                 },
@@ -695,6 +697,7 @@ export const schema = {
                         "name": "bankMovementsByBankAccount",
                         "fields": [
                             "bankAccountId",
+                            "status",
                             "date"
                         ],
                         "queryField": "getBankMovementsByBankAccountId"
@@ -706,6 +709,7 @@ export const schema = {
                         "name": "bankMovementsByRealEstate",
                         "fields": [
                             "realEstateId",
+                            "status",
                             "date"
                         ]
                     }
@@ -1930,6 +1934,14 @@ export const schema = {
                 "annual"
             ]
         },
+        "BankMovementStatus": {
+            "name": "BankMovementStatus",
+            "values": [
+                "Unkown",
+                "Affected",
+                "Ignored"
+            ]
+        },
         "InvitationType": {
             "name": "InvitationType",
             "values": [
@@ -1940,6 +1952,7 @@ export const schema = {
         "SubscriptionType": {
             "name": "SubscriptionType",
             "values": [
+                "Trial",
                 "OneToTwo",
                 "ThreeToFive",
                 "MoreThanFive"
@@ -2333,5 +2346,5 @@ export const schema = {
             }
         }
     },
-    "version": "985444b378ac84b872972b32dab4f789"
+    "version": "0754ec2f899e9ee97c6aa9037132a65c"
 };

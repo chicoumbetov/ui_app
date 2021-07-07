@@ -160,12 +160,12 @@ type BankMovement
     ])
     @key(
         name: "bankMovementsByBankAccount"
-        fields: ["bankAccountId","date"]
+        fields: ["bankAccountId","status","date"]
         queryField:"getBankMovementsByBankAccountId"
     )
     @key(
         name: "bankMovementsByRealEstate"
-        fields: ["realEstateId","date"]
+        fields: ["realEstateId","status","date"]
     )
     @key(
         name: "bankMovementsByBiId"
@@ -181,7 +181,7 @@ type BankMovement
     description: String
     amount: Float!
     budgetLineDeadlines: [BudgetLineDeadline] @connection (keyName:"budgetLineDeadlinesByBankMovement", fields: ["id"])
-    ignored: Boolean
+    status: BankMovementStatus
     date: AWSDate
 }
 
@@ -403,6 +403,12 @@ enum InvitationType {
   ReadOnly
 }
 
+enum BankMovementStatus {
+  Unkown
+  Affected
+    Ignored
+}
+
 type MortgageLoanInfo {
     borrowedCapital: Float!
     loanStartDate: AWSDate
@@ -455,6 +461,7 @@ enum RealEstateType {
 }
 
 enum SubscriptionType {
+    Trial
     OneToTwo
     ThreeToFive
     MoreThanFive
@@ -560,7 +567,7 @@ input UpdateBankMovementInput {
     description: String
     amount: Float
     budgetLineDeadlineId: ID
-    ignored: Boolean
+    status: BankMovementStatus
     date: AWSDate
     _version: Int!
 }

@@ -237,7 +237,7 @@ export type GetMovementByRealEstateQuery = {
 const listBankMovementsByRealEstateQuery = <DocumentNode>gql(`query listBankMovementsByRealEstateQuery($id: ID!, $start: String!, $end: String!) {
   getRealEstate(id: $id) {
     id
-    bankMovements(sortDirection: DESC, date: {between: [$start, $end]}) {
+    bankMovements(sortDirection: DESC, date: {between: [$start, $end]}, filter: {status: {ne: Ignored}}) {
       items {
         _deleted
         _lastChangedAt

@@ -31,6 +31,11 @@ export enum Frequency {
   ANNUAL = "annual"
 }
 
+export enum RentalType {
+  FURNISHED = "furnished",
+  UNFURNISHED = "unfurnished"
+}
+
 export enum BankMovementStatus {
   UNKOWN = "Unkown",
   AFFECTED = "Affected",
@@ -89,6 +94,7 @@ export declare class TenantInfo {
   readonly amount: number;
   readonly lastname: string;
   readonly firstname: string;
+  readonly rentalType: RentalType | keyof typeof RentalType;
   readonly email: string;
   readonly startDate: string;
   readonly endDate?: string;
@@ -215,6 +221,7 @@ export declare class BudgetLineDeadline {
   readonly rentalCharges?: number;
   readonly managementFees?: number;
   readonly householdWaste?: number;
+  readonly rentalType?: RentalType | keyof typeof RentalType;
   readonly frequency: Frequency | keyof typeof Frequency;
   readonly date?: string;
   readonly infoCredit?: MortgageLoanDeadlineInfo;
@@ -236,6 +243,7 @@ export declare class BudgetLine {
   readonly householdWaste?: number;
   readonly frequency: Frequency | keyof typeof Frequency;
   readonly nextDueDate: string;
+  readonly rentalType?: RentalType | keyof typeof RentalType;
   readonly infoCredit?: MortgageLoanInfo;
   readonly tenantId?: string;
   readonly createdAt?: string;

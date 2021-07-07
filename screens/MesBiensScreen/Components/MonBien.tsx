@@ -47,7 +47,7 @@ const MonBien = (props: MonBienProps) => {
   // const navigation = useNavigation();
   const [opened, setOpened] = useState(false);
   // const theme = useTheme();
-  // console.log('bienget : ', bienget);
+  console.log('bienget : ', bienget);
 
   const { budgetLineDeadlines, budgetLines, bankMovements } = bienget || {};
 
@@ -56,10 +56,14 @@ const MonBien = (props: MonBienProps) => {
    *   Rentabilité
    *
    */
-  const rentability = useRentability(
-    budgetLineDeadlines?.items,
-    (bienget.purchasePrice || 0) + (bienget.notaryFee || 0),
-  );
+  let rentability;
+  if (bienget) {
+    rentability = useRentability(
+      budgetLineDeadlines?.items,
+      (bienget.purchasePrice || 0) + (bienget.notaryFee || 0),
+    );
+  }
+
   // console.log('renta', rentability);
 
   /**

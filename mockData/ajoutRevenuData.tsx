@@ -4,7 +4,7 @@
  *
  */
 
-import { Frequency } from '../src/API';
+import { Frequency, RentalType } from '../src/API';
 
 export const typeRevenu = {
   loyer: {
@@ -155,6 +155,16 @@ export const frequence = [
   {
     label: 'Annuelle',
     key: Frequency.annual,
+  },
+];
+export const rentalType = [
+  {
+    label: 'Meublé',
+    key: RentalType.furnished,
+  },
+  {
+    label: 'Non Meublé',
+    key: RentalType.unfurnished,
   },
 ];
 

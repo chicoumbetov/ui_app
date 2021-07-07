@@ -853,6 +853,15 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
+                "rentalType": {
+                    "name": "rentalType",
+                    "isArray": false,
+                    "type": {
+                        "enum": "RentalType"
+                    },
+                    "isRequired": false,
+                    "attributes": []
+                },
                 "frequency": {
                     "name": "frequency",
                     "isArray": false,
@@ -1056,6 +1065,15 @@ export const schema = {
                     "isArray": false,
                     "type": "AWSDate",
                     "isRequired": true,
+                    "attributes": []
+                },
+                "rentalType": {
+                    "name": "rentalType",
+                    "isArray": false,
+                    "type": {
+                        "enum": "RentalType"
+                    },
+                    "isRequired": false,
                     "attributes": []
                 },
                 "infoCredit": {
@@ -1934,6 +1952,13 @@ export const schema = {
                 "annual"
             ]
         },
+        "RentalType": {
+            "name": "RentalType",
+            "values": [
+                "furnished",
+                "unfurnished"
+            ]
+        },
         "BankMovementStatus": {
             "name": "BankMovementStatus",
             "values": [
@@ -2147,6 +2172,15 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
+                "rentalType": {
+                    "name": "rentalType",
+                    "isArray": false,
+                    "type": {
+                        "enum": "RentalType"
+                    },
+                    "isRequired": true,
+                    "attributes": []
+                },
                 "email": {
                     "name": "email",
                     "isArray": false,
@@ -2346,5 +2380,5 @@ export const schema = {
             }
         }
     },
-    "version": "0754ec2f899e9ee97c6aa9037132a65c"
+    "version": "017cba82b664a4a05a0c19d948e21df9"
 };

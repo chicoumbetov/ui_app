@@ -390,6 +390,16 @@ const ParametrerAjoutRevenu = () => {
                     placeholder="Date de fin de bail"
                     icon="calendar-outline"
                   />
+                  <Select
+                    name="rentalType"
+                    data={frequence}
+                    onChangeValue={() => setDateDerniereEcheanceShow(true)}
+                    placeholder="Type de location"
+                    size="large"
+                    appearance="default"
+                    status="primary"
+                    validators={[AvailableValidationRules.required]}
+                  />
                 </View>
               ) : (<></>)}
 

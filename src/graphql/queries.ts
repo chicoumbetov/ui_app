@@ -176,6 +176,7 @@ export const getBankMovement = /* GraphQL */ `
           amount
           lastname
           firstname
+          rentalType
           email
           startDate
           endDate
@@ -247,6 +248,7 @@ export const getBankMovement = /* GraphQL */ `
             householdWaste
             frequency
             nextDueDate
+            rentalType
             tenantId
             _version
             _deleted
@@ -269,6 +271,7 @@ export const getBankMovement = /* GraphQL */ `
             rentalCharges
             managementFees
             householdWaste
+            rentalType
             frequency
             date
             tenantId
@@ -358,6 +361,7 @@ export const getBankMovement = /* GraphQL */ `
           rentalCharges
           managementFees
           householdWaste
+          rentalType
           frequency
           date
           infoCredit {
@@ -417,6 +421,7 @@ export const getBankMovement = /* GraphQL */ `
             householdWaste
             frequency
             nextDueDate
+            rentalType
             tenantId
             _version
             _deleted
@@ -444,6 +449,7 @@ export const getBudgetLine = /* GraphQL */ `
       householdWaste
       frequency
       nextDueDate
+      rentalType
       infoCredit {
         borrowedCapital
         loanStartDate
@@ -490,6 +496,7 @@ export const getBudgetLine = /* GraphQL */ `
           amount
           lastname
           firstname
+          rentalType
           email
           startDate
           endDate
@@ -561,6 +568,7 @@ export const getBudgetLine = /* GraphQL */ `
             householdWaste
             frequency
             nextDueDate
+            rentalType
             tenantId
             _version
             _deleted
@@ -583,6 +591,7 @@ export const getBudgetLine = /* GraphQL */ `
             rentalCharges
             managementFees
             householdWaste
+            rentalType
             frequency
             date
             tenantId
@@ -626,6 +635,7 @@ export const getBudgetLineDeadline = /* GraphQL */ `
       rentalCharges
       managementFees
       householdWaste
+      rentalType
       frequency
       date
       infoCredit {
@@ -665,6 +675,7 @@ export const getBudgetLineDeadline = /* GraphQL */ `
           amount
           lastname
           firstname
+          rentalType
           email
           startDate
           endDate
@@ -736,6 +747,7 @@ export const getBudgetLineDeadline = /* GraphQL */ `
             householdWaste
             frequency
             nextDueDate
+            rentalType
             tenantId
             _version
             _deleted
@@ -758,6 +770,7 @@ export const getBudgetLineDeadline = /* GraphQL */ `
             rentalCharges
             managementFees
             householdWaste
+            rentalType
             frequency
             date
             tenantId
@@ -825,6 +838,7 @@ export const getBudgetLineDeadline = /* GraphQL */ `
             amount
             lastname
             firstname
+            rentalType
             email
             startDate
             endDate
@@ -896,6 +910,7 @@ export const getBudgetLineDeadline = /* GraphQL */ `
             rentalCharges
             managementFees
             householdWaste
+            rentalType
             frequency
             date
             tenantId
@@ -920,6 +935,7 @@ export const getBudgetLineDeadline = /* GraphQL */ `
         householdWaste
         frequency
         nextDueDate
+        rentalType
         infoCredit {
           borrowedCapital
           loanStartDate
@@ -966,6 +982,7 @@ export const getBudgetLineDeadline = /* GraphQL */ `
             amount
             lastname
             firstname
+            rentalType
             email
             startDate
             endDate
@@ -1043,6 +1060,7 @@ export const getDocument = /* GraphQL */ `
           amount
           lastname
           firstname
+          rentalType
           email
           startDate
           endDate
@@ -1114,6 +1132,7 @@ export const getDocument = /* GraphQL */ `
             householdWaste
             frequency
             nextDueDate
+            rentalType
             tenantId
             _version
             _deleted
@@ -1136,6 +1155,7 @@ export const getDocument = /* GraphQL */ `
             rentalCharges
             managementFees
             householdWaste
+            rentalType
             frequency
             date
             tenantId
@@ -1203,6 +1223,7 @@ export const getRealEstateBankAccount = /* GraphQL */ `
           amount
           lastname
           firstname
+          rentalType
           email
           startDate
           endDate
@@ -1274,6 +1295,7 @@ export const getRealEstateBankAccount = /* GraphQL */ `
             householdWaste
             frequency
             nextDueDate
+            rentalType
             tenantId
             _version
             _deleted
@@ -1296,6 +1318,7 @@ export const getRealEstateBankAccount = /* GraphQL */ `
             rentalCharges
             managementFees
             householdWaste
+            rentalType
             frequency
             date
             tenantId
@@ -1428,6 +1451,7 @@ export const documentsByKey = /* GraphQL */ `
             amount
             lastname
             firstname
+            rentalType
             email
             startDate
             endDate
@@ -1525,6 +1549,7 @@ export const getBankMovementsByBankAccountId = /* GraphQL */ `
             amount
             lastname
             firstname
+            rentalType
             email
             startDate
             endDate
@@ -1596,6 +1621,7 @@ export const getBankMovementsByBankAccountId = /* GraphQL */ `
             rentalCharges
             managementFees
             householdWaste
+            rentalType
             frequency
             date
             tenantId
@@ -1669,6 +1695,7 @@ export const listBankMovementsByBiId = /* GraphQL */ `
             amount
             lastname
             firstname
+            rentalType
             email
             startDate
             endDate
@@ -1740,6 +1767,7 @@ export const listBankMovementsByBiId = /* GraphQL */ `
             rentalCharges
             managementFees
             householdWaste
+            rentalType
             frequency
             date
             tenantId
@@ -1810,6 +1838,7 @@ export const listRealEstatesByBankAccount = /* GraphQL */ `
             amount
             lastname
             firstname
+            rentalType
             email
             startDate
             endDate
@@ -2156,6 +2185,7 @@ export const getRealEstate = /* GraphQL */ `
         amount
         lastname
         firstname
+        rentalType
         email
         startDate
         endDate
@@ -2308,6 +2338,7 @@ export const getRealEstate = /* GraphQL */ `
           householdWaste
           frequency
           nextDueDate
+          rentalType
           infoCredit {
             borrowedCapital
             loanStartDate
@@ -2357,6 +2388,7 @@ export const getRealEstate = /* GraphQL */ `
           rentalCharges
           managementFees
           householdWaste
+          rentalType
           frequency
           date
           infoCredit {
@@ -2416,6 +2448,7 @@ export const getRealEstate = /* GraphQL */ `
             householdWaste
             frequency
             nextDueDate
+            rentalType
             tenantId
             _version
             _deleted
@@ -2514,6 +2547,7 @@ export const listRealEstates = /* GraphQL */ `
           amount
           lastname
           firstname
+          rentalType
           email
           startDate
           endDate
@@ -2585,6 +2619,7 @@ export const listRealEstates = /* GraphQL */ `
             householdWaste
             frequency
             nextDueDate
+            rentalType
             tenantId
             _version
             _deleted
@@ -2607,6 +2642,7 @@ export const listRealEstates = /* GraphQL */ `
             rentalCharges
             managementFees
             householdWaste
+            rentalType
             frequency
             date
             tenantId
@@ -2678,6 +2714,7 @@ export const syncRealEstates = /* GraphQL */ `
           amount
           lastname
           firstname
+          rentalType
           email
           startDate
           endDate
@@ -2749,6 +2786,7 @@ export const syncRealEstates = /* GraphQL */ `
             householdWaste
             frequency
             nextDueDate
+            rentalType
             tenantId
             _version
             _deleted
@@ -2771,6 +2809,7 @@ export const syncRealEstates = /* GraphQL */ `
             rentalCharges
             managementFees
             householdWaste
+            rentalType
             frequency
             date
             tenantId
@@ -2841,6 +2880,7 @@ export const getPendingInvitation = /* GraphQL */ `
           amount
           lastname
           firstname
+          rentalType
           email
           startDate
           endDate
@@ -2912,6 +2952,7 @@ export const getPendingInvitation = /* GraphQL */ `
             householdWaste
             frequency
             nextDueDate
+            rentalType
             tenantId
             _version
             _deleted
@@ -2934,6 +2975,7 @@ export const getPendingInvitation = /* GraphQL */ `
             rentalCharges
             managementFees
             householdWaste
+            rentalType
             frequency
             date
             tenantId
@@ -3011,6 +3053,7 @@ export const listPendingInvitations = /* GraphQL */ `
             amount
             lastname
             firstname
+            rentalType
             email
             startDate
             endDate
@@ -3102,6 +3145,7 @@ export const pendingInvitationsByEmail = /* GraphQL */ `
             amount
             lastname
             firstname
+            rentalType
             email
             startDate
             endDate
@@ -3191,6 +3235,7 @@ export const syncPendingInvitations = /* GraphQL */ `
             amount
             lastname
             firstname
+            rentalType
             email
             startDate
             endDate
@@ -3281,6 +3326,7 @@ export const syncDocuments = /* GraphQL */ `
             amount
             lastname
             firstname
+            rentalType
             email
             startDate
             endDate
@@ -3644,6 +3690,7 @@ export const syncBankMovements = /* GraphQL */ `
             amount
             lastname
             firstname
+            rentalType
             email
             startDate
             endDate
@@ -3715,6 +3762,7 @@ export const syncBankMovements = /* GraphQL */ `
             rentalCharges
             managementFees
             householdWaste
+            rentalType
             frequency
             date
             tenantId
@@ -3974,6 +4022,7 @@ export const syncBudgetLines = /* GraphQL */ `
         householdWaste
         frequency
         nextDueDate
+        rentalType
         infoCredit {
           borrowedCapital
           loanStartDate
@@ -4020,6 +4069,7 @@ export const syncBudgetLines = /* GraphQL */ `
             amount
             lastname
             firstname
+            rentalType
             email
             startDate
             endDate
@@ -4084,6 +4134,7 @@ export const syncBudgetLineDeadlines = /* GraphQL */ `
         rentalCharges
         managementFees
         householdWaste
+        rentalType
         frequency
         date
         infoCredit {
@@ -4123,6 +4174,7 @@ export const syncBudgetLineDeadlines = /* GraphQL */ `
             amount
             lastname
             firstname
+            rentalType
             email
             startDate
             endDate
@@ -4224,6 +4276,7 @@ export const syncBudgetLineDeadlines = /* GraphQL */ `
           householdWaste
           frequency
           nextDueDate
+          rentalType
           infoCredit {
             borrowedCapital
             loanStartDate
@@ -4662,6 +4715,7 @@ export const syncRealEstateBankAccounts = /* GraphQL */ `
             amount
             lastname
             firstname
+            rentalType
             email
             startDate
             endDate

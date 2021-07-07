@@ -33,6 +33,11 @@ const Frequency = {
   "ANNUAL": "annual"
 };
 
+const RentalType = {
+  "FURNISHED": "furnished",
+  "UNFURNISHED": "unfurnished"
+};
+
 const BankMovementStatus = {
   "UNKOWN": "Unkown",
   "AFFECTED": "Affected",
@@ -71,6 +76,7 @@ export {
   TaxType,
   BudgetLineType,
   Frequency,
+  RentalType,
   BankMovementStatus,
   InvitationType,
   SubscriptionType,

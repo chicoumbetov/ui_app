@@ -20,11 +20,8 @@ import {
   listBankAccountsByBIConnectionId,
 } from '/opt/nodejs/src/BankAccountQueries';
 import getAppSyncClient from '/opt/nodejs/src/AppSyncClient';
-import {
-  createBankAccount,
-  updateBankAccount,
-} from '/opt/nodejs/src/BankAccountMutations';
-import { createBankMovement } from '/opt/nodejs/src/BankMovementMutations';
+import { createBankAccount, updateBankAccount } from '/opt/nodejs/src/BankAccountMutations';
+import { createBankMovement, BankMovementStatus } from '/opt/nodejs/src/BankMovementMutations';
 import { TenantInfo } from '../../../../../src/API';
 import DateUtils from './DateUtils';
 
@@ -175,7 +172,7 @@ app.post('/webhooks/account-synced', async (req, res) => {
           description: transaction.original_wording,
           amount: transaction.value,
           date: transaction.date,
-
+          status: BankMovementStatus.Unkown,
         });
       }
     });

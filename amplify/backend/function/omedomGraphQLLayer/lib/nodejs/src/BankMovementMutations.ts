@@ -9,6 +9,12 @@ import {
 } from '../../../../../../../src/API';
 import { AppSyncClient } from './AppSyncClient';
 
+export enum BankMovementStatus {
+  Unkown = 'Unkown',
+  Affected = 'Affected',
+  Ignored = 'Ignored',
+}
+
 const createBankMovement = async (client: AppSyncClient, input: CreateBankMovementInput) => {
   try {
     const { data } = await client.mutate<
@@ -25,7 +31,7 @@ const createBankMovement = async (client: AppSyncClient, input: CreateBankMoveme
       biId
       description
       amount
-      ignored
+      status
       date
       _version
       _deleted
@@ -64,7 +70,7 @@ const updateBankMovement = async (client: AppSyncClient, input: UpdateBankMoveme
       biId
       description
       amount
-      ignored
+      status
       date
       _version
       _deleted

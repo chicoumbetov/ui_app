@@ -33,12 +33,7 @@ const IgnorerMouvement = () => {
   console.log(route.params);
   const { bankMouvement } = useGetBankMovementsByBankAccountId(route.params.idCompte);
   const { bankAccount } = useGetBankAccount(route.params.idCompte);
-  const movementIgnore = bankMouvement.filter((item) => {
-    if (item.ignored) {
-      return item;
-    }
-    return false;
-  });
+  const movementIgnore = bankMouvement.filter((item) => item.ignored);
   const [currentMvt, setCurrentMvt] = useState<BankMovement>();
 
   return (

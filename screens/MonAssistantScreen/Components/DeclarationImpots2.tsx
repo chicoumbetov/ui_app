@@ -22,6 +22,7 @@ import pdfGenerator from '../../../utils/pdfGenerator/pdfGenerator';
 import { pdfTemplateDeclaration } from '../../../pdfTemplates';
 import { Upload } from '../../../utils/S3FileStorage';
 import DateUtils from '../../../utils/DateUtils';
+import { RentalType } from '../../../src/API';
 
 const DeclarationImpots = () => {
   const route = useRoute<RouteProp<TabMonAssistantParamList, 'declaration-impots-2'>>();
@@ -31,6 +32,17 @@ const DeclarationImpots = () => {
   const client = useApolloClient();
   const user = useUser();
   const [newDocument, setNewDocument] = useState<DocumentItem | undefined | null>(undefined);
+
+  const { createdAt } = bienget || {};
+  console.log('bienget', bienget.budgetLineDeadlines);
+  console.log('route params', route.params);
+  // console.log('createdAt', createdAt);
+
+  bienget.budgetLineDeadlines?.items?.map((item) => {
+    if (item?.bankMouvementId) {
+      console.log('declar item:', item);
+    }
+  });
 
   useEffect(() => {
     if (route && (route.params === undefined
@@ -57,7 +69,7 @@ const DeclarationImpots = () => {
   */
 
   const paramsAskedDate = DateUtils.parseToDateObj(route.params.anneeEcheance).getFullYear();
-  const paramsCreatedDate = DateUtils.parseToDateObj(bienget.createdAt).getFullYear();
+  const paramsCreatedDate = DateUtils.parseToDateObj(createdAt).getFullYear();
 
   // console.log('date created at 2 ', paramsAskedDate);
   // console.log('date created at 333 ', paramsCreatedDate);
@@ -79,6 +91,35 @@ const DeclarationImpots = () => {
           if (document) {
             setNewDocument(document);
           } else {
+            console.log('passed data', bienget, user, route.params.anneeEcheance, previousYear);
+
+            let ratioRentalType;
+            if (
+            // bienget.typeImpot === 'revenue_tax'
+            // ||
+              bienget.ownName === true
+            ) {
+              const sumNonMeublee = bienget.budgetLineDeadlines?.items?.map((item) => {
+                if (item?.category === 'loyer' && item?.rentalType === 'unfurnished') {
+                  return item.amount;
+                }
+              }).reduce((acc, curr) => (acc || 0) + (curr || 0), 0);
+              console.log('sum non meub:', sumNonMeublee);
+
+              const totalLoyer = bienget.budgetLineDeadlines?.items?.map((item) => {
+                if (item?.category === 'loyer') {
+                  return item.amount;
+                }
+              }).reduce((acc, curr) => (acc || 0) + (curr || 0), 0);
+              console.log('total:', totalLoyer);
+
+              const householderPart = bienget.detentionPart / 100;
+              console.log('householderPart', householderPart);
+
+              const ratioRentalType = (sumNonMeublee / totalLoyer) * householderPart;
+              console.log('ratioRentalType', ratioRentalType);
+            }
+            let summ211Incomes = ;
             const result = await pdfGenerator(pdfTemplateDeclaration, {
               bienget,
               user,
@@ -112,7 +153,6 @@ const DeclarationImpots = () => {
   }, [bienget, newDocument]);
 
   return (
-  // const onPdf = () => { navigation.navigate('pdf-screen'); };
     <MaxWidthContainer
       withScrollView="keyboardAware"
       outerViewProps={{

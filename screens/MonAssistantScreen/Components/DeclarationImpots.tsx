@@ -10,10 +10,11 @@ import Form from '../../../components/Form/Form';
 import MaxWidthContainer from '../../../components/MaxWidthContainer';
 import { useRealEstateList } from '../../../src/API/RealEstate';
 import FSelect from '../../../components/Form/Select';
+import { AvailableValidationRules } from '../../../components/Form/validation';
 
 type DeclarationImpotsForm = {
   idBien: string;
-  idTenant: string;
+  // idTenant: string;
   anneeEcheance: number;
 };
 
@@ -89,6 +90,7 @@ const DeclarationImpots = () => {
             size="large"
             appearance="default"
             status="primary"
+            validators={[AvailableValidationRules.required]}
             onChangeValue={(selectedKey) => {
               if (selectedKey) {
                 const currentBien = data?.listRealEstates?.items?.filter(
@@ -120,6 +122,9 @@ const DeclarationImpots = () => {
                 keyboardType="numeric"
                 icon="calendar-outline"
                 maxLength={4}
+                validators={[
+                  AvailableValidationRules.required,
+                ]}
               />
               <View style={{ marginTop: 20, alignItems: 'flex-end' }}>
                 <Button

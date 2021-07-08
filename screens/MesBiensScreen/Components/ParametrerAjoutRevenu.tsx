@@ -36,7 +36,7 @@ type ParamBudgetForm = {
   rentalCharges: number,
   managementFees: number,
   frequency: Frequency,
-  rentalType: RentalType,
+  thisRentalType: RentalType,
   nextDueDate?: string | null,
   tenantId?: string | null,
   tenant?: {
@@ -110,8 +110,10 @@ const ParametrerAjoutRevenu = () => {
 
   const validateBudget = async (data: ParamBudgetForm) => {
     const {
-      category, amount, rentalCharges, managementFees, frequency, nextDueDate, tenant, rentalType,
+      category, amount, rentalCharges, managementFees, frequency, nextDueDate, tenant, thisRentalType,
     } = data;
+
+    console.log('data ajout revenu: ', data);
 
     if (route.params.idBudgetLine) {
       if (data.category === 'loyer' && currentBudgetLine?.tenantId) {
@@ -121,7 +123,7 @@ const ParametrerAjoutRevenu = () => {
             id: currentBudgetLine.tenantId,
             ...tenant,
             amount,
-            rentalType,
+            rentalType: thisRentalType,
           });
         }
 
@@ -133,7 +135,7 @@ const ParametrerAjoutRevenu = () => {
               amount,
               managementFees,
               rentalCharges,
-              rentalType,
+              rentalType: thisRentalType,
               frequency,
               nextDueDate,
               tenantId,
@@ -165,7 +167,7 @@ const ParametrerAjoutRevenu = () => {
         tenantId = await addTenant(bienget, {
           ...tenant,
           amount,
-          rentalType,
+          rentalType: thisRentalType,
         });
       }
 
@@ -177,7 +179,7 @@ const ParametrerAjoutRevenu = () => {
             amount,
             managementFees,
             rentalCharges,
-            rentalType,
+            rentalType: thisRentalType,
             frequency,
             nextDueDate,
             type: BudgetLineType.Income,
@@ -196,7 +198,7 @@ const ParametrerAjoutRevenu = () => {
                 type: BudgetLineType.Income,
                 category,
                 amount,
-                rentalType,
+                rentalType: thisRentalType,
                 managementFees,
                 rentalCharges,
                 frequency,
@@ -397,7 +399,7 @@ const ParametrerAjoutRevenu = () => {
                     icon="calendar-outline"
                   />
                   <Select
-                    name="rentalType"
+                    name="thisRentalType"
                     data={rentalType}
                     onChangeValue={() => setDateDerniereEcheanceShow(true)}
                     placeholder="Type de location"

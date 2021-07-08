@@ -32,6 +32,8 @@ import DateUtils from '../../utils/DateUtils';
 import { useNotificationsList } from '../../src/API/Notification';
 import NotificationCard from '../../components/NotificationCard';
 import { useListBankMovementbyListRealEstate } from '../../src/API/BankMouvement';
+import Amount from '../../components/Amount';
+import AutoAvatar from '../../components/AutoAvatar';
 
 function TableauDeBord() {
   const linkTo = useLinkTo();
@@ -93,7 +95,7 @@ function TableauDeBord() {
    *   On récupère la prochaine dépense
    */
   let minDate: Date|undefined;
-  let next: number|undefined;
+  let next: { amount: number|undefined, inconUri: string };
   if (data?.listRealEstates?.items) {
     // on boucle sur tous les real estates
     for (let i = 0; i < data?.listRealEstates.items?.length; i += 1) {
@@ -102,7 +104,7 @@ function TableauDeBord() {
         const itemDate = DateUtils.parseToDateObj(currentItem?.budgetLines?.items[0]?.nextDueDate);
         if (minDate === undefined || minDate > itemDate) {
           minDate = itemDate;
-          next = currentItem?.budgetLines?.items[0]?.amount;
+          next = { amount: currentItem?.budgetLines?.items[0]?.amount, inconUri: currentItem.iconUri };
         }
       }
     }
@@ -110,28 +112,43 @@ function TableauDeBord() {
 
   const { data: listBankMovement } = useListBankMovementbyListRealEstate(BankMovementStatus.Affected, '2021-04-01', '2021-07-01');
 
-  let dernierCredit: { amount: number, date: string, iconUri: string };
-  let dernierDebit: { amount: number, date: string, iconUri: string };
+  let dernierCredit: { amount: number, date: string, iconUri: string } = {};
+  let dernierDebit: { amount: number, date: string, iconUri: string } = {};
 
-  useEffect(() => {
-    if (listBankMovement && listBankMovement?.listRealEstates && listBankMovement?.listRealEstates.items) {
-      for (let i = 0; i < listBankMovement.listRealEstates.items.length; i += 1) {
-        const bankMovement = listBankMovement.listRealEstates.items[i];
+  if (listBankMovement
+      && listBankMovement?.listRealEstates
+      && listBankMovement?.listRealEstates.items) {
+    for (let i = 0; i < listBankMovement.listRealEstates.items.length; i += 1) {
+      const bankMovement = listBankMovement.listRealEstates.items[i];
+      if (bankMovement?.negativeMovements?.items) {
         for (let j = 0; j < bankMovement.negativeMovements.items.length; j += 1) {
           const negativeMovement = bankMovement.negativeMovements.items[j];
-          if (!dernierDebit) {
-            dernierDebit = { amount: negativeMovement.amount, date: negativeMovement.date, iconUri: bankMovement.iconUri };
-          }
-        }
-        for (let j = 0; j < bankMovement.positiveMovements.items.length; j += 1) {
-          const positiveMovements = bankMovement.positiveMovements.items[j];
-          if (!dernierCredit) {
-            dernierCredit = { amount: positiveMovements.amount, date: positiveMovements.date, iconUri: bankMovement.iconUri };
+          if (dernierDebit && dernierDebit.amount === undefined) {
+            dernierDebit = {
+              amount: negativeMovement.amount,
+              date: negativeMovement.date,
+              iconUri: bankMovement?.iconUri,
+            };
+          } else if (dernierDebit && DateUtils.parseToDateObj(dernierDebit.date).getDate() < DateUtils.parseToDateObj(negativeMovement.date).getDate()) {
+            dernierCredit = {
+              amount: negativeMovement.amount,
+              date: negativeMovement.date,
+              iconUri: bankMovement.iconUri,
+            };
           }
         }
       }
+      for (let j = 0; j < bankMovement.positiveMovements.items.length; j += 1) {
+        const positiveMovements = bankMovement.positiveMovements.items[j];
+        if (dernierCredit && dernierCredit.amount === undefined && positiveMovements) {
+          dernierCredit = { amount: positiveMovements.amount, date: positiveMovements.date, iconUri: bankMovement.iconUri };
+        } else if (dernierCredit && DateUtils.parseToDateObj(dernierCredit.date).getDate() < DateUtils.parseToDateObj(positiveMovements.date).getDate()) {
+          dernierCredit = { amount: positiveMovements.amount, date: positiveMovements.date, iconUri: bankMovement.iconUri };
+        }
+      }
     }
-  }, [listBankMovement]);
+  }
+
   console.log('dernierDebit', dernierDebit);
   console.log('dernierCredit', dernierCredit);
 
@@ -174,9 +191,17 @@ function TableauDeBord() {
           <View style={styles.oneThirdBlock}>
             <Text category="h6" appearance="hint" style={styles.text}>Dernier crédit</Text>
             <View style={styles.mouvementImage}>
-              {/* TODO */}
-              <Text category="h3" status="success">+ 500 €</Text>
-              <MaisonVert height={42} width={44} />
+              <Amount category="h3" amount={dernierCredit.amount || 0} />
+              <AutoAvatar
+                avatarInfo={dernierCredit.iconUri || ''}
+                style={{
+                  height: 42,
+                  width: 44,
+                  marginRight: 10,
+                  borderRadius: 20,
+                  overflow: 'hidden',
+                }}
+              />
             </View>
           </View>
 
@@ -184,9 +209,17 @@ function TableauDeBord() {
             <Text category="h6" appearance="hint" style={styles.text}>Dernier débit</Text>
 
             <View style={styles.mouvementImage}>
-              {/* TODO */}
-              <Text category="h3" status="danger">- 80 €</Text>
-              <Immeuble height={42} width={44} />
+              <Amount category="h3" amount={dernierDebit.amount || 0} />
+              <AutoAvatar
+                avatarInfo={dernierDebit.iconUri || ''}
+                style={{
+                  height: 42,
+                  width: 44,
+                  marginRight: 10,
+                  borderRadius: 20,
+                  overflow: 'hidden',
+                }}
+              />
             </View>
           </View>
 
@@ -195,8 +228,17 @@ function TableauDeBord() {
               Prochain mouvement
             </Text>
             <View style={styles.mouvementImage}>
-              <Text category="h3" status="danger">{`${Math.round(next * 100) / 100 || '0'} €`}</Text>
-              <MaisonVert height={42} width={44} />
+              <Amount category="h3" amount={Math.round(next.amount * 100) / 100 || 0} />
+              <AutoAvatar
+                avatarInfo={next.inconUri || ''}
+                style={{
+                  height: 42,
+                  width: 44,
+                  marginRight: 10,
+                  borderRadius: 20,
+                  overflow: 'hidden',
+                }}
+              />
             </View>
           </View>
 

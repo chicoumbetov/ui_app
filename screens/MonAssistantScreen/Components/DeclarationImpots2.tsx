@@ -93,7 +93,10 @@ const DeclarationImpots = () => {
           } else {
             console.log('passed data', bienget, user, route.params.anneeEcheance, previousYear);
 
-
+            let ratioRentalPart: number;
+            let totalLoyer: number;
+            let totalCaf: number;
+            let totalExpense: number;
             if (
             // bienget.typeImpot === 'revenue_tax'
             // ||
@@ -106,20 +109,36 @@ const DeclarationImpots = () => {
               }).reduce((acc, curr) => (acc || 0) + (curr || 0), 0);
               console.log('sum non meub:', sumNonMeublee);
 
-              const totalLoyer = bienget.budgetLineDeadlines?.items?.map((item) => {
+              totalLoyer = bienget.budgetLineDeadlines?.items?.map((item) => {
                 if (item?.category === 'loyer') {
                   return item.amount;
                 }
               }).reduce((acc, curr) => (acc || 0) + (curr || 0), 0);
-              console.log('total:', totalLoyer);
+              console.log('totalLoyer:', totalLoyer);
 
-              const householderPart = bienget.detentionPart / 100;
+              totalCaf = bienget.budgetLineDeadlines?.items?.map((item) => {
+                if (item?.category === 'caf') {
+                  return item.amount;
+                }
+              }).reduce((acc, curr) => (acc || 0) + (curr || 0), 0);
+
+              totalExpense = bienget.budgetLineDeadlines?.items?.map((item) => {
+                if (item?.type === 'Expense') {
+                  return item.amount;
+                }
+              }).reduce((acc, curr) => (acc || 0) + (curr || 0), 0);
+
+              const householderPart = (bienget.detentionPart || 0) / 100;
               console.log('householderPart', householderPart);
 
-              const ratioRentalType = (sumNonMeublee / totalLoyer) * householderPart;
-              console.log('ratioRentalType', ratioRentalType);
+              ratioRentalPart = ((sumNonMeublee || 0) / totalLoyer) * householderPart;
             }
-            let summ211Incomes;
+            console.log('ratioRentalPart', ratioRentalPart);
+            console.log('totalLoyer', totalLoyer);
+            console.log('totalCaf', totalCaf);
+            console.log('total:', totalExpense);
+            const summ211Incomes = ratioRentalPart * totalLoyer;
+            console.log('summ211Incomes', summ211Incomes);
             const result = await pdfGenerator(pdfTemplateDeclaration, {
               bienget,
               user,

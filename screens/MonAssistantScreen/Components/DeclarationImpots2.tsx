@@ -93,7 +93,7 @@ const DeclarationImpots = () => {
           } else {
             console.log('passed data', bienget, user, route.params.anneeEcheance, previousYear);
 
-            let ratioRentalType;
+            
             if (
             // bienget.typeImpot === 'revenue_tax'
             // ||

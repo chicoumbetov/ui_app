@@ -14,7 +14,7 @@ import Select from '../../../components/Form/Select';
 import { frequence, rentalType, typeRevenu } from '../../../mockData/ajoutRevenuData';
 import Form from '../../../components/Form/Form';
 import MaxWidthContainer from '../../../components/MaxWidthContainer';
-import { BudgetLineType, Frequency } from '../../../src/API';
+import { BudgetLineType, Frequency, RentalType } from '../../../src/API';
 import TextInput from '../../../components/Form/TextInput';
 import { TabMesBiensParamList } from '../../../types';
 import CompteHeader from '../../../components/CompteHeader/CompteHeader';
@@ -36,6 +36,7 @@ type ParamBudgetForm = {
   rentalCharges: number,
   managementFees: number,
   frequency: Frequency,
+  rentalType: RentalType,
   nextDueDate?: string | null,
   tenantId?: string | null,
   tenant?: {
@@ -109,7 +110,7 @@ const ParametrerAjoutRevenu = () => {
 
   const validateBudget = async (data: ParamBudgetForm) => {
     const {
-      category, amount, rentalCharges, managementFees, frequency, nextDueDate, tenant,
+      category, amount, rentalCharges, managementFees, frequency, nextDueDate, tenant, rentalType,
     } = data;
 
     if (route.params.idBudgetLine) {
@@ -120,6 +121,7 @@ const ParametrerAjoutRevenu = () => {
             id: currentBudgetLine.tenantId,
             ...tenant,
             amount,
+            rentalType,
           });
         }
 
@@ -131,6 +133,7 @@ const ParametrerAjoutRevenu = () => {
               amount,
               managementFees,
               rentalCharges,
+              rentalType,
               frequency,
               nextDueDate,
               tenantId,
@@ -162,6 +165,7 @@ const ParametrerAjoutRevenu = () => {
         tenantId = await addTenant(bienget, {
           ...tenant,
           amount,
+          rentalType,
         });
       }
 
@@ -173,6 +177,7 @@ const ParametrerAjoutRevenu = () => {
             amount,
             managementFees,
             rentalCharges,
+            rentalType,
             frequency,
             nextDueDate,
             type: BudgetLineType.Income,
@@ -191,6 +196,7 @@ const ParametrerAjoutRevenu = () => {
                 type: BudgetLineType.Income,
                 category,
                 amount,
+                rentalType,
                 managementFees,
                 rentalCharges,
                 frequency,

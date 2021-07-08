@@ -592,6 +592,7 @@ input UpdateBudgetLineInput {
     rentalCharges: Float
     managementFees: Float
     householdWaste: Float
+    rentalType: RentalType
     frequency: Frequency
     nextDueDate: AWSDate
     infoCredit: MortgageLoanInfoInput
@@ -632,6 +633,7 @@ input UpdateBudgetLineDeadlineInput {
     rentalCharges: Float
     managementFees: Float
     householdWaste: Float
+    rentalType: RentalType
     frequency: Frequency
     date: AWSDate
     infoCredit: MortgageLoanDeadlineInfoInput

@@ -10443,6 +10443,15 @@
           },
           "defaultValue" : null
         }, {
+          "name" : "rentalType",
+          "description" : null,
+          "type" : {
+            "kind" : "ENUM",
+            "name" : "RentalType",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
           "name" : "frequency",
           "description" : null,
           "type" : {
@@ -10751,6 +10760,15 @@
           "type" : {
             "kind" : "SCALAR",
             "name" : "Float",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "rentalType",
+          "description" : null,
+          "type" : {
+            "kind" : "ENUM",
+            "name" : "RentalType",
             "ofType" : null
           },
           "defaultValue" : null
@@ -16231,14 +16249,6 @@
         "onFragment" : false,
         "onField" : false
       }, {
-        "name" : "aws_lambda",
-        "description" : "Tells the service this field/object has access authorized by a Lambda Authorizer.",
-        "locations" : [ "OBJECT", "FIELD_DEFINITION" ],
-        "args" : [ ],
-        "onOperation" : false,
-        "onFragment" : false,
-        "onField" : false
-      }, {
         "name" : "deprecated",
         "description" : null,
         "locations" : [ "FIELD_DEFINITION", "ENUM_VALUE" ],
@@ -16252,6 +16262,14 @@
           },
           "defaultValue" : "\"No longer supported\""
         } ],
+        "onOperation" : false,
+        "onFragment" : false,
+        "onField" : false
+      }, {
+        "name" : "aws_lambda",
+        "description" : "Tells the service this field/object has access authorized by a Lambda Authorizer.",
+        "locations" : [ "OBJECT", "FIELD_DEFINITION" ],
+        "args" : [ ],
         "onOperation" : false,
         "onFragment" : false,
         "onField" : false

@@ -11,7 +11,7 @@ import {
   GetBankMovementQuery,
   GetBankMovementQueryVariables,
   UpdateBankMovementMutation,
-  UpdateBankMovementMutationVariables,
+  UpdateBankMovementMutationVariables, BankMovementStatus,
 } from '../API';
 import * as mutations from '../graphql/mutations';
 
@@ -104,7 +104,7 @@ $nextToken: String
 
 const getBankMovementQuery = <DocumentNode>gql(getBankMovement);
 
-export function useGetBankMovementsByBankAccountId(bankAccountId: string) {
+export function useGetBankMovementsByBankAccountId(bankAccountId: string, status: BankMovementStatus) {
   const {
     loading, data, fetchMore, refetch,
   } = useQuery<
@@ -113,6 +113,11 @@ export function useGetBankMovementsByBankAccountId(bankAccountId: string) {
   >(getBankMovementsByBankAccountIdQuery, {
     variables: {
       bankAccountId,
+      statusDate: {
+        beginsWith: {
+          status,
+        },
+      },
     },
   });
 
@@ -237,7 +242,7 @@ export type GetMovementByRealEstateQuery = {
 const listBankMovementsByRealEstateQuery = <DocumentNode>gql(`query listBankMovementsByRealEstateQuery($id: ID!, $start: String!, $end: String!) {
   getRealEstate(id: $id) {
     id
-    bankMovements(sortDirection: DESC, date: {between: [$start, $end]}, filter: {status: {ne: Ignored}}) {
+    bankMovements(sortDirection: DESC, date: {between: [$start, $end]}, filter: {status: {ne: "Ignored"}}) {
       items {
         _deleted
         _lastChangedAt

@@ -56,13 +56,10 @@ const MonBien = (props: MonBienProps) => {
    *   Rentabilité
    *
    */
-  let rentability;
-  if (bienget) {
-    rentability = useRentability(
-      budgetLineDeadlines?.items,
-      (bienget.purchasePrice || 0) + (bienget.notaryFee || 0),
-    );
-  }
+  const rentability = useRentability(
+    budgetLineDeadlines?.items,
+    (bienget?.purchasePrice || 0) + (bienget?.notaryFee || 0),
+  );
 
   // console.log('renta', rentability);
 

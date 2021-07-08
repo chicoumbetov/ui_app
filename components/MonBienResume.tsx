@@ -10,10 +10,11 @@ import CompteHeader from './CompteHeader/CompteHeader';
 
 import { MonBienProps } from '../types';
 import Card from './Card';
-import { useGetRealEstate } from '../src/API/RealEstate';
-import { BudgetLineType, RealEstate } from '../src/API';
+import { useGetRealEstate, useRentability } from '../src/API/RealEstate';
+import { BankMovementStatus, BudgetLineType, RealEstate } from '../src/API';
 import DateUtils from '../utils/DateUtils';
 import Amount from './Amount';
+import Percentage from './Percentage';
 
 const MonBienResume = (props: MonBienProps) => {
   const { biens } = props;
@@ -29,6 +30,17 @@ const MonBienResume = (props: MonBienProps) => {
   const allerDetailsBien = (id: string) => {
     linkTo(`/mes-biens/bien/${id}`);
   };
+
+  const { budgetLineDeadlines } = bienget || {};
+
+  /*
+    *   Rentabilité
+    *
+    */
+  const rentability = useRentability(
+    budgetLineDeadlines?.items,
+    (bienget?.purchasePrice || 0) + (bienget?.notaryFee || 0),
+  );
 
   /**
      *   Summarizing of each expenses and incomes
@@ -56,8 +68,8 @@ const MonBienResume = (props: MonBienProps) => {
   const nextexpense = allDataNextExpense?.map((d) => d?.amount)
     .find((m) => m);
 
-  const dernierMovement = bienCharger?.bankMovements?.items?.map(
-    (item) => { if (item?.ignored) { return false; } return item; },
+  const dernierMovement = bienCharger?.bankMovements?.items?.find(
+    (item) => { if (item?.status === BankMovementStatus.Ignored) { return false; } return true; },
   );
 
   return (
@@ -111,11 +123,7 @@ const MonBienResume = (props: MonBienProps) => {
             </View>
 
             <Text category="h5" status="success">
-              {dernierMovement ? (
-                <Amount amount={dernierMovement[0]?.amount || 0} category="h4" />
-              ) : (
-                <Amount amount={0} category="h4" />
-              )}
+              <Amount amount={dernierMovement?.amount || 0} category="h4" />
             </Text>
           </View>
         </View>
@@ -136,7 +144,7 @@ const MonBienResume = (props: MonBienProps) => {
             fill="#b5b5b5"
             style={{ height: 16, width: 16 }}
           />
-          <Text category="h3" status="danger">{`${(nextexpense) || '0'} €`}</Text>
+          <Amount category="h3" amount={nextexpense || 0} />
         </View>
 
         {/**
@@ -151,7 +159,7 @@ const MonBienResume = (props: MonBienProps) => {
             fill="#b5b5b5"
             style={{ height: 18, width: 18, marginRight: 2 }}
           />
-          <Text category="h3" status="warning">60 %</Text>
+          <Percentage amount={rentability} category="h3" status="warning" />
         </View>
 
       </View>

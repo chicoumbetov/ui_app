@@ -11,7 +11,7 @@ import { RouteProp } from '@react-navigation/core/lib/typescript/src/types';
 
 import { MotiView } from 'moti';
 import Select from '../../../components/Form/Select';
-import { frequence, typeRevenu } from '../../../mockData/ajoutRevenuData';
+import { frequence, rentalType, typeRevenu } from '../../../mockData/ajoutRevenuData';
 import Form from '../../../components/Form/Form';
 import MaxWidthContainer from '../../../components/MaxWidthContainer';
 import { BudgetLineType, Frequency } from '../../../src/API';
@@ -392,7 +392,7 @@ const ParametrerAjoutRevenu = () => {
                   />
                   <Select
                     name="rentalType"
-                    data={frequence}
+                    data={rentalType}
                     onChangeValue={() => setDateDerniereEcheanceShow(true)}
                     placeholder="Type de location"
                     size="large"

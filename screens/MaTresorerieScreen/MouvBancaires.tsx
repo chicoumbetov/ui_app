@@ -8,12 +8,10 @@ import React, { useEffect, useState } from 'react';
 import {
   Button, CheckBox, Text, useTheme,
 } from '@ui-kitten/components';
-import {
-  TouchableOpacity, View,
-} from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 
 import { Icon as IconUIKitten } from '@ui-kitten/components/ui/icon/icon.component';
-import { useLinkTo, useNavigation, useRoute } from '@react-navigation/native';
+import { useLinkTo, useRoute } from '@react-navigation/native';
 import { RouteProp } from '@react-navigation/core/lib/typescript/src/types';
 import moment from 'moment';
 import CompteHeader from '../../components/CompteHeader/CompteHeader';
@@ -26,12 +24,16 @@ import { TabMaTresorerieParamList } from '../../types';
 import { useGetRealEstate } from '../../src/API/RealEstate';
 import {
   BankAccount,
-  BankMovement, BankMovementStatus, BudgetLineDeadline, BudgetLineType,
+  BankMovement,
+  BankMovementStatus,
+  BudgetLineDeadline,
+  BudgetLineType,
 } from '../../src/API';
 import Separator from '../../components/Separator';
 import Amount from '../../components/Amount';
 import {
-  useGetBankMovementsByBankAccountId, useUpdateBankMovement,
+  useGetBankMovementsByBankAccountId,
+  useUpdateBankMovement,
 } from '../../src/API/BankMouvement';
 import { useGetBankAccount } from '../../src/API/BankAccount';
 
@@ -41,24 +43,17 @@ const MouvBancaires = () => {
   const route = useRoute<RouteProp<TabMaTresorerieParamList, 'mouv-bancaires'>>();
   const { bienget } = useGetRealEstate(route.params.id);
   const {
-    bankMouvement, fetchMoreBankMovements, nextToken,
-  } = useGetBankMovementsByBankAccountId(route.params.idCompte);
+    bankMouvement: movementPasAffect, fetchMoreBankMovements, nextToken,
+  } = useGetBankMovementsByBankAccountId(route.params.idCompte, BankMovementStatus.Unkown);
   const { bankAccount } = useGetBankAccount(route.params.idCompte);
   const useUpdateBankMouvement = useUpdateBankMovement();
 
-  const [bankMovementCharger, setBankMovementCharger] = useState<BankMovement[]>();
   const [bankAccountCharger, setBankAccountCharger] = useState<BankAccount>();
 
   useEffect(() => {
     setBankAccountCharger(bankAccount);
   }, [bankAccount]);
 
-  useEffect(() => {
-    setBankMovementCharger(bankMouvement);
-  }, [bankMouvement]);
-  // console.log(bankMouvement);
-
-  const movementPasAffect = bankMovementCharger?.filter((item) => item.status === BankMovementStatus.Unkown);
   // console.log('movementPasAffect :', movementPasAffect);
 
   // const [compte] = useState(comptesData);

@@ -1,11 +1,6 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import {
-  Text,
-} from '@ui-kitten/components';
-import {
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import React, { useMemo, useState } from 'react';
+import { Text } from '@ui-kitten/components';
+import { TouchableOpacity, View } from 'react-native';
 
 import { useRoute } from '@react-navigation/native';
 import { RouteProp } from '@react-navigation/core/lib/typescript/src/types';
@@ -19,13 +14,14 @@ import MaxWidthContainer from '../../components/MaxWidthContainer';
 import { TabMaTresorerieParamList } from '../../types';
 import { useGetBankMovementsByBankAccountId } from '../../src/API/BankMouvement';
 import { useGetBankAccount } from '../../src/API/BankAccount';
-import { BankMovement } from '../../src/API';
+import { BankMovement, BankMovementStatus } from '../../src/API';
 import Card from '../../components/Card';
 import Amount from '../../components/Amount';
 import MouvementAffecter from './Components/MouvementAffecter';
 import ActionSheet from '../../components/ActionSheet/ActionSheet';
 import {
-  typeAssurance, typeBanque,
+  typeAssurance,
+  typeBanque,
   typeCharge,
   typeDivers,
   typeImpots,
@@ -38,7 +34,7 @@ const AffecterMouvement = () => {
   // const [client] = useState(comptesData);
   const route = useRoute<RouteProp<TabMaTresorerieParamList, 'affecter-mouvement'>>();
   const { bienget } = useGetRealEstate(route.params.id);
-  const { bankMouvement, refetch } = useGetBankMovementsByBankAccountId(route.params.idCompte);
+  const { bankMouvement: movementAffecte, refetch } = useGetBankMovementsByBankAccountId(route.params.idCompte, BankMovementStatus.Affected);
   const { bankAccount } = useGetBankAccount(route.params.idCompte);
 
   const allPossibleTypes = {};
@@ -46,12 +42,6 @@ const AffecterMouvement = () => {
     typeImpots,
     typeRevenu,
     typeAssurance, typeDivers, typeBanque);
-
-  const { movementAffecte } = useMemo(() => {
-    const currentMovementAffecteInternal = bankMouvement.filter((item) => (item.budgetLineDeadlines?.items && item.budgetLineDeadlines?.items?.length > 0 && item.realEstateId === route.params.id));
-
-    return { movementAffecte: currentMovementAffecteInternal };
-  }, [bankMouvement]);
 
   const [currentMvt, setCurrentMvt] = useState<BankMovement>();
 

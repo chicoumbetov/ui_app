@@ -11,26 +11,30 @@ import {
   GetBankMovementQuery,
   GetBankMovementQueryVariables,
   UpdateBankMovementMutation,
-  UpdateBankMovementMutationVariables, BankMovementStatus,
+  UpdateBankMovementMutationVariables,
+  BankMovementStatus,
+  ModelBankMovementBankMovementsByBankAccountCompositeKeyConditionInput,
+  ModelSortDirection,
+  ModelBankMovementFilterInput,
 } from '../API';
 import * as mutations from '../graphql/mutations';
 
 const getBankMovementsByBankAccountIdQuery = <DocumentNode>gql(`query GetBankMovementsByBankAccountId(
     $bankAccountId: ID
-$date: ModelStringKeyConditionInput
-$sortDirection: ModelSortDirection
-$filter: ModelBankMovementFilterInput
-$limit: Int
-$nextToken: String
-) {
-  getBankMovementsByBankAccountId(
+    $statusDate: ModelBankMovementBankMovementsByBankAccountCompositeKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelBankMovementFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    getBankMovementsByBankAccountId(
       bankAccountId: $bankAccountId
-  date: $date
-  sortDirection: $sortDirection
-  filter: $filter
-  limit: $limit
-  nextToken: $nextToken
-) {
+      statusDate: $statusDate
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
     items {
       id
       bankAccountId
@@ -212,9 +216,12 @@ export function useGetBankMouvement(id: string) {
 }
 
 export type GetMovementByRealEstateQueryVariables = {
-  id: string,
-  start: string,
-  end: string
+  realEstateId?: string | null,
+  statusDate?: ModelBankMovementBankMovementsByBankAccountCompositeKeyConditionInput | null,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelBankMovementFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
 };
 
 export type GetMovementByRealEstateQuery = {
@@ -239,10 +246,31 @@ export type GetMovementByRealEstateQuery = {
   } | null,
 };
 
-const listBankMovementsByRealEstateQuery = <DocumentNode>gql(`query listBankMovementsByRealEstateQuery($id: ID!, $start: String!, $end: String!) {
-  getRealEstate(id: $id) {
+const listBankMovementsByRealEstateQueryTest = <DocumentNode>gql(`
+query listBankMovementsByRealEstateQuery(
+    $statusDate: ModelBankMovementBankMovementsByRealEstateCompositeKeyConditionInput
+  ) {
+    listRealEstates {
+    items {
+      id
+      bankMovements(sortDirection: DESC, statusDate: $statusDate) {
+        items {
+          amount
+          date
+        }
+      }
+    }
+  }
+}
+
+`); const listBankMovementsByRealEstateQuery = <DocumentNode>gql(`
+query listBankMovementsByRealEstateQuery(
+    $realEstateId: ID!
+    $statusDate: ModelBankMovementBankMovementsByRealEstateCompositeKeyConditionInput
+  ) {
+  getRealEstate(id: $realEstateId) {
     id
-    bankMovements(sortDirection: DESC, date: {between: [$start, $end]}, filter: {status: {ne: "Ignored"}}) {
+    bankMovements: bankMovements(sortDirection: DESC, statusDate:  $statusDate, limit: 1000) {
       items {
         _deleted
         _lastChangedAt
@@ -258,18 +286,24 @@ const listBankMovementsByRealEstateQuery = <DocumentNode>gql(`query listBankMove
     }
   }
 }
+
 `);
 
-export function useListBankMovement(id: string, start: string, end: string) {
+export function useListBankMovement(realEstateId: string, status: BankMovementStatus, date: string) {
   const {
     loading, data, fetchMore, refetch,
   } = useQuery<
   GetMovementByRealEstateQuery, GetMovementByRealEstateQueryVariables
   >(listBankMovementsByRealEstateQuery, {
     variables: {
-      id,
-      start,
-      end,
+      realEstateId,
+      statusDate: {
+        beginsWith: {
+          status,
+          date,
+        },
+      },
+
     },
   });
   // console.log('useListBankMovement data: ', data, loading);

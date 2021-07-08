@@ -2,13 +2,20 @@ import React, { useMemo, useState } from 'react';
 import { ScrollView, View } from 'react-native';
 import { Text, useTheme } from '@ui-kitten/components';
 import {
-  VictoryAxis, VictoryBar, VictoryChart, VictoryGroup, VictoryLabel, VictoryLine, VictoryScatter,
+  VictoryAxis,
+  VictoryBar,
+  VictoryChart,
+  VictoryGroup,
+  VictoryLabel,
+  VictoryLine,
+  VictoryScatter,
 } from 'victory-native';
 import moment from 'moment';
 import VisibilitySensor from '@svanboxel/visibility-sensor-react-native';
 import { MotiView } from 'moti';
 import DateUtils from '../../utils/DateUtils';
 import { useListBankMovement } from '../../src/API/BankMouvement';
+import { BankMovementStatus } from '../../src/API';
 
 type GraphicsIIProps = {
   dateStart: Date;
@@ -21,7 +28,8 @@ const GraphicsII = (props: GraphicsIIProps) => {
   const start = moment(dateStart).format('YYYY-MM-DD').toString();
   const end = moment(dateEnd).format('YYYY-MM-DD').toString();
   // console.log(start, end, id);
-  const listBankMovement = useListBankMovement(id, start, end);
+  const listBankMovement = useListBankMovement(id, BankMovementStatus.Affected, '2021');
+  console.log('listBankmovemenrt: ', listBankMovement);
 
   moment.locale('fr');
 

@@ -25,7 +25,7 @@ const OwnerCompte = (props: MonBienProps) => {
   const linkTo = useLinkTo();
   const [checked, setChecked] = useState(false);
 
-  const { bankMouvement } = useGetBankMovementsByBankAccountId(compte.id);
+  const { bankMouvement: movementPasAffect } = useGetBankMovementsByBankAccountId(compte.id, BankMovementStatus.Unkown);
   // console.log('compte :', compte.realEstates?.items?.filter((item) => !item._deleted));
   let bankAccountRealEstatate = false;
   if (compte.realEstates) {
@@ -34,7 +34,7 @@ const OwnerCompte = (props: MonBienProps) => {
       if (!item?._deleted) { bankAccountRealEstatate = true; }
     });
   }
-  const movementPasAffect = bankMouvement?.filter((item) => item.status === BankMovementStatus.Unkown);
+
   let nbNotif = 0;
   if (movementPasAffect) {
     nbNotif = movementPasAffect.length;

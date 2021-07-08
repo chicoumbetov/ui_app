@@ -1,10 +1,6 @@
 import React, { useState } from 'react';
-import {
-  Text,
-} from '@ui-kitten/components';
-import {
-  TouchableOpacity, View,
-} from 'react-native';
+import { Text } from '@ui-kitten/components';
+import { TouchableOpacity, View } from 'react-native';
 
 import { useRoute } from '@react-navigation/native';
 import { RouteProp } from '@react-navigation/core/lib/typescript/src/types';
@@ -30,11 +26,10 @@ const IgnorerMouvement = () => {
   // const [client] = useState(comptesData);
   const route = useRoute<RouteProp<TabMaTresorerieParamList, 'ignorer-mouvement'>>();
   const { bienget } = useGetRealEstate(route.params.id);
-  console.log(route.params);
-  const { bankMouvement } = useGetBankMovementsByBankAccountId(route.params.idCompte);
+  const { bankMouvement: movementIgnore } = useGetBankMovementsByBankAccountId(route.params.idCompte, BankMovementStatus.Ignored);
   const { bankAccount } = useGetBankAccount(route.params.idCompte);
-  const movementIgnore = bankMouvement.filter((item) => item.status === BankMovementStatus.Ignored);
   const [currentMvt, setCurrentMvt] = useState<BankMovement>();
+  console.log(movementIgnore);
 
   return (
     <>
@@ -66,66 +61,71 @@ const IgnorerMouvement = () => {
         >
           Mouvements ignorés
         </Text>
-        <Text category="p1" appearance="hint">
-          Vous pouvez affecter ou ignorer les mouvements bancaires liés à ce compte bancaire.
-        </Text>
         <View
           style={{ marginBottom: 40 }}
         >
-          {movementIgnore.map((item) => (
-            <Card
-              key={item.id}
-              style={{
-                marginVertical: 10,
-                flexDirection: 'row',
-                alignItems: 'center',
-                backgroundColor: 'f4f4f4',
-              }}
-            >
-
-              <TouchableOpacity
-                onPress={() => { setCurrentMvt(item); }}
-                style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}
+          {movementIgnore && movementIgnore.length > 0 ? (
+            movementIgnore.map((item) => (
+              <Card
+                key={item.id}
+                style={{
+                  marginVertical: 10,
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  backgroundColor: 'f4f4f4',
+                }}
               >
-                <View
-                  style={{
-                    flex: 1,
-                    alignItems: 'flex-start',
-                    marginLeft: 20,
-                  }}
-                >
-                  <Text
-                    style={{ justifyContent: 'center' }}
-                    category="h5"
-                    status="basic"
-                  >
-                    {item.amount}
-                  </Text>
-                  <Text
-                    style={{ justifyContent: 'center' }}
-                    category="h6"
-                    appearance="hint"
-                  >
-                    Ignoré
-                  </Text>
-                </View>
 
-                <View
-                  style={{
-                    flex: 1,
-                    alignItems: 'center',
-                    flexDirection: 'column',
-                    justifyContent: 'space-evenly',
-                    paddingLeft: 10,
-                  }}
+                <TouchableOpacity
+                  onPress={() => { setCurrentMvt(item); }}
+                  style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}
                 >
-                  <Text category="h6" status="basic">{`${moment(item.date).format('DD/MM/YYYY')}`}</Text>
-                  <Text category="p1" appearance="hint">{item.description || ''}</Text>
-                </View>
+                  <View
+                    style={{
+                      flex: 1,
+                      alignItems: 'flex-start',
+                      marginLeft: 20,
+                    }}
+                  >
+                    <Text
+                      style={{ justifyContent: 'center' }}
+                      category="h5"
+                      status="basic"
+                    >
+                      {item.amount}
+                    </Text>
+                    <Text
+                      style={{ justifyContent: 'center' }}
+                      category="h6"
+                      appearance="hint"
+                    >
+                      Ignoré
+                    </Text>
+                  </View>
 
-              </TouchableOpacity>
-            </Card>
-          ))}
+                  <View
+                    style={{
+                      flex: 1,
+                      alignItems: 'center',
+                      flexDirection: 'column',
+                      justifyContent: 'space-evenly',
+                      paddingLeft: 10,
+                    }}
+                  >
+                    <Text category="h6" status="basic">{`${moment(item.date).format('DD/MM/YYYY')}`}</Text>
+                    <Text category="p1" appearance="hint">{item.description || ''}</Text>
+                  </View>
+
+                </TouchableOpacity>
+              </Card>
+            ))
+          ) : (
+
+            <Text category="p1" appearance="hint">
+              Aucun mouvement ignoré.
+            </Text>
+          )}
+
         </View>
       </MaxWidthContainer>
       <ActionSheet

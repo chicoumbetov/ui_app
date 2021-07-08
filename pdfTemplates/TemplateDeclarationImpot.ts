@@ -1,6 +1,6 @@
 /**
  * Exemple d'un template mushtache
-*/
+ */
 // eslint-disable-next-line import/prefer-default-export
 export const pdfTemplateDeclaration = `
 <style>
@@ -66,16 +66,13 @@ export const pdfTemplateDeclaration = `
           <td>
             <p>{{user.user.firstname}} {{user.user.lastname}}</p>
             <p>56116589651</p>
-            <p>{{bien.address.address}}</p>
-            <p>{{bien.address.postalCode}} {{bien.address.city}}</p>
+            <p>{{bienget.address.address}}</p>
+            <p>{{bienget.address.postalCode}} {{bienget.address.city}}</p>
           </td>
         </tr>
       </table>
-  
-    <div class="header">
-          <h3>PROPOSITION DE DECLARATION DES REVENUS FONCIERS</h3>
-    </div>
-    <table class="header">
+      
+      <table class="header">
       <tr>
         <td>
           <p>Réf.</p>
@@ -95,6 +92,11 @@ export const pdfTemplateDeclaration = `
         </td>
       </tr>
     </table>
+  
+    <div class="header">
+          <h3>PROPOSITION DE DECLARATION DES REVENUS FONCIERS</h3>
+    </div>
+    
       <table >
   
         <tbody >

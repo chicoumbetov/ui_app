@@ -169,6 +169,8 @@ function AjoutBienScreen() {
   const [statutShow, setStatutShow] = useState(false);
   const [pourcentageDetentionShow, setPourcentageDetentionShow] = useState(false);
 
+  const [socialTaxShow, setSocialTaxShow] = React.useState(false);
+
   const route = useRoute<RouteProp<TabMesBiensParamList, 'ajout-bien-screen'> | RouteProp<TabMesBiensParamList, 'modifier-characteristique'>>();
   let currentRealEstate: RealEstate | undefined;
   let detentionPartDefault : string;
@@ -571,8 +573,34 @@ function AjoutBienScreen() {
             {statutShow
               && (
               <View style={{ height: 125 }}>
-                <SelectComp name="company" data={typeStatutArray} placeholder="Status" size="large" appearance="default" status="primary" validators={[AvailableValidationRules.required]} />
-                <SelectComp name="typeImpot" data={typeImpotArray} placeholder="Type d'imposition" size="large" appearance="default" status="primary" validators={[AvailableValidationRules.required]} />
+                <SelectComp
+                  name="company"
+                  data={typeStatutArray}
+                  placeholder="Status"
+                  size="large"
+                  appearance="default"
+                  status="primary"
+                  onChangeValue={(value) => {
+                    if (value === 'sas' || value === 'sarl_classique') {
+                      ajoutBienForm.setValue('typeImpot', 'social_tax');
+                      ajoutBienForm.setValue('typeImpot', 'social_tax');
+                      setSocialTaxShow(true);
+                    } else {
+                      setSocialTaxShow(false);
+                    }
+                  }}
+                  validators={[AvailableValidationRules.required]}
+                />
+                <SelectComp
+                  name="typeImpot"
+                  data={typeImpotArray}
+                  placeholder="Type d'imposition"
+                  disabled={socialTaxShow}
+                  size="large"
+                  appearance="default"
+                  status="primary"
+                  validators={[AvailableValidationRules.required]}
+                />
               </View>
               )}
 

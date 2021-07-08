@@ -489,7 +489,7 @@ const ParametrerAjoutCharges = () => {
                         keyboardType="numeric"
                         validators={
                         [AvailableValidationRules.required, AvailableValidationRules.float]
-                      }
+                        }
                       />
                       <Text category="h4" style={{ marginLeft: 19 }}>%</Text>
                     </View>

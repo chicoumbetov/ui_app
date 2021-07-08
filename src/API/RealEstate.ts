@@ -328,6 +328,7 @@ export const getRealEstateQuery = <DocumentNode>gql(`
           category
           amount
           rentalCharges
+          rentalType
           managementFees
           householdWaste
           frequency

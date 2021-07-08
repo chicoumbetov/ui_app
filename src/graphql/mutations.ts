@@ -5207,7 +5207,7 @@ export const createBillingHistory = /* GraphQL */ `
     createBillingHistory(input: $input, condition: $condition) {
       id
       userId
-      date
+      createdAt
       nextRenewDate
       subscription
       amount
@@ -5215,7 +5215,6 @@ export const createBillingHistory = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
-      createdAt
       updatedAt
       user {
         id
@@ -5257,7 +5256,7 @@ export const updateBillingHistory = /* GraphQL */ `
     updateBillingHistory(input: $input, condition: $condition) {
       id
       userId
-      date
+      createdAt
       nextRenewDate
       subscription
       amount
@@ -5265,7 +5264,6 @@ export const updateBillingHistory = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
-      createdAt
       updatedAt
       user {
         id
@@ -5307,7 +5305,7 @@ export const deleteBillingHistory = /* GraphQL */ `
     deleteBillingHistory(input: $input, condition: $condition) {
       id
       userId
-      date
+      createdAt
       nextRenewDate
       subscription
       amount
@@ -5315,7 +5313,6 @@ export const deleteBillingHistory = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
-      createdAt
       updatedAt
       user {
         id

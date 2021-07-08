@@ -4433,7 +4433,7 @@ export const onCreateBillingHistory = /* GraphQL */ `
     onCreateBillingHistory(userId: $userId) {
       id
       userId
-      date
+      createdAt
       nextRenewDate
       subscription
       amount
@@ -4441,7 +4441,6 @@ export const onCreateBillingHistory = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
-      createdAt
       updatedAt
       user {
         id
@@ -4480,7 +4479,7 @@ export const onUpdateBillingHistory = /* GraphQL */ `
     onUpdateBillingHistory(userId: $userId) {
       id
       userId
-      date
+      createdAt
       nextRenewDate
       subscription
       amount
@@ -4488,7 +4487,6 @@ export const onUpdateBillingHistory = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
-      createdAt
       updatedAt
       user {
         id
@@ -4527,7 +4525,7 @@ export const onDeleteBillingHistory = /* GraphQL */ `
     onDeleteBillingHistory(userId: $userId) {
       id
       userId
-      date
+      createdAt
       nextRenewDate
       subscription
       amount
@@ -4535,7 +4533,6 @@ export const onDeleteBillingHistory = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
-      createdAt
       updatedAt
       user {
         id

@@ -99,30 +99,32 @@ app.post('/webhooks/account-synced', async (req, res) => {
     if (!justCreated && account.realEstates.items && account.realEstates.items.length > 0) {
       recipientList = [];
       for (let i = 0; i < account.realEstates.items.length; i += 1) {
-        realEstateIds.push(account.realEstates.items[0].realEstate.id);
-        recipientList = recipientList.concat(account.realEstates.items[0].realEstate.admins);
-        const tenants = account.realEstates.items[0].realEstate.tenants.filter((tenant) => {
-          const bailStartDate = DateUtils.parseToDateObj(tenant?.startDate);
-          bailStartDate.setHours(0, 0, 0, 0);
-          const bailEndDate = DateUtils.parseToDateObj(tenant?.endDate);
-          bailEndDate.setHours(23, 59, 59, 59);
-          if (bailStartDate <= date && date <= bailEndDate) {
-            return true;
-          }
-          return false;
-        }).map((item) => ({
-          ...item,
-          realEstateId: account
-              && account !== true
-              && account.realEstates.items[0].realEstate.id,
-          realEstateName: account
-              && account !== true
-              && account.realEstates.items[0].realEstate.name,
-          realEstateAdmins: account
-              && account !== true
-              && account.realEstates.items[0].realEstate.admins,
-        }));
-        currentTenants = currentTenants.concat(tenants);
+        realEstateIds.push(account.realEstates.items[i].realEstate.id);
+        recipientList = recipientList.concat(account.realEstates.items[i].realEstate.admins);
+        if (account.realEstates.items[i].realEstate.tenants) {
+          const tenants = account.realEstates.items[i].realEstate.tenants.filter((tenant) => {
+            const bailStartDate = DateUtils.parseToDateObj(tenant?.startDate);
+            bailStartDate.setHours(0, 0, 0, 0);
+            const bailEndDate = DateUtils.parseToDateObj(tenant?.endDate);
+            bailEndDate.setHours(23, 59, 59, 59);
+            if (bailStartDate <= date && date <= bailEndDate) {
+              return true;
+            }
+            return false;
+          }).map((item) => ({
+            ...item,
+            realEstateId: account
+                && account !== true
+                && account.realEstates.items[i].realEstate.id,
+            realEstateName: account
+                && account !== true
+                && account.realEstates.items[i].realEstate.name,
+            realEstateAdmins: account
+                && account !== true
+                && account.realEstates.items[i].realEstate.admins,
+          }));
+          currentTenants = currentTenants.concat(tenants);
+        }
       }
     }
     if (!justCreated) {

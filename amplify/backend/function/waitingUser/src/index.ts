@@ -9,7 +9,8 @@ Amplify Params - DO NOT EDIT */
 
 import { getUserByEmail } from '/opt/nodejs/src/UserQueries';
 import getAppSyncClient from '/opt/nodejs/src/AppSyncClient';
-import { updateRealEstateMutation, getRealEstate } from '/opt/nodejs/src/RealEstateMutation';
+import { updateRealEstateMutation } from '/opt/nodejs/src/RealEstateMutation';
+import { getRealEstate } from '/opt/nodejs/src/RealEstateQueries';
 import { listPendingInvitationsByEmail } from '/opt/nodejs/src/PendingInvitationQueries';
 
 exports.handler = async (event) => {

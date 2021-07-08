@@ -1576,8 +1576,8 @@ export const schema = {
                         "targetName": "userId"
                     }
                 },
-                "date": {
-                    "name": "date",
+                "createdAt": {
+                    "name": "createdAt",
                     "isArray": false,
                     "type": "AWSDateTime",
                     "isRequired": true,
@@ -1587,7 +1587,7 @@ export const schema = {
                     "name": "nextRenewDate",
                     "isArray": false,
                     "type": "AWSDate",
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": []
                 },
                 "subscription": {
@@ -1613,14 +1613,6 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
-                "createdAt": {
-                    "name": "createdAt",
-                    "isArray": false,
-                    "type": "AWSDateTime",
-                    "isRequired": false,
-                    "attributes": [],
-                    "isReadOnly": true
-                },
                 "updatedAt": {
                     "name": "updatedAt",
                     "isArray": false,
@@ -1642,7 +1634,7 @@ export const schema = {
                     "properties": {
                         "fields": [
                             "id",
-                            "date"
+                            "nextRenewDate"
                         ]
                     }
                 },
@@ -1652,7 +1644,7 @@ export const schema = {
                         "name": "billingHistoriesByUser",
                         "fields": [
                             "userId",
-                            "date"
+                            "createdAt"
                         ],
                         "queryField": "listBillingHistoriesByUser"
                     }
@@ -1665,13 +1657,10 @@ export const schema = {
                                 "provider": "userPools",
                                 "ownerField": "userId",
                                 "allow": "owner",
-                                "identityClaim": "cognito:username",
                                 "operations": [
-                                    "create",
-                                    "update",
-                                    "delete",
                                     "read"
-                                ]
+                                ],
+                                "identityClaim": "cognito:username"
                             },
                             {
                                 "allow": "private",
@@ -2380,5 +2369,5 @@ export const schema = {
             }
         }
     },
-    "version": "017cba82b664a4a05a0c19d948e21df9"
+    "version": "f1b2d75a6766db59794668e22180ca37"
 };

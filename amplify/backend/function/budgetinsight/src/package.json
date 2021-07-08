@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "dependencies": {},
+  "dependencies": {
+    "moment": "^2.29.1"
+  },
   "devDependencies": {},
   "author": "",
   "license": "ISC"

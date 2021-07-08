@@ -31,6 +31,9 @@ import { listRealEstatesByBankAccount } from '/opt/nodejs/src/RealEstateBankAcco
 import { getDocument } from '/opt/nodejs/src/DocumentQueries';
 import { sendEmailWithAttachement } from '/opt/nodejs/src/SendMail';
 import templateMailQuittance from './templateMailQuittance';
+import { listBillingHistoriesByUser } from '/opt/nodejs/src/BillingHistoryQueries';
+import { createBillingHistory, SubscriptionType } from '/opt/nodejs/src/BillingHistoryMutations';
+import * as moment from 'moment';
 
 const AWS = require('aws-sdk');
 
@@ -62,6 +65,34 @@ app.post('/budgetinsight/create-user', async (req, res) => {
     const response = await client.createUser();
     res.json({
       ...response.data, success: true,
+    });
+  } catch (e) {
+    res.json({
+      success: false, error: e,
+    });
+  }
+});
+
+// génère le premier billing history avec la période d'essai
+app.post('/budgetinsight/create-trial', async (req, res) => {
+  const uuid = req.apiGateway.event.requestContext.identity
+    .cognitoAuthenticationProvider.split(':').pop();
+
+  try {
+    const billingHistory = await listBillingHistoriesByUser(AppSyncClient, {
+      userId: uuid,
+    });
+    if (billingHistory === false || billingHistory.length <= 0) {
+      await createBillingHistory(AppSyncClient, {
+        userId: uuid,
+        nextRenewDate: moment().add(45, 'days').format('YYYY-MM-DD'),
+        subscription: SubscriptionType.Trial,
+        amount: 0,
+        paid: true,
+      });
+    }
+    res.json({
+      success: true,
     });
   } catch (e) {
     res.json({

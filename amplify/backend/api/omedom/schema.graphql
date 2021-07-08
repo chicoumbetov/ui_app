@@ -185,27 +185,26 @@ type BankMovement
     date: AWSDate
 }
 
-
 type BillingHistory
     @model
     @auth(rules: [
-        {allow: owner, ownerField: "userId" }
+        { allow: owner, ownerField: "userId", operations: [read] }
         { allow: private, provider: iam }
     ])
     @key(
-        fields: ["id","date"]
+        fields: ["id","nextRenewDate"]
     )
     @key(
         name: "billingHistoriesByUser"
-        fields: ["userId","date"]
+        fields: ["userId","createdAt"]
         queryField:"listBillingHistoriesByUser"
     )
     {
     id: ID!
     userId: ID!
     user: User @connection (fields: ["userId"])
-    date: AWSDateTime!
-    nextRenewDate: AWSDate
+    createdAt: AWSDateTime!
+    nextRenewDate: AWSDate!
     subscription: SubscriptionType
     amount: Float!
     paid: Boolean

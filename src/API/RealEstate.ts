@@ -773,12 +773,19 @@ export function useDeleteRealEstateMutation() {
   return deleteRealEstate;
 }
 
-export function useRentability(budgetLineDeadlines: (BudgetLineDeadline | null)[] | null | undefined, totalPrice: number) {
+export function useRentability(
+  budgetLineDeadlines: (BudgetLineDeadline | null)[] | null | undefined,
+  totalPrice: number,
+) {
   const { totalExpenses, totalIncomes } = useMemo(() => {
     const currentYear = new Date().getFullYear();
+
+    const startDate = new Date();
+    startDate.setFullYear(currentYear - 1);
+    const endDate = new Date();
     // budgetLineDeadlines of last 12 months
     const result2 = budgetLineDeadlines?.filter((o) => moment(o?.date, 'YYYY-MM-DD')
-      .isBetween(moment(new Date(new Date().setFullYear(currentYear - 1))), moment(new Date(new Date().setFullYear(currentYear))), '[]'));
+      .isBetween(moment(startDate), moment(endDate), undefined, '[]'));
 
     /**
      *

@@ -10,6 +10,7 @@
     "debug": "open 'rndebugger://set-debugger-loc?host=localhost&port=19000'",
     "devtools": "react-devtools",
     "amplify:budgetinsight": "cd amplify/backend/function/budgetinsight/src && tsc",
+    "amplify:checkRentabilite": "cd amplify/backend/function/checkRentabilite/src && tsc",
     "amplify:omedomGraphQLLayer": "cd amplify/backend/function/omedomGraphQLLayer/lib/nodejs/src && tsc",
     "amplify:omedomSESLayer": "cd amplify/backend/function/omedomSESLayer/lib/nodejs/src && tsc",
     "amplify:shareRealEstate": "cd amplify/backend/function/shareRealEstate/src && tsc",

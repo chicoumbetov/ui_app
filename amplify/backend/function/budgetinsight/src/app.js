@@ -25,6 +25,9 @@ const RealEstateBankAccountQueries_1 = require("/opt/nodejs/src/RealEstateBankAc
 const DocumentQueries_1 = require("/opt/nodejs/src/DocumentQueries");
 const SendMail_1 = require("/opt/nodejs/src/SendMail");
 const templateMailQuittance_1 = require("./templateMailQuittance");
+const BillingHistoryQueries_1 = require("/opt/nodejs/src/BillingHistoryQueries");
+const BillingHistoryMutations_1 = require("/opt/nodejs/src/BillingHistoryMutations");
+const moment = require("moment");
 const AWS = require('aws-sdk');
 const s3 = new AWS.S3();
 const express = require('express');
@@ -48,6 +51,33 @@ app.post('/budgetinsight/create-user', async (req, res) => {
         const response = await client.createUser();
         res.json({
             ...response.data, success: true,
+        });
+    }
+    catch (e) {
+        res.json({
+            success: false, error: e,
+        });
+    }
+});
+// génère le premier billing history avec la période d'essai
+app.post('/budgetinsight/create-trial', async (req, res) => {
+    const uuid = req.apiGateway.event.requestContext.identity
+        .cognitoAuthenticationProvider.split(':').pop();
+    try {
+        const billingHistory = await BillingHistoryQueries_1.listBillingHistoriesByUser(AppSyncClient, {
+            userId: uuid,
+        });
+        if (billingHistory === false || billingHistory.length <= 0) {
+            await BillingHistoryMutations_1.createBillingHistory(AppSyncClient, {
+                userId: uuid,
+                nextRenewDate: moment().add(45, 'days').format('YYYY-MM-DD'),
+                subscription: BillingHistoryMutations_1.SubscriptionType.Trial,
+                amount: 0,
+                paid: true,
+            });
+        }
+        res.json({
+            success: true,
         });
     }
     catch (e) {

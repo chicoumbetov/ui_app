@@ -26,11 +26,11 @@
         },
         "omedomGraphQLLayer": {
           "deploymentBucketName": "amplify-omedom-dev-233211-deployment",
-          "s3Key": "amplify-builds/omedomGraphQLLayer-LambdaLayerVersionb64bd7fc-build.zip"
+          "s3Key": "amplify-builds/omedomGraphQLLayer-LambdaLayerVersiond9f0cd84-build.zip"
         },
         "budgetinsight": {
           "deploymentBucketName": "amplify-omedom-dev-233211-deployment",
-          "s3Key": "amplify-builds/budgetinsight-2f752b4e2f46436f6e65-build.zip"
+          "s3Key": "amplify-builds/budgetinsight-537176726f796666364a-build.zip"
         },
         "sendNotification": {
           "deploymentBucketName": "amplify-omedom-dev-233211-deployment",
@@ -42,11 +42,11 @@
         },
         "waitingUser": {
           "deploymentBucketName": "amplify-omedom-dev-233211-deployment",
-          "s3Key": "amplify-builds/waitingUser-7958645875746d507764-build.zip"
+          "s3Key": "amplify-builds/waitingUser-4e7058712b5044567951-build.zip"
         },
         "transactionWebHook": {
           "deploymentBucketName": "amplify-omedom-dev-233211-deployment",
-          "s3Key": "amplify-builds/transactionWebHook-334d76697731425a6d59-build.zip"
+          "s3Key": "amplify-builds/transactionWebHook-50544a674d6662354839-build.zip"
         },
         "testNotification": {
           "deploymentBucketName": "amplify-omedom-dev-233211-deployment",
@@ -54,7 +54,7 @@
         },
         "shareRealEstate": {
           "deploymentBucketName": "amplify-omedom-dev-233211-deployment",
-          "s3Key": "amplify-builds/shareRealEstate-4358367a436d4e706158-build.zip"
+          "s3Key": "amplify-builds/shareRealEstate-413475666b4d52676451-build.zip"
         },
         "omedomAuthorization": {
           "deploymentBucketName": "amplify-omedom-dev-233211-deployment",
@@ -67,6 +67,10 @@
         "detectNotPayinTenant": {
           "deploymentBucketName": "amplify-omedom-dev-233211-deployment",
           "s3Key": "amplify-builds/detectNotPayinTenant-6b554461445157786948-build.zip"
+        },
+        "checkRentabilite": {
+          "deploymentBucketName": "amplify-omedom-dev-233211-deployment",
+          "s3Key": "amplify-builds/checkRentabilite-6258444b324d636f4756-build.zip"
         }
       }
     }

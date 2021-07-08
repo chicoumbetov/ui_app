@@ -3782,11 +3782,11 @@ export const syncBankMovements = /* GraphQL */ `
   }
 `;
 export const getBillingHistory = /* GraphQL */ `
-  query GetBillingHistory($id: ID!, $date: AWSDateTime!) {
-    getBillingHistory(id: $id, date: $date) {
+  query GetBillingHistory($id: ID!, $nextRenewDate: AWSDate!) {
+    getBillingHistory(id: $id, nextRenewDate: $nextRenewDate) {
       id
       userId
-      date
+      createdAt
       nextRenewDate
       subscription
       amount
@@ -3794,7 +3794,6 @@ export const getBillingHistory = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
-      createdAt
       updatedAt
       user {
         id
@@ -3831,7 +3830,7 @@ export const getBillingHistory = /* GraphQL */ `
 export const listBillingHistorys = /* GraphQL */ `
   query ListBillingHistorys(
     $id: ID
-    $date: ModelStringKeyConditionInput
+    $nextRenewDate: ModelStringKeyConditionInput
     $filter: ModelBillingHistoryFilterInput
     $limit: Int
     $nextToken: String
@@ -3839,7 +3838,7 @@ export const listBillingHistorys = /* GraphQL */ `
   ) {
     listBillingHistorys(
       id: $id
-      date: $date
+      nextRenewDate: $nextRenewDate
       filter: $filter
       limit: $limit
       nextToken: $nextToken
@@ -3848,7 +3847,7 @@ export const listBillingHistorys = /* GraphQL */ `
       items {
         id
         userId
-        date
+        createdAt
         nextRenewDate
         subscription
         amount
@@ -3856,7 +3855,6 @@ export const listBillingHistorys = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
-        createdAt
         updatedAt
         user {
           id
@@ -3889,7 +3887,7 @@ export const listBillingHistorys = /* GraphQL */ `
 export const listBillingHistoriesByUser = /* GraphQL */ `
   query ListBillingHistoriesByUser(
     $userId: ID
-    $date: ModelStringKeyConditionInput
+    $createdAt: ModelStringKeyConditionInput
     $sortDirection: ModelSortDirection
     $filter: ModelBillingHistoryFilterInput
     $limit: Int
@@ -3897,7 +3895,7 @@ export const listBillingHistoriesByUser = /* GraphQL */ `
   ) {
     listBillingHistoriesByUser(
       userId: $userId
-      date: $date
+      createdAt: $createdAt
       sortDirection: $sortDirection
       filter: $filter
       limit: $limit
@@ -3906,7 +3904,7 @@ export const listBillingHistoriesByUser = /* GraphQL */ `
       items {
         id
         userId
-        date
+        createdAt
         nextRenewDate
         subscription
         amount
@@ -3914,7 +3912,6 @@ export const listBillingHistoriesByUser = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
-        createdAt
         updatedAt
         user {
           id
@@ -3960,7 +3957,7 @@ export const syncBillingHistories = /* GraphQL */ `
       items {
         id
         userId
-        date
+        createdAt
         nextRenewDate
         subscription
         amount
@@ -3968,7 +3965,6 @@ export const syncBillingHistories = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
-        createdAt
         updatedAt
         user {
           id

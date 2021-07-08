@@ -44,6 +44,7 @@ const ModifierInfo2 = () => {
     if (route.params?.signUp) {
       if (createUser) {
         const response = await API.post('omedomrest', '/budgetinsight/create-user', {});
+        await API.post('omedomrest', '/budgetinsight/create-trial', {});
 
         await createUser({
           privateProfile: {

@@ -11,6 +11,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const UserQueries_1 = require("/opt/nodejs/src/UserQueries");
 const AppSyncClient_1 = require("/opt/nodejs/src/AppSyncClient");
 const RealEstateMutation_1 = require("/opt/nodejs/src/RealEstateMutation");
+const RealEstateQueries_1 = require("/opt/nodejs/src/RealEstateQueries");
 const PendingInvitationQueries_1 = require("/opt/nodejs/src/PendingInvitationQueries");
 exports.handler = async (event) => {
     //eslint-disable-line
@@ -30,7 +31,7 @@ exports.handler = async (event) => {
                 invitations.reduce(async (prom, invitation) => {
                     await prom;
                     const user = await UserQueries_1.getUserByEmail(appSyncClient, email.S);
-                    const realEstate = await RealEstateMutation_1.getRealEstate(appSyncClient, invitation.realEstateId);
+                    const realEstate = await RealEstateQueries_1.getRealEstate(appSyncClient, invitation.realEstateId);
                     if (user && realEstate) {
                         if (invitation.type === 'Admin') {
                             const { admins } = realEstate;

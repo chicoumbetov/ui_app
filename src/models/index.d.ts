@@ -295,12 +295,11 @@ export declare class BillingHistory {
   readonly id: string;
   readonly userId: string;
   readonly user?: User;
-  readonly date: string;
-  readonly nextRenewDate?: string;
+  readonly createdAt: string;
+  readonly nextRenewDate: string;
   readonly subscription?: SubscriptionType | keyof typeof SubscriptionType;
   readonly amount: number;
   readonly paid?: boolean;
-  readonly createdAt?: string;
   readonly updatedAt?: string;
   constructor(init: ModelInit<BillingHistory>);
   static copyOf(source: BillingHistory, mutator: (draft: MutableModel<BillingHistory>) => MutableModel<BillingHistory> | void): BillingHistory;

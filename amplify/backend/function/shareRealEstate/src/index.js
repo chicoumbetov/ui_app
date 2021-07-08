@@ -11,6 +11,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const UserQueries_1 = require("/opt/nodejs/src/UserQueries");
 const AppSyncClient_1 = require("/opt/nodejs/src/AppSyncClient");
 const RealEstateMutation_1 = require("/opt/nodejs/src/RealEstateMutation");
+const RealEstateQueries_1 = require("/opt/nodejs/src/RealEstateQueries");
 const SendMail_1 = require("/opt/nodejs/src/SendMail");
 const PendingInvitationQueries_1 = require("/opt/nodejs/src/PendingInvitationQueries");
 exports.handler = async (event) => {
@@ -30,7 +31,7 @@ exports.handler = async (event) => {
             const user = await UserQueries_1.getUserByEmail(appSyncClient, email.S);
             console.log('user :', user);
             if (user) {
-                const realEstate = await RealEstateMutation_1.getRealEstate(appSyncClient, realEstateId.S);
+                const realEstate = await RealEstateQueries_1.getRealEstate(appSyncClient, realEstateId.S);
                 if (realEstate) {
                     console.log('realEstate :', realEstate);
                     if (type.S === 'Admin') {

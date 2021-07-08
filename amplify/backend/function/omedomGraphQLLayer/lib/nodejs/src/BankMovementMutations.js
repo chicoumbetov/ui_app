@@ -1,7 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateBankMovement = exports.createBankMovement = void 0;
+exports.updateBankMovement = exports.createBankMovement = exports.BankMovementStatus = void 0;
 const graphql_tag_1 = require("graphql-tag");
+var BankMovementStatus;
+(function (BankMovementStatus) {
+    BankMovementStatus["Unkown"] = "Unkown";
+    BankMovementStatus["Affected"] = "Affected";
+    BankMovementStatus["Ignored"] = "Ignored";
+})(BankMovementStatus = exports.BankMovementStatus || (exports.BankMovementStatus = {}));
 const createBankMovement = async (client, input) => {
     try {
         const { data } = await client.mutate({
@@ -15,7 +21,7 @@ const createBankMovement = async (client, input) => {
       biId
       description
       amount
-      ignored
+      status
       date
       _version
       _deleted
@@ -53,7 +59,7 @@ const updateBankMovement = async (client, input) => {
       biId
       description
       amount
-      ignored
+      status
       date
       _version
       _deleted

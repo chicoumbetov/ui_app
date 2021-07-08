@@ -246,24 +246,7 @@ export type GetMovementByRealEstateQuery = {
   } | null,
 };
 
-const listBankMovementsByRealEstateQueryTest = <DocumentNode>gql(`
-query listBankMovementsByRealEstateQuery(
-    $statusDate: ModelBankMovementBankMovementsByRealEstateCompositeKeyConditionInput
-  ) {
-    listRealEstates {
-    items {
-      id
-      bankMovements(sortDirection: DESC, statusDate: $statusDate) {
-        items {
-          amount
-          date
-        }
-      }
-    }
-  }
-}
-
-`); const listBankMovementsByRealEstateQuery = <DocumentNode>gql(`
+const listBankMovementsByRealEstateQuery = <DocumentNode>gql(`
 query listBankMovementsByRealEstateQuery(
     $realEstateId: ID!
     $statusDate: ModelBankMovementBankMovementsByRealEstateCompositeKeyConditionInput
@@ -302,6 +285,117 @@ export function useListBankMovement(realEstateId: string, status: BankMovementSt
           status,
           date,
         },
+      },
+
+    },
+  });
+  // console.log('useListBankMovement data: ', data, loading);
+  return {
+    loading, data, fetchMore, refetch,
+  };
+}
+
+const listBankMovementsByListRealEstateQuery = <DocumentNode>gql(`
+query listBankMovementsByRealEstateQuery(
+    $statusDate: ModelBankMovementBankMovementsByRealEstateCompositeKeyConditionInput
+  ) {
+    listRealEstates {
+    items {
+      id
+      iconUri
+       positiveMovements: bankMovements(sortDirection: DESC, statusDate:  $statusDate, filter: {amount: {ge: 0}}, limit: 1000) {
+            items {
+              _deleted
+              _lastChangedAt
+              _version
+              amount
+              bankAccountId
+              date
+              description
+              status
+            }
+            nextToken
+            startedAt
+          }
+          negativeMovements: bankMovements(sortDirection: DESC, statusDate: $statusDate, filter: {amount: {le: 0}}, limit: 1000) {
+            items {
+              _deleted
+              _lastChangedAt
+              _version
+              amount
+              bankAccountId
+              date
+              description
+              status
+            }
+            nextToken
+            startedAt
+          }
+        
+    }
+  }
+}
+
+`);
+
+export type GetMovementByListRealEstateQuery = {
+  listRealEstates?: {
+    __typename: 'ModelRealEstateConnection',
+    items?: Array< {
+      __typename: 'RealEstate',
+      id: string,
+      iconUri: string,
+      positiveMovements?: {
+        __typename: 'ModelBankMovementConnection',
+        items?: Array< {
+          __typename: 'BankMovement',
+          description?: string | null,
+          amount: number,
+          ignored?: boolean | null,
+          date?: string | null,
+          _version: number,
+          _deleted?: boolean | null,
+          _lastChangedAt: number,
+
+        } | null > | null,
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+      negativeMovements?: {
+        __typename: 'ModelBankMovementConnection',
+        items?: Array< {
+          __typename: 'BankMovement',
+          description?: string | null,
+          amount: number,
+          ignored?: boolean | null,
+          date?: string | null,
+          _version: number,
+          _deleted?: boolean | null,
+          _lastChangedAt: number,
+
+        } | null > | null,
+        nextToken?: string | null,
+        startedAt?: number | null,
+      } | null,
+    } | null >
+  }
+};
+
+export function useListBankMovementbyListRealEstate(status: BankMovementStatus, dateStart: string, dateEnd: string) {
+  const {
+    loading, data, fetchMore, refetch,
+  } = useQuery<
+  GetMovementByListRealEstateQuery, GetMovementByRealEstateQueryVariables
+  >(listBankMovementsByListRealEstateQuery, {
+    variables: {
+      statusDate: {
+        between: [{
+          status,
+          date: dateStart,
+        }, {
+          status,
+          date: dateEnd,
+        }],
       },
 
     },

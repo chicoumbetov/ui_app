@@ -94,7 +94,7 @@ export declare class TenantInfo {
   readonly amount: number;
   readonly lastname: string;
   readonly firstname: string;
-  readonly rentalType: RentalType | keyof typeof RentalType;
+  readonly rentalType?: RentalType | keyof typeof RentalType;
   readonly email: string;
   readonly startDate: string;
   readonly endDate?: string;

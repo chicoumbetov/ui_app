@@ -26,11 +26,12 @@ import Separator from '../../components/Separator';
 import Card from '../../components/Card';
 import Button from '../../components/Button';
 import ActivityIndicator from '../../components/ActivityIndicator';
-import { ModelSortDirection } from '../../src/API';
+import { BankMovementStatus, ModelSortDirection } from '../../src/API';
 import { useUser } from '../../src/API/UserContext';
 import DateUtils from '../../utils/DateUtils';
 import { useNotificationsList } from '../../src/API/Notification';
 import NotificationCard from '../../components/NotificationCard';
+import { useListBankMovementbyListRealEstate } from '../../src/API/BankMouvement';
 
 function TableauDeBord() {
   const linkTo = useLinkTo();
@@ -43,8 +44,6 @@ function TableauDeBord() {
       ge: moment().add(-30, 'days').format('YYYY-MM-DDT00:00:00'),
     },
   });
-
-  // console.log('biensDetails', biensDetails);
 
   useEffect(() => {
     (async () => {
@@ -108,6 +107,33 @@ function TableauDeBord() {
       }
     }
   }
+
+  const { data: listBankMovement } = useListBankMovementbyListRealEstate(BankMovementStatus.Affected, '2021-04-01', '2021-07-01');
+
+  let dernierCredit: { amount: number, date: string, iconUri: string };
+  let dernierDebit: { amount: number, date: string, iconUri: string };
+
+  useEffect(() => {
+    if (listBankMovement && listBankMovement?.listRealEstates && listBankMovement?.listRealEstates.items) {
+      for (let i = 0; i < listBankMovement.listRealEstates.items.length; i += 1) {
+        const bankMovement = listBankMovement.listRealEstates.items[i];
+        for (let j = 0; j < bankMovement.negativeMovements.items.length; j += 1) {
+          const negativeMovement = bankMovement.negativeMovements.items[j];
+          if (!dernierDebit) {
+            dernierDebit = { amount: negativeMovement.amount, date: negativeMovement.date, iconUri: bankMovement.iconUri };
+          }
+        }
+        for (let j = 0; j < bankMovement.positiveMovements.items.length; j += 1) {
+          const positiveMovements = bankMovement.positiveMovements.items[j];
+          if (!dernierCredit) {
+            dernierCredit = { amount: positiveMovements.amount, date: positiveMovements.date, iconUri: bankMovement.iconUri };
+          }
+        }
+      }
+    }
+  }, [listBankMovement]);
+  console.log('dernierDebit', dernierDebit);
+  console.log('dernierCredit', dernierCredit);
 
   const allerTresorie = () => {
     linkTo('/ma-tresorerie');

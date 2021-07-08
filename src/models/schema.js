@@ -2167,7 +2167,7 @@ export const schema = {
                     "type": {
                         "enum": "RentalType"
                     },
-                    "isRequired": true,
+                    "isRequired": false,
                     "attributes": []
                 },
                 "email": {
@@ -2369,5 +2369,5 @@ export const schema = {
             }
         }
     },
-    "version": "f1b2d75a6766db59794668e22180ca37"
+    "version": "e87f49e21478344f11b9af5491aa2570"
 };

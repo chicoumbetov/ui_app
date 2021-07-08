@@ -435,7 +435,7 @@ type TenantInfo {
   amount: Float!
   lastname: String!
   firstname: String!
-  rentalType: RentalType!
+  rentalType: RentalType
   email: AWSEmail!
   startDate: AWSDate!
   endDate: AWSDate

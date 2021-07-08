@@ -93,7 +93,7 @@ const DeclarationImpots = () => {
           } else {
             console.log('passed data', bienget, user, route.params.anneeEcheance, previousYear);
 
-            
+
             if (
             // bienget.typeImpot === 'revenue_tax'
             // ||
@@ -119,7 +119,7 @@ const DeclarationImpots = () => {
               const ratioRentalType = (sumNonMeublee / totalLoyer) * householderPart;
               console.log('ratioRentalType', ratioRentalType);
             }
-            let summ211Incomes = ;
+            let summ211Incomes;
             const result = await pdfGenerator(pdfTemplateDeclaration, {
               bienget,
               user,

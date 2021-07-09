@@ -99,7 +99,6 @@ const ParametrerAjoutCharges = () => {
       (item) => item?.id === route.params.idBudgetLine,
     ).pop();
 
-    console.log('yoyoyooy:', currentBudgetLine);
     useEffect(() => {
       setMontantShow(true);
       setFrequenceShow(true);
@@ -132,7 +131,8 @@ const ParametrerAjoutCharges = () => {
     } else {
       category1 = category;
     }
-    console.log('info credit :', infoCredit);
+    calculeTableauAmortissement(false);
+
     if (route.params.idBudgetLine) {
       await updateBudgetLine.updateBudgetLine({
         variables: {
@@ -225,17 +225,15 @@ const ParametrerAjoutCharges = () => {
     const amortizationTable : AmortizationTable[] = [];
 
     const currentValue = paramBudgetForm.getValues('infoCredit.amortizationTable');
-    if (currentValue) {
+    if (currentValue && Show) {
       setCurrentTabAmo(currentValue);
     } else if (currentBudgetLine
           && currentBudgetLine.infoCredit
           && currentBudgetLine.infoCredit.amortizationTable) {
       const thisAmortizTable: AmortizationTable[] = currentBudgetLine.infoCredit.amortizationTable;
       paramBudgetForm.setValue('amount', thisAmortizTable[0].amount);
-      if (Show) {
-        setCurrentTabAmo(thisAmortizTable);
-      }
-    } else if (infoCredit && infoCredit.borrowedCapital
+    }
+    if (infoCredit && infoCredit.borrowedCapital
           && infoCredit.interestRate
           && infoCredit.assuranceRate
           && infoCredit.duration
@@ -248,13 +246,32 @@ const ParametrerAjoutCharges = () => {
       const thisInterestRate = infoCredit.interestRate / 100;
       const assurance = infoCredit.borrowedCapital * (thisAssurancerate / 12);
       const amount = ((infoCredit.borrowedCapital * (thisInterestRate / 12)) / (1 - ((1 + (thisInterestRate / 12)) ** -infoCredit.duration))) + assurance;
-
+      const currentDate = new Date();
+      let nextDate = new Date();
       for (let i = 0; i < infoCredit.duration; i += 1) {
         const interest = amontDue * (thisInterestRate / 12);
         const amortizedCapital = amount - assurance - interest;
         amontDue -= amortizedCapital;
         const dueDate = loanStartDate;
         dueDate?.setMonth(loanStartDate?.getMonth() + 1);
+        console.log('la date due :', currentDate.getMonth() === dueDate.getMonth());
+
+        if (currentDate.getFullYear() === dueDate.getFullYear()) {
+          console.log('super test v2 : ', dueDate.getFullYear());
+          if (currentDate.getMonth() === dueDate.getMonth()) {
+            if (currentDate.getDate() - nextDate.getDate() > currentDate.getDate() - dueDate.getDate() && currentDate.getDate() !== dueDate.getDate()) {
+              nextDate = dueDate;
+              paramBudgetForm.setValue('nextDueDate', moment(nextDate).format('YYYY-MM-DD').toString());
+            }
+          } else if (currentDate.getMonth() - nextDate.getMonth() > currentDate.getMonth() - dueDate.getMonth()) {
+            nextDate = dueDate;
+            paramBudgetForm.setValue('nextDueDate', moment(nextDate).format('YYYY-MM-DD').toString());
+          }
+        } else if (currentDate.getFullYear() - nextDate.getFullYear() > currentDate.getFullYear() - dueDate.getFullYear()) {
+          nextDate = dueDate;
+          paramBudgetForm.setValue('nextDueDate', moment(nextDate).format('YYYY-MM-DD').toString());
+        }
+
         amortizationTable.push({
           __typename: 'AmortizationTable',
           amount,
@@ -265,6 +282,7 @@ const ParametrerAjoutCharges = () => {
         });
       }
       paramBudgetForm.setValue('amount', amortizationTable[0].amount);
+      console.log('ouiouoyhiougougioh :', nextDate);
       if (Show) {
         setCurrentTabAmo(amortizationTable);
       }
@@ -444,6 +462,7 @@ const ParametrerAjoutCharges = () => {
                         name="infoCredit.borrowedCapital"
                         placeholder="Capital emprunté"
                         keyboardType="numeric"
+                        onChangeValue={() => calculeTableauAmortissement(false)}
                         validators={
                         [AvailableValidationRules.required, AvailableValidationRules.float]
                       }
@@ -462,6 +481,7 @@ const ParametrerAjoutCharges = () => {
                         name="infoCredit.duration"
                         placeholder="La durée en mois"
                         keyboardType="numeric"
+                        onChangeValue={() => calculeTableauAmortissement(false)}
                         validators={
                         [AvailableValidationRules.required, AvailableValidationRules.float]
                       }
@@ -474,6 +494,7 @@ const ParametrerAjoutCharges = () => {
                         name="infoCredit.interestRate"
                         placeholder="Le taux d'intérêts"
                         keyboardType="numeric"
+                        onChangeValue={() => calculeTableauAmortissement(false)}
                         validators={
                         [AvailableValidationRules.required, AvailableValidationRules.float]
                       }
@@ -487,6 +508,7 @@ const ParametrerAjoutCharges = () => {
                         name="infoCredit.assuranceRate"
                         placeholder="Le taux d'assurance"
                         keyboardType="numeric"
+                        onChangeValue={() => calculeTableauAmortissement(false)}
                         validators={
                         [AvailableValidationRules.required, AvailableValidationRules.float]
                         }
@@ -546,6 +568,7 @@ const ParametrerAjoutCharges = () => {
                         <Datepicker
                           name="nextDueDate"
                           placeholder="Date de la prochaine échéance"
+                          disabled={mensualiteCreditShow}
                           icon="calendar-outline"
                       // pas avant demain
                       // (sinon le cron ne tournera jamais et on aura jamais les échéances)

@@ -37,11 +37,14 @@ const AffecterMouvement = () => {
   const { bankMouvement: movementAffecte, refetch } = useGetBankMovementsByBankAccountId(route.params.idCompte, BankMovementStatus.Affected);
   const { bankAccount } = useGetBankAccount(route.params.idCompte);
 
-  const allPossibleTypes = {};
-  _.merge(allPossibleTypes, typeCharge,
-    typeImpots,
-    typeRevenu,
-    typeAssurance, typeDivers, typeBanque);
+  const allPossibleTypes = {
+    ...typeCharge,
+    ...typeImpots,
+    ...typeRevenu,
+    ...typeAssurance,
+    ...typeDivers,
+    ...typeBanque,
+  };
 
   const [currentMvt, setCurrentMvt] = useState<BankMovement>();
 

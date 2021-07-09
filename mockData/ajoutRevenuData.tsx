@@ -10,10 +10,16 @@ export const typeRevenu = {
   loyer: {
     label: 'Loyer',
     key: 'loyer',
+    ligneDeclarationImpot: {
+      loyer: '211',
+      charges: '212',
+      frais_de_gestion: '221',
+    },
   },
   caf: {
     label: 'CAF',
     key: 'caf',
+    ligneDeclarationImpot: '211',
   },
   revenu_divers: {
     label: 'Revenu Divers',
@@ -41,6 +47,7 @@ export const typeCharge = {
   frais_dpe: {
     label: 'Frais de diagnostic DPE',
     key: 'frais_dpe',
+    ligneDeclarationImpot: '224',
   },
   assurance: {
     label: 'Assurance',
@@ -53,18 +60,32 @@ export const typeCharge = {
   charges_copropriete: {
     label: 'Charges de copropriété',
     key: 'charges_copropriete',
+    ligneDeclarationImpot: '221',
   },
   remuneration_autre: {
     label: 'Rémunération des gardes, concierges, autres honoraires',
     key: 'remuneration_autre',
+    ligneDeclarationImpot: '221',
+  },
+  indemnite_eviction: {
+    label: 'Indemnité d’éviction et frais de relogement',
+    key: 'indemnite_eviction',
+    ligneDeclarationImpot: '226',
+  },
+  charges_syndic: {
+    label: 'Charges de syndic',
+    key: 'charges_syndic',
+    ligneDeclarationImpot: '221',
   },
   frais_comptable: {
     label: 'Frais Comptables',
     key: 'frais_comptable',
+    ligneDeclarationImpot: '221',
   },
   frais_de_gestion: {
     label: 'Frais de Gestion',
     key: 'frais_de_gestion',
+    ligneDeclarationImpot: '221',
   },
   frais_divers: {
     label: 'Frais divers',
@@ -76,6 +97,10 @@ export const typeImpots = {
   taxes_foncieres: {
     label: 'Taxes Foncières',
     key: 'taxes_foncieres',
+    ligneDeclarationImpot: {
+      amount: '227',
+      householdWaste: '0',
+    },
   },
   taxes_habitation: {
     label: "Taxes d'Habitation",
@@ -91,14 +116,17 @@ export const typeAssurance = {
   assurance_bien: {
     label: 'Assurance du Bien',
     key: 'assurance_bien',
+    ligneDeclarationImpot: '223',
   },
   loyer_impaye: {
     label: 'Loyer Impayé',
     key: 'loyer_impaye',
+    ligneDeclarationImpot: '223',
   },
   vacances_locatives: {
     label: 'Vacances Locatives',
     key: 'vacances_locatives',
+    ligneDeclarationImpot: '223',
   },
 };
 
@@ -125,6 +153,10 @@ export const typeBanque = {
   mensualite_credit: {
     label: 'Mensualité Crédit',
     key: 'mensualite_credit',
+    ligneDeclarationImpot: {
+      interest: '250',
+      assurance: '223',
+    },
   },
 };
 

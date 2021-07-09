@@ -1,4 +1,5 @@
 import _, { concat } from 'lodash';
+import { object } from 'prop-types';
 
 export function removeNull(obj: Object): Object {
   return Object.fromEntries(
@@ -46,7 +47,23 @@ export function getPaths(obj: any, parentKey?: string) {
   return result;
 }
 
+//
+const addToObjectKey = (
+  obj: {
+    [key: string]: number
+  },
+  key: string,
+  add: number,
+) => {
+  if (obj[key] === undefined) {
+    obj[key] = add;
+  } else {
+    obj[key] += add;
+  }
+};
+
 export default {
+  addToObjectKey,
   removeNull,
   removeKey,
   removeKeyArray,

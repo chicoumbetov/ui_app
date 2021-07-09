@@ -83,14 +83,14 @@ const MonBien = (props: MonBienProps) => {
   // make common list of all possible
   // revenues, expeneses categories, types
   // with their keys, labels
-  const allPossibleTypes = {};
-  _.merge(
-    allPossibleTypes,
-    typeCharge,
-    typeImpots,
-    typeRevenu,
-    typeAssurance, typeDivers, typeBanque,
-  );
+  const allPossibleTypes = {
+    ...typeCharge,
+    ...typeImpots,
+    ...typeRevenu,
+    ...typeAssurance,
+    ...typeDivers,
+    ...typeBanque,
+  };
 
   const currentYear = new Date().getFullYear();
 

@@ -8,6 +8,7 @@ import { StackActions, useNavigation, useRoute } from '@react-navigation/native'
 import { RouteProp } from '@react-navigation/core/lib/typescript/src/types';
 import { useApolloClient } from 'react-apollo';
 import moment from 'moment';
+import _ from 'lodash';
 import CompteHeader from '../../../components/CompteHeader/CompteHeader';
 // import clientData from '../../../mockData/clientDATA';
 import MaxWidthContainer from '../../../components/MaxWidthContainer';
@@ -22,7 +23,18 @@ import pdfGenerator from '../../../utils/pdfGenerator/pdfGenerator';
 import { pdfTemplateDeclaration } from '../../../pdfTemplates';
 import { Upload } from '../../../utils/S3FileStorage';
 import DateUtils from '../../../utils/DateUtils';
-import { RentalType } from '../../../src/API';
+import { BudgetLineType, RentalType } from '../../../src/API';
+import {
+  typeAssurance,
+  typeBanque,
+  typeCharge,
+  typeDivers,
+  typeImpots,
+  typeRevenu,
+} from '../../../mockData/ajoutRevenuData';
+import { hasKey } from '../../../utils/typeHelpers';
+import ObjectHelper from '../../../utils/ObjectHelper';
+import Formatter from '../../../utils/Formatter';
 
 const DeclarationImpots = () => {
   const route = useRoute<RouteProp<TabMonAssistantParamList, 'declaration-impots-2'>>();
@@ -62,13 +74,7 @@ const DeclarationImpots = () => {
     // console.log('Decl impots 2 set New doc');
   }, [route.params]);
 
-  /**
-  const tenant = bien.find(
-    (item) => (bien.id === route.params.idBien),
-  );
-  */
-
-  const paramsAskedDate = DateUtils.parseToDateObj(route.params.anneeEcheance).getFullYear();
+  const paramsAskedDate = route.params.anneeEcheance;
   const paramsCreatedDate = DateUtils.parseToDateObj(createdAt).getFullYear();
 
   // console.log('date created at 2 ', paramsAskedDate);
@@ -93,76 +99,166 @@ const DeclarationImpots = () => {
           } else {
             console.log('passed data', bienget, user, route.params.anneeEcheance, previousYear);
 
-            let ratioRentalPart: number;
-            let totalLoyer: number;
-            let totalCaf: number;
-            let totalExpense: number;
-            if (
-            // bienget.typeImpot === 'revenue_tax'
-            // ||
-              bienget.ownName === true
-            ) {
-              const sumNonMeublee = bienget.budgetLineDeadlines?.items?.map((item) => {
-                if (item?.category === 'loyer' && item?.rentalType === 'unfurnished') {
-                  return item.amount;
-                }
-              }).reduce((acc, curr) => (acc || 0) + (curr || 0), 0);
-              console.log('sum non meub:', sumNonMeublee);
+            console.log('before sorting by date budgetLineDeadlines:', bienget.budgetLineDeadlines?.items);
 
-              totalLoyer = bienget.budgetLineDeadlines?.items?.map((item) => {
+            const bdlOfChosenYear = bienget.budgetLineDeadlines?.items?.filter((item) => {
+              if (DateUtils.parseToDateObj(item?.date).getFullYear() <= paramsAskedDate
+                    && DateUtils.parseToDateObj(item?.date).getFullYear() >= paramsAskedDate
+                    /* && item?.bankMouvementId !== null */) {
+                return true;
+              }
+              return false;
+            });
+            console.log('bdlOfChosenYear', bdlOfChosenYear);
+
+            if (bdlOfChosenYear && bdlOfChosenYear.length > 0) {
+              const ratioElements = bdlOfChosenYear.reduce((acc, item) => {
                 if (item?.category === 'loyer') {
-                  return item.amount;
+                  if (item?.rentalType === 'unfurnished') {
+                    return {
+                      sumNonMeuble: acc.sumNonMeuble + item?.amount,
+                      sumTotal: acc.sumTotal + item?.amount,
+                    };
+                  }
+                  return {
+                    sumNonMeuble: acc.sumNonMeuble,
+                    sumTotal: acc.sumTotal + item?.amount,
+                  };
                 }
-              }).reduce((acc, curr) => (acc || 0) + (curr || 0), 0);
-              console.log('totalLoyer:', totalLoyer);
-
-              totalCaf = bienget.budgetLineDeadlines?.items?.map((item) => {
-                if (item?.category === 'caf') {
-                  return item.amount;
-                }
-              }).reduce((acc, curr) => (acc || 0) + (curr || 0), 0);
-
-              totalExpense = bienget.budgetLineDeadlines?.items?.map((item) => {
-                if (item?.type === 'Expense') {
-                  return item.amount;
-                }
-              }).reduce((acc, curr) => (acc || 0) + (curr || 0), 0);
+                return acc;
+              }, { sumNonMeuble: 0, sumTotal: 0 });
 
               const householderPart = (bienget.detentionPart || 0) / 100;
               console.log('householderPart', householderPart);
 
-              ratioRentalPart = ((sumNonMeublee || 0) / totalLoyer) * householderPart;
-            }
-            console.log('ratioRentalPart', ratioRentalPart);
-            console.log('totalLoyer', totalLoyer);
-            console.log('totalCaf', totalCaf);
-            console.log('total:', totalExpense);
-            const summ211Incomes = ratioRentalPart * totalLoyer;
-            console.log('summ211Incomes', summ211Incomes);
-            const result = await pdfGenerator(pdfTemplateDeclaration, {
-              bienget,
-              user,
-              year: route.params.anneeEcheance,
-              previousYear,
-            });
-            // console.log('result', result);
-            if (result !== false) {
-              const name = `Declaration_impots_${bienget.name}_${moment(route.params.anneeEcheance).format('YYYY')}.pdf`;
-              const s3file = await Upload(result, `realEstate/${bienget.id}/`, name);
-              // console.log('s3file', s3file);
+              const total = (ratioElements?.sumTotal || 0);
+              if (total > 0) {
+                const ratioRentalPart = ((ratioElements?.sumNonMeuble || 0) / total)
+                      * householderPart;
 
-              if (s3file !== false && bienget.id) {
-                const doc = await createDocument.createDocument({
-                  variables: {
-                    input: {
-                      s3file: s3file.key,
-                      realEstateId: bienget.id,
-                      key,
-                      name,
-                    },
-                  },
+                const allPossibleTypes = {
+                  ...typeCharge,
+                  ...typeImpots,
+                  ...typeRevenu,
+                  ...typeAssurance,
+                  ...typeDivers,
+                  ...typeBanque,
+                };
+
+                const declarationLineTotals: { [key: string]: number } = {};
+
+                bdlOfChosenYear.forEach((item) => {
+                  if (item) {
+                    const categoryKey = (item.category as (keyof typeof allPossibleTypes));
+                    const type = allPossibleTypes[categoryKey];
+                    // has helps to detect additional property
+                    if (hasKey('ligneDeclarationImpot', type)) {
+                      if (typeof type.ligneDeclarationImpot === 'string') {
+                        /**
+                           * first line contain object with key and its value
+                           *
+                           * second line is placed as the key in declarationLineTotals
+                           * that is declared just above
+                           *
+                           * third line is placed as value for second line
+                           */
+                        ObjectHelper.addToObjectKey(
+                          declarationLineTotals,
+                          type.ligneDeclarationImpot, // [key: string]
+                          (item.type === BudgetLineType.Expense
+                            ? -1 : 1) * item.amount, // number of [key: string]
+                        );
+                      } else if (categoryKey === 'loyer') {
+                        ObjectHelper.addToObjectKey(
+                          declarationLineTotals,
+                          allPossibleTypes.loyer.ligneDeclarationImpot.loyer,
+                          item.amount - ((item.managementFees || 0) + (item.rentalCharges || 0)),
+                        );
+                        ObjectHelper.addToObjectKey(
+                          declarationLineTotals,
+                          allPossibleTypes.loyer.ligneDeclarationImpot.charges,
+                          (item.rentalCharges || 0),
+                        );
+                        ObjectHelper.addToObjectKey(
+                          declarationLineTotals,
+                          allPossibleTypes.loyer.ligneDeclarationImpot.frais_de_gestion,
+                          -(item.managementFees || 0),
+                        );
+                      } else if (categoryKey === 'taxes_foncieres') {
+                        ObjectHelper.addToObjectKey(
+                          declarationLineTotals,
+                          allPossibleTypes.taxes_foncieres.ligneDeclarationImpot.amount,
+                          -(item.amount - (item.householdWaste || 0)),
+                        );
+                      } else if (categoryKey === 'mensualite_credit') {
+                        ObjectHelper.addToObjectKey(
+                          declarationLineTotals,
+                          allPossibleTypes.mensualite_credit.ligneDeclarationImpot.assurance,
+                          -(item.infoCredit?.assurance || 0),
+                        );
+                        ObjectHelper.addToObjectKey(
+                          declarationLineTotals,
+                          allPossibleTypes.mensualite_credit.ligneDeclarationImpot.interest,
+                          -(item.infoCredit?.interest || 0) * 100,
+                        );
+                      }
+                    }
+                  }
                 });
-                setNewDocument(doc.data?.createDocument);
+
+                Object.keys(declarationLineTotals).forEach((objectKey) => {
+                  declarationLineTotals[objectKey] *= ratioRentalPart;
+                  if (objectKey === '211'
+                      || objectKey === '212'
+                      || objectKey === '213'
+                      || objectKey === '214'
+                  ) {
+                    ObjectHelper.addToObjectKey(
+                      declarationLineTotals,
+                      '215',
+                      declarationLineTotals[objectKey],
+                    );
+                  }
+                });
+
+                const formatedLineTotals : { [key: string]: string } = {};
+
+                Object.keys(declarationLineTotals).forEach((objectKey) => {
+                  formatedLineTotals[objectKey] = Formatter
+                    .currencyFormatter
+                    .format(declarationLineTotals[objectKey]);
+                });
+
+                console.log('declarationLineTotals:', declarationLineTotals);
+
+                const result = await pdfGenerator(pdfTemplateDeclaration, {
+                  bienget,
+                  user,
+                  year: route.params.anneeEcheance,
+                  previousYear,
+                  formatedLineTotals,
+                  declarationLineTotals,
+                });
+                  // console.log('result', result);
+                if (result !== false) {
+                  const name = `Declaration_impots_${bienget.name}_${moment(route.params.anneeEcheance).format('YYYY')}.pdf`;
+                  const s3file = await Upload(result, `realEstate/${bienget.id}/`, name);
+                  // console.log('s3file', s3file);
+
+                  if (s3file !== false && bienget.id) {
+                    const doc = await createDocument.createDocument({
+                      variables: {
+                        input: {
+                          s3file: s3file.key,
+                          realEstateId: bienget.id,
+                          key,
+                          name,
+                        },
+                      },
+                    });
+                    setNewDocument(doc.data?.createDocument);
+                  }
+                }
               }
             }
           }

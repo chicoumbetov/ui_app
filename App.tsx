@@ -53,17 +53,17 @@ const fonts = {
   // eslint-disable-next-line global-require
   Icons: require('./components/Icon/icomoon.ttf'),
   // eslint-disable-next-line global-require
-  HouschkaRoundedMedium: require('./assets/fonts/HouschkaRoundedMedium.ttf'),
+  /* HouschkaRoundedMedium: require('./assets/fonts/HouschkaRoundedMedium.ttf'),
   // eslint-disable-next-line global-require
   HouschkaRoundedDemiBold: require('./assets/fonts/HouschkaRoundedDemiBold.ttf'),
   // eslint-disable-next-line global-require
   Houschka_Rounded_Alt_Light_Regular: require('./assets/fonts/Houschka_Rounded_Alt_Light_Regular.ttf'),
   // eslint-disable-next-line global-require
-  Houschka_Rounded_Alt_Bold_Regular: require('./assets/fonts/Houschka_Rounded_Alt_Bold_Regular.ttf'),
+  Houschka_Rounded_Alt_Bold_Regular: require('./assets/fonts/Houschka_Rounded_Alt_Bold_Regular.ttf'), */
   // eslint-disable-next-line global-require
-  confortaa_Bold: require('./assets/fonts/Comfortaa-Bold.ttf'),
+  /* confortaa_Bold: require('./assets/fonts/Comfortaa-Bold.ttf'),
   // eslint-disable-next-line global-require
-  confortaa_Light: require('./assets/fonts/Comfortaa-Light.ttf'),
+  confortaa_Light: require('./assets/fonts/Comfortaa-Light.ttf'), */
   // eslint-disable-next-line global-require
   confortaa_Medium: require('./assets/fonts/Comfortaa-Medium.ttf'),
   // eslint-disable-next-line global-require

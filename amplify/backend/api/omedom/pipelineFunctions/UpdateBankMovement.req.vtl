@@ -1,3 +1,47 @@
+## [Start] Validate update mutation for @key 'bankMovementsByRealEstate'. **
+#set( $hasSeenSomeKeyArg = false )
+#set( $keyFieldNames = ["status","date"] )
+#foreach( $keyFieldName in $keyFieldNames )
+#if( $ctx.args.input.containsKey("$keyFieldName") ) #set( $hasSeenSomeKeyArg = true ) #end
+#end
+#foreach( $keyFieldName in $keyFieldNames )
+  #if( $hasSeenSomeKeyArg && !$ctx.args.input.containsKey("$keyFieldName") )
+    $util.error("When updating any part of the composite sort key for @key 'bankMovementsByRealEstate', you must provide all fields for the key. Missing key: '$keyFieldName'.")
+  #end
+#end
+## [End] Validate update mutation for @key 'bankMovementsByRealEstate'. **
+#if( $util.isNull($dynamodbNameOverrideMap) )
+  #set( $dynamodbNameOverrideMap = {
+  "status#date": "statusDate"
+} )
+#else
+  $util.qr($dynamodbNameOverrideMap.put("status#date", "statusDate"))
+#end
+#if( $hasSeenSomeKeyArg )
+  $util.qr($ctx.args.input.put("status#date","${ctx.args.input.status}#${ctx.args.input.date}"))
+#end
+## [Start] Validate update mutation for @key 'bankMovementsByBankAccount'. **
+#set( $hasSeenSomeKeyArg = false )
+#set( $keyFieldNames = ["status","date"] )
+#foreach( $keyFieldName in $keyFieldNames )
+#if( $ctx.args.input.containsKey("$keyFieldName") ) #set( $hasSeenSomeKeyArg = true ) #end
+#end
+#foreach( $keyFieldName in $keyFieldNames )
+  #if( $hasSeenSomeKeyArg && !$ctx.args.input.containsKey("$keyFieldName") )
+    $util.error("When updating any part of the composite sort key for @key 'bankMovementsByBankAccount', you must provide all fields for the key. Missing key: '$keyFieldName'.")
+  #end
+#end
+## [End] Validate update mutation for @key 'bankMovementsByBankAccount'. **
+#if( $util.isNull($dynamodbNameOverrideMap) )
+  #set( $dynamodbNameOverrideMap = {
+  "status#date": "statusDate"
+} )
+#else
+  $util.qr($dynamodbNameOverrideMap.put("status#date", "statusDate"))
+#end
+#if( $hasSeenSomeKeyArg )
+  $util.qr($ctx.args.input.put("status#date","${ctx.args.input.status}#${ctx.args.input.date}"))
+#end
 #if( $authCondition && $authCondition.expression != "" )
   #set( $condition = $authCondition )
   #if( $modelObjectKey )

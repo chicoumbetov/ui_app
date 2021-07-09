@@ -1,6 +1,7 @@
 import { DocumentNode } from 'apollo-link';
 import gql from 'graphql-tag';
 import { useMutation, useQuery } from 'react-apollo';
+import { WatchQueryFetchPolicy } from 'apollo-client/core/watchQueryOptions';
 import {
   getBankMovement,
 } from '../graphql/queries';
@@ -108,7 +109,7 @@ const getBankMovementsByBankAccountIdQuery = <DocumentNode>gql(`query GetBankMov
 
 const getBankMovementQuery = <DocumentNode>gql(getBankMovement);
 
-export function useGetBankMovementsByBankAccountId(bankAccountId: string, status: BankMovementStatus) {
+export function useGetBankMovementsByBankAccountId(bankAccountId: string, status: BankMovementStatus, fetchPolicy: WatchQueryFetchPolicy = 'cache-first') {
   const {
     loading, data, fetchMore, refetch,
   } = useQuery<
@@ -123,6 +124,7 @@ export function useGetBankMovementsByBankAccountId(bankAccountId: string, status
         },
       },
     },
+    fetchPolicy,
   });
 
   return {

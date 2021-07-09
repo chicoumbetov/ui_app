@@ -43,9 +43,9 @@ exports.handler = async () => {
                     const currentIndex = budgetLineInfoCredit.amortizationTable.findIndex((item) => item.dueDate === budgetLine.nextDueDate);
                     if (currentIndex > -1) {
                         infoCredit = {
-                            amount: budgetLineInfoCredit.amortizationTable[currentIndex].amount,
-                            interest: budgetLineInfoCredit.amortizationTable[currentIndex].interest,
-                            assurance: budgetLineInfoCredit.amortizationTable[currentIndex].assurance,
+                            amount: -budgetLineInfoCredit.amortizationTable[currentIndex].amount,
+                            interest: -budgetLineInfoCredit.amortizationTable[currentIndex].interest,
+                            assurance: -budgetLineInfoCredit.amortizationTable[currentIndex].assurance,
                         };
                         // on récupère la prochaine date d'échéance
                         if (currentIndex < budgetLineInfoCredit.amortizationTable.length - 1) {

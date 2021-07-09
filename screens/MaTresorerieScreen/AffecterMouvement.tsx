@@ -34,7 +34,7 @@ const AffecterMouvement = () => {
   // const [client] = useState(comptesData);
   const route = useRoute<RouteProp<TabMaTresorerieParamList, 'affecter-mouvement'>>();
   const { bienget } = useGetRealEstate(route.params.id);
-  const { bankMouvement: movementAffecte, refetch } = useGetBankMovementsByBankAccountId(route.params.idCompte, BankMovementStatus.Affected);
+  const { bankMouvement: movementAffecte, refetch } = useGetBankMovementsByBankAccountId(route.params.idCompte, BankMovementStatus.Affected, 'cache-and-network');
   const { bankAccount } = useGetBankAccount(route.params.idCompte);
 
   const allPossibleTypes = {};

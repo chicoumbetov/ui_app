@@ -542,7 +542,6 @@ function AjoutBienScreen() {
                 size="large"
                 appearance="default"
                 status="primary"
-                validators={[AvailableValidationRules.required]}
               />
             </View>
 
@@ -563,9 +562,9 @@ function AjoutBienScreen() {
                   }}
                   size="large"
                   appearance="default"
+                  validators={[AvailableValidationRules.required]}
                   status="primary"
                   defaultValue={detentionPartDefault}
-                  validators={[AvailableValidationRules.required]}
                 />
               </View>
               )}
@@ -581,9 +580,10 @@ function AjoutBienScreen() {
                   appearance="default"
                   status="primary"
                   onChangeValue={(value) => {
-                    if (value === 'sas' || value === 'sarl_classique') {
-                      ajoutBienForm.setValue('typeImpot', 'social_tax');
-                      ajoutBienForm.setValue('typeImpot', 'social_tax');
+                    // value doit se référer a l'enum "CompanyType" dans API.ts
+                    if (value === 'SAS' || value === 'SARLclassique') {
+                      ajoutBienForm.setValue('typeImpot', 'SocialTax');
+                      ajoutBienForm.setValue('typeImpot', 'SocialTax');
                       setSocialTaxShow(true);
                     } else {
                       setSocialTaxShow(false);

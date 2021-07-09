@@ -66,9 +66,9 @@ exports.handler = async () => {
           );
           if (currentIndex > -1) {
             infoCredit = {
-              amount: budgetLineInfoCredit.amortizationTable[currentIndex].amount,
-              interest: budgetLineInfoCredit.amortizationTable[currentIndex].interest,
-              assurance: budgetLineInfoCredit.amortizationTable[currentIndex].assurance,
+              amount: -budgetLineInfoCredit.amortizationTable[currentIndex].amount,
+              interest: -budgetLineInfoCredit.amortizationTable[currentIndex].interest,
+              assurance: -budgetLineInfoCredit.amortizationTable[currentIndex].assurance,
             };
 
             // on récupère la prochaine date d'échéance

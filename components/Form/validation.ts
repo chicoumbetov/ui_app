@@ -10,6 +10,7 @@ export enum AvailableValidationRules {
   numeroTel = 'numeroTel',
   password = 'password',
   float = 'float',
+  negative = 'negative',
 }
 
 export type ValidationRuleConfig = Array<
@@ -90,6 +91,16 @@ const availableValidationRulesDefinition: ValidationRulesDefinitionMap = {
       float: (data: string | undefined) => {
         if (Number.isNaN(Number(data))) {
           return message || `${name} ne doit pas contenir de lettres`;
+        }
+        return true;
+      },
+    },
+  }),
+  negative: (name?: string, message?:string): ValidationRules => ({
+    validate: {
+      negative: (data: string | undefined) => {
+        if (Number(data) > 0) {
+          return message || `${name} doit être nul ou inférieur a 0`;
         }
         return true;
       },

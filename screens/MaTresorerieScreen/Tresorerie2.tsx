@@ -293,6 +293,8 @@ const MaTresorerie2 = () => {
               onPress: async () => {
                 setNewAccountLink(undefined);
                 setAddingAccounts(false);
+                refetchBankAccount();
+                setToggle(false);
               },
             }]);
         }}

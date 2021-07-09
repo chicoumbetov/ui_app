@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {
-  Button, Spinner, Text,
-} from '@ui-kitten/components';
+import { Button, Spinner, Text } from '@ui-kitten/components';
 import { StyleSheet, View } from 'react-native';
 
 import { useForm } from 'react-hook-form';
@@ -343,7 +341,7 @@ const ParametrerAjoutRevenu = () => {
               </View>
 
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <TextInput name="managementFees" keyboardType="numeric" placeholder="Dont frais de gestion" validators={[AvailableValidationRules.float]} />
+                <TextInput name="managementFees" keyboardType="numeric" placeholder="Dont frais de gestion" validators={[AvailableValidationRules.float, AvailableValidationRules.negative]} />
                 <Text category="h4" style={{ marginLeft: 19 }}>€</Text>
               </View>
 

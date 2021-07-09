@@ -19,6 +19,7 @@ export type ActionSheetProps = {
   visible: boolean,
   scrollable: boolean,
   onClose?: () => void,
+  linkTo?: (path:string) => void,
   rightAction?: {
     label: string,
     onPress: () => any
@@ -37,6 +38,7 @@ const ActionSheet = (props: ActionSheetProps) => {
     subtitle = undefined,
     rightAction = undefined,
     title, children, before, visible, onClose,
+    linkTo,
   } = props;
   const { window } = useDimensions();
   const [visibleState, setVisible] = useState(false);

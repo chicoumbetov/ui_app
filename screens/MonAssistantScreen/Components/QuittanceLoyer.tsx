@@ -9,6 +9,7 @@ import MaxWidthContainer from '../../../components/MaxWidthContainer';
 
 import { useRealEstateList } from '../../../src/API/RealEstate';
 import DatePicker from '../../../components/Form/DatePicker';
+import { AvailableValidationRules } from '../../../components/Form/validation';
 
 type QuittanceLoyerForm = {
   idBien: string;
@@ -79,6 +80,7 @@ const QuittanceLoyer = () => {
             size="large"
             appearance="default"
             status="primary"
+            validators={[AvailableValidationRules.required]}
             onChangeValue={(selectedKey) => {
               if (selectedKey) {
                 const currentBien = data?.listRealEstates?.items?.filter(
@@ -91,13 +93,14 @@ const QuittanceLoyer = () => {
               }
             }}
           />
-          {tenantsList ? (
+          {tenantsList?.length > 0 ? (
             <>
               <SelectComp
                 name="idTenant"
                 data={tenantsList}
                 placeholder="Choisissez le locataire"
                 size="large"
+                validators={[AvailableValidationRules.required]}
                 appearance="default"
                 status="primary"
               />
@@ -105,6 +108,7 @@ const QuittanceLoyer = () => {
                 name="date"
                 label="Date de la quittance"
                 placeholder="jj/mm/aaaa"
+                validators={[AvailableValidationRules.required]}
                 icon="calendar-outline"
               />
               <View style={{ marginTop: 20, alignItems: 'flex-end' }}>

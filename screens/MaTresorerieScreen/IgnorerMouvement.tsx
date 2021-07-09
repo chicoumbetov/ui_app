@@ -26,7 +26,7 @@ const IgnorerMouvement = () => {
   // const [client] = useState(comptesData);
   const route = useRoute<RouteProp<TabMaTresorerieParamList, 'ignorer-mouvement'>>();
   const { bienget } = useGetRealEstate(route.params.id);
-  const { bankMouvement: movementIgnore } = useGetBankMovementsByBankAccountId(route.params.idCompte, BankMovementStatus.Ignored);
+  const { bankMouvement: movementIgnore } = useGetBankMovementsByBankAccountId(route.params.idCompte, BankMovementStatus.Ignored, 'cache-and-network');
   const { bankAccount } = useGetBankAccount(route.params.idCompte);
   const [currentMvt, setCurrentMvt] = useState<BankMovement>();
   console.log(movementIgnore);

@@ -228,9 +228,9 @@ function TableauDeBord() {
               Prochain mouvement
             </Text>
             <View style={styles.mouvementImage}>
-              <Amount category="h3" amount={Math.round(next.amount * 100) / 100 || 0} />
+              <Amount category="h3" amount={Math.round(next?.amount * 100) / 100 || 0} />
               <AutoAvatar
-                avatarInfo={next.inconUri || ''}
+                avatarInfo={next?.inconUri || ''}
                 style={{
                   height: 42,
                   width: 44,

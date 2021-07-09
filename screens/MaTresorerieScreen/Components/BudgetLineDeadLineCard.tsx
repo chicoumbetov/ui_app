@@ -253,6 +253,7 @@ const BudgetLineDeadLineCard = (props: BudgetLineDeadLineCardProps) => {
                     keyboardType="numeric"
                     onChangeValue={(v) => {
                       if (v) {
+                        v = -Math.abs(v);
                         setManagementFees(parseFloat(v.toString()));
                       }
                     }}
@@ -279,6 +280,7 @@ const BudgetLineDeadLineCard = (props: BudgetLineDeadLineCardProps) => {
                     keyboardType="numeric"
                     onChangeValue={(v) => {
                       if (v) {
+                        v = -Math.abs(v);
                         setInterest(parseFloat(v.toString()));
                       }
                     }}
@@ -301,6 +303,7 @@ const BudgetLineDeadLineCard = (props: BudgetLineDeadLineCardProps) => {
                     keyboardType="numeric"
                     onChangeValue={(v) => {
                       if (v) {
+                        v = -Math.abs(v);
                         setAssurance(parseFloat(v.toString()));
                       }
                     }}
@@ -327,6 +330,7 @@ const BudgetLineDeadLineCard = (props: BudgetLineDeadLineCardProps) => {
                     keyboardType="numeric"
                     onChangeValue={(v) => {
                       if (v) {
+                        v = -Math.abs(v);
                         setHouseholdWaste(parseFloat(v.toString()));
                       }
                     }}

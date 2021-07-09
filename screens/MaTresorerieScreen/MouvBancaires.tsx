@@ -43,7 +43,7 @@ const MouvBancaires = () => {
   const route = useRoute<RouteProp<TabMaTresorerieParamList, 'mouv-bancaires'>>();
   const { bienget } = useGetRealEstate(route.params.id);
   const {
-    bankMouvement: movementPasAffect, fetchMoreBankMovements, nextToken,
+    bankMouvement: movementPasAffect, fetchMoreBankMovements, nextToken, refetch,
   } = useGetBankMovementsByBankAccountId(route.params.idCompte, BankMovementStatus.Unkown);
   const { bankAccount } = useGetBankAccount(route.params.idCompte);
   const useUpdateBankMouvement = useUpdateBankMovement();
@@ -120,6 +120,7 @@ const MouvBancaires = () => {
           input: {
             id: current.id,
             status: BankMovementStatus.Ignored,
+            date: movement.date,
             // eslint-disable-next-line no-underscore-dangle
             _version: current._version,
           },
@@ -324,8 +325,9 @@ const MouvBancaires = () => {
         {currentMvt !== undefined && (
         <EditMouvement
           budget={budget}
+          linkTo={linkTo}
           movement={currentMvt}
-          onSaved={() => setCurrentMvt(undefined)}
+          onSaved={() => { setCurrentMvt(undefined); refetch; }}
           realEstateId={route.params.id}
         />
         )}

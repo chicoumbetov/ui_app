@@ -42,30 +42,30 @@ export const typeDetention = {
 };
 
 export const typeStatut = {
-  sci: {
+  SCI: {
     label: 'SCI',
-    key: 'sci',
+    key: 'SCI',
   },
-  sas: {
+  SAS: {
     label: 'SAS',
-    key: 'sas',
+    key: 'SAS',
   },
-  sarl_classique: {
+  SARLclassique: {
     label: 'SARL Classique',
-    key: 'sarl_classique',
+    key: 'SARLclassique',
   },
-  sarl_famille: {
+  SARLfamille: {
     label: 'SARL Famille',
-    key: 'sarl_famille',
+    key: 'SARLfamille',
   },
 };
 export const typeImpot = {
-  revenue_tax: {
+  RevenueTax: {
     label: 'Impôt sur les revenus',
-    key: 'revenue_tax',
+    key: 'RevenueTax',
   },
-  social_tax: {
+  SocialTax: {
     label: 'Impôt sur les sociétés',
-    key: 'social_tax',
+    key: 'SocialTax',
   },
 };

@@ -40,11 +40,14 @@ const BudgetLineDeadLineCard = (props: BudgetLineDeadLineCardProps) => {
   const { updateBudgetLineDeadline, mutationLoading } = useUpdateBudgetLineDeadlineMutation();
   const deleteBudgetLineDeadLine = useDeleteBudgetLineDeadlineMutation();
 
-  const allPossibleTypes = {};
-  _.merge(allPossibleTypes, typeCharge,
-    typeImpots,
-    typeRevenu,
-    typeAssurance, typeDivers, typeBanque);
+  const allPossibleTypes = {
+    ...typeCharge,
+    ...typeImpots,
+    ...typeRevenu,
+    ...typeAssurance,
+    ...typeDivers,
+    ...typeBanque,
+  };
 
   const saveBudgetLineDeadLine = async (
     data:BudgetLineDeadline,

@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {
-  Button, Text,
-} from '@ui-kitten/components';
+import { Button, Text } from '@ui-kitten/components';
 import { useNavigation } from '@react-navigation/native';
 import { View } from 'react-native';
 import { useForm } from 'react-hook-form';
@@ -11,6 +9,7 @@ import MaxWidthContainer from '../../../components/MaxWidthContainer';
 import { useRealEstateList } from '../../../src/API/RealEstate';
 import FSelect from '../../../components/Form/Select';
 import { AvailableValidationRules } from '../../../components/Form/validation';
+import { TaxType } from '../../../src/API';
 
 type DeclarationImpotsForm = {
   idBien: string;
@@ -37,7 +36,7 @@ const DeclarationImpots = () => {
   useEffect(() => {
     const selectHouse: Array<{ label: string, key: string }> = [];
     data?.listRealEstates?.items?.forEach((house) => {
-      if (house) {
+      if (house && (house.ownName === true || house.typeImpot === TaxType.RevenueTax)) {
         selectHouse.push({ label: house?.name, key: house?.id });
       }
     });

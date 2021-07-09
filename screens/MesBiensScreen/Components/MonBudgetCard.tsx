@@ -26,11 +26,14 @@ import {
 
 type MonBudgetProps = { budget: BudgetLine, realEstate: RealEstate };
 
-const allPossibleTypes = {};
-_.merge(allPossibleTypes, typeCharge,
-  typeImpots,
-  typeRevenu,
-  typeAssurance, typeDivers, typeBanque);
+const allPossibleTypes = {
+  ...typeCharge,
+  ...typeImpots,
+  ...typeRevenu,
+  ...typeAssurance,
+  ...typeDivers,
+  ...typeBanque,
+};
 
 const MonBudgetCard = (props: MonBudgetProps) => {
   const { budget, realEstate } = props;

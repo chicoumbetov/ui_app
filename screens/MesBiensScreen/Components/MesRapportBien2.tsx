@@ -50,11 +50,14 @@ const MesRapportBien2 = () => {
   const { bienget } = useGetRealEstate(id);
   const start = range.startDate;
   const end = range.endDate;
-  const allPossibleTypes = {};
-  _.merge(allPossibleTypes, typeCharge,
-    typeImpots,
-    typeRevenu,
-    typeAssurance, typeDivers, typeBanque);
+  const allPossibleTypes = {
+    ...typeCharge,
+    ...typeImpots,
+    ...typeRevenu,
+    ...typeAssurance,
+    ...typeDivers,
+    ...typeBanque,
+  };
 
   /** Object with 3 attributes and its key */
   const { allCurrentCategories } = useMemo(() => {

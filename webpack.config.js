@@ -72,11 +72,11 @@ module.exports = async function(env, argv) {
   });
 
   if (env.mode === 'production') {
-    config.plugins.push(
+    /*config.plugins.push(
       new BundleAnalyzerPlugin({
         path: 'web-report',
       })
-    );
+    );*/
   }
   config.plugins.push(
     new MomentLocalesPlugin({

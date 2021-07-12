@@ -1,11 +1,7 @@
 const contactDATA = [
   {
-    label: '1 Motif Contact',
+    label: 'Contact problème technique',
     key: 'b1',
-  },
-  {
-    label: '2 Motif Contact',
-    key: 'b2',
   },
 ];
 

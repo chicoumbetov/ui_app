@@ -115,10 +115,12 @@ function findIndexByRouteName(name?: string, window: ScaledSize) {
       return 5 - toAdd;
     case 'notifications':
       return 6 - toAdd;
+      /** Waiting FAQ data
     case 'faq':
       return 7 - toAdd;
+       */
     case 'contact':
-      return 8 - toAdd;
+      return 7 - toAdd;
     default:
       return null;
   }
@@ -215,13 +217,15 @@ const CustomDrawer = (props: DrawerContentComponentProps) => {
               case 6 - toAdd:
                 linkTo('/notifications');
                 break;
+                /** Waiting FAQ data
               case 7 - toAdd:
                 linkTo('/faq');
                 break;
-              case 8 - toAdd:
+                 */
+              case 7 - toAdd:
                 linkTo('/contact');
                 break;
-              case 9 - toAdd:
+              case 8 - toAdd:
                 WebBrowser.openBrowserAsync('https://omedom.com/legal/?simple=1');
                 closeDrawer();
                 break;
@@ -287,10 +291,13 @@ const CustomDrawer = (props: DrawerContentComponentProps) => {
               return (<></>);
             }}
           />
-          <DrawerItem
-            title="FAQ"
-            accessoryLeft={QuestionIcon}
-          />
+          {/** Waiting FAQ data
+           <DrawerItem
+           title="FAQ"
+           accessoryLeft={QuestionIcon}
+           />
+ */}
+
           <DrawerItem
             title="Contact"
             accessoryLeft={EmailIcon}

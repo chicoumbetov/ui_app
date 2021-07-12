@@ -17,8 +17,6 @@ import * as Notifications from 'expo-notifications';
 import Constants from 'expo-constants';
 import moment from 'moment';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import MaisonVert from '../../assets/Omedom_Icons_svg/Logement/maison_verte.svg';
-import Immeuble from '../../assets/Omedom_Icons_svg/Logement/immeuble.svg';
 import MaxWidthContainer from '../../components/MaxWidthContainer';
 import MonBienResume from '../../components/MonBienResume';
 import { RealEstateItem, useRealEstateList } from '../../src/API/RealEstate';
@@ -110,7 +108,10 @@ function TableauDeBord() {
     }
   }
 
-  const { data: listBankMovement } = useListBankMovementbyListRealEstate(BankMovementStatus.Affected, '2021-04-01', '2021-07-01');
+  const dateDebut = new Date();
+  const dateFin = new Date();
+
+  const { data: listBankMovement } = useListBankMovementbyListRealEstate(BankMovementStatus.Affected, moment(dateDebut.setMonth(dateDebut.getMonth() - 2)).format('YYYY-MM-DD').toString(), moment(dateFin).format('YYYY-MM-DD').toString());
 
   let dernierCredit: { amount: number, date: string, iconUri: string } = {};
   let dernierDebit: { amount: number, date: string, iconUri: string } = {};

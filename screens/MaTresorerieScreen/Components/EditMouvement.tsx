@@ -1,9 +1,8 @@
 import {
   Button,
-  Card, CheckBox, Text, useTheme,
+  Card, Text, useTheme,
 } from '@ui-kitten/components';
 import {
-  Alert,
   ScrollView, StyleSheet, TouchableOpacity, View,
 } from 'react-native';
 import React, { useState } from 'react';
@@ -13,24 +12,27 @@ import {
   BankMovement,
   BankMovementStatus,
   BudgetLineDeadline,
-  BudgetLineType,
 } from '../../../src/API';
 
 import {
-  useDeleteBudgetLineDeadlineMutation,
   useUpdateBudgetLineDeadlineMutation,
 } from '../../../src/API/BudgetLineDeadLine';
-import TextInputComp from '../../../components/Form/TextInput';
 import Amount from '../../../components/Amount';
 import { useUpdateBankMovement } from '../../../src/API/BankMouvement';
 import BudgetLineDeadLineCard from './BudgetLineDeadLineCard';
 import Formatter from '../../../utils/Formatter';
 
-type MonBudgetProps = { budget?: (BudgetLineDeadline | null)[], movement: BankMovement, onSaved?: () => void, realEstateId: string };
+type MonBudgetProps = {
+  linkTo: (path:string) => void,
+  budget?: (BudgetLineDeadline | null)[],
+  movement: BankMovement,
+  onSaved?: () => void,
+  realEstateId: string
+};
 
 const EditMouvement = (props: MonBudgetProps) => {
   const {
-    budget, movement, onSaved, realEstateId,
+    budget, movement, onSaved, realEstateId, linkTo,
   } = props;
   console.log('budget :', budget);
   // console.log('amount : ', amount);
@@ -57,6 +59,14 @@ const EditMouvement = (props: MonBudgetProps) => {
     console.log(checked);
   };
 
+  const allerMonBudget = () => {
+    console.log(realEstateId);
+    if (onSaved) {
+      onSaved();
+    }
+    linkTo(`/mes-biens/bien/${realEstateId}/budget`);
+  };
+
   const affecteMovement = async () => {
     checked.reduce(async (promise, current) => {
       await promise;
@@ -76,6 +86,7 @@ const EditMouvement = (props: MonBudgetProps) => {
         input: {
           id: movement.id,
           status: BankMovementStatus.Affected,
+          date: movement.date,
           // eslint-disable-next-line no-underscore-dangle
           _version: movement._version,
           realEstateId,
@@ -149,6 +160,7 @@ const EditMouvement = (props: MonBudgetProps) => {
                   >
                     <TouchableOpacity
                       onPress={() => {
+                        allerMonBudget();
                       }}
                       style={{
                         flexDirection: 'row', alignItems: 'center',
@@ -175,6 +187,7 @@ const EditMouvement = (props: MonBudgetProps) => {
                 >
                   <TouchableOpacity
                     onPress={() => {
+                      allerMonBudget();
                     }}
                     style={{
                       flexDirection: 'row', alignItems: 'center',
@@ -208,6 +221,7 @@ const EditMouvement = (props: MonBudgetProps) => {
             >
               <TouchableOpacity
                 onPress={() => {
+                  allerMonBudget();
                 }}
                 style={{
                   flexDirection: 'row', alignItems: 'center',

@@ -48,6 +48,7 @@ const BottomTabBar = ({ navigation, state }: any) => {
 
   const BellIcon = () => (
     <>
+      <BellOutlineColor height={20} width={20} />
       {countNotification > 0 && (
       <View style={{
         width: 20,
@@ -55,7 +56,8 @@ const BottomTabBar = ({ navigation, state }: any) => {
         borderRadius: 10,
         backgroundColor: theme['color-danger-600'],
         position: 'absolute',
-        top: -10,
+        top: 0,
+        right: 5,
         marginLeft: 20,
       }}
       >
@@ -71,7 +73,6 @@ const BottomTabBar = ({ navigation, state }: any) => {
         </Text>
       </View>
       )}
-      <BellOutlineColor height={20} width={20} />
     </>
   );
 

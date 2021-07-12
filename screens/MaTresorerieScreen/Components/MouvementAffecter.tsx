@@ -72,6 +72,7 @@ const MouvementAffecter = (props: MonBudgetProps) => {
                 input: {
                   id: movement.id,
                   status: BankMovementStatus.Unkown,
+                  date: movement.date,
                   // eslint-disable-next-line no-underscore-dangle
                   _version: movement._version,
                 },

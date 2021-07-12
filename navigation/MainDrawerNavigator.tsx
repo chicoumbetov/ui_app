@@ -69,10 +69,13 @@ const MainDrawerNavigator = () => {
         name="ma-tresorerie-nav"
         component={MaTresorerieStackNavigator}
       />
-      <Drawer.Screen
-        name="faq"
-        component={Faq}
-      />
+      {/** Waiting FAQ data
+       <Drawer.Screen
+       name="faq"
+       component={Faq}
+       />
+ */}
+
       <Drawer.Screen
         name="contact"
         component={Contact}

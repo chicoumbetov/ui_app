@@ -2,10 +2,10 @@
   "expo": {
     "name": "omedom",
     "slug": "omedom",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/Icones_omedom/logo_icon_appli.png",
-    "scheme": "myapp",
+    "scheme": "omedom",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/Icones_omedom/logo.png",
@@ -30,7 +30,7 @@
         "foregroundImage": "./assets/Icones_omedom/logo.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.djbuch.omedom"
+      "package": "fr.webpremiere.omedom"
     },
     "web": {
       "favicon": "./assets/favicon-web-32x32.png",

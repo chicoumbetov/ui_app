@@ -20,6 +20,7 @@ import { MotiView } from 'moti';
 import { useLinkTo, useRoute } from '@react-navigation/native';
 import { RouteProp } from '@react-navigation/core/lib/typescript/src/types';
 import { ImagePickerResult } from 'expo-image-picker';
+import API from '@aws-amplify/api';
 import { colors } from '../../assets/styles';
 import Form from '../../components/Form/Form';
 import SelectComp from '../../components/Form/Select';
@@ -126,6 +127,8 @@ function AjoutBienScreen() {
           },
         },
       });
+
+      await API.post('omedomrest', '/budgetinsight/create-trial', {});
 
       if (mutationData?.createRealEstate && selectedNewImage) {
         const upload = await Upload(selectedNewImage, `realEstate/${mutationData.createRealEstate.id}/`);

@@ -1969,7 +1969,10 @@ export const schema = {
                 "Trial",
                 "OneToTwo",
                 "ThreeToFive",
-                "MoreThanFive"
+                "MoreThanFive",
+                "OneToTwoAnnual",
+                "ThreeToFiveAnnual",
+                "MoreThanFiveAnnual"
             ]
         }
     },
@@ -2226,15 +2229,6 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
-                "subscription": {
-                    "name": "subscription",
-                    "isArray": false,
-                    "type": {
-                        "enum": "SubscriptionType"
-                    },
-                    "isRequired": false,
-                    "attributes": []
-                },
                 "notificationParams": {
                     "name": "notificationParams",
                     "isArray": false,
@@ -2369,5 +2363,5 @@ export const schema = {
             }
         }
     },
-    "version": "e87f49e21478344f11b9af5491aa2570"
+    "version": "10e6cb033af19560b625d0567b8c2a5d"
 };

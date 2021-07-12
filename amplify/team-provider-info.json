@@ -134,7 +134,7 @@
         },
         "omedomSESLayer": {
           "deploymentBucketName": "amplify-omedom-prod-01129-deployment",
-          "s3Key": "amplify-builds/omedomSESLayer-LambdaLayerVersiondb26c916-build.zip"
+          "s3Key": "amplify-builds/omedomSESLayer-LambdaLayerVersionf112e18a-build.zip"
         },
         "omedomBudgetInsightLayer": {
           "deploymentBucketName": "amplify-omedom-prod-01129-deployment",

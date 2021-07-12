@@ -378,7 +378,6 @@ type ProfileInfo {
   optIn: Boolean
   address: Address
   birthDate: AWSDate
-  subscription: SubscriptionType
   notificationParams: NotificationParams
   notificationLastSeenAt: AWSDateTime
 }
@@ -472,6 +471,9 @@ enum SubscriptionType {
     OneToTwo
     ThreeToFive
     MoreThanFive
+    OneToTwoAnnual
+    ThreeToFiveAnnual
+    MoreThanFiveAnnual
 }
 
 enum TaxType {

@@ -2556,7 +2556,6 @@ export const onCreateUser = /* GraphQL */ `
           country
         }
         birthDate
-        subscription
         notificationParams {
           echeanceFacture {
             push
@@ -2623,7 +2622,6 @@ export const onUpdateUser = /* GraphQL */ `
           country
         }
         birthDate
-        subscription
         notificationParams {
           echeanceFacture {
             push
@@ -2690,7 +2688,6 @@ export const onDeleteUser = /* GraphQL */ `
           country
         }
         birthDate
-        subscription
         notificationParams {
           echeanceFacture {
             push
@@ -4464,7 +4461,6 @@ export const onCreateBillingHistory = /* GraphQL */ `
             country
           }
           birthDate
-          subscription
           notificationLastSeenAt
         }
         expoToken
@@ -4510,7 +4506,6 @@ export const onUpdateBillingHistory = /* GraphQL */ `
             country
           }
           birthDate
-          subscription
           notificationLastSeenAt
         }
         expoToken
@@ -4556,7 +4551,6 @@ export const onDeleteBillingHistory = /* GraphQL */ `
             country
           }
           birthDate
-          subscription
           notificationLastSeenAt
         }
         expoToken
@@ -4603,7 +4597,6 @@ export const onCreateNotification = /* GraphQL */ `
             country
           }
           birthDate
-          subscription
           notificationLastSeenAt
         }
         expoToken
@@ -4650,7 +4643,6 @@ export const onUpdateNotification = /* GraphQL */ `
             country
           }
           birthDate
-          subscription
           notificationLastSeenAt
         }
         expoToken
@@ -4697,7 +4689,6 @@ export const onDeleteNotification = /* GraphQL */ `
             country
           }
           birthDate
-          subscription
           notificationLastSeenAt
         }
         expoToken

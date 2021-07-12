@@ -50,7 +50,8 @@ export default function MonCompte() {
 
       <Informations utilisateur={user} />
       <Separator />
-      <Abonnement />
+      {user
+      && <Abonnement utilisateur={user} />}
 
     </MaxWidthContainer>
   );

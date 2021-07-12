@@ -56,6 +56,7 @@ export interface PhoneInputState {
   code: CallingCode | undefined;
   number: string;
   modalVisible: boolean;
+  didChange: boolean;
   countryCode: CountryCode;
   disabled: boolean;
 }
@@ -83,6 +84,7 @@ export default class PhoneInput extends PureComponent<PhoneInputProps, PhoneInpu
 
     this.state = {
       code: props.defaultCode ? undefined : '91',
+      didChange: false,
       number,
       modalVisible: false,
       countryCode,
@@ -101,10 +103,10 @@ export default class PhoneInput extends PureComponent<PhoneInputProps, PhoneInpu
       // eslint-disable-next-line no-nested-ternary
       let number = nextProps.value
         ? nextProps.value
-        : nextProps.defaultValue
+        : nextProps.defaultValue && !prevState.didChange
           ? nextProps.defaultValue
           : '';
-      let countryCode = nextProps.defaultCode ? nextProps.defaultCode : 'IN';
+      let countryCode = prevState.countryCode ? prevState.countryCode : nextProps.defaultCode;
       if (number !== '') {
         try {
           const parsedNumber = phoneUtil.parseAndKeepRawInput(number, nextProps.defaultCode);
@@ -153,7 +155,7 @@ export default class PhoneInput extends PureComponent<PhoneInputProps, PhoneInpu
       () => {
         const { onChangeFormattedText } = this.props;
         if (onChangeFormattedText) {
-          if (country.callingCode[0]) {
+          if (country.callingCode[0] && number.length > 0) {
             onChangeFormattedText(
               `+${country.callingCode[0]}${number}`,
             );
@@ -169,7 +171,7 @@ export default class PhoneInput extends PureComponent<PhoneInputProps, PhoneInpu
   };
 
   onChangeText = (text: string) => {
-    this.setState({ number: text });
+    this.setState({ number: text, didChange: true });
     const { onChangeText, onChangeFormattedText } = this.props;
     if (onChangeText) {
       onChangeText(text);

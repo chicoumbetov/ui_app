@@ -1941,7 +1941,6 @@ export const userByBiUser = /* GraphQL */ `
             country
           }
           birthDate
-          subscription
           notificationLastSeenAt
         }
         expoToken
@@ -1990,7 +1989,6 @@ export const userByEmail = /* GraphQL */ `
             country
           }
           birthDate
-          subscription
           notificationLastSeenAt
         }
         expoToken
@@ -2037,7 +2035,6 @@ export const syncUsers = /* GraphQL */ `
             country
           }
           birthDate
-          subscription
           notificationLastSeenAt
         }
         expoToken
@@ -2073,7 +2070,6 @@ export const getUser = /* GraphQL */ `
           country
         }
         birthDate
-        subscription
         notificationParams {
           echeanceFacture {
             push
@@ -2145,7 +2141,6 @@ export const listUsers = /* GraphQL */ `
             country
           }
           birthDate
-          subscription
           notificationLastSeenAt
         }
         expoToken
@@ -3817,7 +3812,6 @@ export const getBillingHistory = /* GraphQL */ `
             country
           }
           birthDate
-          subscription
           notificationLastSeenAt
         }
         expoToken
@@ -3871,7 +3865,6 @@ export const listBillingHistorys = /* GraphQL */ `
             phoneNumber
             optIn
             birthDate
-            subscription
             notificationLastSeenAt
           }
           expoToken
@@ -3928,7 +3921,6 @@ export const listBillingHistoriesByUser = /* GraphQL */ `
             phoneNumber
             optIn
             birthDate
-            subscription
             notificationLastSeenAt
           }
           expoToken
@@ -3981,7 +3973,6 @@ export const syncBillingHistories = /* GraphQL */ `
             phoneNumber
             optIn
             birthDate
-            subscription
             notificationLastSeenAt
           }
           expoToken
@@ -4350,7 +4341,6 @@ export const getNotification = /* GraphQL */ `
             country
           }
           birthDate
-          subscription
           notificationLastSeenAt
         }
         expoToken
@@ -4405,7 +4395,6 @@ export const listNotifications = /* GraphQL */ `
             phoneNumber
             optIn
             birthDate
-            subscription
             notificationLastSeenAt
           }
           expoToken
@@ -4463,7 +4452,6 @@ export const listNotificationsByUser = /* GraphQL */ `
             phoneNumber
             optIn
             birthDate
-            subscription
             notificationLastSeenAt
           }
           expoToken
@@ -4519,7 +4507,6 @@ export const getNotificationById = /* GraphQL */ `
             phoneNumber
             optIn
             birthDate
-            subscription
             notificationLastSeenAt
           }
           expoToken
@@ -4573,7 +4560,6 @@ export const syncNotifications = /* GraphQL */ `
             phoneNumber
             optIn
             birthDate
-            subscription
             notificationLastSeenAt
           }
           expoToken

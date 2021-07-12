@@ -51,7 +51,10 @@ export enum SubscriptionType {
   TRIAL = "Trial",
   ONE_TO_TWO = "OneToTwo",
   THREE_TO_FIVE = "ThreeToFive",
-  MORE_THAN_FIVE = "MoreThanFive"
+  MORE_THAN_FIVE = "MoreThanFive",
+  ONE_TO_TWO_ANNUAL = "OneToTwoAnnual",
+  THREE_TO_FIVE_ANNUAL = "ThreeToFiveAnnual",
+  MORE_THAN_FIVE_ANNUAL = "MoreThanFiveAnnual"
 }
 
 export declare class Address {
@@ -106,7 +109,6 @@ export declare class ProfileInfo {
   readonly optIn?: boolean;
   readonly address?: Address;
   readonly birthDate?: string;
-  readonly subscription?: SubscriptionType | keyof typeof SubscriptionType;
   readonly notificationParams?: NotificationParams;
   readonly notificationLastSeenAt?: string;
   constructor(init: ModelInit<ProfileInfo>);

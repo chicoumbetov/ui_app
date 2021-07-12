@@ -53,7 +53,10 @@ const SubscriptionType = {
   "TRIAL": "Trial",
   "ONE_TO_TWO": "OneToTwo",
   "THREE_TO_FIVE": "ThreeToFive",
-  "MORE_THAN_FIVE": "MoreThanFive"
+  "MORE_THAN_FIVE": "MoreThanFive",
+  "ONE_TO_TWO_ANNUAL": "OneToTwoAnnual",
+  "THREE_TO_FIVE_ANNUAL": "ThreeToFiveAnnual",
+  "MORE_THAN_FIVE_ANNUAL": "MoreThanFiveAnnual"
 };
 
 const { BankAccount, RealEstateBankAccount, RealEstate, BankMovement, BudgetLineDeadline, BudgetLine, Document, PendingInvitation, User, BillingHistory, Notification, NotificationTickets, Address, MortgageLoanInfo, AmortizationTable, MortgageLoanDeadlineInfo, TenantInfo, ProfileInfo, NotificationParams, NotificationParam, UserToken } = initSchema(schema);

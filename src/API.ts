@@ -460,7 +460,6 @@ export type ProfileInfoInput = {
   optIn?: boolean | null,
   address?: AddressInput | null,
   birthDate?: string | null,
-  subscription?: SubscriptionType | null,
   notificationParams?: NotificationParamsInput | null,
   notificationLastSeenAt?: string | null,
 };
@@ -472,14 +471,6 @@ export type AddressInput = {
   city: string,
   country: string,
 };
-
-export enum SubscriptionType {
-  Trial = "Trial",
-  OneToTwo = "OneToTwo",
-  ThreeToFive = "ThreeToFive",
-  MoreThanFive = "MoreThanFive",
-}
-
 
 export type NotificationParamsInput = {
   echeanceFacture?: NotificationParamInput | null,
@@ -574,7 +565,6 @@ export type ProfileInfo = {
   optIn?: boolean | null,
   address?: Address | null,
   birthDate?: string | null,
-  subscription?: SubscriptionType | null,
   notificationParams?: NotificationParams | null,
   notificationLastSeenAt?: string | null,
 };
@@ -871,6 +861,17 @@ export type CreateBillingHistoryInput = {
   paid?: boolean | null,
   _version?: number | null,
 };
+
+export enum SubscriptionType {
+  Trial = "Trial",
+  OneToTwo = "OneToTwo",
+  ThreeToFive = "ThreeToFive",
+  MoreThanFive = "MoreThanFive",
+  OneToTwoAnnual = "OneToTwoAnnual",
+  ThreeToFiveAnnual = "ThreeToFiveAnnual",
+  MoreThanFiveAnnual = "MoreThanFiveAnnual",
+}
+
 
 export type ModelBillingHistoryConditionInput = {
   createdAt?: ModelStringInput | null,
@@ -4512,7 +4513,6 @@ export type CreateUserMutation = {
         country: string,
       } | null,
       birthDate?: string | null,
-      subscription?: SubscriptionType | null,
       notificationParams?:  {
         __typename: "NotificationParams",
         echeanceFacture?:  {
@@ -4595,7 +4595,6 @@ export type UpdateUserMutation = {
         country: string,
       } | null,
       birthDate?: string | null,
-      subscription?: SubscriptionType | null,
       notificationParams?:  {
         __typename: "NotificationParams",
         echeanceFacture?:  {
@@ -4678,7 +4677,6 @@ export type DeleteUserMutation = {
         country: string,
       } | null,
       birthDate?: string | null,
-      subscription?: SubscriptionType | null,
       notificationParams?:  {
         __typename: "NotificationParams",
         echeanceFacture?:  {
@@ -7157,7 +7155,6 @@ export type CreateBillingHistoryMutation = {
           country: string,
         } | null,
         birthDate?: string | null,
-        subscription?: SubscriptionType | null,
         notificationLastSeenAt?: string | null,
       } | null,
       expoToken?: Array< string > | null,
@@ -7211,7 +7208,6 @@ export type UpdateBillingHistoryMutation = {
           country: string,
         } | null,
         birthDate?: string | null,
-        subscription?: SubscriptionType | null,
         notificationLastSeenAt?: string | null,
       } | null,
       expoToken?: Array< string > | null,
@@ -7265,7 +7261,6 @@ export type DeleteBillingHistoryMutation = {
           country: string,
         } | null,
         birthDate?: string | null,
-        subscription?: SubscriptionType | null,
         notificationLastSeenAt?: string | null,
       } | null,
       expoToken?: Array< string > | null,
@@ -7975,7 +7970,6 @@ export type CreateNotificationMutation = {
           country: string,
         } | null,
         birthDate?: string | null,
-        subscription?: SubscriptionType | null,
         notificationLastSeenAt?: string | null,
       } | null,
       expoToken?: Array< string > | null,
@@ -8030,7 +8024,6 @@ export type UpdateNotificationMutation = {
           country: string,
         } | null,
         birthDate?: string | null,
-        subscription?: SubscriptionType | null,
         notificationLastSeenAt?: string | null,
       } | null,
       expoToken?: Array< string > | null,
@@ -8085,7 +8078,6 @@ export type DeleteNotificationMutation = {
           country: string,
         } | null,
         birthDate?: string | null,
-        subscription?: SubscriptionType | null,
         notificationLastSeenAt?: string | null,
       } | null,
       expoToken?: Array< string > | null,
@@ -10529,7 +10521,6 @@ export type UserByBiUserQuery = {
           country: string,
         } | null,
         birthDate?: string | null,
-        subscription?: SubscriptionType | null,
         notificationLastSeenAt?: string | null,
       } | null,
       expoToken?: Array< string > | null,
@@ -10577,7 +10568,6 @@ export type UserByEmailQuery = {
           country: string,
         } | null,
         birthDate?: string | null,
-        subscription?: SubscriptionType | null,
         notificationLastSeenAt?: string | null,
       } | null,
       expoToken?: Array< string > | null,
@@ -10624,7 +10614,6 @@ export type SyncUsersQuery = {
           country: string,
         } | null,
         birthDate?: string | null,
-        subscription?: SubscriptionType | null,
         notificationLastSeenAt?: string | null,
       } | null,
       expoToken?: Array< string > | null,
@@ -10666,7 +10655,6 @@ export type GetUserQuery = {
         country: string,
       } | null,
       birthDate?: string | null,
-      subscription?: SubscriptionType | null,
       notificationParams?:  {
         __typename: "NotificationParams",
         echeanceFacture?:  {
@@ -10752,7 +10740,6 @@ export type ListUsersQuery = {
           country: string,
         } | null,
         birthDate?: string | null,
-        subscription?: SubscriptionType | null,
         notificationLastSeenAt?: string | null,
       } | null,
       expoToken?: Array< string > | null,
@@ -12562,7 +12549,6 @@ export type GetBillingHistoryQuery = {
           country: string,
         } | null,
         birthDate?: string | null,
-        subscription?: SubscriptionType | null,
         notificationLastSeenAt?: string | null,
       } | null,
       expoToken?: Array< string > | null,
@@ -12614,7 +12600,6 @@ export type ListBillingHistorysQuery = {
           phoneNumber?: string | null,
           optIn?: boolean | null,
           birthDate?: string | null,
-          subscription?: SubscriptionType | null,
           notificationLastSeenAt?: string | null,
         } | null,
         expoToken?: Array< string > | null,
@@ -12669,7 +12654,6 @@ export type ListBillingHistoriesByUserQuery = {
           phoneNumber?: string | null,
           optIn?: boolean | null,
           birthDate?: string | null,
-          subscription?: SubscriptionType | null,
           notificationLastSeenAt?: string | null,
         } | null,
         expoToken?: Array< string > | null,
@@ -12722,7 +12706,6 @@ export type SyncBillingHistoriesQuery = {
           phoneNumber?: string | null,
           optIn?: boolean | null,
           birthDate?: string | null,
-          subscription?: SubscriptionType | null,
           notificationLastSeenAt?: string | null,
         } | null,
         expoToken?: Array< string > | null,
@@ -13123,7 +13106,6 @@ export type GetNotificationQuery = {
           country: string,
         } | null,
         birthDate?: string | null,
-        subscription?: SubscriptionType | null,
         notificationLastSeenAt?: string | null,
       } | null,
       expoToken?: Array< string > | null,
@@ -13176,7 +13158,6 @@ export type ListNotificationsQuery = {
           phoneNumber?: string | null,
           optIn?: boolean | null,
           birthDate?: string | null,
-          subscription?: SubscriptionType | null,
           notificationLastSeenAt?: string | null,
         } | null,
         expoToken?: Array< string > | null,
@@ -13232,7 +13213,6 @@ export type ListNotificationsByUserQuery = {
           phoneNumber?: string | null,
           optIn?: boolean | null,
           birthDate?: string | null,
-          subscription?: SubscriptionType | null,
           notificationLastSeenAt?: string | null,
         } | null,
         expoToken?: Array< string > | null,
@@ -13287,7 +13267,6 @@ export type GetNotificationByIdQuery = {
           phoneNumber?: string | null,
           optIn?: boolean | null,
           birthDate?: string | null,
-          subscription?: SubscriptionType | null,
           notificationLastSeenAt?: string | null,
         } | null,
         expoToken?: Array< string > | null,
@@ -13341,7 +13320,6 @@ export type SyncNotificationsQuery = {
           phoneNumber?: string | null,
           optIn?: boolean | null,
           birthDate?: string | null,
-          subscription?: SubscriptionType | null,
           notificationLastSeenAt?: string | null,
         } | null,
         expoToken?: Array< string > | null,
@@ -16397,7 +16375,6 @@ export type OnCreateUserSubscription = {
         country: string,
       } | null,
       birthDate?: string | null,
-      subscription?: SubscriptionType | null,
       notificationParams?:  {
         __typename: "NotificationParams",
         echeanceFacture?:  {
@@ -16475,7 +16452,6 @@ export type OnUpdateUserSubscription = {
         country: string,
       } | null,
       birthDate?: string | null,
-      subscription?: SubscriptionType | null,
       notificationParams?:  {
         __typename: "NotificationParams",
         echeanceFacture?:  {
@@ -16553,7 +16529,6 @@ export type OnDeleteUserSubscription = {
         country: string,
       } | null,
       birthDate?: string | null,
-      subscription?: SubscriptionType | null,
       notificationParams?:  {
         __typename: "NotificationParams",
         echeanceFacture?:  {
@@ -18497,7 +18472,6 @@ export type OnCreateBillingHistorySubscription = {
           country: string,
         } | null,
         birthDate?: string | null,
-        subscription?: SubscriptionType | null,
         notificationLastSeenAt?: string | null,
       } | null,
       expoToken?: Array< string > | null,
@@ -18550,7 +18524,6 @@ export type OnUpdateBillingHistorySubscription = {
           country: string,
         } | null,
         birthDate?: string | null,
-        subscription?: SubscriptionType | null,
         notificationLastSeenAt?: string | null,
       } | null,
       expoToken?: Array< string > | null,
@@ -18603,7 +18576,6 @@ export type OnDeleteBillingHistorySubscription = {
           country: string,
         } | null,
         birthDate?: string | null,
-        subscription?: SubscriptionType | null,
         notificationLastSeenAt?: string | null,
       } | null,
       expoToken?: Array< string > | null,
@@ -18657,7 +18629,6 @@ export type OnCreateNotificationSubscription = {
           country: string,
         } | null,
         birthDate?: string | null,
-        subscription?: SubscriptionType | null,
         notificationLastSeenAt?: string | null,
       } | null,
       expoToken?: Array< string > | null,
@@ -18711,7 +18682,6 @@ export type OnUpdateNotificationSubscription = {
           country: string,
         } | null,
         birthDate?: string | null,
-        subscription?: SubscriptionType | null,
         notificationLastSeenAt?: string | null,
       } | null,
       expoToken?: Array< string > | null,
@@ -18765,7 +18735,6 @@ export type OnDeleteNotificationSubscription = {
           country: string,
         } | null,
         birthDate?: string | null,
-        subscription?: SubscriptionType | null,
         notificationLastSeenAt?: string | null,
       } | null,
       expoToken?: Array< string > | null,

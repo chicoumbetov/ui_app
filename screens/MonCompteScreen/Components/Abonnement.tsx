@@ -1,9 +1,12 @@
-import React, { useEffect } from 'react';
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import React from 'react';
+import { StyleSheet, View } from 'react-native';
 import { Text } from '@ui-kitten/components';
 import { useNavigation } from '@react-navigation/native';
-import MaxWidthContainer from '../../../components/MaxWidthContainer';
+import moment from 'moment';
 import Card from '../../../components/Card';
+import { UserItem } from '../../../src/API/UserContext';
+import { useBillingHistoriesList } from '../../../src/API/BillingHistory';
+import { ModelSortDirection, SubscriptionType } from '../../../src/API';
 
 /**
 type DataProps = {
@@ -54,8 +57,18 @@ type AdresseProps = {
 };
  */
 
-const AbonnementComp = () => {
+type AbonnementProps = {
+  utilisateur: UserItem
+};
+
+const AbonnementComp = (props: AbonnementProps) => {
   const navigation = useNavigation();
+  const { utilisateur } = props;
+  const lastBilling = useBillingHistoriesList({
+    userId: utilisateur.id,
+    sortDirection: ModelSortDirection.DESC,
+    limit: 1,
+  }, 'cache-and-network');
   // console.log('info props', clientData.Client.fields[0]);
   // console.log('AdresseType props', clientData.AdresseType);
 
@@ -63,17 +76,83 @@ const AbonnementComp = () => {
     navigation.navigate('modifier-info-1');
   };
 
-  useEffect(() => {
-    console.log('useEffect test of Abonnement component');
-  });
+  if (!lastBilling.billingHistories
+      || lastBilling.billingHistories.length <= 0
+      || !lastBilling.billingHistories[0]) {
+    return (<></>);
+  }
 
-  // eslint-disable-next-line implicit-arrow-linebreak
+  const lastBillingItem = lastBilling.billingHistories[0];
+  let name = 'Période d\'essai';
+  let periodicity = '';
+  let price = '';
+
+  switch (lastBillingItem.subscription) {
+    case SubscriptionType.Trial:
+      name = 'Période d\'essai';
+      break;
+    case SubscriptionType.MoreThanFive:
+    case SubscriptionType.MoreThanFiveAnnual:
+      name = 'Formule à partir de 6 biens';
+      break;
+    case SubscriptionType.OneToTwo:
+    case SubscriptionType.OneToTwoAnnual:
+      name = 'Formule 1 à 2 biens';
+      break;
+    case SubscriptionType.ThreeToFive:
+    case SubscriptionType.ThreeToFiveAnnual:
+      name = 'Formule 3 à 5 biens';
+      break;
+    default:
+      break;
+  }
+  switch (lastBillingItem.subscription) {
+    case SubscriptionType.Trial:
+      periodicity = `Jusqu'au ${moment(lastBillingItem.nextRenewDate).format('DD/MM/YYYY')}`;
+      break;
+    case SubscriptionType.MoreThanFiveAnnual:
+    case SubscriptionType.OneToTwoAnnual:
+    case SubscriptionType.ThreeToFiveAnnual:
+      periodicity = 'Annuelle';
+      break;
+    case SubscriptionType.MoreThanFive:
+    case SubscriptionType.OneToTwo:
+    case SubscriptionType.ThreeToFive:
+      periodicity = 'Mensuelle';
+      break;
+    default:
+      break;
+  }
+  switch (lastBillingItem.subscription) {
+    case SubscriptionType.Trial:
+      price = 'Gratuit';
+      break;
+    case SubscriptionType.MoreThanFiveAnnual:
+      price = '111,18 € TTC / an';
+      break;
+    case SubscriptionType.OneToTwoAnnual:
+      price = '34,80 € TTC / an';
+      break;
+    case SubscriptionType.ThreeToFiveAnnual:
+      price = '49,98 € TTC / an';
+      break;
+    case SubscriptionType.MoreThanFive:
+      price = '10,90 € TTC / mois';
+      break;
+    case SubscriptionType.OneToTwo:
+      price = '2,90 € TTC / mois';
+      break;
+    case SubscriptionType.ThreeToFive:
+      price = '4,90 € TTC / mois';
+      break;
+    default:
+      break;
+  }
+
   return (
 
-    <MaxWidthContainer outerViewProps={{
-      style: {
-        flex: 1, paddingTop: 32, paddingHorizontal: 28, marginVertical: 13,
-      },
+    <View style={{
+      flex: 1, paddingTop: 32, paddingHorizontal: 28, marginVertical: 13,
     }}
     >
       <Text
@@ -90,9 +169,9 @@ const AbonnementComp = () => {
           flex: 1, borderRightWidth: 0.5, borderRightColor: '#b5b5b5',
         }}
         >
-          <Text category="h5">Formule 3 a 5 biens</Text>
+          <Text category="h5">{name}</Text>
           <Text category="p1" style={{ marginTop: 3 }}>
-            Mensuelle
+            {periodicity}
           </Text>
         </View>
 
@@ -100,16 +179,16 @@ const AbonnementComp = () => {
           flex: 1, alignItems: 'center', justifyContent: 'center',
         }}
         >
-          <Text category="h5" style={{ marginLeft: 31 }}>4.90 €TTC/Mois</Text>
+          <Text category="h5" style={{ marginLeft: 31 }}>{price}</Text>
         </View>
 
       </Card>
 
-      <TouchableOpacity onPress={onPress}>
+      {/* <TouchableOpacity onPress={onPress}>
         <Text category="h5" status="info" style={styles.buttonTextLeft}>Changer de mode de paimenent</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
 
-    </MaxWidthContainer>
+    </View>
 
   );
 };

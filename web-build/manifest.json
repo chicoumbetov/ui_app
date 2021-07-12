@@ -8,9 +8,13 @@
   "orientation": "portrait",
   "related_applications": [
     {
+      "platform": "itunes",
+      "id": "fr.webpremiere.omedom"
+    },
+    {
       "platform": "play",
-      "url": "http://play.google.com/store/apps/details?id=com.djbuch.omedom",
-      "id": "com.djbuch.omedom"
+      "url": "http://play.google.com/store/apps/details?id=fr.webpremiere.omedom",
+      "id": "fr.webpremiere.omedom"
     }
   ],
   "prefer_related_applications": true,

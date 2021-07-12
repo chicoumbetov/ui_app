@@ -149,7 +149,7 @@ export default function Form<T>({
             Inputs.current[i] = e;
           },
           key: child.props.name,
-          defaultValue: getValues(child.props.name),
+          defaultValue: _.get(defaultValues, child.props.name),
           onChangeValue: (v?: string | number) => {
             setValue(child.props.name, v, {
               shouldValidate: true,

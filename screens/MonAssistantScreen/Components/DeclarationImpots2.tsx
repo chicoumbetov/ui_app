@@ -169,21 +169,25 @@ const DeclarationImpots = () => {
                             ? -1 : 1) * item.amount, // number of [key: string]
                         );
                       } else if (categoryKey === 'loyer') {
+                        // 211
                         ObjectHelper.addToObjectKey(
                           declarationLineTotals,
                           allPossibleTypes.loyer.ligneDeclarationImpot.loyer,
                           item.amount - ((item.managementFees || 0) + (item.rentalCharges || 0)),
                         );
+                        // 212
                         ObjectHelper.addToObjectKey(
                           declarationLineTotals,
                           allPossibleTypes.loyer.ligneDeclarationImpot.charges,
                           (item.rentalCharges || 0),
                         );
+                        // 221
                         ObjectHelper.addToObjectKey(
                           declarationLineTotals,
                           allPossibleTypes.loyer.ligneDeclarationImpot.frais_de_gestion,
                           -(item.managementFees || 0),
                         );
+                        // 227
                       } else if (categoryKey === 'taxes_foncieres') {
                         ObjectHelper.addToObjectKey(
                           declarationLineTotals,
@@ -191,11 +195,13 @@ const DeclarationImpots = () => {
                           -(item.amount - (item.householdWaste || 0)),
                         );
                       } else if (categoryKey === 'mensualite_credit') {
+                        // 223
                         ObjectHelper.addToObjectKey(
                           declarationLineTotals,
                           allPossibleTypes.mensualite_credit.ligneDeclarationImpot.assurance,
                           -(item.infoCredit?.assurance || 0),
                         );
+                        // 250
                         ObjectHelper.addToObjectKey(
                           declarationLineTotals,
                           allPossibleTypes.mensualite_credit.ligneDeclarationImpot.interest,

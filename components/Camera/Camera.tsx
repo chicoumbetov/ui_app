@@ -476,7 +476,7 @@ export default function Camera(props: CameraProps): JSX.Element {
         </View>
         <View style={styles.footer}>
           <UIKittenIconButton fill={theme['color-danger-500']} onPress={() => cancelChoice()} name="close-outline" width={40} height={40} />
-          <UIKittenIconButton fill={theme['color-primary-500']} onPress={() => acceptChoice()} name="checkmark-outline" width={80} height={80} />
+          <UIKittenIconButton fill={theme['color-primary-500']} onPress={() => acceptChoice()} name="checkmark-outline" width={40} height={40} />
         </View>
       </SafeAreaView>
     );

@@ -54,7 +54,7 @@
         },
         "shareRealEstate": {
           "deploymentBucketName": "amplify-omedom-dev-233211-deployment",
-          "s3Key": "amplify-builds/shareRealEstate-413475666b4d52676451-build.zip"
+          "s3Key": "amplify-builds/shareRealEstate-6d2b79636368526e4c64-build.zip"
         },
         "omedomAuthorization": {
           "deploymentBucketName": "amplify-omedom-dev-233211-deployment",

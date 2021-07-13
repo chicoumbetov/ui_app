@@ -51,8 +51,11 @@ exports.handler = async (event) => {
                             // eslint-disable-next-line no-underscore-dangle
                             _version: realEstate._version,
                         });
-                        console.log('admins :', admins);
-                        await SendMail_1.sendTemplateEmail(email.S, 'TemplateMailAdminAvecCompte');
+                        // partage de bien a une personne avec compte et en admin
+                        const title = `Bonjour,\n
+                  ,un Utilisateur de l'application OMEDOM  vous a nommé comme administrateur de son bien immobilier.`;
+                        const body = 'Connectez-vous sur l\'application OMEDOM pour le découvrir et effectuer votre gestion.';
+                        await SendMail_1.sendTemplateEmail(email.S, 'TemplateMailAdminAvecCompte', { title, body });
                     }
                     else {
                         const shared = realEstate.shared || [];
@@ -72,7 +75,11 @@ exports.handler = async (event) => {
                             _version: realEstate._version,
                         });
                     }
-                    await SendMail_1.sendTemplateEmail(email.S, 'TemplateMailLectureAvecCompte', { name: 'pierre' });
+                    // partage de bien a une personne avec compte et en shared
+                    const title = `Bonjour,\n
+        ,un Utilisateur de l'application OMEDOM vous a donné l'accès à son bien immobilier.`;
+                    const body = 'Connectez-vous sur l\'application OMEDOM pour le découvrir et effectuer votre gestion.';
+                    await SendMail_1.sendTemplateEmail(email.S, 'TemplateMailAdminAvecCompte', { title, body });
                     await PendingInvitationQueries_1.deletePendingInvitations(appSyncClient, {
                         id: id.S,
                         _version: _version.N,
@@ -80,10 +87,18 @@ exports.handler = async (event) => {
                 }
             }
             else if (type.S === 'Admin') {
-                await SendMail_1.sendTemplateEmail(email.S, 'TemplateMailAdminSansCompteV2', { name: 'jhon' });
+                // partage de bien a une personne sans compte et en Admin
+                const title = `Bonjour,\n
+        ,un Utilisateur de l'application OMEDOM vous a donné l'accès à son bien immobilier.`;
+                const body = 'Vous pouvez  télécharger et découvrir l\'application OMEDOM en cliquant sur le bouton ci-dessous.';
+                await SendMail_1.sendTemplateEmail(email.S, 'TemplateMailAdminSansCompte', { title, body });
             }
             else {
-                await SendMail_1.sendTemplateEmail(email.S, 'TemplateMailLectureSansCompte');
+                // partage de bien a une personne sans compte et en shared
+                const title = `Bonjour,\n
+        ,un Utilisateur de l'application OMEDOM vous a donné l'accès à son bien immobilier.`;
+                const body = 'Vous pouvez  télécharger et découvrir l\'application OMEDOM en cliquant sur le bouton ci-dessous.';
+                await SendMail_1.sendTemplateEmail(email.S, 'TemplateMailAdminSansCompte', { title, body });
             }
         }
     }, Promise.resolve());

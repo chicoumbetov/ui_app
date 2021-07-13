@@ -57,7 +57,6 @@ export type UserItem = {
       country: string,
     } | null,
     birthDate?: string | null,
-    subscription?: SubscriptionType | null,
     notificationParams?: {
       __typename: 'NotificationParams',
       echeanceFacture?: {

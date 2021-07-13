@@ -30,7 +30,7 @@
         "foregroundImage": "./assets/Icones_omedom/logo.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "fr.webpremiere.omedom"
+      "package": "com.djbuch.omedom"
     },
     "web": {
       "favicon": "./assets/favicon-web-32x32.png",

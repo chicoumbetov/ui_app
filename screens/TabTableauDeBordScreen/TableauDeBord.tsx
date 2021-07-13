@@ -150,7 +150,7 @@ function TableauDeBord() {
     }
   }
 
-  console.log('dernierDebit', dernierDebit);
+  console.log('dernierDebit', listBankMovement?.listRealEstates.items);
   console.log('dernierCredit', dernierCredit);
 
   const allerTresorie = () => {

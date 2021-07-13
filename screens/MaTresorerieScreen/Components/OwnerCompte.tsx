@@ -39,6 +39,9 @@ const OwnerCompte = (props: MonBienProps) => {
   if (movementPasAffect) {
     nbNotif = movementPasAffect.length;
   }
+  if (nbNotif > 99) {
+    nbNotif = '99+';
+  }
   // console.log('Ownner Compte : ', movementPasAffect.length);
 
   // const linkTo = useLinkTo();

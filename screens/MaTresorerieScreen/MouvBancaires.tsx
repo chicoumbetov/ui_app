@@ -8,7 +8,7 @@ import React, { useEffect, useState } from 'react';
 import {
   Button, CheckBox, Text, useTheme,
 } from '@ui-kitten/components';
-import { TouchableOpacity, View } from 'react-native';
+import { FlatList, TouchableOpacity, View } from 'react-native';
 
 import { Icon as IconUIKitten } from '@ui-kitten/components/ui/icon/icon.component';
 import { useLinkTo, useRoute } from '@react-navigation/native';
@@ -44,7 +44,7 @@ const MouvBancaires = () => {
   const { bienget } = useGetRealEstate(route.params.id);
   const {
     bankMouvement: movementPasAffect, fetchMoreBankMovements, nextToken, refetch,
-  } = useGetBankMovementsByBankAccountId(route.params.idCompte, BankMovementStatus.Unkown);
+  } = useGetBankMovementsByBankAccountId(route.params.idCompte, BankMovementStatus.Unkown, 'cache-and-network');
   const { bankAccount } = useGetBankAccount(route.params.idCompte);
   const useUpdateBankMouvement = useUpdateBankMovement();
 
@@ -81,7 +81,6 @@ const MouvBancaires = () => {
   };
 
   const onAffecterMouvement = (id?: string) => {
-    fetchMoreBankMovements();
     linkTo(`/ma-tresorerie/${route.params.id}/mes-comptes/${id}/mouvements-bancaires/affectes/`);
   };
 
@@ -140,178 +139,179 @@ const MouvBancaires = () => {
           },
         }}
       >
-
-        <CompteHeader title={bienget?.name} iconUri={bienget?.iconUri} />
-
-        <View style={{
-          marginTop: 20,
-          alignItems: 'center',
-          paddingBottom: 20,
-          borderBottomWidth: 1,
-          borderBottomColor: '#b5b5b5',
-        }}
-        >
-          <Text category="h6" status="basic">{bankAccountCharger?.name || ''}</Text>
-          <Text category="h6" appearance="hint">{bankAccountCharger?.iban || ''}</Text>
-          <Text category="h6" status="basic">{bankAccountCharger?.bank || ''}</Text>
-        </View>
-
-        <Text
-          category="s2"
-          style={{
-            marginBottom: 20, paddingTop: 30,
-          }}
-        >
-          Mouvements bancaires
-        </Text>
-        <Text category="p2" appearance="hint">
-          Vous pouvez affecter ou ignorer les mouvements bancaires liés à ce compte bancaire.
-        </Text>
-
-        <>
-          {!(movementPasAffect && movementPasAffect.length === 0) && (
-          <Button
-            size="large"
-            onPress={() => { ignorerMovement(); setIgnoreClicked(!ignoreClicked); }}
-            appearance={ignoreClicked ? 'filled' : 'outline'}
-            status="danger"
-            style={{ marginTop: 20 }}
+        <FlatList
+          data={movementPasAffect}
+          renderItem={({ item }) => item && (
+          <Card
+            key={item.id}
+            style={{
+              marginVertical: 20,
+              flexDirection: 'row',
+              alignItems: 'center',
+              // eslint-disable-next-line no-underscore-dangle
+              borderWidth: isChecked(item.id) ? (1) : (0),
+              borderColor: 'red',
+            }}
           >
-            Ignorer des mouvements
-          </Button>
-          )}
-          {movementPasAffect?.map((item) => item && (
-            <Card
-              key={item.id}
-              style={{
-                marginVertical: 20,
-                flexDirection: 'row',
-                alignItems: 'center',
-                // eslint-disable-next-line no-underscore-dangle
-                borderWidth: isChecked(item.id) ? (1) : (0),
-                borderColor: 'red',
-              }}
+            {ignoreClicked
+              ? (
+                <CheckBox
+                  checked={isChecked(item.id)}
+                  onChange={
+                              // eslint-disable-next-line no-underscore-dangle
+                              (nextChecked) => checkFunction(nextChecked, item.id, item._version)
+                            }
+                  status="danger"
+                />
+              )
+              : <></>}
+
+            <TouchableOpacity
+              onPress={() => onEditMouvement(item)}
+              style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}
             >
+              <View
+                style={{
+                  flex: 1,
+                  alignItems: 'flex-start',
+                  marginLeft: 20,
+                }}
+              >
+                <Amount amount={item.amount} category="h5" />
+                <Text
+                  style={{ justifyContent: 'center' }}
+                  category="h6"
+                  status="warning"
+                >
+                  En attente
+                </Text>
+              </View>
+
+              <View
+                style={{
+                  flex: 1,
+                  alignItems: 'center',
+                  flexDirection: 'column',
+                  justifyContent: 'space-evenly',
+                  paddingLeft: 10,
+                }}
+              >
+                <Text category="h6" status="basic">{`${moment(item.date).format('DD/MM/YYYY')}`}</Text>
+                <Text category="p1" appearance="hint">{item.description}</Text>
+              </View>
+
+            </TouchableOpacity>
+          </Card>
+          )}
+          ListHeaderComponent={(
+            <>
+              <CompteHeader title={bienget?.name} iconUri={bienget?.iconUri} />
+
+              <View style={{
+                marginTop: 20,
+                alignItems: 'center',
+                paddingBottom: 20,
+                borderBottomWidth: 1,
+                borderBottomColor: '#b5b5b5',
+              }}
+              >
+                <Text category="h6" status="basic">{bankAccountCharger?.name || ''}</Text>
+                <Text category="h6" appearance="hint">{bankAccountCharger?.iban || ''}</Text>
+                <Text category="h6" status="basic">{bankAccountCharger?.bank || ''}</Text>
+              </View>
+
+              <Text
+                category="s2"
+                style={{
+                  marginBottom: 20, paddingTop: 30,
+                }}
+              >
+                Mouvements bancaires
+              </Text>
+              <Text category="p2" appearance="hint">
+                Vous pouvez affecter ou ignorer les mouvements bancaires liés à ce compte bancaire.
+              </Text>
+
+              {!(movementPasAffect && movementPasAffect.length === 0) && (
+              <Button
+                size="large"
+                onPress={() => { ignorerMovement(); setIgnoreClicked(!ignoreClicked); }}
+                appearance={ignoreClicked ? 'filled' : 'outline'}
+                status="danger"
+                style={{ marginTop: 20 }}
+              >
+                Ignorer des mouvements
+              </Button>
+              )}
+            </>
+          )}
+          ListFooterComponent={(
+            <>
+              {nextToken && (
+              <Button appearance="ghost" onPress={() => fetchMoreBankMovements()}>
+                Charger plus de mouvements
+              </Button>
+              )}
               {ignoreClicked
                 ? (
-                  <CheckBox
-                    checked={isChecked(item.id)}
-                    onChange={
-                      // eslint-disable-next-line no-underscore-dangle
-                                (nextChecked) => checkFunction(nextChecked, item.id, item._version)
-                              }
-                    status="danger"
-                  />
+                  <></>
                 )
-                : <></>}
-
-              <TouchableOpacity
-                onPress={() => onEditMouvement(item)}
-                style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}
-              >
-                <View
-                  style={{
-                    flex: 1,
-                    alignItems: 'flex-start',
-                    marginLeft: 20,
-                  }}
-                >
-                  <Amount amount={item.amount} category="h5" />
-                  <Text
-                    style={{ justifyContent: 'center' }}
-                    category="h6"
-                    status="warning"
-                  >
-                    En attente
-                  </Text>
-                </View>
-
-                <View
-                  style={{
-                    flex: 1,
-                    alignItems: 'center',
-                    flexDirection: 'column',
-                    justifyContent: 'space-evenly',
-                    paddingLeft: 10,
-                  }}
-                >
-                  <Text category="h6" status="basic">{`${moment(item.date).format('DD/MM/YYYY')}`}</Text>
-                  <Text category="p1" appearance="hint">{item.description}</Text>
-                </View>
-
-              </TouchableOpacity>
-            </Card>
-          ))}
-          {nextToken && (
-          <Button appearance="ghost" onPress={() => fetchMoreBankMovements()}>
-            Charger plus de mouvements
-          </Button>
-          )}
-
-          {/**
-                if data.length = 0 then show message below
-                else hide
-              */}
-          {(movementPasAffect && movementPasAffect.length === 0) && (
-          <View style={{ alignItems: 'center', marginVertical: 20 }}>
-            <Text category="h4" style={{ marginBottom: 10 }}>Bon Travail!</Text>
-            <Text category="p1">Vous avez affecté tous vos mouvements bancaires.</Text>
-          </View>
-          )}
-
-          {ignoreClicked
-            ? (
-              <></>
-            )
-            : (
-              <>
-                <Separator />
-                <Card
-                  onPress={() => { onAffecterMouvement(bankAccountCharger?.id); }}
-                  style={{
-                    marginVertical: 20,
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    backgroundColor: theme['color-basic-100'],
-                  }}
-                >
-                  <Text category="h6" status="basic">Mouvements affectés</Text>
-                  <IconUIKitten
-                    name="arrow-ios-forward"
-                    fill="#000"
-                    style={{
-                      height: 20, width: 20, alignItems: 'center',
-                    }}
-                  />
-                </Card>
-                <Card
-                  style={{ marginVertical: 20, marginBottom: 60 }}
-                >
-                  <TouchableOpacity
-                    onPress={() => onIgnorerMouvement(bankAccountCharger?.id)}
-                    style={{
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                      backgroundColor: theme['color-basic-100'],
-                    }}
-                  >
-                    <Text category="h6" status="basic">Mouvements ignorés</Text>
-                    <IconUIKitten
-                      name="arrow-ios-forward"
-                      fill="#000"
+                : (
+                  <>
+                    <Separator />
+                    <Card
+                      onPress={() => { onAffecterMouvement(bankAccountCharger?.id); }}
                       style={{
-                        height: 20, width: 20, alignItems: 'center',
+                        marginVertical: 20,
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        backgroundColor: theme['color-basic-100'],
                       }}
-                    />
-                  </TouchableOpacity>
-                </Card>
-              </>
-            )}
+                    >
+                      <Text category="h6" status="basic">Mouvements affectés</Text>
+                      <IconUIKitten
+                        name="arrow-ios-forward"
+                        fill="#000"
+                        style={{
+                          height: 20, width: 20, alignItems: 'center',
+                        }}
+                      />
+                    </Card>
+                    <Card
+                      style={{ marginVertical: 20, marginBottom: 60 }}
+                    >
+                      <TouchableOpacity
+                        onPress={() => onIgnorerMouvement(bankAccountCharger?.id)}
+                        style={{
+                          flexDirection: 'row',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                          backgroundColor: theme['color-basic-100'],
+                        }}
+                      >
+                        <Text category="h6" status="basic">Mouvements ignorés</Text>
+                        <IconUIKitten
+                          name="arrow-ios-forward"
+                          fill="#000"
+                          style={{
+                            height: 20, width: 20, alignItems: 'center',
+                          }}
+                        />
+                      </TouchableOpacity>
+                    </Card>
+                  </>
+                )}
+            </>
+)}
 
-        </>
-
+          ListEmptyComponent={(
+            <View style={{ alignItems: 'center', marginVertical: 20 }}>
+              <Text category="h4" style={{ marginBottom: 10 }}>Bon Travail!</Text>
+              <Text category="p1">Vous avez affecté tous vos mouvements bancaires.</Text>
+            </View>
+        )}
+        />
       </MaxWidthContainer>
 
       <ActionSheet

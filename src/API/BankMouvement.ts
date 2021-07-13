@@ -319,20 +319,20 @@ query listBankMovementsByRealEstateQuery(
             nextToken
             startedAt
           }
-          negativeMovements: bankMovements(sortDirection: DESC, statusDate: $statusDate, filter: {amount: {le: 0}}, limit: 1000) {
-            items {
-              _deleted
-              _lastChangedAt
-              _version
-              amount
-              bankAccountId
-              date
-              description
-              status
-            }
-            nextToken
-            startedAt
-          }
+       negativeMovements: bankMovements(sortDirection: DESC, statusDate: $statusDate, filter: {amount: {le: 0}}, limit: 1000) {
+             items {
+                _deleted
+                _lastChangedAt
+                _version
+                amount
+                bankAccountId
+                date
+                description
+                status
+             }
+             nextToken
+             startedAt
+        }
         
     }
   }
@@ -401,8 +401,9 @@ export function useListBankMovementbyListRealEstate(status: BankMovementStatus, 
       },
 
     },
+    fetchPolicy: 'cache-and-network',
   });
-  // console.log('useListBankMovement data: ', data, loading);
+  console.log('useListBankMovement data: ', data);
   return {
     loading, data, fetchMore, refetch,
   };

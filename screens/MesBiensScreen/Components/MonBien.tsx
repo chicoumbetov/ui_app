@@ -21,7 +21,7 @@ import RotatingIcon from '../../../components/Icon/RotatingIcon';
 import MaxWidthContainer from '../../../components/MaxWidthContainer';
 import { useGetRealEstate, useRentability } from '../../../src/API/RealEstate';
 import Card from '../../../components/Card';
-import { BudgetLineType } from '../../../src/API';
+import { BankMovementStatus, BudgetLineType } from '../../../src/API';
 import DateUtils from '../../../utils/DateUtils';
 import Amount from '../../../components/Amount';
 import ActivityIndicator from '../../../components/ActivityIndicator';
@@ -78,7 +78,7 @@ const MonBien = (props: MonBienProps) => {
   // sortDirection: ASC
   const nextexpense = budgetLines?.items
       && budgetLines?.items.length > 0
-      && budgetLines?.items[0]?.amount;
+      && (budgetLines.items.find((item) => (item && item.amount < 0)));
 
   // make common list of all possible
   // revenues, expeneses categories, types
@@ -148,7 +148,7 @@ const MonBien = (props: MonBienProps) => {
 
   // useMemo used if big O notation is expensive. higher than n to the power 2
   const dernierMovement = useMemo(() => bankMovements?.items?.find(
-    (item) => (!item?.ignored),
+    (item) => (item.status === BankMovementStatus.Affected),
   ), [bankMovements]);
 
   // console.log('allCurrentCategories Mon Bien', allCurrentCategories);
@@ -237,7 +237,7 @@ const MonBien = (props: MonBienProps) => {
                       fill="#b5b5b5"
                       style={{ height: 16, width: 16 }}
                     />
-                    <Amount amount={Math.round((nextexpense || 0) * 100) / 100} category="h4" />
+                    <Amount amount={Math.round(((nextexpense || { amount: 0 }).amount * 100) / 100)} category="h4" />
                   </View>
 
                   {/**

@@ -67,7 +67,6 @@ const MaTresorerie2 = () => {
     // eslint-disable-next-line no-underscore-dangle
     if (!item?._deleted) { return item; } return false;
   });
-  console.log('list bank', realEstateBankAccount);
 
   let buttonText = '';
   if (toggle) {
@@ -103,7 +102,6 @@ const MaTresorerie2 = () => {
       refetchBien();
       setToggle(true);
     } else if (checkedAccounts.length > 0) {
-      console.log('test 1');
       checkedAccounts.reduce(async (promise, current) => {
         await promise;
         await deleteBankAccount({
@@ -294,6 +292,7 @@ const MaTresorerie2 = () => {
                 setNewAccountLink(undefined);
                 setAddingAccounts(false);
                 refetchBankAccount();
+                refetchBien();
                 setToggle(false);
               },
             }]);

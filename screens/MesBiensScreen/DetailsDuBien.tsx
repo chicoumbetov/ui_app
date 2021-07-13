@@ -44,7 +44,7 @@ import ActivityIndicator from '../../components/ActivityIndicator';
 import UserSharedCard from './Components/UserSharedCard';
 import { useDeleteTenantMutation } from '../../src/API/Tenant';
 import Camera from '../../components/Camera';
-import { BudgetLineType, PendingInvitation } from '../../src/API';
+import { BankMovementStatus, BudgetLineType, PendingInvitation } from '../../src/API';
 import { useDeletePendingInvitationMutation } from '../../src/API/PendingInvitation';
 import { typeBien } from '../../mockData/ajoutBienData';
 import Percentage from '../../components/Percentage';
@@ -260,15 +260,13 @@ function DetailsBien() {
 
   // budgetLines are already sorted in schema.graphql
   // sortDirection: ASC
-  const nextexpense = bienget?.budgetLines?.items
-        && bienget?.budgetLines?.items.length > 0
-        && Math.round((bienget?.budgetLines?.items[0]?.amount) * 100) / 100;
+  const nextexpense = Math.round((bienget?.budgetLines?.items?.find((item) => (item.amount < 0))).amount * 100) / 100;
 
   const { bankMovements, budgetLineDeadlines } = bienget || {};
 
   // useMemo used if big O notation is expensive. higher than n to the power 2
   const dernierMovement = useMemo(() => bankMovements?.items?.find(
-    (item) => (!item?.ignored),
+    (item) => (item?.status === BankMovementStatus.Affected),
   ), [bankMovements]);
 
   // console.log('last Movement', dernierMovement);

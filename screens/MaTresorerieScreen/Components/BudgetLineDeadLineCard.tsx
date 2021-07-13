@@ -120,7 +120,7 @@ const BudgetLineDeadLineCard = (props: BudgetLineDeadLineCardProps) => {
 
   const removeBudgetLineDeadLine = async (thisItem: BudgetLineDeadline) => {
     Alert.alert(
-      'Suppression de revenue',
+      'Suppression de revenu',
       '',
       [{
         text: 'Annuler',

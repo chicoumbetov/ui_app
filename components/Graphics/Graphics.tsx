@@ -61,6 +61,9 @@ const Graphics = ({ data }: MesBiensDataProps) => {
         },
       }}
     >
+      <View style={{ flex: 1, alignItems: 'center' }}>
+        <Text>Répartition des charges</Text>
+      </View>
 
       <View style={{ alignItems: 'center', margin: 30 }}>
         <VictoryPie

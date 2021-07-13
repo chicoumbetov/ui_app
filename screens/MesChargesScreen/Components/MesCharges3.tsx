@@ -149,6 +149,7 @@ const MesCharges3 = () => {
         paddingVertical: 40,
       }}
       >
+
         <VictoryPie
           padAngle={4}
           startAngle={-27}

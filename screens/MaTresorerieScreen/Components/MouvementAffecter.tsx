@@ -57,7 +57,7 @@ const MouvementAffecter = (props: MonBudgetProps) => {
 
   const annulerAffectation = async (ignored: boolean) => {
     Alert.alert(
-      'Suppression de revenue',
+      'Annuler l\'affectation',
       '',
       [{
         text: 'Annuler',

@@ -119,10 +119,10 @@ const EditMouvement = (props: MonBudgetProps) => {
             </Text>
             <Text category="s2" style={{ marginVertical: 10 }}>
               {`${(movement.amount || 0) < 0
-                ? ('Charges') : ('Revenus')} enregistés dans votre budget`}
+                ? ('Charges') : ('Revenus')} enregistées dans votre budget`}
             </Text>
             <Text category="p1" appearance="hint">
-              Sélectionner le revenu correspondant
+              Sélectionnez le revenu correspondant
             </Text>
 
             {budget.map((item) => (
@@ -177,7 +177,7 @@ const EditMouvement = (props: MonBudgetProps) => {
             ) : (
               <>
                 <Text category="p1" status="basic" style={{ marginVertical: 20 }}>
-                  Parametrez et consulter vos charges et revenus dans votre budget.
+                  Paramétrez et consultez vos charges et revenus dans votre budget.
                 </Text>
                 <Card
                   style={{

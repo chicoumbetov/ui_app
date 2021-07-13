@@ -58,7 +58,7 @@ const MesCharges1 = () => {
       item?.items?.forEach((itemBudget) => {
         if (itemBudget?.category
         && itemBudget.type === BudgetLineType.Expense) {
-          // console.log('itemBudget: ', itemBudget);
+          console.log('itemBudget: ', itemBudget);
           if (allCurrentCategories[itemBudget?.category] === undefined) {
             allCurrentCategories[itemBudget?.category] = {
               value: itemBudget?.amount || 0,

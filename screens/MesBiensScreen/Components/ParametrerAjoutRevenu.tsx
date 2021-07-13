@@ -304,7 +304,7 @@ const ParametrerAjoutRevenu = () => {
                   setRevenuLoyer(false);
                 } setMontantShow(true); setFrequenceShow(true);
               }}
-              placeholder="Type De Revenu"
+              placeholder="Type de revenu"
               size="large"
               appearance="default"
               status="primary"

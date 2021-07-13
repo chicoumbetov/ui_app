@@ -54,7 +54,7 @@ export const typeCharge = {
     key: 'assurance',
   },
   banque: {
-    label: 'Banque',
+    label: 'Crédit',
     key: 'banque',
   },
   charges_copropriete: {
@@ -114,7 +114,7 @@ export const typeImpots = {
 
 export const typeAssurance = {
   assurance_bien: {
-    label: 'Assurance du Bien',
+    label: 'Assurance',
     key: 'assurance_bien',
     ligneDeclarationImpot: '223',
   },

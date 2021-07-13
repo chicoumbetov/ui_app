@@ -326,7 +326,7 @@ const ParametrerAjoutRevenu = () => {
             </MotiView>
             {revenuLoyer && (
             <MotiView
-              animate={{ height: (revenuLoyer ? 136 : 0) }}
+              animate={{ height: (revenuLoyer ? 150 : 0) }}
               style={{
                 overflow: 'hidden',
                 // hack pour éviter que le overflow 'hidden' ne cache l'ombre

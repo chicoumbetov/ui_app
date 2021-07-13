@@ -25,7 +25,7 @@ import Form from '../../components/Form/Form';
 import SelectComp from '../../components/Form/Select';
 
 import {
-  detention, statut, typeBien, typeDetention, typeImpot, typeStatut,
+  detention, typeBien, typeDetention, typeImpot, typeStatut,
 } from '../../mockData/ajoutBienData';
 import MaxWidthContainer from '../../components/MaxWidthContainer';
 import AutoAvatar from '../../components/AutoAvatar';
@@ -155,7 +155,7 @@ function AjoutBienScreen() {
    * */
   const [etape, setEtape] = useState(0);
   /**
-   *Variable pour gérer la date
+   *
    * */
   const [image, setImage] = useState('default::MaisonVerte');
 
@@ -369,7 +369,12 @@ function AjoutBienScreen() {
                 <TouchableOpacity onPress={() => { pickImage(); }}>
                   <Text category="h5" status="info">Ajouter une photo</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => {}}>
+                {image.indexOf('default::') <= -1 && (
+                <TouchableOpacity onPress={() => {
+                  setImage('default::MaisonVerte');
+                  setSelectedNewImage(undefined);
+                }}
+                >
                   <Text
                     category="h5"
                     style={{
@@ -379,6 +384,7 @@ function AjoutBienScreen() {
                     Supprimer la photo
                   </Text>
                 </TouchableOpacity>
+                )}
               </View>
             </View>
 

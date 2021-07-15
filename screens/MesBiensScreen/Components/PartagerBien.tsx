@@ -101,7 +101,7 @@ const PartagerBien = () => {
 
           <TextInputComp
             name="email"
-            placeholder="Saisissez le mail de 'utilisateur"
+            placeholder="Saisissez le mail de l'utilisateur"
             style={{ marginVertical: 15 }}
           />
           <SelectComp name="type" data={typeAcces} placeholder="Type d'accès" size="large" appearance="default" status="primary" />

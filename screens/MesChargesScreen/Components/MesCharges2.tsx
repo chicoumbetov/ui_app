@@ -1,17 +1,45 @@
 import React, {
 } from 'react';
 import {
-  RadioGroup, Radio, Text, Button, RangeDatepicker, CalendarRange,
+  RadioGroup, Radio, Text, Button, RangeDatepicker, CalendarRange, I18nConfig, NativeDateService,
 } from '@ui-kitten/components';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { StyleSheet, View } from 'react-native';
+import moment from 'moment';
+import 'moment/locale/fr';
 
 import MaxWidthContainer from '../../../components/MaxWidthContainer';
+
+const i18n : I18nConfig = {
+  dayNames: {
+    short: ['Di', 'Lu', 'Ma', 'Me', 'Je', 'Ve', 'Sa'],
+    long: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
+  },
+  monthNames: {
+    short: ['Jan.', 'Fév.', 'Mars', 'Avr.', 'Mai', 'Juin', 'Juil.', 'Août', 'Sep.', 'Oct.', 'Nov.', 'Déc.'],
+    long: [
+      'Janvier',
+      'Février',
+      'Mars',
+      'Avril',
+      'Mai',
+      'Juin',
+      'Juillet',
+      'Août',
+      'Septembre',
+      'October',
+      'Novembre',
+      'Décembre',
+    ],
+  },
+};
+const localeDateService = new NativeDateService('ru', { i18n, startDayOfWeek: 1 });
 
 const MesCharges2 = () => {
   const { params } = useRoute();
   // console.log('params from useRoute', params);
   const titlePass = params;
+  moment.locale('fr');
 
   const navigation = useNavigation();
 
@@ -120,6 +148,7 @@ const MesCharges2 = () => {
           min={new Date(1900, 0, 1)}
           max={new Date((new Date()).getFullYear() + 1, 0, 1)}
             // onChangeValue={(nextDate) => console.log('nextDate', nextDate)}
+          dateService={localeDateService}
           onSelect={
               (nextRange) => {
                 setRange(nextRange);

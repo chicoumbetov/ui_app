@@ -27,7 +27,7 @@ const MonAssistant = () => {
     >
       <View style={styles.container}>
         <Text category="h1" style={styles.title}>Mon Assistant</Text>
-        <Text category="h2" style={styles.subtitle}>Générer les documents</Text>
+        <Text category="h2" style={styles.subtitle}>Générez les documents</Text>
 
         <Card onPress={onDeclarationImpots} style={styles.docs}>
           <Text category="h5" status="basic">Aide à la déclaration d'impôts</Text>

@@ -1,6 +1,6 @@
 import {
   Button,
-  Card, Text, useTheme,
+  Card, Spinner, Text, useTheme,
 } from '@ui-kitten/components';
 import {
   ScrollView, StyleSheet, TouchableOpacity, View,
@@ -108,8 +108,11 @@ const EditMouvement = (props: MonBudgetProps) => {
       onSaved();
     }
   };
-  console.log(checked.find((item) => item.id === '39c0087a-29b3-4cf4-a150-f7daeb43a01b'));
-
+  const LoadingIndicator = (props) => (
+    <View style={[props.style, styles.indicator]}>
+      <Spinner size="small" />
+    </View>
+  );
   return (
     <View style={styles.container}>
 
@@ -194,7 +197,16 @@ const EditMouvement = (props: MonBudgetProps) => {
       )}
 
       {budget && budget.length > 0 && (checked.length > 0 ? (amountMouvement === 0
-        ? (<Button status="success" style={{ marginVertical: 20 }} onPress={() => affecteMovement()}>Enregistrer</Button>)
+        ? (
+          <Button
+            status="success"
+            style={{ marginVertical: 20 }}
+            onPress={() => affecteMovement()}
+            accessoryRight={(updateBudgetLineDeadLine.mutationLoading && useUpdateBankMouvement.mutationLoading) && LoadingIndicator}
+          >
+            Enregistrer
+          </Button>
+        )
         : (
           <>
             <Text category="p1" status="basic" style={{ marginVertical: 20 }}>
@@ -280,6 +292,10 @@ const styles = StyleSheet.create({
     },
     shadowRadius: 0.5,
     shadowOpacity: 1,
+  },
+  indicator: {
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 

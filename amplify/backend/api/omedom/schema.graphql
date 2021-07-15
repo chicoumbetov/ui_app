@@ -455,7 +455,7 @@ enum CompanyType { #French company types
 
 enum Frequency {
     monthly
-    fortnightly
+    biannually
     quarterly
     annual
 }

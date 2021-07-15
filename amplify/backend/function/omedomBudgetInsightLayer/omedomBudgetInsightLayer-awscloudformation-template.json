@@ -20,50 +20,7 @@
     }
   },
   "Resources": {
-    "LambdaLayerVersiond0f693db": {
-      "Type": "AWS::Lambda::LayerVersion",
-      "Properties": {
-        "CompatibleRuntimes": {
-          "Ref": "runtimes"
-        },
-        "Content": {
-          "S3Bucket": {
-            "Ref": "deploymentBucketName"
-          },
-          "S3Key": {
-            "Ref": "s3Key"
-          }
-        },
-        "Description": {
-          "Ref": "description"
-        },
-        "LayerName": {
-          "Fn::Sub": [
-            "omedomBudgetInsightLayer-${env}",
-            {
-              "env": {
-                "Ref": "env"
-              }
-            }
-          ]
-        }
-      },
-      "DeletionPolicy": "Delete",
-      "UpdateReplacePolicy": "Retain"
-    },
-    "LambdaLayerPermissionPrivated0f693db": {
-      "Type": "AWS::Lambda::LayerVersionPermission",
-      "Properties": {
-        "Action": "lambda:GetLayerVersion",
-        "LayerVersionArn": {
-          "Ref": "LambdaLayerVersiond0f693db"
-        },
-        "Principal": {
-          "Ref": "AWS::AccountId"
-        }
-      }
-    },
-    "LambdaLayerVersiond78a0482": {
+    "LambdaLayerVersiona5d89c4d": {
       "Type": "AWS::Lambda::LayerVersion",
       "Properties": {
         "CompatibleRuntimes": [
@@ -73,9 +30,9 @@
           "S3Bucket": {
             "Ref": "deploymentBucketName"
           },
-          "S3Key": "amplify-builds/omedomBudgetInsightLayer-LambdaLayerVersiond78a0482-build.zip"
+          "S3Key": "amplify-builds/omedomBudgetInsightLayer-LambdaLayerVersiona5d89c4d-build.zip"
         },
-        "Description": "Updated layer version 2021-07-05T22:14:10.874Z",
+        "Description": "Updated layer version 2021-07-06T12:03:12.632Z",
         "LayerName": {
           "Fn::Sub": [
             "omedomBudgetInsightLayer-${env}",
@@ -90,11 +47,11 @@
       "DeletionPolicy": "Delete",
       "UpdateReplacePolicy": "Retain"
     },
-    "LambdaLayerPermissionPrivated78a0482": {
+    "LambdaLayerPermissionPrivatea5d89c4d": {
       "Type": "AWS::Lambda::LayerVersionPermission",
       "Properties": {
         "Action": "lambda:GetLayerVersion",
-        "LayerVersionArn": "arn:aws:lambda:eu-west-3:459088793760:layer:omedomBudgetInsightLayer-prod:1",
+        "LayerVersionArn": "arn:aws:lambda:eu-west-3:459088793760:layer:omedomBudgetInsightLayer-dev:3",
         "Principal": {
           "Ref": "AWS::AccountId"
         }
@@ -104,7 +61,7 @@
   "Outputs": {
     "Arn": {
       "Value": {
-        "Ref": "LambdaLayerVersiond0f693db"
+        "Ref": "LambdaLayerVersiona5d89c4d"
       }
     }
   }

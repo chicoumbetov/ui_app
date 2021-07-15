@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import { useLinkTo, useRoute } from '@react-navigation/native';
-import { Button, Layout, Text } from '@ui-kitten/components';
+import {
+  Button, Layout, Spinner, Text,
+} from '@ui-kitten/components';
 
 import {
   Alert,
@@ -44,6 +46,12 @@ const PartagerBien = () => {
 
   const createPendingInvitation = useCreatePendingInvitationMutation();
 
+  const LoadingIndicator = (props) => (
+    <View style={[props.style, styles.indicator]}>
+      <Spinner size="small" />
+    </View>
+  );
+
   const addUser = async (data: ShareRealEstateForm) => {
     console.log(data);
     await createPendingInvitation.createPendingInvitation({
@@ -59,7 +67,7 @@ const PartagerBien = () => {
       'Votre message a été envoyé avec success !',
       '',
       [
-        { text: 'Ok', onPress: () => linkTo(`/mes-biens/bien/${route.params.id}`) },
+        { text: 'Ok', onPress: () => linkTo(`/mes-biens/${route.params.id}`) },
       ],
       { cancelable: true },
     );
@@ -107,7 +115,12 @@ const PartagerBien = () => {
           <SelectComp name="type" data={typeAcces} placeholder="Type d'accès" size="large" appearance="default" status="primary" />
 
           <View style={styles.buttonRight}>
-            <Button onPress={shareRealEstateForm.handleSubmit((data) => { addUser(data); })} style={{ width: 150 }}>
+            <Button
+              disabled={createPendingInvitation.mutationLoading}
+              onPress={shareRealEstateForm.handleSubmit((data) => { addUser(data); })}
+              style={{ width: 150 }}
+              accessoryRight={createPendingInvitation.mutationLoading && LoadingIndicator}
+            >
               Valider
             </Button>
           </View>
@@ -129,5 +142,9 @@ const styles = StyleSheet.create({
   buttonRight: {
     marginTop: 36,
     alignItems: 'flex-end',
+  },
+  indicator: {
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

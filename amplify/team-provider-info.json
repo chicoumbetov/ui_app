@@ -18,7 +18,7 @@
       "function": {
         "omedomSESLayer": {
           "deploymentBucketName": "amplify-omedom-dev-233211-deployment",
-          "s3Key": "amplify-builds/omedomSESLayer-LambdaLayerVersion7adf2460-build.zip"
+          "s3Key": "amplify-builds/omedomSESLayer-LambdaLayerVersion85449b33-build.zip"
         },
         "omedomBudgetInsightLayer": {
           "deploymentBucketName": "amplify-omedom-dev-233211-deployment",
@@ -26,7 +26,7 @@
         },
         "omedomGraphQLLayer": {
           "deploymentBucketName": "amplify-omedom-dev-233211-deployment",
-          "s3Key": "amplify-builds/omedomGraphQLLayer-LambdaLayerVersiond9f0cd84-build.zip"
+          "s3Key": "amplify-builds/omedomGraphQLLayer-LambdaLayerVersion6e638f6d-build.zip"
         },
         "budgetinsight": {
           "deploymentBucketName": "amplify-omedom-dev-233211-deployment",
@@ -46,7 +46,7 @@
         },
         "transactionWebHook": {
           "deploymentBucketName": "amplify-omedom-dev-233211-deployment",
-          "s3Key": "amplify-builds/transactionWebHook-50544a674d6662354839-build.zip"
+          "s3Key": "amplify-builds/transactionWebHook-786341577959584e6736-build.zip"
         },
         "testNotification": {
           "deploymentBucketName": "amplify-omedom-dev-233211-deployment",
@@ -54,7 +54,7 @@
         },
         "shareRealEstate": {
           "deploymentBucketName": "amplify-omedom-dev-233211-deployment",
-          "s3Key": "amplify-builds/shareRealEstate-6d2b79636368526e4c64-build.zip"
+          "s3Key": "amplify-builds/shareRealEstate-3951582f66392f6f4c63-build.zip"
         },
         "omedomAuthorization": {
           "deploymentBucketName": "amplify-omedom-dev-233211-deployment",

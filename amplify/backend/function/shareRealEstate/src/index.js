@@ -91,14 +91,14 @@ exports.handler = async (event) => {
                 const title = `Bonjour,\n
         ,un Utilisateur de l'application OMEDOM vous a donné l'accès à son bien immobilier.`;
                 const body = 'Vous pouvez  télécharger et découvrir l\'application OMEDOM en cliquant sur le bouton ci-dessous.';
-                await SendMail_1.sendTemplateEmail(email.S, 'TemplateMailAdminSansCompte', { title, body });
+                await SendMail_1.sendTemplateEmail(email.S, 'TemplateMailAdminSansCompteV2', { title, body });
             }
             else {
                 // partage de bien a une personne sans compte et en shared
                 const title = `Bonjour,\n
         ,un Utilisateur de l'application OMEDOM vous a donné l'accès à son bien immobilier.`;
                 const body = 'Vous pouvez  télécharger et découvrir l\'application OMEDOM en cliquant sur le bouton ci-dessous.';
-                await SendMail_1.sendTemplateEmail(email.S, 'TemplateMailAdminSansCompte', { title, body });
+                await SendMail_1.sendTemplateEmail(email.S, 'TemplateMailAdminSansCompteV2', { title, body });
             }
         }
     }, Promise.resolve());

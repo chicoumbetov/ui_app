@@ -106,7 +106,7 @@ const AbonnementComp = () => {
       </Card>
 
       <TouchableOpacity onPress={onPress}>
-        <Text category="h5" status="info" style={styles.buttonTextLeft}>Changer de mode de paimenent</Text>
+        <Text category="h5" status="info" style={styles.buttonTextLeft}>Changer de moyen de paiement</Text>
       </TouchableOpacity>
 
     </MaxWidthContainer>

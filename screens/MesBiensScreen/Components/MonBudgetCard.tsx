@@ -81,9 +81,9 @@ const MonBudgetCard = (props: MonBudgetProps) => {
 
   const readOnly = ReadOnly.readOnly(route.params.id);
 
-  const supprimerLeRevenue = async () => {
+  const supprimerLeCharge = async () => {
     Alert.alert(
-      'Suppression de revenue',
+      'Suppression de charge',
       '',
       [{
         text: 'Annuler',
@@ -195,7 +195,7 @@ const MonBudgetCard = (props: MonBudgetProps) => {
             <Text category="h6" status="info" style={styles.buttonTextLeft}>Modifier</Text>
           </Layout>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => { supprimerLeRevenue(); }}>
+        <TouchableOpacity onPress={() => { supprimerLeCharge(); }}>
           <Layout style={styles.button}>
             <Text category="h6" status="basic">Supprimer</Text>
           </Layout>

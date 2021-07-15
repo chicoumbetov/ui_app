@@ -178,7 +178,7 @@ function TableauDeBord() {
        */}
       <View style={styles.container}>
         <Text category="h1">
-          Trésorerie
+          Trésorerie générale
         </Text>
         {data?.listRealEstates?.items
         && data?.listRealEstates?.items?.length > 0

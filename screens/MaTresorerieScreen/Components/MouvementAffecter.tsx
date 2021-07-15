@@ -1,26 +1,21 @@
 import {
-  Button,
-  Card, CheckBox, Text, useTheme,
+  Button, Text,
 } from '@ui-kitten/components';
 import {
-  Alert,
-  ScrollView, StyleSheet, TouchableOpacity, View,
+  Alert, StyleSheet, View,
 } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import moment from 'moment';
-import Icon from '../../../components/Icon';
+
 import {
   BankMovement,
   BankMovementStatus,
-  BudgetLineDeadline,
-  BudgetLineType,
 } from '../../../src/API';
 // import { useDeleteBudgetLineMutation } from '../../../src/API/BudgetLine';
 import {
-  useDeleteBudgetLineDeadlineMutation,
   useUpdateBudgetLineDeadlineMutation,
 } from '../../../src/API/BudgetLineDeadLine';
-import TextInputComp from '../../../components/Form/TextInput';
+
 import Amount from '../../../components/Amount';
 import { useUpdateBankMovement } from '../../../src/API/BankMouvement';
 import Separator from '../../../components/Separator';
@@ -57,7 +52,7 @@ const MouvementAffecter = (props: MonBudgetProps) => {
 
   const annulerAffectation = async (ignored: boolean) => {
     Alert.alert(
-      'Suppression de revenue',
+      'Annuler l\'affectation',
       '',
       [{
         text: 'Annuler',

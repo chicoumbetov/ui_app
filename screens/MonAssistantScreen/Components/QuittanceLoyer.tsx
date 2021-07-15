@@ -42,6 +42,10 @@ const QuittanceLoyer = () => {
     setHouseList(selectHouse);
   }, [data]);
 
+  const ajouterRevenu = () => {
+    console.log('tenantList:', tenantsList);
+    navigation.navigate('/bien/:id/budget/ajout-revenu', { id: tenantsList });
+  };
   /**
   const comptesData = [
     {
@@ -70,7 +74,7 @@ const QuittanceLoyer = () => {
       }}
     >
 
-      <Text category="h1" style={{ marginVertical: 15 }}>Générer une quittance de loyer</Text>
+      <Text category="h1" style={{ marginVertical: 15 }}>Générez une quittance de loyer</Text>
       <Form <QuittanceLoyerForm> {...quittanceLoyerForm}>
         <>
           <SelectComp
@@ -123,7 +127,19 @@ const QuittanceLoyer = () => {
                 </Button>
               </View>
             </>
-          ) : (<Text status="warning">Vous devez ajouter un locataire à votre bien</Text>) }
+          ) : (
+            <View>
+              <Text status="warning">Vous devez ajouter un locataire à votre bien. Pour accéder à cette fonction, le bien doit générer des revenus. Pour cela, veuillez renseigner un locataire. </Text>
+              {/**
+              <Button
+                style={{ marginTop: 10 }}
+                onPress={() => ajouterRevenu()}
+              >
+                Ajouter un revenu
+              </Button>
+              */}
+            </View>
+          ) }
 
         </>
       </Form>

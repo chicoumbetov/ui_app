@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { useLinkTo, useRoute } from '@react-navigation/native';
 import { Button, Layout, Text } from '@ui-kitten/components';
 
 import {
+  Alert,
   StyleSheet, View,
 } from 'react-native';
 import { useForm } from 'react-hook-form';
@@ -35,7 +36,7 @@ export const typeAcces = [
 ];
 
 const PartagerBien = () => {
-  const navigation = useNavigation();
+  const linkTo = useLinkTo();
   const route = useRoute<RouteProp<TabMesBiensParamList, 'partager-bien'>>();
   const shareRealEstateForm = useForm<ShareRealEstateForm>();
 
@@ -53,6 +54,15 @@ const PartagerBien = () => {
         },
       },
     });
+
+    Alert.alert(
+      'Votre message a été envoyé avec success !',
+      '',
+      [
+        { text: 'Ok', onPress: () => linkTo(`/mes-biens/bien/${route.params.id}`) },
+      ],
+      { cancelable: true },
+    );
   };
 
   useEffect(() => {
@@ -91,7 +101,7 @@ const PartagerBien = () => {
 
           <TextInputComp
             name="email"
-            placeholder="Saisissez le mail de 'utilisateur"
+            placeholder="Saisissez le mail de l'utilisateur"
             style={{ marginVertical: 15 }}
           />
           <SelectComp name="type" data={typeAcces} placeholder="Type d'accès" size="large" appearance="default" status="primary" />

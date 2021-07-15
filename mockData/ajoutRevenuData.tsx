@@ -54,7 +54,7 @@ export const typeCharge = {
     key: 'assurance',
   },
   banque: {
-    label: 'Banque',
+    label: 'Crédit',
     key: 'banque',
   },
   charges_copropriete: {
@@ -78,12 +78,12 @@ export const typeCharge = {
     ligneDeclarationImpot: '221',
   },
   frais_comptable: {
-    label: 'Frais Comptables',
+    label: 'Frais comptables',
     key: 'frais_comptable',
     ligneDeclarationImpot: '221',
   },
   frais_de_gestion: {
-    label: 'Frais de Gestion',
+    label: 'Frais de gestion',
     key: 'frais_de_gestion',
     ligneDeclarationImpot: '221',
   },
@@ -95,7 +95,7 @@ export const typeCharge = {
 
 export const typeImpots = {
   taxes_foncieres: {
-    label: 'Taxes Foncières',
+    label: 'Taxes foncières',
     key: 'taxes_foncieres',
     ligneDeclarationImpot: {
       amount: '227',
@@ -103,28 +103,28 @@ export const typeImpots = {
     },
   },
   taxes_habitation: {
-    label: "Taxes d'Habitation",
+    label: "Taxes d'habitation",
     key: 'taxes_habitation',
   },
   contribution_sociales: {
-    label: 'Contribution Sociales',
+    label: 'Contribution sociales',
     key: 'contribution_sociales',
   },
 };
 
 export const typeAssurance = {
   assurance_bien: {
-    label: 'Assurance du Bien',
+    label: 'Assurance',
     key: 'assurance_bien',
     ligneDeclarationImpot: '223',
   },
   loyer_impaye: {
-    label: 'Loyer Impayé',
+    label: 'Loyer impayé',
     key: 'loyer_impaye',
     ligneDeclarationImpot: '223',
   },
   vacances_locatives: {
-    label: 'Vacances Locatives',
+    label: 'Vacances locatives',
     key: 'vacances_locatives',
     ligneDeclarationImpot: '223',
   },
@@ -147,11 +147,11 @@ export const typeDivers = {
 
 export const typeBanque = {
   frais_bancaires: {
-    label: 'Frais Bancaires',
+    label: 'Frais bancaires',
     key: 'frais_bancaires',
   },
   mensualite_credit: {
-    label: 'Mensualité Crédit',
+    label: 'Mensualité crédit',
     key: 'mensualite_credit',
     ligneDeclarationImpot: {
       interest: '250',
@@ -195,7 +195,7 @@ export const rentalType = [
     key: RentalType.furnished,
   },
   {
-    label: 'Non Meublé',
+    label: 'Non meublé',
     key: RentalType.unfurnished,
   },
 ];
@@ -206,11 +206,11 @@ export const derniereEcheance = [
     key: 'b1',
   },
   {
-    label: 'Début de Bail',
+    label: 'Début de bail',
     key: 'b2',
   },
   {
-    label: 'Fin de Bail',
+    label: 'Fin de bail',
     key: 'b3',
   },
 ];

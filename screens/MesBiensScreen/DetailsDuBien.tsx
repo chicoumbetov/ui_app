@@ -117,7 +117,7 @@ function DetailsBien() {
   const supprimerLeBien = async () => {
     return false;
     Alert.alert(
-      'Suppression de revenue',
+      'Suppression de bien',
       '',
       [{
         text: 'Annuler',
@@ -586,7 +586,6 @@ function DetailsBien() {
                   <View style={{ flex: 1 }}>
                     <Text category="h6" status="basic">{`${tenant?.firstname} ${tenant?.lastname}`}</Text>
                     <Text category="h6" appearance="hint">{`${tenant?.amount} €`}</Text>
-                    <Text category="h6" appearance="hint" style={{ marginTop: 6 }} />
                     <View style={{ borderBottomWidth: 0.5, borderBottomColor: '#b5b5b5', marginVertical: 15 }} />
 
                     <Text category="h6" status="basic" style={{ marginTop: 7 }}>Date de fin de bail</Text>
@@ -631,7 +630,7 @@ function DetailsBien() {
           <>
             <View style={styles.container}>
               <Text category="s2" style={{ marginBottom: 30 }}>
-                Documents
+                Documents administratifs et factures
               </Text>
               {bienget?.documents?.items?.map(
                 // eslint-disable-next-line no-underscore-dangle
@@ -794,7 +793,7 @@ function DetailsBien() {
       <Separator />
       <View style={styles.container}>
         <Text category="s2" style={{ marginBottom: 30 }}>
-          Partager votre bien
+          Partagez votre bien
         </Text>
         {bienget?.admins.map((idAdmin) => (
           <UserSharedCard

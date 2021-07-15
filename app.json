@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "omedom",
+    "name": "Omedom",
     "slug": "omedom",
-    "version": "1.0.1",
+    "version": "1.0.5",
     "orientation": "portrait",
     "icon": "./assets/Icones_omedom/logo_icon_appli.png",
     "scheme": "omedom",
@@ -23,14 +23,21 @@
       "requireFullScreen": true,
       "backgroundColor": "#ffffff",
       "usesIcloudStorage": true,
-      "bundleIdentifier": "fr.webpremiere.omedom"
+      "bundleIdentifier": "fr.webpremiere.omedom",
+      "infoPlist": {
+        "NSCameraUsageDescription": "L'application utilise l'appareil photo pour vous permettre de personnaliser votre photo de profil et l'icone de vos biens.",
+        "NSPhotoLibraryUsageDescription": "L'application accède à vos photos pour vous permettre de personnaliser votre photo de profil et l'icone de vos biens.",
+        "CFBundleLocalizations" : ["fr"],
+        "CFBundleDevelopmentRegion" : "fr"
+      }
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/Icones_omedom/logo.png",
+        "foregroundImage": "./assets/Icones_omedom/logo_icon_appli.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.djbuch.omedom"
+      "package": "com.djbuch.omedom",
+      "versionCode" : 2
     },
     "web": {
       "favicon": "./assets/favicon-web-32x32.png",
@@ -54,6 +61,9 @@
         "tsx",
         "svg"
       ]
+    },
+    "locales": {
+      "fr": "./src/localization/fr.json"
     }
   }
 }

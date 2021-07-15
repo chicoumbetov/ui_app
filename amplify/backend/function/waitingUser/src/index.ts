@@ -12,6 +12,9 @@ import getAppSyncClient from '/opt/nodejs/src/AppSyncClient';
 import { updateRealEstateMutation } from '/opt/nodejs/src/RealEstateMutation';
 import { getRealEstate } from '/opt/nodejs/src/RealEstateQueries';
 import { listPendingInvitationsByEmail } from '/opt/nodejs/src/PendingInvitationQueries';
+import { listBillingHistoriesByUser } from '/opt/nodejs/src/BillingHistoryQueries';
+import { createBillingHistory, SubscriptionType } from '/opt/nodejs/src/BillingHistoryMutations';
+import * as moment from 'moment';
 
 exports.handler = async (event) => {
   //eslint-disable-line
@@ -43,6 +46,19 @@ exports.handler = async (event) => {
               });
               if (!exists) {
                 admins.push(user.id);
+              }
+
+              const billingHistory = await listBillingHistoriesByUser(appSyncClient, {
+                userId: user.id,
+              });
+              if (billingHistory === false || billingHistory.length <= 0) {
+                await createBillingHistory(appSyncClient, {
+                  userId: user.id,
+                  nextRenewDate: moment().add(45, 'days').format('YYYY-MM-DD'),
+                  subscription: SubscriptionType.Trial,
+                  amount: 0,
+                  paid: true,
+                });
               }
 
               await updateRealEstateMutation(appSyncClient, {

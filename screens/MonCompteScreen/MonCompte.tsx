@@ -20,9 +20,11 @@ export default function MonCompte() {
 
   return (
     <MaxWidthContainer
-      withScrollView="keyboardAware"
+      withScrollView="simple"
       outerViewProps={{
         showsVerticalScrollIndicator: false,
+      }}
+      innerViewProps={{
         style: {
           paddingTop: 37,
         },

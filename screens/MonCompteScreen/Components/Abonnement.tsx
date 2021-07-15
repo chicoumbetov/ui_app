@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { Platform, StyleSheet, View } from 'react-native';
 import { Text } from '@ui-kitten/components';
 import { useNavigation } from '@react-navigation/native';
 import moment from 'moment';
@@ -79,7 +79,43 @@ const AbonnementComp = (props: AbonnementProps) => {
   if (!lastBilling.billingHistories
       || lastBilling.billingHistories.length <= 0
       || !lastBilling.billingHistories[0]) {
-    return (<></>);
+    return (
+      <View style={{
+        flex: 1, paddingTop: 32, paddingHorizontal: 28, marginVertical: 13,
+      }}
+      >
+        <Text
+          category="h2"
+          style={{ marginBottom: 20 }}
+        >
+          Abonnement
+        </Text>
+
+        {/* use SectionList to render several accounts with its types and details */}
+        <Card style={styles.compteSection}>
+
+          {Platform.OS === 'ios'
+            ? (
+              <Text>
+                L'application est offerte pour les utilisateurs iOs tant
+                qu'elle n'est pas utilisée en dehors de cette plateforme.
+              </Text>
+            )
+            : (
+              <Text>
+                Votre période d'essai de 45 jours démarre après la création de votre premier bien
+                ou après le partage de votre premier bien en mode administrateur.
+              </Text>
+            )}
+
+        </Card>
+
+        {/* <TouchableOpacity onPress={onPress}>
+        <Text category="h5" status="info" style={styles.buttonTextLeft}>Changer de mode de paimenent</Text>
+      </TouchableOpacity> */}
+
+      </View>
+    );
   }
 
   const lastBillingItem = lastBilling.billingHistories[0];
@@ -165,22 +201,33 @@ const AbonnementComp = (props: AbonnementProps) => {
       {/* use SectionList to render several accounts with its types and details */}
       <Card style={styles.compteSection}>
 
-        <View style={{
-          flex: 1, borderRightWidth: 0.5, borderRightColor: '#b5b5b5',
-        }}
-        >
-          <Text category="h5">{name}</Text>
-          <Text category="p1" style={{ marginTop: 3 }}>
-            {periodicity}
-          </Text>
-        </View>
+        {Platform.OS === 'ios'
+          ? (
+            <Text>
+              L'application est offerte pour les utilisateurs iOs tant
+              qu'elle n'est pas utilisée en dehors de cette plateforme.
+            </Text>
+          )
+          : (
+            <>
+              <View style={{
+                flex: 1, borderRightWidth: 0.5, borderRightColor: '#b5b5b5',
+              }}
+              >
+                <Text category="h5">{name}</Text>
+                <Text category="p1" style={{ marginTop: 3 }}>
+                  {periodicity}
+                </Text>
+              </View>
 
-        <View style={{
-          flex: 1, alignItems: 'center', justifyContent: 'center',
-        }}
-        >
-          <Text category="h5" style={{ marginLeft: 31 }}>{price}</Text>
-        </View>
+              <View style={{
+                flex: 1, alignItems: 'center', justifyContent: 'center',
+              }}
+              >
+                <Text category="h5" style={{ marginLeft: 31 }}>{price}</Text>
+              </View>
+            </>
+          )}
 
       </Card>
 

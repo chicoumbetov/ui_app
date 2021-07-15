@@ -111,7 +111,6 @@ const MySigIn = ({
             flexDirection: 'row', marginTop: 15, justifyContent: 'space-between', backgroundColor: 'transparent',
           }}
           >
-
             <Button
               size="medium"
               style={{ width: 140 }}

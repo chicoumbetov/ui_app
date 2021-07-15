@@ -60,8 +60,8 @@ export type TabMesBiensParamList = {
   'mes-biens': undefined;
   'detail-bien': { id: string };
   'mon-budget': { id: string };
-  'ajout-revenu': { id: string };
-  'modifier-revenu': { id: string, idBudgetLine: string };
+  'ajout-revenu': { id: string, idBudgetLine: undefined, revenuType?: string };
+  'modifier-revenu': { id: string, idBudgetLine: string, revenuType: undefined };
 
   'ajout-charge': { id: string };
   'modifier-charge': { id: string, idBudgetLine: string };

@@ -21,7 +21,7 @@ import RotatingIcon from '../../../components/Icon/RotatingIcon';
 import MaxWidthContainer from '../../../components/MaxWidthContainer';
 import { useGetRealEstate, useRentability } from '../../../src/API/RealEstate';
 import Card from '../../../components/Card';
-import { BudgetLineType } from '../../../src/API';
+import { BankMovementStatus, BudgetLineType } from '../../../src/API';
 import DateUtils from '../../../utils/DateUtils';
 import Amount from '../../../components/Amount';
 import ActivityIndicator from '../../../components/ActivityIndicator';
@@ -78,7 +78,7 @@ const MonBien = (props: MonBienProps) => {
   // sortDirection: ASC
   const nextexpense = budgetLines?.items
       && budgetLines?.items.length > 0
-      && budgetLines?.items[0]?.amount;
+      && (budgetLines.items.find((item) => (item && item.amount < 0)));
 
   // make common list of all possible
   // revenues, expeneses categories, types
@@ -148,7 +148,7 @@ const MonBien = (props: MonBienProps) => {
 
   // useMemo used if big O notation is expensive. higher than n to the power 2
   const dernierMovement = useMemo(() => bankMovements?.items?.find(
-    (item) => (!item?.ignored),
+    (item) => (item && item.status === BankMovementStatus.Affected),
   ), [bankMovements]);
 
   // console.log('allCurrentCategories Mon Bien', allCurrentCategories);
@@ -162,7 +162,7 @@ const MonBien = (props: MonBienProps) => {
   };
 
   const onDetailsBiens = (id: string) => {
-    linkTo(`/mes-biens/bien/${id}`);
+    linkTo(`/mes-biens/${id}`);
   };
 
   return (
@@ -190,35 +190,50 @@ const MonBien = (props: MonBienProps) => {
                   flexDirection: 'row',
                   marginTop: 22,
                   justifyContent: 'space-between',
-                  alignItems: 'center',
+                  alignItems: 'flex-start',
                 }}
                 >
                   {/**
                  *
                  */}
 
-                  <View style={{ flexDirection: 'row' }}>
-                    <View style={{ flexDirection: 'row' }}>
-                      <View style={{ width: 7 }}>
+                  <View style={{ flex: 1, alignItems: 'center' }}>
+                    {/**
+                    <Text
+                      category="h6"
+                      appearance="hint"
+                      style={{
+                        justifyContent: 'center',
+                        textAlign: 'center',
+                        paddingBottom: 10,
+                      }}
+                    >
+                      Dernier mouvement
+                    </Text>
+                    */}
+                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                      <View style={{ flexDirection: 'row' }}>
+                        <View style={{ width: 7 }}>
+                          <IconUIKitten
+                            name="arrow-downward"
+                            fill="#b5b5b5"
+                            style={{ height: 16, width: 16 }}
+                          />
+                        </View>
                         <IconUIKitten
-                          name="arrow-downward"
+                          name="arrow-upward"
                           fill="#b5b5b5"
-                          style={{ height: 16, width: 16 }}
+                          style={{
+                            height: 16, width: 16, marginRight: 8,
+                          }}
                         />
                       </View>
-                      <IconUIKitten
-                        name="arrow-upward"
-                        fill="#b5b5b5"
-                        style={{
-                          height: 16, width: 16, marginRight: 8,
-                        }}
-                      />
+                      {dernierMovement ? (
+                        <Amount amount={Math.round(dernierMovement?.amount * 100) / 100 || 0} category="h4" />
+                      ) : (
+                        <Text category="h4" status="primary" style={{ marginRight: 8 }}>0,00 €</Text>
+                      )}
                     </View>
-                    {dernierMovement ? (
-                      <Amount amount={Math.round(dernierMovement?.amount * 100) / 100 || 0} category="h4" />
-                    ) : (
-                      <Text category="h4" status="primary">0 €</Text>
-                    )}
 
                   </View>
 
@@ -237,22 +252,37 @@ const MonBien = (props: MonBienProps) => {
                       fill="#b5b5b5"
                       style={{ height: 16, width: 16 }}
                     />
-                    <Amount amount={Math.round((nextexpense || 0) * 100) / 100} category="h4" />
+                    <Amount amount={Math.round(((nextexpense || { amount: 0 }).amount * 100) / 100)} category="h4" />
                   </View>
 
                   {/**
                  *
                  */}
-                  <View style={{
-                    flexDirection: 'row',
-                  }}
-                  >
-                    <Icon
-                      name="trending-up"
-                      fill="#b5b5b5"
-                      style={{ height: 18, width: 18, marginRight: 2 }}
-                    />
-                    <Percentage amount={rentability} category="h4" status="warning" />
+                  <View style={{ flex: 1, alignItems: 'center' }}>
+                    {/**
+                    <Text
+                      category="h6"
+                      appearance="hint"
+                      style={{
+                        justifyContent: 'center',
+                        textAlign: 'center',
+                        paddingBottom: 10,
+                      }}
+                    >
+                      Rentabilité du bien
+                    </Text>
+                    */}
+                    <View style={{
+                      flexDirection: 'row',
+                    }}
+                    >
+                      <Icon
+                        name="trending-up"
+                        fill="#b5b5b5"
+                        style={{ height: 18, width: 18, marginRight: 2 }}
+                      />
+                      <Percentage amount={rentability} category="h4" status="warning" />
+                    </View>
                   </View>
 
                 </View>
@@ -274,8 +304,10 @@ const MonBien = (props: MonBienProps) => {
                         <Amount amount={Math.round(dernierMovement?.amount * 100) / 100 || 0} category="h5" />
                       ) : (<Text category="h5" status="primary">0 €</Text>)}
 
-                      <TouchableOpacity onPress={() => {}}>
-                        <Text category="h6" status="info">Affecter</Text>
+                      <TouchableOpacity onPress={() => dernierMovement
+                          && linkTo(`/ma-tresorerie/${bienget?.id}/mes-comptes/${dernierMovement.bankAccountId}/mouvements-bancaires/affectes?idMouv=${dernierMovement.id}`)}
+                      >
+                        <Text category="h6" status="info">En savoir +</Text>
                       </TouchableOpacity>
                     </View>
 
@@ -283,9 +315,9 @@ const MonBien = (props: MonBienProps) => {
                       <Text category="h6" appearance="hint" style={styles.text}>
                         Prochaine dépense
                       </Text>
-                      <Amount amount={Math.round((nextexpense || 0) * 100) / 100} category="h5" />
-                      <TouchableOpacity onPress={allerTresorerie}>
-                        <Text category="h6" status="info">En savoir +</Text>
+                      <Amount amount={Math.round(((nextexpense || { amount: 0 }).amount * 100) / 100)} category="h5" />
+                      <TouchableOpacity onPress={() => linkTo(`/mes-biens/${bienget?.id}/budget`)}>
+                        <Text category="h6" status="info">Mon budget</Text>
                       </TouchableOpacity>
                     </View>
 
@@ -293,10 +325,30 @@ const MonBien = (props: MonBienProps) => {
                       <Text category="h6" appearance="hint" style={styles.text}>
                         Rentabilité du bien
                       </Text>
-                      <Text category="h5" status="warning" style={{ marginVertical: 14 }}>{`${rentability} %`}</Text>
+                      <View style={{
+                        flexDirection: 'row', alignItems: 'center',
+                      }}
+                      >
+                        <Icon
+                          name="trending-up"
+                          fill="#b5b5b5"
+                          style={{ height: 18, width: 18, marginRight: 2 }}
+                        />
+
+                        {/**
+                         <Text
+                         category="h5"
+                         status="warning"
+                         style={{ marginVertical: 14 }}
+                         >{`${rentability} %`}</Text>
+                         */}
+                        <Percentage amount={rentability} category="h4" status="warning" />
+                      </View>
+
                       <TouchableOpacity onPress={allerMesRapports}>
                         <Text category="h6" status="info">Mes rapports</Text>
                       </TouchableOpacity>
+
                     </View>
                   </View>
 

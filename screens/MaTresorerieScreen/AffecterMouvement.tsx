@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Text } from '@ui-kitten/components';
 import { TouchableOpacity, View } from 'react-native';
 
@@ -37,6 +37,16 @@ const AffecterMouvement = () => {
   const { bankMouvement: movementAffecte, refetch } = useGetBankMovementsByBankAccountId(route.params.idCompte, BankMovementStatus.Affected, 'cache-and-network');
   const { bankAccount } = useGetBankAccount(route.params.idCompte);
 
+  useEffect(() => {
+    if (route.params.idMouv) {
+      const mouv = movementAffecte.find((item) => item && item.id === route.params.idMouv);
+
+      if (mouv) {
+        setCurrentMvt(mouv);
+      }
+    }
+  }, [route.params.idMouv, movementAffecte]);
+
   const allPossibleTypes = {
     ...typeCharge,
     ...typeImpots,
@@ -60,7 +70,7 @@ const AffecterMouvement = () => {
         }}
       >
 
-        <CompteHeader title={bienget.name} iconUri={bienget.iconUri} />
+        <CompteHeader title={bienget.name} iconUri={bienget.iconUri} id={bienget.id} />
 
         <View style={{
           marginVertical: 20, paddingBottom: 20, alignItems: 'center', borderBottomWidth: 2.5, borderBottomColor: '#f4f4f4',
@@ -93,7 +103,6 @@ const AffecterMouvement = () => {
                 marginVertical: 10,
                 flexDirection: 'row',
                 alignItems: 'center',
-                backgroundColor: 'f4f4f4',
               }}
             >
 

@@ -3,22 +3,22 @@
 
 const awsmobile = {
     "aws_project_region": "eu-west-3",
-    "aws_cognito_identity_pool_id": "eu-west-3:120241f5-1be9-4a85-b1b8-fec48e497ce2",
+    "aws_cognito_identity_pool_id": "eu-west-3:aac8d7d2-65f5-433d-99e8-3e511e7cfd7b",
     "aws_cognito_region": "eu-west-3",
-    "aws_user_pools_id": "eu-west-3_Bgl1as5YO",
-    "aws_user_pools_web_client_id": "29nij056onod4cglk5g06oisvo",
+    "aws_user_pools_id": "eu-west-3_62hQ2kdrD",
+    "aws_user_pools_web_client_id": "3oj2u8i2fsq8qmslls363k8va",
     "oauth": {},
-    "aws_appsync_graphqlEndpoint": "https://sdkdkbdgdnerrnsf2y7jgi5dfm.appsync-api.eu-west-3.amazonaws.com/graphql",
+    "aws_appsync_graphqlEndpoint": "https://bxcndlcxcvcfzdsuzxk3tc6qwy.appsync-api.eu-west-3.amazonaws.com/graphql",
     "aws_appsync_region": "eu-west-3",
     "aws_appsync_authenticationType": "AMAZON_COGNITO_USER_POOLS",
     "aws_cloud_logic_custom": [
         {
             "name": "omedomrest",
-            "endpoint": "https://3odmjvn8ga.execute-api.eu-west-3.amazonaws.com/prod",
+            "endpoint": "https://7bh3hwfdw3.execute-api.eu-west-3.amazonaws.com/dev",
             "region": "eu-west-3"
         }
     ],
-    "aws_user_files_s3_bucket": "omedom2e30dda74ff347fe82b756b3ab807beb01129-prod",
+    "aws_user_files_s3_bucket": "omedom2e30dda74ff347fe82b756b3ab807beb233211-dev",
     "aws_user_files_s3_bucket_region": "eu-west-3"
 };
 

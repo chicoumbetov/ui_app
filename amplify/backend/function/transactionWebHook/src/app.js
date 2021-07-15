@@ -58,6 +58,7 @@ app.post('/webhooks/account-synced', async (req, res) => {
     const AppSyncClient = AppSyncClient_1.default(process.env);
     let account = await BankAccountQueries_1.getBankAccountsByBIId(AppSyncClient, id);
     let justCreated = false;
+    let currentExistingTransactions = [];
     if (!account) {
         account = await BankAccountMutations_1.createBankAccount(AppSyncClient, {
             name,
@@ -68,6 +69,9 @@ app.post('/webhooks/account-synced', async (req, res) => {
             biConnectionId: id_connection,
         });
         justCreated = true;
+    }
+    else if (account.movements?.items && account.movements?.items.length > 0) {
+        currentExistingTransactions = account.movements?.items.map(({ biId }) => biId);
     }
     const isBalanceNegative = balance < 0;
     let countNegativeMovements = 0;
@@ -118,7 +122,8 @@ app.post('/webhooks/account-synced', async (req, res) => {
         }
         const map = transactions.map(async (transaction) => {
             if (!transaction.coming && transaction.active
-                && !transaction.deleted && account && account !== true) {
+                && !transaction.deleted && account && account !== true
+                && currentExistingTransactions.indexOf(transaction.id) <= -1) {
                 countNegativeMovements += (transaction.value < 0 ? 1 : 0);
                 if (transaction.value > 0) {
                     countPositiveMovements += 1;

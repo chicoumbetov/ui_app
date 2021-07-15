@@ -15,7 +15,7 @@ const i18n : I18nConfig = {
     long: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
   },
   monthNames: {
-    short: ['Janv.', 'Févr.', 'Mars', 'Avr.', 'Mai', 'Juin', 'Juil.', 'Août', 'Sept.', 'Oct.', 'Nov.', 'Déc.'],
+    short: ['Jan.', 'Fév.', 'Mars', 'Avr.', 'Mai', 'Juin', 'Juil.', 'Août', 'Sep.', 'Oct.', 'Nov.', 'Déc.'],
     long: [
       'Janvier',
       'Février',
@@ -122,5 +122,6 @@ const styles = StyleSheet.create({
   },
   input: {
     flex: 1,
+    margin: 0,
   },
 });

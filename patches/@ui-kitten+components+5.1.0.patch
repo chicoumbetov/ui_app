@@ -1,5 +1,5 @@
 diff --git a/node_modules/@ui-kitten/components/ui/datepicker/baseDatepicker.component.js b/node_modules/@ui-kitten/components/ui/datepicker/baseDatepicker.component.js
-index 1092c33..93ab4d6 100644
+index 1092c33..85c89be 100644
 --- a/node_modules/@ui-kitten/components/ui/datepicker/baseDatepicker.component.js
 +++ b/node_modules/@ui-kitten/components/ui/datepicker/baseDatepicker.component.js
 @@ -51,6 +51,7 @@ class BaseDatepickerComponent extends react_1.default.Component {

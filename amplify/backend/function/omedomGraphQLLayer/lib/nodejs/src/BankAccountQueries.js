@@ -45,6 +45,11 @@ const getBankAccountsByBIId = async (client, biId) => {
             }
           }
         }
+        movements(limit: 1000, statusDate: {beginsWith: {status: Unkown}}, sortDirection: DESC) {
+          items {
+            biId
+          }
+        }
       }
       nextToken
       startedAt

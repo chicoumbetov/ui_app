@@ -150,7 +150,7 @@ function TableauDeBord() {
     }
   }
 
-  console.log('dernierDebit', dernierDebit);
+  console.log('dernierDebit', listBankMovement?.listRealEstates.items);
   console.log('dernierCredit', dernierCredit);
 
   const allerTresorie = () => {
@@ -178,7 +178,7 @@ function TableauDeBord() {
        */}
       <View style={styles.container}>
         <Text category="h1">
-          Trésorerie
+          Trésorerie générale
         </Text>
         {data?.listRealEstates?.items
         && data?.listRealEstates?.items?.length > 0

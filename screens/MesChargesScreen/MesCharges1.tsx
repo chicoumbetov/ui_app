@@ -8,6 +8,13 @@ import Card from '../../components/Card';
 import { useRealEstateList } from '../../src/API/RealEstate';
 import { BudgetLineType } from '../../src/API';
 import Button from '../../components/Button';
+import {
+  typeAssurance, typeBanque,
+  typeCharge,
+  typeDivers,
+  typeImpots,
+  typeRevenu,
+} from '../../mockData/ajoutRevenuData';
 
 /**
 const DATA = [
@@ -43,14 +50,21 @@ const MesCharges1 = () => {
   const onAjoutBien = () => {
     linkTo('/mes-biens/ajouter');
   };
-
+  const allPossibleTypes = {
+    ...typeCharge,
+    ...typeImpots,
+    ...typeRevenu,
+    ...typeAssurance,
+    ...typeDivers,
+    ...typeBanque,
+  };
   const houseBudgetLineDeadlines = data?.listRealEstates?.items?.map(
     (item) => item?.budgetLineDeadlines,
   );
 
   /** Object with 3 attributes and its key */
   const allCurrentCategories: {
-    [key: string]: { value: number, label: string }
+    [key: string]: { value: number, label: string, category: string }
   } = {};
 
   if (houseBudgetLineDeadlines) {
@@ -58,11 +72,12 @@ const MesCharges1 = () => {
       item?.items?.forEach((itemBudget) => {
         if (itemBudget?.category
         && itemBudget.type === BudgetLineType.Expense) {
-          // console.log('itemBudget: ', itemBudget);
+          console.log('itemBudget: ', itemBudget);
           if (allCurrentCategories[itemBudget?.category] === undefined) {
             allCurrentCategories[itemBudget?.category] = {
               value: itemBudget?.amount || 0,
-              label: itemBudget?.category,
+              label: allPossibleTypes[itemBudget.category].label,
+              category: itemBudget.category,
             };
           }
 
@@ -111,7 +126,7 @@ const MesCharges1 = () => {
           // Only do this if items have no stable IDs
           // https://reactjs.org/docs/lists-and-keys.html#keys
             key={index}
-            onPress={() => { onMesCharges2(lbl.label); }}
+            onPress={() => { onMesCharges2(lbl.category); }}
             style={{
               padding: 23,
               marginVertical: 10,
@@ -136,8 +151,8 @@ const MesCharges1 = () => {
             status="basic"
           >
             Vous n'avez pas encore de biens.
-            Vous devez d'abord créer un bien pour accéder à cette section.
-            Vous n'avez pas de charges pour ce maison.
+            Vous devez d'abord créer un bien pour accéder à cette
+            section et paramétrer votre budget.
           </Text>
         </>
       )}

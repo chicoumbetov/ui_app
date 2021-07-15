@@ -60,8 +60,8 @@ export type TabMesBiensParamList = {
   'mes-biens': undefined;
   'detail-bien': { id: string };
   'mon-budget': { id: string };
-  'ajout-revenu': { id: string };
-  'modifier-revenu': { id: string, idBudgetLine: string };
+  'ajout-revenu': { id: string, idBudgetLine: undefined, revenuType?: string };
+  'modifier-revenu': { id: string, idBudgetLine: string, revenuType: undefined };
 
   'ajout-charge': { id: string };
   'modifier-charge': { id: string, idBudgetLine: string };
@@ -79,7 +79,7 @@ export type TabMaTresorerieParamList = {
   'ma-tresorerie-2': { id: string };
   'mouv-bancaires': { id: string, idCompte: string };
   'ignorer-mouvement': { id: string, idCompte: string };
-  'affecter-mouvement': { id: string, idCompte: string };
+  'affecter-mouvement': { id: string, idCompte: string, idMouv?: string };
   'treso-mouvement-page1': undefined;
   'treso-mouvement-page2': undefined;
 };

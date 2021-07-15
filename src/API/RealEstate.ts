@@ -6,7 +6,7 @@ import { WatchQueryFetchPolicy } from 'apollo-client/core/watchQueryOptions';
 import { useMemo } from 'react';
 import moment from 'moment';
 import {
-  Address, BudgetLineDeadline,
+  BankAccount, BankMovementStatus, BudgetLineDeadline,
   BudgetLineType,
   CompanyType,
   CreateRealEstateMutation,
@@ -15,18 +15,10 @@ import {
   DeleteRealEstateMutationVariables,
   Frequency,
   GetRealEstateQueryVariables, InvitationType,
-  ListRealEstatesQuery,
-  ListRealEstatesQueryVariables,
-  ModelBankMovementConnection,
-  ModelBudgetLineConnection,
-  ModelBudgetLineDeadlineConnection,
-  ModelDocumentConnection,
-  ModelPendingInvitationConnection,
-  ModelRealEstateBankAccountConnection,
+  ListRealEstatesQueryVariables, MortgageLoanDeadlineInfo,
   RealEstate,
-  RealEstateType,
+  RealEstateType, RentalType,
   TaxType,
-  TenantInfo,
   UpdateRealEstateMutation,
   UpdateRealEstateMutationVariables,
 } from '../API';
@@ -41,176 +33,190 @@ export type RealEstateItem = {
   type?: RealEstateType | null,
   ownName?: boolean | null,
   company?: CompanyType | null,
+  address?: {
+    __typename: 'Address',
+    address: string,
+    additionalAddress?: string | null,
+    postalCode: string,
+    city: string,
+    country: string,
+  } | null,
   detentionPart?: number | null,
   typeImpot?: TaxType | null,
   purchasePrice?: number| null,
   notaryFee?: number| null,
-  budgetLines?: ModelBudgetLineConnection | null,
-  bankMovements?: ModelBankMovementConnection | null,
-  budgetLineDeadlines?: ModelBudgetLineDeadlineConnection | null,
-  documents?: ModelDocumentConnection | null,
   admins: Array< string >,
   shared?: Array< string > | null,
-  pendingInvitations?: ModelPendingInvitationConnection | null,
-  address?: Address | null,
-  tenants?: Array<TenantInfo | null > | null,
-  bankAccounts?: ModelRealEstateBankAccountConnection | null,
+  tenants?: Array< {
+    __typename: 'TenantInfo',
+    id: string,
+    amount: number,
+    lastname: string,
+    firstname: string,
+    rentalType?: RentalType | null,
+    email: string,
+    startDate: string,
+    endDate?: string | null,
+  } | null > | null,
   _version: number,
   _deleted?: boolean | null,
   _lastChangedAt: number,
   createdAt: string,
   updatedAt: string,
-};
+  pendingInvitations?: {
+    __typename: 'ModelPendingInvitationConnection',
+    items?: Array< {
+      __typename: 'PendingInvitation',
+      id: string,
+      realEstateId: string,
+      email: string,
+      type: InvitationType,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+      createdAt: string,
+      updatedAt: string,
+    } | null > | null,
+    nextToken?: string | null,
+    startedAt?: number | null,
+  } | null,
+  documents?: {
+    __typename: 'ModelDocumentConnection',
+    items?: Array< {
+      __typename: 'Document',
+      id: string,
+      realEstateId: string,
+      name: string,
+      key?: string | null,
+      s3file: string,
+      createdAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+      updatedAt: string,
+    } | null > | null,
+    nextToken?: string | null,
+    startedAt?: number | null,
+  } | null,
+  budgetLines?: {
+    __typename: 'ModelBudgetLineConnection',
+    items?: Array< {
+      __typename: 'BudgetLine',
+      id: string,
+      realEstateId: string,
+      type: BudgetLineType,
+      category: string,
+      amount: number,
+      rentalCharges?: number | null,
+      managementFees?: number | null,
+      householdWaste?: number | null,
+      frequency: Frequency,
+      nextDueDate: string,
+      tenantId?: string | null,
+      rentalType?: RentalType | null,
+      infoCredit?: {
+        __typename: 'MortgageLoanInfo',
+        borrowedCapital: number,
+        loanStartDate?: string | null,
+        duration?: number | null,
+        interestRate?: number | null,
+        assuranceRate?: number | null,
+        amortizationTable?: Array< {
+          __typename: 'AmortizationTable',
+          dueDate?: string | null,
+          amount?: number | null,
+          interest?: number | null,
+          assurance?: number | null,
+          amortizedCapital?: number | null,
+        } | null > | null,
+      } | null,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+      createdAt: string,
+      updatedAt: string,
+    } | null > | null,
+    nextToken?: string | null,
+    startedAt?: number | null,
+  } | null,
+  budgetLineDeadlines?: {
+    __typename: 'ModelBudgetLineDeadlineConnection',
+    items?: Array< {
+      __typename: 'BudgetLineDeadline',
+      id: string,
+      realEstateId: string,
+      bankMouvementId?: string | null,
+      budgetLineId: string,
+      type: BudgetLineType,
+      category: string,
+      amount: number,
+      rentalCharges?: number | null,
+      managementFees?: number | null,
+      householdWaste?: number | null,
+      rentalType?: RentalType | null,
+      frequency: Frequency,
+      infoCredit?: MortgageLoanDeadlineInfo | null,
+      date?: string | null,
+      tenantId?: string | null,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+      createdAt: string,
+      updatedAt: string,
+    } | null > | null,
+    nextToken?: string | null,
+    startedAt?: number | null,
+  } | null,
+  bankAccounts?: {
+    __typename: 'ModelRealEstateBankAccountConnection',
+    items?: Array< {
+      __typename: 'RealEstateBankAccount',
+      id: string,
+      realEstateId: string,
+      bankAccountId: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+      createdAt: string,
+      updatedAt: string,
+      bankAccount: BankAccount,
+    } | null > | null,
+    nextToken?: string | null,
+    startedAt?: number | null,
+  } | null,
+  bankMovements?: {
+    __typename: 'ModelBankMovementConnection',
+    items?: Array< {
+      __typename: 'BankMovement',
+      id: string,
+      bankAccountId: string,
+      realEstateId?: string | null,
+      biId: number,
+      description?: string | null,
+      amount: number,
+      status?: BankMovementStatus | null,
+      date?: string | null,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+      createdAt: string,
+      updatedAt: string,
+    } | null > | null,
+    nextToken?: string | null,
+    startedAt?: number | null,
+  } | null,
+} | null;
 
 export type GetRealEstateQuery = {
-  getRealEstate?: {
-    __typename: 'RealEstate',
-    id: string,
-    name: string,
-    iconUri: string,
-    purchaseYear?: number | null,
-    type?: RealEstateType | null,
-    ownName?: boolean | null,
-    company?: CompanyType | null,
-    detentionPart?: number | null,
-    typeImpot?: TaxType | null,
-    purchasePrice?: number| null,
-    notaryFee?: number| null,
-    budgetLines?: {
-      __typename: 'ModelBudgetLineConnection',
-      items?: Array< {
-        __typename: 'BudgetLine',
-        id: string,
-        realEstateId: string,
-        type: BudgetLineType,
-        category: string,
-        amount: number,
-        rentalCharges?: number | null,
-        managementFees?: number | null,
-        frequency: Frequency,
-        nextDueDate?: string | null,
-        infoCredit?: {
-          __typename: 'MortgageLoanInfo',
-          borrowedCapital: number,
-          loanStartDate?: string | null,
-          duration?: number | null,
-          interestRate?: number | null,
-          assuranceRate?: number | null,
-          amortizationTable?: Array< {
-            __typename: 'AmortizationTable',
-            dueDate?: string | null,
-            amount?: number | null,
-            interest?: number | null,
-            assurance?: number | null,
-            amortizedCapital?: number | null,
-          } | null > | null,
-        } | null,
-        tenantId?: string | null,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
-        createdAt: string,
-        updatedAt: string,
-      } | null > | null,
-      nextToken?: string | null,
-      startedAt?: number | null,
-    } | null,
-    documents?: {
-      __typename: 'ModelDocumentConnection',
-      items?: Array< {
-        __typename: 'Document',
-        id: string,
-        realEstateId: string,
-        name: string,
-        s3file: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
-        createdAt: string,
-        updatedAt: string,
-      } | null > | null,
-      nextToken?: string | null,
-      startedAt?: number | null,
-    } | null,
-    admins: Array< string >,
-    shared?: Array< string > | null,
-    pendingInvitations?: {
-      __typename: 'ModelPendingInvitationConnection',
-      items?: Array< {
-        __typename: 'PendingInvitation',
-        id: string,
-        realEstateId: string,
-        email: string,
-        type: InvitationType,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
-        createdAt: string,
-        updatedAt: string,
-        realEstate?: {
-          __typename: 'RealEstate',
-          id: string,
-          name: string,
-          iconUri: string,
-          purchaseYear?: number | null,
-          type?: RealEstateType | null,
-          ownName?: boolean | null,
-          company?: CompanyType | null,
-          detentionPart?: number | null,
-          typeImpot?: TaxType | null,
-          purchasePrice?: number| null,
-          notaryFee?: number| null,
-          admins: Array< string >,
-          shared?: Array< string > | null,
-          _version: number,
-          _deleted?: boolean | null,
-          _lastChangedAt: number,
-          createdAt: string,
-          updatedAt: string,
-        } | null,
-      } | null > | null,
-      nextToken?: string | null,
-      startedAt?: number | null,
-    } | null,
-    address?: {
-      __typename: 'Address',
-      address: string,
-      additionalAddress?: string | null,
-      postalCode: string,
-      city: string,
-      country: string,
-    } | null,
-    tenants?: Array< {
-      __typename: 'TenantInfo',
-      id: string,
-      amount: number,
-      lastname: string,
-      firstname: string,
-      email: string,
-      startDate: string,
-      endDate?: string | null,
-    } | null > | null,
-    bankAccounts?: {
-      __typename: 'ModelRealEstateBankAccountConnection',
-      items?: Array< {
-        __typename: 'RealEstateBankAccount',
-        id: string,
-        realEstateId: string,
-        bankAccountId: string,
-        _version: number,
-        _deleted?: boolean | null,
-        _lastChangedAt: number,
-        createdAt: string,
-        updatedAt: string,
-      } | null > | null,
-      nextToken?: string | null,
-      startedAt?: number | null,
-    } | null,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
-    createdAt: string,
-    updatedAt: string,
+  getRealEstate?: RealEstateItem
+};
+
+export type ListRealEstatesQuery = {
+  listRealEstates?: {
+    __typename: 'ModelRealEstateConnection',
+    items?: Array< RealEstateItem > | null,
+    nextToken?: string | null,
+    startedAt?: number | null,
   } | null,
 };
 
@@ -242,6 +248,7 @@ export const getRealEstateQuery = <DocumentNode>gql(`
         amount
         lastname
         firstname
+        rentalType
         email
         startDate
         endDate
@@ -282,7 +289,7 @@ export const getRealEstateQuery = <DocumentNode>gql(`
         nextToken
         startedAt
       }
-      budgetLines {
+      budgetLines(sortDirection: ASC) {
         items {
           id
           realEstateId
@@ -294,6 +301,8 @@ export const getRealEstateQuery = <DocumentNode>gql(`
           householdWaste
           frequency
           nextDueDate
+          tenantId
+          rentalType
           infoCredit {
             borrowedCapital
             loanStartDate
@@ -308,7 +317,6 @@ export const getRealEstateQuery = <DocumentNode>gql(`
               amortizedCapital
             }
           }
-          tenantId
           _version
           _deleted
           _lastChangedAt
@@ -448,6 +456,7 @@ const listRealEstatesQuery = <DocumentNode>gql(`query ListRealEstates(
           amount
           lastname
           firstname
+          rentalType
           email
           startDate
           endDate
@@ -500,6 +509,8 @@ const listRealEstatesQuery = <DocumentNode>gql(`query ListRealEstates(
             householdWaste
             frequency
             nextDueDate
+            tenantId
+            rentalType
             infoCredit {
               borrowedCapital
               loanStartDate
@@ -514,7 +525,6 @@ const listRealEstatesQuery = <DocumentNode>gql(`query ListRealEstates(
                 amortizedCapital
               }
             }
-            tenantId
             _version
             _deleted
             _lastChangedAt
@@ -534,9 +544,10 @@ const listRealEstatesQuery = <DocumentNode>gql(`query ListRealEstates(
             category
             amount
             rentalCharges
+            rentalType
             managementFees
-            frequency
             householdWaste
+            frequency
             date
             infoCredit {
               amount
@@ -868,6 +879,9 @@ export function useRentability(
               case 'quarterly':
                 freqIncome = 4;
                 break;
+              case 'biannually':
+                freqIncome = 2;
+                break;
               case 'annual':
                 freqIncome = 1;
                 break;
@@ -894,6 +908,9 @@ export function useRentability(
               switch (item?.frequency) {
                 case 'quarterly':
                   freqExpense = 4;
+                  break;
+                case 'biannually':
+                  freqExpense = 2;
                   break;
                 case 'annual':
                   freqExpense = 1;
@@ -932,6 +949,9 @@ export function useRentability(
             switch (item?.frequency) {
               case 'quarterly':
                 freqExpense = 4;
+                break;
+              case 'biannually':
+                freqExpense = 2;
                 break;
               case 'annual':
                 freqExpense = 1;

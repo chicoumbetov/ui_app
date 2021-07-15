@@ -1,7 +1,7 @@
 import { DocumentNode } from 'apollo-link';
 import gql from 'graphql-tag';
 import { useMutation, useQuery } from 'react-apollo';
-import { getBudgetLine, getRealEstate } from '../graphql/queries';
+import { getBudgetLine } from '../graphql/queries';
 import {
   BudgetLineType,
   CreateBudgetLineMutation,
@@ -10,8 +10,6 @@ import {
   GetBudgetLineQuery,
   GetBudgetLineQueryVariables,
   GetRealEstateQuery, GetRealEstateQueryVariables,
-  ListRealEstatesQuery,
-  ListRealEstatesQueryVariables,
   MortgageLoanInfo,
   RealEstate,
   BudgetLine,
@@ -20,6 +18,8 @@ import {
   UpdateBudgetLineMutationVariables,
 } from '../API';
 import * as mutations from '../graphql/mutations';
+
+import { getRealEstateQuery } from './RealEstate';
 
 export type BudgetLineItem = {
   __typename: 'BudgetLine',
@@ -65,7 +65,6 @@ export function useUpdateBudgetLineMutation() {
 }
 
 export function useDeleteBudgetLineMutation() {
-  const getRealEstatesQuery = <DocumentNode>gql(getRealEstate);
   const [deleteBudgetLine] = useMutation<DeleteBudgetLineMutation,
   DeleteBudgetLineMutationVariables>(gql(mutations.deleteBudgetLine),
     {
@@ -75,7 +74,7 @@ export function useDeleteBudgetLineMutation() {
           if (newData) {
             // Read query from cache
             const cacheData = cache.readQuery<GetRealEstateQuery, GetRealEstateQueryVariables>({
-              query: getRealEstatesQuery,
+              query: getRealEstateQuery,
               variables: {
                 id: newData.realEstateId,
               },
@@ -94,7 +93,7 @@ export function useDeleteBudgetLineMutation() {
 
               // Overwrite the cache with the new results
               cache.writeQuery<GetRealEstateQuery, GetRealEstateQueryVariables>({
-                query: getRealEstatesQuery,
+                query: getRealEstateQuery,
                 variables: {
                   id: newData.realEstateId,
                 },
@@ -109,7 +108,6 @@ export function useDeleteBudgetLineMutation() {
 }
 
 export function useCreateBudgetLineMutation() {
-  const getRealEstatesQuery = <DocumentNode>gql(getRealEstate);
   const [createBudgetLine, { loading: mutationLoading }] = useMutation<CreateBudgetLineMutation,
   CreateBudgetLineMutationVariables>(gql(mutations.createBudgetLine),
     {
@@ -119,7 +117,7 @@ export function useCreateBudgetLineMutation() {
           if (newData) {
             // Read query from cache
             const cacheData = cache.readQuery<GetRealEstateQuery, GetRealEstateQueryVariables>({
-              query: getRealEstatesQuery,
+              query: getRealEstateQuery,
               variables: {
                 id: newData.realEstateId,
               },
@@ -131,7 +129,7 @@ export function useCreateBudgetLineMutation() {
 
               // Overwrite the cache with the new results
               cache.writeQuery<GetRealEstateQuery, GetRealEstateQueryVariables>({
-                query: getRealEstatesQuery,
+                query: getRealEstateQuery,
                 variables: {
                   id: newData.realEstateId,
                 },

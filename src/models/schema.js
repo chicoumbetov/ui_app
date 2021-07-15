@@ -1936,7 +1936,7 @@ export const schema = {
             "name": "Frequency",
             "values": [
                 "monthly",
-                "fortnightly",
+                "biannually",
                 "quarterly",
                 "annual"
             ]

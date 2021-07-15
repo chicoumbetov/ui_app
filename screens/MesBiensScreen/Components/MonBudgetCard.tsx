@@ -23,6 +23,7 @@ import {
   typeDivers,
   typeBanque,
 } from '../../../mockData/ajoutRevenuData';
+import Amount from '../../../components/Amount';
 
 type MonBudgetProps = { budget: BudgetLine, realEstate: RealEstate };
 
@@ -59,6 +60,9 @@ const MonBudgetCard = (props: MonBudgetProps) => {
       case 'monthly':
         setFrequence('Mensuel');
         break;
+      case 'biannually':
+        setFrequence('Semestrielle');
+        break;
       case 'quarterly':
         setFrequence('Trimestrielle');
         break;
@@ -81,9 +85,9 @@ const MonBudgetCard = (props: MonBudgetProps) => {
 
   const readOnly = ReadOnly.readOnly(route.params.id);
 
-  const supprimerLeRevenue = async () => {
+  const supprimerLeCharge = async () => {
     Alert.alert(
-      'Suppression de revenue',
+      'Suppression de charge',
       '',
       [{
         text: 'Annuler',
@@ -129,12 +133,8 @@ const MonBudgetCard = (props: MonBudgetProps) => {
           <Text category="h3" style={{ justifyContent: 'center', flexWrap: 'wrap' }}>
             {`${labelBudget}`}
           </Text>
-          <Text
-            category="c1"
-            status={budget.type === BudgetLineType.Income ? ('success') : ('danger')}
-          >
-            {`${budget.type === BudgetLineType.Income ? ('+') : ('')} ${Math.round(budget.amount * 100) / 100} €`}
-          </Text>
+          <Amount amount={budget.amount} category="c1" />
+
           {budget.tenantId && tenant !== undefined && (
           <Text category="c1" appearance="hint">
             {tenant[0]?.lastname || 'pas de locataire'}
@@ -195,7 +195,7 @@ const MonBudgetCard = (props: MonBudgetProps) => {
             <Text category="h6" status="info" style={styles.buttonTextLeft}>Modifier</Text>
           </Layout>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => { supprimerLeRevenue(); }}>
+        <TouchableOpacity onPress={() => { supprimerLeCharge(); }}>
           <Layout style={styles.button}>
             <Text category="h6" status="basic">Supprimer</Text>
           </Layout>

@@ -77,7 +77,7 @@ const DeclarationImpots = () => {
           marginVertical: 15,
         }}
       >
-        Paramétrer mon aide à la déclaration d'impôts
+        Paramétrez l’aide à la déclaration d’impôts
       </Text>
 
       <Form<DeclarationImpotsForm> {...declarationImpotsForm}>

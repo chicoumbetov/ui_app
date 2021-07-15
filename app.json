@@ -62,6 +62,21 @@
         "svg"
       ]
     },
+    "plugins": [
+      "sentry-expo"
+    ],
+    "hooks": {
+      "postPublish": [
+        {
+          "file": "sentry-expo/upload-sourcemaps",
+          "config": {
+            "organization": "web-premiere",
+            "project": "omedom",
+            "authToken": "8a8999481b3e4c199c693f4e6344d202f020c4d826c14db8860da95e8ddf1b64"
+          }
+        }
+      ]
+    },
     "locales": {
       "fr": "./src/localization/fr.json"
     }

@@ -9,6 +9,13 @@ import CompteHeader from '../../../components/CompteHeader/CompteHeader';
 import MaxWidthContainer from '../../../components/MaxWidthContainer';
 import { useRealEstateList } from '../../../src/API/RealEstate';
 import DateUtils from '../../../utils/DateUtils';
+import {
+  typeAssurance, typeBanque,
+  typeCharge,
+  typeDivers,
+  typeImpots,
+  typeRevenu,
+} from '../../../mockData/ajoutRevenuData';
 
 /**
 const data = [
@@ -123,7 +130,14 @@ const MesCharges3 = () => {
     theme['color-info-200'],
     theme['color-danger-200'],
   ];
-
+  const allPossibleTypes = {
+    ...typeCharge,
+    ...typeImpots,
+    ...typeRevenu,
+    ...typeAssurance,
+    ...typeDivers,
+    ...typeBanque,
+  };
   return (
     <MaxWidthContainer
       outerViewProps={{
@@ -140,7 +154,7 @@ const MesCharges3 = () => {
           marginBottom: 27,
         }}
       >
-        {`Charge ${title || ''}`}
+        {`Charge ${allPossibleTypes[title].label || ''}`}
       </Text>
       <View style={{
         backgroundColor: theme['color-basic-100'],
@@ -149,6 +163,7 @@ const MesCharges3 = () => {
         paddingVertical: 40,
       }}
       >
+
         <VictoryPie
           padAngle={4}
           startAngle={-27}

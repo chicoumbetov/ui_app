@@ -28,7 +28,7 @@ const BudgetLineType = {
 
 const Frequency = {
   "MONTHLY": "monthly",
-  "FORTNIGHTLY": "fortnightly",
+  "BIANNUALLY": "biannually",
   "QUARTERLY": "quarterly",
   "ANNUAL": "annual"
 };

@@ -12,7 +12,7 @@ import SelectComp from '../../components/Form/Select';
 import MaxWidthContainer from '../../components/MaxWidthContainer';
 import Form from '../../components/Form/Form';
 
-import { sendEmail } from '../../components/AwsMail/SendMail';
+import { sendTemplateEmail } from '../../components/AwsMail/SendMail';
 import { useUser } from '../../src/API/UserContext';
 
 type ContactMessageForm = {
@@ -27,18 +27,21 @@ function Contact() {
   const linkTo = useLinkTo();
   // console.log('user :', user.email);
   const ContactSend = async (data : ContactMessageForm) => {
+    if (user && user.email) {
     // console.log('data : ', data);
-
-    await sendEmail(user?.email, data.type, data.message);
-    // navigation.pop();
-    Alert.alert(
-      'Votre message a été envoyé avec success !',
-      '',
-      [
-        { text: 'Ok', onPress: () => linkTo('/tableau-de-bord') },
-      ],
-      { cancelable: true },
-    );
+      const title = `${`Mail de ${user.firstname} ${user.lastname} : `}${data.type}`;
+      const body = data.message;
+      await sendTemplateEmail(user?.email, { title, body });
+      // navigation.pop();
+      Alert.alert(
+        'Votre message a été envoyé avec success !',
+        '',
+        [
+          { text: 'Ok', onPress: () => linkTo('/tableau-de-bord') },
+        ],
+        { cancelable: true },
+      );
+    }
   };
   return (
     <MaxWidthContainer

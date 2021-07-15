@@ -44,7 +44,7 @@ import ActivityIndicator from '../../components/ActivityIndicator';
 import UserSharedCard from './Components/UserSharedCard';
 import { useDeleteTenantMutation } from '../../src/API/Tenant';
 import Camera from '../../components/Camera';
-import { BudgetLineType, PendingInvitation } from '../../src/API';
+import { BankMovementStatus, PendingInvitation } from '../../src/API';
 import { useDeletePendingInvitationMutation } from '../../src/API/PendingInvitation';
 import { typeBien } from '../../mockData/ajoutBienData';
 import Percentage from '../../components/Percentage';
@@ -117,7 +117,7 @@ function DetailsBien() {
   const supprimerLeBien = async () => {
     return false;
     Alert.alert(
-      'Suppression de revenue',
+      'Suppression de bien',
       '',
       [{
         text: 'Annuler',
@@ -260,19 +260,19 @@ function DetailsBien() {
 
   // budgetLines are already sorted in schema.graphql
   // sortDirection: ASC
-  const nextexpense = bienget?.budgetLines?.items
-        && bienget?.budgetLines?.items.length > 0
-        && Math.round((bienget?.budgetLines?.items[0]?.amount) * 100) / 100;
 
-  const { bankMovements, budgetLineDeadlines } = bienget || {};
+  const { bankMovements, budgetLineDeadlines, budgetLines } = bienget || {};
+  const nextexpense = budgetLines?.items
+      && budgetLines?.items.length > 0
+      && (budgetLines.items.find((item) => (item && item.amount < 0)));
 
   // useMemo used if big O notation is expensive. higher than n to the power 2
   const dernierMovement = useMemo(() => bankMovements?.items?.find(
-    (item) => (!item?.ignored),
+    (item) => (item?.status === BankMovementStatus.Affected),
   ), [bankMovements]);
 
   // console.log('last Movement', dernierMovement);
-  let invitationAttente : (PendingInvitation | null)[];
+  let invitationAttente : (PendingInvitation | null)[] = [];
   if (bienget?.pendingInvitations?.items) {
     // eslint-disable-next-line no-underscore-dangle
     invitationAttente = bienget?.pendingInvitations?.items.filter((item) => !item?._deleted);
@@ -360,7 +360,7 @@ function DetailsBien() {
                   <Text category="h6" appearance="hint" style={styles.text}>
                     Prochaine dépense
                   </Text>
-                  <Amount amount={nextexpense || 0} category="h5" />
+                  <Amount amount={(nextexpense || { amount: 0 }).amount} category="h5" />
                 </View>
 
                 <View style={styles.oneThirdBlock}>
@@ -586,7 +586,6 @@ function DetailsBien() {
                   <View style={{ flex: 1 }}>
                     <Text category="h6" status="basic">{`${tenant?.firstname} ${tenant?.lastname}`}</Text>
                     <Text category="h6" appearance="hint">{`${tenant?.amount} €`}</Text>
-                    <Text category="h6" appearance="hint" style={{ marginTop: 6 }} />
                     <View style={{ borderBottomWidth: 0.5, borderBottomColor: '#b5b5b5', marginVertical: 15 }} />
 
                     <Text category="h6" status="basic" style={{ marginTop: 7 }}>Date de fin de bail</Text>
@@ -631,7 +630,7 @@ function DetailsBien() {
           <>
             <View style={styles.container}>
               <Text category="s2" style={{ marginBottom: 30 }}>
-                Documents
+                Documents administratifs et factures
               </Text>
               {bienget?.documents?.items?.map(
                 // eslint-disable-next-line no-underscore-dangle
@@ -794,7 +793,7 @@ function DetailsBien() {
       <Separator />
       <View style={styles.container}>
         <Text category="s2" style={{ marginBottom: 30 }}>
-          Partager votre bien
+          Partagez votre bien
         </Text>
         {bienget?.admins.map((idAdmin) => (
           <UserSharedCard
@@ -828,7 +827,7 @@ function DetailsBien() {
             }}
           />
         ))}
-        {invitationAttente?.map((pending) => (
+        {invitationAttente && invitationAttente?.map((pending) => (
           pending?.type === 'Admin' ? (
             <UserSharedCard
               email={pending.email}
@@ -858,7 +857,11 @@ function DetailsBien() {
                 );
                 if (checked) {
                   // eslint-disable-next-line no-underscore-dangle
-                  nextCheckedAccounts.push({ id: pending?.id, _version: pending?._version });
+                  nextCheckedAccounts.push({
+                    id: pending?.id,
+                    // eslint-disable-next-line no-underscore-dangle
+                    _version: pending?._version as number,
+                  });
                 }
                 // console.log('nextCheckedAccounts', nextCheckedAccounts);
                 setCheckedPending(nextCheckedAccounts);

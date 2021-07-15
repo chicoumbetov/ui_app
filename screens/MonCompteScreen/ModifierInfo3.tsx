@@ -6,6 +6,7 @@ import {
 import {
   Button, Modal, Text,
 } from '@ui-kitten/components';
+
 import { useNavigation, useRoute } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
 import { RouteProp } from '@react-navigation/core/lib/typescript/src/types';
@@ -147,6 +148,7 @@ const Informations = () => {
         <TouchableOpacity onPress={() => { pickImage(); }}>
           <Text category="h5" status="info">Ajouter une photo</Text>
         </TouchableOpacity>
+        {avatarImage.indexOf('default::') <= -1 && (
         <TouchableOpacity onPress={() => {
           setAvatarImage('default::ManAvatar');
           setSelectedNewImage(undefined);
@@ -154,6 +156,7 @@ const Informations = () => {
         >
           <Text category="h5" status="basic">Supprimer la photo</Text>
         </TouchableOpacity>
+        )}
       </View>
 
       <View style={{

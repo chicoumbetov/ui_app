@@ -370,7 +370,7 @@ const ParametrerAjoutCharges = () => {
                     }
                     setMontantShow(true);
                   }}
-                  placeholder="Type De Charges"
+                  placeholder="Type de charges"
                   size="large"
                   appearance="default"
                   status="primary"
@@ -382,7 +382,7 @@ const ParametrerAjoutCharges = () => {
                     <Select
                       name="category2"
                       data={typeImpotsArray}
-                      placeholder="Type d'Impôts"
+                      placeholder="Type d'impôts"
                       size="large"
                       appearance="default"
                       status="primary"
@@ -401,7 +401,7 @@ const ParametrerAjoutCharges = () => {
                     <Select
                       name="category2"
                       data={typeAssuranceArray}
-                      placeholder="Type d'Assurance"
+                      placeholder="Type d'assurance"
                       size="large"
                       appearance="default"
                       status="primary"
@@ -425,7 +425,7 @@ const ParametrerAjoutCharges = () => {
                           setFrequenceShow(true);
                         }
                       }}
-                      placeholder="Type de Frais"
+                      placeholder="Type de frais"
                       size="large"
                       appearance="default"
                       status="primary"

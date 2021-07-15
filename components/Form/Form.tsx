@@ -23,7 +23,7 @@ interface Props<T> {
   formState: FormState<T>;
   setValue: UseFormSetValue<T>;
   getValues: UseFormGetValues<T>;
-  defaultValues?: Nullable<T>;
+  defaultValues?: Nullable<T> | null;
 }
 
 export default function Form<T>({

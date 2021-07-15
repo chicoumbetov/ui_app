@@ -14,21 +14,21 @@ export default {
                 path: 'mes-biens',
                 screens: {
                   'mes-biens': '/',
-                  'detail-bien': '/bien/:id',
-                  'mon-budget': '/bien/:id/budget',
-                  'ajout-revenu': '/bien/:id/budget/ajout-revenu',
-                  'modifier-revenu': '/bien/:id/budget/modifier-revenu/:idBudgetLine',
                   'ajout-bien-screen': '/ajouter',
+                  'detail-bien': '/:id',
+                  'mon-budget': '/:id/budget',
+                  'ajout-revenu': '/:id/budget/ajout-revenu',
+                  'modifier-revenu': '/:id/budget/modifier-revenu/:idBudgetLine',
 
-                  'ajout-charge': '/bien/:id/budget/ajout-charge',
-                  'modifier-charge': '/bien/:id/budget/modifier-charge/:idBudgetLine',
+                  'ajout-charge': '/:id/budget/ajout-charge',
+                  'modifier-charge': '/:id/budget/modifier-charge/:idBudgetLine',
 
-                  'mes-rapports': '/biens/mes-rapports/:id',
+                  'mes-rapports': '/mes-rapports/:id',
 
                   'mes-rapports-biens1': '/mes-rapports-biens1/:id',
                   'mes-rapports-biens2': '/mes-rapports-biens2/:id',
-                  'modifier-characteristique': '/bien/:id/modifier-characteristique',
-                  'partager-bien': '/bien/:id/partager-bien',
+                  'modifier-characteristique': '/:id/modifier-characteristique',
+                  'partager-bien': '/:id/partager-bien',
                 },
               },
               'mes-charges-nav': {
@@ -83,7 +83,7 @@ export default {
             screens: {
               'ma-tresorerie': '/',
               'ma-tresorerie-2': ':id/mes-comptes/',
-              'mouv-bancaires': ':id/mes-comptes/:idCompte/mouvements-bancaires/',
+              'mouv-bancaires': ':id/mes-comptes/:idCompte/mouvements-bancaires',
               'affecter-mouvement': ':id/mes-comptes/:idCompte/mouvements-bancaires/affectes/',
               'ignorer-mouvement': ':id/mes-comptes/:idCompte/mouvements-bancaires/ignores/',
             },

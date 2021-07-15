@@ -1,9 +1,10 @@
 import gql from 'graphql-tag';
 import {
+  BankMovementStatus, CompanyType,
   GetBankAccountQuery, GetBankAccountQueryVariables,
   ListBankAccountsByBiConnectionIdQuery,
   ListBankAccountsByBiConnectionIdQueryVariables,
-  ListBankAccountsByBiIdQueryVariables, TenantInfo,
+  ListBankAccountsByBiIdQueryVariables, RealEstateType, TaxType, TenantInfo,
 } from '../../../../../../../src/API';
 import { AppSyncClient } from './AppSyncClient';
 
@@ -42,6 +43,13 @@ type ListBankAccountsByBiIdQuery = {
         } | null > | null,
         nextToken?: string | null,
         startedAt?: number | null,
+      } | null,
+      movements?: {
+        __typename: 'ModelBankMovementConnection',
+        items?: Array< {
+          __typename: 'BankMovement',
+          biId: number,
+        } | null > | null,
       } | null,
     } | null > | null,
     nextToken?: string | null,
@@ -93,6 +101,11 @@ const getBankAccountsByBIId = async (client: AppSyncClient, biId: number) => {
                 endDate
               }
             }
+          }
+        }
+        movements(limit: 1000, statusDate: {beginsWith: {status: Unkown}}, sortDirection: DESC) {
+          items {
+            biId
           }
         }
       }

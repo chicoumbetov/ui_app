@@ -12,7 +12,10 @@ import Select from '../../../components/Form/Select';
 import { frequence, rentalType, typeRevenu } from '../../../mockData/ajoutRevenuData';
 import Form from '../../../components/Form/Form';
 import MaxWidthContainer from '../../../components/MaxWidthContainer';
-import { BudgetLineType, Frequency, RentalType } from '../../../src/API';
+import {
+  BudgetLine,
+  BudgetLineType, Frequency, RentalType, TenantInfo,
+} from '../../../src/API';
 import TextInput from '../../../components/Form/TextInput';
 import { TabMesBiensParamList } from '../../../types';
 import CompteHeader from '../../../components/CompteHeader/CompteHeader';
@@ -35,15 +38,9 @@ type ParamBudgetForm = {
   managementFees: number,
   frequency: Frequency,
   thisRentalType: RentalType,
-  nextDueDate?: string | null,
+  nextDueDate: string,
   tenantId?: string | null,
-  tenant?: {
-    lastname: string,
-    firstname: string,
-    email: string,
-    startDate: string,
-    endDate: string,
-  }
+  tenant?: TenantInfo | null
 };
 
 const typeRevenueArray = Object.values(typeRevenu);
@@ -67,14 +64,14 @@ const ParametrerAjoutRevenu = () => {
   const [revenuLoyer, setRevenuLoyer] = useState(false);
   const [dateDerniereEcheanceShow, setDateDerniereEcheanceShow] = useState(false);
 
-  let currentBudgetLine: ParamBudgetForm | undefined;
+  let currentBudgetLine: Partial<BudgetLine> & Pick<ParamBudgetForm, 'tenant'> | undefined | null;
   // const [currentBudgetLine] = useState(CurrentBudgetLine);
 
   if (route.params.idBudgetLine) {
     // get budgetLine that is clicked
-    currentBudgetLine = bienget.budgetLines?.items?.filter(
+    currentBudgetLine = bienget.budgetLines?.items?.find(
       (item) => item?.id === route.params.idBudgetLine,
-    ).pop();
+    );
     useEffect(() => {
       setMontantShow(true);
       setFrequenceShow(true);
@@ -97,6 +94,16 @@ const ParametrerAjoutRevenu = () => {
         tenant,
       };
     }
+  } else if (route.params.revenuType) {
+    currentBudgetLine = {
+      category: route.params.revenuType,
+    };
+    useEffect(() => {
+      setRevenuLoyer(route.params.revenuType === 'loyer');
+      setMontantShow(true);
+      setFrequenceShow(true);
+      setDateDerniereEcheanceShow(true);
+    }, [route.params.revenuType]);
   }
 
   // console.log('data ajout revenu: ', data);
@@ -108,7 +115,8 @@ const ParametrerAjoutRevenu = () => {
 
   const validateBudget = async (data: ParamBudgetForm) => {
     const {
-      category, amount, rentalCharges, managementFees, frequency, nextDueDate, tenant, thisRentalType,
+      category, amount, rentalCharges, managementFees, frequency,
+      nextDueDate, tenant, thisRentalType,
     } = data;
 
     console.log('data ajout revenu: ', data);
@@ -118,8 +126,8 @@ const ParametrerAjoutRevenu = () => {
         let tenantId: string | null = null;
         if (tenant) {
           tenantId = await updateTenant(bienget, {
-            id: currentBudgetLine.tenantId,
             ...tenant,
+            id: currentBudgetLine.tenantId,
             amount,
             rentalType: thisRentalType,
           });
@@ -138,11 +146,11 @@ const ParametrerAjoutRevenu = () => {
               nextDueDate,
               tenantId,
               // eslint-disable-next-line no-underscore-dangle
-              _version: currentBudgetLine._version,
+              _version: currentBudgetLine._version as number,
             },
           },
         });
-      } else {
+      } else if (currentBudgetLine) {
         await updateBudgetLine.updateBudgetLine({
           variables: {
             input: {
@@ -154,7 +162,7 @@ const ParametrerAjoutRevenu = () => {
               frequency,
               nextDueDate,
               // eslint-disable-next-line no-underscore-dangle
-              _version: currentBudgetLine._version,
+              _version: currentBudgetLine._version as number,
             },
           },
         });
@@ -304,7 +312,7 @@ const ParametrerAjoutRevenu = () => {
                   setRevenuLoyer(false);
                 } setMontantShow(true); setFrequenceShow(true);
               }}
-              placeholder="Type De Revenu"
+              placeholder="Type de revenu"
               size="large"
               appearance="default"
               status="primary"
@@ -326,7 +334,7 @@ const ParametrerAjoutRevenu = () => {
             </MotiView>
             {revenuLoyer && (
             <MotiView
-              animate={{ height: (revenuLoyer ? 136 : 0) }}
+              animate={{ height: (revenuLoyer ? 150 : 0) }}
               style={{
                 overflow: 'hidden',
                 // hack pour éviter que le overflow 'hidden' ne cache l'ombre
@@ -365,6 +373,7 @@ const ParametrerAjoutRevenu = () => {
                     <DatePicker
                       name="nextDueDate"
                       placeholder="Date de la prochaine échéance"
+                      placement="top"
                       icon="calendar-outline"
                       // pas avant demain
                       // (sinon le cron ne tournera jamais et on aura jamais les échéances)
@@ -390,11 +399,13 @@ const ParametrerAjoutRevenu = () => {
                     name="tenant.startDate"
                     placeholder="Date de début de bail"
                     icon="calendar-outline"
+                    max={new Date(2500, 0, 1)}
                   />
                   <DatePicker
                     name="tenant.endDate"
                     placeholder="Date de fin de bail"
                     icon="calendar-outline"
+                    max={new Date(2500, 0, 1)}
                   />
                   <Select
                     name="thisRentalType"

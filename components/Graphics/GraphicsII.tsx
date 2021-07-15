@@ -1,6 +1,8 @@
 import React, { useMemo, useState } from 'react';
 import { ScrollView, View } from 'react-native';
-import { Text, useTheme } from '@ui-kitten/components';
+import {
+  I18nConfig, NativeDateService, Text, useTheme,
+} from '@ui-kitten/components';
 import {
   VictoryAxis,
   VictoryBar,
@@ -11,6 +13,7 @@ import {
   VictoryScatter,
 } from 'victory-native';
 import moment from 'moment';
+import 'moment/locale/fr';
 import VisibilitySensor from '@svanboxel/visibility-sensor-react-native';
 import { MotiView } from 'moti';
 import DateUtils from '../../utils/DateUtils';
@@ -23,10 +26,35 @@ type GraphicsIIProps = {
   id: string
 };
 
+const i18n : I18nConfig = {
+  dayNames: {
+    short: ['Di', 'Lu', 'Ma', 'Me', 'Je', 'Ve', 'Sa'],
+    long: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
+  },
+  monthNames: {
+    short: ['Jan.', 'Fév.', 'Mars', 'Avr.', 'Mai', 'Juin', 'Juil.', 'Août', 'Sep.', 'Oct.', 'Nov.', 'Déc.'],
+    long: [
+      'Janvier',
+      'Février',
+      'Mars',
+      'Avril',
+      'Mai',
+      'Juin',
+      'Juillet',
+      'Août',
+      'Septembre',
+      'October',
+      'Novembre',
+      'Décembre',
+    ],
+  },
+};
+const localeDateService = new NativeDateService('ru', { i18n, startDayOfWeek: 1 });
+
 const GraphicsII = (props: GraphicsIIProps) => {
   const { dateStart, dateEnd, id } = props;
-  const start = moment(dateStart).format('YYYY-MM-DD').toString();
-  const end = moment(dateEnd).format('YYYY-MM-DD').toString();
+  // const start = moment(dateStart).format('YYYY-MM-DD').toString();
+  // const end = moment(dateEnd).format('YYYY-MM-DD').toString();
   // console.log(start, end, id);
   const listBankMovement = useListBankMovement(id, BankMovementStatus.Affected, '2021');
   console.log('listBankmovemenrt: ', listBankMovement);
@@ -61,7 +89,15 @@ const GraphicsII = (props: GraphicsIIProps) => {
 
       while (currentMonthDate <= dateEnd) {
         evolutionData.push({
-          moisLabel: moment(currentMonthDate).format('MMMM YYYY'),
+          moisLabel: moment(currentMonthDate).format('MMM YYYY'),
+          /**
+           * .updateLocale('fr', {
+            monthsShort: [
+              'jan', 'fev', 'mars', 'avr', 'mai', 'juin', 'juil',
+              'août', 'sep', 'oct', 'nov', 'dec',
+            ],
+          })
+           */
           moisStart: currentMonthDate,
           moisEnd: DateUtils.lastDayOfMonthDate(currentMonthDate),
           income: 0,
@@ -119,6 +155,10 @@ const GraphicsII = (props: GraphicsIIProps) => {
         setWidth(Math.max(500, event.nativeEvent.layout.width));
       }}
     >
+      <View style={{ flex: 1, alignItems: 'center' }}>
+        <Text>Suivi mensuel de la trésorerie</Text>
+      </View>
+
       <VisibilitySensor onChange={(visible) => {
         if (visible && !shown) {
           setShown(true);
@@ -146,7 +186,7 @@ const GraphicsII = (props: GraphicsIIProps) => {
                     <VictoryLabel
                       textAnchor="end"
                       style={{
-                        fontSize: '9px', fill: '#b5b5b5', angle: -45,
+                        fontSize: '8px', fill: '#b5b5b5', angle: -45,
                       }}
                     />
                   )}
@@ -160,7 +200,7 @@ const GraphicsII = (props: GraphicsIIProps) => {
                   crossAxis
                   tickLabelComponent={(
                     <VictoryLabel
-                      style={{ fontSize: '9px', fill: '#b5b5b5' }}
+                      style={{ fontSize: '8px', fill: '#b5b5b5' }}
                     />
                   )}
                   style={{

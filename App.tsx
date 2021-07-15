@@ -92,7 +92,7 @@ I18n.putVocabularies({
 function App() {
   const colorScheme = useColorScheme();
   const tmpPasswd = useRef<string>();
-  const setTmpPasswd = (passwd: string) => tmpPasswd.current = passwd;
+  const setTmpPasswd = (passwd: string) => { tmpPasswd.current = passwd; };
   const getTmpPasswd = () => tmpPasswd.current;
 
   const assetLoader = useAssetLoader({ fonts });

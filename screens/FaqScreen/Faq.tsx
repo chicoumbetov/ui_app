@@ -83,6 +83,7 @@ const Faq = () => {
 
             </TouchableOpacity>
           )}
+        stickySectionHeadersEnabled
       />
     </MaxWidthContainer>
   );

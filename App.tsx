@@ -17,6 +17,7 @@ import { Amplify, I18n } from '@aws-amplify/core';
 import { Authenticator } from 'aws-amplify-react-native';
 
 import { ApolloProvider } from 'react-apollo';
+import * as Sentry from 'sentry-expo';
 import omedomTheme from './custom-theme';
 import mapping from './mapping.json';
 
@@ -34,6 +35,12 @@ import {
 import client, { Rehydration } from './src/Apollo';
 import { UserContext, UserProvider } from './src/API/UserContext';
 import ErrorMap from './components/Auth/ErrorMap';
+
+Sentry.init({
+  dsn: 'https://ede0a1def5d34d87a669e048a5a9c753@o239428.ingest.sentry.io/5863091',
+  enableInExpoDevelopment: true,
+  debug: false, // Sentry will try to print out useful debugging information if something goes wrong with sending an event. Set this to `false` in production.
+});
 
 if (typeof Intl === 'undefined') {
   // eslint-disable-next-line global-require

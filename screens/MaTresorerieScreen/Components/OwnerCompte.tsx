@@ -35,12 +35,13 @@ const OwnerCompte = (props: MonBienProps) => {
     });
   }
 
-  let nbNotif = 0;
+  let nbNotif: string = '0';
   if (movementPasAffect) {
-    nbNotif = movementPasAffect.length;
-  }
-  if (nbNotif > 99) {
-    nbNotif = '99+';
+    if (movementPasAffect.length > 99) {
+      nbNotif = '99+';
+    } else {
+      nbNotif = movementPasAffect.length.toString();
+    }
   }
   // console.log('Ownner Compte : ', movementPasAffect.length);
 
@@ -117,7 +118,7 @@ const OwnerCompte = (props: MonBienProps) => {
             borderRadius: 30,
           }}
           >
-            <Text status="control">
+            <Text status="control" style={{ fontSize: 11 }}>
               {nbNotif}
             </Text>
           </View>

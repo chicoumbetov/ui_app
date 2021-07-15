@@ -148,7 +148,7 @@ const MonBien = (props: MonBienProps) => {
 
   // useMemo used if big O notation is expensive. higher than n to the power 2
   const dernierMovement = useMemo(() => bankMovements?.items?.find(
-    (item) => (item.status === BankMovementStatus.Affected),
+    (item) => (item && item.status === BankMovementStatus.Affected),
   ), [bankMovements]);
 
   // console.log('allCurrentCategories Mon Bien', allCurrentCategories);
@@ -162,7 +162,7 @@ const MonBien = (props: MonBienProps) => {
   };
 
   const onDetailsBiens = (id: string) => {
-    linkTo(`/mes-biens/bien/${id}`);
+    linkTo(`/mes-biens/${id}`);
   };
 
   return (
@@ -274,8 +274,8 @@ const MonBien = (props: MonBienProps) => {
                         <Amount amount={Math.round(dernierMovement?.amount * 100) / 100 || 0} category="h5" />
                       ) : (<Text category="h5" status="primary">0 €</Text>)}
 
-                      <TouchableOpacity onPress={() => {}}>
-                        <Text category="h6" status="info">Affecter</Text>
+                      <TouchableOpacity onPress={() => dernierMovement && linkTo(`/ma-tresorerie/${bienget?.id}/mes-comptes/${dernierMovement.bankAccountId}/mouvements-bancaires/affectes?idMouv=${dernierMovement.id}`)}>
+                        <Text category="h6" status="info">En savoir +</Text>
                       </TouchableOpacity>
                     </View>
 
@@ -283,9 +283,9 @@ const MonBien = (props: MonBienProps) => {
                       <Text category="h6" appearance="hint" style={styles.text}>
                         Prochaine dépense
                       </Text>
-                      <Amount amount={Math.round((nextexpense || 0) * 100) / 100} category="h5" />
-                      <TouchableOpacity onPress={allerTresorerie}>
-                        <Text category="h6" status="info">En savoir +</Text>
+                      <Amount amount={Math.round(((nextexpense || { amount: 0 }).amount * 100) / 100)} category="h5" />
+                      <TouchableOpacity onPress={() => linkTo(`/mes-biens/${bienget?.id}/budget`)}>
+                        <Text category="h6" status="info">Mon budget</Text>
                       </TouchableOpacity>
                     </View>
 

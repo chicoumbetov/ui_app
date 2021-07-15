@@ -3,8 +3,7 @@ import {
   Button, Card, CheckBox, Text, useTheme,
 } from '@ui-kitten/components';
 import moment from 'moment';
-import React, { useState } from 'react';
-import _ from 'lodash';
+import React, { useEffect, useState } from 'react';
 import TextInputComp from '../../../components/Form/TextInput';
 import { BudgetLineDeadline } from '../../../src/API';
 import Amount from '../../../components/Amount';
@@ -23,11 +22,14 @@ import {
 type BudgetLineDeadLineCardProps = {
   item: BudgetLineDeadline;
   onChecked?: (item: BudgetLineDeadline, checked: boolean) => void;
-  editable?: boolean
+  editable?: boolean;
+  checkedProps?: boolean;
 };
 
 const BudgetLineDeadLineCard = (props: BudgetLineDeadLineCardProps) => {
-  const { item, onChecked, editable = true } = props;
+  const {
+    item, onChecked, editable = true, checkedProps = false,
+  } = props;
   const [checked, setChecked] = useState(false);
   const [edit, setEdit] = useState(false);
   const [amount, setAmount] = useState(item.amount);
@@ -36,6 +38,10 @@ const BudgetLineDeadLineCard = (props: BudgetLineDeadLineCardProps) => {
   const [interest, setInterest] = useState(item.infoCredit?.interest);
   const [assurance, setAssurance] = useState(item.infoCredit?.assurance);
   const [householdWaste, setHouseholdWaste] = useState(item.householdWaste);
+
+  useEffect(() => {
+    setChecked(checkedProps);
+  }, [checkedProps]);
 
   const { updateBudgetLineDeadline, mutationLoading } = useUpdateBudgetLineDeadlineMutation();
   const deleteBudgetLineDeadLine = useDeleteBudgetLineDeadlineMutation();

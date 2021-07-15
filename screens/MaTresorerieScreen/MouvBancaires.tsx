@@ -6,9 +6,11 @@
 
 import React, { useEffect, useState } from 'react';
 import {
-  Button, CheckBox, Text, useTheme,
+  Button, CheckBox, Layout, Text, useTheme,
 } from '@ui-kitten/components';
-import { FlatList, TouchableOpacity, View } from 'react-native';
+import {
+  FlatList, SectionList, TouchableOpacity, View,
+} from 'react-native';
 
 import { Icon as IconUIKitten } from '@ui-kitten/components/ui/icon/icon.component';
 import { useLinkTo, useRoute } from '@react-navigation/native';
@@ -90,22 +92,24 @@ const MouvBancaires = () => {
 
   let budget: (BudgetLineDeadline | null)[] | undefined = [];
   if (currentMvt !== undefined && currentMvt.amount) {
-    if (currentMvt.amount < 0) {
-      budget = bienget?.budgetLineDeadlines?.items?.filter((item) => {
-        // eslint-disable-next-line no-underscore-dangle
-        if (item?.type === BudgetLineType.Expense && !item?._deleted && !item.bankMouvementId) {
-          return item;
+    budget = bienget?.budgetLineDeadlines?.items?.filter((item) => {
+      // eslint-disable-next-line no-underscore-dangle
+      if (item && !item?._deleted && !item.bankMouvementId) {
+        return item;
+      }
+      return false;
+    });
+    if (budget) {
+      budget.sort((a, b) => {
+        const absA = Math.abs((a?.amount || 0) - currentMvt.amount);
+        const absB = Math.abs((b?.amount || 0) - currentMvt.amount);
+        if (absA < absB) {
+          return -1;
         }
-        return false;
-      });
-    } else {
-      // console.log('BLDL :', bienget?.budgetLineDeadlines?.items);
-      budget = bienget?.budgetLineDeadlines?.items?.filter((item) => {
-        // eslint-disable-next-line no-underscore-dangle
-        if (item?.type === BudgetLineType.Income && !item?._deleted && !item.bankMouvementId) {
-          return item;
+        if (absA > absB) {
+          return 1;
         }
-        return false;
+        return 0;
       });
     }
   }
@@ -131,16 +135,22 @@ const MouvBancaires = () => {
   return (
     <>
       <MaxWidthContainer
-        withScrollView="keyboardAware"
+        withScrollView={false}
         outerViewProps={{
-          showsVerticalScrollIndicator: false,
           style: {
             padding: 25,
           },
         }}
+        innerViewProps={{
+          style: { height: '100%' },
+        }}
       >
-        <FlatList
-          data={movementPasAffect}
+        <SectionList
+          sections={[{ title: 'mouvements', data: movementPasAffect }]}
+          stickyHeaderIndices={[0]}
+          style={{ flex: 1 }}
+          showsVerticalScrollIndicator={false}
+          stickySectionHeadersEnabled
           renderItem={({ item }) => item && (
           <Card
             key={item.id}
@@ -203,6 +213,21 @@ const MouvBancaires = () => {
             </TouchableOpacity>
           </Card>
           )}
+          renderSectionHeader={() => (
+            <Layout>
+              <Button
+                size="large"
+                onPress={() => {
+                  ignorerMovement();
+                  setIgnoreClicked(!ignoreClicked);
+                }}
+                appearance={ignoreClicked ? 'filled' : 'outline'}
+                status="danger"
+              >
+                Ignorer des mouvements
+              </Button>
+            </Layout>
+          )}
           ListHeaderComponent={(
             <>
               <CompteHeader title={bienget?.name} iconUri={bienget?.iconUri} />
@@ -228,21 +253,13 @@ const MouvBancaires = () => {
               >
                 Mouvements bancaires
               </Text>
-              <Text category="p2" appearance="hint">
+              <Text
+                category="p2"
+                appearance="hint"
+                style={{ marginBottom: 20 }}
+              >
                 Vous pouvez affecter ou ignorer les mouvements bancaires liés à ce compte bancaire.
               </Text>
-
-              {!(movementPasAffect && movementPasAffect.length === 0) && (
-              <Button
-                size="large"
-                onPress={() => { ignorerMovement(); setIgnoreClicked(!ignoreClicked); }}
-                appearance={ignoreClicked ? 'filled' : 'outline'}
-                status="danger"
-                style={{ marginTop: 20 }}
-              >
-                Ignorer des mouvements
-              </Button>
-              )}
             </>
           )}
           ListFooterComponent={(
@@ -304,7 +321,6 @@ const MouvBancaires = () => {
                 )}
             </>
 )}
-
           ListEmptyComponent={(
             <View style={{ alignItems: 'center', marginVertical: 20 }}>
               <Text category="h4" style={{ marginBottom: 10 }}>Bon Travail!</Text>

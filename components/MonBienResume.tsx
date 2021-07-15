@@ -28,7 +28,7 @@ const MonBienResume = (props: MonBienProps) => {
   }, [bienget]);
 
   const allerDetailsBien = (id: string) => {
-    linkTo(`/mes-biens/bien/${id}`);
+    linkTo(`/mes-biens/${id}`);
   };
 
   const { budgetLineDeadlines } = bienget || {};

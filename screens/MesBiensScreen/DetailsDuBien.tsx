@@ -260,9 +260,11 @@ function DetailsBien() {
 
   // budgetLines are already sorted in schema.graphql
   // sortDirection: ASC
-  const nextexpense = Math.round((bienget?.budgetLines?.items?.find((item) => (item.amount < 0))).amount * 100) / 100;
 
-  const { bankMovements, budgetLineDeadlines } = bienget || {};
+  const { bankMovements, budgetLineDeadlines, budgetLines } = bienget || {};
+  const nextexpense = budgetLines?.items
+      && budgetLines?.items.length > 0
+      && (budgetLines.items.find((item) => (item && item.amount < 0)));
 
   // useMemo used if big O notation is expensive. higher than n to the power 2
   const dernierMovement = useMemo(() => bankMovements?.items?.find(
@@ -358,7 +360,7 @@ function DetailsBien() {
                   <Text category="h6" appearance="hint" style={styles.text}>
                     Prochaine dépense
                   </Text>
-                  <Amount amount={nextexpense || 0} category="h5" />
+                  <Amount amount={(nextexpense || { amount: 0 }).amount} category="h5" />
                 </View>
 
                 <View style={styles.oneThirdBlock}>

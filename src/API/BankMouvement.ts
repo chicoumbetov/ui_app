@@ -2,21 +2,19 @@ import { DocumentNode } from 'apollo-link';
 import gql from 'graphql-tag';
 import { useMutation, useQuery } from 'react-apollo';
 import { WatchQueryFetchPolicy } from 'apollo-client/core/watchQueryOptions';
-import {
-  getBankMovement,
-} from '../graphql/queries';
+import { getBankMovement } from '../graphql/queries';
 import {
   BankMovement,
-  GetBankMovementsByBankAccountIdQuery,
-  GetBankMovementsByBankAccountIdQueryVariables,
+  BankMovementStatus,
   GetBankMovementQuery,
   GetBankMovementQueryVariables,
+  GetBankMovementsByBankAccountIdQuery,
+  GetBankMovementsByBankAccountIdQueryVariables,
+  ModelBankMovementBankMovementsByBankAccountCompositeKeyConditionInput,
+  ModelBankMovementFilterInput,
+  ModelSortDirection,
   UpdateBankMovementMutation,
   UpdateBankMovementMutationVariables,
-  BankMovementStatus,
-  ModelBankMovementBankMovementsByBankAccountCompositeKeyConditionInput,
-  ModelSortDirection,
-  ModelBankMovementFilterInput,
 } from '../API';
 import * as mutations from '../graphql/mutations';
 
@@ -123,6 +121,7 @@ export function useGetBankMovementsByBankAccountId(bankAccountId: string, status
           status,
         },
       },
+      sortDirection: ModelSortDirection.DESC,
     },
     fetchPolicy,
   });

@@ -7,11 +7,27 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import { StyleSheet, View } from 'react-native';
 
 import MaxWidthContainer from '../../../components/MaxWidthContainer';
+import {
+  typeAssurance, typeBanque,
+  typeCharge,
+  typeDivers,
+  typeImpots,
+  typeRevenu,
+} from '../../../mockData/ajoutRevenuData';
 
 const MesCharges2 = () => {
   const { params } = useRoute();
   // console.log('params from useRoute', params);
   const titlePass = params;
+
+  const allPossibleTypes = {
+    ...typeCharge,
+    ...typeImpots,
+    ...typeRevenu,
+    ...typeAssurance,
+    ...typeDivers,
+    ...typeBanque,
+  };
 
   const navigation = useNavigation();
 
@@ -90,7 +106,7 @@ const MesCharges2 = () => {
     }}
     >
       <Text category="h1" status="basic">
-        {`Charge ${titlePass?.title}`}
+        {`Charge ${allPossibleTypes[titlePass?.title].label}`}
       </Text>
 
       <RadioGroup

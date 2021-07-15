@@ -36,7 +36,7 @@ export const useNotificationHandler = () => {
         case 'retardLoyer':
         case 'mauvaiseRenta':
           if (data.realEstateId) {
-            linkTo(`/mes-biens/bien/${data.realEstateId}`);
+            linkTo(`/mes-biens/${data.realEstateId}`);
           }
           break;
 
@@ -49,7 +49,7 @@ export const useNotificationHandler = () => {
             if (data.realEstateIds.length > 1) {
               linkTo('/mes-biens');
             } else {
-              linkTo(`/mes-biens/bien/${data.realEstateIds[0]}`);
+              linkTo(`/mes-biens/${data.realEstateIds[0]}`);
             }
           }
           break;

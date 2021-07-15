@@ -186,7 +186,7 @@ const GraphicsII = (props: GraphicsIIProps) => {
                     <VictoryLabel
                       textAnchor="end"
                       style={{
-                        fontSize: '9px', fill: '#b5b5b5', angle: -45,
+                        fontSize: '8px', fill: '#b5b5b5', angle: -45,
                       }}
                     />
                   )}
@@ -200,7 +200,7 @@ const GraphicsII = (props: GraphicsIIProps) => {
                   crossAxis
                   tickLabelComponent={(
                     <VictoryLabel
-                      style={{ fontSize: '9px', fill: '#b5b5b5' }}
+                      style={{ fontSize: '8px', fill: '#b5b5b5' }}
                     />
                   )}
                   style={{

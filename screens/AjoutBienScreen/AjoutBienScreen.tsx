@@ -279,6 +279,9 @@ function AjoutBienScreen() {
               containerStyle={{ marginLeft: 23, marginRight: 22 }}
               name="name"
               placeholder="Le nom du bien"
+              validators={[
+                AvailableValidationRules.required,
+              ]}
             />
 
             <View style={{
@@ -506,7 +509,6 @@ function AjoutBienScreen() {
               flexDirection: 'row',
               alignItems: 'center',
               justifyContent: 'space-between',
-              marginBottom: 8,
             }}
             >
               <Text category="h5" status="basic" style={{ marginRight: 20 }}>
@@ -518,7 +520,7 @@ function AjoutBienScreen() {
                 placeholder="yyyy"
                 maxLength={4}
                 icon="calendar-outline"
-                validators={[AvailableValidationRules.required]}
+                validators={[AvailableValidationRules.purchaseYear]}
               />
             </View>
 
@@ -526,7 +528,7 @@ function AjoutBienScreen() {
               <SelectComp
                 name="type"
                 data={typeBienArray}
-                placeholder="Type De Bien"
+                placeholder="Type de Bien"
                 size="large"
                 appearance="default"
                 status="primary"
@@ -647,7 +649,7 @@ function AjoutBienScreen() {
                 name="purchasePrice"
                 size="small"
                 keyboardType="numeric"
-                validators={[AvailableValidationRules.required, AvailableValidationRules.float]}
+                validators={[AvailableValidationRules.purchasePrice, AvailableValidationRules.float]}
                 style={{ flex: 1, marginRight: 10, marginHorizontal: 10 }}
               />
               <Text category="h5">€</Text>
@@ -658,7 +660,7 @@ function AjoutBienScreen() {
                 name="notaryFee"
                 size="small"
                 keyboardType="numeric"
-                validators={[AvailableValidationRules.required, AvailableValidationRules.float]}
+                validators={[AvailableValidationRules.notaryFee, AvailableValidationRules.float]}
                 style={{ flex: 1, marginRight: 10, marginHorizontal: 10 }}
               />
               <Text category="h5">€</Text>
@@ -676,7 +678,14 @@ function AjoutBienScreen() {
                   </Button>
                 ) : (
                   <Button
-                    onPress={ajoutBienForm.handleSubmit((data) => onAjoutBien(data))}
+                    onPress={ajoutBienForm.handleSubmit((data) => onAjoutBien(data),
+                      (data) => {
+                        if (data.name) {
+                          setEtape(0);
+                        } else if (data.address) {
+                          setEtape(1);
+                        }
+                      })}
                     size="large"
                   >
                     Enregistrer

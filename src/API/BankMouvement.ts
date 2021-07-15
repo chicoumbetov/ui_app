@@ -2,6 +2,7 @@ import { DocumentNode } from 'apollo-link';
 import gql from 'graphql-tag';
 import { useMutation, useQuery } from 'react-apollo';
 import { WatchQueryFetchPolicy } from 'apollo-client/core/watchQueryOptions';
+import { DataProxy } from 'apollo-cache/lib/types/DataProxy';
 import { getBankMovement } from '../graphql/queries';
 import {
   BankMovement,
@@ -167,33 +168,9 @@ export function useUpdateBankMovement() {
           const { updateBankMovement: newData } = mutationData;
           if (newData) {
             // Read query from cache
-            const cacheData = cache.readQuery<
-            GetBankMovementsByBankAccountIdQuery,
-            GetBankMovementsByBankAccountIdQueryVariables
-            >({
-              query: getBankMovementsByBankAccountIdQuery,
-              variables: {
-                bankAccountId: newData.bankAccountId,
-              },
-            });
-
-            // Add newly created item to the cache copy
-            if (cacheData && cacheData.getBankMovementsByBankAccountId?.items) {
-              cacheData.getBankMovementsByBankAccountId.items.map((item) => {
-                if (item?.id === newData.id) { return newData; } return item;
-              });
-              // Overwrite the cache with the new results
-              cache.writeQuery<
-              GetBankMovementsByBankAccountIdQuery,
-              GetBankMovementsByBankAccountIdQueryVariables
-              >({
-                query: getBankMovementsByBankAccountIdQuery,
-                variables: {
-                  bankAccountId: newData.bankAccountId,
-                },
-                data: cacheData,
-              });
-            }
+            updateBankAccountCache(cache, newData, BankMovementStatus.Unkown);
+            updateBankAccountCache(cache, newData, BankMovementStatus.Affected);
+            updateBankAccountCache(cache, newData, BankMovementStatus.Ignored);
           }
         }
       },
@@ -407,3 +384,73 @@ export function useListBankMovementbyListRealEstate(status: BankMovementStatus, 
     loading, data, fetchMore, refetch,
   };
 }
+
+const updateBankAccountCache = (cache: DataProxy, newData: UpdateBankMovementMutation['updateBankMovement'], status: BankMovementStatus) => {
+  if (newData) {
+    try {
+      const cacheData = cache.readQuery<GetBankMovementsByBankAccountIdQuery,
+      GetBankMovementsByBankAccountIdQueryVariables>({
+        query: getBankMovementsByBankAccountIdQuery,
+        variables: {
+          bankAccountId: newData.bankAccountId,
+          statusDate: {
+            beginsWith: {
+              status,
+            },
+          },
+          sortDirection: ModelSortDirection.DESC,
+        },
+      });
+
+      // Add newly created item to the cache copy
+      if (cacheData && cacheData.getBankMovementsByBankAccountId?.items) {
+        if (newData.status === status) {
+          let found = false;
+          cacheData.getBankMovementsByBankAccountId.items.map((item) => {
+            if (item?.id === newData.id) {
+              found = false;
+              return newData;
+            }
+            return item;
+          });
+          if (!found) {
+            cacheData.getBankMovementsByBankAccountId.items.push(newData);
+            cacheData.getBankMovementsByBankAccountId.items.sort((a, b) => {
+              if (a && b) {
+                if ((a.date || '') < (b.date || '')) return 1;
+                if ((a.date || '') > (b.date || '')) return -1;
+              }
+              return 0;
+            });
+          }
+        } else {
+          cacheData
+            .getBankMovementsByBankAccountId.items = cacheData
+              .getBankMovementsByBankAccountId.items.filter((item) => {
+                if (item?.id === newData.id) {
+                  return false;
+                }
+                return true;
+              });
+        }
+        // Overwrite the cache with the new results
+        cache.writeQuery<GetBankMovementsByBankAccountIdQuery,
+        GetBankMovementsByBankAccountIdQueryVariables>({
+          query: getBankMovementsByBankAccountIdQuery,
+          variables: {
+            bankAccountId: newData.bankAccountId,
+            statusDate: {
+              beginsWith: {
+                status,
+              },
+            },
+            sortDirection: ModelSortDirection.DESC,
+          },
+          data: cacheData,
+        });
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
+};

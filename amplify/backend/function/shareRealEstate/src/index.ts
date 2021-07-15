@@ -11,7 +11,7 @@ import { getUserByEmail } from '/opt/nodejs/src/UserQueries';
 import getAppSyncClient from '/opt/nodejs/src/AppSyncClient';
 import { updateRealEstateMutation } from '/opt/nodejs/src/RealEstateMutation';
 import { getRealEstate } from '/opt/nodejs/src/RealEstateQueries';
-import { sendBulkTemplateEmail, sendTemplateEmail } from '/opt/nodejs/src/SendMail';
+import { sendTemplateEmail } from '/opt/nodejs/src/SendMail';
 import { deletePendingInvitations } from '/opt/nodejs/src/PendingInvitationQueries';
 
 exports.handler = async (event) => {

@@ -48,7 +48,7 @@ const MouvBancaires = () => {
     bankMouvement: movementPasAffect, fetchMoreBankMovements, nextToken, refetch,
   } = useGetBankMovementsByBankAccountId(route.params.idCompte, BankMovementStatus.Unkown, 'cache-and-network');
   const { bankAccount } = useGetBankAccount(route.params.idCompte);
-  const useUpdateBankMouvement = useUpdateBankMovement();
+  const useUpdateBankMouvement = useUpdateBankMovement(BankMovementStatus.Unkown);
 
   const [bankAccountCharger, setBankAccountCharger] = useState<BankAccount>();
 
@@ -63,16 +63,16 @@ const MouvBancaires = () => {
 
   // console.log('mmmm :', bien?.budgetLineDeadlines?.items?.map((item) => item?.amount));
 
-  const [checked, setChecked] = React.useState<Array<{ id:string, _version:number }>>([]);
+  const [checked, setChecked] = React.useState<Array<BankMovement>>([]);
 
   const [ignoreClicked, setIgnoreClicked] = useState(false);
 
-  const isChecked = (id:string): boolean => checked.filter((item) => item.id === id).length > 0;
+  const isChecked = (id:string): boolean => checked.find((item) => item.id === id) !== undefined;
 
-  const checkFunction = (nextChecked: boolean, id:string, _version:number) => {
-    const newCheckedState = checked.filter((current) => current.id !== id);
+  const checkFunction = (nextChecked: boolean, bankMovement: BankMovement) => {
+    const newCheckedState = checked.filter((current) => current.id !== bankMovement.id);
     if (nextChecked) {
-      newCheckedState.push({ id, _version });
+      newCheckedState.push(bankMovement);
     }
 
     setChecked(newCheckedState);
@@ -123,13 +123,14 @@ const MouvBancaires = () => {
           input: {
             id: current.id,
             status: BankMovementStatus.Ignored,
-            date: movement.date,
+            date: current.date,
             // eslint-disable-next-line no-underscore-dangle
             _version: current._version,
           },
         },
       });
     }, Promise.resolve());
+    setChecked([]);
   };
 
   return (
@@ -169,7 +170,7 @@ const MouvBancaires = () => {
                   checked={isChecked(item.id)}
                   onChange={
                               // eslint-disable-next-line no-underscore-dangle
-                              (nextChecked) => checkFunction(nextChecked, item.id, item._version)
+                              (nextChecked) => checkFunction(nextChecked, item)
                             }
                   status="danger"
                 />
@@ -177,7 +178,9 @@ const MouvBancaires = () => {
               : <></>}
 
             <TouchableOpacity
-              onPress={() => onEditMouvement(item)}
+              onPress={() => {
+                if (ignoreClicked) { checkFunction(!isChecked(item.id), item); } else { onEditMouvement(item); }
+              }}
               style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}
             >
               <View
@@ -207,7 +210,7 @@ const MouvBancaires = () => {
                 }}
               >
                 <Text category="h6" status="basic">{`${moment(item.date).format('DD/MM/YYYY')}`}</Text>
-                <Text category="p1" appearance="hint">{item.description}</Text>
+                <Text category="p1" appearance="hint">{item?.description || ''}</Text>
               </View>
 
             </TouchableOpacity>
@@ -215,17 +218,46 @@ const MouvBancaires = () => {
           )}
           renderSectionHeader={() => (
             <Layout>
-              <Button
-                size="large"
-                onPress={() => {
-                  ignorerMovement();
-                  setIgnoreClicked(!ignoreClicked);
-                }}
-                appearance={ignoreClicked ? 'filled' : 'outline'}
-                status="danger"
-              >
-                Ignorer des mouvements
-              </Button>
+              {ignoreClicked ? (
+                <View style={{ flexDirection: 'row' }}>
+                  <Button
+                    size="large"
+                    style={{ flex: 1 }}
+                    onPress={() => {
+                      setIgnoreClicked(!ignoreClicked);
+                      setChecked([]);
+                    }}
+                    appearance="outline"
+                    status="danger"
+                  >
+                    Annuler
+                  </Button>
+                  <Button
+                    size="large"
+                    style={{ flex: 1 }}
+                    onPress={() => {
+                      ignorerMovement();
+                      setIgnoreClicked(!ignoreClicked);
+                    }}
+                    appearance="filled"
+                    status="danger"
+                  >
+                    Ignorer des mouvements
+                  </Button>
+                </View>
+              ) : (
+                <Button
+                  size="large"
+                  onPress={() => {
+                    setIgnoreClicked(!ignoreClicked);
+                  }}
+                  appearance={ignoreClicked ? 'filled' : 'outline'}
+                  status="danger"
+                >
+                  Ignorer des mouvements
+                </Button>
+              )}
+
             </Layout>
           )}
           ListHeaderComponent={(
@@ -343,7 +375,7 @@ const MouvBancaires = () => {
           budget={budget}
           linkTo={linkTo}
           movement={currentMvt}
-          onSaved={() => { setCurrentMvt(undefined); refetch; }}
+          onSaved={() => { setCurrentMvt(undefined); }}
           realEstateId={route.params.id}
         />
         )}

@@ -1,7 +1,7 @@
 const contactDATA = [
   {
     label: 'Contact problème technique',
-    key: 'b1',
+    key: 'Contact problème technique',
   },
 ];
 

@@ -390,11 +390,13 @@ const ParametrerAjoutRevenu = () => {
                     name="tenant.startDate"
                     placeholder="Date de début de bail"
                     icon="calendar-outline"
+                    max={new Date(2500, 0, 1)}
                   />
                   <DatePicker
                     name="tenant.endDate"
                     placeholder="Date de fin de bail"
                     icon="calendar-outline"
+                    max={new Date(2500, 0, 1)}
                   />
                   <Select
                     name="thisRentalType"

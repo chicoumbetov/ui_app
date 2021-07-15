@@ -61,30 +61,31 @@ const MouvementAffecter = (props: MonBudgetProps) => {
       {
         text: 'Valider',
         onPress: async () => {
-          if (ignored) {
-            await updateBankMouvement.updateBankMovement({
-              variables: {
-                input: {
-                  id: movement.id,
-                  status: BankMovementStatus.Unkown,
-                  date: movement.date,
-                  // eslint-disable-next-line no-underscore-dangle
-                  _version: movement._version,
-                },
+          await updateBankMouvement.updateBankMovement({
+            variables: {
+              input: {
+                id: movement.id,
+                status: BankMovementStatus.Unkown,
+                date: movement.date,
+                // eslint-disable-next-line no-underscore-dangle
+                _version: movement._version,
               },
-            });
-          } else {
+            },
+          });
+          if (!ignored) {
             movement.budgetLineDeadlines?.items?.reduce(async (promise, current) => {
               await promise;
-              await updateBudgetLineDeadLine.updateBudgetLineDeadline({
-                variables: {
-                  input: {
-                    id: current.id,
-                    bankMouvementId: null,
-                    _version: current._version,
+              if (current) {
+                await updateBudgetLineDeadLine.updateBudgetLineDeadline({
+                  variables: {
+                    input: {
+                      id: current.id,
+                      bankMouvementId: null,
+                      _version: current._version,
+                    },
                   },
-                },
-              });
+                });
+              }
             }, Promise.resolve());
           }
           if (onSaved) {

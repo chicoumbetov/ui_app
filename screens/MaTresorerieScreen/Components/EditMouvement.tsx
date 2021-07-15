@@ -134,7 +134,7 @@ const EditMouvement = (props: MonBudgetProps) => {
               ? ('Charges') : ('Revenus')} enregistés dans votre budget`}
           </Text>
           <Text category="p1" appearance="hint">
-            Sélectionner le revenu correspondant
+            Sélectionnez le revenu correspondant
           </Text>
 
           {budget.map((item) => (

@@ -49,8 +49,8 @@ const MySignUp = ({
       password: data.password,
       email: data.email,
       phone_number: data.phone_number,
-      family_name: data.lastname,
-      given_name: data.firstname,
+      family_name: data.lastname.substr(0, 1).toUpperCase() + data.lastname.substr(1),
+      given_name: data.firstname.substr(0, 1).toUpperCase() + data.firstname.substr(1),
       'custom:optIn': data.optIn ? 'true' : 'false',
     });
   };

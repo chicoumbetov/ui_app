@@ -14,11 +14,11 @@ export default {
                 path: 'mes-biens',
                 screens: {
                   'mes-biens': '/',
+                  'ajout-bien-screen': '/ajouter',
                   'detail-bien': '/:id',
                   'mon-budget': '/:id/budget',
                   'ajout-revenu': '/:id/budget/ajout-revenu',
                   'modifier-revenu': '/:id/budget/modifier-revenu/:idBudgetLine',
-                  'ajout-bien-screen': '/ajouter',
 
                   'ajout-charge': '/:id/budget/ajout-charge',
                   'modifier-charge': '/:id/budget/modifier-charge/:idBudgetLine',

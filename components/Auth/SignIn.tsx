@@ -75,7 +75,7 @@ const MySigIn = ({
 
           <Layout style={{ backgroundColor: 'transparent', alignItems: 'center' }}>
             <Text category="h1" style={{ marginBottom: 30 }}>
-              {lastUser !== '' ? `Très heureux de vous revoir, ${lastUser}` : 'Bienvenue'}
+              {lastUser !== '' ? `Très heureux de vous revoir, ${lastUser.substr(0, 1).toUpperCase() + lastUser.substr(1)}` : 'Bienvenue'}
             </Text>
           </Layout>
 

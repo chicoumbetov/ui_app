@@ -140,7 +140,7 @@ const QuittanceLoyer = () => {
                 style={{ marginTop: 10 }}
                 onPress={() => ajouterRevenu()}
               >
-                Ajouter un revenu
+                Ajouter un locataire
               </Button>
             </View>
           )) }

@@ -34,12 +34,12 @@ function Contact() {
       await sendTemplateEmail(user?.email, { title, body });
       // navigation.pop();
       Alert.alert(
-        'Votre message a été envoyé avec success !',
+        'Votre message a été envoyé avec succès !',
         '',
         [
           { text: 'Ok', onPress: () => linkTo('/tableau-de-bord') },
         ],
-        { cancelable: true },
+        { cancelable: false },
       );
     }
   };

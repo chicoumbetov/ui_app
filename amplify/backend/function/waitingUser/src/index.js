@@ -13,6 +13,9 @@ const AppSyncClient_1 = require("/opt/nodejs/src/AppSyncClient");
 const RealEstateMutation_1 = require("/opt/nodejs/src/RealEstateMutation");
 const RealEstateQueries_1 = require("/opt/nodejs/src/RealEstateQueries");
 const PendingInvitationQueries_1 = require("/opt/nodejs/src/PendingInvitationQueries");
+const BillingHistoryQueries_1 = require("/opt/nodejs/src/BillingHistoryQueries");
+const BillingHistoryMutations_1 = require("/opt/nodejs/src/BillingHistoryMutations");
+const moment = require("moment");
 exports.handler = async (event) => {
     //eslint-disable-line
     console.log(JSON.stringify(event, null, 2));
@@ -43,6 +46,18 @@ exports.handler = async (event) => {
                             });
                             if (!exists) {
                                 admins.push(user.id);
+                            }
+                            const billingHistory = await BillingHistoryQueries_1.listBillingHistoriesByUser(appSyncClient, {
+                                userId: user.id,
+                            });
+                            if (billingHistory === false || billingHistory.length <= 0) {
+                                await BillingHistoryMutations_1.createBillingHistory(appSyncClient, {
+                                    userId: user.id,
+                                    nextRenewDate: moment().add(45, 'days').format('YYYY-MM-DD'),
+                                    subscription: BillingHistoryMutations_1.SubscriptionType.Trial,
+                                    amount: 0,
+                                    paid: true,
+                                });
                             }
                             await RealEstateMutation_1.updateRealEstateMutation(appSyncClient, {
                                 id: realEstate.id,

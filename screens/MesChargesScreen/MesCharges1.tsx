@@ -150,9 +150,22 @@ const MesCharges1 = () => {
             category="h5"
             status="basic"
           >
-            Vous n'avez pas encore de biens.
-            Vous devez d'abord créer un bien pour accéder à cette
-            section et paramétrer votre budget.
+            {
+              data?.listRealEstates?.items && data?.listRealEstates?.items.length > 0
+                ? (
+                  <Text>
+                    Pour accéder à cette fonctionnalité,
+                    veuillez saisir le budget d'un bien
+                  </Text>
+                )
+                : (
+                  <Text>
+                    Vous n'avez pas encore de biens.
+                    Vous devez d'abord créer un bien pour accéder à cette
+                    section et paramétrer votre budget.
+                  </Text>
+                )
+            }
           </Text>
         </>
       )}

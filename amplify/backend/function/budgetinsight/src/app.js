@@ -90,7 +90,7 @@ app.post('/budgetinsight/create-trial', async (req, res) => {
 app.get('/budgetinsight/send-quittance', async (req, res) => {
     const uuid = req.apiGateway.event.requestContext.identity
         .cognitoAuthenticationProvider.split(':').pop();
-    const { DOCUMENT_ID, EMAIL } = req.query;
+    const { DOCUMENT_ID, EMAIL, MOIS, ANNEE, } = req.query;
     try {
         const document = await DocumentQueries_1.getDocument(AppSyncClient, DOCUMENT_ID);
         if (document) {
@@ -100,7 +100,7 @@ app.get('/budgetinsight/send-quittance', async (req, res) => {
                     Bucket: process.env.STORAGE_OMEDOM_BUCKETNAME,
                     Key: `public/${document.s3file}`,
                 }).promise();
-                await SendMail_1.sendEmailWithAttachement(EMAIL, 'Votre quittance de loyer', templateMailQuittance_1.default, {
+                await SendMail_1.sendEmailWithAttachement(EMAIL, `Votre quittance de loyer - ${MOIS} ${ANNEE}`, templateMailQuittance_1.default.replace('{{mois}}', MOIS).replace('{{annee}}', ANNEE), {
                     filename: document.name,
                     data: data.Body.toString('base64'),
                 });

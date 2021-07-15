@@ -64,21 +64,17 @@ const PartagerBien = () => {
     });
 
     Alert.alert(
-      'Votre message a été envoyé avec success !',
+      'Votre bien a été partagé avec succès !',
       '',
       [
-        { text: 'Ok', onPress: () => linkTo(`/mes-biens/${route.params.id}`) },
+        { text: 'Ok', onPress: () => {} },
       ],
-      { cancelable: true },
+      { cancelable: false },
     );
   };
 
-  useEffect(() => {
-    console.log('useEffect of Partager Bien component');
-  }, []);
-
   return (
-    <MaxWidthContainer>
+    <View>
 
       {/**
       *  I part
@@ -126,7 +122,7 @@ const PartagerBien = () => {
           </View>
         </Layout>
       </Form>
-    </MaxWidthContainer>
+    </View>
   );
 };
 

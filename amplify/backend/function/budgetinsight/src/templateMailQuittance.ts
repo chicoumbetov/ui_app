@@ -170,7 +170,7 @@ export default `<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" 
 
                       <div style="color: #444444; line-height: 200%; text-align: center; word-wrap: break-word;">
                         <p style="font-size: 14px; line-height: 200%;"><span style="font-size: 14px; line-height: 28px;">Bonjour,<br><br>
-                        Vous trouverez ci-joint la quittance de loyer envoyée par votre propriétaire au travers de l'application Omedom.
+                        Vous trouverez ci-joint la quittance de loyer ({{mois}} {{annee}}) envoyée par votre propriétaire au travers de l'application Omedom.
                         <br><br>
                         Cordialement,<br><br>L'équipe Omedom</span></p>
                       </div>

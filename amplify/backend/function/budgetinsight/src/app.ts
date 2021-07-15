@@ -106,7 +106,9 @@ app.get('/budgetinsight/send-quittance', async (req, res) => {
   const uuid = req.apiGateway.event.requestContext.identity
     .cognitoAuthenticationProvider.split(':').pop();
 
-  const { DOCUMENT_ID, EMAIL } = req.query;
+  const {
+    DOCUMENT_ID, EMAIL, MOIS, ANNEE,
+  } = req.query;
 
   try {
     const document = await getDocument(AppSyncClient, DOCUMENT_ID);
@@ -120,8 +122,8 @@ app.get('/budgetinsight/send-quittance', async (req, res) => {
 
         await sendEmailWithAttachement(
           EMAIL,
-          'Votre quittance de loyer',
-          templateMailQuittance,
+          `Votre quittance de loyer - ${MOIS} ${ANNEE}`,
+          templateMailQuittance.replace('{{mois}}', MOIS).replace('{{annee}}', ANNEE),
           {
             filename: document.name,
             data: data.Body.toString('base64'),

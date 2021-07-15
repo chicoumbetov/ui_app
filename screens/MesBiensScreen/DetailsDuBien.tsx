@@ -48,6 +48,7 @@ import { BankMovementStatus, PendingInvitation } from '../../src/API';
 import { useDeletePendingInvitationMutation } from '../../src/API/PendingInvitation';
 import { typeBien } from '../../mockData/ajoutBienData';
 import Percentage from '../../components/Percentage';
+import Button from '../../components/Button';
 
 function DetailsBien() {
   const navigation = useNavigation();
@@ -533,11 +534,13 @@ function DetailsBien() {
               <Text category="s2">
                 Mes locataires
               </Text>
-              <Text category="p2" appearance="hint" style={{ marginBottom: 30 }}>
-                Vous pouvez ajouter ou modifier vos locataires
-                en paramétrant vos revenus de type "Loyer" dans votre espace "Mon Budget".
-              </Text>
 
+              <Button
+                style={{ marginVertical: 10 }}
+                onPress={() => linkTo(`/mes-biens/${bienget.id}/budget/ajout-revenu?revenuType=loyer`)}
+              >
+                Ajouter un locataire
+              </Button>
               {/* use SectionList to render several accounts with its types and details */}
               {/**
                    <Text category="h6" status="basic">

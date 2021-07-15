@@ -7,12 +7,12 @@
 import React, { useMemo, useState } from 'react';
 import { Icon, Text } from '@ui-kitten/components';
 
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import {
+  Alert, StyleSheet, TouchableOpacity, View,
+} from 'react-native';
 import { useLinkTo } from '@react-navigation/native';
 import { Icon as IconUIKitten } from '@ui-kitten/components/ui/icon/icon.component';
 
-import _ from 'lodash';
-import moment from 'moment';
 import CompteHeader from '../../../components/CompteHeader/CompteHeader';
 import GraphicsII from '../../../components/Graphics/GraphicsII';
 import Graphics from '../../../components/Graphics/Graphics';
@@ -153,10 +153,6 @@ const MonBien = (props: MonBienProps) => {
 
   // console.log('allCurrentCategories Mon Bien', allCurrentCategories);
 
-  /** Redirections */
-  const allerTresorerie = () => {
-    linkTo('/ma-tresorerie');
-  };
   const allerMesRapports = () => {
     linkTo(`/mes-biens/mes-rapports-biens1/${bienget.id}`);
   };
@@ -304,10 +300,29 @@ const MonBien = (props: MonBienProps) => {
                         <Amount amount={Math.round(dernierMovement?.amount * 100) / 100 || 0} category="h5" />
                       ) : (<Text category="h5" status="primary">0 €</Text>)}
 
-                      <TouchableOpacity onPress={() => dernierMovement
-                          && linkTo(`/ma-tresorerie/${bienget?.id}/mes-comptes/${dernierMovement.bankAccountId}/mouvements-bancaires/affectes?idMouv=${dernierMovement.id}`)}
+                      <TouchableOpacity onPress={() => {
+                        if (bienget?.bankAccounts?.items
+                            && bienget?.bankAccounts?.items?.length > 0) {
+                          Alert.alert(
+                            'Vous devez lier un compte',
+                            'Pour affecter une opération, vous devez lier un compte bancaire.',
+                            [{
+                              text: 'Annuler',
+                              style: 'cancel',
+                            },
+                            {
+                              text: 'Lier',
+                              onPress: async () => {
+                                linkTo(`/ma-tresorerie/${bienget?.id}/mes-comptes/`);
+                              },
+                            }],
+                          );
+                        } else {
+                          linkTo(`/ma-tresorerie/${bienget?.id}/mes-comptes/`);
+                        }
+                      }}
                       >
-                        <Text category="h6" status="info">En savoir +</Text>
+                        <Text category="h6" status="info">Affecter</Text>
                       </TouchableOpacity>
                     </View>
 
@@ -317,7 +332,7 @@ const MonBien = (props: MonBienProps) => {
                       </Text>
                       <Amount amount={Math.round(((nextexpense || { amount: 0 }).amount * 100) / 100)} category="h5" />
                       <TouchableOpacity onPress={() => linkTo(`/mes-biens/${bienget?.id}/budget`)}>
-                        <Text category="h6" status="info">Mon budget</Text>
+                        <Text category="h6" status="info">En savoir +</Text>
                       </TouchableOpacity>
                     </View>
 

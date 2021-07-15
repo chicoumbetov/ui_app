@@ -14,6 +14,9 @@ const RealEstateMutation_1 = require("/opt/nodejs/src/RealEstateMutation");
 const RealEstateQueries_1 = require("/opt/nodejs/src/RealEstateQueries");
 const SendMail_1 = require("/opt/nodejs/src/SendMail");
 const PendingInvitationQueries_1 = require("/opt/nodejs/src/PendingInvitationQueries");
+const BillingHistoryQueries_1 = require("/opt/nodejs/src/BillingHistoryQueries");
+const BillingHistoryMutations_1 = require("/opt/nodejs/src/BillingHistoryMutations");
+const moment = require("moment");
 exports.handler = async (event) => {
     //eslint-disable-line
     console.log(JSON.stringify(event, null, 2));
@@ -51,6 +54,19 @@ exports.handler = async (event) => {
                             // eslint-disable-next-line no-underscore-dangle
                             _version: realEstate._version,
                         });
+                        console.log('admins :', admins);
+                        const billingHistory = await BillingHistoryQueries_1.listBillingHistoriesByUser(appSyncClient, {
+                            userId: user.id,
+                        });
+                        if (billingHistory === false || billingHistory.length <= 0) {
+                            await BillingHistoryMutations_1.createBillingHistory(appSyncClient, {
+                                userId: user.id,
+                                nextRenewDate: moment().add(45, 'days').format('YYYY-MM-DD'),
+                                subscription: BillingHistoryMutations_1.SubscriptionType.Trial,
+                                amount: 0,
+                                paid: true,
+                            });
+                        }
                         // partage de bien a une personne avec compte et en admin
                         const title = `Bonjour,\n
                   ,un Utilisateur de l'application OMEDOM  vous a nommé comme administrateur de son bien immobilier.`;

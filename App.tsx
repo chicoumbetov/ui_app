@@ -45,7 +45,7 @@ Sentry.init({
   // if something goes wrong with sending an event. Set this to `false` in production.
 });
 
-ModalService.setShouldUseTopInsets = true;
+ModalService.setShouldUseTopInsets = Platform.OS === 'android';
 
 if (typeof Intl === 'undefined') {
   // eslint-disable-next-line global-require

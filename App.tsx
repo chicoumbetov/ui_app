@@ -5,7 +5,9 @@ import React, { FC, useRef } from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Platform } from 'react-native';
 import AppLoading from 'expo-app-loading';
-import { Layout, ApplicationProvider, IconRegistry } from '@ui-kitten/components';
+import {
+  Layout, ApplicationProvider, IconRegistry, ModalService,
+} from '@ui-kitten/components';
 import 'moment/locale/fr';
 
 import * as eva from '@eva-design/eva';
@@ -42,6 +44,8 @@ Sentry.init({
   debug: false, // Sentry will try to print out useful debugging information
   // if something goes wrong with sending an event. Set this to `false` in production.
 });
+
+ModalService.setShouldUseTopInsets = true;
 
 if (typeof Intl === 'undefined') {
   // eslint-disable-next-line global-require

@@ -222,7 +222,7 @@ const QuittanceLoyer2 = () => {
                   <Button
                     onPress={async () => {
                       setSending(1);
-                      const result = await API.get('omedomrest', `/budgetinsight/send-quittance?DOCUMENT_ID=${newDocument.id}&EMAIL=${tenant.email}`, {});
+                      const result = await API.get('omedomrest', `/budgetinsight/send-quittance?DOCUMENT_ID=${newDocument.id}&EMAIL=${tenant?.email}`, {});
                       setSending(result.success ? 2 : 0);
                     }}
                     size="large"

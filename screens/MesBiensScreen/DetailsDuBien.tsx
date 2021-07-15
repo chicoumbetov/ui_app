@@ -44,7 +44,7 @@ import ActivityIndicator from '../../components/ActivityIndicator';
 import UserSharedCard from './Components/UserSharedCard';
 import { useDeleteTenantMutation } from '../../src/API/Tenant';
 import Camera from '../../components/Camera';
-import { BankMovementStatus, BudgetLineType, PendingInvitation } from '../../src/API';
+import { BankMovementStatus, PendingInvitation } from '../../src/API';
 import { useDeletePendingInvitationMutation } from '../../src/API/PendingInvitation';
 import { typeBien } from '../../mockData/ajoutBienData';
 import Percentage from '../../components/Percentage';
@@ -272,7 +272,7 @@ function DetailsBien() {
   ), [bankMovements]);
 
   // console.log('last Movement', dernierMovement);
-  let invitationAttente : (PendingInvitation | null)[];
+  let invitationAttente : (PendingInvitation | null)[] = [];
   if (bienget?.pendingInvitations?.items) {
     // eslint-disable-next-line no-underscore-dangle
     invitationAttente = bienget?.pendingInvitations?.items.filter((item) => !item?._deleted);
@@ -827,7 +827,7 @@ function DetailsBien() {
             }}
           />
         ))}
-        {invitationAttente?.map((pending) => (
+        {invitationAttente && invitationAttente?.map((pending) => (
           pending?.type === 'Admin' ? (
             <UserSharedCard
               email={pending.email}
@@ -857,7 +857,11 @@ function DetailsBien() {
                 );
                 if (checked) {
                   // eslint-disable-next-line no-underscore-dangle
-                  nextCheckedAccounts.push({ id: pending?.id, _version: pending?._version });
+                  nextCheckedAccounts.push({
+                    id: pending?.id,
+                    // eslint-disable-next-line no-underscore-dangle
+                    _version: pending?._version as number,
+                  });
                 }
                 // console.log('nextCheckedAccounts', nextCheckedAccounts);
                 setCheckedPending(nextCheckedAccounts);

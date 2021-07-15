@@ -198,7 +198,7 @@ const MonBien = (props: MonBienProps) => {
                  */}
 
                   <View style={{ flex: 1, alignItems: 'center' }}>
-
+                    {/**
                     <Text
                       category="h6"
                       appearance="hint"
@@ -210,6 +210,7 @@ const MonBien = (props: MonBienProps) => {
                     >
                       Dernier mouvement
                     </Text>
+                    */}
                     <View style={{ flexDirection: 'row' }}>
                       <View style={{ flexDirection: 'row' }}>
                         <View style={{ width: 7 }}>
@@ -228,9 +229,9 @@ const MonBien = (props: MonBienProps) => {
                         />
                       </View>
                       {dernierMovement ? (
-                        <Amount amount={Math.round(dernierMovement?.amount * 100) / 100 || 0} category="h6" />
+                        <Amount amount={Math.round(dernierMovement?.amount * 100) / 100 || 0} category="h4" />
                       ) : (
-                        <Text category="h6" status="primary">0 €</Text>
+                        <Text category="h4" status="primary">0 €</Text>
                       )}
                     </View>
 
@@ -258,6 +259,7 @@ const MonBien = (props: MonBienProps) => {
                  *
                  */}
                   <View style={{ flex: 1, alignItems: 'center' }}>
+                    {/**
                     <Text
                       category="h6"
                       appearance="hint"
@@ -269,6 +271,7 @@ const MonBien = (props: MonBienProps) => {
                     >
                       Rentabilité du bien
                     </Text>
+                    */}
                     <View style={{
                       flexDirection: 'row',
                     }}
@@ -278,7 +281,7 @@ const MonBien = (props: MonBienProps) => {
                         fill="#b5b5b5"
                         style={{ height: 18, width: 18, marginRight: 2 }}
                       />
-                      <Percentage amount={rentability} category="h6" status="warning" />
+                      <Percentage amount={rentability} category="h4" status="warning" />
                     </View>
                   </View>
 
@@ -301,7 +304,9 @@ const MonBien = (props: MonBienProps) => {
                         <Amount amount={Math.round(dernierMovement?.amount * 100) / 100 || 0} category="h5" />
                       ) : (<Text category="h5" status="primary">0 €</Text>)}
 
-                      <TouchableOpacity onPress={() => dernierMovement && linkTo(`/ma-tresorerie/${bienget?.id}/mes-comptes/${dernierMovement.bankAccountId}/mouvements-bancaires/affectes?idMouv=${dernierMovement.id}`)}>
+                      <TouchableOpacity onPress={() => dernierMovement
+                          && linkTo(`/ma-tresorerie/${bienget?.id}/mes-comptes/${dernierMovement.bankAccountId}/mouvements-bancaires/affectes?idMouv=${dernierMovement.id}`)}
+                      >
                         <Text category="h6" status="info">En savoir +</Text>
                       </TouchableOpacity>
                     </View>
@@ -330,7 +335,14 @@ const MonBien = (props: MonBienProps) => {
                           style={{ height: 18, width: 18, marginRight: 2 }}
                         />
 
-                        <Text category="h5" status="warning" style={{ marginVertical: 14 }}>{`${rentability} %`}</Text>
+                        {/**
+                         <Text
+                         category="h5"
+                         status="warning"
+                         style={{ marginVertical: 14 }}
+                         >{`${rentability} %`}</Text>
+                         */}
+                        <Percentage amount={rentability} category="h4" status="warning" />
                       </View>
 
                       <TouchableOpacity onPress={allerMesRapports}>

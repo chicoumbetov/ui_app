@@ -4,7 +4,7 @@
     "slug": "omedom",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/Icones_omedom/logo_menu_principal.png",
+    "icon": "./assets/Icones_omedom/logo_icon_appli.png",
     "scheme": "myapp",
     "userInterfaceStyle": "light",
     "splash": {
@@ -22,7 +22,8 @@
       "supportsTablet": true,
       "requireFullScreen": true,
       "backgroundColor": "#ffffff",
-      "usesIcloudStorage": true
+      "usesIcloudStorage": true,
+      "bundleIdentifier": "fr.webpremiere.omedom"
     },
     "android": {
       "adaptiveIcon": {

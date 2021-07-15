@@ -59,6 +59,9 @@ const MonBudgetCard = (props: MonBudgetProps) => {
       case 'monthly':
         setFrequence('Mensuel');
         break;
+      case 'biannually':
+        setFrequence('Semestrielle');
+        break;
       case 'quarterly':
         setFrequence('Trimestrielle');
         break;

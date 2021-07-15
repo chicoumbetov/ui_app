@@ -181,6 +181,10 @@ export const frequence = [
     key: Frequency.monthly,
   },
   {
+    label: 'Semestrielle',
+    key: Frequency.biannually,
+  },
+  {
     label: 'Trimestrielle',
     key: Frequency.quarterly,
   },

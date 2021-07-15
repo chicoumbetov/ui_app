@@ -10,8 +10,6 @@ import {
   GetBudgetLineQuery,
   GetBudgetLineQueryVariables,
   GetRealEstateQuery, GetRealEstateQueryVariables,
-  ListRealEstatesQuery,
-  ListRealEstatesQueryVariables,
   MortgageLoanInfo,
   RealEstate,
   BudgetLine,

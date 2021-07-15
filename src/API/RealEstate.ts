@@ -879,6 +879,9 @@ export function useRentability(
               case 'quarterly':
                 freqIncome = 4;
                 break;
+              case 'biannually':
+                freqIncome = 2;
+                break;
               case 'annual':
                 freqIncome = 1;
                 break;
@@ -905,6 +908,9 @@ export function useRentability(
               switch (item?.frequency) {
                 case 'quarterly':
                   freqExpense = 4;
+                  break;
+                case 'biannually':
+                  freqExpense = 2;
                   break;
                 case 'annual':
                   freqExpense = 1;
@@ -943,6 +949,9 @@ export function useRentability(
             switch (item?.frequency) {
               case 'quarterly':
                 freqExpense = 4;
+                break;
+              case 'biannually':
+                freqExpense = 2;
                 break;
               case 'annual':
                 freqExpense = 1;

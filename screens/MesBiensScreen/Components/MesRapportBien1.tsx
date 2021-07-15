@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import {
-  Button, CalendarRange, Radio, RadioGroup, RangeDatepicker, Text,
+  Button, CalendarRange, I18nConfig, NativeDateService, Radio, RadioGroup, RangeDatepicker, Text,
 } from '@ui-kitten/components';
 
 import { StyleSheet, View } from 'react-native';
@@ -9,6 +9,31 @@ import { RouteProp } from '@react-navigation/core/lib/typescript/src/types';
 import MaxWidthContainer from '../../../components/MaxWidthContainer';
 
 import { TabMesBiensParamList } from '../../../types';
+
+const i18n : I18nConfig = {
+  dayNames: {
+    short: ['Di', 'Lu', 'Ma', 'Me', 'Je', 'Ve', 'Sa'],
+    long: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
+  },
+  monthNames: {
+    short: ['Jan.', 'Fév.', 'Mars', 'Avr.', 'Mai', 'Juin', 'Juil.', 'Août', 'Sep.', 'Oct.', 'Nov.', 'Déc.'],
+    long: [
+      'Janvier',
+      'Février',
+      'Mars',
+      'Avril',
+      'Mai',
+      'Juin',
+      'Juillet',
+      'Août',
+      'Septembre',
+      'October',
+      'Novembre',
+      'Décembre',
+    ],
+  },
+};
+const localeDateService = new NativeDateService('ru', { i18n, startDayOfWeek: 1 });
 
 const MesRapportBien1 = () => {
   const navigation = useNavigation();
@@ -127,6 +152,7 @@ const MesRapportBien1 = () => {
           min={new Date(1900, 0, 1)}
           max={new Date((new Date()).getFullYear() + 1, 0, 1)}
             // onChangeValue={(nextDate) => console.log('nextDate', nextDate)}
+          dateService={localeDateService}
           onSelect={
               (nextRange) => {
                 setRange(nextRange);

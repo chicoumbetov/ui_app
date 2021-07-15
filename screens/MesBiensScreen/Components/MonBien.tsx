@@ -211,7 +211,7 @@ const MonBien = (props: MonBienProps) => {
                       Dernier mouvement
                     </Text>
                     */}
-                    <View style={{ flexDirection: 'row' }}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                       <View style={{ flexDirection: 'row' }}>
                         <View style={{ width: 7 }}>
                           <IconUIKitten
@@ -231,7 +231,7 @@ const MonBien = (props: MonBienProps) => {
                       {dernierMovement ? (
                         <Amount amount={Math.round(dernierMovement?.amount * 100) / 100 || 0} category="h4" />
                       ) : (
-                        <Text category="h4" status="primary">0 €</Text>
+                        <Text category="h4" status="primary" style={{ marginRight: 8 }}>0,00 €</Text>
                       )}
                     </View>
 

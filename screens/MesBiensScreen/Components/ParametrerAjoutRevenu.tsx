@@ -373,6 +373,7 @@ const ParametrerAjoutRevenu = () => {
                     <DatePicker
                       name="nextDueDate"
                       placeholder="Date de la prochaine échéance"
+                      placement="top"
                       icon="calendar-outline"
                       // pas avant demain
                       // (sinon le cron ne tournera jamais et on aura jamais les échéances)

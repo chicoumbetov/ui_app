@@ -237,7 +237,7 @@ export enum BudgetLineType {
 
 export enum Frequency {
   monthly = "monthly",
-  fortnightly = "fortnightly",
+  biannually = "biannually",
   quarterly = "quarterly",
   annual = "annual",
 }

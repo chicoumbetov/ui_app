@@ -495,13 +495,13 @@ function AjoutBienScreen() {
            *  Identité 3/3 (etape 3)
            */}
           <MotiView
-            animate={{ maxHeight: (etape === 2 ? 600 : 0) }}
+            animate={{ maxHeight: (etape === 2 ? 620 : 0) }}
             style={{
               overflow: 'hidden',
               flex: 1,
               flexDirection: 'column',
               marginHorizontal: 23,
-              justifyContent: 'space-between',
+              // justifyContent: 'space-between',
             }}
             transition={{ type: 'timing', duration: 500 }}
           >
@@ -509,6 +509,7 @@ function AjoutBienScreen() {
               flexDirection: 'row',
               alignItems: 'center',
               justifyContent: 'space-between',
+              height: 70,
             }}
             >
               <Text category="h5" status="basic" style={{ marginRight: 20 }}>
@@ -524,7 +525,7 @@ function AjoutBienScreen() {
               />
             </View>
 
-            <View style={{ height: 140 }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', height: 67 }}>
               <SelectComp
                 name="type"
                 data={typeBienArray}
@@ -534,6 +535,8 @@ function AjoutBienScreen() {
                 status="primary"
                 validators={[AvailableValidationRules.required]}
               />
+            </View>
+            <View style={{ flexDirection: 'row', alignItems: 'center', height: 63 }}>
               <SelectComp
                 name="ownName"
                 data={detention}
@@ -555,7 +558,7 @@ function AjoutBienScreen() {
 
             {detentionShow
               && (
-              <View style={{ height: 75 }}>
+              <View style={{ height: 67 }}>
                 <SelectComp
                   name=""
                   data={typeDetentionArray}
@@ -579,47 +582,50 @@ function AjoutBienScreen() {
 
             {statutShow
               && (
-              <View style={{ height: 125 }}>
-                <SelectComp
-                  name="company"
-                  data={typeStatutArray}
-                  placeholder="Status"
-                  size="large"
-                  appearance="default"
-                  status="primary"
-                  onChangeValue={(value) => {
+              <>
+                <View style={{ height: 67 }}>
+                  <SelectComp
+                    name="company"
+                    data={typeStatutArray}
+                    placeholder="Status"
+                    size="large"
+                    appearance="default"
+                    status="primary"
+                    onChangeValue={(value) => {
                     // value doit se référer a l'enum "CompanyType" dans API.ts
-                    if (value === 'SAS' || value === 'SARLclassique') {
-                      ajoutBienForm.setValue('typeImpot', 'SocialTax');
-                      ajoutBienForm.setValue('typeImpot', 'SocialTax');
-                      setSocialTaxShow(true);
-                    } else {
-                      setSocialTaxShow(false);
-                    }
-                  }}
-                  validators={[AvailableValidationRules.required]}
-                />
-                <SelectComp
-                  name="typeImpot"
-                  data={typeImpotArray}
-                  placeholder="Type d'imposition"
-                  disabled={socialTaxShow}
-                  size="large"
-                  appearance="default"
-                  status="primary"
-                  validators={[AvailableValidationRules.required]}
-                />
-              </View>
+                      if (value === 'SAS' || value === 'SARLclassique') {
+                        ajoutBienForm.setValue('typeImpot', 'SocialTax');
+                        ajoutBienForm.setValue('typeImpot', 'SocialTax');
+                        setSocialTaxShow(true);
+                      } else {
+                        setSocialTaxShow(false);
+                      }
+                    }}
+                    validators={[AvailableValidationRules.required]}
+                  />
+                </View>
+                <View style={{ height: 70 }}>
+                  <SelectComp
+                    name="typeImpot"
+                    data={typeImpotArray}
+                    placeholder="Type d'imposition"
+                    disabled={socialTaxShow}
+                    size="large"
+                    appearance="default"
+                    status="primary"
+                    validators={[AvailableValidationRules.required]}
+                  />
+                </View>
+              </>
               )}
 
             <MotiView
-              animate={{ maxHeight: (pourcentageDetentionShow ? 500 : 0) }}
+              animate={{ maxHeight: (pourcentageDetentionShow ? 60 : 0) }}
               style={{
                 overflow: 'hidden',
                 flexDirection: 'row',
                 marginHorizontal: 23,
                 justifyContent: 'space-between',
-                height: 70,
                 alignItems: 'center',
               }}
               transition={{ type: 'timing' }}
@@ -643,7 +649,7 @@ function AjoutBienScreen() {
 
             </MotiView>
 
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', height: 65 }}>
               <Text category="h5">Prix d'acquisition</Text>
               <TextInput
                 name="purchasePrice"
@@ -654,7 +660,7 @@ function AjoutBienScreen() {
               />
               <Text category="h5">€</Text>
             </View>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', height: 60 }}>
               <Text category="h5">Frais de notaire</Text>
               <TextInput
                 name="notaryFee"

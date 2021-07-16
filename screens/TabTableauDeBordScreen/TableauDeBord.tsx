@@ -192,7 +192,7 @@ function TableauDeBord() {
           <View style={styles.oneThirdBlock}>
             <Text category="h6" appearance="hint" style={styles.text}>Dernier crédit</Text>
             <View style={styles.mouvementImage}>
-              <Amount category="h3" amount={dernierCredit.amount || 0} />
+              <Amount category="h5" amount={dernierCredit.amount || 0} />
               <AutoAvatar
                 avatarInfo={dernierCredit.iconUri || ''}
                 style={{
@@ -210,7 +210,7 @@ function TableauDeBord() {
             <Text category="h6" appearance="hint" style={styles.text}>Dernier débit</Text>
 
             <View style={styles.mouvementImage}>
-              <Amount category="h3" amount={dernierDebit.amount || 0} />
+              <Amount category="h5" amount={dernierDebit.amount || 0} />
               <AutoAvatar
                 avatarInfo={dernierDebit.iconUri || ''}
                 style={{
@@ -229,7 +229,7 @@ function TableauDeBord() {
               Prochain mouvement
             </Text>
             <View style={styles.mouvementImage}>
-              <Amount category="h3" amount={Math.round(next?.amount * 100) / 100 || 0} />
+              <Amount category="h5" amount={Math.round(next?.amount * 100) / 100 || 0} />
               <AutoAvatar
                 avatarInfo={next?.inconUri || ''}
                 style={{

@@ -201,6 +201,7 @@ function AjoutBienScreen() {
     if (bienget.ownName) {
       if (bienget.detentionPart === 100) {
         detentionPartDefault = 'proprietaire_integral';
+        setPourcentageDetentionShow(false);
       } else {
         detentionPartDefault = 'indivision';
       }
@@ -498,13 +499,13 @@ function AjoutBienScreen() {
            *  Identité 3/3 (etape 3)
            */}
           <MotiView
-            animate={{ maxHeight: (etape === 2 ? 600 : 0) }}
+            animate={{ maxHeight: (etape === 2 ? 620 : 0) }}
             style={{
               overflow: 'hidden',
               flex: 1,
               flexDirection: 'column',
               marginHorizontal: 23,
-              justifyContent: 'space-between',
+              // justifyContent: 'space-between',
             }}
             transition={{ type: 'timing', duration: 500 }}
           >
@@ -512,6 +513,7 @@ function AjoutBienScreen() {
               flexDirection: 'row',
               alignItems: 'center',
               justifyContent: 'space-between',
+              height: 70,
             }}
             >
               <Text category="h5" status="basic" style={{ marginRight: 20 }}>
@@ -527,7 +529,7 @@ function AjoutBienScreen() {
               />
             </View>
 
-            <View style={{ height: 140 }}>
+            <View style={{ flexDirection: 'row', height: 70 }}>
               <SelectComp
                 name="type"
                 data={typeBienArray}
@@ -537,6 +539,8 @@ function AjoutBienScreen() {
                 status="primary"
                 validators={[AvailableValidationRules.required]}
               />
+            </View>
+            <View style={{ flexDirection: 'row', height: 70 }}>
               <SelectComp
                 name="ownName"
                 data={detention}
@@ -558,7 +562,7 @@ function AjoutBienScreen() {
 
             {detentionShow
               && (
-              <View style={{ height: 75 }}>
+              <View style={{ height: 70 }}>
                 <SelectComp
                   name=""
                   data={typeDetentionArray}
@@ -582,82 +586,93 @@ function AjoutBienScreen() {
 
             {statutShow
               && (
-              <View style={{ height: 125 }}>
-                <SelectComp
-                  name="company"
-                  data={typeStatutArray}
-                  placeholder="Status"
-                  size="large"
-                  appearance="default"
-                  status="primary"
-                  onChangeValue={(value) => {
+              <>
+                <View style={{ height: 70 }}>
+                  <SelectComp
+                    name="company"
+                    data={typeStatutArray}
+                    placeholder="Status"
+                    size="large"
+                    appearance="default"
+                    status="primary"
+                    onChangeValue={(value) => {
                     // value doit se référer a l'enum "CompanyType" dans API.ts
-                    if (value === 'SAS' || value === 'SARLclassique') {
-                      ajoutBienForm.setValue('typeImpot', 'SocialTax');
-                      ajoutBienForm.setValue('typeImpot', 'SocialTax');
-                      setSocialTaxShow(true);
-                    } else {
-                      setSocialTaxShow(false);
-                    }
-                  }}
-                  validators={[AvailableValidationRules.required]}
-                />
-                <SelectComp
-                  name="typeImpot"
-                  data={typeImpotArray}
-                  placeholder="Type d'imposition"
-                  disabled={socialTaxShow}
-                  size="large"
-                  appearance="default"
-                  status="primary"
-                  validators={[AvailableValidationRules.required]}
-                />
-              </View>
+                      if (value === 'SAS' || value === 'SARLclassique') {
+                        ajoutBienForm.setValue('typeImpot', 'SocialTax');
+                        ajoutBienForm.setValue('typeImpot', 'SocialTax');
+                        setSocialTaxShow(true);
+                      } else {
+                        setSocialTaxShow(false);
+                      }
+                    }}
+                    validators={[AvailableValidationRules.required]}
+                  />
+                </View>
+                <View style={{ height: 70 }}>
+                  <SelectComp
+                    name="typeImpot"
+                    data={typeImpotArray}
+                    placeholder="Type d'imposition"
+                    disabled={socialTaxShow}
+                    size="large"
+                    appearance="default"
+                    status="primary"
+                    validators={[AvailableValidationRules.required]}
+                  />
+                </View>
+              </>
               )}
 
-            <MotiView
-              animate={{ maxHeight: (pourcentageDetentionShow ? 500 : 0) }}
-              style={{
-                overflow: 'hidden',
-                flexDirection: 'row',
-                marginHorizontal: 23,
-                justifyContent: 'space-between',
-                height: 70,
-                alignItems: 'center',
-              }}
-              transition={{ type: 'timing' }}
-            >
+            {
+              pourcentageDetentionShow
+              && (
+              <View
+                      // animate={{ maxHeight: ( ? 58 : 0) }}
+                style={{
+                  height: 60,
+                  marginTop: 5,
+                  overflow: 'hidden',
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}
+              >
 
-              {/**
-                  if Intégrale then 100%
-                  else write number in text input
-                  */}
-              <Text category="h5" style={{ flex: 1 }}>Pourcentage de détention</Text>
-              <View style={{ flexDirection: 'row', alignItems: 'center', width: 80 }}>
-                <TextInput
-                  name="detentionPart"
-                  size="small"
-                  maxLength={4}
-                  keyboardType="numeric"
-                  style={{ marginRight: 10 }}
-                />
-                <Text category="h5">%</Text>
+                {/**
+                     if Intégrale then 100%
+                     else write number in text input
+                     */}
+                <Text category="h5" style={{ flex: 1 }}>Pourcentage de détention</Text>
+                <View style={{ flexDirection: 'row', alignItems: 'center', width: 80 }}>
+                  <TextInput
+                    name="detentionPart"
+                    size="small"
+                    maxLength={4}
+                    keyboardType="numeric"
+                    style={{ marginRight: 10 }}
+                  />
+                  <Text category="h5">%</Text>
+                </View>
+
               </View>
+              )
+            }
 
-            </MotiView>
-
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', height: 65 }}>
               <Text category="h5">Prix d'acquisition</Text>
               <TextInput
                 name="purchasePrice"
                 size="small"
                 keyboardType="numeric"
-                validators={[AvailableValidationRules.purchasePrice, AvailableValidationRules.float]}
+                validators={[
+                  AvailableValidationRules.purchasePrice,
+                  AvailableValidationRules.float,
+                ]}
                 style={{ flex: 1, marginRight: 10, marginHorizontal: 10 }}
               />
               <Text category="h5">€</Text>
             </View>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', height: 55 }}>
               <Text category="h5">Frais de notaire</Text>
               <TextInput
                 name="notaryFee"

@@ -123,7 +123,7 @@ const MonBienResume = (props: MonBienProps) => {
             </View>
 
             <Text category="h5" status="success">
-              <Amount amount={dernierMovement?.amount || 0} category="h4" />
+              <Amount amount={dernierMovement?.amount || 0} category="h5" />
             </Text>
           </View>
         </View>
@@ -144,7 +144,7 @@ const MonBienResume = (props: MonBienProps) => {
             fill="#b5b5b5"
             style={{ height: 16, width: 16 }}
           />
-          <Amount category="h3" amount={nextexpense || 0} />
+          <Amount category="h5" amount={nextexpense || 0} />
         </View>
 
         {/**
@@ -159,7 +159,7 @@ const MonBienResume = (props: MonBienProps) => {
             fill="#b5b5b5"
             style={{ height: 18, width: 18, marginRight: 2 }}
           />
-          <Percentage amount={rentability} category="h3" status="warning" />
+          <Percentage amount={rentability} category="h5" status="warning" />
         </View>
 
       </View>

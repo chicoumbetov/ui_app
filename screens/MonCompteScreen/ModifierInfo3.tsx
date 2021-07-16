@@ -181,7 +181,9 @@ const Informations = () => {
       <Modal
         visible={camera}
         style={{
-          overflow: 'hidden', alignItems: 'center', margin: 0, height: '100%',
+          overflow: 'hidden',
+          alignItems: 'center',
+          backgroundColor: 'black',
         }}
       >
         {camera && (

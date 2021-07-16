@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useEffect, useRef, useState } from 'react';
 import {
-  Alert, Animated, Platform, StyleSheet, TouchableOpacity, View, ViewStyle,
+  Alert, Animated, Platform, StatusBar, StyleSheet, TouchableOpacity, View, ViewStyle,
 } from 'react-native';
 import * as MediaLibrary from 'expo-media-library';
 import * as ImageManipulator from 'expo-image-manipulator';
@@ -9,7 +9,6 @@ import { Camera as OriginalCamera } from 'expo-camera';
 import { useKeepAwake } from 'expo-keep-awake';
 import { useDimensions } from '@react-native-community/hooks';
 import { PinchGestureHandler, PinchGestureHandlerGestureEvent } from 'react-native-gesture-handler';
-import Constants from 'expo-constants';
 import { useTheme, Icon as UIKittenIcon } from '@ui-kitten/components';
 import Text from '../Text';
 
@@ -234,17 +233,37 @@ export default function Camera(props: CameraProps): JSX.Element {
           skipProcessing: false,
           base64: false,
         });
+        console.log('photo', photo);
         const croper = calculateCropElements(photo.width, photo.height);
         const actions: Array<ImageManipulator.Action> = [
-          {
-            crop: {
-              originX: croper.x,
-              originY: croper.y,
-              width: croper.newWidth,
-              height: croper.newHeight,
-            },
-          },
         ];
+        switch (photo.exif.Orientation) {
+          case 6:
+          case 8:
+            actions.push({
+              crop: {
+                originY: croper.x,
+                originX: croper.y,
+                height: croper.newWidth,
+                width: croper.newHeight,
+              },
+            });
+            actions.push({
+              rotate: photo.exif.Orientation === 6 ? -90 : 90,
+            });
+            break;
+          case 3:
+          default:
+            actions.push({
+              crop: {
+                originX: croper.x,
+                originY: croper.y,
+                width: croper.newWidth,
+                height: croper.newHeight,
+              },
+            });
+            break;
+        }
         if (maxWidth || maxHeight) {
           if (maxWidth && maxWidth < croper.newWidth) {
             actions.push({
@@ -256,6 +275,8 @@ export default function Camera(props: CameraProps): JSX.Element {
             });
           }
         }
+
+        console.log(actions);
         const manipResult = await ImageManipulator.manipulateAsync(
           photo.uri,
           actions,
@@ -391,17 +412,17 @@ export default function Camera(props: CameraProps): JSX.Element {
       default:
         realRatio = 16 / 9;
     }
-    if (height > width && height - Constants.statusBarHeight >= width * realRatio) {
+    if (height > width && height - (StatusBar.currentHeight || 0) >= width * realRatio) {
       cameraWidth = width;
       cameraHeight = width * realRatio;
-    } else if (height > width && height - Constants.statusBarHeight < width * realRatio) {
-      cameraHeight = height - Constants.statusBarHeight;
+    } else if (height > width && height - (StatusBar.currentHeight || 0) < width * realRatio) {
+      cameraHeight = height - (StatusBar.currentHeight || 0);
       cameraWidth = cameraHeight / realRatio;
     } else if (height < width && height >= width / realRatio) {
-      cameraHeight = width / realRatio - Constants.statusBarHeight;
+      cameraHeight = width / realRatio - (StatusBar.currentHeight || 0);
       cameraWidth = cameraHeight * realRatio;
     } else if (height < width && height < width / realRatio) {
-      cameraWidth = (height - Constants.statusBarHeight) / realRatio;
+      cameraWidth = (height - (StatusBar.currentHeight || 0)) / realRatio;
       cameraHeight = height;
     }
   }
@@ -441,14 +462,13 @@ export default function Camera(props: CameraProps): JSX.Element {
 
   if (currentImage !== null || currentVideo !== null) {
     return (
-      <SafeAreaView style={StyleSheet.flatten([styles.cameraSafeArea, { width: cameraWidth, backgroundColor: 'black' }])} top>
+      <SafeAreaView style={StyleSheet.flatten([styles.cameraSafeArea, { width: cameraWidth, backgroundColor: 'black', height }])} top>
         <View style={maxWidth ? {
           flexDirection: 'column',
           flexGrow: 1,
           flex: 1,
           justifyContent: 'center',
           alignItems: 'center',
-          backgroundColor: 'green',
         } : {
           flexDirection: 'column',
           flexGrow: 1,
@@ -514,7 +534,12 @@ export default function Camera(props: CameraProps): JSX.Element {
   return (
     <View
       style={[
-        { flex: 1, justifyContent: 'center' },
+        {
+          flex: 1,
+          justifyContent: 'center',
+          paddingTop: StatusBar.currentHeight || 0,
+          height,
+        },
         Platform.OS === 'android' ? { alignItems: 'center' } : {},
       ]}
     >
@@ -681,7 +706,6 @@ const styles = StyleSheet.create({
     height: 50,
   },
   footer: {
-    backgroundColor: 'black',
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',

@@ -186,51 +186,38 @@ const MonBien = (props: MonBienProps) => {
                   flexDirection: 'row',
                   marginTop: 22,
                   justifyContent: 'space-between',
-                  alignItems: 'flex-start',
+                  alignItems: 'center',
                 }}
                 >
                   {/**
                  *
                  */}
 
-                  <View style={{ flex: 1, alignItems: 'center' }}>
-                    {/**
-                    <Text
-                      category="h6"
-                      appearance="hint"
-                      style={{
-                        justifyContent: 'center',
-                        textAlign: 'center',
-                        paddingBottom: 10,
-                      }}
-                    >
-                      Dernier mouvement
-                    </Text>
-                    */}
-                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                      <View style={{ flexDirection: 'row' }}>
-                        <View style={{ width: 7 }}>
-                          <IconUIKitten
-                            name="arrow-downward"
-                            fill="#b5b5b5"
-                            style={{ height: 16, width: 16 }}
-                          />
-                        </View>
-                        <IconUIKitten
-                          name="arrow-upward"
-                          fill="#b5b5b5"
-                          style={{
-                            height: 16, width: 16, marginRight: 8,
-                          }}
-                        />
-                      </View>
-                      {dernierMovement ? (
-                        <Amount amount={Math.round(dernierMovement?.amount * 100) / 100 || 0} category="h4" />
-                      ) : (
-                        <Text category="h4" status="primary" style={{ marginRight: 8 }}>0,00 €</Text>
-                      )}
+                  <View style={{
+                    flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center',
+                  }}
+                  >
+                    <View style={{ width: 7 }}>
+                      <IconUIKitten
+                        name="arrow-downward"
+                        fill="#b5b5b5"
+                        style={{ height: 16, width: 16 }}
+                      />
                     </View>
-
+                    <View style={{ width: 17 }}>
+                      <IconUIKitten
+                        name="arrow-upward"
+                        fill="#b5b5b5"
+                        style={{
+                          height: 16, width: 16, marginRight: 8,
+                        }}
+                      />
+                    </View>
+                    {dernierMovement ? (
+                      <Amount amount={Math.round(dernierMovement?.amount * 100) / 100 || 0} category="h5" />
+                    ) : (
+                      <Text category="h5" status="primary" style={{ marginRight: 8 }}>0,00 €</Text>
+                    )}
                   </View>
 
                   {/**
@@ -238,9 +225,10 @@ const MonBien = (props: MonBienProps) => {
                  */}
 
                   <View style={{
+                    flex: 1,
                     alignItems: 'center',
-                    marginRight: 20,
                     flexDirection: 'row',
+                    justifyContent: 'center',
                   }}
                   >
                     <Icon
@@ -248,37 +236,25 @@ const MonBien = (props: MonBienProps) => {
                       fill="#b5b5b5"
                       style={{ height: 16, width: 16 }}
                     />
-                    <Amount amount={Math.round(((nextexpense || { amount: 0 }).amount * 100) / 100)} category="h4" />
+                    <Amount amount={Math.round(((nextexpense || { amount: 0 }).amount * 100) / 100)} category="h5" />
                   </View>
 
                   {/**
                  *
                  */}
-                  <View style={{ flex: 1, alignItems: 'center' }}>
-                    {/**
-                    <Text
-                      category="h6"
-                      appearance="hint"
-                      style={{
-                        justifyContent: 'center',
-                        textAlign: 'center',
-                        paddingBottom: 10,
-                      }}
-                    >
-                      Rentabilité du bien
-                    </Text>
-                    */}
-                    <View style={{
-                      flexDirection: 'row',
-                    }}
-                    >
-                      <Icon
-                        name="trending-up"
-                        fill="#b5b5b5"
-                        style={{ height: 18, width: 18, marginRight: 2 }}
-                      />
-                      <Percentage amount={rentability} category="h4" status="warning" />
-                    </View>
+                  <View style={{
+                    flex: 1,
+                    alignItems: 'center',
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                  }}
+                  >
+                    <Icon
+                      name="trending-up"
+                      fill="#b5b5b5"
+                      style={{ height: 18, width: 18, marginRight: 2 }}
+                    />
+                    <Percentage amount={rentability} category="h5" status="warning" />
                   </View>
 
                 </View>

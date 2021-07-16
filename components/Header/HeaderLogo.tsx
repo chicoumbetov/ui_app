@@ -1,5 +1,5 @@
 import React from 'react';
-import { DrawerActions, useNavigation } from '@react-navigation/native';
+import { useLinkTo, useNavigation } from '@react-navigation/native';
 import { TouchableOpacity } from 'react-native';
 import Logo from '../../assets/logo.svg';
 import debounce from '../../utils/debounce';
@@ -7,12 +7,12 @@ import debounce from '../../utils/debounce';
 const HeaderLogo = ({ withAction = true }: { withAction?:boolean }) => {
   let openDrawer = () => {};
   if (withAction) {
-    const navigation = useNavigation();
+    const linkTo = useLinkTo();
     openDrawer = React.useCallback(
       debounce(() => {
-        navigation.dispatch(DrawerActions.openDrawer());
+        linkTo('/tableau-de-bord');
       }, 50),
-      [navigation],
+      [linkTo],
     );
   }
 

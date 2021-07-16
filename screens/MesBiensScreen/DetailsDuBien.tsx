@@ -9,7 +9,7 @@ import {
   Text, Icon as IconUIKitten, useTheme, CheckBox, Modal,
 } from '@ui-kitten/components';
 import {
-  Alert, Platform,
+  Alert, Platform, StatusBar,
   StyleSheet, TouchableOpacity, View,
 } from 'react-native';
 import {
@@ -727,7 +727,9 @@ function DetailsBien() {
               <Modal
                 visible={camera}
                 style={{
-                  overflow: 'hidden', alignItems: 'center', margin: 0, height: '100%',
+                  overflow: 'hidden',
+                  alignItems: 'center',
+                  backgroundColor: 'black',
                 }}
               >
                 {camera && (

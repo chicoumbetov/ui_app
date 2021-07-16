@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { ConfirmSignUp as AmplifyConfirmSignUp } from 'aws-amplify-react-native';
 import {
-  Layout, Button, Text,
+  Layout, Button, Text, Spinner,
 } from '@ui-kitten/components';
 import { useForm } from 'react-hook-form';
 import Auth from '@aws-amplify/auth';
@@ -24,6 +24,12 @@ const MyConfirmSignUp = ({
   error, goBack, confirmSignUp, isUserNameNeeded, resend,
 }: ConfirmSignUpProps) => {
   const [errorMessage, setErrorMessage] = useState<string>();
+  const [loading, setLoading] = useState(false);
+  const LoadingIndicator = () => (
+    <View>
+      <Spinner size="small" />
+    </View>
+  );
 
   useEffect(() => { setErrorMessage(error); }, [error]);
 
@@ -87,10 +93,12 @@ const MyConfirmSignUp = ({
                 <Button appearance="ghost" onPress={resend}>Renvoyer le code</Button>
                 <Button
                   size="medium"
+                  disabled={loading}
                   style={{
                     width: 140,
                   }}
-                  onPress={confirmForm.handleSubmit((data) => confirm(data))}
+                  accessoryRight={loading && LoadingIndicator}
+                  onPress={confirmForm.handleSubmit((data) => { setLoading(true); confirm(data); })}
                 >
                   Valider
                 </Button>

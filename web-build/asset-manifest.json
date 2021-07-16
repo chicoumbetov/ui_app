@@ -1,11 +1,11 @@
 {
   "files": {
-    "app.js": "/static/js/app.beee37b1.chunk.js",
-    "app.js.map": "/static/js/app.beee37b1.chunk.js.map",
+    "app.js": "/static/js/app.8cd65d63.chunk.js",
+    "app.js.map": "/static/js/app.8cd65d63.chunk.js.map",
     "runtime~app.js": "/static/js/runtime~app.2e9f1821.js",
     "runtime~app.js.map": "/static/js/runtime~app.2e9f1821.js.map",
-    "static/js/2.a4c68c0e.chunk.js": "/static/js/2.a4c68c0e.chunk.js",
-    "static/js/2.a4c68c0e.chunk.js.map": "/static/js/2.a4c68c0e.chunk.js.map",
+    "static/js/2.bf5001fb.chunk.js": "/static/js/2.bf5001fb.chunk.js",
+    "static/js/2.bf5001fb.chunk.js.map": "/static/js/2.bf5001fb.chunk.js.map",
     "fonts/AntDesign.ttf": "/./fonts/AntDesign.ttf",
     "fonts/Comfortaa-Medium.ttf": "/./fonts/Comfortaa-Medium.ttf",
     "fonts/Comfortaa-Regular.ttf": "/./fonts/Comfortaa-Regular.ttf",
@@ -27,8 +27,8 @@
     "index.html": "/index.html",
     "manifest.json": "/manifest.json",
     "serve.json": "/serve.json",
-    "static/js/2.a4c68c0e.chunk.js.LICENSE.txt": "/static/js/2.a4c68c0e.chunk.js.LICENSE.txt",
-    "static/js/app.beee37b1.chunk.js.LICENSE.txt": "/static/js/app.beee37b1.chunk.js.LICENSE.txt",
+    "static/js/2.bf5001fb.chunk.js.LICENSE.txt": "/static/js/2.bf5001fb.chunk.js.LICENSE.txt",
+    "static/js/app.8cd65d63.chunk.js.LICENSE.txt": "/static/js/app.8cd65d63.chunk.js.LICENSE.txt",
     "static/media/Logo_Omedom.png": "/static/media/Logo_Omedom.5a591308.png",
     "static/media/back-icon-mask.png": "/static/media/back-icon-mask.fae3c934.png",
     "static/media/back-icon.png": "/static/media/back-icon.c733a880.png",
@@ -40,7 +40,7 @@
   },
   "entrypoints": [
     "static/js/runtime~app.2e9f1821.js",
-    "static/js/2.a4c68c0e.chunk.js",
-    "static/js/app.beee37b1.chunk.js"
+    "static/js/2.bf5001fb.chunk.js",
+    "static/js/app.8cd65d63.chunk.js"
   ]
 }

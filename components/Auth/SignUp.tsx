@@ -37,6 +37,7 @@ const MySignUp = ({
   const [errorMessage, setErrorMessage] = useState<string>();
   const [modalUrl, setModalUrl] = useState<string | false>(false);
   const { window } = useDimensions();
+  const [loading, setLoading] = useState(false);
 
   const signUpForm = useForm<SignUpForm>();
 
@@ -53,6 +54,7 @@ const MySignUp = ({
       given_name: data.firstname.substr(0, 1).toUpperCase() + data.firstname.substr(1),
       'custom:optIn': data.optIn ? 'true' : 'false',
     });
+    setLoading(false);
   };
 
   return (
@@ -176,11 +178,13 @@ const MySignUp = ({
               <Button appearance="ghost" onPress={goConfirmCode}>Confirmez avec un code</Button>
               <Button
                 size="medium"
+                disabled={loading}
                 style={{
                   width: 140,
                 }}
                 onPress={
                   signUpForm.handleSubmit(async (data) => {
+                    setLoading(true);
                     submit(data);
                   })
                 }

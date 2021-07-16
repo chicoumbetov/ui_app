@@ -198,6 +198,7 @@ function AjoutBienScreen() {
     if (bienget.ownName) {
       if (bienget.detentionPart === 100) {
         detentionPartDefault = 'proprietaire_integral';
+        setPourcentageDetentionShow(false);
       } else {
         detentionPartDefault = 'indivision';
       }
@@ -525,7 +526,7 @@ function AjoutBienScreen() {
               />
             </View>
 
-            <View style={{ flexDirection: 'row', alignItems: 'center', height: 67 }}>
+            <View style={{ flexDirection: 'row', height: 70 }}>
               <SelectComp
                 name="type"
                 data={typeBienArray}
@@ -536,7 +537,7 @@ function AjoutBienScreen() {
                 validators={[AvailableValidationRules.required]}
               />
             </View>
-            <View style={{ flexDirection: 'row', alignItems: 'center', height: 63 }}>
+            <View style={{ flexDirection: 'row', height: 70 }}>
               <SelectComp
                 name="ownName"
                 data={detention}
@@ -558,7 +559,7 @@ function AjoutBienScreen() {
 
             {detentionShow
               && (
-              <View style={{ height: 67 }}>
+              <View style={{ height: 70 }}>
                 <SelectComp
                   name=""
                   data={typeDetentionArray}
@@ -583,7 +584,7 @@ function AjoutBienScreen() {
             {statutShow
               && (
               <>
-                <View style={{ height: 67 }}>
+                <View style={{ height: 70 }}>
                   <SelectComp
                     name="company"
                     data={typeStatutArray}
@@ -619,35 +620,40 @@ function AjoutBienScreen() {
               </>
               )}
 
-            <MotiView
-              animate={{ maxHeight: (pourcentageDetentionShow ? 60 : 0) }}
-              style={{
-                overflow: 'hidden',
-                flexDirection: 'row',
-                marginHorizontal: 23,
-                justifyContent: 'space-between',
-                alignItems: 'center',
-              }}
-              transition={{ type: 'timing' }}
-            >
+            {
+              pourcentageDetentionShow
+              && (
+              <View
+                      // animate={{ maxHeight: ( ? 58 : 0) }}
+                style={{
+                  height: 60,
+                  marginTop: 5,
+                  overflow: 'hidden',
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}
+              >
 
-              {/**
-                  if Intégrale then 100%
-                  else write number in text input
-                  */}
-              <Text category="h5" style={{ flex: 1 }}>Pourcentage de détention</Text>
-              <View style={{ flexDirection: 'row', alignItems: 'center', width: 80 }}>
-                <TextInput
-                  name="detentionPart"
-                  size="small"
-                  maxLength={4}
-                  keyboardType="numeric"
-                  style={{ marginRight: 10 }}
-                />
-                <Text category="h5">%</Text>
+                {/**
+                     if Intégrale then 100%
+                     else write number in text input
+                     */}
+                <Text category="h5" style={{ flex: 1 }}>Pourcentage de détention</Text>
+                <View style={{ flexDirection: 'row', alignItems: 'center', width: 80 }}>
+                  <TextInput
+                    name="detentionPart"
+                    size="small"
+                    maxLength={4}
+                    keyboardType="numeric"
+                    style={{ marginRight: 10 }}
+                  />
+                  <Text category="h5">%</Text>
+                </View>
+
               </View>
-
-            </MotiView>
+              )
+            }
 
             <View style={{ flexDirection: 'row', alignItems: 'center', height: 65 }}>
               <Text category="h5">Prix d'acquisition</Text>
@@ -655,12 +661,15 @@ function AjoutBienScreen() {
                 name="purchasePrice"
                 size="small"
                 keyboardType="numeric"
-                validators={[AvailableValidationRules.purchasePrice, AvailableValidationRules.float]}
+                validators={[
+                  AvailableValidationRules.purchasePrice,
+                  AvailableValidationRules.float,
+                ]}
                 style={{ flex: 1, marginRight: 10, marginHorizontal: 10 }}
               />
               <Text category="h5">€</Text>
             </View>
-            <View style={{ flexDirection: 'row', alignItems: 'center', height: 60 }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', height: 55 }}>
               <Text category="h5">Frais de notaire</Text>
               <TextInput
                 name="notaryFee"

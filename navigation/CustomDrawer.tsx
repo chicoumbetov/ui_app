@@ -19,7 +19,7 @@ import {
   Icon as IconUIKitten, useTheme,
 } from '@ui-kitten/components';
 import {
-  ImageProps, ScaledSize, TouchableOpacity, View,
+  ImageProps, Pressable, ScaledSize, TouchableOpacity, View,
 } from 'react-native';
 import {
   DrawerActions, InitialState, useLinkTo, useNavigation,
@@ -32,6 +32,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useDimensions } from '@react-native-community/hooks';
 // import comptesData from '../mockData/comptesData';
 import * as WebBrowser from 'expo-web-browser';
+import Constants from 'expo-constants';
 import Icon, { IconName } from '../components/Icon/Icon';
 import AutoAvatar from '../components/AutoAvatar';
 import { useUser } from '../src/API/UserContext';
@@ -169,8 +170,8 @@ const CustomDrawer = (props: DrawerContentComponentProps) => {
     <View style={{ flex: 1, marginTop: inset.top, marginBottom: inset.bottom }}>
       <Layout level="4" style={{ flex: 1, justifyContent: 'space-between' }}>
 
-        <Layout
-          level="4"
+        <Pressable
+          onPress={() => linkTo('/mon-compte')}
           style={{
             margin: 24,
             marginHorizontal: 21,
@@ -191,7 +192,7 @@ const CustomDrawer = (props: DrawerContentComponentProps) => {
           <Text category="h2" appearance="hint" style={{ marginTop: 11 }}>
             {user?.firstname || undefined}
           </Text>
-        </Layout>
+        </Pressable>
         <Drawer
           selectedIndex={new IndexPath(findFocusedDrawerItem(state, window))}
           onSelect={(index) => {
@@ -320,6 +321,10 @@ const CustomDrawer = (props: DrawerContentComponentProps) => {
         <Text category="h5" style={{ textDecorationLine: 'underline' }}>Déconnexion</Text>
       </TouchableOpacity>
 
+      <Text category="s1" appearance="hint" style={{ textAlign: 'center', marginBottom: 5 }}>
+        v
+        {Constants.manifest.version}
+      </Text>
     </View>
   );
 };

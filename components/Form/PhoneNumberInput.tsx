@@ -5,6 +5,7 @@ import { StyleService, useStyleSheet, useTheme } from '@ui-kitten/components';
 import Text from '../Text';
 import { PhoneNumberInputFormProps } from './types';
 import PhoneInput from '../PhoneInput';
+import { AvailableValidationRules } from './validation';
 
 const PhoneNumberInputComp = React.forwardRef<PhoneInput, PhoneNumberInputFormProps>(
   (props: PhoneNumberInputFormProps, ref): React.ReactElement => {
@@ -17,6 +18,7 @@ const PhoneNumberInputComp = React.forwardRef<PhoneInput, PhoneNumberInputFormPr
       defaultValue,
       containerStyle,
       placeholder,
+      validators,
     } = props;
 
     const styles = useStyleSheet(themedStyles);
@@ -24,6 +26,8 @@ const PhoneNumberInputComp = React.forwardRef<PhoneInput, PhoneNumberInputFormPr
 
     const [inputColor, setInputColor] = useState<string>(theme['border-basic-color-1']);
     const [inputValue, setInputValue] = useState<string | undefined>('');
+
+    const required = ((validators && validators.indexOf(AvailableValidationRules.required) > -1) ? ' *' : '');
 
     return (
       <View style={[styles.container, containerStyle]}>
@@ -39,6 +43,7 @@ const PhoneNumberInputComp = React.forwardRef<PhoneInput, PhoneNumberInputFormPr
           color={inputColor}
         >
           {label}
+          {required}
         </Text>
         )}
         <PhoneInput
@@ -75,7 +80,7 @@ const PhoneNumberInputComp = React.forwardRef<PhoneInput, PhoneNumberInputFormPr
           }}
           countryPickerButtonStyle={{
           }}
-          placeholder={placeholder}
+          placeholder={placeholder + (label ? '' : required)}
           countryPickerProps={{
             withEmoji: false,
             modalProps: {

@@ -271,7 +271,7 @@ function TableauDeBord() {
         {loading
           ? <ActivityIndicator />
           : data?.listRealEstates?.items?.map(
-            (item) => item && <MonBienResume key={item.id} biens={(item as RealEstateItem)} />,
+            (item) => item && <MonBienResume key={item.id} bien={item} />,
           )}
         <Button
           size="large"

@@ -36,6 +36,15 @@ import { hasKey } from '../../../utils/typeHelpers';
 import ObjectHelper from '../../../utils/ObjectHelper';
 import Formatter from '../../../utils/Formatter';
 
+const allPossibleTypes = {
+  ...typeCharge,
+  ...typeImpots,
+  ...typeRevenu,
+  ...typeAssurance,
+  ...typeDivers,
+  ...typeBanque,
+};
+
 const DeclarationImpots = () => {
   const route = useRoute<RouteProp<TabMonAssistantParamList, 'declaration-impots-2'>>();
   const navigation = useNavigation();
@@ -135,15 +144,6 @@ const DeclarationImpots = () => {
               if (total > 0) {
                 const ratioRentalPart = ((ratioElements?.sumNonMeuble || 0) / total)
                       * householderPart;
-
-                const allPossibleTypes = {
-                  ...typeCharge,
-                  ...typeImpots,
-                  ...typeRevenu,
-                  ...typeAssurance,
-                  ...typeDivers,
-                  ...typeBanque,
-                };
 
                 const declarationLineTotals: { [key: string]: number } = {};
 

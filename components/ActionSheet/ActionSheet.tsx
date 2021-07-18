@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {
-  StyleSheet, View, TouchableOpacity, Animated, Dimensions, Platform,
+  StyleSheet, View, TouchableOpacity,
 } from 'react-native';
 
 import { useEffect, useState } from 'react';
@@ -18,17 +18,12 @@ export type ActionSheetProps = {
   noSafeArea: boolean,
   visible: boolean,
   scrollable: boolean,
-  onClose?: () => void,
-  linkTo?: (path:string) => void,
+  onClose?: () => void
+  heightPercentage?: number,
   rightAction?: {
     label: string,
     onPress: () => any
   }
-};
-
-type ActionSheetState = {
-  animation: Animated.Value,
-  visible: boolean
 };
 
 const ActionSheet = (props: ActionSheetProps) => {
@@ -37,8 +32,8 @@ const ActionSheet = (props: ActionSheetProps) => {
     noSafeArea = false,
     subtitle = undefined,
     rightAction = undefined,
+    heightPercentage = 0.8,
     title, children, before, visible, onClose,
-    linkTo,
   } = props;
   const { window } = useDimensions();
   const [visibleState, setVisible] = useState(false);
@@ -98,7 +93,7 @@ const ActionSheet = (props: ActionSheetProps) => {
           </MotiView>
           <MotiView
             style={{
-              paddingBottom: insets.bottom, maxWidth: 780, width: '100%', flex: 1, maxHeight: window.height * 0.8,
+              paddingBottom: insets.bottom, maxWidth: 780, width: '100%', flex: 1, maxHeight: window.height * heightPercentage,
             }}
             from={{ translateY: window.height }}
             animate={{ translateY: 0 }}

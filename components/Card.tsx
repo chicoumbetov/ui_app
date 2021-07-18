@@ -6,21 +6,41 @@
 
 import * as React from 'react';
 import { Layout, LayoutProps } from '@ui-kitten/components';
-import { StyleSheet, TouchableOpacity, TouchableOpacityProps } from 'react-native';
+import {
+  Pressable,
+  StyleSheet,
+  TouchableOpacity,
+  TouchableOpacityProps,
+} from 'react-native';
 
-export type CardProps = LayoutProps & Pick<TouchableOpacityProps, 'onPress'>;
+export type CardProps = LayoutProps & Pick<TouchableOpacityProps, 'onPress'> & {
+  withOpacity?: boolean
+};
 
 export default function Card(props: CardProps): JSX.Element {
   const {
     level = '3',
     style,
     onPress,
+    withOpacity = true,
     ...otherViewProps
   } = props;
 
   if (onPress !== undefined) {
+    if (withOpacity) {
+      return (
+        <TouchableOpacity
+          onPress={onPress}
+          style={[
+            baseStyle.component,
+            { backgroundColor: '#FFFFFF' },
+            style]}
+          {...otherViewProps}
+        />
+      );
+    }
     return (
-      <TouchableOpacity
+      <Pressable
         onPress={onPress}
         style={[
           baseStyle.component,

@@ -46,10 +46,9 @@ const PartagerBien = () => {
 
   const createPendingInvitation = useCreatePendingInvitationMutation();
 
-  const LoadingIndicator = (props) => (
-    <View style={[props.style, styles.indicator]}>
-      <Spinner size="small" />
-    </View>
+  const LoadingIndicator = () => (createPendingInvitation.mutationLoading ? (
+    <Spinner status="basic" size="small" />
+  ) : (<></>)
   );
 
   const addUser = async (data: ShareRealEstateForm) => {
@@ -115,7 +114,7 @@ const PartagerBien = () => {
               disabled={createPendingInvitation.mutationLoading}
               onPress={shareRealEstateForm.handleSubmit((data) => { addUser(data); })}
               style={{ width: 150 }}
-              accessoryRight={createPendingInvitation.mutationLoading && LoadingIndicator}
+              accessoryRight={LoadingIndicator}
             >
               Valider
             </Button>

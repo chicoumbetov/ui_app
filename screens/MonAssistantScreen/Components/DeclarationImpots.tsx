@@ -23,11 +23,6 @@ const DeclarationImpots = () => {
 
   const declarationImpotsForm = useForm<DeclarationImpotsForm>();
 
-  const [tenantsList, setTenantsList] = useState<
-  Array<{ label: string | undefined, key: string | undefined }>
-  | undefined
-  >([]);
-
   const [houseList, setHouseList] = useState<
   Array<{ label: string | undefined, key: string | undefined }>
   | undefined
@@ -90,54 +85,34 @@ const DeclarationImpots = () => {
             appearance="default"
             status="primary"
             validators={[AvailableValidationRules.required]}
-            onChangeValue={(selectedKey) => {
-              if (selectedKey) {
-                const currentBien = data?.listRealEstates?.items?.filter(
-                  (item) => item?.id === selectedKey,
-                ).pop();
-                const tenantList = currentBien?.tenants?.map(
-                  (tenant) => ({ label: `${tenant?.firstname} ${tenant?.lastname}`, key: tenant?.id }),
-                );
-                setTenantsList(tenantList);
-              }
-            }}
           />
-          {tenantsList ? (
-            <>
-              {/**
-              <FSelect
-                name="idTenant"
-                data={tenantsList}
-                placeholder="Choisissez le locataire"
-                size="large"
-                appearance="default"
-                status="primary"
-              />
- */}
-              <TextInput
-                label="Année de l'écheance"
-                name="anneeEcheance"
-                placeholder="aaaa"
-                keyboardType="numeric"
-                icon="calendar-outline"
-                maxLength={4}
-                validators={[
-                  AvailableValidationRules.required,
-                ]}
-              />
-              <View style={{ marginTop: 20, alignItems: 'flex-end' }}>
-                <Button
-                  onPress={declarationImpotsForm.handleSubmit((house) => {
-                    onDeclarationImpots2(house);
-                  })}
-                  size="large"
-                  style={{ width: 139 }}
-                >
-                  Confirmer
-                </Button>
-              </View>
-            </>
-          ) : (<Text status="warning">Vous devez ajouter un locataire à votre bien</Text>) }
+
+          <TextInput
+            label="Année de l'écheance"
+            name="anneeEcheance"
+            placeholder="aaaa"
+            keyboardType="numeric"
+            icon="calendar-outline"
+            maxLength={4}
+            validators={[
+              AvailableValidationRules.required,
+            ]}
+          />
+          <View style={{ marginTop: 20, alignItems: 'flex-end' }}>
+            <Button
+              onPress={declarationImpotsForm.handleSubmit((house) => {
+                onDeclarationImpots2(house);
+              })}
+              size="large"
+              style={{ width: 139 }}
+            >
+              Confirmer
+            </Button>
+          </View>
+
+          <Text category="c1" appearance="hint">
+            * champ obligatoire
+          </Text>
         </>
       </Form>
 

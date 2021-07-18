@@ -668,7 +668,7 @@
             "iconWidth": 24,
             "iconHeight": 24,
             "iconMarginHorizontal": 8,
-            "labelMarginBottom": 30,
+            "labelMarginBottom": 10,
             "labelFontSize": "text-label-font-size",
             "labelFontWeight": "text-label-font-weight",
             "labelFontFamily": "text-label-font-family",
@@ -922,7 +922,7 @@
             "iconWidth": 24,
             "iconHeight": 24,
             "iconMarginHorizontal": 8,
-            "labelMarginBottom": 30,
+            "labelMarginBottom": 10,
             "labelFontSize": "text-label-font-size",
             "labelFontWeight": "text-label-font-weight",
             "labelFontFamily": "text-label-font-family",
@@ -1390,6 +1390,24 @@
           "variantGroups": {
             "status": {
               "basic": {
+                "backgroundColor": "transparent",
+                "state": {
+                  "focused": {
+                    "borderColor":"transparent",
+                    "backgroundColor": "transparent"
+                  },
+                  "active": {
+                    "backgroundColor": "transparent"
+                  },
+                  "hover": {
+                    "backgroundColor": "transparent"
+                  },
+                  "disabled": {
+                    "backgroundColor": "transparent"
+                  }
+                }
+              },
+              "danger": {
                 "backgroundColor": "transparent",
                 "state": {
                   "focused": {

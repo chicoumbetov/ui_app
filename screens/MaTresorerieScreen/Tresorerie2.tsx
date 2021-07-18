@@ -11,7 +11,7 @@ import {
   TouchableOpacity, View,
 } from 'react-native';
 
-import { useRoute } from '@react-navigation/native';
+import { useLinkTo, useRoute } from '@react-navigation/native';
 import { RouteProp } from '@react-navigation/core/lib/typescript/src/types';
 import API from '@aws-amplify/api';
 import MaxWidthContainer from '../../components/MaxWidthContainer';
@@ -34,7 +34,7 @@ import {
 
 const MaTresorerie2 = () => {
   // const [compte] = useState(comptesData);
-
+  const linkTo = useLinkTo();
   const [newAccountLink, setNewAccountLink] = useState<string | undefined>();
   const [supprim, setSupprim] = useState(false);
   const [toggle, setToggle] = useState(false);
@@ -307,7 +307,26 @@ const MaTresorerie2 = () => {
               setNewAccountLink(undefined);
               const obj = JSON.parse(e);
               if (!obj.error) {
-                await API.get('omedomrest', `/budgetinsight/create-accounts?CONNECTION_ID=${obj.id_connection}&REAL_ESTATE_ID=${route.params.id}`, {});
+                const result = await API.get('omedomrest', `/budgetinsight/create-accounts?CONNECTION_ID=${obj.id_connection}&REAL_ESTATE_ID=${route.params.id}`, {});
+
+                await refetchBankAccount();
+                await refetchBien();
+
+                if (result.success && result.lastId !== '') {
+                  Alert.alert(
+                    '\u2705 BRAVO !',
+                    'Compte ajouté avec succès. Vous pouvez maintenant cliquer sur le compte pour affecter '
+                      + 'les mouvements aux revenus et charges que vous avez paramétrés',
+                    [
+                      { text: 'Ignorer', style: 'cancel' },
+                      {
+                        text: 'Affecter les mouvements',
+                        onPress: () => linkTo(`/ma-tresorerie/${route.params.id}/mes-comptes/${result.lastId}/mouvements-bancaires`),
+                      },
+                    ],
+                    { cancelable: true },
+                  );
+                }
               }
               setAddingAccounts(false);
             }

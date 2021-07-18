@@ -328,9 +328,19 @@ const ParametrerAjoutRevenu = () => {
                 name="amount"
                 placeholder="Saisissez votre montant ici"
                 keyboardType="numeric"
+                maskOptions={{
+                  type: 'money',
+                  options: {
+                    precision: 2,
+                    separator: ',',
+                    delimiter: ' ',
+                    unit: '',
+                    suffixUnit: ' €',
+                  },
+                }}
                 validators={[AvailableValidationRules.required, AvailableValidationRules.float]}
               />
-              <Text category="h4" style={{ marginLeft: 19 }}> €</Text>
+              {/* <Text category="h4" style={{ marginLeft: 19 }}> €</Text> */}
             </MotiView>
             {revenuLoyer && (
             <MotiView
@@ -344,13 +354,43 @@ const ParametrerAjoutRevenu = () => {
               transition={{ type: 'timing', duration: 500 }}
             >
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <TextInput name="rentalCharges" keyboardType="numeric" placeholder="Dont charges" validators={[AvailableValidationRules.float]} />
-                <Text category="h4" style={{ marginLeft: 19 }}> €</Text>
+                <TextInput
+                  name="rentalCharges"
+                  keyboardType="numeric"
+                  maskOptions={{
+                    type: 'money',
+                    options: {
+                      precision: 2,
+                      separator: ',',
+                      delimiter: ' ',
+                      unit: '',
+                      suffixUnit: ' €',
+                    },
+                  }}
+                  placeholder="Dont charges"
+                  validators={[AvailableValidationRules.float]}
+                />
+                {/* <Text category="h4" style={{ marginLeft: 19 }}> €</Text> */}
               </View>
 
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <TextInput name="managementFees" keyboardType="numeric" placeholder="Dont frais de gestion" validators={[AvailableValidationRules.float, AvailableValidationRules.negative]} />
-                <Text category="h4" style={{ marginLeft: 19 }}>€</Text>
+                <TextInput
+                  name="managementFees"
+                  keyboardType="numeric"
+                  maskOptions={{
+                    type: 'money',
+                    options: {
+                      precision: 2,
+                      separator: ',',
+                      delimiter: ' ',
+                      unit: '- ',
+                      suffixUnit: ' €',
+                    },
+                  }}
+                  placeholder="Dont frais de gestion"
+                  validators={[AvailableValidationRules.float, AvailableValidationRules.negative]}
+                />
+                {/* <Text category="h4" style={{ marginLeft: 19 }}>€</Text> */}
               </View>
 
             </MotiView>
@@ -432,7 +472,9 @@ const ParametrerAjoutRevenu = () => {
                 {isCreating ? 'Chargement' : 'Enregistrer'}
               </Button>
             </View>
-
+            <Text category="c1" appearance="hint">
+              * champs obligatoires
+            </Text>
           </>
         </Form>
 

@@ -209,7 +209,7 @@ const EditMouvement = (props: MonBudgetProps) => {
         )
         : (
           <>
-            <Text category="p1" status="basic" style={{ marginVertical: 20 }}>
+            <Text category="p1" status="basic" style={{ marginVertical: 20, fontWeight: 'bold' }}>
               Vous devez encore affecter pour
               {' '}
               {Formatter.currencyFormatter.format(amountMouvement)}

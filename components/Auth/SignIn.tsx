@@ -83,6 +83,7 @@ const MySigIn = ({
           <TextInputComp
             name="email"
             placeholder="Votre e-mail"
+            showAsterix={false}
             validators={[
               AvailableValidationRules.required,
               AvailableValidationRules.email,
@@ -91,6 +92,7 @@ const MySigIn = ({
           <TextInputComp
             name="password"
             placeholder="Votre mot de passe"
+            showAsterix={false}
             secureTextEntry
             withEyeToggle
             validators={[

@@ -195,6 +195,8 @@ app.get('/budgetinsight/create-accounts', async (req, res) => {
         ? Object.fromEntries(accounts.map(({ biId, id, _version }) => [biId, { id, _version }]))
         : {};
 
+      let lastId = '';
+
       const map = connection.accounts.map(async (account) => {
         if (accountIdsList[account.id]) {
           // on update
@@ -223,6 +225,7 @@ app.get('/budgetinsight/create-accounts', async (req, res) => {
               realEstateId: REAL_ESTATE_ID,
             });
           }
+          lastId = accountIdsList[account.id].id;
         } else {
           // on ajoute
           const bankAccount = await createBankAccount(AppSyncClient, {
@@ -240,12 +243,14 @@ app.get('/budgetinsight/create-accounts', async (req, res) => {
             bankAccountId: bankAccount.id,
             realEstateId: REAL_ESTATE_ID,
           });
+          lastId = bankAccount.id;
         }
       });
       await Promise.all(map);
 
       res.json({
         success: true,
+        lastId,
       });
     } else {
       res.json({

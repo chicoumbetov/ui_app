@@ -291,6 +291,10 @@ const ParametrerAjoutCharges = () => {
     }
   };
 
+  const isCreating = updateBudgetLine.mutationLoading
+      || createBudgetLine.mutationLoading
+      || createBudgetLineDeadLine.mutationLoading;
+
   const demain = new Date();
   demain.setDate(demain.getDate() + 1);
   return (
@@ -337,6 +341,8 @@ const ParametrerAjoutCharges = () => {
                   name="category"
                   data={typeChargeArray}
                   onChangeValue={(v) => {
+                    setTaxFonciereShow(false);
+                    setMensualiteCreditShow(false);
                     if (v === 'impots') {
                       setTaxShow(true);
                       setAssuranceShow(false);
@@ -447,7 +453,7 @@ const ParametrerAjoutCharges = () => {
                 ) : (<></>)}
                 {mensualiteCreditShow ? (
                   <MotiView
-                    animate={{ height: (mensualiteCreditShow ? 450 : 0) }}
+                    animate={{ height: (mensualiteCreditShow ? 485 : 0) }}
                     style={{
                       overflow: 'hidden',
                       // hack pour éviter que le overflow 'hidden' ne cache l'ombre
@@ -456,98 +462,128 @@ const ParametrerAjoutCharges = () => {
                     }}
                     transition={{ type: 'timing', duration: 500 }}
                   >
-                    <Text>Capital emprunté</Text>
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                       <TextInput
                         name="infoCredit.borrowedCapital"
-                        placeholder="Capital emprunté"
+                        label="Capital emprunté"
+                        placeholder="Saisissez votre montant ici"
                         keyboardType="numeric"
+                        maskOptions={{
+                          type: 'money',
+                          options: {
+                            precision: 2,
+                            separator: ',',
+                            delimiter: ' ',
+                            unit: '',
+                            suffixUnit: ' €',
+                          },
+                        }}
                         onChangeValue={() => calculeTableauAmortissement(false)}
                         validators={
                         [AvailableValidationRules.required, AvailableValidationRules.float]
                       }
                       />
-                      <Text category="h4" style={{ marginLeft: 19 }}> €</Text>
                     </View>
-                    <Text>La date de début du prêt</Text>
                     <Datepicker
                       name="infoCredit.loanStartDate"
-                      placeholder="La date de début du prêt"
+                      label="La date de début du prêt"
+                      placeholder="jj/mm/aaaa"
                       icon="calendar-outline"
                     />
-                    <Text>La durée en mois</Text>
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                       <TextInput
                         name="infoCredit.duration"
-                        placeholder="La durée en mois"
+                        label="La durée en mois"
+                        placeholder="Saisissez votre montant ici"
                         keyboardType="numeric"
                         onChangeValue={() => calculeTableauAmortissement(false)}
                         validators={
                         [AvailableValidationRules.required, AvailableValidationRules.float]
                       }
+                        accessoryRight={() => (<Text category="h4">mois</Text>)}
                       />
-                      <Text category="h4" style={{ marginLeft: 19 }}>mois</Text>
+
                     </View>
-                    <Text>Le taux d'intérêts</Text>
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                       <TextInput
                         name="infoCredit.interestRate"
-                        placeholder="Le taux d'intérêts"
+                        label="Le taux d'intérêts"
+                        placeholder="Saisissez votre montant ici"
                         keyboardType="numeric"
                         onChangeValue={() => calculeTableauAmortissement(false)}
                         validators={
                         [AvailableValidationRules.required, AvailableValidationRules.float]
                       }
+                        accessoryRight={() => (<Text category="h4">%</Text>)}
                       />
-                      <Text category="h4" style={{ marginLeft: 19 }}>%</Text>
                     </View>
-
-                    <Text>Le taux d'assurance</Text>
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                       <TextInput
                         name="infoCredit.assuranceRate"
-                        placeholder="Le taux d'assurance"
+                        label="Le taux d'assurance"
+                        placeholder="Saisissez votre montant ici"
                         keyboardType="numeric"
                         onChangeValue={() => calculeTableauAmortissement(false)}
                         validators={
                         [AvailableValidationRules.required, AvailableValidationRules.float]
                         }
+                        accessoryRight={() => (<Text category="h4">%</Text>)}
                       />
-                      <Text category="h4" style={{ marginLeft: 19 }}>%</Text>
                     </View>
                     <Button appearance="ghost" onPress={() => { calculeTableauAmortissement(true); }}> Afficher le tableau d'amortissement</Button>
                   </MotiView>
                 ) : (<></>)}
-                {montantShow ? <Text>Montant</Text> : <></>}
                 <MotiView
-                  animate={{ height: (montantShow ? 75 : 0) }}
-                  style={{ overflow: 'hidden', flexDirection: 'row', alignItems: 'center' }}
+                  animate={{ height: (montantShow ? 90 : 0) }}
+                  style={{ overflow: 'hidden', flexDirection: 'row', alignItems: 'flex-start' }}
                   transition={{ type: 'timing', duration: 500 }}
                 >
                   <TextInput
                     name="amount"
+                    label="Montant"
                     placeholder="Saisissez votre montant ici"
                     keyboardType="numeric"
+                    maskOptions={{
+                      type: 'money',
+                      options: {
+                        precision: 2,
+                        separator: ',',
+                        delimiter: ' ',
+                        unit: '',
+                        suffixUnit: ' €',
+                      },
+                    }}
                     disabled={mensualiteCreditShow}
                     validators={[AvailableValidationRules.required, AvailableValidationRules.float]}
                   />
-                  <Text category="h4" style={{ marginLeft: 19 }}> €</Text>
                 </MotiView>
                 {taxFonciereShow ? (
                   <>
-                    <Text>Dont Ordures ménagères</Text>
                     <MotiView
-                      animate={{ height: (montantShow ? 75 : 0) }}
-                      style={{ overflow: 'hidden', flexDirection: 'row', alignItems: 'center' }}
+                      animate={{ height: (montantShow ? 90 : 0) }}
+                      style={{ overflow: 'hidden', flexDirection: 'row', alignItems: 'flex-start' }}
                       transition={{ type: 'timing', duration: 500 }}
                     >
                       <TextInput
                         name="householdWaste"
+                        label="Dont Ordures ménagères"
                         placeholder="Saisissez votre montant ici"
                         keyboardType="numeric"
-                        validators={[AvailableValidationRules.required, AvailableValidationRules.float]}
+                        maskOptions={{
+                          type: 'money',
+                          options: {
+                            precision: 2,
+                            separator: ',',
+                            delimiter: ' ',
+                            unit: '',
+                            suffixUnit: ' €',
+                          },
+                        }}
+                        validators={[
+                          AvailableValidationRules.required,
+                          AvailableValidationRules.float,
+                        ]}
                       />
-                      <Text category="h4" style={{ marginLeft: 19 }}> €</Text>
                     </MotiView>
                   </>
                 ) : (<></>)}
@@ -599,14 +635,18 @@ const ParametrerAjoutCharges = () => {
                         validateCharge(data);
                       })}
                       size="large"
+                      disabled={isCreating}
+                      accessoryRight={() => (isCreating ? <Spinner status="basic" /> : <></>)}
                     >
-                      Valider
+                      {isCreating ? 'Chargement' : 'Enregistrer'}
                     </Button>
                   )}
 
                 </View>
               )}
-
+              <Text category="c1" appearance="hint">
+                * champs obligatoires
+              </Text>
             </>
           </Form>
 

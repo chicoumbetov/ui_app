@@ -6,6 +6,7 @@ import {
   InputProps, RadioProps, CheckBoxProps,
   SelectProps, ToggleProps, DatepickerProps, Datepicker, RangeDatepickerProps,
 } from '@ui-kitten/components';
+import { TextInputMaskProps } from 'react-native-masked-text';
 import { ValidationRuleConfig } from './validation';
 import { IconName } from '../Icon/Icon';
 
@@ -55,6 +56,8 @@ export type TextInputFormProps = Exclude<InputProps, 'onChangeText'> & {
   labelStyle?: StyleProp<TextStyle>;
   containerStyle?: StyleProp<ViewStyle>;
   withEyeToggle?: boolean;
+  maskOptions?: TextInputMaskProps;
+  showAsterix?: boolean
 } & FormChildProp;
 
 // Switch Types

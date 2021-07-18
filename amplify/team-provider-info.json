@@ -94,7 +94,7 @@
       "function": {
         "budgetinsight": {
           "deploymentBucketName": "amplify-omedom-prod-01129-deployment",
-          "s3Key": "amplify-builds/budgetinsight-79774153474275795241-build.zip"
+          "s3Key": "amplify-builds/budgetinsight-666b6c2b795464385775-build.zip"
         },
         "pushReceipts": {
           "deploymentBucketName": "amplify-omedom-prod-01129-deployment",

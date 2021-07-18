@@ -7,8 +7,7 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import {
-  Platform,
-  StyleSheet, TouchableOpacity, View,
+  Alert, Platform, StyleSheet, TouchableOpacity, View,
 } from 'react-native';
 
 import {
@@ -16,17 +15,21 @@ import {
 } from '@ui-kitten/components';
 
 import * as ImagePicker from 'expo-image-picker';
+import { ImagePickerResult } from 'expo-image-picker';
 import { MotiView } from 'moti';
 import { useLinkTo, useRoute } from '@react-navigation/native';
 import { RouteProp } from '@react-navigation/core/lib/typescript/src/types';
-import { ImagePickerResult } from 'expo-image-picker';
 import API from '@aws-amplify/api';
 import { colors } from '../../assets/styles';
 import Form from '../../components/Form/Form';
 import SelectComp from '../../components/Form/Select';
 
 import {
-  detention, typeBien, typeDetention, typeImpot, typeStatut,
+  detention,
+  typeBien,
+  typeDetention,
+  typeImpot,
+  typeStatut,
 } from '../../mockData/ajoutBienData';
 import MaxWidthContainer from '../../components/MaxWidthContainer';
 import AutoAvatar from '../../components/AutoAvatar';
@@ -35,6 +38,7 @@ import { AvailableValidationRules } from '../../components/Form/validation';
 import {
   useCreateRealEstateMutation,
   useGetRealEstate,
+  useRealEstateList,
   useUpdateRealEstateMutation,
 } from '../../src/API/RealEstate';
 import {
@@ -72,9 +76,10 @@ const typeImpotArray = Object.values(typeImpot);
 
 function AjoutBienScreen() {
   const theme = useTheme();
-  const { user, userIsCreating } = useUser();
+  const { user } = useUser();
   const updateRealEstate = useUpdateRealEstateMutation();
   const createRealEstate = useCreateRealEstateMutation();
+  const { data: realEstateList } = useRealEstateList();
   const linkTo = useLinkTo();
 
   const [selectedNewImage, setSelectedNewImage] = useState<
@@ -86,69 +91,84 @@ function AjoutBienScreen() {
   const ajoutBienForm = useForm<AjoutBienForm>();
 
   const onAjoutBien = async (data: AjoutBienForm) => {
-    if (route.params && currentRealEstate) {
-      let iconUri = image;
-      if (image !== currentRealEstate.iconUri) {
-        const toDelete = currentRealEstate.iconUri && currentRealEstate.iconUri.indexOf('default::') > -1
-          ? undefined
-          : currentRealEstate.iconUri;
-        if (toDelete) {
-          await Delete(toDelete);
-        }
-        if (selectedNewImage) {
-          const upload = await Upload(selectedNewImage, `realEstate/${currentRealEstate.id}/`);
-          if (upload !== false) {
-            iconUri = upload.key;
+    if (user) {
+      if (route.params && currentRealEstate) {
+        let iconUri = image;
+        if (image !== currentRealEstate.iconUri) {
+          const toDelete = currentRealEstate.iconUri && currentRealEstate.iconUri.indexOf('default::') > -1
+            ? undefined
+            : currentRealEstate.iconUri;
+          if (toDelete) {
+            await Delete(toDelete);
           }
-        }
-      }
-
-      await updateRealEstate.updateRealEstate({
-        variables: {
-          input: {
-            id: route.params.id,
-            ...data,
-            iconUri,
-            // eslint-disable-next-line no-underscore-dangle
-            _version: currentRealEstate._version,
-          },
-        },
-      });
-    } else {
-      let iconUri = image;
-      const { data: mutationData } = await createRealEstate.createRealEstate({
-        variables: {
-          input: {
-            ...data,
-            iconUri,
-            admins: [
-              user.id,
-            ],
-          },
-        },
-      });
-
-      await API.post('omedomrest', '/budgetinsight/create-trial', {});
-
-      if (mutationData?.createRealEstate && selectedNewImage) {
-        const upload = await Upload(selectedNewImage, `realEstate/${mutationData.createRealEstate.id}/`);
-        if (upload !== false) {
-          iconUri = upload.key;
+          if (selectedNewImage) {
+            const upload = await Upload(selectedNewImage, `realEstate/${currentRealEstate.id}/`);
+            if (upload !== false) {
+              iconUri = upload.key;
+            }
+          }
         }
 
         await updateRealEstate.updateRealEstate({
           variables: {
             input: {
-              id: mutationData.createRealEstate.id,
+              id: route.params.id,
+              ...data,
               iconUri,
               // eslint-disable-next-line no-underscore-dangle
-              _version: mutationData.createRealEstate._version,
+              _version: currentRealEstate._version,
             },
           },
         });
+      } else {
+        let iconUri = image;
+        const showPopup = !(realEstateList?.listRealEstates?.items
+            && realEstateList?.listRealEstates?.items?.length > 0);
+        const { data: mutationData } = await createRealEstate.createRealEstate({
+          variables: {
+            input: {
+              ...data,
+              iconUri,
+              admins: [
+                user.id,
+              ],
+            },
+          },
+        });
+
+        await API.post('omedomrest', '/budgetinsight/create-trial', {});
+
+        if (mutationData?.createRealEstate && selectedNewImage) {
+          const upload = await Upload(selectedNewImage, `realEstate/${mutationData.createRealEstate.id}/`);
+          if (upload !== false) {
+            iconUri = upload.key;
+          }
+
+          await updateRealEstate.updateRealEstate({
+            variables: {
+              input: {
+                id: mutationData.createRealEstate.id,
+                iconUri,
+                // eslint-disable-next-line no-underscore-dangle
+                _version: mutationData.createRealEstate._version,
+              },
+            },
+          });
+        }
+        if (showPopup && mutationData?.createRealEstate) {
+          Alert.alert(
+            '\u2705 BRAVO !',
+            `Le bien "${data.name}" a été créé ! \n`
+              + 'Pour commencer paramétrez son budget.',
+            [
+              { text: 'Ignorer', style: 'cancel', onPress: () => linkTo('/mes-biens') },
+              { text: 'Mon budget', onPress: () => linkTo(`/mes-biens/${mutationData?.createRealEstate?.id}/budget`) },
+            ],
+            { cancelable: true },
+          );
+          return;
+        }
       }
-    }
-    if (!userIsCreating) {
       linkTo('/mes-biens');
     }
   };
@@ -176,7 +196,7 @@ function AjoutBienScreen() {
 
   const route = useRoute<RouteProp<TabMesBiensParamList, 'ajout-bien-screen'> | RouteProp<TabMesBiensParamList, 'modifier-characteristique'>>();
   let currentRealEstate: RealEstate | undefined;
-  let detentionPartDefault : string;
+  let detentionPartDefault : string = 'indivision';
   if (route.params) {
     const { bienget } = useGetRealEstate(route.params.id);
     currentRealEstate = bienget;
@@ -247,7 +267,8 @@ function AjoutBienScreen() {
           {/**
        *  Identité 1/3 title part
        */}
-          <View
+          <TouchableOpacity
+
             style={[
               styles.item,
               {
@@ -256,17 +277,14 @@ function AjoutBienScreen() {
                   : (theme['color-success-100'])),
               },
             ]}
+            onPress={() => setEtape(0)}
           >
-            <TouchableOpacity
-              onPress={() => setEtape(0)}
+            <Text
+              category="h6"
             >
-              <Text
-                category="h6"
-              >
-                Identité (1/3)
-              </Text>
-            </TouchableOpacity>
-          </View>
+              Identité (1/3)
+            </Text>
+          </TouchableOpacity>
           {/**
            Identité 1/3  ( etape1 )
            * */}
@@ -401,28 +419,27 @@ function AjoutBienScreen() {
           {/**
           *  Identité 2/3 title
           */}
-          <View style={[
-            styles.item,
-            {
-              backgroundColor: (
-                (etape === 1)
-                  ? colors.blanc
-                  : ((etape === 0) ? theme['color-warning-100'] : theme['color-success-100'])
-              ),
-              marginTop: 29,
-            },
-          ]}
+          <TouchableOpacity
+            style={[
+              styles.item,
+              {
+                backgroundColor: (
+                // eslint-disable-next-line no-nested-ternary
+                  (etape === 1)
+                    ? colors.blanc
+                    : ((etape === 0) ? theme['color-warning-100'] : theme['color-success-100'])
+                ),
+                marginTop: 29,
+              },
+            ]}
+            onPress={() => setEtape(1)}
           >
-            <TouchableOpacity
-              onPress={() => setEtape(1)}
+            <Text
+              category="h6"
             >
-              <Text
-                category="h6"
-              >
-                Localisation (2/3)
-              </Text>
-            </TouchableOpacity>
-          </View>
+              Localisation (2/3)
+            </Text>
+          </TouchableOpacity>
           {/**
            Identité 2/3  ( etape2 )
            * */}
@@ -477,25 +494,23 @@ function AjoutBienScreen() {
           *  Mode de détention
           *  Identité 3/3 (etape 3) title
           */}
-          <View style={[
-            styles.item,
-            {
-              backgroundColor: ((etape === 2)
-                ? colors.blanc : (theme['color-warning-100'])),
-              marginTop: 29,
-            },
-          ]}
+          <TouchableOpacity
+            onPress={() => setEtape(2)}
+            style={[
+              styles.item,
+              {
+                backgroundColor: ((etape === 2)
+                  ? colors.blanc : (theme['color-warning-100'])),
+                marginTop: 29,
+              },
+            ]}
           >
-            <TouchableOpacity
-              onPress={() => setEtape(2)}
+            <Text
+              category="h6"
             >
-              <Text
-                category="h6"
-              >
-                Mode de détention (3/3)
-              </Text>
-            </TouchableOpacity>
-          </View>
+              Mode de détention (3/3)
+            </Text>
+          </TouchableOpacity>
           {/**
            *  Mode de détention
            *  Identité 3/3 (etape 3)
@@ -519,7 +534,7 @@ function AjoutBienScreen() {
             }}
             >
               <Text category="h5" status="basic" style={{ marginRight: 20 }}>
-                Année d'acquisition
+                Année d'acquisition *
               </Text>
               <TextInput
                 name="purchaseYear"
@@ -527,7 +542,11 @@ function AjoutBienScreen() {
                 placeholder="yyyy"
                 maxLength={4}
                 icon="calendar-outline"
-                validators={[AvailableValidationRules.purchaseYear]}
+                validators={[
+                  {
+                    rule: AvailableValidationRules.required,
+                    errorMessage: 'L\'année d\'acquisition est requise',
+                  }]}
               />
             </View>
 
@@ -661,29 +680,54 @@ function AjoutBienScreen() {
             }
 
             <View style={{ flexDirection: 'row', alignItems: 'center', height: 65 }}>
-              <Text category="h5">Prix d'acquisition</Text>
+              <Text category="h5">Prix d'acquisition *</Text>
               <TextInput
                 name="purchasePrice"
                 size="small"
                 keyboardType="numeric"
+                maskOptions={{
+                  type: 'money',
+                  options: {
+                    precision: 2,
+                    separator: ',',
+                    delimiter: ' ',
+                    unit: '',
+                    suffixUnit: ' €',
+                  },
+                }}
                 validators={[
-                  AvailableValidationRules.purchasePrice,
+                  {
+                    rule: AvailableValidationRules.required,
+                    errorMessage: 'Le prix d\'acquisition est requis',
+                  },
                   AvailableValidationRules.float,
                 ]}
                 style={{ flex: 1, marginRight: 10, marginHorizontal: 10 }}
               />
-              <Text category="h5">€</Text>
             </View>
             <View style={{ flexDirection: 'row', alignItems: 'center', height: 55 }}>
-              <Text category="h5">Frais de notaire</Text>
+              <Text category="h5">Frais de notaire *</Text>
               <TextInput
                 name="notaryFee"
                 size="small"
                 keyboardType="numeric"
-                validators={[AvailableValidationRules.notaryFee, AvailableValidationRules.float]}
+                maskOptions={{
+                  type: 'money',
+                  options: {
+                    precision: 2,
+                    separator: ',',
+                    delimiter: ' ',
+                    unit: '',
+                    suffixUnit: ' €',
+                  },
+                }}
+                validators={[
+                  {
+                    rule: AvailableValidationRules.required,
+                    errorMessage: 'Les frais de notaire sont requis',
+                  }, AvailableValidationRules.float]}
                 style={{ flex: 1, marginRight: 10, marginHorizontal: 10 }}
               />
-              <Text category="h5">€</Text>
             </View>
             <View style={{ marginBottom: 20 }}>
               {createRealEstate.mutationLoading || updateRealEstate.mutationLoading
@@ -715,6 +759,9 @@ function AjoutBienScreen() {
             </View>
           </MotiView>
 
+          <Text category="c1" appearance="hint" style={{ margin: 23 }}>
+            * champs obligatoires
+          </Text>
         </>
       </Form>
     </MaxWidthContainer>

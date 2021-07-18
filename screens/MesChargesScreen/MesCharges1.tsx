@@ -16,6 +16,14 @@ import {
   typeRevenu,
 } from '../../mockData/ajoutRevenuData';
 
+const allPossibleTypes = {
+  ...typeCharge,
+  ...typeImpots,
+  ...typeRevenu,
+  ...typeAssurance,
+  ...typeDivers,
+  ...typeBanque,
+};
 /**
 const DATA = [
   {
@@ -47,17 +55,7 @@ const MesCharges1 = () => {
   const { data } = useRealEstateList();
 
   const linkTo = useLinkTo();
-  const onAjoutBien = () => {
-    linkTo('/mes-biens/ajouter');
-  };
-  const allPossibleTypes = {
-    ...typeCharge,
-    ...typeImpots,
-    ...typeRevenu,
-    ...typeAssurance,
-    ...typeDivers,
-    ...typeBanque,
-  };
+
   const houseBudgetLineDeadlines = data?.listRealEstates?.items?.map(
     (item) => item?.budgetLineDeadlines,
   );

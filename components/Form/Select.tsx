@@ -10,6 +10,8 @@ import {
 } from '@ui-kitten/components';
 import { AutoCompleteHandles } from '../AutoComplete/AutoComplete';
 import { SelectFormProps, SelectHandles } from './types';
+import { AvailableValidationRules } from './validation';
+import { Input } from '../UIKittenRewrite/Input';
 
 const SelectComp = React.forwardRef<SelectHandles, SelectFormProps<string | number>>(
   (props: SelectFormProps<string | number>, ref): React.ReactElement => {
@@ -22,6 +24,8 @@ const SelectComp = React.forwardRef<SelectHandles, SelectFormProps<string | numb
       containerStyle,
       data,
       status,
+      validators,
+      placeholder,
       ...selectProps
     } = props;
 
@@ -75,6 +79,7 @@ const SelectComp = React.forwardRef<SelectHandles, SelectFormProps<string | numb
               }
             }
           }}
+          placeholder={(placeholder || '') + ((validators && validators.indexOf(AvailableValidationRules.required) > -1) ? ' *' : '')}
           {...selectProps}
           caption={error && error.message}
           status={error && error.message !== '' ? 'danger' : status}

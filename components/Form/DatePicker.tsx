@@ -8,6 +8,8 @@ import {
 } from '@ui-kitten/components';
 import { DatePickerFormProps } from './types';
 import DateUtils from '../../utils/DateUtils';
+import { AvailableValidationRules } from './validation';
+import { Input } from '../UIKittenRewrite/Input';
 
 const i18n : I18nConfig = {
   dayNames: {
@@ -49,6 +51,7 @@ Datepicker, DatePickerFormProps
       containerStyle,
       defaultValue,
       style,
+      validators,
       ...DatePickerProps
     } = props;
 
@@ -77,7 +80,7 @@ Datepicker, DatePickerFormProps
           caption={error && error.message}
           status={error && error.message ? 'danger' : ''}
           dateService={localeDateService}
-          placeholder={placeholder}
+          placeholder={(placeholder || '') + ((validators && validators.indexOf(AvailableValidationRules.required) > -1) ? ' *' : '')}
           controlStyle={{
             width: '100%',
             shadowColor: 'rgba(190, 190, 190, 0.5)',
@@ -114,7 +117,6 @@ export default DatepickerComp;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     marginVertical: 8,
     flexDirection: 'column',
     marginBottom: 20,

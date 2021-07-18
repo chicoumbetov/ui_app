@@ -14,6 +14,7 @@ import Form from '../../components/Form/Form';
 
 import { sendTemplateEmail } from '../../components/AwsMail/SendMail';
 import { useUser } from '../../src/API/UserContext';
+import { AvailableValidationRules } from '../../components/Form/validation';
 
 type ContactMessageForm = {
   type: string,
@@ -63,17 +64,35 @@ function Contact() {
           >
             Contact
           </Text>
-          <SelectComp name="type" data={contactDATA} placeholder="Motif Contact" size="large" appearance="default" status="primary" />
+          <SelectComp
+            name="type"
+            data={contactDATA}
+            placeholder="Motif Contact"
+            size="large"
+            appearance="default"
+            status="primary"
+            validators={[
+              AvailableValidationRules.required,
+            ]}
+          />
           <View style={{ backgroundColor: 'transparent', marginTop: 15 }}>
             <TextInput
               name="message"
               label="Votre Message"
               placeholder="Saisissez votre texte ici"
+              multiline
+              numberOfLines={5}
+              validators={[
+                AvailableValidationRules.required,
+              ]}
             />
           </View>
           <View style={{ alignItems: 'flex-end', backgroundColor: 'transparent', marginTop: 30 }}>
             <Button onPress={contactMessageForm.handleSubmit((data) => ContactSend(data))} size="large">Envoyer</Button>
           </View>
+          <Text category="c1" appearance="hint">
+            * champs obligatoires
+          </Text>
         </>
       </Form>
     </MaxWidthContainer>

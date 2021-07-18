@@ -108,7 +108,7 @@ const OwnerCompte = (props: MonBienProps) => {
 
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <View style={{
-            backgroundColor: theme['color-warning-500'],
+            backgroundColor: theme['color-danger-500'],
             marginRight: 5,
             height: 30,
             width: 30,
@@ -118,7 +118,7 @@ const OwnerCompte = (props: MonBienProps) => {
             borderRadius: 30,
           }}
           >
-            <Text status="control" style={{ fontSize: 11 }}>
+            <Text status="control" style={{ fontSize: 11, fontWeight: 'bold' }}>
               {nbNotif}
             </Text>
           </View>

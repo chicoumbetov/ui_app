@@ -42,6 +42,7 @@ import {
   StyleType,
 } from '@ui-kitten/components/theme';
 import { TextProps } from '@ui-kitten/components/ui/text/text.component';
+import { TextInputMask, TextInputMaskProps } from 'react-native-masked-text';
 
 type InputStyledProps = Overwrite<StyledComponentProps, {
   appearance?: LiteralUnion<'default'>;
@@ -56,6 +57,8 @@ export interface InputProps extends TextInputProps, InputStyledProps {
   accessoryLeft?: RenderProp<Partial<ImageProps>>;
   accessoryRight?: RenderProp<Partial<ImageProps>>;
   textStyle?: StyleProp<TextStyle>;
+  withMask?: boolean;
+  maskOptions?: TextInputMaskProps;
 }
 
 export type InputElement = React.ReactElement<InputProps>;
@@ -149,17 +152,39 @@ export class Input extends React.Component<InputProps> implements WebEventRespon
   private webEventResponder: WebEventResponderInstance = WebEventResponder.create(this);
 
   public focus = (): void => {
-    this.textInputRef.current?.focus();
+    const { withMask } = this.props;
+    if (withMask) {
+      this.textInputRef.current?.getElement().focus();
+    } else {
+      this.textInputRef.current?.focus();
+    }
   };
 
   public blur = (): void => {
-    this.textInputRef.current?.blur();
+    const { withMask } = this.props;
+    if (withMask) {
+      this.textInputRef.current?.getElement().blur();
+    } else {
+      this.textInputRef.current?.blur();
+    }
   };
 
-  public isFocused = (): boolean => this.textInputRef.current?.isFocused();
+  public isFocused = (): boolean => {
+    const { withMask } = this.props;
+    if (withMask) {
+      this.textInputRef.current?.getElement().isFocused();
+    } else {
+      this.textInputRef.current?.isFocused();
+    }
+  };
 
   public clear = (): void => {
-    this.textInputRef.current?.clear();
+    const { withMask } = this.props;
+    if (withMask) {
+      this.textInputRef.current?.getElement().clear();
+    } else {
+      this.textInputRef.current?.clear();
+    }
   };
 
   // WebEventResponderCallbacks
@@ -259,6 +284,8 @@ export class Input extends React.Component<InputProps> implements WebEventRespon
       caption,
       accessoryLeft,
       accessoryRight,
+      withMask,
+      maskOptions,
       ...textInputProps
     } = this.props;
 
@@ -279,16 +306,32 @@ export class Input extends React.Component<InputProps> implements WebEventRespon
             style={evaStyle.icon}
             component={accessoryLeft}
           />
-          <TextInput
-            ref={this.textInputRef}
-            placeholderTextColor={evaStyle.placeholder.color}
-            {...textInputProps}
-            {...this.webEventResponder.eventHandlers}
-            style={[evaStyle.text, styles.text, platformStyles.text, textStyle]}
-            editable={!textInputProps.disabled}
-            onFocus={this.onTextFieldFocus}
-            onBlur={this.onTextFieldBlur}
-          />
+          {withMask
+            ? (
+              <TextInputMask
+                ref={this.textInputRef}
+                placeholderTextColor={evaStyle.placeholder.color}
+                {...textInputProps}
+                {...this.webEventResponder.eventHandlers}
+                {...maskOptions}
+                style={[evaStyle.text, styles.text, platformStyles.text, textStyle]}
+                editable={!textInputProps.disabled}
+                onFocus={this.onTextFieldFocus}
+                onBlur={this.onTextFieldBlur}
+              />
+            )
+            : (
+              <TextInput
+                ref={this.textInputRef}
+                placeholderTextColor={evaStyle.placeholder.color}
+                {...textInputProps}
+                {...this.webEventResponder.eventHandlers}
+                style={[evaStyle.text, styles.text, platformStyles.text, textStyle]}
+                editable={!textInputProps.disabled}
+                onFocus={this.onTextFieldFocus}
+                onBlur={this.onTextFieldBlur}
+              />
+            )}
           <FalsyFC
             style={evaStyle.icon}
             component={accessoryRight}

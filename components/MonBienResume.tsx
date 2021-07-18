@@ -1,37 +1,51 @@
-import React, { useEffect, useState } from 'react';
+import React, { useMemo } from 'react';
 import {
   Icon, Text,
   // useTheme,
 } from '@ui-kitten/components';
-import { TouchableOpacity, View } from 'react-native';
+import { TouchableOpacity, View, StyleSheet } from 'react-native';
 import { Icon as IconUIKitten } from '@ui-kitten/components/ui/icon/icon.component';
 import { useLinkTo } from '@react-navigation/native';
 import CompteHeader from './CompteHeader/CompteHeader';
 
 import { MonBienProps } from '../types';
 import Card from './Card';
-import { useGetRealEstate, useRentability } from '../src/API/RealEstate';
-import { BankMovementStatus, BudgetLineType, RealEstate } from '../src/API';
-import DateUtils from '../utils/DateUtils';
+import { useRentability } from '../src/API/RealEstate';
+import { BankMovementStatus } from '../src/API';
 import Amount from './Amount';
 import Percentage from './Percentage';
+import {
+  typeAssurance, typeBanque,
+  typeCharge,
+  typeDivers,
+  typeImpots,
+  typeRevenu,
+} from '../mockData/ajoutRevenuData';
+
+// make common list of all possible
+// revenues, expeneses categories, types
+// with their keys, labels
+const allPossibleTypes = {
+  ...typeCharge,
+  ...typeImpots,
+  ...typeRevenu,
+  ...typeAssurance,
+  ...typeDivers,
+  ...typeBanque,
+};
 
 const MonBienResume = (props: MonBienProps) => {
-  const { biens } = props;
+  const { bien } = props;
   // const theme = useTheme();
   const linkTo = useLinkTo();
 
-  const { bienget } = useGetRealEstate(biens?.id);
-  const [bienCharger, setBienCharger] = useState<RealEstate>();
-  useEffect(() => {
-    setBienCharger(bienget);
-  }, [bienget]);
-
-  const allerDetailsBien = (id: string) => {
-    linkTo(`/mes-biens/${id}`);
+  const allerDetailsBien = (id?: string) => {
+    if (id) {
+      linkTo(`/mes-biens/${id}`);
+    }
   };
 
-  const { budgetLineDeadlines } = bienget || {};
+  const { budgetLineDeadlines, bankMovements, budgetLines } = bien || {};
 
   /*
     *   Rentabilité
@@ -39,46 +53,27 @@ const MonBienResume = (props: MonBienProps) => {
     */
   const rentability = useRentability(
     budgetLineDeadlines?.items,
-    (bienget?.purchasePrice || 0) + (bienget?.notaryFee || 0),
+    (bien?.purchasePrice || 0) + (bien?.notaryFee || 0),
   );
 
-  /**
-     *   Summarizing of each expenses and incomes
-     */
-  const currentYear = new Date().getFullYear();
-  const currentMonth = new Date().getMonth();
+  // budgetLines are already sorted in schema.graphql
+  // sortDirection: ASC
+  const nextexpense = budgetLines?.items
+      && budgetLines?.items.length > 0
+      && (budgetLines.items.find((item) => (item && item.amount < 0)));
 
-  const allDataNextExpense = bienCharger?.budgetLineDeadlines?.items
-        && bienCharger?.budgetLineDeadlines?.items?.map((item) => {
-          // years for all existing Eau expenses in whole period
-          const allYears = DateUtils.parseToDateObj(item?.date).getFullYear();
-          const allMonths = DateUtils.parseToDateObj(item?.date).getMonth();
-
-          if (item?.type === BudgetLineType.Expense
-                // eslint-disable-next-line no-underscore-dangle
-                && !item?._deleted
-                && allYears === currentYear
-                && allMonths === currentMonth + 1
-          ) {
-            return item;
-          }
-          return false;
-        });
-
-  const nextexpense = allDataNextExpense?.map((d) => d?.amount)
-    .find((m) => m);
-
-  const dernierMovement = bienCharger?.bankMovements?.items?.find(
-    (item) => { if (item?.status === BankMovementStatus.Ignored) { return false; } return true; },
-  );
+  // useMemo used if big O notation is expensive. higher than n to the power 2
+  const dernierMovement = useMemo(() => bankMovements?.items?.find(
+    (item) => (item && item.status === BankMovementStatus.Affected),
+  ), [bankMovements]);
 
   return (
     <Card style={{ marginTop: 27 }}>
       <TouchableOpacity
-        onPress={() => allerDetailsBien(biens.id)}
+        onPress={() => allerDetailsBien(bien?.id)}
         style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}
       >
-        <CompteHeader title={bienCharger?.name} iconUri={bienCharger?.iconUri} />
+        <CompteHeader title={bien?.name} iconUri={bien?.iconUri} />
         <IconUIKitten
           name="arrow-ios-forward"
           fill="#b5b5b5"
@@ -88,31 +83,30 @@ const MonBienResume = (props: MonBienProps) => {
         />
       </TouchableOpacity>
 
-      <View
-        style={{
-          flexDirection: 'row',
-          marginTop: 22,
-          justifyContent: 'space-between',
-        }}
+      <View style={{
+        flexDirection: 'row',
+        marginTop: 22,
+        justifyContent: 'space-between',
+        alignItems: 'center',
+      }}
       >
         {/**
-           *
-           */}
-        <View>
-          <View
-            style={{
-              alignItems: 'center',
-              flexDirection: 'row',
-            }}
+             *
+             */}
+        <View style={styles.oneThirdBlock}>
+          <Text category="h6" appearance="hint" style={styles.text}>Dernier mouvement</Text>
+          <View style={{
+            flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center',
+          }}
           >
-            <View style={{ width: 22, flexDirection: 'row' }}>
-              <View style={{ width: 7 }}>
-                <IconUIKitten
-                  name="arrow-downward"
-                  fill="#b5b5b5"
-                  style={{ height: 16, width: 16 }}
-                />
-              </View>
+            <View style={{ width: 7 }}>
+              <IconUIKitten
+                name="arrow-downward"
+                fill="#b5b5b5"
+                style={{ height: 16, width: 16 }}
+              />
+            </View>
+            <View style={{ width: 17 }}>
               <IconUIKitten
                 name="arrow-upward"
                 fill="#b5b5b5"
@@ -121,45 +115,54 @@ const MonBienResume = (props: MonBienProps) => {
                 }}
               />
             </View>
-
-            <Text category="h5" status="success">
-              <Amount amount={dernierMovement?.amount || 0} category="h5" />
-            </Text>
+            <Amount amount={dernierMovement?.amount || 0} category="h5" />
           </View>
         </View>
 
         {/**
-           *
-           */}
+             *
+             */}
 
-        <View
-          style={{
+        <View style={styles.oneThirdBlock}>
+          <Text category="h6" appearance="hint" style={styles.text}>
+            Prochaine dépense
+          </Text>
+          <View style={{
+            flex: 1,
             alignItems: 'center',
-            marginRight: 20,
             flexDirection: 'row',
+            justifyContent: 'center',
           }}
-        >
-          <Icon
-            name="arrow-downward"
-            fill="#b5b5b5"
-            style={{ height: 16, width: 16 }}
-          />
-          <Amount category="h5" amount={nextexpense || 0} />
+          >
+            <Icon
+              name="arrow-downward"
+              fill="#b5b5b5"
+              style={{ height: 16, width: 16 }}
+            />
+            <Amount amount={(nextexpense || { amount: 0 }).amount} category="h5" />
+          </View>
         </View>
-
         {/**
-           *
-           */}
-        <View style={{
-          flexDirection: 'row',
-        }}
-        >
-          <Icon
-            name="trending-up"
-            fill="#b5b5b5"
-            style={{ height: 18, width: 18, marginRight: 2 }}
-          />
-          <Percentage amount={rentability} category="h5" status="warning" />
+             *
+             */}
+        <View style={styles.oneThirdBlock}>
+          <Text category="h6" appearance="hint" style={styles.text}>
+            Rentabilité du bien
+          </Text>
+          <View style={{
+            flex: 1,
+            alignItems: 'center',
+            flexDirection: 'row',
+            justifyContent: 'center',
+          }}
+          >
+            <Icon
+              name="trending-up"
+              fill="#b5b5b5"
+              style={{ height: 18, width: 18, marginRight: 2 }}
+            />
+            <Percentage amount={rentability} category="h5" status="warning" />
+          </View>
         </View>
 
       </View>
@@ -170,4 +173,17 @@ const MonBienResume = (props: MonBienProps) => {
 
 export default MonBienResume;
 
-// const styles = StyleSheet.create({ container: { } });
+const styles = StyleSheet.create({
+
+  oneThirdBlock: {
+    flex: 1,
+    marginTop: 3,
+    marginHorizontal: 10,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  text: {
+    justifyContent: 'center',
+    textAlign: 'center',
+  },
+});

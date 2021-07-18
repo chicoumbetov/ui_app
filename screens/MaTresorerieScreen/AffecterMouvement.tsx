@@ -1,11 +1,10 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Text } from '@ui-kitten/components';
 import { TouchableOpacity, View } from 'react-native';
 
 import { useRoute } from '@react-navigation/native';
 import { RouteProp } from '@react-navigation/core/lib/typescript/src/types';
 import moment from 'moment';
-import _ from 'lodash';
 import { useGetRealEstate } from '../../src/API/RealEstate';
 
 import CompteHeader from '../../components/CompteHeader/CompteHeader';
@@ -28,6 +27,15 @@ import {
   typeRevenu,
 } from '../../mockData/ajoutRevenuData';
 
+const allPossibleTypes = {
+  ...typeCharge,
+  ...typeImpots,
+  ...typeRevenu,
+  ...typeAssurance,
+  ...typeDivers,
+  ...typeBanque,
+};
+
 const AffecterMouvement = () => {
   // const { compte } = props;
   // const theme = useTheme();
@@ -46,15 +54,6 @@ const AffecterMouvement = () => {
       }
     }
   }, [route.params.idMouv, movementAffecte]);
-
-  const allPossibleTypes = {
-    ...typeCharge,
-    ...typeImpots,
-    ...typeRevenu,
-    ...typeAssurance,
-    ...typeDivers,
-    ...typeBanque,
-  };
 
   const [currentMvt, setCurrentMvt] = useState<BankMovement>();
 
@@ -131,7 +130,8 @@ const AffecterMouvement = () => {
                     numberOfLines={1}
                   >
                     {`${item.budgetLineDeadlines?.items?.map((deadLine) => (
-                      allPossibleTypes[deadLine.category].label
+                      deadLine
+                      && allPossibleTypes[deadLine.category as keyof typeof allPossibleTypes].label
                     )).join(', ')}`}
 
                   </Text>

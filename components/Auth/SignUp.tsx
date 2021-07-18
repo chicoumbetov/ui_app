@@ -192,6 +192,9 @@ const MySignUp = ({
                 Valider
               </Button>
             </View>
+            <Text category="c1" appearance="hint">
+              * champs obligatoires
+            </Text>
 
           </Layout>
         </Form>

@@ -11,9 +11,6 @@ export enum AvailableValidationRules {
   password = 'password',
   float = 'float',
   negative = 'negative',
-  purchaseYear = 'purchaseYear',
-  purchasePrice = 'purchasePrice',
-  notaryFee = 'notaryFee',
 }
 
 export type ValidationRuleConfig = Array<
@@ -109,24 +106,6 @@ const availableValidationRulesDefinition: ValidationRulesDefinitionMap = {
       },
     },
   }),
-  purchasePrice: (): ValidationRules => ({
-    validate: {
-      purchasePrice: () => "Le prix d'acquisition est requis",
-    },
-  }
-  ),
-  purchaseYear: (): ValidationRules => ({
-    validate: {
-      purchaseYear: () => "L'année d'acquisition est requise",
-    },
-  }
-  ),
-  notaryFee: (): ValidationRules => ({
-    validate: {
-      notaryFee: () => 'Frais de notaire est requis',
-    },
-  }
-  ),
 };
 
 export default availableValidationRulesDefinition;

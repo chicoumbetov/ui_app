@@ -17,6 +17,14 @@ import {
   typeRevenu,
 } from '../../../mockData/ajoutRevenuData';
 
+const allPossibleTypes = {
+  ...typeCharge,
+  ...typeImpots,
+  ...typeRevenu,
+  ...typeAssurance,
+  ...typeDivers,
+  ...typeBanque,
+};
 /**
 const data = [
   { x: '45%', y: 49 },
@@ -130,14 +138,6 @@ const MesCharges3 = () => {
     theme['color-info-200'],
     theme['color-danger-200'],
   ];
-  const allPossibleTypes = {
-    ...typeCharge,
-    ...typeImpots,
-    ...typeRevenu,
-    ...typeAssurance,
-    ...typeDivers,
-    ...typeBanque,
-  };
   return (
     <MaxWidthContainer
       outerViewProps={{

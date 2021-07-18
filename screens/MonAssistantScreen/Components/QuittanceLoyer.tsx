@@ -145,6 +145,9 @@ const QuittanceLoyer = () => {
             </View>
           )) }
 
+          <Text category="c1" appearance="hint">
+            * champs obligatoires
+          </Text>
         </>
       </Form>
 

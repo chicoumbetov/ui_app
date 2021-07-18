@@ -18,12 +18,22 @@ import {
   typeImpots,
   typeRevenu,
 } from '../../../mockData/ajoutRevenuData';
+import TextInput from '../../../components/Form/TextInput';
 
 type BudgetLineDeadLineCardProps = {
   item: BudgetLineDeadline;
   onChecked?: (item: BudgetLineDeadline, checked: boolean) => void;
   editable?: boolean;
   checkedProps?: boolean;
+};
+
+const allPossibleTypes = {
+  ...typeCharge,
+  ...typeImpots,
+  ...typeRevenu,
+  ...typeAssurance,
+  ...typeDivers,
+  ...typeBanque,
 };
 
 const BudgetLineDeadLineCard = (props: BudgetLineDeadLineCardProps) => {
@@ -45,15 +55,6 @@ const BudgetLineDeadLineCard = (props: BudgetLineDeadLineCardProps) => {
 
   const { updateBudgetLineDeadline, mutationLoading } = useUpdateBudgetLineDeadlineMutation();
   const deleteBudgetLineDeadLine = useDeleteBudgetLineDeadlineMutation();
-
-  const allPossibleTypes = {
-    ...typeCharge,
-    ...typeImpots,
-    ...typeRevenu,
-    ...typeAssurance,
-    ...typeDivers,
-    ...typeBanque,
-  };
 
   const saveBudgetLineDeadLine = async (
     data:BudgetLineDeadline,
@@ -176,7 +177,7 @@ const BudgetLineDeadLineCard = (props: BudgetLineDeadLineCardProps) => {
       <View
         style={{ flexDirection: 'row', alignItems: 'center' }}
       >
-        {editable && (
+        {editable && !edit && (
         <CheckBox
           checked={checked}
           onChange={
@@ -192,13 +193,13 @@ const BudgetLineDeadLineCard = (props: BudgetLineDeadLineCardProps) => {
         )}
         <View style={{
           flex: 1,
-          borderRightWidth: 1,
+          borderRightWidth: edit ? 0 : 1,
           borderRightColor: '#b5b5b5',
         }}
         >
 
           <Text
-            style={{ marginBottom: 15 }}
+            style={{ marginBottom: edit ? 0 : 15 }}
             category="h5"
             status="basic"
           >
@@ -211,20 +212,26 @@ const BudgetLineDeadLineCard = (props: BudgetLineDeadLineCardProps) => {
                   name="amount"
                   defaultValue={item.amount.toString()}
                   keyboardType="numeric"
+                  maskOptions={{
+                    type: 'money',
+                    options: {
+                      precision: 2,
+                      separator: ',',
+                      delimiter: ' ',
+                      unit: '',
+                      suffixUnit: ' €',
+                    },
+                  }}
                   onChangeValue={(v) => {
                     if (v) {
                       setAmount(parseFloat(v.toString()));
                     }
                   }}
                 />
-                <Text category="c1" style={{ marginHorizontal: 10 }}>
-                  €
-                </Text>
               </View>
               {isLoyer && (
               <>
                 <Text
-                  style={{ marginBottom: 15 }}
                   category="h5"
                   status="basic"
                 >
@@ -235,18 +242,24 @@ const BudgetLineDeadLineCard = (props: BudgetLineDeadLineCardProps) => {
                     name="rentalCharges"
                     defaultValue={item.rentalCharges.toString()}
                     keyboardType="numeric"
+                    maskOptions={{
+                      type: 'money',
+                      options: {
+                        precision: 2,
+                        separator: ',',
+                        delimiter: ' ',
+                        unit: '',
+                        suffixUnit: ' €',
+                      },
+                    }}
                     onChangeValue={(v) => {
                       if (v) {
                         setRentalCharges(parseFloat(v.toString()));
                       }
                     }}
                   />
-                  <Text category="c1" style={{ marginHorizontal: 10 }}>
-                    €
-                  </Text>
                 </View>
                 <Text
-                  style={{ marginBottom: 15 }}
                   category="h5"
                   status="basic"
                 >
@@ -257,6 +270,16 @@ const BudgetLineDeadLineCard = (props: BudgetLineDeadLineCardProps) => {
                     name="managementFees"
                     defaultValue={item.managementFees.toString()}
                     keyboardType="numeric"
+                    maskOptions={{
+                      type: 'money',
+                      options: {
+                        precision: 2,
+                        separator: ',',
+                        delimiter: ' ',
+                        unit: '',
+                        suffixUnit: ' €',
+                      },
+                    }}
                     onChangeValue={(v) => {
                       if (v) {
                         v = -Math.abs(v);
@@ -264,16 +287,12 @@ const BudgetLineDeadLineCard = (props: BudgetLineDeadLineCardProps) => {
                       }
                     }}
                   />
-                  <Text category="c1" style={{ marginHorizontal: 10 }}>
-                    €
-                  </Text>
                 </View>
               </>
               )}
               {isMensualité && (
               <>
                 <Text
-                  style={{ marginBottom: 15 }}
                   category="h5"
                   status="basic"
                 >
@@ -284,6 +303,16 @@ const BudgetLineDeadLineCard = (props: BudgetLineDeadLineCardProps) => {
                     name="infoCredit.interest"
                     defaultValue={item.infoCredit?.interest.toString()}
                     keyboardType="numeric"
+                    maskOptions={{
+                      type: 'money',
+                      options: {
+                        precision: 2,
+                        separator: ',',
+                        delimiter: ' ',
+                        unit: '',
+                        suffixUnit: ' €',
+                      },
+                    }}
                     onChangeValue={(v) => {
                       if (v) {
                         v = -Math.abs(v);
@@ -291,12 +320,8 @@ const BudgetLineDeadLineCard = (props: BudgetLineDeadLineCardProps) => {
                       }
                     }}
                   />
-                  <Text category="c1" style={{ marginHorizontal: 10 }}>
-                    €
-                  </Text>
                 </View>
                 <Text
-                  style={{ marginBottom: 15 }}
                   category="h5"
                   status="basic"
                 >
@@ -307,6 +332,16 @@ const BudgetLineDeadLineCard = (props: BudgetLineDeadLineCardProps) => {
                     name="infoCredit.assurance"
                     defaultValue={item.infoCredit?.assurance.toString()}
                     keyboardType="numeric"
+                    maskOptions={{
+                      type: 'money',
+                      options: {
+                        precision: 2,
+                        separator: ',',
+                        delimiter: ' ',
+                        unit: '',
+                        suffixUnit: ' €',
+                      },
+                    }}
                     onChangeValue={(v) => {
                       if (v) {
                         v = -Math.abs(v);
@@ -314,16 +349,12 @@ const BudgetLineDeadLineCard = (props: BudgetLineDeadLineCardProps) => {
                       }
                     }}
                   />
-                  <Text category="c1" style={{ marginHorizontal: 10 }}>
-                    €
-                  </Text>
                 </View>
               </>
               )}
               {isTaxFonciere && (
               <>
                 <Text
-                  style={{ marginBottom: 15 }}
                   category="h5"
                   status="basic"
                 >
@@ -334,6 +365,16 @@ const BudgetLineDeadLineCard = (props: BudgetLineDeadLineCardProps) => {
                     name="householdWaste"
                     defaultValue={item.householdWaste.toString()}
                     keyboardType="numeric"
+                    maskOptions={{
+                      type: 'money',
+                      options: {
+                        precision: 2,
+                        separator: ',',
+                        delimiter: ' ',
+                        unit: '',
+                        suffixUnit: ' €',
+                      },
+                    }}
                     onChangeValue={(v) => {
                       if (v) {
                         v = -Math.abs(v);
@@ -341,9 +382,6 @@ const BudgetLineDeadLineCard = (props: BudgetLineDeadLineCardProps) => {
                       }
                     }}
                   />
-                  <Text category="c1" style={{ marginHorizontal: 10 }}>
-                    €
-                  </Text>
                 </View>
 
               </>
@@ -355,6 +393,7 @@ const BudgetLineDeadLineCard = (props: BudgetLineDeadLineCardProps) => {
 
         </View>
 
+        {!edit && (
         <View
           style={{
             flex: 1,
@@ -369,6 +408,7 @@ const BudgetLineDeadLineCard = (props: BudgetLineDeadLineCardProps) => {
           <Text category="h6" status="basic">{`${moment(item.date).format('DD/MM/YYYY')}`}</Text>
 
         </View>
+        ) }
       </View>
       {editable && (
       <View style={{
@@ -376,10 +416,11 @@ const BudgetLineDeadLineCard = (props: BudgetLineDeadLineCardProps) => {
         flexDirection: 'row',
         justifyContent: 'space-between',
         padding: 25,
+        paddingVertical: edit ? 16.5 : 25,
         borderBottomStartRadius: 10,
         borderBottomEndRadius: 10,
         alignItems: 'center',
-        marginTop: 15,
+        marginTop: edit ? -5 : 15,
       }}
       >
         <Text category="h6" status="warning">En attente</Text>

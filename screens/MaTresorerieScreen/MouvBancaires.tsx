@@ -9,7 +9,7 @@ import {
   Button, CheckBox, Layout, Text, useTheme,
 } from '@ui-kitten/components';
 import {
-  FlatList, SectionList, TouchableOpacity, View,
+  SectionList, TouchableOpacity, View,
 } from 'react-native';
 
 import { Icon as IconUIKitten } from '@ui-kitten/components/ui/icon/icon.component';
@@ -29,7 +29,6 @@ import {
   BankMovement,
   BankMovementStatus,
   BudgetLineDeadline,
-  BudgetLineType,
 } from '../../src/API';
 import Separator from '../../components/Separator';
 import Amount from '../../components/Amount';
@@ -45,10 +44,10 @@ const MouvBancaires = () => {
   const route = useRoute<RouteProp<TabMaTresorerieParamList, 'mouv-bancaires'>>();
   const { bienget } = useGetRealEstate(route.params.id);
   const {
-    bankMouvement: movementPasAffect, fetchMoreBankMovements, nextToken, refetch,
+    bankMouvement: movementPasAffect, fetchMoreBankMovements, nextToken,
   } = useGetBankMovementsByBankAccountId(route.params.idCompte, BankMovementStatus.Unkown, 'cache-and-network');
   const { bankAccount } = useGetBankAccount(route.params.idCompte);
-  const useUpdateBankMouvement = useUpdateBankMovement(BankMovementStatus.Unkown);
+  const useUpdateBankMouvement = useUpdateBankMovement();
 
   const [bankAccountCharger, setBankAccountCharger] = useState<BankAccount>();
 
@@ -160,8 +159,8 @@ const MouvBancaires = () => {
               flexDirection: 'row',
               alignItems: 'center',
               // eslint-disable-next-line no-underscore-dangle
-              borderWidth: isChecked(item.id) ? (1) : (0),
-              borderColor: 'red',
+              borderWidth: 1,
+              borderColor: isChecked(item.id) ? 'red' : 'transparent',
             }}
           >
             {ignoreClicked
@@ -179,7 +178,11 @@ const MouvBancaires = () => {
 
             <TouchableOpacity
               onPress={() => {
-                if (ignoreClicked) { checkFunction(!isChecked(item.id), item); } else { onEditMouvement(item); }
+                if (ignoreClicked) {
+                  checkFunction(!isChecked(item.id), item);
+                } else {
+                  onEditMouvement(item);
+                }
               }}
               style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}
             >
@@ -219,19 +222,7 @@ const MouvBancaires = () => {
           renderSectionHeader={() => (
             <Layout>
               {ignoreClicked ? (
-                <View style={{ flexDirection: 'row' }}>
-                  <Button
-                    size="large"
-                    style={{ flex: 1 }}
-                    onPress={() => {
-                      setIgnoreClicked(!ignoreClicked);
-                      setChecked([]);
-                    }}
-                    appearance="outline"
-                    status="danger"
-                  >
-                    Annuler
-                  </Button>
+                <View style={{ flexDirection: 'column' }}>
                   <Button
                     size="large"
                     style={{ flex: 1 }}
@@ -243,6 +234,16 @@ const MouvBancaires = () => {
                     status="danger"
                   >
                     Ignorer des mouvements
+                  </Button>
+                  <Button
+                    onPress={() => {
+                      setIgnoreClicked(!ignoreClicked);
+                      setChecked([]);
+                    }}
+                    appearance="ghost"
+                    status="danger"
+                  >
+                    Annuler
                   </Button>
                 </View>
               ) : (
@@ -367,6 +368,7 @@ const MouvBancaires = () => {
         before={<></>}
         noSafeArea
         scrollable={false}
+        heightPercentage={0.92}
         visible={currentMvt !== undefined}
         onClose={() => setCurrentMvt(undefined)}
       >

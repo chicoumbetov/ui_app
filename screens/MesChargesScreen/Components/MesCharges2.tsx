@@ -17,6 +17,15 @@ import {
   typeRevenu,
 } from '../../../mockData/ajoutRevenuData';
 
+const allPossibleTypes = {
+  ...typeCharge,
+  ...typeImpots,
+  ...typeRevenu,
+  ...typeAssurance,
+  ...typeDivers,
+  ...typeBanque,
+};
+
 const i18n : I18nConfig = {
   dayNames: {
     short: ['Di', 'Lu', 'Ma', 'Me', 'Je', 'Ve', 'Sa'],
@@ -47,15 +56,6 @@ const MesCharges2 = () => {
   // console.log('params from useRoute', params);
   const titlePass = params;
   moment.locale('fr');
-
-  const allPossibleTypes = {
-    ...typeCharge,
-    ...typeImpots,
-    ...typeRevenu,
-    ...typeAssurance,
-    ...typeDivers,
-    ...typeBanque,
-  };
 
   const navigation = useNavigation();
 

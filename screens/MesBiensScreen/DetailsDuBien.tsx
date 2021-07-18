@@ -9,7 +9,7 @@ import {
   Text, Icon as IconUIKitten, useTheme, CheckBox, Modal,
 } from '@ui-kitten/components';
 import {
-  Alert, Platform, StatusBar,
+  Alert, Platform,
   StyleSheet, TouchableOpacity, View,
 } from 'react-native';
 import {
@@ -49,6 +49,25 @@ import { useDeletePendingInvitationMutation } from '../../src/API/PendingInvitat
 import { typeBien } from '../../mockData/ajoutBienData';
 import Percentage from '../../components/Percentage';
 import Button from '../../components/Button';
+import {
+  typeAssurance, typeBanque,
+  typeCharge,
+  typeDivers,
+  typeImpots,
+  typeRevenu,
+} from '../../mockData/ajoutRevenuData';
+
+// make common list of all possible
+// revenues, expeneses categories, types
+// with their keys, labels
+const allPossibleTypes = {
+  ...typeCharge,
+  ...typeImpots,
+  ...typeRevenu,
+  ...typeAssurance,
+  ...typeDivers,
+  ...typeBanque,
+};
 
 function DetailsBien() {
   const navigation = useNavigation();
@@ -259,10 +278,10 @@ function DetailsBien() {
     }
   };
 
+  const { bankMovements, budgetLineDeadlines, budgetLines } = bienget || {};
+
   // budgetLines are already sorted in schema.graphql
   // sortDirection: ASC
-
-  const { bankMovements, budgetLineDeadlines, budgetLines } = bienget || {};
   const nextexpense = budgetLines?.items
       && budgetLines?.items.length > 0
       && (budgetLines.items.find((item) => (item && item.amount < 0)));
@@ -350,25 +369,78 @@ function DetailsBien() {
               <Card style={{ flexDirection: 'row' }}>
                 <View style={styles.oneThirdBlock}>
                   <Text category="h6" appearance="hint" style={styles.text}>Dernier mouvement</Text>
-                  {dernierMovement ? (
-                    <Amount amount={dernierMovement?.amount || 0} category="h5" />
-                  ) : (
-                    <Amount amount={0} category="h5" />
-                  )}
+                  <View style={{
+                    flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center',
+                  }}
+                  >
+                    <View style={{ width: 7 }}>
+                      <IconUIKitten
+                        name="arrow-downward"
+                        fill="#b5b5b5"
+                        style={{ height: 16, width: 16 }}
+                      />
+                    </View>
+                    <View style={{ width: 17 }}>
+                      <IconUIKitten
+                        name="arrow-upward"
+                        fill="#b5b5b5"
+                        style={{
+                          height: 16, width: 16, marginRight: 8,
+                        }}
+                      />
+                    </View>
+                    {dernierMovement ? (
+                      <Amount amount={Math.round(dernierMovement?.amount * 100) / 100 || 0} category="h5" />
+                    ) : (
+                      <Text category="h5" status="primary" style={{ marginRight: 8 }}>0,00 €</Text>
+                    )}
+                  </View>
                 </View>
 
                 <View style={styles.oneThirdBlock}>
                   <Text category="h6" appearance="hint" style={styles.text}>
                     Prochaine dépense
                   </Text>
-                  <Amount amount={(nextexpense || { amount: 0 }).amount} category="h5" />
+                  <View style={{
+                    flex: 1,
+                    alignItems: 'center',
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                  }}
+                  >
+                    <IconUIKitten
+                      name="arrow-downward"
+                      fill="#b5b5b5"
+                      style={{ height: 16, width: 16 }}
+                    />
+                    <Amount amount={(nextexpense || { amount: 0 }).amount} category="h5" />
+                  </View>
+                  {nextexpense
+                  && (
+                  <Text category="h6" appearance="hint" style={styles.text}>
+                    {allPossibleTypes[nextexpense.category as keyof typeof allPossibleTypes].label}
+                  </Text>
+                  )}
                 </View>
 
                 <View style={styles.oneThirdBlock}>
                   <Text category="h6" appearance="hint" style={styles.text}>
                     Rentabilité du bien
                   </Text>
-                  <Percentage amount={rentability} category="h5" status="warning" style={{ marginTop: 14 }} />
+                  <View style={{
+                    flex: 1,
+                    alignItems: 'center',
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                  }}
+                  >
+                    <IconUIKitten
+                      name="trending-up"
+                      fill="#b5b5b5"
+                      style={{ height: 18, width: 18, marginRight: 2 }}
+                    />
+                    <Percentage amount={rentability} category="h5" status="warning" />
+                  </View>
                 </View>
               </Card>
 
@@ -927,11 +999,11 @@ const styles = StyleSheet.create({
   oneThirdBlock: {
     flex: 1,
     marginTop: 3,
+    marginHorizontal: 10,
     justifyContent: 'space-between',
     alignItems: 'center',
   },
   text: {
-    width: 94,
     justifyContent: 'center',
     textAlign: 'center',
   },

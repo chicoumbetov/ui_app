@@ -6,7 +6,8 @@
 import * as React from 'react';
 import { Text } from '@ui-kitten/components';
 
-import { View } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import Informations from './Components/Informations';
 import Abonnement from './Components/Abonnement';
 import MaxWidthContainer from '../../components/MaxWidthContainer';
@@ -17,6 +18,7 @@ import Separator from '../../components/Separator';
 
 export default function MonCompte() {
   const { user } = useUser();
+  const navigation = useNavigation();
 
   return (
     <MaxWidthContainer
@@ -47,6 +49,16 @@ export default function MonCompte() {
         <Text category="h2" style={{ marginTop: 15 }}>
           {user?.firstname || undefined}
         </Text>
+
+        <TouchableOpacity onPress={() => navigation.navigate('modifier-info-3')}>
+          <Text
+            category="h5"
+            status="info"
+            style={{ paddingVertical: 18 }}
+          >
+            Modifier la photo de profil
+          </Text>
+        </TouchableOpacity>
       </View>
       <Separator />
 

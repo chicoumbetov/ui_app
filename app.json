@@ -2,7 +2,7 @@
   "expo": {
     "name": "Omedom",
     "slug": "omedom",
-    "version": "1.0.6",
+    "version": "1.0.7",
     "orientation": "portrait",
     "icon": "./assets/Icones_omedom/logo_icon_appli.png",
     "scheme": "omedom",
@@ -37,7 +37,7 @@
         "backgroundColor": "#ffffff"
       },
       "package": "com.djbuch.omedom",
-      "versionCode" : 2
+      "versionCode" : 3
     },
     "web": {
       "favicon": "./assets/favicon-web-32x32.png",

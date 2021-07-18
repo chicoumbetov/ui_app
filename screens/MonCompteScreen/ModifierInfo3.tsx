@@ -110,7 +110,7 @@ const Informations = () => {
         />
       </View>
 
-      <Text category="h5" appearance="hint">Choisir une icone</Text>
+      <Text category="h5" appearance="hint">Choisissez une des icones par défaut</Text>
 
       <View style={{
         flexDirection: 'row', marginTop: 21, justifyContent: 'space-around', alignItems: 'center',
@@ -133,6 +133,8 @@ const Informations = () => {
 
       </View>
 
+      <Text category="h5" appearance="hint" style={{ marginTop: 21 }}>Ou personnalisez votre photo de profil</Text>
+
       {Platform.OS !== 'web' && (
       <TouchableOpacity
         onPress={() => {
@@ -146,7 +148,7 @@ const Informations = () => {
 
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: 20 }}>
         <TouchableOpacity onPress={() => { pickImage(); }}>
-          <Text category="h5" status="info">Ajouter une photo</Text>
+          <Text category="h5" status="info">Choisir une photo</Text>
         </TouchableOpacity>
         {avatarImage.indexOf('default::') <= -1 && (
         <TouchableOpacity onPress={() => {

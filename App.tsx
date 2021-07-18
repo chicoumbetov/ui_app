@@ -1,16 +1,23 @@
 // Obligatoire pour UUID en React Native
 import 'react-native-get-random-values';
 import { StatusBar } from 'expo-status-bar';
-import React, { FC, useRef } from 'react';
+import React, {
+  FC, useEffect, useRef, useState,
+} from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { Platform } from 'react-native';
+import {
+  Alert, AppState, AppStateStatus, Platform,
+} from 'react-native';
 import AppLoading from 'expo-app-loading';
 import {
-  Layout, ApplicationProvider, IconRegistry, ModalService,
+  ApplicationProvider, IconRegistry, Layout, ModalService,
 } from '@ui-kitten/components';
 import 'moment/locale/fr';
 
 import * as eva from '@eva-design/eva';
+
+import * as Updates from 'expo-updates';
+import { UpdateEventType } from 'expo-updates';
 
 import { EvaIconsPack } from '@ui-kitten/eva-icons';
 
@@ -96,6 +103,68 @@ function App() {
   const getTmpPasswd = () => tmpPasswd.current;
 
   const assetLoader = useAssetLoader({ fonts });
+
+  useEffect(() => {
+    if (Platform.OS !== 'web') {
+      return Updates.addListener((event) => {
+        if (event.type === UpdateEventType.UPDATE_AVAILABLE) {
+          Alert.alert(
+            'Mise à jour',
+            'Une mise à jour est disponible. L\'application va être relancée.\n'
+              + 'Si vous annulez cette action, pensez à relancer l\'application vous même.',
+            [
+              { text: 'OK', onPress: () => Updates.reloadAsync() },
+              { text: 'Annuler', style: 'cancel', onPress: () => {} },
+            ],
+            { cancelable: true },
+          );
+        }
+      });
+    }
+    return () => {};
+  }, []);
+
+  const appState = useRef(AppState.currentState);
+  useEffect(() => {
+    AppState.addEventListener('change', handleAppStateChange);
+
+    return () => {
+      AppState.removeEventListener('change', handleAppStateChange);
+    };
+  }, []);
+
+  const [isLoadingUpdate, setIsLoadingUpdate] = useState(false);
+
+  const handleAppStateChange = async (nextAppState: AppStateStatus) => {
+    if (
+      appState.current.match(/inactive|background/)
+        && nextAppState === 'active'
+    ) {
+      if (Platform.OS !== 'web' && !isLoadingUpdate) {
+        const newUpdate = await Updates.checkForUpdateAsync();
+        if (newUpdate.isAvailable) {
+          setIsLoadingUpdate(true);
+          const update = await Updates.fetchUpdateAsync();
+          if (update.isNew) {
+            setIsLoadingUpdate(false);
+            Alert.alert(
+              'Mise à jour',
+              'Une mise à jour est disponible. L\'application va être relancée.\n'
+                + 'Si vous annulez cette action, pensez à relancer l\'application vous même.',
+              [
+                { text: 'OK', onPress: () => Updates.reloadAsync() },
+                { text: 'Annuler', style: 'cancel', onPress: () => {} },
+              ],
+              { cancelable: true },
+            );
+          } else {
+            setIsLoadingUpdate(false);
+          }
+        }
+      }
+    }
+    appState.current = nextAppState;
+  };
 
   if (!assetLoader.isReady) {
     if (Platform.OS !== 'web') {

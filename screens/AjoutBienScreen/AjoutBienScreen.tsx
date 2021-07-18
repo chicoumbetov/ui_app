@@ -319,9 +319,7 @@ function AjoutBienScreen() {
               />
             </View>
             <View style={{ marginLeft: 10 }}>
-              <Text category="h5" appearance="hint">
-                Choisir une icone
-              </Text>
+              <Text category="h5" appearance="hint">Choisissez une des icones par défaut</Text>
             </View>
             <View style={{
               flexDirection: 'row', marginTop: 21, justifyContent: 'space-evenly', marginLeft: -6,
@@ -356,6 +354,9 @@ function AjoutBienScreen() {
               ))}
             </Layout>
 
+            <View style={{ marginLeft: 10, marginVertical: 21 }}>
+              <Text category="h5" appearance="hint">Ou personnalisez l'icone de votre bien</Text>
+            </View>
             <View style={{ paddingHorizontal: 23 }}>
               {Platform.OS !== 'web' && (
               <TouchableOpacity onPress={() => onTakePicture()} style={{ marginVertical: 30.5 }}>
@@ -394,7 +395,7 @@ function AjoutBienScreen() {
 
               <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: 7 }}>
                 <TouchableOpacity onPress={() => { pickImage(); }}>
-                  <Text category="h5" status="info">Ajouter une photo</Text>
+                  <Text category="h5" status="info">Choisir une photo</Text>
                 </TouchableOpacity>
                 {image.indexOf('default::') <= -1 && (
                 <TouchableOpacity onPress={() => {

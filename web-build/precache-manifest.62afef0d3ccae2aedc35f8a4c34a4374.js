@@ -1,7 +1,7 @@
 self.__precacheManifest = [
   {
-    "revision": "a2171629249cc258ea06",
-    "url": "/static/js/app.93f67309.chunk.js"
+    "revision": "053c74f1fc15a551f143",
+    "url": "/static/js/app.e21542ee.chunk.js"
   },
   {
     "revision": "66090dc4495d4ce3dfb9",
@@ -104,7 +104,7 @@ self.__precacheManifest = [
     "url": "/./fonts/SimpleLineIcons.ttf"
   },
   {
-    "revision": "5394017a27ea53c088c7a13e5f637c31",
+    "revision": "46d42ebdf6f0e961cbbdef313fbb9b2e",
     "url": "/index.html"
   },
   {
@@ -120,12 +120,12 @@ self.__precacheManifest = [
     "url": "/register-service-worker.js"
   },
   {
-    "revision": "145340a93f81660dd3fa6426052670af",
-    "url": "/static/js/app.93f67309.chunk.js.LICENSE.txt"
-  },
-  {
     "revision": "9000a4cfda8e55c84e3fdb69cdaf9880",
     "url": "/static/js/2.f13c637b.chunk.js.LICENSE.txt"
+  },
+  {
+    "revision": "145340a93f81660dd3fa6426052670af",
+    "url": "/static/js/app.e21542ee.chunk.js.LICENSE.txt"
   },
   {
     "revision": "c39a8f8c21a2d5d96dc846f6d20036ad",

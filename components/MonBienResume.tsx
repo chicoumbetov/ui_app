@@ -141,6 +141,12 @@ const MonBienResume = (props: MonBienProps) => {
             />
             <Amount amount={(nextexpense || { amount: 0 }).amount} category="h5" />
           </View>
+          {nextexpense
+          && (
+          <Text category="h6" appearance="hint" style={styles.text}>
+            {allPossibleTypes[nextexpense.category as keyof typeof allPossibleTypes].label}
+          </Text>
+          )}
         </View>
         {/**
              *

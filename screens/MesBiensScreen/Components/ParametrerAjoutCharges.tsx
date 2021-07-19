@@ -431,7 +431,7 @@ const ParametrerAjoutCharges = () => {
                           setFrequenceShow(true);
                         }
                       }}
-                      placeholder="Type de frais"
+                      placeholder="Type de frais bancaire"
                       size="large"
                       appearance="default"
                       status="primary"

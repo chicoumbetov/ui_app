@@ -217,15 +217,15 @@ function AjoutBienScreen() {
         setStatutShow(true);
         setPourcentageDetentionShow(true);
       }
-    }, []);
-    if (bienget.ownName) {
-      if (bienget.detentionPart === 100) {
-        detentionPartDefault = 'proprietaire_integral';
-        setPourcentageDetentionShow(false);
-      } else {
-        detentionPartDefault = 'indivision';
+      if (bienget.ownName) {
+        if (bienget.detentionPart === 100) {
+          detentionPartDefault = 'proprietaire_integral';
+          setPourcentageDetentionShow(false);
+        } else {
+          detentionPartDefault = 'indivision';
+        }
       }
-    }
+    }, [bienget]);
   }
 
   const onTakePicture = () => {
@@ -289,7 +289,7 @@ function AjoutBienScreen() {
            Identité 1/3  ( etape1 )
            * */}
           <MotiView
-            animate={{ height: (etape === 0 ? 560 : 0) }}
+            animate={{ height: (etape === 0 ? 600 : 0) }}
             style={{
               overflow: 'hidden',
               flexDirection: 'column',

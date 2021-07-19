@@ -155,36 +155,35 @@ const MesCharges2 = () => {
         </Radio>
       </RadioGroup>
 
-      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-        <View style={{ flex: 1, marginRight: 15 }}>
-          <Text category="h5">Sélectionnez les dates</Text>
-        </View>
-        <RangeDatepicker
-          range={range}
-          min={new Date(1900, 0, 1)}
-          max={new Date((new Date()).getFullYear() + 1, 0, 1)}
+      <Text category="h5">Sélectionnez les dates</Text>
+
+      <RangeDatepicker
+        range={range}
+        min={new Date(1900, 0, 1)}
+        max={new Date((new Date()).getFullYear() + 1, 0, 1)}
             // onChangeValue={(nextDate) => console.log('nextDate', nextDate)}
-          dateService={localeDateService}
-          onSelect={
+        dateService={localeDateService}
+        onSelect={
               (nextRange) => {
                 setRange(nextRange);
                 controlRange(nextRange);
                 // console.log('nextRange', nextRange);
               }
             }
-          style={{
-            shadowColor: 'rgba(190, 190, 190, 0.5)',
-            shadowOffset: {
-              width: 0,
-              height: 1,
-            },
-            shadowRadius: 2,
-            shadowOpacity: 1,
-            elevation: 2,
-            width: 240,
-          }}
-        />
-      </View>
+        style={{
+          flex: 1,
+          marginTop: 10,
+          shadowColor: 'rgba(190, 190, 190, 0.5)',
+          shadowOffset: {
+            width: 0,
+            height: 1,
+          },
+          shadowRadius: 2,
+          shadowOpacity: 1,
+          elevation: 2,
+          // width: 240,
+        }}
+      />
 
       <View style={styles.buttonRight}>
         <Button
@@ -211,10 +210,9 @@ const styles = StyleSheet.create({
   },
   containerRadio: {
     flexDirection: 'row',
-    marginTop: 30,
+    marginTop: 20,
     marginBottom: 15,
     justifyContent: 'space-between',
-    backgroundColor: 'transparent',
   },
   buttonRight: { marginTop: 20, alignItems: 'flex-end' },
 });

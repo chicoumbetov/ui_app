@@ -158,9 +158,18 @@ const MesCharges3 = () => {
       </Text>
       <View style={{
         backgroundColor: theme['color-basic-100'],
-        paddingHorizontal: 80,
+        padding: 20,
         marginVertical: 12,
-        paddingVertical: 40,
+        alignItems: 'center',
+        borderRadius: 15,
+        shadowColor: 'rgba(190, 190, 190, 0.5)',
+        shadowOffset: {
+          width: 0,
+          height: 1,
+        },
+        shadowRadius: 2,
+        shadowOpacity: 1,
+        elevation: 2,
       }}
       >
 
@@ -178,8 +187,12 @@ const MesCharges3 = () => {
           labelComponent={(
             <VictoryLabel
               style={[
-                { fill: 'black', fontSize: 16, fontFamily: 'confortaa_SemiBold' },
-                { fill: '#b5b5b5', fontSize: 16, fontFamily: 'confortaa_SemiBold' },
+                {
+                  fill: 'black', fontSize: 16, // fontFamily: 'confortaa_SemiBold'
+                },
+                {
+                  fill: '#b5b5b5', fontSize: 16, // fontFamily: 'confortaa_SemiBold'
+                },
               ]}
             />
           )}

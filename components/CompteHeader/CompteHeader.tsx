@@ -4,7 +4,6 @@ import {
   TouchableOpacity, TouchableOpacityProps, View, ViewProps,
 } from 'react-native';
 import { useLinkTo } from '@react-navigation/native';
-import MaxWidthContainer from '../MaxWidthContainer';
 import AutoAvatar from '../AutoAvatar';
 
 type TitleProps = {

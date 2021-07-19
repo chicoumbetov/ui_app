@@ -158,7 +158,7 @@ const MesCharges2 = () => {
       </RadioGroup>
 
       <Text category="h5">Sélectionnez les dates</Text>
-      {/**
+
       <RangeDatepicker
         range={range}
         min={new Date(1900, 0, 1)}
@@ -186,13 +186,15 @@ const MesCharges2 = () => {
           // width: 240,
         }}
       />
-      */}
+
+      {/**
       <FRangeDatePicker
         name="date"
         range={range}
         validators={[AvailableValidationRules.required]}
         icon="calendar-outline"
       />
+      */}
 
       <View style={styles.buttonRight}>
         <Button

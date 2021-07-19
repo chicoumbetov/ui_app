@@ -185,15 +185,7 @@ const MonBien = (props: MonBienProps) => {
 
                 <RotatingIcon name="arrow-ios-downward-outline" uikitten state={opened} width={24} height={25} fill="#b5b5b5" />
               </View>
-              {opened
-              && (
-              <View style={{
-                borderBottomWidth: 0.5,
-                borderBottomColor: '#b5b5b5',
-                marginVertical: 20,
-              }}
-              />
-              )}
+
               <View style={{
                 flexDirection: 'row',
                 marginTop: 22,
@@ -255,7 +247,7 @@ const MonBien = (props: MonBienProps) => {
                     }
                   }}
                   >
-                    <Text category="h6" status="info">Affecter</Text>
+                    <Text category="c1" status="info">Affecter</Text>
                   </TouchableOpacity>
                   )}
                 </View>
@@ -285,7 +277,7 @@ const MonBien = (props: MonBienProps) => {
 
                   {opened && (
                   <TouchableOpacity onPress={() => linkTo(`/mes-biens/${bienget?.id}/budget`)}>
-                    <Text category="h6" status="info">En savoir +</Text>
+                    <Text category="c1" status="info">En savoir +</Text>
                   </TouchableOpacity>
                   )}
                 </View>
@@ -313,7 +305,7 @@ const MonBien = (props: MonBienProps) => {
 
                   {opened && (
                   <TouchableOpacity onPress={allerMesRapports}>
-                    <Text category="h6" status="info">Mes rapports</Text>
+                    <Text category="c1" status="info">Mes rapports</Text>
                   </TouchableOpacity>
                   )}
                 </View>
@@ -361,8 +353,6 @@ const styles = StyleSheet.create({
   // Part I
   oneThirdBlock: {
     flex: 1,
-    marginTop: 3,
-    marginHorizontal: 10,
     justifyContent: 'space-between',
     alignItems: 'center',
   },

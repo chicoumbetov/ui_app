@@ -268,7 +268,6 @@ function AjoutBienScreen() {
        *  Identité 1/3 title part
        */}
           <TouchableOpacity
-
             style={[
               styles.item,
               {
@@ -297,14 +296,16 @@ function AjoutBienScreen() {
             }}
             transition={{ type: 'timing', duration: 500 }}
           >
-            <TextInput
-              containerStyle={{ marginLeft: 23, marginRight: 22 }}
-              name="name"
-              placeholder="Le nom du bien"
-              validators={[
-                AvailableValidationRules.required,
-              ]}
-            />
+            <View style={{ height: 55 }}>
+              <TextInput
+                containerStyle={{ marginLeft: 23, marginRight: 22 }}
+                name="name"
+                placeholder="Le nom du bien"
+                validators={[
+                  AvailableValidationRules.required,
+                ]}
+              />
+            </View>
 
             <View style={{
               alignItems: 'center',
@@ -337,8 +338,8 @@ function AjoutBienScreen() {
                 </TouchableOpacity>
               ))}
             </View>
-            <Layout style={{
-              flexDirection: 'row', marginTop: 34, justifyContent: 'space-evenly', marginLeft: -6, backgroundColor: 'transparent',
+            <View style={{
+              flexDirection: 'row', marginTop: 34, justifyContent: 'space-evenly', marginLeft: -6,
             }}
             >
               {['Chateau', 'Manoir', 'MaisonBleu', 'Riad', 'Voiture'].map((icon) => (
@@ -352,7 +353,7 @@ function AjoutBienScreen() {
                   />
                 </TouchableOpacity>
               ))}
-            </Layout>
+            </View>
 
             <View style={{ marginLeft: 10, marginVertical: 21 }}>
               <Text category="h5" appearance="hint">Ou personnalisez l'icone de votre bien</Text>

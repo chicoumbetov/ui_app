@@ -4,7 +4,6 @@ import { View } from 'react-native';
 
 import Card from '../../../components/Card';
 
-import MaxWidthContainer from '../../../components/MaxWidthContainer';
 import { useGetUser } from '../../../src/API/User';
 import ActivityIndicator from '../../../components/ActivityIndicator';
 
@@ -37,23 +36,19 @@ const UserSharedCard = (props: MonBudgetProps) => {
   }
   return (
 
-    <MaxWidthContainer
-      withScrollView="keyboardAware"
-      outerViewProps={{
-        showsVerticalScrollIndicator: false,
-        style: {
-          backgroundColor: 'transparent',
-          marginBottom: 15,
-          borderRadius: 15,
-          shadowColor: 'rgba(190, 190, 190, 0.5)',
-          shadowOffset: {
-            width: 0,
-            height: 1,
-          },
-          shadowRadius: 2,
-          shadowOpacity: 1,
-          elevation: 2,
+    <View
+      style={{
+        backgroundColor: 'transparent',
+        marginBottom: 15,
+        borderRadius: 15,
+        shadowColor: 'rgba(190, 190, 190, 0.5)',
+        shadowOffset: {
+          width: 0,
+          height: 1,
         },
+        shadowRadius: 2,
+        shadowOpacity: 1,
+        elevation: 2,
       }}
     >
       {loading ? (
@@ -74,14 +69,14 @@ const UserSharedCard = (props: MonBudgetProps) => {
             style={{
               height: 50,
               width: 50,
-              marginRight: 12,
+              marginRight: 5,
               marginBottom: 10,
               borderRadius: 25,
               overflow: 'hidden',
             }}
           />
           {supprimer && !isCurrentUser && (
-          <View style={{ justifyContent: 'center', paddingHorizontal: 14, width: 50 }}>
+          <View style={{ justifyContent: 'center', paddingHorizontal: 5, width: 34 }}>
             <CheckBox
               checked={checked}
               status="danger"
@@ -95,10 +90,10 @@ const UserSharedCard = (props: MonBudgetProps) => {
           </View>
           )}
           <View style={{ flexDirection: 'column' }}>
-            <Text category="p1" status="basic">
+            <Text category="c1" status="basic">
               {name || email}
             </Text>
-            <Text category="p2" appearance="hint">
+            <Text category="c1" appearance="hint">
               {admin ? ('Admin') : ('Lecture Seule')}
             </Text>
           </View>
@@ -106,7 +101,7 @@ const UserSharedCard = (props: MonBudgetProps) => {
         </Card>
       )}
 
-    </MaxWidthContainer>
+    </View>
   );
 };
 

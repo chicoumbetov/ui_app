@@ -19,6 +19,7 @@ import { InvitationType } from '../../../src/API';
 import { TabMesBiensParamList } from '../../../types';
 import { useGetRealEstate } from '../../../src/API/RealEstate';
 import Button from '../../../components/Button';
+import Separator from '../../../components/Separator';
 
 type ShareRealEstateForm = {
   email : string,
@@ -85,6 +86,7 @@ const PartagerBien = () => {
           </Text>
         </View>
       </Layout>
+      <Separator />
 
       {/**
        *  II. Ajouter un utilisateur
@@ -94,14 +96,16 @@ const PartagerBien = () => {
           <Text category="h2">
             Ajouter un utilisateur
           </Text>
-
-          <TextInputComp
-            name="email"
-            placeholder="Saisissez le mail de l'utilisateur"
-            style={{ marginVertical: 15 }}
-          />
-          <SelectComp name="type" data={typeAcces} placeholder="Type d'accès" size="large" appearance="default" status="primary" />
-
+          <View style={{ height: 70 }}>
+            <TextInputComp
+              name="email"
+              placeholder="Saisissez le mail de l'utilisateur"
+              style={{ marginVertical: 15 }}
+            />
+          </View>
+          <View style={{ height: 70 }}>
+            <SelectComp name="type" data={typeAcces} placeholder="Type d'accès" size="large" appearance="default" status="primary" />
+          </View>
           <View style={styles.buttonRight}>
             <Button
               loading={createPendingInvitation.mutationLoading}
@@ -122,7 +126,6 @@ export default PartagerBien;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#f6f6f6',
     marginBottom: 12,
     paddingVertical: 25,
     paddingHorizontal: 26,

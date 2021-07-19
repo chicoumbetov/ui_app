@@ -288,7 +288,7 @@ function AjoutBienScreen() {
            Identité 1/3  ( etape1 )
            * */}
           <MotiView
-            animate={{ height: (etape === 0 ? 560 : 0) }}
+            animate={{ height: (etape === 0 ? 580 : 0) }}
             style={{
               overflow: 'hidden',
               flexDirection: 'column',
@@ -309,6 +309,7 @@ function AjoutBienScreen() {
 
             <View style={{
               alignItems: 'center',
+              marginTop: 10,
               marginBottom: 34,
             }}
             >
@@ -532,6 +533,7 @@ function AjoutBienScreen() {
               flexDirection: 'row',
               alignItems: 'center',
               justifyContent: 'space-between',
+              marginTop: 7,
               height: 70,
             }}
             >
@@ -731,7 +733,7 @@ function AjoutBienScreen() {
                 style={{ flex: 1, marginRight: 10, marginHorizontal: 10 }}
               />
             </View>
-            <View style={{ marginBottom: 20 }}>
+            <View style={{ marginTop: 10, marginBottom: 20 }}>
               {createRealEstate.mutationLoading || updateRealEstate.mutationLoading
                 ? (
                   <Button

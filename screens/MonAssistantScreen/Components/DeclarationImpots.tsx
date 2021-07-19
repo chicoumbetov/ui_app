@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Text } from '@ui-kitten/components';
+import { Text } from '@ui-kitten/components';
 import { useNavigation } from '@react-navigation/native';
 import { View } from 'react-native';
 import { useForm } from 'react-hook-form';
+import Button from '../../../components/Button';
 import TextInput from '../../../components/Form/TextInput';
 import Form from '../../../components/Form/Form';
 import MaxWidthContainer from '../../../components/MaxWidthContainer';

@@ -1,8 +1,9 @@
 import { ScrollView, StyleSheet, View } from 'react-native';
-import { Button, Text } from '@ui-kitten/components';
+import { Text } from '@ui-kitten/components';
 import React, { useState } from 'react';
 
 import moment from 'moment';
+import Button from '../../../../components/Button';
 import { AmortizationTable } from '../../../../src/API';
 
 import TextInputComp from '../../../../components/Form/TextInput';

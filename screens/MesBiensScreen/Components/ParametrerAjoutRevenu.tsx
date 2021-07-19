@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Spinner, Text } from '@ui-kitten/components';
+import { Spinner, Text } from '@ui-kitten/components';
 import { StyleSheet, View } from 'react-native';
 
 import { useForm } from 'react-hook-form';
@@ -8,6 +8,7 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import { RouteProp } from '@react-navigation/core/lib/typescript/src/types';
 
 import { MotiView } from 'moti';
+import Button from '../../../components/Button';
 import Select from '../../../components/Form/Select';
 import { frequence, rentalType, typeRevenu } from '../../../mockData/ajoutRevenuData';
 import Form from '../../../components/Form/Form';

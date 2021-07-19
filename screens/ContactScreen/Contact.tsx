@@ -1,11 +1,12 @@
 import React from 'react';
-import { Button, Text } from '@ui-kitten/components';
+import { Text } from '@ui-kitten/components';
 
 import { Alert, View } from 'react-native';
 
 import { useForm } from 'react-hook-form';
 
 import { useLinkTo } from '@react-navigation/native';
+import Button from '../../components/Button';
 import contactDATA from '../../mockData/contactDATA';
 import TextInput from '../../components/Form/TextInput';
 import SelectComp from '../../components/Form/Select';

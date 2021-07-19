@@ -5,7 +5,7 @@
  */
 
 import React, { useState } from 'react';
-import { Button, Text } from '@ui-kitten/components';
+import { Text } from '@ui-kitten/components';
 import {
   Alert,
   TouchableOpacity, View,
@@ -14,6 +14,7 @@ import {
 import { useLinkTo, useRoute } from '@react-navigation/native';
 import { RouteProp } from '@react-navigation/core/lib/typescript/src/types';
 import API from '@aws-amplify/api';
+import Button from '../../components/Button';
 import MaxWidthContainer from '../../components/MaxWidthContainer';
 
 import { useGetRealEstate } from '../../src/API/RealEstate';

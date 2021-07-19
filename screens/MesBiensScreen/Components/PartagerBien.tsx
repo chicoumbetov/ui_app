@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
-import { useLinkTo, useRoute } from '@react-navigation/native';
+import React from 'react';
+import { useRoute } from '@react-navigation/native';
 import {
-  Button, Layout, Spinner, Text,
+  Button, Layout, Text,
 } from '@ui-kitten/components';
 
 import {
@@ -11,7 +11,6 @@ import {
 import { useForm } from 'react-hook-form';
 import { RouteProp } from '@react-navigation/core/lib/typescript/src/types';
 import MaisonVert from '../../../assets/Omedom_Icons_svg/Logement/maison_verte.svg';
-import MaxWidthContainer from '../../../components/MaxWidthContainer';
 import TextInputComp from '../../../components/Form/TextInput';
 import SelectComp from '../../../components/Form/Select';
 import Form from '../../../components/Form/Form';
@@ -19,7 +18,6 @@ import { useCreatePendingInvitationMutation } from '../../../src/API/PendingInvi
 import { InvitationType } from '../../../src/API';
 import { TabMesBiensParamList } from '../../../types';
 import { useGetRealEstate } from '../../../src/API/RealEstate';
-import { sendEmail, sendTemplateEmail } from '../../../components/AwsMail/SendMail';
 
 type ShareRealEstateForm = {
   email : string,
@@ -38,18 +36,12 @@ export const typeAcces = [
 ];
 
 const PartagerBien = () => {
-  const linkTo = useLinkTo();
   const route = useRoute<RouteProp<TabMesBiensParamList, 'partager-bien'>>();
   const shareRealEstateForm = useForm<ShareRealEstateForm>();
 
   const { bienget } = useGetRealEstate(route.params.id);
 
   const createPendingInvitation = useCreatePendingInvitationMutation();
-
-  const LoadingIndicator = () => (createPendingInvitation.mutationLoading ? (
-    <Spinner status="basic" size="small" />
-  ) : (<></>)
-  );
 
   const addUser = async (data: ShareRealEstateForm) => {
     console.log(data);
@@ -111,10 +103,9 @@ const PartagerBien = () => {
 
           <View style={styles.buttonRight}>
             <Button
-              disabled={createPendingInvitation.mutationLoading}
+              loading={createPendingInvitation.mutationLoading}
               onPress={shareRealEstateForm.handleSubmit((data) => { addUser(data); })}
               style={{ width: 150 }}
-              accessoryRight={LoadingIndicator}
             >
               Valider
             </Button>

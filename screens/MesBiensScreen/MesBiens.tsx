@@ -5,9 +5,10 @@
  */
 
 import React from 'react';
-import { Button, Text } from '@ui-kitten/components';
-
+import { Text } from '@ui-kitten/components';
 import { useLinkTo } from '@react-navigation/native';
+import Button from '../../components/Button';
+
 import MonBien from './Components/MonBien';
 import MaxWidthContainer from '../../components/MaxWidthContainer';
 import { useRealEstateList } from '../../src/API/RealEstate';

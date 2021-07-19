@@ -550,7 +550,7 @@ const ParametrerAjoutCharges = () => {
                         precision: 2,
                         separator: ',',
                         delimiter: ' ',
-                        unit: '',
+                        unit: '-',
                         suffixUnit: ' €',
                       },
                     }}

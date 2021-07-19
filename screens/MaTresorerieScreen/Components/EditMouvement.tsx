@@ -1,13 +1,12 @@
 import {
-  Button,
-  Card, Spinner, Text, useTheme,
+  Card, Text, useTheme,
 } from '@ui-kitten/components';
 import {
+  Keyboard,
   ScrollView, StyleSheet, TouchableOpacity, View,
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import moment from 'moment';
-import { move } from 'react-native-redash';
 import Icon from '../../../components/Icon';
 import {
   BankMovement,
@@ -22,6 +21,7 @@ import Amount from '../../../components/Amount';
 import { useUpdateBankMovement } from '../../../src/API/BankMouvement';
 import BudgetLineDeadLineCard from './BudgetLineDeadLineCard';
 import Formatter from '../../../utils/Formatter';
+import Button from '../../../components/Button';
 
 type MonBudgetProps = {
   linkTo: (path:string) => void,
@@ -46,6 +46,20 @@ const EditMouvement = (props: MonBudgetProps) => {
   const [amountMouvement, setAmountMouvement] = useState(movement.amount || 0);
 
   const useUpdateBankMouvement = useUpdateBankMovement();
+  const [keyboardVisible, setKeyboardVisible] = useState(false);
+
+  useEffect(() => {
+    const dsSub = Keyboard.addListener('keyboardWillShow', () => {
+      setKeyboardVisible(true);
+    });
+    const dhSub = Keyboard.addListener('keyboardDidHide', () => {
+      setKeyboardVisible(false);
+    });
+    return () => {
+      dsSub.remove();
+      dhSub.remove();
+    };
+  }, []);
 
   const checkFunction = (nextChecked: boolean, id:string, thisAmount: number, _version:number) => {
     const newCheckedState = checked.filter((current) => current.id !== id);
@@ -108,19 +122,17 @@ const EditMouvement = (props: MonBudgetProps) => {
       onSaved();
     }
   };
-  const LoadingIndicator = (props) => (
-    <View style={[props.style, styles.indicator]}>
-      <Spinner size="small" />
-    </View>
-  );
+
   return (
     <View style={styles.container}>
 
+      {!keyboardVisible && (
       <View style={{ marginVertical: 20, alignItems: 'center' }}>
         <Amount amount={movement.amount || 0} category="h2" />
         <Text category="h6" status="basic" style={{ marginVertical: 10 }}>{moment(movement.date).format('DD/MM/YYYY')}</Text>
         <Text category="h6" appearance="hint">{movement.description || ''}</Text>
       </View>
+      )}
 
       {budget && budget.length > 0 ? (
         <ScrollView
@@ -195,14 +207,15 @@ const EditMouvement = (props: MonBudgetProps) => {
           </Card>
         </>
       )}
-
-      {budget && budget.length > 0 && (checked.length > 0 ? (amountMouvement === 0
+      {!keyboardVisible
+      && (budget && budget.length > 0 && (checked.length > 0 ? (amountMouvement === 0
         ? (
           <Button
             status="success"
             style={{ marginVertical: 20 }}
             onPress={() => affecteMovement()}
-            accessoryRight={(updateBudgetLineDeadLine.mutationLoading && useUpdateBankMouvement.mutationLoading) && LoadingIndicator}
+            loading={updateBudgetLineDeadLine.mutationLoading
+            && useUpdateBankMouvement.mutationLoading}
           >
             Enregistrer
           </Button>
@@ -263,7 +276,7 @@ const EditMouvement = (props: MonBudgetProps) => {
             </TouchableOpacity>
           </Card>
         </>
-      ))}
+      )))}
 
     </View>
   );

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {
-  StyleSheet, View, TouchableOpacity,
+  StyleSheet, TouchableOpacity, KeyboardAvoidingView, View,
 } from 'react-native';
 
 import { useEffect, useState } from 'react';
@@ -66,7 +66,12 @@ const ActionSheet = (props: ActionSheetProps) => {
     <Modal
       onBackdropPress={onRequestClose}
       visible={visibleModalState}
-      style={{ margin: 0, ...StyleSheet.absoluteFillObject }}
+      style={{
+        margin: 0,
+        ...StyleSheet.absoluteFillObject,
+        height: window.height,
+        paddingTop: insets.top,
+      }}
     >
       {
           before
@@ -93,7 +98,12 @@ const ActionSheet = (props: ActionSheetProps) => {
           </MotiView>
           <MotiView
             style={{
-              paddingBottom: insets.bottom, maxWidth: 780, width: '100%', flex: 1, maxHeight: window.height * heightPercentage,
+              paddingBottom: insets.bottom,
+              maxWidth: 780,
+              width: '100%',
+              flex: 1,
+              maxHeight: window.height * heightPercentage,
+              height: window.height * heightPercentage,
             }}
             from={{ translateY: window.height }}
             animate={{ translateY: 0 }}
@@ -103,12 +113,14 @@ const ActionSheet = (props: ActionSheetProps) => {
               duration,
             }}
           >
-            <Sheet {...{
-              toggle: onRequestClose, title, subtitle, rightAction, noSafeArea, scrollable,
-            }}
-            >
-              {children}
-            </Sheet>
+            <KeyboardAvoidingView behavior="height" style={{ flex: 1 }}>
+              <Sheet {...{
+                toggle: onRequestClose, title, subtitle, rightAction, noSafeArea, scrollable,
+              }}
+              >
+                {children}
+              </Sheet>
+            </KeyboardAvoidingView>
           </MotiView>
         </View>
         )}

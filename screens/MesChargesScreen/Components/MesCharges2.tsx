@@ -16,6 +16,8 @@ import {
   typeImpots,
   typeRevenu,
 } from '../../../mockData/ajoutRevenuData';
+import FRangeDatePicker from '../../../components/Form/RangeDatePicker';
+import { AvailableValidationRules } from '../../../components/Form/validation';
 
 const allPossibleTypes = {
   ...typeCharge,
@@ -156,7 +158,7 @@ const MesCharges2 = () => {
       </RadioGroup>
 
       <Text category="h5">Sélectionnez les dates</Text>
-
+      {/**
       <RangeDatepicker
         range={range}
         min={new Date(1900, 0, 1)}
@@ -183,6 +185,13 @@ const MesCharges2 = () => {
           elevation: 2,
           // width: 240,
         }}
+      />
+      */}
+      <FRangeDatePicker
+        name="date"
+        range={range}
+        validators={[AvailableValidationRules.required]}
+        icon="calendar-outline"
       />
 
       <View style={styles.buttonRight}>

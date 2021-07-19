@@ -1,5 +1,5 @@
 import {
-  Button, Text,
+  Text,
 } from '@ui-kitten/components';
 import {
   Alert, StyleSheet, View,
@@ -20,6 +20,7 @@ import Amount from '../../../components/Amount';
 import { useUpdateBankMovement } from '../../../src/API/BankMouvement';
 import Separator from '../../../components/Separator';
 import BudgetLineDeadLineCard from './BudgetLineDeadLineCard';
+import Button from '../../../components/Button';
 
 type MonBudgetProps = { movement: BankMovement, onSaved?: () => void };
 
@@ -119,6 +120,8 @@ const MouvementAffecter = (props: MonBudgetProps) => {
           </View>
           <Separator />
           <Button
+            loading={updateBankMouvement.mutationLoading}
+            loadingText="Chargement"
             style={{ marginTop: 20 }}
             status="danger"
             appearance="outline"
@@ -136,6 +139,8 @@ const MouvementAffecter = (props: MonBudgetProps) => {
           ))}
           <Separator />
           <Button
+            loading={updateBudgetLineDeadLine.mutationLoading}
+            loadingText="Chargement"
             style={{ marginTop: 20 }}
             status="danger"
             appearance="outline"

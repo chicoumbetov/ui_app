@@ -1,7 +1,7 @@
 import React from 'react';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { useRoute } from '@react-navigation/native';
 import {
-  Button, Layout, Text,
+  Layout, Text,
 } from '@ui-kitten/components';
 
 import {
@@ -18,8 +18,7 @@ import { useCreatePendingInvitationMutation } from '../../../src/API/PendingInvi
 import { InvitationType } from '../../../src/API';
 import { TabMesBiensParamList } from '../../../types';
 import { useGetRealEstate } from '../../../src/API/RealEstate';
-import Separator from '../../../components/Separator';
-import MaxWidthContainer from '../../../components/MaxWidthContainer';
+import Button from '../../../components/Button';
 
 type ShareRealEstateForm = {
   email : string,
@@ -40,7 +39,6 @@ export const typeAcces = [
 const PartagerBien = () => {
   const route = useRoute<RouteProp<TabMesBiensParamList, 'partager-bien'>>();
   const shareRealEstateForm = useForm<ShareRealEstateForm>();
-  const navigation = useNavigation();
 
   const { bienget } = useGetRealEstate(route.params.id);
 
@@ -65,16 +63,10 @@ const PartagerBien = () => {
       ],
       { cancelable: false },
     );
-    navigation.pop();
   };
 
   return (
-    <MaxWidthContainer
-      withScrollView="keyboardAware"
-      outerViewProps={{
-        showsVerticalScrollIndicator: false,
-      }}
-    >
+    <View>
 
       {/**
       *  I part
@@ -93,7 +85,6 @@ const PartagerBien = () => {
           </Text>
         </View>
       </Layout>
-      <Separator />
 
       {/**
        *  II. Ajouter un utilisateur
@@ -103,20 +94,18 @@ const PartagerBien = () => {
           <Text category="h2">
             Ajouter un utilisateur
           </Text>
-          <View style={{ height: 70 }}>
-            <TextInputComp
-              name="email"
-              placeholder="Saisissez le mail de l'utilisateur"
-              style={{ marginVertical: 15 }}
-            />
-          </View>
-          <View style={{ height: 70 }}>
-            <SelectComp name="type" data={typeAcces} placeholder="Type d'accès" size="large" appearance="default" status="primary" />
-          </View>
+
+          <TextInputComp
+            name="email"
+            placeholder="Saisissez le mail de l'utilisateur"
+            style={{ marginVertical: 15 }}
+          />
+          <SelectComp name="type" data={typeAcces} placeholder="Type d'accès" size="large" appearance="default" status="primary" />
 
           <View style={styles.buttonRight}>
             <Button
               loading={createPendingInvitation.mutationLoading}
+              loadingText="Chargement"
               onPress={shareRealEstateForm.handleSubmit((data) => { addUser(data); })}
               style={{ width: 150 }}
             >
@@ -125,7 +114,7 @@ const PartagerBien = () => {
           </View>
         </Layout>
       </Form>
-    </MaxWidthContainer>
+    </View>
   );
 };
 
@@ -133,12 +122,13 @@ export default PartagerBien;
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: '#f6f6f6',
     marginBottom: 12,
     paddingVertical: 25,
     paddingHorizontal: 26,
   },
   buttonRight: {
-    marginTop: 5,
+    marginTop: 36,
     alignItems: 'flex-end',
   },
   indicator: {

@@ -463,14 +463,14 @@ const ParametrerAjoutRevenu = () => {
 
             <View style={{ alignItems: 'flex-end', marginTop: 10 }}>
               <Button
+                loading={isCreating}
+                loadingText="Chargement"
                 onPress={paramBudgetForm.handleSubmit((data) => {
                   validateBudget(data);
                 })}
                 size="large"
-                disabled={isCreating}
-                accessoryRight={() => (isCreating ? <Spinner status="basic" /> : <></>)}
               >
-                {isCreating ? 'Chargement' : 'Enregistrer'}
+                Enregistrer
               </Button>
             </View>
             <Text category="c1" appearance="hint">

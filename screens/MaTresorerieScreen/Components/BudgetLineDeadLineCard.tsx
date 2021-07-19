@@ -212,7 +212,7 @@ const BudgetLineDeadLineCard = (props: BudgetLineDeadLineCardProps) => {
                   name="amount"
                   defaultValue={item.amount.toString()}
                   keyboardType="numeric"
-                  maskOptions={{
+                  maskOptions={item.amount > 0 ? ({
                     type: 'money',
                     options: {
                       precision: 2,
@@ -221,7 +221,16 @@ const BudgetLineDeadLineCard = (props: BudgetLineDeadLineCardProps) => {
                       unit: '',
                       suffixUnit: ' €',
                     },
-                  }}
+                  }) : ({
+                    type: 'money',
+                    options: {
+                      precision: 2,
+                      separator: ',',
+                      delimiter: ' ',
+                      unit: '-',
+                      suffixUnit: ' €',
+                    },
+                  })}
                   onChangeValue={(v) => {
                     if (v) {
                       setAmount(parseFloat(v.toString()));
@@ -270,7 +279,7 @@ const BudgetLineDeadLineCard = (props: BudgetLineDeadLineCardProps) => {
                     name="managementFees"
                     defaultValue={item.managementFees.toString()}
                     keyboardType="numeric"
-                    maskOptions={{
+                    maskOptions={item.amount > 0 ? ({
                       type: 'money',
                       options: {
                         precision: 2,
@@ -279,7 +288,16 @@ const BudgetLineDeadLineCard = (props: BudgetLineDeadLineCardProps) => {
                         unit: '',
                         suffixUnit: ' €',
                       },
-                    }}
+                    }) : ({
+                      type: 'money',
+                      options: {
+                        precision: 2,
+                        separator: ',',
+                        delimiter: ' ',
+                        unit: '-',
+                        suffixUnit: ' €',
+                      },
+                    })}
                     onChangeValue={(v) => {
                       if (v) {
                         v = -Math.abs(v);

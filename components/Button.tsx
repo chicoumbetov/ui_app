@@ -27,6 +27,7 @@ export default function Button(props: ButtonProps): JSX.Element {
   let shadow = {};
   if ((status === undefined || status === 'primary')
   && (buttonProps.appearance === undefined || buttonProps.appearance === 'filled')
+      && (!loading)
   ) {
     shadow = {
       shadowColor: 'rgba(190, 190, 190, 0.5)',

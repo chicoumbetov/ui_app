@@ -1,6 +1,6 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
-  Button,
+
   Spinner, Text,
   // useTheme,
 } from '@ui-kitten/components';
@@ -43,6 +43,7 @@ import ActionSheet from '../../../components/ActionSheet/ActionSheet';
 import TableauAmortissement from './actionSheet/tableauAmortissement';
 import SelectComp from '../../../components/Form/Select';
 import { removeKeyArray } from '../../../utils/ObjectHelper';
+import Button from '../../../components/Button';
 
 type ParamBudgetForm = {
   category: string,
@@ -549,7 +550,7 @@ const ParametrerAjoutCharges = () => {
                         precision: 2,
                         separator: ',',
                         delimiter: ' ',
-                        unit: '',
+                        unit: '-',
                         suffixUnit: ' €',
                       },
                     }}
@@ -618,29 +619,16 @@ const ParametrerAjoutCharges = () => {
               </View>
               {!readOnly && (
                 <View style={{ marginBottom: 10 }}>
-                  {updateBudgetLine.mutationLoading || createBudgetLine.mutationLoading ? (
-                    <Button
-                      onPress={paramBudgetForm.handleSubmit((data) => {
-                        validateCharge(data);
-                      })}
-                      size="large"
-                      accessoryRight={() => <Spinner status="basic" />}
-                      disabled
-                    >
-                      Valider
-                    </Button>
-                  ) : (
-                    <Button
-                      onPress={paramBudgetForm.handleSubmit((data) => {
-                        validateCharge(data);
-                      })}
-                      size="large"
-                      disabled={isCreating}
-                      accessoryRight={() => (isCreating ? <Spinner status="basic" /> : <></>)}
-                    >
-                      {isCreating ? 'Chargement' : 'Enregistrer'}
-                    </Button>
-                  )}
+                  <Button
+                    loading={isCreating}
+                    loadingText="Chargement"
+                    onPress={paramBudgetForm.handleSubmit((data) => {
+                      validateCharge(data);
+                    })}
+                    size="large"
+                  >
+                    Enregistrer
+                  </Button>
 
                 </View>
               )}

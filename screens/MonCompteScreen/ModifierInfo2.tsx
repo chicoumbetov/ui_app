@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import {
-  Button, CalendarViewModes, Modal, Text,
+  CalendarViewModes, Modal, Text,
 } from '@ui-kitten/components';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { RouteProp } from '@react-navigation/core/lib/typescript/src/types';
@@ -16,6 +16,7 @@ import Form from '../../components/Form/Form';
 import DatePicker from '../../components/Form/DatePicker';
 import { AvailableValidationRules } from '../../components/Form/validation';
 import { useUser } from '../../src/API/UserContext';
+import Button from '../../components/Button';
 
 import WebView from '../../components/WebView';
 
@@ -36,6 +37,7 @@ const ModifierInfo2 = () => {
   const navigation = useNavigation();
   const route = useRoute<RouteProp<TabMonCompteParamList, 'modifier-info-2'>>();
   const { createUser, updateUser, user } = useUser();
+  const [loading, setLoading] = useState(false);
   const [modalUrl, setModalUrl] = useState<string | false>(false);
   const { window } = useDimensions();
 
@@ -210,7 +212,7 @@ const ModifierInfo2 = () => {
           </Modal>
 
           <View style={styles.buttonRight}>
-            <Button onPress={modifierInfo2Form.handleSubmit((data) => onPress(data))} size="large" style={{ width: 139 }}>
+            <Button loading={loading} loadingText="Chargement" onPress={modifierInfo2Form.handleSubmit((data) => { setLoading(true); onPress(data); })} size="large" style={{ width: 139 }}>
               Valider
             </Button>
           </View>

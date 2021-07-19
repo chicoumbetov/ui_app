@@ -1,7 +1,7 @@
 import React from 'react';
 import { useRoute } from '@react-navigation/native';
 import {
-  Button, Layout, Text,
+  Layout, Text,
 } from '@ui-kitten/components';
 
 import {
@@ -18,6 +18,7 @@ import { useCreatePendingInvitationMutation } from '../../../src/API/PendingInvi
 import { InvitationType } from '../../../src/API';
 import { TabMesBiensParamList } from '../../../types';
 import { useGetRealEstate } from '../../../src/API/RealEstate';
+import Button from '../../../components/Button';
 
 type ShareRealEstateForm = {
   email : string,
@@ -104,6 +105,7 @@ const PartagerBien = () => {
           <View style={styles.buttonRight}>
             <Button
               loading={createPendingInvitation.mutationLoading}
+              loadingText="Chargement"
               onPress={shareRealEstateForm.handleSubmit((data) => { addUser(data); })}
               style={{ width: 150 }}
             >

@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 
 import {
-  Button, Layout, Modal, Spinner, Text, useTheme,
+  Modal, Text, useTheme,
 } from '@ui-kitten/components';
 
 import * as ImagePicker from 'expo-image-picker';
@@ -48,6 +48,7 @@ import { useUser } from '../../src/API/UserContext';
 import { TabMesBiensParamList } from '../../types';
 import Camera, { CameraOutput } from '../../components/Camera/Camera';
 import { Delete, Upload } from '../../utils/S3FileStorage';
+import Button from '../../components/Button';
 
 type AjoutBienForm = {
   name: string,
@@ -734,31 +735,22 @@ function AjoutBienScreen() {
               />
             </View>
             <View style={{ marginTop: 10, marginBottom: 20 }}>
-              {createRealEstate.mutationLoading || updateRealEstate.mutationLoading
-                ? (
-                  <Button
-                    onPress={ajoutBienForm.handleSubmit((data) => onAjoutBien(data))}
-                    size="large"
-                    accessoryRight={() => <Spinner status="basic" />}
-                    disabled
-                  >
-                    Chargement
-                  </Button>
-                ) : (
-                  <Button
-                    onPress={ajoutBienForm.handleSubmit((data) => onAjoutBien(data),
-                      (data) => {
-                        if (data.name) {
-                          setEtape(0);
-                        } else if (data.address) {
-                          setEtape(1);
-                        }
-                      })}
-                    size="large"
-                  >
-                    Enregistrer
-                  </Button>
-                )}
+
+              <Button
+                loading={createRealEstate.mutationLoading || updateRealEstate.mutationLoading}
+                loadingText="Chargement"
+                onPress={ajoutBienForm.handleSubmit((data) => onAjoutBien(data),
+                  (data) => {
+                    if (data.name) {
+                      setEtape(0);
+                    } else if (data.address) {
+                      setEtape(1);
+                    }
+                  })}
+                size="large"
+              >
+                Enregistrer
+              </Button>
 
             </View>
           </MotiView>

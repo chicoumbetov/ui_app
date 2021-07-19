@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 
 import {
-  Button, Layout, Modal, Spinner, Text, useTheme,
+  Modal, Text, useTheme,
 } from '@ui-kitten/components';
 
 import * as ImagePicker from 'expo-image-picker';
@@ -48,6 +48,7 @@ import { useUser } from '../../src/API/UserContext';
 import { TabMesBiensParamList } from '../../types';
 import Camera, { CameraOutput } from '../../components/Camera/Camera';
 import { Delete, Upload } from '../../utils/S3FileStorage';
+import Button from '../../components/Button';
 
 type AjoutBienForm = {
   name: string,
@@ -268,7 +269,6 @@ function AjoutBienScreen() {
        *  Identité 1/3 title part
        */}
           <TouchableOpacity
-
             style={[
               styles.item,
               {
@@ -308,6 +308,7 @@ function AjoutBienScreen() {
 
             <View style={{
               alignItems: 'center',
+              marginTop: 10,
               marginBottom: 34,
             }}
             >
@@ -337,8 +338,8 @@ function AjoutBienScreen() {
                 </TouchableOpacity>
               ))}
             </View>
-            <Layout style={{
-              flexDirection: 'row', marginTop: 34, justifyContent: 'space-evenly', marginLeft: -6, backgroundColor: 'transparent',
+            <View style={{
+              flexDirection: 'row', marginTop: 34, justifyContent: 'space-evenly', marginLeft: -6,
             }}
             >
               {['Chateau', 'Manoir', 'MaisonBleu', 'Riad', 'Voiture'].map((icon) => (
@@ -352,7 +353,7 @@ function AjoutBienScreen() {
                   />
                 </TouchableOpacity>
               ))}
-            </Layout>
+            </View>
 
             <View style={{ marginLeft: 10, marginVertical: 21 }}>
               <Text category="h5" appearance="hint">Ou personnalisez l'icone de votre bien</Text>
@@ -517,7 +518,7 @@ function AjoutBienScreen() {
            *  Identité 3/3 (etape 3)
            */}
           <MotiView
-            animate={{ maxHeight: (etape === 2 ? 620 : 0) }}
+            animate={{ maxHeight: (etape === 2 ? 600 : 0) }}
             style={{
               overflow: 'hidden',
               flex: 1,
@@ -531,6 +532,7 @@ function AjoutBienScreen() {
               flexDirection: 'row',
               alignItems: 'center',
               justifyContent: 'space-between',
+              marginTop: 15,
               height: 70,
             }}
             >
@@ -562,7 +564,7 @@ function AjoutBienScreen() {
                 validators={[AvailableValidationRules.required]}
               />
             </View>
-            <View style={{ flexDirection: 'row', height: 70 }}>
+            <View style={{ flexDirection: 'row', height: 70, marginTop: 5 }}>
               <SelectComp
                 name="ownName"
                 data={detention}
@@ -680,7 +682,10 @@ function AjoutBienScreen() {
               )
             }
 
-            <View style={{ flexDirection: 'row', alignItems: 'center', height: 65 }}>
+            <View style={{
+              flexDirection: 'row', alignItems: 'center', height: 70, marginTop: 5,
+            }}
+            >
               <Text category="h5">Prix d'acquisition *</Text>
               <TextInput
                 name="purchasePrice"
@@ -706,7 +711,7 @@ function AjoutBienScreen() {
                 style={{ flex: 1, marginRight: 10, marginHorizontal: 10 }}
               />
             </View>
-            <View style={{ flexDirection: 'row', alignItems: 'center', height: 55 }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', height: 70 }}>
               <Text category="h5">Frais de notaire *</Text>
               <TextInput
                 name="notaryFee"
@@ -730,32 +735,23 @@ function AjoutBienScreen() {
                 style={{ flex: 1, marginRight: 10, marginHorizontal: 10 }}
               />
             </View>
-            <View style={{ marginBottom: 20 }}>
-              {createRealEstate.mutationLoading || updateRealEstate.mutationLoading
-                ? (
-                  <Button
-                    onPress={ajoutBienForm.handleSubmit((data) => onAjoutBien(data))}
-                    size="large"
-                    accessoryRight={() => <Spinner status="basic" />}
-                    disabled
-                  >
-                    Chargement
-                  </Button>
-                ) : (
-                  <Button
-                    onPress={ajoutBienForm.handleSubmit((data) => onAjoutBien(data),
-                      (data) => {
-                        if (data.name) {
-                          setEtape(0);
-                        } else if (data.address) {
-                          setEtape(1);
-                        }
-                      })}
-                    size="large"
-                  >
-                    Enregistrer
-                  </Button>
-                )}
+            <View style={{ marginTop: 10, marginBottom: 20 }}>
+
+              <Button
+                loading={createRealEstate.mutationLoading || updateRealEstate.mutationLoading}
+                loadingText="Chargement"
+                onPress={ajoutBienForm.handleSubmit((data) => onAjoutBien(data),
+                  (data) => {
+                    if (data.name) {
+                      setEtape(0);
+                    } else if (data.address) {
+                      setEtape(1);
+                    }
+                  })}
+                size="large"
+              >
+                Enregistrer
+              </Button>
 
             </View>
           </MotiView>

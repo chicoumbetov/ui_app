@@ -9,7 +9,6 @@ import {
 import { DatePickerFormProps } from './types';
 import DateUtils from '../../utils/DateUtils';
 import { AvailableValidationRules } from './validation';
-import { Input } from '../UIKittenRewrite/Input';
 
 const i18n : I18nConfig = {
   dayNames: {

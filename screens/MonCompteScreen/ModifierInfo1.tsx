@@ -3,7 +3,7 @@ import {
   StyleSheet, View,
 } from 'react-native';
 import {
-  Button, Text,
+  Text,
 } from '@ui-kitten/components';
 import { useNavigation } from '@react-navigation/native';
 import { useForm } from 'react-hook-form';
@@ -16,6 +16,7 @@ import PhoneNumberInput from '../../components/Form/PhoneNumberInput';
 import Form from '../../components/Form/Form';
 import { useUser } from '../../src/API/UserContext';
 import { removeNull } from '../../utils/ObjectHelper';
+import Button from '../../components/Button';
 
 type ModifierInfo1Form = {
   firstname:string;
@@ -32,6 +33,8 @@ type ModifierInfo1Form = {
 const ModifierInfo1 = () => {
   const navigation = useNavigation();
   const { updateUser, user, cognitoUser } = useUser();
+  const [loading, setLoading] = useState(false);
+
   const [passwordError, setPasswordError] = useState(false);
 
   const onPress = async (data: ModifierInfo1Form) => {
@@ -168,8 +171,13 @@ const ModifierInfo1 = () => {
 
           <View style={styles.buttonRight}>
             <Button
+              loading={loading}
+              loadingText="Chargement"
               onPress={modifierInfo1Form.handleSubmit(
-                (data) => onPress(data), (data) => console.log('data of ModifierInfo 1', data),
+                (data) => {
+                  setLoading(true);
+                  onPress(data);
+                }, (data) => console.log('data of ModifierInfo 1', data),
               )}
               disabled={user === null}
               size="large"

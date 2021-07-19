@@ -33,7 +33,7 @@ const localeDateService = new NativeDateService('ru', { i18n, startDayOfWeek: 1 
 
 const FRangeDatePicker = React.forwardRef<
 RangeDatepicker, RangeDatePickerFormProps
->((props: RangeDatePickerFormProps, ref) => {
+>((props: RangeDatePickerFormProps, ref): React.ReactElement => {
   const {
     label,
     labelBefore,
@@ -45,6 +45,7 @@ RangeDatepicker, RangeDatePickerFormProps
     containerStyle,
     defaultValue,
     style,
+    validators,
     ...RangeDatePickerProps
   } = props;
 
@@ -54,18 +55,16 @@ RangeDatepicker, RangeDatePickerFormProps
     if (inputValue === undefined && defaultValue) {
       setInputValue(DateUtils.parseToDateObj(defaultValue));
     }
-  }, [inputValue]);
+  }, [inputValue, defaultValue]);
 
   const renderIcon = (iconProps: IconProps) => (
     <Icon {...iconProps} name={icon} />
   );
 
   return (
-    <View style={[styles.container, containerStyle, labelBefore ? { flexDirection: 'row', alignItems: 'center' } : {}]}>
+    <View style={[styles.container, containerStyle, labelBefore ? { flexDirection: 'column', alignItems: 'flex-start' } : {}]}>
       {labelBefore && (
-        <View style={{ marginRight: 20 }}>
-          <Text category="label">{label}</Text>
-        </View>
+        <Text category="label" style={{ flex: 1, marginBottom: 5, marginRight: labelBefore ? 10 : 0 }}>{label}</Text>
       )}
       <RangeDatepicker
         label={labelBefore ? undefined : label}
@@ -77,6 +76,7 @@ RangeDatepicker, RangeDatePickerFormProps
         dateService={localeDateService}
         placeholder={placeholder}
         controlStyle={{
+          width: '100%',
           shadowColor: 'rgba(190, 190, 190, 0.5)',
           shadowOffset: {
             width: 0,
@@ -104,6 +104,8 @@ RangeDatepicker, RangeDatePickerFormProps
     </View>
   );
 });
+
+FRangeDatePicker.displayName = 'RangeDatepicker';
 
 export default FRangeDatePicker;
 

@@ -172,18 +172,20 @@ const MesCharges2 = () => {
                 // console.log('nextRange', nextRange);
               }
             }
-        style={{
-          shadowColor: 'rgba(190, 190, 190, 0.5)',
-          shadowOffset: {
-            width: 0,
-            height: 1,
-          },
-          shadowRadius: 2,
-          shadowOpacity: 1,
-          elevation: 2,
-          width: 240,
-        }}
-      />
+          style={{
+          flex: 1,
+          marginTop: 10,
+            shadowColor: 'rgba(190, 190, 190, 0.5)',
+            shadowOffset: {
+              width: 0,
+              height: 1,
+            },
+            shadowRadius: 2,
+            shadowOpacity: 1,
+            elevation: 2,
+          // width: 240,
+          }}
+        />
 
       <View style={styles.buttonRight}>
         <Button
@@ -210,10 +212,9 @@ const styles = StyleSheet.create({
   },
   containerRadio: {
     flexDirection: 'row',
-    marginTop: 30,
+    marginTop: 20,
     marginBottom: 15,
     justifyContent: 'space-between',
-    backgroundColor: 'transparent',
   },
   buttonRight: { marginTop: 20, alignItems: 'flex-end' },
 });

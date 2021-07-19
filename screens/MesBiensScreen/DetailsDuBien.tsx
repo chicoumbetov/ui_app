@@ -370,7 +370,7 @@ function DetailsBien() {
                 <View style={styles.oneThirdBlock}>
                   <Text category="h6" appearance="hint" style={styles.text}>Dernier mouvement</Text>
                   <View style={{
-                    flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center',
+                    flex: 1, flexDirection: 'row', justifyContent: 'center',
                   }}
                   >
                     <View style={{ width: 7 }}>
@@ -390,7 +390,7 @@ function DetailsBien() {
                       />
                     </View>
                     {dernierMovement ? (
-                      <Amount amount={Math.round(dernierMovement?.amount * 100) / 100 || 0} category="h5" />
+                      <Amount amount={Math.round(dernierMovement?.amount * 100) / 100 || 0} category="h6" />
                     ) : (
                       <Text category="h5" status="primary" style={{ marginRight: 8 }}>0,00 €</Text>
                     )}
@@ -413,7 +413,7 @@ function DetailsBien() {
                       fill="#b5b5b5"
                       style={{ height: 16, width: 16 }}
                     />
-                    <Amount amount={(nextexpense || { amount: 0 }).amount} category="h5" />
+                    <Amount amount={(nextexpense || { amount: 0 }).amount} category="h6" />
                   </View>
                   {nextexpense
                   && (
@@ -429,7 +429,6 @@ function DetailsBien() {
                   </Text>
                   <View style={{
                     flex: 1,
-                    alignItems: 'center',
                     flexDirection: 'row',
                     justifyContent: 'center',
                   }}
@@ -439,7 +438,7 @@ function DetailsBien() {
                       fill="#b5b5b5"
                       style={{ height: 18, width: 18, marginRight: 2 }}
                     />
-                    <Percentage amount={rentability} category="h5" status="warning" />
+                    <Percentage amount={rentability} category="h6" status="warning" />
                   </View>
                 </View>
               </Card>
@@ -962,6 +961,7 @@ function DetailsBien() {
           >
             <Text category="h5" status="basic" style={styles.buttonText}>Supprimer</Text>
           </TouchableOpacity>
+
         </View>
         )}
       </View>
@@ -999,7 +999,6 @@ const styles = StyleSheet.create({
   oneThirdBlock: {
     flex: 1,
     marginTop: 3,
-    marginHorizontal: 10,
     justifyContent: 'space-between',
     alignItems: 'center',
   },

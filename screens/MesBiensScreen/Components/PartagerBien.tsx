@@ -1,7 +1,7 @@
 import React from 'react';
 import { useRoute } from '@react-navigation/native';
 import {
-  Button, Layout, Text,
+  Layout, Text,
 } from '@ui-kitten/components';
 
 import {
@@ -18,6 +18,8 @@ import { useCreatePendingInvitationMutation } from '../../../src/API/PendingInvi
 import { InvitationType } from '../../../src/API';
 import { TabMesBiensParamList } from '../../../types';
 import { useGetRealEstate } from '../../../src/API/RealEstate';
+import Button from '../../../components/Button';
+import Separator from '../../../components/Separator';
 
 type ShareRealEstateForm = {
   email : string,
@@ -84,6 +86,7 @@ const PartagerBien = () => {
           </Text>
         </View>
       </Layout>
+      <Separator />
 
       {/**
        *  II. Ajouter un utilisateur
@@ -93,17 +96,20 @@ const PartagerBien = () => {
           <Text category="h2">
             Ajouter un utilisateur
           </Text>
-
-          <TextInputComp
-            name="email"
-            placeholder="Saisissez le mail de l'utilisateur"
-            style={{ marginVertical: 15 }}
-          />
-          <SelectComp name="type" data={typeAcces} placeholder="Type d'accès" size="large" appearance="default" status="primary" />
-
+          <View style={{ height: 70 }}>
+            <TextInputComp
+              name="email"
+              placeholder="Saisissez le mail de l'utilisateur"
+              style={{ marginVertical: 15 }}
+            />
+          </View>
+          <View style={{ height: 70 }}>
+            <SelectComp name="type" data={typeAcces} placeholder="Type d'accès" size="large" appearance="default" status="primary" />
+          </View>
           <View style={styles.buttonRight}>
             <Button
               loading={createPendingInvitation.mutationLoading}
+              loadingText="Chargement"
               onPress={shareRealEstateForm.handleSubmit((data) => { addUser(data); })}
               style={{ width: 150 }}
             >
@@ -120,13 +126,12 @@ export default PartagerBien;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#f6f6f6',
     marginBottom: 12,
     paddingVertical: 25,
     paddingHorizontal: 26,
   },
   buttonRight: {
-    marginTop: 36,
+    marginTop: 10,
     alignItems: 'flex-end',
   },
   indicator: {

@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 26,
   },
   buttonRight: {
-    marginTop: 36,
+    marginTop: 10,
     alignItems: 'flex-end',
   },
   indicator: {

@@ -520,7 +520,7 @@ function AjoutBienScreen() {
            *  Identité 3/3 (etape 3)
            */}
           <MotiView
-            animate={{ maxHeight: (etape === 2 ? 620 : 0) }}
+            animate={{ maxHeight: (etape === 2 ? 600 : 0) }}
             style={{
               overflow: 'hidden',
               flex: 1,
@@ -534,7 +534,7 @@ function AjoutBienScreen() {
               flexDirection: 'row',
               alignItems: 'center',
               justifyContent: 'space-between',
-              marginTop: 7,
+              marginTop: 15,
               height: 70,
             }}
             >
@@ -566,7 +566,7 @@ function AjoutBienScreen() {
                 validators={[AvailableValidationRules.required]}
               />
             </View>
-            <View style={{ flexDirection: 'row', height: 70 }}>
+            <View style={{ flexDirection: 'row', height: 70, marginTop: 5 }}>
               <SelectComp
                 name="ownName"
                 data={detention}
@@ -684,7 +684,10 @@ function AjoutBienScreen() {
               )
             }
 
-            <View style={{ flexDirection: 'row', alignItems: 'center', height: 65 }}>
+            <View style={{
+              flexDirection: 'row', alignItems: 'center', height: 70, marginTop: 5,
+            }}
+            >
               <Text category="h5">Prix d'acquisition *</Text>
               <TextInput
                 name="purchasePrice"
@@ -710,7 +713,7 @@ function AjoutBienScreen() {
                 style={{ flex: 1, marginRight: 10, marginHorizontal: 10 }}
               />
             </View>
-            <View style={{ flexDirection: 'row', alignItems: 'center', height: 55 }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', height: 70 }}>
               <Text category="h5">Frais de notaire *</Text>
               <TextInput
                 name="notaryFee"
